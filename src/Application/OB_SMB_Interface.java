@@ -285,7 +285,7 @@ public class OB_SMB_Interface {
 	private static void AddInfoAboutSchemaToDB(Ontology ontology,DBInterface db) throws Exception {
 		
 		String sql  = "SELECT * FROM schemata"; 
-		ArrayList<String[]> schemaList = db.runSelectQuery(sql, 17);
+		ArrayList<String[]> schemaList = db.runSelectQuery(sql, 12);
 		Iterator<String[]> it = schemaList.iterator();	
 		HashMap<Field,Object> schemaValues = new HashMap<Field,Object>();	
 		for (int i=0;i<schemaList.size();i++){
@@ -307,18 +307,8 @@ public class OB_SMB_Interface {
 					f = new Field ("path", FieldType.STRING );
 					schemaValues.put(f, (Object)schemaList.get(i)[4]);
 					//set type to web form
-					f = new Field ("source", FieldType.INT );
-					schemaValues.put(f, (Object)1);
-					f = new Field ("Language", FieldType.INT );
-					schemaValues.put(f, (Object)0);
-					f = new Field ("Real", FieldType.INT );
-					schemaValues.put(f, (Object)1);
-					f = new Field ("OriginalModelingLanguage", FieldType.INT );
-					schemaValues.put(f, (Object)0);
 					f = new Field ("MaxHeightoftheclasshierarchy", FieldType.INT );
 					schemaValues.put(f, (Object)ontology.getHeight());
-					f = new Field ("Numberofsubclassrelationships", FieldType.INT );
-					schemaValues.put(f, (Object)0);
 					f = new Field ("Numberofassociationrelationships", FieldType.INT );
 					schemaValues.put(f, (Object)0);
 					f = new Field ("NumberofattributesinSchema", FieldType.INT );
