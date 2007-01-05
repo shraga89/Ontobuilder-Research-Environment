@@ -56,6 +56,14 @@ public class SchemasExperiment {
 	 this.SPID = SPID;
   }
   
+  public SchemasExperiment(File inSubDir, long SPID,long TargetID, long CandidateId) 
+  {
+	 subDir = inSubDir;
+	 this.SPID = SPID;
+	 this.targetID = TargetID;
+	 this.CandidateID = CandidateId;
+	 
+  }
   
   public Date getDate(){
 	  return this.date;
@@ -140,8 +148,9 @@ public class SchemasExperiment {
             return;
           }
           sExactMappingFileName = sXmlFile.getPath();
+          // order was changed the order, to sTargetOnologyName before sCandidateOntologyName and not vice versa like it was before
+          sTargetOnologyName =  st.nextToken();
           sCandidateOntologyName = st.nextToken();
-          sTargetOnologyName = st.nextToken();
           break;
         }
       }
@@ -233,12 +242,13 @@ public class SchemasExperiment {
       } 
       Properties pMap = PropertyLoader.loadProperties("resources");
 	  DBInterface db = new DBInterface(Integer.parseInt((String)pMap.get("dbmstype")),(String)pMap.get("host"),(String)pMap.get("dbname"),(String)pMap.get("username"),(String)pMap.get("pwd"));
-      this.targetID = getOntologyDBId(target.getName(), db);
-      this.CandidateID = getOntologyDBId(candidate.getName(), db);
-      this.SPID = getSPIDFromDB (db);
-	  //String s = sExactMappingFileName.toString() + sCandidateOntologyFileName + sTargetOnologyFileName ; 
-      //this.EID = PJWHash(s);
-    	  
+      
+	  //for debugging
+	  /*
+	  long tempTaget = getOntologyDBId(target.getName(), db);
+	  long tempCandidate=  getOntologyDBId(candidate.getName(), db);
+	  long spid = getSPIDFromDB (db); 
+      */
     }
   	}
   	
@@ -333,7 +343,7 @@ public class SchemasExperiment {
 		 * @return SPID, if wasn't able to find the ontology return -1
 		 */
 	  	private long getSPIDFromDB(DBInterface db) {
-	  		String sql = "SELECT SPID From schemapairs WHERE TargetSchema== " + (long)this.targetID + " AND CandidateSchema== " + (long)this.CandidateID + ";" ;
+	  		String sql = "SELECT SPID From schemapairs WHERE TargetSchema= \"" + (long)this.targetID + "\" AND CandidateSchema= \"" + (long)this.CandidateID + "\";" ;
 			ArrayList<String[]> SchameID =  db.runSelectQuery(sql, 1);
 			try {
 				long SPID = Long.valueOf(SchameID.get(0)[0]);

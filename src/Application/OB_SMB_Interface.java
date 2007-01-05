@@ -268,7 +268,7 @@ public class OB_SMB_Interface {
 	 */
 	
 	private static boolean checkIfSchemaPairWasMatched(double schemaPairId,DBInterface db) {
-		String sql  = "SELECT WasMatched FROM experimentschemapairs WHERE SPID==" + schemaPairId + ";"; 
+		String sql  = "SELECT WasMatched FROM experimentschemapairs WHERE SPID=\"" + schemaPairId + "\";"; 
 		ArrayList<String[]> schemaList = db.runSelectQuery(sql, 1);
 		if (Integer.valueOf(schemaList.get(0)[0]) == 1)
 				return true;
@@ -296,14 +296,14 @@ public class OB_SMB_Interface {
 			//Calculated Fields
 			schemaValues.put(new Field ("Max_Height_of_the_class_hierarchy", FieldType.INT), ontology.getHeight());
 			int NumOfClasses = getNumberOfClasses (ontology);
+			ArrayList <Integer> A = calculateTermsHiddenAssociationInOntology (ontology);
+			int size = ontology.getModel().getTerms().size();
 			schemaValues.put(new Field ("Number_of_classes", FieldType.INT ),NumOfClasses);			
-			schemaValues.put(new Field ("Number_of_association_relationships", FieldType.INT ), calculateNumbAssociationInOntology (ontology));
-			//Term Count (recursive)
-			ArrayList <Integer> A = calculateNumberOfTermsInOntology (ontology);
-			schemaValues.put(new Field ("Number_of_attributes_in_Schema", FieldType.INT ), A.get(0) ); //Wrong
+			schemaValues.put(new Field ("Number_of_association_relationships", FieldType.INT ), A.get(2));
+			schemaValues.put(new Field ("Number_of_attributes_in_Schema", FieldType.INT ), A.get(0) );
 						
 			//For webforms only recursively count terms that the ontology class is not "hidden" 
-			schemaValues.put(new Field ("Number_of_visible_items", FieldType.INT ), A.get(1)); 
+			schemaValues.put(new Field ("Number_of_visible_items", FieldType.INT ), A.get(1)-A.get(0)); 
 			schemaValues.put(new Field ("Number_of_instances", FieldType.INT ), 0); //Ontobuilder doesn't support instances	
 			schemaValues.put(new Field ("Was_Fully_Parsed", FieldType.INT ), 0);
 			//sql = "DELETE FROM schemata_copy WHERE SchemaID=" + ontologyid; 
@@ -313,115 +313,74 @@ public class OB_SMB_Interface {
 		}
 	
 	
-	/**
-	 * This method gets an ontology and returns the number of the association relationships in it
-	 * Remark: We assume that a single node has only one parent
-	 * @param Onotology
-	 * @throws Exception
-	 */
-	
-	private static int calculateNumbAssociationInOntology(Ontology ontology) {
-		
-		int TotalNumOfAssociation = 0;
-		for (int i=0;i<ontology.getTermsCount();i++)
-		{
-			Term t = ontology.getTerm(i);
-			//If only parent child relationships exist (like in ontobuilder webforms) return 0
-			int res = t.getRelationshipsCount() - t.getTermsCount(); 
-			if (t.getParent()!=null)
-				res-=1;
-			TotalNumOfAssociation+= res + countAssociation (t);
-		}
-		return TotalNumOfAssociation;
-	} 
-	/**
-	 * This method's returns the number of the association relationships from a given term 
-	 * function will run recursively until it gets to all the leafs reachable from the term
-	 * Remark: We assume that a single node hasonly one parent
-	 * @param term
-	 * @throws Exception
-	 */
-	private static int countAssociation(Term t) {
 
-		int numofchilder = t.getAllChildren().size();
-		int countNumberOfAssociation=t.getRelationshipsCount() - numofchilder;
-		if (t.getParent()!=null)
-			countNumberOfAssociation-=1;
-		for (int i=0; i<t.getTermsCount();i++){ 
-			countNumberOfAssociation+=countAssociation(t.getTerm(i));
-		}
-		return countNumberOfAssociation;
-	}
-	
-	//
 	
 	/**
-	 * This method given an ontology will calculate all of it's terms
-	 * Remark: We assume that is a unique path to each term
+	 * This method given an ontology will calculate (by iterating recursively) all of it's terms, hidden terms, and associations
+	 * Remark: We assume that is a unique path to each term (so terms arn't being counted more than once)
 	 * @param Onotology
+	 * Return: ArrayList<integer> A: A(0) number of terms
+	 * 								 A(1) number of hidden terms
+	 * 								 A(2) number of association
 	 * @throws Exception
 	 */
 	
-	private static ArrayList<Integer> calculateNumberOfTermsInOntology(Ontology ontology) {
+	private static ArrayList<Integer> calculateTermsHiddenAssociationInOntology(Ontology ontology) {
 		
 		int TotalNumOfTerms = 0;
-		int TotalNumOfTerms2 = 0;
-		int sum=ontology.getTermsCount();
 		int counthiddens = 0;
-		for (int i=0;i<ontology.getTermsCount();i++)
-		{
+		int Associationcount = 0;
+		for (int i=0;i<ontology.getTermsCount();i++){
 			Term t = ontology.getTerm(i);
-			ArrayList <Integer> B = countTermsDescendants (t);
+			ArrayList <Integer> B = countTermsChildren (t);
 			TotalNumOfTerms+= B.get(0);
 			counthiddens+=B.get(1);
-			TotalNumOfTerms2+= countTermsDescendants2 (t);
-			sum+=t.getAllChildren().size();
+			Associationcount += B.get(2);
 			if (t.getSuperClass().getName().contains("hidden"))
 				counthiddens++;
+			for (int j=0;j<t.getRelationshipsCount();j++)
+				if (!t.getRelationship(j).getName().contains("is child of") && !t.getRelationship(j).getName().contains("is parent of"))	
+					Associationcount++;
 		}		
 		ArrayList<Integer> A = new ArrayList<Integer>();
 		A.add(TotalNumOfTerms);
 		A.add(counthiddens);
+		A.add(Associationcount);
 		return A;
 	}
 
 		
 	/**
-	 * This method's returns the number of the terms from a given term
+	 * This method's returns the number of the children from a given term (not only terms)
 	 * function will run recursively until it gets to all the leafs reachable from the term
-	 * Remark: We assume that a single term has only one parent
+	 * Remark: We assume that a single entity in the graph has only one parent
 	 * @param term
 	 * @throws Exception
 	 */
 	
-	private static ArrayList countTermsDescendants(Term t) {
+	private static ArrayList <Integer> countTermsChildren(Term t) {
 		
-		ArrayList <Term> terms = t.getAllChildren();
+		int tCount = t.getTermsCount();
 		int countNumberOfDecendants=0;
 		int hidden=0;
-		for (int i=0; i<terms.size();i++){
-			ArrayList <Integer> B =  countTermsDescendants(terms.get(i));
+		int countAssociation = 0;
+		for (int i=0; i<tCount;i++){
+			ArrayList <Integer> B = countTermsChildren(t.getTerm(i));
 			countNumberOfDecendants+=B.get(0);
-			hidden+= B.get(1);
-			if (terms.get(i).getSuperClass().getName().contains("hidden"))	
+			hidden+=B.get(1);
+			if (t.getTerm(i).getSuperClass().getName().contains("hidden"))	
 				hidden++;
+			for (int j=0;j<t.getRelationshipsCount();j++)
+				if (!t.getRelationship(j).getName().contains("is child of") && !t.getRelationship(j).getName().contains("is parent of"))	
+					countAssociation++;
 		}
 		ArrayList <Integer> A = new ArrayList<Integer>();
 		A.add(1+countNumberOfDecendants);
 		A.add(hidden);
+		A.add(countAssociation);
 		return A;
 	}
-
-	private static int countTermsDescendants2(Term t) {
-		
-		ArrayList <Term> terms = t.getAllChildren();
-		int countNumberOfDecendants=0;
-		for (int i=0; i<t.getTermsCount();i++){
-			countNumberOfDecendants+=countTermsDescendants2(t.getTerm(i));
-		}
-		return 1+countNumberOfDecendants;
-	}
-
+	
 	/**
 	 * This method's returns the number of subclasses within an onotology
 	 * @param Onotology
@@ -519,12 +478,7 @@ public class OB_SMB_Interface {
 		String url = parseFolderPathFromSchemapairs((k_Schemapairs.get(i))[4]);
 		full_url = full_url.concat(url);
 		File f = new File(full_url);
-		SchemasExperiment schemasExp = new SchemasExperiment(f,Integer.valueOf(k_Schemapairs.get(i)[0]));
-		double targetId = getExperminetSchemaIDFromDB(schemasExp.getSPID(),db,true);
-		double candidateId = getExperminetSchemaIDFromDB(schemasExp.getSPID(),db,false);
-		schemasExp.setSPID((double)Integer.valueOf(k_Schemapairs.get(i)[0]));
-		schemasExp.setCandidateID(targetId);
-		schemasExp.setTargetID(candidateId);
+		SchemasExperiment schemasExp = new SchemasExperiment(f,Long.valueOf(k_Schemapairs.get(i)[0]),Long.valueOf(k_Schemapairs.get(i)[2]),Long.valueOf(k_Schemapairs.get(i)[3]));
 		ds.add(schemasExp);
 		}
 		//document the new experiment in to DB 
