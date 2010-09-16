@@ -9,8 +9,6 @@ import schemamatchings.ontobuilder.OntoBuilderWrapper;
 import schemamatchings.util.Matcher;
 import schemamatchings.util.SchemaMatchingsUtilities;
 import schemamatchings.util.SchemaTranslator;
-import Application.Documenter;
-
 import com.modica.ontology.*;
 
 /**
