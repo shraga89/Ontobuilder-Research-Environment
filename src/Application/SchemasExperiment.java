@@ -9,7 +9,7 @@ import schemamatchings.ontobuilder.OntoBuilderWrapper;
 import schemamatchings.util.Matcher;
 import schemamatchings.util.SchemaMatchingsUtilities;
 import schemamatchings.util.SchemaTranslator;
-import Application.Documenter;
+//import Application.Documenter;
 
 import com.modica.ontology.*;
 
@@ -28,6 +28,7 @@ import com.modica.ontology.*;
 public class SchemasExperiment {
   public SchemasExperiment() {
     super();
+    //subDir = new File ("schema/absoluteagency.xml_www.dating.com.xml_EXACT"); --> for experimenting I have tried to create objects that would be directed to one of the experiments' folder
   }
 
   public Ontology getTargetOntology() {

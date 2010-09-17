@@ -12,6 +12,7 @@ import java.util.Set;
 import schemamatchings.ontobuilder.MatchMatrix;
 import schemamatchings.ontobuilder.MatchingAlgorithms;
 import schemamatchings.ontobuilder.OntoBuilderWrapper;
+import schemamatchings.ontobuilder.OntoBuilderWrapperException;
 import schemamatchings.util.BestMappingsWrapper;
 import schemamatchings.util.MappingAlgorithms;
 import schemamatchings.util.SchemaMatchingsUtilities;
@@ -22,7 +23,7 @@ import com.infomata.data.DataFile;
 import com.infomata.data.DataRow;
 import com.infomata.data.TabFormat;
 import com.modica.ontology.Ontology;
-import com.modica.ontology.algorithm.boosting.Dataset;
+//import com.modica.ontology.algorithm.boosting.Dataset;
 import com.modica.ontology.match.MatchInformation;
 
 
@@ -40,13 +41,15 @@ public class OB_SMB_Interface {
 		
 		
 		// TODO 1 Load X experiments into an experiment list
-		SchemasExperiment schemasExp;
+		SchemasExperiment schemasExp = new SchemasExperiment();
 	    ArrayList<SchemasExperiment> ds = new ArrayList<SchemasExperiment>();
+	    ds.add(schemasExp);
+	    
 	    int size = ds.size();
 	    Ontology target;
 	    Ontology candidate;
 	    OntoBuilderWrapper obw = new OntoBuilderWrapper();
-	    SchemaTranslator boostingBestMapping;
+	    SchemaTranslator boostingBestMapping = null;
 	    SchemaTranslator exactMapping;
 	    double boostPrecision = 0.0;
 	    double boostRecall = 0.0;
@@ -55,7 +58,7 @@ public class OB_SMB_Interface {
 	      
 
 		// TODO 2 For each experiment in the list:
-	    for (int i = 0; i < size; ++i) {
+	    for (int i = 0; i < 2; ++i) {  //size
 			// TODO 2.1 load from file into OB objects
 	        schemasExp = ds.get(i);
 	        exactMapping = schemasExp.getExactMapping();
@@ -68,7 +71,11 @@ public class OB_SMB_Interface {
 	        MatchMatrix firstLineMM[]= new MatchMatrix[availableMatchers.length];
 	        for (int m=0;m<availableMatchers.length;m++)
 	        {
-	        	firstLineMI[m] = obw.matchOntologies(candidate, target,availableMatchers[m]);
+	        	try {
+					firstLineMI[m] = obw.matchOntologies(candidate, target,availableMatchers[m]);
+				} catch (OntoBuilderWrapperException e) {
+					e.printStackTrace();
+				}
 	        	firstLineST[m].importIdsFromMatchInfo(firstLineMI[m],true);
 	        }
 	        	
@@ -103,19 +110,19 @@ public class OB_SMB_Interface {
 	        sOutput += boostRecall + "\t";
 	       
 	        try{
-	          outPutFile.write(sOutput);
+	          //outPutFile.write(sOutput);
 	        }catch(Exception e){
 	          System.out.println("1. " + e.toString());
 	        } 
 
-	      }
-	    }
-	    catch (Exception e) {
-	      System.out.println("2. " + e.toString());
-	    }
+	      //}
+	    //}
+	    //catch (Exception e) {
+	      //System.out.println("2. " + e.toString());
+	    //}
 
 	    try{
-	      outPutFile.flush();
+	    //  outPutFile.flush();
 	    }catch(Exception e){
 	      System.out.println("3. " + e.toString());
 	    }  
@@ -144,8 +151,8 @@ public class OB_SMB_Interface {
 			{
 				DataRow row = write.next();
 				Long key = (Long) itr.next();
-				row.add(smb.ws.candidateSchema.get("ID")); //Candidate schema ID
-				row.add(smb.ws.targetSchema.get("ID")); //Target schema ID
+				//row.add(smb.ws.candidateSchema.get("ID")); //Candidate schema ID
+				//row.add(smb.ws.targetSchema.get("ID")); //Target schema ID
 				row.add(key.toString()); //Configuration ID
 				row.add(weightedEnsemble.get(key).toString()); //Weight
 			}
