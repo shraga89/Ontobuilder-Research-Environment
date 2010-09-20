@@ -6,12 +6,12 @@ import java.util.StringTokenizer;
 import schemamatchings.ontobuilder.MatchMatrix;
 import schemamatchings.ontobuilder.MatchingAlgorithms;
 import schemamatchings.ontobuilder.OntoBuilderWrapper;
-import schemamatchings.util.Matcher;
 import schemamatchings.util.SchemaMatchingsUtilities;
 import schemamatchings.util.SchemaTranslator;
 //import Application.Documenter;
 
 import com.modica.ontology.*;
+import com.modica.ontology.match.MatchInformation;
 
 /**
  * <p>Title: Schema Pair Matching Experiment</p>
@@ -27,8 +27,11 @@ import com.modica.ontology.*;
  */
 public class SchemasExperiment {
   public SchemasExperiment() {
-    super();
-    //subDir = new File ("schema/absoluteagency.xml_www.dating.com.xml_EXACT"); --> for experimenting I have tried to create objects that would be directed to one of the experiments' folder
+  }
+  
+  public SchemasExperiment(File inSubDir) 
+  {
+	 subDir = inSubDir;
   }
 
   public Ontology getTargetOntology() {
@@ -142,9 +145,9 @@ public class SchemasExperiment {
     	if (exactMapping == null) 
     	{
     		long mm_gen_time = System.currentTimeMillis();
-    		Matcher matcher = new Matcher(MatchingAlgorithms.TERM);
-    		matcher.match(candidate, target);
-    		mm = matcher.getMatchMatrix();
+    		OntoBuilderWrapper obw = new OntoBuilderWrapper();
+    		MatchInformation mi = obw.matchOntologies(candidate, target, MatchingAlgorithms.TERM);
+    		mm =  mi.getMatrix();
     		mm_gen_time = System.currentTimeMillis() - mm_gen_time;
     	    System.out.println("MatchMatrix generation Time: " + mm_gen_time);
     		exactMapping = SchemaMatchingsUtilities.readXMLBestMatchingFile(sExactMappingFileName,mm);
