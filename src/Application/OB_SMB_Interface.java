@@ -41,7 +41,8 @@ public class OB_SMB_Interface {
 		
 		
 		// TODO 1 Load X experiments into an experiment list
-		SchemasExperiment schemasExp = new SchemasExperiment();
+		File f = new File("C:\\Documents and Settings\\Administrator\\Desktop\\project\\schema\\1-time.xml_2-surfer.xml_EXACT");
+		SchemasExperiment schemasExp = new SchemasExperiment(f);
 	    ArrayList<SchemasExperiment> ds = new ArrayList<SchemasExperiment>();
 	    ds.add(schemasExp);
 	    
