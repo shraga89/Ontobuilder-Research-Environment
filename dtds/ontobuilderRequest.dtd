@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!ELEMENT ontobuilderRequest (generateOntology | matchOntologies)>
+<!ELEMENT generateOntology (url)>
+<!ATTLIST generateOntology
+	normalize (yes | no) "no"
+>
+<!ELEMENT url (#PCDATA)>
+<!ELEMENT matchOntologies (algorithm?, targetURL, candidateURL)>
+<!ATTLIST matchOntologies
+	normalize (yes | no) "no"
+>
+<!ELEMENT algorithm (#PCDATA)>
+<!ATTLIST algorithm
+	threshold CDATA #IMPLIED
+>
+<!ELEMENT targetURL (#PCDATA)>
+<!ELEMENT candidateURL (#PCDATA)>

@@ -6,6 +6,7 @@ import java.util.StringTokenizer;
 import schemamatchings.ontobuilder.MatchMatrix;
 import schemamatchings.ontobuilder.MatchingAlgorithms;
 import schemamatchings.ontobuilder.OntoBuilderWrapper;
+import schemamatchings.ontobuilder.OntoBuilderWrapperException;
 import schemamatchings.util.SchemaMatchingsUtilities;
 import schemamatchings.util.SchemaTranslator;
 //import Application.Documenter;
@@ -146,8 +147,14 @@ public class SchemasExperiment {
     	{
     		long mm_gen_time = System.currentTimeMillis();
     		OntoBuilderWrapper obw = new OntoBuilderWrapper();
+    		try {
     		MatchInformation mi = obw.matchOntologies(candidate, target, MatchingAlgorithms.TERM);
     		mm =  mi.getMatrix();
+    		}
+    		catch (OntoBuilderWrapperException e)
+    		{
+    			e.printStackTrace();
+    		}
     		mm_gen_time = System.currentTimeMillis() - mm_gen_time;
     	    System.out.println("MatchMatrix generation Time: " + mm_gen_time);
     		exactMapping = SchemaMatchingsUtilities.readXMLBestMatchingFile(sExactMappingFileName,mm);
