@@ -80,8 +80,7 @@ public class OB_SMB_Interface {
 	        	firstLineST[m].importIdsFromMatchInfo(firstLineMI[m],true);
 	        }
 	        	
-	        
-			// TODO 2.3 2nd line match using all available matchers in OB with original matrix
+	        // TODO 2.3 2nd line match using all available matchers in OB with original matrix
 	        String[] available2ndLMatchers = MappingAlgorithms.ALL_ALGORITHM_NAMES;
 	        SchemaTranslator secondLineST[] = new SchemaTranslator[availableMatchers.length*availableMatchers.length];
 	        for (int m=0;m<availableMatchers.length;m++)
