@@ -41,7 +41,9 @@ public class OB_SMB_Interface {
 		
 		
 		// TODO 1 Load X experiments into an experiment list
-		File f = new File("C:\\Documents and Settings\\Administrator\\Desktop\\project\\schema\\1-time.xml_2-surfer.xml_EXACT");
+		File f = new File("C:\\Ontologies\\Ontology Pairs and Exact Mappings\\1-time.xml_2-surfer.xml_EXACT");
+		//C:\Ontologies\Ontology Pairs and Exact Mappings\1-time.xml_2-surfer.xml_EXACT
+		//C:\\Documents and Settings\\Administrator\\Desktop\\project\\schema\\1-time.xml_2-surfer.xml_EXACT
 		SchemasExperiment schemasExp = new SchemasExperiment(f);
 	    ArrayList<SchemasExperiment> ds = new ArrayList<SchemasExperiment>();
 	    ds.add(schemasExp);
@@ -62,21 +64,21 @@ public class OB_SMB_Interface {
 	    for (int i = 0; i < 2; ++i) {  //size
 			// TODO 2.1 load from file into OB objects
 	        schemasExp = ds.get(i);
-	        exactMapping = schemasExp.getExactMapping();
 	        target = schemasExp.getTargetOntology();
 	        candidate = schemasExp.getCandidateOntology();
+	        exactMapping = schemasExp.getExactMapping();
+
 			// TODO 2.2 1st line match using all available matchers in OB
+	        try {
 	        String[] availableMatchers =  MatchingAlgorithms.ALL_ALGORITHM_NAMES;
 	        MatchInformation firstLineMI[]= new MatchInformation[availableMatchers.length];
 	        SchemaTranslator firstLineST[] = new SchemaTranslator[availableMatchers.length];
 	        MatchMatrix firstLineMM[]= new MatchMatrix[availableMatchers.length];
 	        for (int m=0;m<availableMatchers.length;m++)
 	        {
-	        	try {
+				
 					firstLineMI[m] = obw.matchOntologies(candidate, target,availableMatchers[m]);
-				} catch (OntoBuilderWrapperException e) {
-					e.printStackTrace();
-				}
+				
 	        	firstLineST[m].importIdsFromMatchInfo(firstLineMI[m],true);
 	        }
 	        	
@@ -92,6 +94,10 @@ public class OB_SMB_Interface {
 		            secondLineST[mp].importIdsFromMatchInfo(firstLineMI[m],true);
 		        }
 	        }
+	        } catch (OntoBuilderWrapperException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			// TODO 2.4 Output schema pair, term list, list of matchers and matches to URL
 	        
 			// TODO 2.5 run SMB_service with args: E URL
