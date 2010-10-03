@@ -157,7 +157,8 @@ public class SchemasExperiment {
     		}
     		mm_gen_time = System.currentTimeMillis() - mm_gen_time;
     	    System.out.println("MatchMatrix generation Time: " + mm_gen_time);
-    		exactMapping = SchemaMatchingsUtilities.readXMLBestMatchingFile(sExactMappingFileName,mm);
+    	    exactMapping = SchemaMatchingsUtilities.readXMLBestMatchingFile(sExactMappingFileName);
+    	    //exactMapping = SchemaMatchingsUtilities.readXMLBestMatchingFile(sExactMappingFileName,mm);
     	}
       }
       catch (Exception e) 
