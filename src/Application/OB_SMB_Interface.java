@@ -44,8 +44,6 @@ public class OB_SMB_Interface {
 		
 		// TODO 1 Load X experiments into an experiment list
 		File f = new File("C:\\Ontologies\\Ontology Pairs and Exact Mappings\\1-time.xml_2-surfer.xml_EXACT");
-		//C:\Ontologies\Ontology Pairs and Exact Mappings\1-time.xml_2-surfer.xml_EXACT
-		//C:\\Documents and Settings\\Administrator\\Desktop\\project\\schema\\1-time.xml_2-surfer.xml_EXACT
 		SchemasExperiment schemasExp = new SchemasExperiment(f);
 	    ArrayList<SchemasExperiment> ds = new ArrayList<SchemasExperiment>();
 	    ds.add(schemasExp);
@@ -114,8 +112,7 @@ public class OB_SMB_Interface {
 	        } catch (OntoBuilderWrapperException e) {
 				e.printStackTrace();
 			}
-			// TODO 2.4 Output schema pair, term list, list of matchers and matches to URL
-	      	SMB temp = new SMB();
+			// TODO 2.4 Output schema pair, term list, list of matchers and matches to URL     	
 	      	try 
 	      		{
 	      		writeBasicConfigurations();
@@ -128,11 +125,10 @@ public class OB_SMB_Interface {
     				System.err.print("Enhanced Similarity Matrix File Creation Failed");  
     				e.printStackTrace();
     			  }
-    			
-    			
-        	
 			// TODO 2.5 run SMB_service with args: E URL
-	        
+    		SMB smb = new SMB();
+    		SMB.SMBRun (smb,"E","C:\\Documents and Settings\\Administrator\\Desktop\\project\\frames",null,null,null,null);
+    		
 			// TODO 2.6 load enhanced matching result into OB object
 	        	//Look at LoadWorkingSet from SMB.java
 			// TODO 2.7 2nd line match using all available matchers in OB with enhanced matrix
