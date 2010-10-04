@@ -65,13 +65,14 @@ public class SMB {
 	public SMB() {
 		// load from properties file
 		Properties pMap = PropertyLoader.loadProperties("resources");
+		
 		db = new DBInterface(Integer.parseInt((String)pMap.get("dbmstype")),(String)pMap.get("host"),(String)pMap.get("dbname"),(String)pMap.get("username"),(String)pMap.get("pwd"));
 		clarityAlpha = Double.parseDouble((String)pMap.get("clarityAlpha"));
 		clarityBeta =  Double.parseDouble((String) pMap.get("clarityBeta"));
 		ws = new SMB.WorkingSet();
 		tmpPath = (String)pMap.get("tempFilePath");
 	}
-	
+
 	/**
 	 * Supplied a path to a directory, this method validates the existence of the files in the 
 	 * interface specification and the number of tab delimited field to be the same as expected
@@ -323,6 +324,108 @@ public class SMB {
 			
 			//output ensemble weighting to supplied URL
 			outputWeightsToFile(args[1], smb, weightedEnsemble);	
+		}
+		else
+		{
+			System.err.print("Invalid first argument supplied, use R for Recommend mode, E for Enhance mode and L for Learn mode");
+			System.exit(0);
+		}
+		
+		
+
+	}
+
+	
+	// input: 
+	// SMB object
+	//mode = R,E,L 
+	// Url where tab experiment files are located 
+	// learnOrRecommend additional info
+	// optional parameters: 3 smb parameters 
+	//Note set irrelevant parameters to null 
+	// output:
+	// if mode set to E --> enhanced matrix file into the url folder
+	public static void SMBRun(SMB smb, String mode, String url,String learnOrRecommend, String weberPower, String weakenThreshold, String weakenReduction) {
+		//TODO add class interface instead of using main
+		if (mode.equalsIgnoreCase("E")) //Enhance mode 
+		{
+			smb.enhanceMode();
+			loadWorkingSet(url, smb,true);
+			
+			//Get optional parameters
+			if (weberPower != null) smb.weberPower = Double.parseDouble(weberPower);
+			if (weakenThreshold != null) smb.weakenThreshold = Double.parseDouble(weakenThreshold);
+			if (weakenReduction != null) smb.weakenReduction = Double.parseDouble(weakenReduction);
+			
+			//Enhance similarity matrices using matching performance predictors
+			Iterator<Long> it = smb.ws.similarityMatrices.keySet().iterator();
+			while (it.hasNext())
+			{
+				SimilarityMatrix tmpM = smb.ws.similarityMatrices.get(it.next());
+				clarityS(tmpM,smb.clarityAlpha,smb.clarityBeta,smb.weberPower,smb.weakenThreshold, smb.weakenReduction);
+				
+			}
+			
+			//output enhanced Matrices to input path
+			outputMatricesToFile(url, smb);
+			System.out.println ("done enhancing");
+			
+		}
+		else if (mode.equalsIgnoreCase("L")) //Learn mode
+		{	
+			if (!smb.setSystem(learnOrRecommend)) System.exit(0);
+			smb.learnMode();
+			// Load files into data structure
+			loadLearnWorkingSet(url, smb);
+
+			//Classify schema pairs, record classes, load into DB as new examples of the class
+			ArrayList<Integer> classes = new ArrayList<Integer>();  
+			for (int i=0;i<smb.lws.schemaPairList.size();i++)
+			{
+				Classify(smb.lws.schemaPairList.get(i));
+				if (!classes.contains(smb.lws.schemaPairList.get(i).taskClass))
+					classes.add(smb.lws.schemaPairList.get(i).taskClass);
+				smb.loadSchemaPairToDB(smb.lws.schemaPairList.get(i));
+			}
+			
+			//for each class of schema pairs Lookup schema pairs of this class in DB and load into lws
+			for (int i=0;i<classes.size();i++)
+			{
+				smb.extractClassPairsFromDB(classes.get(i),smb.tmpPath);
+				SMB tmpSmb = new SMB();
+				tmpSmb.learnMode();
+				loadLearnWorkingSet(smb.tmpPath, tmpSmb);
+				
+				try {
+					// Train on all pairs and output optimal ensemble weighting
+					SMBTrain.SerializeLws(tmpSmb.lws, "exampleLWS.txt");
+					SMBTrain smbTrainer = new SMBTrain(tmpSmb.lws);
+					HashMap<Long,Double> res = smbTrainer.Train();
+					//Update DB with result of training
+					smb.loadWeightedEnsembleToDB(res,classes.get(i));
+				} catch (IOException e) {
+					e.printStackTrace();
+					System.exit(0);
+				}
+			}
+	
+			System.out.print("Training Completed Sucessfully");
+		}
+		else if (mode.equalsIgnoreCase("R")) //Recommend mode 
+		{
+			if (!smb.setSystem(learnOrRecommend)) System.exit(0);
+			smb.recommendMode();
+			loadWorkingSet(url, smb, false);
+			SchemaPair sp = new SchemaPair(new Schema(smb.ws.candidateSchema.get("ID"),"",smb.ws.candidateSchema,smb.ws.candidateSchemaItems),new Schema(smb.ws.targetSchema.get("ID"),"",smb.ws.targetSchema,smb.ws.targetSchemaItems));
+			
+			//Classify schema pair
+			Classify(sp);
+			
+			//Lookup ensemble weighting for this class 
+			HashMap<Long,Double> weightedEnsemble = smb.lookupEnsemble(sp.taskClass);
+			
+			//output ensemble weighting to supplied URL
+			outputWeightsToFile(url, smb, weightedEnsemble);	
 		}
 		else
 		{
