@@ -15,7 +15,8 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-
+import javax.swing.JTree;
+import com.jgraph.JGraph;
 /**
  * <p>Title: Database interface class for Schema Matching Experiments</p>
  *

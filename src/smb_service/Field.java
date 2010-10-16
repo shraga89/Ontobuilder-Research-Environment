@@ -7,8 +7,8 @@ public class Field
 		name = fieldName;
 		type = ftype;
 	}
-	String name;
-	FieldType type;
+	public String name;
+	public FieldType type;
 	
 	@Override
 	public String toString() {

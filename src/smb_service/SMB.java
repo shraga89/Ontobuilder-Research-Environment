@@ -248,7 +248,7 @@ public class SMB {
 		if (args[0].equalsIgnoreCase("E")) //Enhance mode 
 		{
 			smb.enhanceMode();
-			loadWorkingSet(args[1], smb,true);
+			loadWorkingSet(args[1], smb,true,false);
 			
 			//Get optional parameters from args
 			if (args.length > 3) smb.weberPower = Double.parseDouble(args[3]);
@@ -313,7 +313,7 @@ public class SMB {
 		{
 			if (!smb.setSystem(args[2])) System.exit(0);
 			smb.recommendMode();
-			loadWorkingSet(args[1], smb, false);
+			loadWorkingSet(args[1], smb, false,false);
 			SchemaPair sp = new SchemaPair(new Schema(smb.ws.candidateSchema.get("ID"),"",smb.ws.candidateSchema,smb.ws.candidateSchemaItems),new Schema(smb.ws.targetSchema.get("ID"),"",smb.ws.targetSchema,smb.ws.targetSchemaItems));
 			
 			//Classify schema pair
@@ -345,12 +345,12 @@ public class SMB {
 	//Note set irrelevant parameters to null 
 	// output:
 	// if mode set to E --> enhanced matrix file into the url folder
-	public static void SMBRun(SMB smb, String mode, String url,String learnOrRecommend, String weberPower, String weakenThreshold, String weakenReduction) {
+	public static void SMBRun(SMB smb, String mode, String url,String learnOrRecommend, String weberPower, String weakenThreshold, String weakenReduction,boolean enhance) {
 		//TODO add class interface instead of using main
 		if (mode.equalsIgnoreCase("E")) //Enhance mode 
 		{
 			smb.enhanceMode();
-			loadWorkingSet(url, smb,true);
+			loadWorkingSet(url, smb,true,enhance);
 			
 			//Get optional parameters
 			if (weberPower != null) smb.weberPower = Double.parseDouble(weberPower);
@@ -415,7 +415,7 @@ public class SMB {
 		{
 			if (!smb.setSystem(learnOrRecommend)) System.exit(0);
 			smb.recommendMode();
-			loadWorkingSet(url, smb, false);
+			loadWorkingSet(url, smb, false,false);
 			SchemaPair sp = new SchemaPair(new Schema(smb.ws.candidateSchema.get("ID"),"",smb.ws.candidateSchema,smb.ws.candidateSchemaItems),new Schema(smb.ws.targetSchema.get("ID"),"",smb.ws.targetSchema,smb.ws.targetSchemaItems));
 			
 			//Classify schema pair
@@ -939,13 +939,14 @@ public class SMB {
 	 * @param smb
 	 * @param loadSimilarityM : If true, will load similarity matrices (useful for enhance mode)
 	 */
-	private static void loadWorkingSet(String strFilePath, SMB smb,boolean loadSimilarityM) {
+	public static void loadWorkingSet(String strFilePath, SMB smb,boolean loadSimilarityM, boolean enhance) {
+		//changed from private to public
 		HashMap<String, File> fileMap;
-		//Validate URL and file structure
+		//Validate URL and file structure		
 		fileMap = smb.validateFS(strFilePath,smb.specs);
-		
 		//Read schemata from files
-		ArrayList<String[]> schemata = smb.readFile(fileMap.get("Schema.tab"));
+		File t = fileMap.get("Schema.tab");
+		ArrayList<String[]> schemata = smb.readFile(t);
 		if (schemata.size()>2) System.err.print("Warning: More than 2 schemata supplied, only first 2 schemata will be processed as a pair");
 		String schemaProperties[] = schemata.get(0);
 		for (int i = 0; i < schemaProperties.length;i++)
@@ -985,7 +986,15 @@ public class SMB {
 		if (loadSimilarityM)
 		{
 			//Read Similarity Matrices from files
-			ArrayList<String[]> matrices = smb.readFile(fileMap.get("MatchingResult.tab"));
+			ArrayList<String[]> matrices;
+			if (enhance){
+			File f = new File (strFilePath,"EnhancedSimilarityMatrix.tab");
+			matrices = smb.readFile(f);
+			}
+			else
+			{
+			matrices = smb.readFile(fileMap.get("MatchingResult.tab"));
+			}
 			String strCorrespondence[];
 			for (int i=0;i<matrices.size();i++)
 			{
@@ -1429,6 +1438,10 @@ private static double[] calcContrasted(double[] arr, double weberp)
 			return;
 		}
 		schemaItemHash.put(Long.parseLong(itemString[1]), itemString[3]);
+	}
+
+	public DBInterface getDB() {
+		return db;
 	}
 }
 

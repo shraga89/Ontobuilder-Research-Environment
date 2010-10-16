@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Random;
 import java.util.Set;
 
 import schemamatchings.meta.match.MatchedAttributePair;
@@ -20,6 +21,7 @@ import schemamatchings.util.MappingAlgorithms;
 import schemamatchings.util.SchemaMatchingsUtilities;
 import schemamatchings.util.SchemaTranslator;
 import smb_service.*;
+import smb_service.Field.FieldType;
 
 import com.infomata.data.DataFile;
 import com.infomata.data.DataRow;
@@ -30,7 +32,7 @@ import com.modica.ontology.Term;
 import com.modica.ontology.match.*;
 /**
  * @author tomer_s
- *
+ * Input: K - number of experiments to run (an integer)
  */
 public class OB_SMB_Interface {
 
@@ -38,15 +40,23 @@ public class OB_SMB_Interface {
 	 * @param args
 	 */
 	static double TIMEOUT = 20 * 1000; 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws NumberFormatException, Exception {
 		
 		
 		
 		// TODO 1 Load X experiments into an experiment list
-		File f = new File("C:\\Ontologies\\Ontology Pairs and Exact Mappings\\1-time.xml_2-surfer.xml_EXACT");
-		SchemasExperiment schemasExp = new SchemasExperiment(f);
-	    ArrayList<SchemasExperiment> ds = new ArrayList<SchemasExperiment>();
-	    ds.add(schemasExp);
+	    
+	    SMB smb = new SMB();
+		ArrayList<SchemasExperiment> ds = UploadKExperiments(smb,Integer.parseInt(args[0]));
+		SchemasExperiment schemasExp = new SchemasExperiment();
+	    writeExperimentsToDB(smb,schemasExp);
+  		System.out.println("DS size is: " + ds.size());
+	    System.exit(1);
+	    
+	    //writeBasicConfigurations(schemasExp.getSubDir().getAbsolutePath(),schemasExp.getEID());
+	    //if (flag) System.out.println("Exists");
+	    //else System.out.println("Don't Exists");
+  		
 	    
 	    int size = ds.size();
 	    Ontology target;
@@ -115,10 +125,10 @@ public class OB_SMB_Interface {
 			// TODO 2.4 Output schema pair, term list, list of matchers and matches to URL     	
 	      	try 
 	      		{
-	      		writeBasicConfigurations();
-	      		writeItems(firstLineMM,target.getName() , candidate.getName());
-	      		writeMatchingResult(secondLineST,target.getName(), candidate.getName());   		
-    			writeSchema(target,candidate);
+	      		//writeItems(firstLineMM,schemasExp.getCandidateId() , smb, true);
+	      		//writeItems(firstLineMM,schemasExp.getTargetId() , smb, false);
+	      		//writeMatchingResult(secondLineST,target.getName(), candidate.getName());   		
+    			//writeSchema(target,candidate);
 	      		}
     		catch (Exception e)
     			  {
@@ -126,9 +136,9 @@ public class OB_SMB_Interface {
     				e.printStackTrace();
     			  }
 			// TODO 2.5 run SMB_service with args: E URL
-    		SMB smb = new SMB();
-    		SMB.SMBRun (smb,"E","C:\\Documents and Settings\\Administrator\\Desktop\\project\\frames",null,null,null,null);
-    		
+
+    		//SMB.SMBRun (smb,"E","C:\\Documents and Settings\\Administrator\\Desktop\\project\\frames",null,null,null,null);
+
 			// TODO 2.6 load enhanced matching result into OB object
 	        	//Look at LoadWorkingSet from SMB.java
 			// TODO 2.7 2nd line match using all available matchers in OB with enhanced matrix
@@ -163,6 +173,91 @@ public class OB_SMB_Interface {
 
 	}
 
+	private static ArrayList<SchemasExperiment> UploadKExperiments(SMB smb, int K) throws Exception {
+		
+		ArrayList<SchemasExperiment> ds = new ArrayList<SchemasExperiment>();
+		String sql  = "SELECT * FROM schemapairs"; 
+		ArrayList<String[]> schemapairs =  smb.getDB().runSelectQuery(sql, 5);
+		sql  = "SELECT ExperimentDesc FROM experiments"; 
+		ArrayList<String[]> experiments =  smb.getDB().runSelectQuery(sql, 1);
+		Iterator<String[]> it = experiments.iterator();
+		Random randomGenerator = new Random();
+		HashMap<Integer,Integer> hashMap = new HashMap<Integer,Integer>();
+		
+		//check the number of available experiments is larger then k
+		if (K>schemapairs.size()) throw new Exception("K is too large"); 
+		while (ds.size()<K)
+		{
+		//draw a new random number
+		int randomInt = randomGenerator.nextInt(schemapairs.size());
+		
+		//check that this number wasn't generated yet
+		if ( hashMap.get(randomInt) != null ) {continue;}
+		hashMap.put(randomInt, 1);
+		String url = parseFolderPathFromSchemapairs((schemapairs.get(randomInt))[4]);
+		
+		//check the the experiments isn't already in the DB
+		boolean existInDB = false;
+		while (it.hasNext()){
+			String s =parseFolderPathFromExperiment(it.next()[0]);
+			System.out.println (s + "\n" + url);
+			if (s.equals(url)){
+				System.out.println("Here");
+				existInDB=true; 
+				break;}
+		}
+		if (existInDB) continue;
+		File f = new File(url);
+		SchemasExperiment schemasExp = new SchemasExperiment(f);
+		ds.add(schemasExp);
+		//Document into DB if first time to open schemapair
+		writeExperimentsToDB (smb,schemasExp);
+		}		
+		return ds;
+	}
+
+	private static String parseFolderPathFromExperiment(String url) {
+		String str[] = url.split(",");
+		String str2[] = str[1].split("/");
+		return str2[0];
+	}
+
+	private static String parseFolderPathFromSchemapairs(String url) {
+		String str[] = url.split("/");
+		return str[0];
+	}
+
+	private static boolean writeExperimentsToDB(SMB smb, SchemasExperiment schemaexp) {
+		
+		String sql  = "SELECT EID FROM experiments"; 
+		ArrayList<String[]> EIDs =  smb.getDB().runSelectQuery(sql, 1);
+		Iterator<String[]> it = EIDs.iterator();
+
+		//if experiment was created before (meaning the this folder have already been traversed return true
+		while (it.hasNext()){
+			String s = String.valueOf(schemaexp.getEID());
+			if (it.next()[0].contains(s)){return true;}
+		}
+		
+		// if experiment doesn't exist document experiment into DB 
+		HashMap values = new HashMap();	
+		Object obj = new Object();
+		
+		Field f = new Field ("EID", FieldType.LONG );
+		values.put(f, (Object)schemaexp.getEID() );
+		
+		f = new Field ("RunDate", FieldType.DATE );
+		values.put(f, (Object)schemaexp.getDate());
+		
+		f = new Field ("ExperimentDesc", FieldType.STRING);
+		String str = ("SMB(E," + schemaexp.getSubDir() + ",s)");
+		values.put(f, (Object)str);
+		
+		smb.getDB().insertSingleRow(values, "experiments");	
+		return false;
+		}
+		
+
 	private static void writeSchema(Ontology target, Ontology candidate) throws IOException {
 		DataFile write = DataFile.createWriter("8859_1", false);
 		write.setDataFormat(new TabFormat());
@@ -194,7 +289,7 @@ public class OB_SMB_Interface {
 		
 	}
 
-	private static void writeItems(MatchMatrix[] firstLineMM, String target, String candidate) throws IOException {
+	private static void writeItems(MatchMatrix[] firstLineMM, String schemaId, SMB smb, boolean isTarget) throws IOException {
 		DataFile write = DataFile.createWriter("8859_1", false);
 		write.setDataFormat(new TabFormat());
 		File outputPath = new File("c:\\smb");
@@ -202,32 +297,59 @@ public class OB_SMB_Interface {
 		write.open(outputSMFile);
 		DataRow row = write.next();
 		Term s;
+		boolean existsInDB = false;
 		int i=0;
-		ArrayList <Term> targeTerms = firstLineMM[i].getTargetTerms();
-		ArrayList <Term> candidateTerms = firstLineMM[i].getCandidateTerms();
+		
+		//check if target terms have been entered into the DB
+		DBInterface db = smb.getDB();
+		ArrayList<String[]> schemaIds = db.runSelectQuery("SELECT SchemaId FROM terms", 1);
+		Iterator it = schemaIds.iterator();
+		while (it.hasNext()){
+			if ((schemaIds.get(i))[0].contains(schemaId)  )
+			{
+				existsInDB = true;
+				break;
+			}
+			i++;
+		}
+		if (!existsInDB)writeItemsToDB();
+		
+		i=0;
+		ArrayList <Term> targeTerms;
+		if (isTarget)targeTerms = firstLineMM[i].getTargetTerms();
+		else targeTerms = firstLineMM[i].getCandidateTerms();
 		for (i=0;i<targeTerms.size();i++)
 		{
-			row.add (target); // ontology name
-			row.add (targeTerms.get(i).getId()); // term id
+			row.add (schemaId); // schema id
+			row.add (targeTerms.get(i).getId()); // trem id
+			row.add (targeTerms.get(i).getName()); // trem name
 			row.add (targeTerms.get(i).getDomain().getName()); // term type
 			int domainNum = getDomainNumber(targeTerms.get(i).getDomain().getName());
 			row.add (domainNum); // Categorical Discrete
-			row.add (targeTerms.get(i).getName()); // trem name
+			row.add (0);
+			row.add (0);
 			row=write.next();
 		}
+		row.add ("other way");
 		// TODO double check correctness of all fields, convert type to int, notice that date is test (what to do);
-		// TODO check we convert ontology name to id?
-		for (i=0;i<candidateTerms.size();i++)
-		{
-			row.add (candidate);
-			row.add (candidateTerms.get(i).getId()); // term id
-			row.add (candidateTerms.get(i).getName()); // trem name
-			row.add (candidateTerms.get(i).getDomain().getName()); // term type
-			int domainNum = getDomainNumber(candidateTerms.get(i).getDomain().getName());
-			row.add (domainNum); 
+		String sql = "SELECT * FROM terms Where SchemaId = " +  schemaId;
+		ArrayList<String[]> Terms = db.runSelectQuery( sql , 4);
+		it = Terms.iterator();
+		i=0;
+		while (it.hasNext()){
+			row.add ((schemaIds.get(i))[0]); // ontology id
+			row.add ((schemaIds.get(i))[1]); // term id
+			row.add ((schemaIds.get(i))[2]); // trem name
+			row.add ((schemaIds.get(i))[3]); // Categorical Discrete
 			row=write.next();
+			i++;
 		}
-			write.close();
+		write.close();
+	}
+
+	private static void writeItemsToDB() {
+		// TODO Auto-generated method stub
+		
 	}
 
 	private static int getDomainNumber(String domain) {
@@ -279,15 +401,15 @@ public class OB_SMB_Interface {
 		write.close();
 	}
 
-	private static void writeBasicConfigurations() throws IOException {
+	private static void writeBasicConfigurations(String url, long EID) throws IOException {
 		DataFile write = DataFile.createWriter("8859_1", false);
 		write.setDataFormat(new TabFormat());
 		File outputPath = new File("c:\\smb");
 		File outputSMFile = new File(outputPath,"BasicConfigurations.tab");
 		write.open(outputSMFile);
 		DataRow row = write.next();
-		row.add(0); //Configuration ID
-		row.add("SMB(E,SMB_service.jar,s)"); //Configuration name
+		row.add(EID); //Configuration ID
+		row.add("SMB(E," + url + ",s)"); //Configuration name
 		write.close();
 	}
 
