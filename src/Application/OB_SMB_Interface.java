@@ -49,16 +49,13 @@ public class OB_SMB_Interface {
 	    SMB smb = new SMB();
 		ArrayList<SchemasExperiment> ds = UploadKExperiments(smb,Integer.parseInt(args[0]));
 		SchemasExperiment schemasExp = new SchemasExperiment();
-	    writeExperimentsToDB(smb,schemasExp);
   		System.out.println("DS size is: " + ds.size());
-	    System.exit(1);
 	    
 	    //writeBasicConfigurations(schemasExp.getSubDir().getAbsolutePath(),schemasExp.getEID());
 	    //if (flag) System.out.println("Exists");
 	    //else System.out.println("Don't Exists");
   		
-	    
-	    int size = ds.size();
+	   
 	    Ontology target;
 	    Ontology candidate;
 	    OntoBuilderWrapper obw = new OntoBuilderWrapper();
@@ -76,7 +73,7 @@ public class OB_SMB_Interface {
         SchemaTranslator secondLineST[] = new SchemaTranslator[available2ndLMatchers.length*availableMatchers.length];
 	    
 		// TODO 2 For each experiment in the list:
-	    for (int i = 0; i < 2; ++i) {  //size
+	    for (int i = 0; i < ds.size(); ++i) {  //size
 			// TODO 2.1 load from file into OB objects
 	        schemasExp = ds.get(i);
 	        target = schemasExp.getTargetOntology();
@@ -178,55 +175,46 @@ public class OB_SMB_Interface {
 		ArrayList<SchemasExperiment> ds = new ArrayList<SchemasExperiment>();
 		String sql  = "SELECT * FROM schemapairs"; 
 		ArrayList<String[]> schemapairs =  smb.getDB().runSelectQuery(sql, 5);
-		sql  = "SELECT ExperimentDesc FROM experiments"; 
+		sql  = "SELECT EID FROM experiments"; 
 		ArrayList<String[]> experiments =  smb.getDB().runSelectQuery(sql, 1);
 		Iterator<String[]> it = experiments.iterator();
 		Random randomGenerator = new Random();
 		HashMap<Integer,Integer> hashMap = new HashMap<Integer,Integer>();
+		int randomInt = 0;
 		
 		//check the number of available experiments is larger then k
 		if (K>schemapairs.size()) throw new Exception("K is too large"); 
+		
+		//at each iteration create a new experiments from scemapair table
 		while (ds.size()<K)
-		{
-		//draw a new random number
-		int randomInt = randomGenerator.nextInt(schemapairs.size());
-		
-		//check that this number wasn't generated yet
-		if ( hashMap.get(randomInt) != null ) {continue;}
-		hashMap.put(randomInt, 1);
-		String url = parseFolderPathFromSchemapairs((schemapairs.get(randomInt))[4]);
-		
-		//check the the experiments isn't already in the DB
-		boolean existInDB = false;
-		while (it.hasNext()){
-			String s =parseFolderPathFromExperiment(it.next()[0]);
-			System.out.println (s + "\n" + url);
-			if (s.equals(url)){
-				System.out.println("Here");
-				existInDB=true; 
-				break;}
+		{	
+		//Randomize a new number 
+		boolean newNumber = false;
+		while (newNumber==false)	{
+			//draw a new random number
+			randomInt = randomGenerator.nextInt(schemapairs.size());
+			//check that this number wasn't generated yet
+			if ( hashMap.get(randomInt) != null ) {continue;}
+			else {
+			newNumber = true;
+			hashMap.put(randomInt, 1);
+			}		
 		}
-		if (existInDB) continue;
+		
+		String url = parseFolderPathFromSchemapairs((schemapairs.get(randomInt))[4]);
+		String SPID = schemapairs.get(randomInt)[0];
+		
 		File f = new File(url);
-		SchemasExperiment schemasExp = new SchemasExperiment(f);
-		ds.add(schemasExp);
+		SchemasExperiment schemasExp = new SchemasExperiment(f,Long.parseLong(SPID));
+		
 		//Document into DB if first time to open schemapair
 		writeExperimentsToDB (smb,schemasExp);
+		ds.add(schemasExp);
 		}		
 		return ds;
 	}
 
-	private static String parseFolderPathFromExperiment(String url) {
-		String str[] = url.split(",");
-		String str2[] = str[1].split("/");
-		return str2[0];
-	}
-
-	private static String parseFolderPathFromSchemapairs(String url) {
-		String str[] = url.split("/");
-		return str[0];
-	}
-
+	//this function returns true if the expeirment have already been created at the DB 
 	private static boolean writeExperimentsToDB(SMB smb, SchemasExperiment schemaexp) {
 		
 		String sql  = "SELECT EID FROM experiments"; 
@@ -235,8 +223,9 @@ public class OB_SMB_Interface {
 
 		//if experiment was created before (meaning the this folder have already been traversed return true
 		while (it.hasNext()){
-			String s = String.valueOf(schemaexp.getEID());
-			if (it.next()[0].contains(s)){return true;}
+			if (Long.valueOf(it.next()[0]) == schemaexp.getEID()){
+				return true;
+				}
 		}
 		
 		// if experiment doesn't exist document experiment into DB 
@@ -257,6 +246,18 @@ public class OB_SMB_Interface {
 		return false;
 		}
 		
+
+	private static String parseFolderPathFromExperiment(String url) {
+		String str[] = url.split(",");
+		String str2[] = str[1].split("/");
+		return str2[0];
+	}
+	
+	private static String parseFolderPathFromSchemapairs(String url) {
+		String str[] = url.split("/");
+		return str[0];
+	}
+
 
 	private static void writeSchema(Ontology target, Ontology candidate) throws IOException {
 		DataFile write = DataFile.createWriter("8859_1", false);
