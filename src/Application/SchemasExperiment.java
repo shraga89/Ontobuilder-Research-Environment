@@ -3,6 +3,7 @@ package Application;
 import java.io.File;
 import java.sql.Date;
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.StringTokenizer;
 
@@ -12,6 +13,7 @@ import schemamatchings.ontobuilder.OntoBuilderWrapper;
 import schemamatchings.ontobuilder.OntoBuilderWrapperException;
 import schemamatchings.util.SchemaMatchingsUtilities;
 import schemamatchings.util.SchemaTranslator;
+import smb_service.SMB;
 //import Application.Documenter;
 
 import com.modica.ontology.*;
@@ -222,8 +224,8 @@ public class SchemasExperiment {
         	  }
           }    	  
       }
-      String s = sExactMappingFileName.toString() + sCandidateOntologyFileName + sTargetOnologyFileName ; 
-      this.EID = PJWHash(s);
+      //String s = sExactMappingFileName.toString() + sCandidateOntologyFileName + sTargetOnologyFileName ; 
+      //this.EID = PJWHash(s);
     	  
     }
   	}
@@ -290,6 +292,30 @@ public class SchemasExperiment {
 	       return hash;
 
 	    }
+	
+	 public long getOntologyDBId (String name, SMB smb) {
+		String sql = "SELECT SchemaID From schemata WHERE SchemaName= \"" + name + "\";";
+		ArrayList<String[]> SchameID =  smb.getDB().runSelectQuery(sql, 1);
+		long Id=0;
+		try {
+			Id = Long.valueOf(SchameID.get(0)[0]);
+		}
+		catch (IndexOutOfBoundsException e){
+			System.out.println ("Ontology not found:" + name);
+			System.exit(1);
+		}
+		return Id;
+		}
+	 
+	 public String getsTargetOnologyFileName(){
+		 return sTargetOnologyName;
+	 }
+	 
+	 public String getsCandidateOntologyFileName(){
+		 return sCandidateOntologyName;
+	 }
+	 
+	 
   Ontology target;
   Ontology candidate;
   SchemaTranslator exactMapping;
@@ -297,11 +323,14 @@ public class SchemasExperiment {
   File subDir; //Path of subdirectory where schema pair xml reside
   private String sTargetOnologyFileName = null;
   private String sCandidateOntologyFileName = null;
+  private String sCandidateOntologyName = null;
+  private String sTargetOnologyName = null;
   private int DSID = 0; //default values is "not specifies"
   private long configurationID; // default according to table configurationTyps
   private long EID;
   private Date date = new Date(1);
   private static long NumberOfExperimnet = 0;
   private static HashMap configurations = new HashMap();
+
   
 }
