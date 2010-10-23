@@ -301,8 +301,8 @@ public class SchemasExperiment {
 			Id = Long.valueOf(SchameID.get(0)[0]);
 		}
 		catch (IndexOutOfBoundsException e){
-			System.out.println ("Ontology not found:" + name);
-			System.exit(1);
+			System.out.println ("Ontology not found:");
+			return -1;
 		}
 		return Id;
 		}

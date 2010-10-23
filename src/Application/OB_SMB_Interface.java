@@ -228,13 +228,13 @@ public class OB_SMB_Interface {
 		SchemasExperiment schemasExp = new SchemasExperiment(f,Long.parseLong(SPID));
 		
 		//Document into DB if first time to open schemapair
-		writeExperimentsToDB (smb,schemasExp);
-		ds.add(schemasExp);
+		if (writeExperimentsToDB (smb,schemasExp))	
+			ds.add(schemasExp);
 		}		
 		return ds;
 	}
 
-	//this function returns true if the expeirment have already been created at the DB 
+	//this function returns false if can't write experiment into DB (due to missing ontology files, etc.)
 	private static boolean writeExperimentsToDB(SMB smb, SchemasExperiment schemaexp) {
 		
 		String sql  = "SELECT EID FROM experiments"; 
@@ -264,38 +264,40 @@ public class OB_SMB_Interface {
 		
 		smb.getDB().insertSingleRow(values, "experiments");
 		
-		//Parse ontologies to DB: Enter ontologies terms to DB
-		
-		//parse schemas
-		Ontology Candidate = schemaexp.getCandidateOntology();
-		Ontology Target = schemaexp.getTargetOntology();
-		
-		//get schemas' id's
-		//long CandidateID = schemaexp.getOntologyDBId(schemaexp.getsCandidateOntologyFileName(),smb);
-		//long TargetID = schemaexp.getOntologyDBId(schemaexp.getsTargetOnologyFileName(),smb);
+		//parse ontologies terms
+		try {
+			Ontology Candidate = schemaexp.getCandidateOntology();
+			Ontology Target = schemaexp.getTargetOntology();
 		
 		long CandidateID = schemaexp.getOntologyDBId(Candidate.getName(),smb);
 		long TargetID = schemaexp.getOntologyDBId(Target.getName(),smb);
+		
+		if ((CandidateID == -1) || (TargetID==-1))
+			return false;
 	
 		//before parsing the given ontology, we check that they don't already exist in out DB
 		if (checkOntologyTermsExistenceAtDB(CandidateID,smb))
-			System.out.println ("Ontology: " + Candidate.getName() + "was alreay parsed");
+			System.out.println ("Ontology: " + Candidate.getName() + " was alreay parsed");
 		else
 			WriteTermsToDB(CandidateID, Candidate, smb);
 		
 		if (checkOntologyTermsExistenceAtDB(TargetID,smb))
-			System.out.println ("Ontology: " + Candidate.getName() + "was alreay parsed");
+			System.out.println ("Ontology: " + Candidate.getName() + " was alreay parsed");
 		else 
 			WriteTermsToDB(TargetID, Target, smb);
 		
-		return false;
+		}
+		catch (Throwable e){
+			return false;
+		}
+		return true;
 		
 	}
 		
 	//this method checks if the ontology was parsed into terms or not
 	private static boolean checkOntologyTermsExistenceAtDB(long OntologyId,SMB smb) {
 		//check if this field was already inserted into the table
-		String sql = "SELECT SchemaId From terms WHERE Tid=" + OntologyId + ";";
+		String sql = "SELECT SchemaID From terms WHERE Tid=" + OntologyId + ";";
 		ArrayList<String[]> existInDB =  smb.getDB().runSelectQuery(sql, 1);
 		Iterator<String[]> exists = existInDB.iterator();	
 		if (exists.hasNext())
@@ -334,7 +336,7 @@ public class OB_SMB_Interface {
 			smb.getDB().insertSingleRow(values,"terms");
 			}
 		else {
-			System.out.println("Term: " + t.getName() + " from ontology " + ontology.getName() +  "was parsed");
+			System.out.println("Term: " + t.getName() + " from ontology " + ontology.getName() +  " was parsed");
 		}
 		}
 	}
