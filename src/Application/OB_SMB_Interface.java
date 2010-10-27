@@ -36,7 +36,7 @@ import com.modica.ontology.match.*;
 import com.mysql.jdbc.SQLError;
 import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 /**
- * @author tomer_s
+ * @author Tomer Sagi and Nimrod Busany
  * Input: K - number of experiments to run (an integer)
  */
 public class OB_SMB_Interface {
