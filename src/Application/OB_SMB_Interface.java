@@ -28,7 +28,7 @@ import com.modica.ontology.match.MatchInformation;
 
 
 /**
- * @author tomer_s
+ * @author Tomer Sagi and Nimrod Busany
  *
  */
 public class OB_SMB_Interface {
