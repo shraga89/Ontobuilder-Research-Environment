@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Properties;
 import java.util.Random;
 import java.util.Set;
 import java.util.Vector;
@@ -24,52 +25,49 @@ import schemamatchings.util.SchemaMatchingsUtilities;
 import schemamatchings.util.SchemaTranslator;
 import smb_service.*;
 import smb_service.Field.FieldType;
-import sun.security.krb5.internal.TGSRep;
-
 import com.infomata.data.DataFile;
 import com.infomata.data.DataRow;
 import com.infomata.data.TabFormat;
 import com.modica.ontology.Ontology;
 import com.modica.ontology.Term;
-//import com.modica.ontology.algorithm.boosting.Dataset;
 import com.modica.ontology.match.*;
-import com.mysql.jdbc.SQLError;
-import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 /**
+ * This project is intended to enable running integrated experiments using the Ontobuilder
+ * Matching system and the SMB Service Toolkit.
  * @author Tomer Sagi and Nimrod Busany
- * Input: K - number of experiments to run (an integer)
+ * 
  */
 public class OB_SMB_Interface {
 
+	
+	static double TIMEOUT = 20 * 1000;
+	static Properties pMap = PropertyLoader.loadProperties("resources");
+	static DBInterface db = new DBInterface(Integer.parseInt((String)pMap.get("dbmstype")),(String)pMap.get("host"),(String)pMap.get("dbname"),(String)pMap.get("username"),(String)pMap.get("pwd"));
+	
 	/**
-	 * @param args
-	 */
-	static double TIMEOUT = 20 * 1000; 
-	public static void main(String[] args) throws NumberFormatException, Exception {
-		
-		
-		
-		// TODO 1 Load X experiments into an experiment list
-	    
-	    SMB smb = new SMB();
-		ArrayList<SchemasExperiment> ds = UploadKExperiments(smb,Integer.parseInt(args[0]));
+	 * @param args :
+	 * K - number of experiments to run (an integer) experiments are taken at random from dataset in database defined in ob_interface.properties file
+	 * Type - Type of experiment to run : String out of the following options : "ClarityEnhance" Uses the SMB enhance mode and evaluates it's performance against not using Clarity Enhancement
+	 * 
+	 */	
+	public static void main(String[] args) throws NumberFormatException, Exception 
+	{
+				
+		// 1 Load X experiments into an experiment list
+		ArrayList<SchemasExperiment> ds = UploadKExperiments(db,Integer.parseInt(args[0]));
 		SchemasExperiment schemasExp = new SchemasExperiment();
-  		System.out.println("DS size is: " + ds.size());
-	    System.exit(1);
+  		System.out.println("Dataset size is: " + ds.size());
+	    
 	    //writeBasicConfigurations(schemasExp.getSubDir().getAbsolutePath(),schemasExp.getEID());
 	    //if (flag) System.out.println("Exists");
 	    //else System.out.println("Don't Exists");
-  		
 	   
 	    Ontology target;
 	    Ontology candidate;
 	    OntoBuilderWrapper obw = new OntoBuilderWrapper();
 	    SchemaTranslator boostingBestMapping = null;
 	    SchemaTranslator exactMapping;
-	    double boostPrecision = 0.0;
-	    double boostRecall = 0.0;
-	    String sOutput;
-      
+     
 	    String[] availableMatchers =  MatchingAlgorithms.ALL_ALGORITHM_NAMES;
         MatchInformation firstLineMI[]= new MatchInformation[availableMatchers.length];
         SchemaTranslator firstLineST[] = new SchemaTranslator[availableMatchers.length];
@@ -146,7 +144,10 @@ public class OB_SMB_Interface {
 	        	//Look at LoadWorkingSet from SMB.java
 			// TODO 2.7 2nd line match using all available matchers in OB with enhanced matrix
 	        
-			// TODO 2.8 Calculate Precision and recall for each matrix (regular and enhanced) and output to txt file) 
+			// TODO 2.8 Calculate Precision and recall for each matrix (regular and enhanced) and output to txt file)
+    	    double boostPrecision = 0.0;
+    	    double boostRecall = 0.0;
+    	    String sOutput;
 	        boostPrecision = SchemaMatchingsUtilities.calculatePrecision(exactMapping, boostingBestMapping);
 	        boostRecall = SchemaMatchingsUtilities.calculateRecall(exactMapping, boostingBestMapping);
 	        
@@ -178,24 +179,28 @@ public class OB_SMB_Interface {
 
 	private static void writeMatchMatrixToDB(MatchInformation matchInformation,
 			// TODO
-		SchemasExperiment schemasExp, SMB smb) {
+		SchemasExperiment schemasExp, DBInterface db) {
 		// check if this experiments was run before, if so, only update the similarities/or skip
 		// else write the matrix to DB
 		String sql  = "SELECT EID FROM experiments"; 
-		ArrayList<String[]> experiments =  smb.getDB().runSelectQuery(sql, 1);
+		ArrayList<String[]> experiments =  db.runSelectQuery(sql, 1);
 		Iterator<String[]> it = experiments.iterator();	
 		while (it.hasNext()){
 			if (Long.valueOf(it.next()[0]) == schemasExp.getEID()) return;
 		}
 	}
 
-	private static ArrayList<SchemasExperiment> UploadKExperiments(SMB smb, int K) throws Exception {
+	private static ArrayList<SchemasExperiment> UploadKExperiments(DBInterface db, int K) throws Exception {
 		
+//		SELECT column FROM table
+//		ORDER BY RAND()
+//		LIMIT 1
+
 		ArrayList<SchemasExperiment> ds = new ArrayList<SchemasExperiment>();
 		String sql  = "SELECT * FROM schemapairs"; 
-		ArrayList<String[]> schemapairs =  smb.getDB().runSelectQuery(sql, 5);
+		ArrayList<String[]> schemapairs =  db.runSelectQuery(sql, 5);
 		sql  = "SELECT EID FROM experiments"; 
-		ArrayList<String[]> experiments =  smb.getDB().runSelectQuery(sql, 1);
+		ArrayList<String[]> experiments =  db.runSelectQuery(sql, 1);
 		Iterator<String[]> it = experiments.iterator();
 		Random randomGenerator = new Random();
 		HashMap<Integer,Integer> hashMap = new HashMap<Integer,Integer>();
@@ -220,6 +225,7 @@ public class OB_SMB_Interface {
 			}		
 		}
 		String full_url = "C:\\Ontologies\\Ontology Pairs and Exact Mappings\\";
+		// TODO Bring the URL from ob_interface.properties
 		String url = parseFolderPathFromSchemapairs((schemapairs.get(randomInt))[4]);
 		full_url = full_url.concat(url);
 		String SPID = schemapairs.get(randomInt)[0];
@@ -228,17 +234,17 @@ public class OB_SMB_Interface {
 		SchemasExperiment schemasExp = new SchemasExperiment(f,Long.parseLong(SPID));
 		
 		//Document into DB if first time to open schemapair
-		if (writeExperimentsToDB (smb,schemasExp))	
+		if (writeExperimentsToDB (db,schemasExp))	
 			ds.add(schemasExp);
 		}		
 		return ds;
 	}
 
 	//this function returns false if can't write experiment into DB (due to missing ontology files, etc.)
-	private static boolean writeExperimentsToDB(SMB smb, SchemasExperiment schemaexp) {
+	private static boolean writeExperimentsToDB(DBInterface db, SchemasExperiment schemaexp) {
 		
 		String sql  = "SELECT EID FROM experiments"; 
-		ArrayList<String[]> EIDs =  smb.getDB().runSelectQuery(sql, 1);
+		ArrayList<String[]> EIDs =  db.runSelectQuery(sql, 1);
 		Iterator<String[]> it = EIDs.iterator();
 
 		//if experiment was created before (meaning the this folder have already been traversed return true
@@ -262,29 +268,29 @@ public class OB_SMB_Interface {
 		String str = ("SMB(E," + schemaexp.getSubDir() + ",s)");
 		values.put(f, (Object)str);
 		
-		smb.getDB().insertSingleRow(values, "experiments");
+		db.insertSingleRow(values, "experiments");
 		
 		//parse ontologies terms
 		try {
 			Ontology Candidate = schemaexp.getCandidateOntology();
 			Ontology Target = schemaexp.getTargetOntology();
 		
-		long CandidateID = schemaexp.getOntologyDBId(Candidate.getName(),smb);
-		long TargetID = schemaexp.getOntologyDBId(Target.getName(),smb);
+		long CandidateID = schemaexp.getOntologyDBId(Candidate.getName(),db);
+		long TargetID = schemaexp.getOntologyDBId(Target.getName(),db);
 		
 		if ((CandidateID == -1) || (TargetID==-1))
 			return false;
 	
 		//before parsing the given ontology, we check that they don't already exist in out DB
-		if (checkOntologyTermsExistenceAtDB(CandidateID,smb))
+		if (checkOntologyTermsExistenceAtDB(CandidateID,db))
 			System.out.println ("Ontology: " + Candidate.getName() + " was alreay parsed");
 		else
-			WriteTermsToDB(CandidateID, Candidate, smb);
+			WriteTermsToDB(CandidateID, Candidate, db);
 		
-		if (checkOntologyTermsExistenceAtDB(TargetID,smb))
+		if (checkOntologyTermsExistenceAtDB(TargetID,db))
 			System.out.println ("Ontology: " + Candidate.getName() + " was alreay parsed");
 		else 
-			WriteTermsToDB(TargetID, Target, smb);
+			WriteTermsToDB(TargetID, Target, db);
 		
 		}
 		catch (Throwable e){
@@ -295,10 +301,10 @@ public class OB_SMB_Interface {
 	}
 		
 	//this method checks if the ontology was parsed into terms or not
-	private static boolean checkOntologyTermsExistenceAtDB(long OntologyId,SMB smb) {
+	private static boolean checkOntologyTermsExistenceAtDB(long OntologyId,DBInterface db) {
 		//check if this field was already inserted into the table
 		String sql = "SELECT SchemaID From terms WHERE Tid=" + OntologyId + ";";
-		ArrayList<String[]> existInDB =  smb.getDB().runSelectQuery(sql, 1);
+		ArrayList<String[]> existInDB =  db.runSelectQuery(sql, 1);
 		Iterator<String[]> exists = existInDB.iterator();	
 		if (exists.hasNext())
 			return true;
@@ -306,7 +312,7 @@ public class OB_SMB_Interface {
 	}
 
 	private static void WriteTermsToDB(long OntologyID, Ontology ontology,
-			SMB smb) {
+			DBInterface db) {
 		
 		Vector terms = ontology.getModel().getTerms();
 		Iterator it = terms.iterator();
@@ -322,7 +328,7 @@ public class OB_SMB_Interface {
 		
 		long id = SchemasExperiment.PJWHash(t.getName());
 		//Only put into DB Terms with names (meaning name =! empty string)
-		if  (!checkTermExistenceAtDB(smb,id,OntologyID))
+		if  (!checkTermExistenceAtDB(db,id,OntologyID))
 			{
 			f = new Field ("Tid", FieldType.LONG );
 			values.put(f, (Object)(id) );
@@ -333,7 +339,7 @@ public class OB_SMB_Interface {
 			f = new Field ("TType", FieldType.INT);
 			values.put(f, (Object)getDomainNumber(t.getDomain().toString()));
 		
-			smb.getDB().insertSingleRow(values,"terms");
+			db.insertSingleRow(values,"terms");
 			}
 		else {
 			System.out.println("Term: " + t.getName() + " from ontology " + ontology.getName() +  " was parsed");
@@ -341,10 +347,10 @@ public class OB_SMB_Interface {
 		}
 	}
 
-	private static boolean checkTermExistenceAtDB(SMB smb, long id,
+	private static boolean checkTermExistenceAtDB(DBInterface db, long id,
 			long ontologyID) {
 	String sql = "SELECT SchemaID,Tid From terms WHERE Tid=" + id +  " AND SchemaID=" + ontologyID + ";";
-	ArrayList<String[]> existInDB =  smb.getDB().runSelectQuery(sql, 1);
+	ArrayList<String[]> existInDB =  db.runSelectQuery(sql, 1);
 	Iterator<String[]> exists = existInDB.iterator();
 	
 	if (exists.hasNext())
@@ -352,8 +358,8 @@ public class OB_SMB_Interface {
 	return false;
 	}
 
-	private static void writeToDB(SMB smb, HashMap values, String table) throws SQLException {
-		smb.getDB().insertSingleRow(values, table);		
+	private static void writeToDB(DBInterface db, HashMap values, String table) throws SQLException {
+		db.insertSingleRow(values, table);		
 	}
 
 	private static String parseFolderPathFromExperiment(String url) {
@@ -399,21 +405,29 @@ public class OB_SMB_Interface {
 		
 	}
 
-	private static void writeItems(MatchMatrix[] firstLineMM, String schemaId, SMB smb, boolean isTarget) throws IOException {
+	
+	/**
+	 * This method writes all terms of the specified schema from a MatchMatrix Object
+	 * into a tab file.
+	 * @param firstLineMM
+	 * @param schemaId
+	 * @param smb
+	 * @param isTarget
+	 * @throws IOException
+	 */
+	private static void writeItems(MatchMatrix[] firstLineMM, String schemaId, DBInterface db, boolean isTarget) throws IOException {
 		DataFile write = DataFile.createWriter("8859_1", false);
 		write.setDataFormat(new TabFormat());
 		File outputPath = new File("c:\\smb");
 		File outputSMFile = new File(outputPath,"item.tab");
 		write.open(outputSMFile);
 		DataRow row = write.next();
-		Term s;
 		boolean existsInDB = false;
 		int i=0;
 		
 		//check if target terms have been entered into the DB
-		DBInterface db = smb.getDB();
 		ArrayList<String[]> schemaIds = db.runSelectQuery("SELECT SchemaId FROM terms", 1);
-		Iterator it = schemaIds.iterator();
+		Iterator<String[]> it = schemaIds.iterator();
 		while (it.hasNext()){
 			if ((schemaIds.get(i))[0].contains(schemaId)  )
 			{

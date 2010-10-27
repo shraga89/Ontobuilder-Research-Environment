@@ -2,7 +2,6 @@ package Application;
 
 import java.io.File;
 import java.sql.Date;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.StringTokenizer;
@@ -13,12 +12,12 @@ import schemamatchings.ontobuilder.OntoBuilderWrapper;
 import schemamatchings.ontobuilder.OntoBuilderWrapperException;
 import schemamatchings.util.SchemaMatchingsUtilities;
 import schemamatchings.util.SchemaTranslator;
-import smb_service.SMB;
-//import Application.Documenter;
+import smb_service.DBInterface;
+
 
 import com.modica.ontology.*;
 import com.modica.ontology.match.MatchInformation;
-import com.sun.org.apache.bcel.internal.generic.NEW;
+
 
 /**
  * <p>Title: Schema Pair Matching Experiment</p>
@@ -293,9 +292,9 @@ public class SchemasExperiment {
 
 	    }
 	
-	 public long getOntologyDBId (String name, SMB smb) {
+	 public long getOntologyDBId (String name, DBInterface db) {
 		String sql = "SELECT SchemaID From schemata WHERE SchemaName= \"" + name + "\";";
-		ArrayList<String[]> SchameID =  smb.getDB().runSelectQuery(sql, 1);
+		ArrayList<String[]> SchameID =  db.runSelectQuery(sql, 1);
 		long Id=0;
 		try {
 			Id = Long.valueOf(SchameID.get(0)[0]);
