@@ -6,9 +6,11 @@ package Application;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Properties;
 import java.util.Random;
 import java.util.Set;
 import java.util.Vector;
@@ -22,19 +24,18 @@ import schemamatchings.util.BestMappingsWrapper;
 import schemamatchings.util.MappingAlgorithms;
 import schemamatchings.util.SchemaMatchingsUtilities;
 import schemamatchings.util.SchemaTranslator;
-import smb_service.*;
+import smb_service.DBInterface;
+import smb_service.Field;
 import smb_service.Field.FieldType;
-import sun.security.krb5.internal.TGSRep;
+import smb_service.PropertyLoader;
+import smb_service.SMB;
 
 import com.infomata.data.DataFile;
 import com.infomata.data.DataRow;
 import com.infomata.data.TabFormat;
 import com.modica.ontology.Ontology;
 import com.modica.ontology.Term;
-//import com.modica.ontology.algorithm.boosting.Dataset;
-import com.modica.ontology.match.*;
-import com.mysql.jdbc.SQLError;
-import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
+import com.modica.ontology.match.MatchInformation;
 /**
  * @author Tomer Sagi and Nimrod Busany
  * Input: K - number of experiments to run (an integer)
@@ -42,21 +43,26 @@ import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 public class OB_SMB_Interface {
 
 	/**
-	 * @param args
+	 * Main method will load K experiments from an existing DB
+	 * Input: args:[url - used for storing tomporary files, K - number of experiments to run]
+	 * 
 	 */
 	static double TIMEOUT = 20 * 1000; 
+	static String DSURL = "C:\\Ontologies\\Ontology Pairs and Exact Mappings\\";
 	public static void main(String[] args) throws NumberFormatException, Exception {
 		
 		
 		
 		// TODO 1 Load X experiments into an experiment list
 	    
-	    SMB smb = new SMB();
-		ArrayList<SchemasExperiment> ds = UploadKExperiments(smb,Integer.parseInt(args[0]));
+	    File outputPath = new File(args[0]); // folder in which temporary files will be saved
+	    Properties pMap = PropertyLoader.loadProperties("resources");
+	    DBInterface db = new DBInterface(Integer.parseInt((String)pMap.get("dbmstype")),(String)pMap.get("host"),(String)pMap.get("dbname"),(String)pMap.get("username"),(String)pMap.get("pwd"));
+		ArrayList<SchemasExperiment> ds = UploadKExperiments(db,Integer.parseInt(args[1]));
 		SchemasExperiment schemasExp = new SchemasExperiment();
   		System.out.println("DS size is: " + ds.size());
 	    System.exit(1);
-	    //writeBasicConfigurations(schemasExp.getSubDir().getAbsolutePath(),schemasExp.getEID());
+	    writeBasicConfigurations(schemasExp.getSubDir().getAbsolutePath(),schemasExp.getSPID(),outputPath);
 	    //if (flag) System.out.println("Exists");
 	    //else System.out.println("Don't Exists");
   		
@@ -102,7 +108,7 @@ public class OB_SMB_Interface {
 	        for (int m=0;m<availableMatchers.length;m++)
 	        {
 	        	BestMappingsWrapper.matchMatrix = firstLineMI[m].getMatrix();
-	        	//writeMatchMatrixToDB (firstLineMI[m],schemasExp,smb);
+	        	//writeMatchMatrixToDB (firstLineMI[m],schemasExp,DBInterface);
 	        	firstLineMM[m] = firstLineMI[m].getMatrix();
 	        	for (int mp=0;mp<available2ndLMatchers.length;mp++) // Note: I changed from: for (int mp=0;mp<available2ndLMatchers.length*availableMatchers.length;mp++)
 		        {   
@@ -128,8 +134,8 @@ public class OB_SMB_Interface {
 			// TODO 2.4 Output schema pair, term list, list of matchers and matches to URL     	
 	      	try 
 	      		{
-	      		//writeItems(firstLineMM,schemasExp.getCandidateId() , smb, true);
-	      		//writeItems(firstLineMM,schemasExp.getTargetId() , smb, false);
+	      		//writeItems(firstLineMM,schemasExp.getCandidateId() , DBInterface, true);
+	      		//writeItems(firstLineMM,schemasExp.getTargetId() , db, false);
 	      		//writeMatchingResult(secondLineST,target.getName(), candidate.getName());   		
     			//writeSchema(target,candidate);
 	      		}
@@ -139,8 +145,8 @@ public class OB_SMB_Interface {
     				e.printStackTrace();
     			  }
 			// TODO 2.5 run SMB_service with args: E URL
-
-    		//SMB.SMBRun (smb,"E","C:\\Documents and Settings\\Administrator\\Desktop\\project\\frames",null,null,null,null);
+    		//SMB smb = new SMB();
+    		//SMB.SMBRun (db,"E","C:\\Documents and Settings\\Administrator\\Desktop\\project\\frames",null,null,null,null);
 
 			// TODO 2.6 load enhanced matching result into OB object
 	        	//Look at LoadWorkingSet from SMB.java
@@ -178,127 +184,124 @@ public class OB_SMB_Interface {
 
 	private static void writeMatchMatrixToDB(MatchInformation matchInformation,
 			// TODO
-		SchemasExperiment schemasExp, SMB smb) {
+		SchemasExperiment schemasExp, DBInterface db) {
 		// check if this experiments was run before, if so, only update the similarities/or skip
 		// else write the matrix to DB
 		String sql  = "SELECT EID FROM experiments"; 
-		ArrayList<String[]> experiments =  smb.getDB().runSelectQuery(sql, 1);
+		ArrayList<String[]> experiments = db.runSelectQuery(sql, 1);
 		Iterator<String[]> it = experiments.iterator();	
 		while (it.hasNext()){
-			if (Long.valueOf(it.next()[0]) == schemasExp.getEID()) return;
+			if (Long.valueOf(it.next()[0]) == schemasExp.getSPID()) return;
 		}
 	}
 
-	private static ArrayList<SchemasExperiment> UploadKExperiments(SMB smb, int K) throws Exception {
+	private static ArrayList<SchemasExperiment> UploadKExperiments(DBInterface db, int K) throws Exception {
 		
 		ArrayList<SchemasExperiment> ds = new ArrayList<SchemasExperiment>();
-		String sql  = "SELECT * FROM schemapairs"; 
-		ArrayList<String[]> schemapairs =  smb.getDB().runSelectQuery(sql, 5);
-		sql  = "SELECT EID FROM experiments"; 
-		ArrayList<String[]> experiments =  smb.getDB().runSelectQuery(sql, 1);
-		Iterator<String[]> it = experiments.iterator();
-		Random randomGenerator = new Random();
-		HashMap<Integer,Integer> hashMap = new HashMap<Integer,Integer>();
-		int randomInt = 0;
-		
+		String sql = "SELECT COUNT(*) FROM schemapairs";
+		ArrayList<String[]> NumberOfSchemaPairs =  db.runSelectQuery(sql, 1);
 		//check the number of available experiments is larger then k
-		if (K>schemapairs.size()) throw new Exception("K is too large"); 
-		
-		//at each iteration create a new experiments from scemapair table
-		while (ds.size()<K)
-		{	
-		//Randomize a new number 
-		boolean newNumber = false;
-		while (newNumber==false)	{
-			//draw a new random number
-			randomInt = randomGenerator.nextInt(schemapairs.size());
-			//check that this number wasn't generated yet
-			if ( hashMap.get(randomInt) != null ) {continue;}
-			else {
-			newNumber = true;
-			hashMap.put(randomInt, 1);
-			}		
-		}
-		String full_url = "C:\\Ontologies\\Ontology Pairs and Exact Mappings\\";
-		String url = parseFolderPathFromSchemapairs((schemapairs.get(randomInt))[4]);
+		if (K>Integer.valueOf(NumberOfSchemaPairs.get(0)[0])) throw new Exception("K is too large");
+		//extracting pairs from the DB
+		sql  = "SELECT * FROM schemapairs ORDER BY RAND() LIMIT ";
+		sql = sql.concat(String.valueOf(K)); 
+		ArrayList<String[]> k_Schemapairs =  db.runSelectQuery(sql, 5);
+		for (int i=0;i<K;i++){
+		String full_url = DSURL;
+		String url = parseFolderPathFromSchemapairs((k_Schemapairs.get(i))[4]);
 		full_url = full_url.concat(url);
-		String SPID = schemapairs.get(randomInt)[0];
-		
 		File f = new File(full_url);
-		SchemasExperiment schemasExp = new SchemasExperiment(f,Long.parseLong(SPID));
-		
-		//Document into DB if first time to open schemapair
-		if (writeExperimentsToDB (smb,schemasExp))	
-			ds.add(schemasExp);
-		}		
+		SchemasExperiment schemasExp = new SchemasExperiment(f);
+		ds.add(schemasExp);
+		}
+		//document the new experiment in to DB 
+		writeExperimentsToDB(db,ds);
 		return ds;
 	}
 
-	//this function returns false if can't write experiment into DB (due to missing ontology files, etc.)
-	private static boolean writeExperimentsToDB(SMB smb, SchemasExperiment schemaexp) {
+	//this function returns false if writing experiment into DB fails (due to missing ontology files, etc.)
+	private static boolean writeExperimentsToDB(DBInterface db, ArrayList<SchemasExperiment> ds) {
 		
-		String sql  = "SELECT EID FROM experiments"; 
-		ArrayList<String[]> EIDs =  smb.getDB().runSelectQuery(sql, 1);
-		Iterator<String[]> it = EIDs.iterator();
-
-		//if experiment was created before (meaning the this folder have already been traversed return true
-		while (it.hasNext()){
-			if (Long.valueOf(it.next()[0]) == schemaexp.getEID()){
-				return true;
-				}
-		}
+		//document the experiment into experiment table
+		String sql  = "SELECT MAX(EID) FROM experiments";
+		ArrayList<String[]> LastEID =  db.runSelectQuery(sql, 1);
+		//settings experiments ID (will be a sequential number to the last EID) 
+		long currentEID;
+		//if the table is empty
+		if (LastEID.get(0)[0]==null) currentEID=1;
+		else currentEID = (long)Integer.valueOf(LastEID.get(0)[0])+1;
 		
-		// if experiment doesn't exist document experiment into DB 
-		HashMap values = new HashMap();	
+		HashMap<Field,Object> values = new HashMap<Field,Object>();	
 		Object obj = new Object();
 		
 		Field f = new Field ("EID", FieldType.LONG );
-		values.put(f, (Object)schemaexp.getEID() );
+		values.put(f, (Object)currentEID );
 		
-		f = new Field ("RunDate", FieldType.DATE );
-		values.put(f, (Object)schemaexp.getDate());
-		
+		f = new Field ("RunDate", FieldType.TIME );
+		Time time = new Time(1);
+		values.put(f, (Object)time);
+
 		f = new Field ("ExperimentDesc", FieldType.STRING);
-		String str = ("SMB(E," + schemaexp.getSubDir() + ",s)");
+		String str = ("SMB(E," + DSURL + ",s)");
 		values.put(f, (Object)str);
 		
-		smb.getDB().insertSingleRow(values, "experiments");
+		db.insertSingleRow(values, "experiments");
+
+		//document the experiment into experimentschemapairs table
+		Iterator <SchemasExperiment> it = ds.iterator();
+		while (it.hasNext()){
+			values = new HashMap<Field,Object>();	
+			obj = new Object();
 		
+			f = new Field ("EID", FieldType.LONG );
+			values.put(f, (Object)currentEID);
+			//Time time = new Time(1);
+		
+			f = new Field ("SPID", FieldType.LONG);
+			long SPID =  it.next().getSPID();
+			values.put(f, (Object)SPID);
+		
+			f = new Field ("Training", FieldType.BOOLEAN);
+			boolean training =  false;
+			values.put(f, (Object)training);
+
+			db.insertSingleRow(values, "experimentschemapairs");
 		//parse ontologies terms
-		try {
-			Ontology Candidate = schemaexp.getCandidateOntology();
-			Ontology Target = schemaexp.getTargetOntology();
+			try {
+				Ontology Candidate = it.next().getCandidateOntology();
+				Ontology Target = it.next().getTargetOntology();
 		
-		long CandidateID = schemaexp.getOntologyDBId(Candidate.getName(),smb);
-		long TargetID = schemaexp.getOntologyDBId(Target.getName(),smb);
+				long CandidateID = it.next().getOntologyDBId(Candidate.getName(),db);
+				long TargetID = it.next().getOntologyDBId(Target.getName(),db);
 		
-		if ((CandidateID == -1) || (TargetID==-1))
+				if ((CandidateID == -1) || (TargetID==-1))
 			return false;
 	
 		//before parsing the given ontology, we check that they don't already exist in out DB
-		if (checkOntologyTermsExistenceAtDB(CandidateID,smb))
-			System.out.println ("Ontology: " + Candidate.getName() + " was alreay parsed");
-		else
-			WriteTermsToDB(CandidateID, Candidate, smb);
+				if (checkOntologyTermsExistenceAtDB(CandidateID,db))
+					System.out.println ("Ontology: " + Candidate.getName() + " was alreay parsed");
+				else
+					WriteTermsToDB(CandidateID, Candidate, db);
 		
-		if (checkOntologyTermsExistenceAtDB(TargetID,smb))
-			System.out.println ("Ontology: " + Candidate.getName() + " was alreay parsed");
-		else 
-			WriteTermsToDB(TargetID, Target, smb);
+				if (checkOntologyTermsExistenceAtDB(TargetID,db))
+					System.out.println ("Ontology: " + Candidate.getName() + " was alreay parsed");
+				else 
+					WriteTermsToDB(TargetID, Target, db);
 		
-		}
-		catch (Throwable e){
-			return false;
+			}
+			catch (Throwable e){
+				return false;
+			}
 		}
 		return true;
 		
 	}
 		
 	//this method checks if the ontology was parsed into terms or not
-	private static boolean checkOntologyTermsExistenceAtDB(long OntologyId,SMB smb) {
+	private static boolean checkOntologyTermsExistenceAtDB(long OntologyId,DBInterface db) {
 		//check if this field was already inserted into the table
 		String sql = "SELECT SchemaID From terms WHERE Tid=" + OntologyId + ";";
-		ArrayList<String[]> existInDB =  smb.getDB().runSelectQuery(sql, 1);
+		ArrayList<String[]> existInDB =  db.runSelectQuery(sql, 1);
 		Iterator<String[]> exists = existInDB.iterator();	
 		if (exists.hasNext())
 			return true;
@@ -306,15 +309,14 @@ public class OB_SMB_Interface {
 	}
 
 	private static void WriteTermsToDB(long OntologyID, Ontology ontology,
-			SMB smb) {
+			DBInterface db) {
 		
-		Vector terms = ontology.getModel().getTerms();
-		Iterator it = terms.iterator();
+		Vector<Term> terms = ontology.getModel().getTerms();
+		Iterator<Term> it = terms.iterator();
 		
 		while (it.hasNext()){
 			
-		HashMap values = new HashMap();	
-		Object obj = new Object();
+		HashMap<Field,Object> values = new HashMap<Field,Object>();	
 		Term t = (Term) it.next();
 		
 		Field f = new Field ("SchemaID", FieldType.LONG );
@@ -322,7 +324,7 @@ public class OB_SMB_Interface {
 		
 		long id = SchemasExperiment.PJWHash(t.getName());
 		//Only put into DB Terms with names (meaning name =! empty string)
-		if  (!checkTermExistenceAtDB(smb,id,OntologyID))
+		if  (!checkTermExistenceAtDB(db,id,OntologyID))
 			{
 			f = new Field ("Tid", FieldType.LONG );
 			values.put(f, (Object)(id) );
@@ -333,7 +335,7 @@ public class OB_SMB_Interface {
 			f = new Field ("TType", FieldType.INT);
 			values.put(f, (Object)getDomainNumber(t.getDomain().toString()));
 		
-			smb.getDB().insertSingleRow(values,"terms");
+			db.insertSingleRow(values,"terms");
 			}
 		else {
 			System.out.println("Term: " + t.getName() + " from ontology " + ontology.getName() +  " was parsed");
@@ -341,10 +343,10 @@ public class OB_SMB_Interface {
 		}
 	}
 
-	private static boolean checkTermExistenceAtDB(SMB smb, long id,
+	private static boolean checkTermExistenceAtDB(DBInterface db, long id,
 			long ontologyID) {
 	String sql = "SELECT SchemaID,Tid From terms WHERE Tid=" + id +  " AND SchemaID=" + ontologyID + ";";
-	ArrayList<String[]> existInDB =  smb.getDB().runSelectQuery(sql, 1);
+	ArrayList<String[]> existInDB =  db.runSelectQuery(sql, 1);
 	Iterator<String[]> exists = existInDB.iterator();
 	
 	if (exists.hasNext())
@@ -352,9 +354,9 @@ public class OB_SMB_Interface {
 	return false;
 	}
 
-	private static void writeToDB(SMB smb, HashMap values, String table) throws SQLException {
-		smb.getDB().insertSingleRow(values, table);		
-	}
+	//private static void writeToDB(DBInterface db, HashMap<Field,Object> values, String table) throws SQLException {
+	//	db.insertSingleRow(values, table);		
+	//}
 
 	private static String parseFolderPathFromExperiment(String url) {
 		String str[] = url.split(",");
@@ -399,7 +401,8 @@ public class OB_SMB_Interface {
 		
 	}
 
-	private static void writeItems(MatchMatrix[] firstLineMM, String schemaId, SMB smb, boolean isTarget) throws IOException {
+	@SuppressWarnings("unchecked")
+	private static void writeItems(MatchMatrix[] firstLineMM, String schemaId, DBInterface db, boolean isTarget) throws IOException {
 		DataFile write = DataFile.createWriter("8859_1", false);
 		write.setDataFormat(new TabFormat());
 		File outputPath = new File("c:\\smb");
@@ -411,7 +414,6 @@ public class OB_SMB_Interface {
 		int i=0;
 		
 		//check if target terms have been entered into the DB
-		DBInterface db = smb.getDB();
 		ArrayList<String[]> schemaIds = db.runSelectQuery("SELECT SchemaId FROM terms", 1);
 		Iterator it = schemaIds.iterator();
 		while (it.hasNext()){
@@ -511,10 +513,9 @@ public class OB_SMB_Interface {
 		write.close();
 	}
 
-	private static void writeBasicConfigurations(String url, long EID) throws IOException {
+	private static void writeBasicConfigurations(String url, long EID, File outputPath) throws IOException {
 		DataFile write = DataFile.createWriter("8859_1", false);
 		write.setDataFormat(new TabFormat());
-		File outputPath = new File("c:\\smb");
 		File outputSMFile = new File(outputPath,"BasicConfigurations.tab");
 		write.open(outputSMFile);
 		DataRow row = write.next();
