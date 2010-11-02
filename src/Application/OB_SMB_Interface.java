@@ -5,13 +5,11 @@ package Application;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Properties;
-import java.util.Random;
 import java.util.Set;
 import java.util.Vector;
 
@@ -44,16 +42,15 @@ public class OB_SMB_Interface {
 
 	/**
 	 * Main method will load K experiments from an existing DB
-	 * Input: args:[url - used for storing tomporary files, K - number of experiments to run]
+	 * Input: args:[url - used for storing temporary files, K - number of experiments to run]
 	 * 
 	 */
 	static double TIMEOUT = 20 * 1000; 
 	static String DSURL = "C:\\Ontologies\\Ontology Pairs and Exact Mappings\\";
-	public static void main(String[] args) throws NumberFormatException, Exception {
+	public static void main(String[] args) throws NumberFormatException, Exception 
+	{
 		
-		
-		
-		// TODO 1 Load X experiments into an experiment list
+	// 1 Load K experiments into an experiment list
 	    
 	    File outputPath = new File(args[0]); // folder in which temporary files will be saved
 	    Properties pMap = PropertyLoader.loadProperties("resources");
@@ -528,6 +525,7 @@ public class OB_SMB_Interface {
 	 * Example of a method to create a tab delimited file
 	 */
 	private static void outputWeightsToFile(String strOutputPath, SMB smb,
+
 			HashMap<Long, Double> weightedEnsemble) {
 		try 
 		{
@@ -557,6 +555,20 @@ public class OB_SMB_Interface {
 			System.err.print("Weighted Configuration File Creation Failed \n");  
 			e.printStackTrace();
 		 }
+	}
+	
+	/**
+	 * Receives an Ontology object, returns a Hashmap with ambiguity values for each term
+	 * @category NisB
+	 * @param o Ontology to parse
+	 */
+	@SuppressWarnings("unused")
+	private static HashMap<Long,Integer> generateAmbiguity(Ontology o, DBInterface db)
+	{
+		HashMap<Long, Integer> res = new HashMap<Long, Integer>();
+		
+		return res;
+		
 	}
 }
 
