@@ -64,10 +64,9 @@ public class NisBConceptMatcher
 	 * between each concept and subschema
 	 * @return tab delimited string of subSchemaId ConceptId coverConfidence
 	 */
-	public ArrayList<String> generateCoverOptions()
+	public ArrayList<String[]> generateCoverOptions()
 	{
-		//TODO think of a better option than a String, maybe a file...
-		ArrayList<String> res = new ArrayList<String>();
+		ArrayList<String[]> res = new ArrayList<String[]>();
 		
 		//TODO for each concept - match and generate a sub schema with it's cover confidence
 		for (int i = 0;i<concepts.size();i++)
@@ -88,7 +87,8 @@ public class NisBConceptMatcher
 			DescriptiveStatistics DS = new DescriptiveStatistics();
 			for (int j=0;j<mp.length;j++) DS.addValue(mp[j].getMatchedPairWeight());
 			double confidence = (DS.getN()>0 ? DS.getMean() : 0);
-			res.add(Long.toString(concepts.get(i).id) + "/t" + subSchema.schemaName + "/t" + confidence);
+			String strRes[] = {Long.toString(concepts.get(i).id),subSchema.schemaName,Double.toString(confidence)}; 
+			res.add(strRes);
 		}
 		return res;
 	}
