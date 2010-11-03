@@ -36,26 +36,61 @@ import com.modica.ontology.Term;
 import com.modica.ontology.match.MatchInformation;
 /**
  * @author Tomer Sagi and Nimrod Busany
- * Input: K - number of experiments to run (an integer)
  */
 public class OB_SMB_Interface {
 
 	/**
-	 * Main method will load K experiments from an existing DB
-	 * Input: args:[url - used for storing temporary files, K - number of experiments to run]
-	 * 
+	 * @param args[0] Output folder 
+	 * @param args[1] Experiment Type : "Clarity" or "NisBConcept"
+	 * @param args[2] domainCode (for NisBConcept experiments) K - number of experiments to run (for Clarity experiments) 
 	 */
 	static double TIMEOUT = 20 * 1000; 
+	// TODO Nimrod : move the URL to the properties file
 	static String DSURL = "C:\\Ontologies\\Ontology Pairs and Exact Mappings\\";
 	public static void main(String[] args) throws NumberFormatException, Exception 
 	{
-		
-	// 1 Load K experiments into an experiment list
-	    
-	    File outputPath = new File(args[0]); // folder in which temporary files will be saved
+		File outputPath = new File(args[0]); // folder in which temporary files will be saved
 	    Properties pMap = PropertyLoader.loadProperties("resources");
 	    DBInterface db = new DBInterface(Integer.parseInt((String)pMap.get("dbmstype")),(String)pMap.get("host"),(String)pMap.get("dbname"),(String)pMap.get("username"),(String)pMap.get("pwd"));
-		ArrayList<SchemasExperiment> ds = UploadKExperiments(db,Integer.parseInt(args[1]));
+		
+		if (args[1]=="NisBConcept")
+		{
+			// TODO Load random schema and terms from db to OB objects
+			
+			// TODO Load term ambiguity from db
+			
+			NisBConceptMatcher NBC = new NisBConceptMatcher(0, DSURL, null, null, null);
+			// TODO Load domain concepts from db and add to NBC
+			String sql = "SELECT conceptid, conceptname FROM concepts WHERE domaincode ='" + Integer.parseInt(args[2]) + "';"; 
+			ArrayList<String[]> concepts = db.runSelectQuery(sql, 3);
+			for (int i=0;i<concepts.size();i++)
+			{
+				sql = "SELECT termid, termname FROM terms,conceptterms WHERE conceptterms.termid = terms.termid";
+				ArrayList<String[]> termstr = db.runSelectQuery(sql, 2);
+				HashMap<Long,String> terms = new HashMap<Long,String>();
+				for (int j=0;j<termstr.size();j++) terms.put(Long.parseLong(termstr.get(j)[0]),termstr.get(j)[1]);
+				NBC.addConcept(Long.parseLong(concepts.get(i)[0]), concepts.get(i)[1], terms);
+			}
+			
+			// generate cover options and output to path
+			ArrayList<String[]> res = NBC.generateCoverOptions();
+			DataFile write = DataFile.createWriter("8859_1", false);
+			write.setDataFormat(new TabFormat());
+			File outputCOFile = new File(outputPath,"coveroptions.tab");
+			write.open(outputCOFile);
+			for (int i=0;i<res.size();i++)
+			{
+				DataRow row = write.next();
+				row.add(res.get(i)[0]);
+				row.add(res.get(i)[1]);
+				row.add(res.get(i)[2]);
+			}
+			write.close();
+			//TODO add files for other interface files - subschemas, items, concepts, conceptitems
+		}
+	// 1 Load K experiments into an experiment list
+	    
+	    ArrayList<SchemasExperiment> ds = UploadKExperiments(db,Integer.parseInt(args[2]));
 		SchemasExperiment schemasExp = new SchemasExperiment();
   		System.out.println("DS size is: " + ds.size());
 	    System.exit(1);
