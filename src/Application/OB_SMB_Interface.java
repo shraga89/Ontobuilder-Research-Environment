@@ -60,8 +60,8 @@ public class OB_SMB_Interface {
 			// TODO Load term ambiguity from db
 			
 			NisBConceptMatcher NBC = new NisBConceptMatcher(0, DSURL, null, null, null);
-			// TODO Load domain concepts from db and add to NBC
-			String sql = "SELECT conceptid, conceptname FROM concepts WHERE domaincode ='" + Integer.parseInt(args[2]) + "';"; 
+			// TODO change to schemata table using domain 3
+			String sql = "SELECT conceptID, conceptName FROM concepts WHERE domaincode ='" + Integer.parseInt(args[2]) + "';"; 
 			ArrayList<String[]> concepts = db.runSelectQuery(sql, 3);
 			for (int i=0;i<concepts.size();i++)
 			{
