@@ -36,61 +36,27 @@ import com.modica.ontology.Term;
 import com.modica.ontology.match.MatchInformation;
 /**
  * @author Tomer Sagi and Nimrod Busany
+ * Input: K - number of experiments to run (an integer)
  */
 public class OB_SMB_Interface {
 
 	/**
-	 * @param args[0] Output folder 
-	 * @param args[1] Experiment Type : "Clarity" or "NisBConcept"
-	 * @param args[2] domainCode (for NisBConcept experiments) K - number of experiments to run (for Clarity experiments) 
+	 * Main method will load K experiments from an existing DB
+	 * Input: args:[url - used for storing tomporary files, K - number of experiments to run]
+	 * 
 	 */
 	static double TIMEOUT = 20 * 1000; 
-	// TODO Nimrod : move the URL to the properties file
-	static String DSURL = "C:\\Ontologies\\Ontology Pairs and Exact Mappings\\";
-	public static void main(String[] args) throws NumberFormatException, Exception 
-	{
-		File outputPath = new File(args[0]); // folder in which temporary files will be saved
+	static String DSURL = "C:\\Users\\nimrod_b\\Desktop\\project\\schema\\";
+	public static void main(String[] args) throws NumberFormatException, Exception {
+		
+		
+		
+		// TODO 1 Load X experiments into an experiment list
+	    
+	    File outputPath = new File(args[0]); // folder in which temporary files will be saved
 	    Properties pMap = PropertyLoader.loadProperties("resources");
 	    DBInterface db = new DBInterface(Integer.parseInt((String)pMap.get("dbmstype")),(String)pMap.get("host"),(String)pMap.get("dbname"),(String)pMap.get("username"),(String)pMap.get("pwd"));
-		
-		if (args[1]=="NisBConcept")
-		{
-			// TODO Load random schema and terms from db to OB objects
-			
-			// TODO Load term ambiguity from db
-			
-			NisBConceptMatcher NBC = new NisBConceptMatcher(0, DSURL, null, null, null);
-			// TODO Load domain concepts from db and add to NBC
-			String sql = "SELECT conceptid, conceptname FROM concepts WHERE domaincode ='" + Integer.parseInt(args[2]) + "';"; 
-			ArrayList<String[]> concepts = db.runSelectQuery(sql, 3);
-			for (int i=0;i<concepts.size();i++)
-			{
-				sql = "SELECT termid, termname FROM terms,conceptterms WHERE conceptterms.termid = terms.termid";
-				ArrayList<String[]> termstr = db.runSelectQuery(sql, 2);
-				HashMap<Long,String> terms = new HashMap<Long,String>();
-				for (int j=0;j<termstr.size();j++) terms.put(Long.parseLong(termstr.get(j)[0]),termstr.get(j)[1]);
-				NBC.addConcept(Long.parseLong(concepts.get(i)[0]), concepts.get(i)[1], terms);
-			}
-			
-			// generate cover options and output to path
-			ArrayList<String[]> res = NBC.generateCoverOptions();
-			DataFile write = DataFile.createWriter("8859_1", false);
-			write.setDataFormat(new TabFormat());
-			File outputCOFile = new File(outputPath,"coveroptions.tab");
-			write.open(outputCOFile);
-			for (int i=0;i<res.size();i++)
-			{
-				DataRow row = write.next();
-				row.add(res.get(i)[0]);
-				row.add(res.get(i)[1]);
-				row.add(res.get(i)[2]);
-			}
-			write.close();
-			//TODO add files for other interface files - subschemas, items, concepts, conceptitems
-		}
-	// 1 Load K experiments into an experiment list
-	    
-	    ArrayList<SchemasExperiment> ds = UploadKExperiments(db,Integer.parseInt(args[2]));
+		ArrayList<SchemasExperiment> ds = UploadKExperiments(db,Integer.parseInt(args[1]));
 		SchemasExperiment schemasExp = new SchemasExperiment();
   		System.out.println("DS size is: " + ds.size());
 	    System.exit(1);
@@ -247,12 +213,12 @@ public class OB_SMB_Interface {
 		ds.add(schemasExp);
 		}
 		//document the new experiment in to DB 
-		writeExperimentsToDB(db,ds);
+		writeExperimentsToDB(db,ds,k_Schemapairs);
 		return ds;
 	}
 
 	//this function returns false if writing experiment into DB fails (due to missing ontology files, etc.)
-	private static boolean writeExperimentsToDB(DBInterface db, ArrayList<SchemasExperiment> ds) {
+	private static boolean writeExperimentsToDB(DBInterface db, ArrayList<SchemasExperiment> ds, ArrayList<String[]> k_Schemapairs) {
 		
 		//document the experiment into experiment table
 		String sql  = "SELECT MAX(EID) FROM experiments";
@@ -264,7 +230,6 @@ public class OB_SMB_Interface {
 		else currentEID = (long)Integer.valueOf(LastEID.get(0)[0])+1;
 		
 		HashMap<Field,Object> values = new HashMap<Field,Object>();	
-		Object obj = new Object();
 		
 		Field f = new Field ("EID", FieldType.LONG );
 		values.put(f, (Object)currentEID );
@@ -281,16 +246,19 @@ public class OB_SMB_Interface {
 
 		//document the experiment into experimentschemapairs table
 		Iterator <SchemasExperiment> it = ds.iterator();
-		while (it.hasNext()){
+		//k_Schemapairs holds the info from the DB (ontology's id, etc)
+		Iterator <String[]> it2 = k_Schemapairs.iterator();
+		while (it.hasNext() && it2.hasNext()){
+			SchemasExperiment schemasexperiment = it.next();
+			String[] s = it2.next();
 			values = new HashMap<Field,Object>();	
-			obj = new Object();
-		
+			
 			f = new Field ("EID", FieldType.LONG );
 			values.put(f, (Object)currentEID);
 			//Time time = new Time(1);
 		
 			f = new Field ("SPID", FieldType.LONG);
-			long SPID =  it.next().getSPID();
+			long SPID =  (long)Integer.valueOf(s[0]);
 			values.put(f, (Object)SPID);
 		
 			f = new Field ("Training", FieldType.BOOLEAN);
@@ -300,28 +268,25 @@ public class OB_SMB_Interface {
 			db.insertSingleRow(values, "experimentschemapairs");
 		//parse ontologies terms
 			try {
-				Ontology Candidate = it.next().getCandidateOntology();
-				Ontology Target = it.next().getTargetOntology();
+				Ontology Candidate = schemasexperiment.getCandidateOntology();
+				Ontology Target = schemasexperiment.getTargetOntology();
+				long CandidateID = (long)Integer.valueOf(s[3]);
+				long TargetID = (long)Integer.valueOf(s[2]); //it.next().getOntologyDBId(Target.getName(),db);
 		
-				long CandidateID = it.next().getOntologyDBId(Candidate.getName(),db);
-				long TargetID = it.next().getOntologyDBId(Target.getName(),db);
-		
-				if ((CandidateID == -1) || (TargetID==-1))
-			return false;
-	
-		//before parsing the given ontology, we check that they don't already exist in out DB
-				if (checkOntologyTermsExistenceAtDB(CandidateID,db))
+		//before parsing a given ontology, check it isn't already in the DB
+				if (checkOntologywasParsedtoDB(CandidateID,db))
 					System.out.println ("Ontology: " + Candidate.getName() + " was alreay parsed");
 				else
 					WriteTermsToDB(CandidateID, Candidate, db);
 		
-				if (checkOntologyTermsExistenceAtDB(TargetID,db))
+				if (checkOntologywasParsedtoDB(TargetID,db))
 					System.out.println ("Ontology: " + Candidate.getName() + " was alreay parsed");
 				else 
 					WriteTermsToDB(TargetID, Target, db);
 		
 			}
 			catch (Throwable e){
+				System.out.println ("Failed  " + e.getLocalizedMessage());
 				return false;
 			}
 		}
@@ -330,7 +295,7 @@ public class OB_SMB_Interface {
 	}
 		
 	//this method checks if the ontology was parsed into terms or not
-	private static boolean checkOntologyTermsExistenceAtDB(long OntologyId,DBInterface db) {
+	private static boolean checkOntologywasParsedtoDB(long OntologyId,DBInterface db) {
 		//check if this field was already inserted into the table
 		String sql = "SELECT SchemaID From terms WHERE Tid=" + OntologyId + ";";
 		ArrayList<String[]> existInDB =  db.runSelectQuery(sql, 1);
@@ -349,13 +314,14 @@ public class OB_SMB_Interface {
 		while (it.hasNext()){
 			
 		HashMap<Field,Object> values = new HashMap<Field,Object>();	
-		Term t = (Term) it.next();
+		Term t = it.next();
 		
 		Field f = new Field ("SchemaID", FieldType.LONG );
 		values.put(f, (Object)OntologyID);
 		
 		long id = SchemasExperiment.PJWHash(t.getName());
-		//Only put into DB Terms with names (meaning name =! empty string)
+		//Only put into DB Terms with names (=> (t.getName() =! empty) string)
+		//prevent duplication of terms
 		if  (!checkTermExistenceAtDB(db,id,OntologyID))
 			{
 			f = new Field ("Tid", FieldType.LONG );
@@ -380,7 +346,6 @@ public class OB_SMB_Interface {
 	String sql = "SELECT SchemaID,Tid From terms WHERE Tid=" + id +  " AND SchemaID=" + ontologyID + ";";
 	ArrayList<String[]> existInDB =  db.runSelectQuery(sql, 1);
 	Iterator<String[]> exists = existInDB.iterator();
-	
 	if (exists.hasNext())
 		return true;
 	return false;
@@ -433,7 +398,6 @@ public class OB_SMB_Interface {
 		
 	}
 
-	@SuppressWarnings("unchecked")
 	private static void writeItems(MatchMatrix[] firstLineMM, String schemaId, DBInterface db, boolean isTarget) throws IOException {
 		DataFile write = DataFile.createWriter("8859_1", false);
 		write.setDataFormat(new TabFormat());
@@ -442,23 +406,7 @@ public class OB_SMB_Interface {
 		write.open(outputSMFile);
 		DataRow row = write.next();
 		Term s;
-		boolean existsInDB = false;
 		int i=0;
-		
-		//check if target terms have been entered into the DB
-		ArrayList<String[]> schemaIds = db.runSelectQuery("SELECT SchemaId FROM terms", 1);
-		Iterator it = schemaIds.iterator();
-		while (it.hasNext()){
-			if ((schemaIds.get(i))[0].contains(schemaId)  )
-			{
-				existsInDB = true;
-				break;
-			}
-			i++;
-		}
-		if (!existsInDB)writeItemsToDB();
-		
-		i=0;
 		ArrayList <Term> targeTerms;
 		if (isTarget)targeTerms = firstLineMM[i].getTargetTerms();
 		else targeTerms = firstLineMM[i].getCandidateTerms();
@@ -474,26 +422,8 @@ public class OB_SMB_Interface {
 			row.add (0);
 			row=write.next();
 		}
-		row.add ("other way");
 		// TODO double check correctness of all fields, convert type to int, notice that date is test (what to do);
-		String sql = "SELECT * FROM terms Where SchemaId = " +  schemaId;
-		ArrayList<String[]> Terms = db.runSelectQuery( sql , 4);
-		it = Terms.iterator();
-		i=0;
-		while (it.hasNext()){
-			row.add ((schemaIds.get(i))[0]); // ontology id
-			row.add ((schemaIds.get(i))[1]); // term id
-			row.add ((schemaIds.get(i))[2]); // trem name
-			row.add ((schemaIds.get(i))[3]); // Categorical Discrete
-			row=write.next();
-			i++;
-		}
 		write.close();
-	}
-
-	private static void writeItemsToDB() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	private static int getDomainNumber(String domain) {
@@ -534,10 +464,10 @@ public class OB_SMB_Interface {
 		row.add(secondLineST[i].getConfigurationNum()); 
 		row.add(secondLineST[i].getConfiguration());
 		row.add(target);
-		row.add(attibuteArray[j].id1); 
+		//row.add(attibuteArray[j].id1); 
 		row.add(candidate);
-		row.add(attibuteArray[j].id2);
-		row.add(attibuteArray[j].getMatchedPairWeight());  //check with tomer
+		//row.add(attibuteArray[j].id2);
+		//row.add(attibuteArray[j].getMatchedPairWeight());  //check with tomer
 		row=write.next();
 		}
 		i++;
@@ -560,7 +490,6 @@ public class OB_SMB_Interface {
 	 * Example of a method to create a tab delimited file
 	 */
 	private static void outputWeightsToFile(String strOutputPath, SMB smb,
-
 			HashMap<Long, Double> weightedEnsemble) {
 		try 
 		{
@@ -577,7 +506,7 @@ public class OB_SMB_Interface {
 			while (itr.hasNext())
 			{
 				DataRow row = write.next();
-				Long key = (Long) itr.next();
+				Long key = itr.next();
 				//row.add(smb.ws.candidateSchema.get("ID")); //Candidate schema ID
 				//row.add(smb.ws.targetSchema.get("ID")); //Target schema ID
 				row.add(key.toString()); //Configuration ID
@@ -591,21 +520,8 @@ public class OB_SMB_Interface {
 			e.printStackTrace();
 		 }
 	}
-	
-	/**
-	 * Receives an Ontology object, returns a Hashmap with ambiguity values for each term
-	 * @category NisB
-	 * @param o Ontology to parse
-	 */
-	@SuppressWarnings("unused")
-	private static HashMap<Long,Integer> generateAmbiguity(Ontology o, DBInterface db)
-	{
-		HashMap<Long, Integer> res = new HashMap<Long, Integer>();
-		
-		return res;
-		
-	}
 }
+
 
 
 
