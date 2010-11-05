@@ -41,42 +41,41 @@ import com.modica.ontology.match.MatchInformation;
 public class OB_SMB_Interface {
 
 	/**
-	 * Main method will load K experiments from an existing DB
-	 * Input: args:[url - used for storing tomporary files, K - number of experiments to run]
-	 * 
+	 * @param args[0] Output folder 
++	 * @param args[1] Experiment Type : "Clarity" or "NisBConcept"
++	 * @param args[2] domainCode (for NisBConcept experiments) K - number of experiments for clarity
 	 */
-	static double TIMEOUT = 20 * 1000; 
-	static String DSURL = "C:\\Users\\nimrod_b\\Desktop\\project\\schema\\";
-	public static void main(String[] args) throws NumberFormatException, Exception {
-	static String DSURL = "C:\\Users\\nimrod_b\\Desktop\\project\\schema\\";
-	public static void main(String[] args) throws NumberFormatException, Exception {
-	// TODO Nimrod : move the URL to the properties file
-	static String DSURL = "C:\\Ontologies\\Ontology Pairs and Exact Mappings\\";
+	static double TIMEOUT = 20 * 1000;
+	public static String DSURL = "";
 	public static void main(String[] args) throws NumberFormatException, Exception 
 	{
 		File outputPath = new File(args[0]); // folder in which temporary files will be saved
 	    Properties pMap = PropertyLoader.loadProperties("resources");
 	    DBInterface db = new DBInterface(Integer.parseInt((String)pMap.get("dbmstype")),(String)pMap.get("host"),(String)pMap.get("dbname"),(String)pMap.get("username"),(String)pMap.get("pwd"));
-		
-		
-		
-		// TODO 1 Load X experiments into an experiment list
-		
-		
-		// TODO 1 Load X experiments into an experiment list
+	    DSURL = (String)pMap.get("schemaPath"); 
+
 		if (args[1]=="NisBConcept")
 		{
-			// TODO Load random schema and terms from db to OB objects
-			
-			// TODO Load term ambiguity from db
-			
-			NisBConceptMatcher NBC = new NisBConceptMatcher(0, DSURL, null, null, null);
-			// TODO change to schemata table using domain 3
-			String sql = "SELECT conceptID, conceptName FROM concepts WHERE domaincode ='" + Integer.parseInt(args[2]) + "';"; 
+			// Load random schema from db to OB objects
+			String sql = "SELECT schemaID, schemaName, path FROM schemata WHERE domaincode ='" + Integer.parseInt(args[2]) + "' AND DSID<>3 ORDER BY RAND() LIMIT 1;";
+			ArrayList<String[]> schema = db.runSelectQuery(sql, 3);
+			OntoBuilderWrapper obw1 = new OntoBuilderWrapper();
+			Ontology o = obw1.readOntologyXMLFile(DSURL + schema.get(0)[2],false);
+			// Load terms and ambiguity from db
+			sql = "SELECT TID, TName, ambiguity FROM terms WHERE SchemaID=" + Long.parseLong(schema.get(0)[0]) ;
+			ArrayList<String[]> ALterms = db.runSelectQuery(sql, 3);
+			HashMap<Long,String> HMterms = new HashMap<Long,String>();
+			for (int i=0;i<ALterms.size();i++) HMterms.put(Long.parseLong(ALterms.get(i)[0]),ALterms.get(i)[1]);
+			HashMap<Long,Integer> termAmbiguity = new HashMap<Long,Integer>();
+			for (int i=0;i<ALterms.size();i++) termAmbiguity.put(Long.parseLong(ALterms.get(i)[0]),Integer.parseInt(ALterms.get(i)[2]));
+						
+			//Load Concept and concept terms to NisBConceptMatcher datastructure 
+			NisBConceptMatcher NBC = new NisBConceptMatcher(Long.parseLong(schema.get(0)[0]),schema.get(0)[1] , o, HMterms, termAmbiguity);
+			sql = "SELECT schemaID, schemaName FROM schemata WHERE domaincode ='" + Integer.parseInt(args[2]) + "' AND DSID=3;"; 
 			ArrayList<String[]> concepts = db.runSelectQuery(sql, 3);
 			for (int i=0;i<concepts.size();i++)
 			{
-				sql = "SELECT termid, termname FROM terms,conceptterms WHERE conceptterms.termid = terms.termid";
+				sql = "SELECT TID, TName FROM terms WHERE SchemaID=" + Long.parseLong(concepts.get(i)[0]) ;
 				ArrayList<String[]> termstr = db.runSelectQuery(sql, 2);
 				HashMap<Long,String> terms = new HashMap<Long,String>();
 				for (int j=0;j<termstr.size();j++) terms.put(Long.parseLong(termstr.get(j)[0]),termstr.get(j)[1]);
@@ -84,20 +83,13 @@ public class OB_SMB_Interface {
 			}
 			
 			// generate cover options and output to path
-			ArrayList<String[]> res = NBC.generateCoverOptions();
-			DataFile write = DataFile.createWriter("8859_1", false);
-			write.setDataFormat(new TabFormat());
-			File outputCOFile = new File(outputPath,"coveroptions.tab");
-			write.open(outputCOFile);
-			for (int i=0;i<res.size();i++)
-			{
-				DataRow row = write.next();
-				row.add(res.get(i)[0]);
-				row.add(res.get(i)[1]);
-				row.add(res.get(i)[2]);
-			}
-			write.close();
-			//TODO add files for other interface files - subschemas, items, concepts, conceptitems
+			ouputArrayListofStringArrays(outputPath, NBC.generateCoverOptions(), "coveroptions.tab");
+			ouputArrayListofStringArrays(outputPath, NBC.getSubSchemata(), "subschemas.tab");
+			ouputArrayListofStringArrays(outputPath, NBC.getSubSchemataTerms(), "subschematerms.tab");
+			ouputArrayListofStringArrays(outputPath, NBC.getSubSchemata(), "concepts.tab"); //TODO
+			ouputArrayListofStringArrays(outputPath, NBC.getSubSchemata(), "conceptterms.tab"); //TODO
+			ouputArrayListofStringArrays(outputPath, NBC.getSubSchemata(), "terms.tab"); //TODO
+
 		}
 	// 1 Load K experiments into an experiment list
 	    
@@ -126,9 +118,9 @@ public class OB_SMB_Interface {
 	    String[] available2ndLMatchers = MappingAlgorithms.ALL_ALGORITHM_NAMES;
         SchemaTranslator secondLineST[] = new SchemaTranslator[available2ndLMatchers.length*availableMatchers.length];
 	    
-		// TODO 2 For each experiment in the list:
+		// 2 For each experiment in the list:
 	    for (int i = 0; i < ds.size(); ++i) {  //size
-			// TODO 2.1 load from file into OB objects
+			// 2.1 load from file into OB objects
 	        schemasExp = ds.get(i);
 	        target = schemasExp.getTargetOntology();
 	        candidate = schemasExp.getCandidateOntology();
@@ -225,6 +217,30 @@ public class OB_SMB_Interface {
 
 	}
 
+	/**
+	 * Outputs a tab delimited file of the supplied name to the supplied path
+	 * From an ArrayList of string arrays each arrayList item representing a row 
+	 * and each String array item representing a column.  
+	 * @param outputPath
+	 * @param res
+	 * @param fName
+	 * @throws IOException
+	 */
+	private static void ouputArrayListofStringArrays(File outputPath,
+			ArrayList<String[]> res, String fName) throws IOException {
+		DataFile write = DataFile.createWriter("8859_1", false);
+		write.setDataFormat(new TabFormat());			
+		File outputCOFile = new File(outputPath,fName );
+		write.open(outputCOFile);
+		for (int i=0;i<res.size();i++)
+		{
+			DataRow row = write.next();
+			String rRow[] = res.get(i);
+			for (int j=0;j<rRow.length;j++) row.add(rRow[j]);
+		}
+		write.close();
+	}
+
 	private static void writeMatchMatrixToDB(MatchInformation matchInformation,
 			// TODO
 		SchemasExperiment schemasExp, DBInterface db) {
@@ -238,6 +254,16 @@ public class OB_SMB_Interface {
 		}
 	}
 
+	/**
+	 * Selects K random Schema Matching Experiments from the database and loads into OB objects
+	 * A Schema matching experiment Includes a schema pair and exact match.
+	 * Documents the experiment in the database, (Experiment and ExperimentSchemaPairs) and 
+	 * if the terms are not documented, adds them as well to the terms table.  
+	 * @param db
+	 * @param K no. of random experiments to load
+	 * @return ArrayList of Schema Experiments. 
+	 * @throws Exception if K is larger than the no. of available schema pairs in the db
+	 */
 	private static ArrayList<SchemasExperiment> UploadKExperiments(DBInterface db, int K) throws Exception {
 		
 		ArrayList<SchemasExperiment> ds = new ArrayList<SchemasExperiment>();
@@ -246,8 +272,7 @@ public class OB_SMB_Interface {
 		//check the number of available experiments is larger then k
 		if (K>Integer.valueOf(NumberOfSchemaPairs.get(0)[0])) throw new Exception("K is too large");
 		//extracting pairs from the DB
-		sql  = "SELECT * FROM schemapairs ORDER BY RAND() LIMIT ";
-		sql = sql.concat(String.valueOf(K)); 
+		sql  = "SELECT * FROM schemapairs ORDER BY RAND() LIMIT " + String.valueOf(K); 
 		ArrayList<String[]> k_Schemapairs =  db.runSelectQuery(sql, 5);
 		for (int i=0;i<K;i++){
 		String full_url = DSURL;
