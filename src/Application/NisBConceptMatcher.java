@@ -53,6 +53,35 @@ public class NisBConceptMatcher
 		subSchemata = new ArrayList<Schema>();
 	}
 
+	public ArrayList<String[]> getSubSchemata() 
+	{
+		ArrayList<String[]> res = new ArrayList<String[]>();
+		for (int i=0;i<subSchemata.size();i++)
+		{
+			Schema s = subSchemata.get(i);
+			String e[] = {Long.toString(s.schemaID),s.schemaName};
+			res.add(e);
+		}
+		return res;
+	}
+	
+	public ArrayList<String[]> getSubSchemataTerms() 
+	{
+		ArrayList<String[]> res = new ArrayList<String[]>();
+		for (int i=0;i<subSchemata.size();i++)
+		{
+			Schema s = subSchemata.get(i);
+			Iterator<Long> it = s.terms.keySet().iterator();
+			while (it.hasNext())
+			{
+				Long tID = it.next();
+				String e[] = {Long.toString(s.schemaID),tID.toString(),s.terms.get(tID)};
+				res.add(e);
+			}	
+		}
+		return res;
+	}
+
 	ArrayList<Concept> concepts;
 	Schema schema;
 	Ontology ontology;
