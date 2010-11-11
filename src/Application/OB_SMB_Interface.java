@@ -31,12 +31,18 @@ import smb_service.SMB;
 import com.infomata.data.DataFile;
 import com.infomata.data.DataRow;
 import com.infomata.data.TabFormat;
+import com.jgraph.graph.ConnectionSet.Connection;
 import com.modica.ontology.Ontology;
 import com.modica.ontology.Term;
 import com.modica.ontology.match.MatchInformation;
+import com.mysql.jdbc.PreparedStatement;
 /**
  * @author Tomer Sagi and Nimrod Busany 1
  * Input: K - number of experiments to run (an integer)
+ */
+/**
+ * @author nimrod_b
+ *
  */
 public class OB_SMB_Interface {
 
@@ -44,6 +50,7 @@ public class OB_SMB_Interface {
 	 * @param args[0] Output folder 
 +	 * @param args[1] Experiment Type : "Clarity" or "NisBConcept"
 +	 * @param args[2] domainCode (for NisBConcept experiments) K - number of experiments for clarity
++	 * @param args[3] mode for the SMB (E,L,R)
 	 */
 	static double TIMEOUT = 20 * 1000;
 	public static String DSURL = "";
@@ -97,19 +104,12 @@ public class OB_SMB_Interface {
 	    ArrayList<SchemasExperiment> ds = UploadKExperiments(db,Integer.parseInt(args[2]));
 		SchemasExperiment schemasExp = new SchemasExperiment();
   		System.out.println("DS size is: " + ds.size());
-	    System.exit(1);
-	    writeBasicConfigurations(schemasExp.getSubDir().getAbsolutePath(),schemasExp.getSPID(),outputPath);
-	    //if (flag) System.out.println("Exists");
-	    //else System.out.println("Don't Exists");
+	    //writeBasicConfigurations(schemasExp.getSubDir().getAbsolutePath(),schemasExp.getSPID(),outputPath);
   		
-	   
 	    Ontology target;
 	    Ontology candidate;
 	    OntoBuilderWrapper obw = new OntoBuilderWrapper();
-	    SchemaTranslator boostingBestMapping = null;
 	    SchemaTranslator exactMapping;
-	    double boostPrecision = 0.0;
-	    double boostRecall = 0.0;
 	    String sOutput;
       
 	    String[] availableMatchers =  MatchingAlgorithms.ALL_ALGORITHM_NAMES;
@@ -126,49 +126,47 @@ public class OB_SMB_Interface {
 	        target = schemasExp.getTargetOntology();
 	        candidate = schemasExp.getCandidateOntology();
 	        exactMapping = schemasExp.getExactMapping();
-	        
-	        
-			// TODO 2.2 1st line match using all available matchers in OB // missing similarity flooding -> adjustment were made lines: 74-77;
+	        //TODO add to each schema experiments the SPID and the onology's ID
+	        AddInfoAboutSchemaToDB(target,schemasExp.getTargetID(),db);
+	        AddInfoAboutSchemaToDB(candidate,schemasExp.getCandidateID(),db);
+	        //writeBasicConfigurations(url, EID, outputPath);
+	        //2.2 1st line match using all available matchers in OB // missing similarity flooding -> adjustment were made lines: 74-77;
 	        try {
-	        
+	        int counter = 0;
 	        for (int m=0;m<availableMatchers.length;m++)
 	        {				
+					System.out.println ("Starting " + counter);
 					firstLineMI[m] = obw.matchOntologies(candidate, target,availableMatchers[m]);
 					// boolean was set to null as default choice
 					firstLineST[m] = new SchemaTranslator(firstLineMI[m]);
 					firstLineST[m].importIdsFromMatchInfo(firstLineMI[m],true);
-	        }
-	        // TODO 2.3 2nd line match using all available matchers in OB with original matrix
-	       
-	        int mp2=0;
-	        for (int m=0;m<availableMatchers.length;m++)
-	        {
-	        	BestMappingsWrapper.matchMatrix = firstLineMI[m].getMatrix();
-	        	//writeMatchMatrixToDB (firstLineMI[m],schemasExp,DBInterface);
-	        	firstLineMM[m] = firstLineMI[m].getMatrix();
-	        	for (int mp=0;mp<available2ndLMatchers.length;mp++) // Note: I changed from: for (int mp=0;mp<available2ndLMatchers.length*availableMatchers.length;mp++)
-		        {   
-		        	if (BestMappingsWrapper.GetBestMapping(available2ndLMatchers[mp])!=null)
-		        		{
-		        		secondLineST[mp2] = BestMappingsWrapper.GetBestMapping(available2ndLMatchers[mp]);
-				        secondLineST[mp2].importIdsFromMatchInfo(firstLineMI[m],true);
-				        secondLineST[mp2].setAlgorithm(m,mp,availableMatchers[m],available2ndLMatchers[mp]);
-				        int conf = secondLineST[mp2].getConfigurationNum();
-				        String st = secondLineST[mp2].getConfiguration();
-				        //BasicConfigurationTable[] values;
-				        mp2++;
+					BestMappingsWrapper.matchMatrix = firstLineMI[m].getMatrix();
+					firstLineMM[m] = firstLineMI[m].getMatrix();
+					// 2.3 2nd line match using all available matchers in OB with original matrix   	
+					for (int mp=0;mp<available2ndLMatchers.length;mp++) // Note: I changed from: for (int mp=0;mp<available2ndLMatchers.length*availableMatchers.length;mp++)
+						{   
+						if (BestMappingsWrapper.GetBestMapping(available2ndLMatchers[mp])!=null)
+		        			{
+							System.out.println ("doing " + counter + "." + available2ndLMatchers[mp] );
+							secondLineST[mp*(m+1)] = BestMappingsWrapper.GetBestMapping(available2ndLMatchers[mp]);
+							secondLineST[mp*(m+1)].importIdsFromMatchInfo(firstLineMI[m],true);
+							secondLineST[mp*(m+1)].setAlgorithm(m,mp,availableMatchers[m],available2ndLMatchers[mp]);
+							int conf = secondLineST[mp*(m+1)].getConfigurationNum();
+							String st = secondLineST[mp*(m+1)].getConfiguration();
+							//BasicConfigurationTable[] values;
 		        		}
-		        	else {continue;};
-		        	//if (System.currentTimeMillis()-time > TIMEOUT) break;		        	
-		        }
+						else {continue;};
+		        		//if (System.currentTimeMillis()-time > TIMEOUT) break;		        	
+						}
+					System.out.println ("Finshed " + counter);
+					counter++;
 		        //if (System.currentTimeMillis()-time > TIMEOUT) break;
-	        }
-	        System.out.println (mp2 + " combinations of matchers");
+	        	}
 	        } catch (OntoBuilderWrapperException e) {
 				e.printStackTrace();
 			}
-			// TODO 2.4 Output schema pair, term list, list of matchers and matches to URL     	
-	      	try 
+			//  2.4 Output schema pair, term list, list of matchers and matches to URL    
+	        try 
 	      		{
 	      		//writeItems(firstLineMM,schemasExp.getCandidateId() , DBInterface, true);
 	      		//writeItems(firstLineMM,schemasExp.getTargetId() , db, false);
@@ -189,10 +187,12 @@ public class OB_SMB_Interface {
 			// TODO 2.7 2nd line match using all available matchers in OB with enhanced matrix
 	        
 			// TODO 2.8 Calculate Precision and recall for each matrix (regular and enhanced) and output to txt file) 
-	        boostPrecision = SchemaMatchingsUtilities.calculatePrecision(exactMapping, boostingBestMapping);
-	        boostRecall = SchemaMatchingsUtilities.calculateRecall(exactMapping, boostingBestMapping);
-	        
-	        sOutput = candidate.getName() + "\t";
+    		System.out.println ("Success");
+    		System.exit(0);
+    		SchemaTranslator boostingBestMapping = null;
+    	    double boostPrecision = SchemaMatchingsUtilities.calculatePrecision(exactMapping, boostingBestMapping);
+    	    double boostRecall = SchemaMatchingsUtilities.calculateRecall(exactMapping, boostingBestMapping);
+    		sOutput = candidate.getName() + "\t";
 	        sOutput += target.getName() + "\t";
 	        sOutput += boostPrecision + "\t";
 	        sOutput += boostRecall + "\t";
@@ -217,7 +217,68 @@ public class OB_SMB_Interface {
 	  }
 
 	}
+	/**
+	 * This method gets a schema and schema id and updates into the DB additional info about the schema
+	 * @param Onotology
+	 * @throws Exception
+	 */
+	private static void AddInfoAboutSchemaToDB(Ontology ontology,double ontologyid,DBInterface db) throws Exception {
+		
+		String sql  = "SELECT * FROM schemata"; 
+		ArrayList<String[]> schemaList = db.runSelectQuery(sql, 17);
+		Iterator<String[]> it = schemaList.iterator();	
+		HashMap<Field,Object> schemaValues = new HashMap<Field,Object>();	
+		for (int i=0;i<schemaList.size();i++){
+			if (Double.valueOf(schemaList.get(i)[0])==ontologyid){
+				//check the flag of the ontology to see if it was parsed before
+				if (Double.valueOf(schemaList.get(i)[16])==1){
+					break;
+				}
+				else{
+					Field f = new Field ("SchemaID", FieldType.LONG );
+					schemaValues.put(f, (Object)(long)ontologyid);	
+					f = new Field ("SchemaName", FieldType.STRING );
+					schemaValues.put(f, (Object)schemaList.get(i)[1]);
+					f = new Field ("DSID", FieldType.INT );
+					schemaValues.put(f, (Object)Integer.valueOf(schemaList.get(i)[2]));
+					f = new Field ("DS_SchemaID", FieldType.INT );
+					schemaValues.put(f, 0);
+					f = new Field ("path", FieldType.STRING );
+					schemaValues.put(f, (Object)schemaList.get(i)[4]);
+					//set type to web form
+					f = new Field ("source", FieldType.INT );
+					schemaValues.put(f, 1);
+					f = new Field ("Language", FieldType.INT );
+					schemaValues.put(f, 0);
+					f = new Field ("Real", FieldType.INT );
+					schemaValues.put(f, 1);
+					f = new Field ("OriginalModelingLanguage", FieldType.INT );
+					schemaValues.put(f, 0);
+					f = new Field ("MaxHeightoftheclasshierarchy", FieldType.INT );
+					schemaValues.put(f,ontology.getHeight());
+					f = new Field ("Numberofsubclassrelationships", FieldType.INT );
+					schemaValues.put(f, 0);
+					f = new Field ("Numberofassociationrelationships", FieldType.INT );
+					schemaValues.put(f, 0);
+					f = new Field ("NumberofattributesinSchema", FieldType.INT );
+					schemaValues.put(f, ontology.getComponentCount()); 
+					f = new Field ("Numberofclasses", FieldType.INT ); 
+					schemaValues.put(f, ontology.getModel().getClassesCount());
+					f = new Field ("Numberofvisibleitems", FieldType.INT ); 
+					schemaValues.put(f, 0);
+					f = new Field ("Numberofinstances", FieldType.INT ); 
+					schemaValues.put(f, ontology.getTermsCount());
+					f = new Field ("WasFullyParsed", FieldType.INT ); 
+					schemaValues.put(f, 1);
+					//sql = "DELETE FROM schemata_copy WHERE SchemaID=" + ontologyid; 
+					//db.runDeleteQuery(sql);
+					db.insertSingleRow(schemaValues, "schematacopy");
+				}
+			}
+		}	
+	}
 
+		
 	/**
 	 * Outputs a tab delimited file of the supplied name to the supplied path
 	 * From an ArrayList of string arrays each arrayList item representing a row 
@@ -242,9 +303,8 @@ public class OB_SMB_Interface {
 		write.close();
 	}
 
-	private static void writeMatchMatrixToDB(MatchInformation matchInformation,
-			// TODO
-		SchemasExperiment schemasExp, DBInterface db) {
+	private static void writeMatchMatrixToDB(MatchInformation matchInformation, SchemasExperiment schemasExp, DBInterface db) {
+		// TODO
 		// check if this experiments was run before, if so, only update the similarities/or skip
 		// else write the matrix to DB
 		String sql  = "SELECT EID FROM experiments"; 
@@ -259,7 +319,9 @@ public class OB_SMB_Interface {
 	 * Selects K random Schema Matching Experiments from the database and loads into OB objects
 	 * A Schema matching experiment Includes a schema pair and exact match.
 	 * Documents the experiment in the database, (Experiment and ExperimentSchemaPairs) and 
-	 * if the terms are not documented, adds them as well to the terms table.  
+	 * if the terms are not documented, adds them as well to the terms table.
+	 * Note: This method assumes that schema files were not changed (hence if a schema was parsed before,
+	 * it will not be parsed again and changes will not be detected  
 	 * @param db
 	 * @param K no. of random experiments to load
 	 * @return ArrayList of Schema Experiments. 
@@ -280,7 +342,11 @@ public class OB_SMB_Interface {
 		String url = parseFolderPathFromSchemapairs((k_Schemapairs.get(i))[4]);
 		full_url = full_url.concat(url);
 		File f = new File(full_url);
-		SchemasExperiment schemasExp = new SchemasExperiment(f);
+		SchemasExperiment schemasExp = new SchemasExperiment(f,Integer.valueOf(k_Schemapairs.get(i)[0]));
+		double targetId = getExperminetSchemaIDFromDB(schemasExp.getSPID(),db,true);
+		double candidateId = getExperminetSchemaIDFromDB(schemasExp.getSPID(),db,false);
+		schemasExp.setCandidateID(targetId);
+		schemasExp.setTargetID(candidateId);
 		ds.add(schemasExp);
 		}
 		//document the new experiment in to DB 
@@ -288,6 +354,26 @@ public class OB_SMB_Interface {
 		return ds;
 	}
 
+	/**
+	 * This method gets a schema pair ID (SPID) and returns one of the ontology's in the pair
+	 * @param db
+	 * @param spid - schema pairs Id at the DB
+	 * @param targetOrCandidate - use true for target false for candidate
+	 * @return schema ID (double) from DB, and -1 if failed to find the SPID at the DB
+	 * 	 */
+	private static double getExperminetSchemaIDFromDB(double spid, DBInterface db, boolean targetOrCandidate) {
+		String sql = "SELECT * FROM schemapairs";
+		ArrayList<String[]> SPIDs =  db.runSelectQuery(sql, 5);
+		for (int i=0;i<SPIDs.size();i++){
+			if ( spid == Integer.valueOf(SPIDs.get(i)[0]) ){
+				if (targetOrCandidate==true)
+					return Double.valueOf(SPIDs.get(i)[2]);
+				if (targetOrCandidate==false)
+					return Double.valueOf(SPIDs.get(i)[3]);
+			}
+		}
+		return -1;
+	}
 	//this function returns false if writing experiment into DB fails (due to missing ontology files, etc.)
 	private static boolean writeExperimentsToDB(DBInterface db, ArrayList<SchemasExperiment> ds, ArrayList<String[]> k_Schemapairs) {
 		
@@ -345,13 +431,13 @@ public class OB_SMB_Interface {
 				long TargetID = (long)Integer.valueOf(s[2]); //it.next().getOntologyDBId(Target.getName(),db);
 		
 		//before parsing a given ontology, check it isn't already in the DB
-				if (checkOntologywasParsedtoDB(CandidateID,db))
-					System.out.println ("Ontology: " + Candidate.getName() + " was alreay parsed");
+				if (!checkOntologywasParsedtoDB(CandidateID,db))
+					System.out.println ("Ontology: " + Candidate.getName() + "have been parsed before ");
 				else
 					WriteTermsToDB(CandidateID, Candidate, db);
 		
 				if (checkOntologywasParsedtoDB(TargetID,db))
-					System.out.println ("Ontology: " + Candidate.getName() + " was alreay parsed");
+					System.out.println ("Ontology: " + Candidate.getName() + "have been parsed before ");
 				else 
 					WriteTermsToDB(TargetID, Target, db);
 		
@@ -406,9 +492,6 @@ public class OB_SMB_Interface {
 		
 			db.insertSingleRow(values,"terms");
 			}
-		else {
-			System.out.println("Term: " + t.getName() + " from ontology " + ontology.getName() +  " was parsed");
-		}
 		}
 	}
 
@@ -591,6 +674,7 @@ public class OB_SMB_Interface {
 			e.printStackTrace();
 		 }
 	}
+	
 }
 
 
