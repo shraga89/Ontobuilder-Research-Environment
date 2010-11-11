@@ -31,19 +31,15 @@ import smb_service.SMB;
 import com.infomata.data.DataFile;
 import com.infomata.data.DataRow;
 import com.infomata.data.TabFormat;
-import com.jgraph.graph.ConnectionSet.Connection;
 import com.modica.ontology.Ontology;
 import com.modica.ontology.Term;
 import com.modica.ontology.match.MatchInformation;
-import com.mysql.jdbc.PreparedStatement;
+
 /**
  * @author Tomer Sagi and Nimrod Busany 1
  * Input: K - number of experiments to run (an integer)
  */
-/**
- * @author nimrod_b
- *
- */
+
 public class OB_SMB_Interface {
 
 	/**
