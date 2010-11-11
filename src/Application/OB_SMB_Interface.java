@@ -35,7 +35,7 @@ import com.modica.ontology.Ontology;
 import com.modica.ontology.Term;
 import com.modica.ontology.match.MatchInformation;
 /**
- * @author Tomer Sagi and Nimrod Busany
+ * @author Tomer Sagi and Nimrod Busany 1
  * Input: K - number of experiments to run (an integer)
  */
 public class OB_SMB_Interface {
