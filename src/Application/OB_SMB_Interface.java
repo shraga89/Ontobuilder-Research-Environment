@@ -80,6 +80,7 @@ public class OB_SMB_Interface {
 			NisBConceptMatcher NBC = new NisBConceptMatcher(Long.parseLong(schema.get(0)[0]),schema.get(0)[1] , o, HMterms, termAmbiguity);
 			sql = "SELECT schemaID, schemaName FROM schemata WHERE domaincode ='" + Integer.parseInt(args[2]) + "' AND DSID=3;"; 
 			ArrayList<String[]> concepts = db.runSelectQuery(sql, 3);
+			
 			for (int i=0;i<concepts.size();i++)
 			{
 				sql = "SELECT TID, TName FROM terms WHERE SchemaID=" + Long.parseLong(concepts.get(i)[0]) ;
