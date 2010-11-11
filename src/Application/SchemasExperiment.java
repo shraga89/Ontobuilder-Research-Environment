@@ -53,7 +53,6 @@ public class SchemasExperiment {
   public SchemasExperiment(File inSubDir, long SPID) 
   {
 	 subDir = inSubDir;
-	 NumberOfExperimnet++;
 	 this.SPID = SPID;
   }
   
@@ -62,7 +61,7 @@ public class SchemasExperiment {
 	  return this.date;
   }
   //function returns Experiments ID
-  public long getSPID (){
+  public double getSPID (){
 	  return this.SPID;
   }
   
@@ -317,6 +316,21 @@ public class SchemasExperiment {
 		 return sCandidateOntologyName;
 	 }
 	 
+	 public double getCandidateID(){
+		 return CandidateID;
+	 }
+	 
+	 public double getTargetID(){
+		 return targetID;
+	 }
+	 
+	 public void setCandidateID(double id){
+		 CandidateID = id;
+	 }
+	 
+	 public void setTargetID(double id){
+		 targetID = id;
+	 }
 	 
   Ontology target;
   Ontology candidate;
@@ -327,11 +341,13 @@ public class SchemasExperiment {
   private String sCandidateOntologyFileName = null;
   private String sCandidateOntologyName = null;
   private String sTargetOnologyName = null;
+  private long EID;
   private int DSID = 0; //default values is "not specifies"
   private long configurationID; // default according to table configurationTyps
-  private long SPID;
+  private double SPID;
+  private double targetID;
+  private double CandidateID;
   private Date date = new Date(1);
-  private static long NumberOfExperimnet = 0;
   private static HashMap configurations = new HashMap();
 
   
