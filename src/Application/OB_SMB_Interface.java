@@ -122,9 +122,9 @@ public class OB_SMB_Interface {
 	        target = schemasExp.getTargetOntology();
 	        candidate = schemasExp.getCandidateOntology();
 	        exactMapping = schemasExp.getExactMapping();
-	        //TODO add to each schema experiments the SPID and the onology's ID
-	        AddInfoAboutSchemaToDB(target,schemasExp.getTargetID(),db);
-	        AddInfoAboutSchemaToDB(candidate,schemasExp.getCandidateID(),db);
+	        //TODO 1.add to each schema experiments the SPID and the onology's ID
+	        //AddInfoAboutSchemaToDB(target,schemasExp.getTargetID(),db);
+	        //AddInfoAboutSchemaToDB(candidate,schemasExp.getCandidateID(),db);
 	        //writeBasicConfigurations(url, EID, outputPath);
 	        //2.2 1st line match using all available matchers in OB // missing similarity flooding -> adjustment were made lines: 74-77;
 	        try {
@@ -248,23 +248,23 @@ public class OB_SMB_Interface {
 					schemaValues.put(f, 0);
 					f = new Field ("Real", FieldType.INT );
 					schemaValues.put(f, 1);
-					f = new Field ("OriginalModelingLanguage", FieldType.INT );
+					f = new Field ("Original_Modeling_Language", FieldType.INT );
 					schemaValues.put(f, 0);
-					f = new Field ("MaxHeightoftheclasshierarchy", FieldType.INT );
+					f = new Field ("Max_Height_of_the_class_hierarchy", FieldType.INT );
 					schemaValues.put(f,ontology.getHeight());
-					f = new Field ("Numberofsubclassrelationships", FieldType.INT );
+					f = new Field ("Number_of_subclass_relationships", FieldType.INT );
 					schemaValues.put(f, 0);
-					f = new Field ("Numberofassociationrelationships", FieldType.INT );
+					f = new Field ("Number_of_association_relationships", FieldType.INT );
 					schemaValues.put(f, 0);
-					f = new Field ("NumberofattributesinSchema", FieldType.INT );
+					f = new Field ("Number_of_attributes_in_Schema", FieldType.INT );
 					schemaValues.put(f, ontology.getComponentCount()); 
-					f = new Field ("Numberofclasses", FieldType.INT ); 
+					f = new Field ("Number_of_classes", FieldType.INT ); 
 					schemaValues.put(f, ontology.getModel().getClassesCount());
-					f = new Field ("Numberofvisibleitems", FieldType.INT ); 
+					f = new Field ("Number_of_visible_items", FieldType.INT ); 
 					schemaValues.put(f, 0);
-					f = new Field ("Numberofinstances", FieldType.INT ); 
+					f = new Field ("Number_of_instances", FieldType.INT ); 
 					schemaValues.put(f, ontology.getTermsCount());
-					f = new Field ("WasFullyParsed", FieldType.INT ); 
+					f = new Field ("Was_Fully_Parsed", FieldType.INT ); 
 					schemaValues.put(f, 1);
 					//sql = "DELETE FROM schemata_copy WHERE SchemaID=" + ontologyid; 
 					//db.runDeleteQuery(sql);
