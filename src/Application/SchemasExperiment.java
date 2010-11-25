@@ -61,6 +61,12 @@ public class SchemasExperiment {
 	  return this.date;
   }
   //function returns Experiments ID
+  
+  public void setSPID (double spid){
+	  this.SPID = spid;
+  }
+  
+  
   public double getSPID (){
 	  return this.SPID;
   }
@@ -332,6 +338,7 @@ public class SchemasExperiment {
 		 targetID = id;
 	 }
 	 
+	 
   Ontology target;
   Ontology candidate;
   SchemaTranslator exactMapping;
@@ -350,5 +357,6 @@ public class SchemasExperiment {
   private Date date = new Date(1);
   private static HashMap configurations = new HashMap();
 
-  
 }
+
+  
