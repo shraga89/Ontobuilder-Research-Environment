@@ -32,6 +32,7 @@ import com.infomata.data.DataFile;
 import com.infomata.data.DataRow;
 import com.infomata.data.TabFormat;
 import com.modica.ontology.Ontology;
+import com.modica.ontology.OntologyClass;
 import com.modica.ontology.Term;
 import com.modica.ontology.match.Match;
 import com.modica.ontology.match.MatchInformation;
@@ -126,7 +127,9 @@ public class OB_SMB_Interface {
 	        candidate = schemasExp.getCandidateOntology();
 	        exactMapping = schemasExp.getExactMapping();
 	        //TODO 1.add to each schema experiments the SPID and the onology's ID
-	        //AddInfoAboutSchemaToDB(target,db);
+	        String targetName = target.getName();
+	        long targetId = schemasExp.getOntologyDBId(targetName,db);
+	        AddInfoAboutSchemaToDB(targetId,target,db);
 	        //AddInfoAboutSchemaToDB(candidate,db);
 	        //writeBasicConfigurations(url, EID, outputPath);
 	        //2.2 1st line match using all available matchers in OB // missing similarity flooding -> adjustment were made lines: 74-77;
@@ -277,60 +280,188 @@ public class OB_SMB_Interface {
 		return false;
 		
 	}
+
 	/**
-	 * This method gets a schema and schema id and updates into the DB additional info about the schema
+		 * This method gets an ontology and ontology's id and updates into the DB additional info about the schema
+		 * @param schemaID 
+		 * @param Onotology
+		 * @throws Exception
+		 */
+	private static void AddInfoAboutSchemaToDB(long schemaID, Ontology ontology,DBInterface db) throws Exception {
+		
+		String sql  = "SELECT * FROM schemata WHERE SchemaID=\"" + schemaID + "\";"; 
+		String[] schemaList = db.runSelectQuery(sql, 12).get(0);
+		HashMap<Field,Object> schemaValues = new HashMap<Field,Object>();	
+		//check the flag of the ontology to see if it was parsed before
+		if (Double.valueOf(schemaList[11])==1)	return;
+			schemaValues.put(new Field ("SchemaID", FieldType.INT ),Integer.parseInt(schemaList[0]));	
+			schemaValues.put(new Field ("SchemaName", FieldType.STRING ), schemaList[1]);
+			schemaValues.put(new Field ("DSID", FieldType.INT ), Integer.valueOf(schemaList[2]));
+			schemaValues.put(new Field ("DS_SchemaID", FieldType.INT ), 0);
+			schemaValues.put(new Field ("path", FieldType.STRING ), schemaList[4]);
+			//Calculated Fields
+			schemaValues.put(new Field ("Max_Height_of_the_class_hierarchy", FieldType.INT), ontology.getHeight());
+			int NumOfClasses = GetNumberOfSubClasses (ontology);
+			schemaValues.put(new Field ("Number_of_classes", FieldType.INT ),NumOfClasses);			
+			schemaValues.put(new Field ("Number_of_association_relationships", FieldType.INT ), calculateNumbAssociationInOntology (ontology));
+			//Term Count (recursive)
+			ArrayList <Integer> A = calculateNumberOfTermsInOntology (ontology);
+			schemaValues.put(new Field ("Number_of_attributes_in_Schema", FieldType.INT ), A.get(0) ); //Wrong
+						
+			//For webforms only recursively count terms that the ontology class is not "hidden" 
+			schemaValues.put(new Field ("Number_of_visible_items", FieldType.INT ), A.get(1)); 
+			schemaValues.put(new Field ("Number_of_instances", FieldType.INT ), 0); //Ontobuilder doesn't support instances	
+			schemaValues.put(new Field ("Was_Fully_Parsed", FieldType.INT ), 0);
+			//sql = "DELETE FROM schemata_copy WHERE SchemaID=" + ontologyid; 
+			//db.runDeleteQuery(sql);
+			db.insertSingleRow(schemaValues, "schemata_copy");
+
+		}
+	
+	
+	/**
+	 * This method gets an ontology and returns the number of the association relationships in it
+	 * Remark: We assume that a single node has only one parent
 	 * @param Onotology
 	 * @throws Exception
 	 */
-	private static void AddInfoAboutSchemaToDB(Ontology ontology,DBInterface db) throws Exception {
+	
+	private static int calculateNumbAssociationInOntology(Ontology ontology) {
 		
-		String sql  = "SELECT * FROM schemata"; 
-		ArrayList<String[]> schemaList = db.runSelectQuery(sql, 12);
-		Iterator<String[]> it = schemaList.iterator();	
-		HashMap<Field,Object> schemaValues = new HashMap<Field,Object>();	
-		for (int i=0;i<schemaList.size();i++){
-			if (schemaList.get(i)[1].contains(ontology.getName())){
-				//check the flag of the ontology to see if it was parsed before
-				if (Double.valueOf(schemaList.get(i)[16])==1){
-					break;
-				}
-				else{
-					Field f = new Field ("SchemaID", FieldType.LONG );
-					long temp = Integer.valueOf(schemaList.get(i)[0]);
-					schemaValues.put(f, (Object)temp);	
-					f = new Field ("SchemaName", FieldType.STRING );
-					schemaValues.put(f, (Object)schemaList.get(i)[1]);
-					f = new Field ("DSID", FieldType.INT );
-					schemaValues.put(f, (Object)Integer.valueOf(schemaList.get(i)[2]));
-					f = new Field ("DS_SchemaID", FieldType.INT );
-					schemaValues.put(f, (Object)0);
-					f = new Field ("path", FieldType.STRING );
-					schemaValues.put(f, (Object)schemaList.get(i)[4]);
-					//set type to web form
-					f = new Field ("MaxHeightoftheclasshierarchy", FieldType.INT );
-					schemaValues.put(f, (Object)ontology.getHeight());
-					f = new Field ("Numberofassociationrelationships", FieldType.INT );
-					schemaValues.put(f, (Object)0);
-					f = new Field ("NumberofattributesinSchema", FieldType.INT );
-					schemaValues.put(f, (Object)ontology.getComponentCount()); 
-					f = new Field ("Numberofclasses", FieldType.INT ); 
-					schemaValues.put(f, (Object)ontology.getModel().getClassesCount());
-					f = new Field ("Numberofvisibleitems", FieldType.INT ); 
-					schemaValues.put(f, (Object)ontology.getTermsCount());
-					f = new Field ("Numberofinstances", FieldType.INT ); 
-					schemaValues.put(f, (Object)1);
-					f = new Field ("WasFullyParsed", FieldType.INT ); 
-					schemaValues.put(f, (Object)1);
-					//sql = "DELETE FROM schemata_copy WHERE SchemaID=" + ontologyid; 
-					//db.runDeleteQuery(sql);
-					db.insertSingleRow(schemaValues, "schematacopy");
-				}
-				break;
-			}
-		}	
+		int TotalNumOfAssociation = 0;
+		for (int i=0;i<ontology.getTermsCount();i++)
+		{
+			Term t = ontology.getTerm(i);
+			//If only parent child relationships exist (like in ontobuilder webforms) return 0
+			int res = t.getRelationshipsCount() - t.getTermsCount(); 
+			if (t.getParent()!=null)
+				res-=1;
+			TotalNumOfAssociation+= res + countAssociation (t);
+		}
+		return TotalNumOfAssociation;
+	} 
+	/**
+	 * This method's returns the number of the association relationships from a given term 
+	 * function will run recursively until it gets to all the leafs reachable from the term
+	 * Remark: We assume that a single node hasonly one parent
+	 * @param term
+	 * @throws Exception
+	 */
+	private static int countAssociation(Term t) {
+
+		int numofchilder = t.getAllChildren().size();
+		int countNumberOfAssociation=t.getRelationshipsCount() - numofchilder;
+		if (t.getParent()!=null)
+			countNumberOfAssociation-=1;
+		for (int i=0; i<t.getTermsCount();i++){ 
+			countNumberOfAssociation+=countAssociation(t.getTerm(i));
+		}
+		return countNumberOfAssociation;
+	}
+	
+	//
+	
+	/**
+	 * This method given an ontology will calculate all of it's terms
+	 * Remark: We assume that is a unique path to each term
+	 * @param Onotology
+	 * @throws Exception
+	 */
+	
+	private static ArrayList<Integer> calculateNumberOfTermsInOntology(Ontology ontology) {
+		
+		int TotalNumOfTerms = 0;
+		int TotalNumOfTerms2 = 0;
+		int sum=ontology.getTermsCount();
+		int counthiddens = 0;
+		for (int i=0;i<ontology.getTermsCount();i++)
+		{
+			Term t = ontology.getTerm(i);
+			ArrayList <Integer> B = countTermsDescendants (t);
+			TotalNumOfTerms+= B.get(0);
+			counthiddens+=B.get(1);
+			TotalNumOfTerms2+= countTermsDescendants2 (t);
+			sum+=t.getAllChildren().size();
+			if (t.getSuperClass().getName().contains("hidden"))
+				counthiddens++;
+		}		
+		ArrayList<Integer> A = new ArrayList<Integer>();
+		A.add(TotalNumOfTerms);
+		A.add(counthiddens);
+		return A;
 	}
 
 		
+	/**
+	 * This method's returns the number of the terms from a given term
+	 * function will run recursively until it gets to all the leafs reachable from the term
+	 * Remark: We assume that a single term has only one parent
+	 * @param term
+	 * @throws Exception
+	 */
+	
+	private static ArrayList countTermsDescendants(Term t) {
+		
+		ArrayList <Term> terms = t.getAllChildren();
+		int countNumberOfDecendants=0;
+		int hidden=0;
+		for (int i=0; i<terms.size();i++){
+			ArrayList <Integer> B =  countTermsDescendants(terms.get(i));
+			countNumberOfDecendants+=B.get(0);
+			hidden+= B.get(1);
+			if (terms.get(i).getSuperClass().getName().contains("hidden"))	
+				hidden++;
+		}
+		ArrayList <Integer> A = new ArrayList<Integer>();
+		A.add(1+countNumberOfDecendants);
+		A.add(hidden);
+		return A;
+	}
+
+	private static int countTermsDescendants2(Term t) {
+		
+		ArrayList <Term> terms = t.getAllChildren();
+		int countNumberOfDecendants=0;
+		for (int i=0; i<t.getTermsCount();i++){
+			countNumberOfDecendants+=countTermsDescendants2(t.getTerm(i));
+		}
+		return 1+countNumberOfDecendants;
+	}
+
+	/**
+	 * This method's returns the number of subclasses within an onotology
+	 * @param Onotology
+	 * @throws Exception
+	 */
+	
+	private static int GetNumberOfSubClasses(Ontology ontology) {
+		Vector v = ontology.getModel().getClasses();
+		//OntologyClass c = (OntologyClass) v.get(0);
+		Iterator<OntologyClass> it = v.iterator();
+		int count = v.size();
+		while (it.hasNext()){
+			OntologyClass c = it.next();
+			count+=c.getSubClassesCount() + iterativeCountingOfClasses (c);
+		}		
+		return count;
+	}
+	
+	/**
+	 * This method's returns the number of subclasses from an OntologyClass
+	 * iterate recursively from the given OntologyClass to its subclasses until it reaches subclasses with no subclasses 
+	 * @param OntologyClass
+	 * @throws Exception
+	 */
+
+	private static int iterativeCountingOfClasses(OntologyClass c) {
+		int count = 0;
+		count+= c.getSubClassesCount();
+		for (int i =0; i<c.getSubClassesCount(); i++){
+			count+=iterativeCountingOfClasses(c.getSubClass(i));
+		}
+		return count;
+	}
+	
 	/**
 	 * Outputs a tab delimited file of the supplied name to the supplied path
 	 * From an ArrayList of string arrays each arrayList item representing a row 
