@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Properties;
 import java.util.StringTokenizer;
 
 import schemamatchings.ontobuilder.MatchMatrix;
@@ -13,6 +14,7 @@ import schemamatchings.ontobuilder.OntoBuilderWrapper;
 import schemamatchings.ontobuilder.OntoBuilderWrapperException;
 import schemamatchings.util.SchemaMatchingsUtilities;
 import schemamatchings.util.SchemaTranslator;
+import smb_service.PropertyLoader;
 import smb_service.SMB;
 import smb_service.DBInterface;
 //import Application.Documenter;
@@ -230,8 +232,12 @@ public class SchemasExperiment {
         		  System.exit(0);
         	  }
           }    	  
-      }
-      //String s = sExactMappingFileName.toString() + sCandidateOntologyFileName + sTargetOnologyFileName ; 
+      } 
+      Properties pMap = PropertyLoader.loadProperties("resources");
+	  DBInterface db = new DBInterface(Integer.parseInt((String)pMap.get("dbmstype")),(String)pMap.get("host"),(String)pMap.get("dbname"),(String)pMap.get("username"),(String)pMap.get("pwd"));
+      this.targetID = getOntologyDBId(target.getName(), db);
+      this.CandidateID = getOntologyDBId(candidate.getName(), db);
+	  //String s = sExactMappingFileName.toString() + sCandidateOntologyFileName + sTargetOnologyFileName ; 
       //this.EID = PJWHash(s);
     	  
     }
@@ -300,6 +306,12 @@ public class SchemasExperiment {
 
 	    }
 	
+	 /**
+		 * This method receives  a name of an ontology and returns it's ID from the DB (Schema Table)
+		 * @param name - Name of the ontonolgy
+		 * @param db - an open connection to the DB
+		 * @return ID, if wasn't able to find the ontology return -1
+		 */
 	 public long getOntologyDBId (String name, DBInterface db) {
 		String sql = "SELECT SchemaID From schemata WHERE SchemaName= \"" + name + "\";";
 		ArrayList<String[]> SchameID =  db.runSelectQuery(sql, 1);

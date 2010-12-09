@@ -13,6 +13,7 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.Vector;
 
+import schemamatchings.meta.match.AbstractMapping;
 import schemamatchings.meta.match.MatchedAttributePair;
 import schemamatchings.ontobuilder.MatchMatrix;
 import schemamatchings.ontobuilder.MatchingAlgorithms;
@@ -126,20 +127,17 @@ public class OB_SMB_Interface {
 	        target = schemasExp.getTargetOntology();
 	        candidate = schemasExp.getCandidateOntology();
 	        exactMapping = schemasExp.getExactMapping();
-	        //TODO 1.add to each schema experiments the SPID and the onology's ID
-	        String targetName = target.getName();
-	        long targetId = schemasExp.getOntologyDBId(targetName,db);
-	        AddInfoAboutSchemaToDB(targetId,target,db);
-	        //AddInfoAboutSchemaToDB(candidate,db);
+	        //TODO 1.add to each schema experiments the SPID and the onology's ID4
+	        AddInfoAboutSchemaToDB((long)schemasExp.getTargetID(),target,db);
+	        AddInfoAboutSchemaToDB((long)schemasExp.getCandidateID(),candidate,db);
 	        //writeBasicConfigurations(url, EID, outputPath);
 	        //2.2 1st line match using all available matchers in OB // missing similarity flooding -> adjustment were made lines: 74-77;
 	        try {
 	        int counter = 0;
-	        for (int m=0;m<availableMatchers.length;m++)
-	        {				
+	        for (int m=0;m<availableMatchers.length;m++){				
 					System.out.println ("Starting " + counter);
-					//check if we haven't run first line matchers on this pair before, if we didn't run matchers, run; if did, retrieve from DB 
-					if (!checkUsedOnSchemaPair(schemasExp.getSPID(),db))
+					//check if we haven't run current first line matcher on this pair before, if we didn't run matchers, run; if did, retrieve from DB 
+					if (!checkIfSchemaPairWasMatched(schemasExp.getSPID(),db))
 						{
 						firstLineMI[m] = obw.matchOntologies(candidate, target,availableMatchers[m]);
 						firstLineST[m] = new SchemaTranslator(firstLineMI[m]);
@@ -269,16 +267,12 @@ public class OB_SMB_Interface {
 	 * @return boolean
 	 */
 	
-	private static boolean checkUsedOnSchemaPair(double schemaPairId,DBInterface db) {
-		String sql  = "SELECT * FROM experimentschemapairs"; 
-		ArrayList<String[]> schemaList = db.runSelectQuery(sql, 4);
-		Iterator<String[]> it = schemaList.iterator();		
-		for (int i=0;i<schemaList.size();i++){
-			if ( (Integer.valueOf(schemaList.get(i)[1]) == schemaPairId) & (Integer.valueOf(schemaList.get(i)[3]) == 1) )
+	private static boolean checkIfSchemaPairWasMatched(double schemaPairId,DBInterface db) {
+		String sql  = "SELECT WasMatched FROM experimentschemapairs WHERE SPID==" + schemaPairId + ";"; 
+		ArrayList<String[]> schemaList = db.runSelectQuery(sql, 1);
+		if (Integer.valueOf(schemaList.get(0)[0]) == 1)
 				return true;
-		}
 		return false;
-		
 	}
 
 	/**
@@ -301,7 +295,7 @@ public class OB_SMB_Interface {
 			schemaValues.put(new Field ("path", FieldType.STRING ), schemaList[4]);
 			//Calculated Fields
 			schemaValues.put(new Field ("Max_Height_of_the_class_hierarchy", FieldType.INT), ontology.getHeight());
-			int NumOfClasses = GetNumberOfSubClasses (ontology);
+			int NumOfClasses = getNumberOfClasses (ontology);
 			schemaValues.put(new Field ("Number_of_classes", FieldType.INT ),NumOfClasses);			
 			schemaValues.put(new Field ("Number_of_association_relationships", FieldType.INT ), calculateNumbAssociationInOntology (ontology));
 			//Term Count (recursive)
@@ -434,7 +428,7 @@ public class OB_SMB_Interface {
 	 * @throws Exception
 	 */
 	
-	private static int GetNumberOfSubClasses(Ontology ontology) {
+	private static int getNumberOfClasses(Ontology ontology) {
 		Vector v = ontology.getModel().getClasses();
 		//OntologyClass c = (OntologyClass) v.get(0);
 		Iterator<OntologyClass> it = v.iterator();
@@ -695,9 +689,10 @@ public class OB_SMB_Interface {
 	
 	
 	/**
-	 *Receives an single term and parses it to DB
-	 * @param db,  
-	 * @param OntologyID
+	 *Receives an single term and parses it to DB, if terms already exist returns without documenting it
+	 * @param db
+	 * @ Term  
+	 * @param OntologyID - ID of the onotology the term belongs to
 	 */
 	
 	private static void writeTermToDB(long OntologyID, Term term, DBInterface db) {
@@ -708,22 +703,22 @@ public class OB_SMB_Interface {
 		Field f = new Field ("SchemaID", FieldType.LONG );
 		values.put(f, (Object)OntologyID);
 		
-		long id = SchemasExperiment.PJWHash(term.getName());
+		long id = term.getId();
 		//Only put into DB Terms with names (=> (t.getName() =! empty) string)
 		//prevent duplication of terms
 		if  (!checkTermExistenceAtDB(db,id,OntologyID))
 			{
 			f = new Field ("Tid", FieldType.LONG );
-			values.put(f, (Object)(id) );
+			values.put(f, (id) );
 		
 			f = new Field ("TName", FieldType.STRING );
-			values.put(f, (Object)term.getName());
+			values.put(f, term.getName());
 		
 			f = new Field ("DomainNumber", FieldType.INT);
-			values.put(f, (Object)getDomainNumber(term.getDomain().getName()));
+			values.put(f, getDomainNumber(term.getDomain().getName()));
 		
 			f = new Field ("DomainName", FieldType.STRING );
-			values.put(f, (Object)term.getDomain().getName());
+			values.put(f, term.getDomain().getName());
 			
 			db.insertSingleRow(values,"terms");
 			}
@@ -865,8 +860,10 @@ public class OB_SMB_Interface {
 
 	/**
 	 * This method gets a MatchInformation and SchemaTranslator and outputs the matched result (matched terms and their similarity value) to DB
-	 * @param MatchInformation - ************************explain
-	 * @param SchemaTranslator - ************************explain
+	 * @param MatchInformation - holds a set of matches
+	 * @param SerialNumOfMatcher - according to the serial number described in the DB, under similaritymeasures;
+	 * @param SchemasExperiment - holds the 2 ontology we match (used to get their IDs)
+	 * @Remark, when storing an id we since we decide on the id of a term 
 	 * 	 */
 	private static void loadSMtoDB(MatchInformation firstLineMI, SchemasExperiment schemasExp, int SerialNumOfMatcher, DBInterface db) throws IOException {
 
@@ -884,31 +881,16 @@ public class OB_SMB_Interface {
 							
 			HashMap<Field,Object> values = new HashMap<Field,Object>();	
 				
-			Field f = new Field ("TargetSchemaID", FieldType.LONG );
-			values.put(f, (Object)(long)schemasExp.getTargetID());
-				
-			f = new Field ("TargetTermID", FieldType.LONG );
-			values.put(f, (Object)(long)SchemasExperiment.PJWHash(targetTerm.getName()));
+			values.put(new Field ("TargetSchemaID", FieldType.LONG ), (long)schemasExp.getTargetID());
+			values.put(new Field ("TargetTermID", FieldType.LONG ), (long)targetTerm.getId());
+			values.put(new Field ("CandidateSchemaID", FieldType.LONG ), (long)schemasExp.getCandidateID());
+			values.put(new Field ("CandidateTermID", FieldType.LONG ), (long)cadidateTerm.getId());
+			values.put(new Field ("SMID", FieldType.LONG ), (long)SerialNumOfMatcher);
+			values.put(new Field ("confidence", FieldType.DOUBLE ), match.getEffectiveness());
+			values.put(new Field ("TTermName", FieldType.STRING ), targetTerm.getName());
+			values.put(new Field ("CTermName", FieldType.STRING ), cadidateTerm.getName());
 			
-			f = new Field ("CandidateSchemaID", FieldType.LONG );
-			values.put(f, (Object)(long)schemasExp.getCandidateID());
-			
-			f = new Field ("CandidateTermID", FieldType.LONG );
-			values.put(f, (Object)(long)SchemasExperiment.PJWHash(cadidateTerm.getName()));
-				
-			f = new Field ("SMID", FieldType.LONG );
-			values.put(f, (Object)(long)SerialNumOfMatcher);
-				
-			f = new Field ("confidence", FieldType.DOUBLE );
-			values.put(f, (Object)match.getEffectiveness());
-				
-			f = new Field ("TTermName", FieldType.STRING );
-			values.put(f, (Object)targetTerm.getName());
-				
-			f = new Field ("CTermName", FieldType.STRING );
-			values.put(f, (Object)cadidateTerm.getName());
-			
-			System.out.println(match.getEffectiveness());
+			//System.out.println(match.getEffectiveness());
 			
 		}
 	}
