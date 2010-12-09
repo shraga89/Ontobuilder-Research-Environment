@@ -44,8 +44,6 @@ public class SchemasExperiment {
   {
 	 subDir = inSubDir;
 	 this.getCandidateOntology();
-	 String baseForSPID = candidate.getName() + target.getName();
-	 this.SPID = PJWHash(baseForSPID);
 	 //String configuration = "(E," +  subDir + ",No system code)";
 	 //configurationID = OB_SMB_Interface.PJWHash(configuration);
 	 //configurations.put(configurationID , configuration); 
@@ -65,7 +63,7 @@ public class SchemasExperiment {
   //function returns Experiments ID
   
   public void setSPID (double spid){
-	  this.SPID = spid;
+	  this.SPID = (long)spid;
   }
   
   
@@ -237,13 +235,15 @@ public class SchemasExperiment {
 	  DBInterface db = new DBInterface(Integer.parseInt((String)pMap.get("dbmstype")),(String)pMap.get("host"),(String)pMap.get("dbname"),(String)pMap.get("username"),(String)pMap.get("pwd"));
       this.targetID = getOntologyDBId(target.getName(), db);
       this.CandidateID = getOntologyDBId(candidate.getName(), db);
+      this.SPID = getSPIDFromDB (db);
 	  //String s = sExactMappingFileName.toString() + sCandidateOntologyFileName + sTargetOnologyFileName ; 
       //this.EID = PJWHash(s);
     	  
     }
   	}
   	
-  	public MatchMatrix getMatchMatrix() {
+
+	public MatchMatrix getMatchMatrix() {
   	if (mm == null) loadXML(); 
 	return mm;
 }
@@ -307,7 +307,7 @@ public class SchemasExperiment {
 	    }
 	
 	 /**
-		 * This method receives  a name of an ontology and returns it's ID from the DB (Schema Table)
+		 * This method receives  a name of an ontology and returns its ID from the DB (Schema Table)
 		 * @param name - Name of the ontonolgy
 		 * @param db - an open connection to the DB
 		 * @return ID, if wasn't able to find the ontology return -1
@@ -326,6 +326,26 @@ public class SchemasExperiment {
 		return Id;
 		}
 	 
+	 
+	 /**
+		 * This method check for the SPID of the its schemas in the DB (schemapairs Table) return -1 if can't find
+		 * @param db - an open connection to the DB
+		 * @return SPID, if wasn't able to find the ontology return -1
+		 */
+	  	private long getSPIDFromDB(DBInterface db) {
+	  		String sql = "SELECT SPID From schemapairs WHERE TargetSchema== " + (long)this.targetID + " AND CandidateSchema== " + (long)this.CandidateID + ";" ;
+			ArrayList<String[]> SchameID =  db.runSelectQuery(sql, 1);
+			try {
+				long SPID = Long.valueOf(SchameID.get(0)[0]);
+			}
+			catch (IndexOutOfBoundsException e){
+				System.out.println ("Ontology not found:");
+				return -1;
+			}
+			return SPID;
+	}
+	  	
+	  	
 	 public String getsTargetOnologyFileName(){
 		 return sTargetOnologyName;
 	 }
@@ -363,7 +383,7 @@ public class SchemasExperiment {
   private long EID;
   private int DSID = 0; //default values is "not specifies"
   private long configurationID; // default according to table configurationTyps
-  private double SPID;
+  private long SPID;
   private double targetID;
   private double CandidateID;
   private Date date = new Date(1);
