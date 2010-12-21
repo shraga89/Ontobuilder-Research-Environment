@@ -13,7 +13,6 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.Vector;
 
-import schemamatchings.meta.match.AbstractMapping;
 import schemamatchings.meta.match.MatchedAttributePair;
 import schemamatchings.ontobuilder.MatchMatrix;
 import schemamatchings.ontobuilder.MatchingAlgorithms;
@@ -37,7 +36,6 @@ import com.modica.ontology.OntologyClass;
 import com.modica.ontology.Term;
 import com.modica.ontology.match.Match;
 import com.modica.ontology.match.MatchInformation;
-import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 
 /**
  * @author Tomer Sagi and Nimrod Busany 1
@@ -48,63 +46,28 @@ public class OB_SMB_Interface {
 
 	/**
 	 * @param args[0] Output folder 
-+	 * @param args[1] Experiment Type : "Clarity" or "NisBConcept"
-+	 * @param args[2] domainCode (for NisBConcept experiments) K - number of experiments for clarity
++	 * @param args[1] Experiment Type : "Clarity" or other?
++	 * @param args[2] K - number of experiments for clarity
 +	 * @param args[3] mode for the SMB (E,L,R)
 	 * Note: Set paramaters for connecting the DB and set the path of the schema matching at the resouces.properties 
 	 */
 	static double TIMEOUT = 20 * 1000;
 	public static String DSURL = "";
+	private static long eid;
 	public static void main(String[] args) throws NumberFormatException, Exception 
 	{
 		File outputPath = new File(args[0]); // folder in which temporary files will be saved
 	    Properties pMap = PropertyLoader.loadProperties("resources");
 	    DBInterface db = new DBInterface(Integer.parseInt((String)pMap.get("dbmstype")),(String)pMap.get("host"),(String)pMap.get("dbname"),(String)pMap.get("username"),(String)pMap.get("pwd"));
 	    DSURL = (String)pMap.get("schemaPath"); 
-
-		if (args[1]=="NisBConcept")
-		{
-			// Load random schema from db to OB objects
-			String sql = "SELECT schemaID, schemaName, path FROM schemata WHERE domaincode ='" + Integer.parseInt(args[2]) + "' AND DSID<>3 ORDER BY RAND() LIMIT 1;";
-			ArrayList<String[]> schema = db.runSelectQuery(sql, 3);
-			OntoBuilderWrapper obw1 = new OntoBuilderWrapper();
-			Ontology o = obw1.readOntologyXMLFile(DSURL + schema.get(0)[2],false);
-			// Load terms and ambiguity from db
-			sql = "SELECT TID, TName, ambiguity FROM terms WHERE SchemaID=" + Long.parseLong(schema.get(0)[0]) ;
-			ArrayList<String[]> ALterms = db.runSelectQuery(sql, 3);
-			HashMap<Long,String> HMterms = new HashMap<Long,String>();
-			for (int i=0;i<ALterms.size();i++) HMterms.put(Long.parseLong(ALterms.get(i)[0]),ALterms.get(i)[1]);
-			HashMap<Long,Integer> termAmbiguity = new HashMap<Long,Integer>();
-			for (int i=0;i<ALterms.size();i++) termAmbiguity.put(Long.parseLong(ALterms.get(i)[0]),Integer.parseInt(ALterms.get(i)[2]));
-						
-			//Load Concept and concept terms to NisBConceptMatcher datastructure 
-			NisBConceptMatcher NBC = new NisBConceptMatcher(Long.parseLong(schema.get(0)[0]),schema.get(0)[1] , o, HMterms, termAmbiguity);
-			sql = "SELECT schemaID, schemaName FROM schemata WHERE domaincode ='" + Integer.parseInt(args[2]) + "' AND DSID=3;"; 
-			ArrayList<String[]> concepts = db.runSelectQuery(sql, 3);
-			
-			for (int i=0;i<concepts.size();i++)
-			{
-				sql = "SELECT TID, TName FROM terms WHERE SchemaID=" + Long.parseLong(concepts.get(i)[0]) ;
-				ArrayList<String[]> termstr = db.runSelectQuery(sql, 2);
-				HashMap<Long,String> terms = new HashMap<Long,String>();
-				for (int j=0;j<termstr.size();j++) terms.put(Long.parseLong(termstr.get(j)[0]),termstr.get(j)[1]);
-				NBC.addConcept(Long.parseLong(concepts.get(i)[0]), concepts.get(i)[1], terms);
-			}
-			
-			// generate cover options and output to path
-			ouputArrayListofStringArrays(outputPath, NBC.generateCoverOptions(), "coveroptions.tab");
-			ouputArrayListofStringArrays(outputPath, NBC.getSubSchemata(), "subschemas.tab");
-			ouputArrayListofStringArrays(outputPath, NBC.getSubSchemataTerms(), "subschematerms.tab");
-			ouputArrayListofStringArrays(outputPath, NBC.getSubSchemata(), "concepts.tab"); //TODO
-			ouputArrayListofStringArrays(outputPath, NBC.getSubSchemata(), "conceptterms.tab"); //TODO
-			ouputArrayListofStringArrays(outputPath, NBC.getSubSchemata(), "terms.tab"); //TODO
-
-		}
+	
+	    
+	    
 	// 1 Load K experiments into an experiment list
 	    
-	    ArrayList<SchemasExperiment> ds = UploadKExperiments(db,Integer.parseInt(args[2]));
+	    ArrayList<SchemasExperiment> ds = loadKExperiments(db,Integer.parseInt(args[2]));
 		SchemasExperiment schemasExp = new SchemasExperiment();
-  		System.out.println("DS size is: " + ds.size());
+  		System.out.println("DataSet size is: " + ds.size());
 	    //writeBasicConfigurations(schemasExp.getSubDir().getAbsolutePath(),schemasExp.getSPID(),outputPath);
   		
 	    Ontology target;
@@ -119,7 +82,10 @@ public class OB_SMB_Interface {
         MatchMatrix firstLineMM[]= new MatchMatrix[availableMatchers.length];
 	    String[] available2ndLMatchers = MappingAlgorithms.ALL_ALGORITHM_NAMES;
         SchemaTranslator secondLineST[] = new SchemaTranslator[available2ndLMatchers.length*availableMatchers.length];
-	    
+	    // Make sure all matchers and similarity measures are documented in the DB with the right SMID
+        ArrayList<String[]> SMIDs = documentSimilarityMeasures(db,availableMatchers,1);
+        ArrayList<String[]> MIDs = documentMatchers(db,available2ndLMatchers,1);
+        
 		// 2 For each experiment in the list:
 	    for (int i = 0; i < ds.size(); ++i) {  //size
 			// 2.1 load from file into OB objects
@@ -147,7 +113,7 @@ public class OB_SMB_Interface {
 						loadSMtoDB(firstLineMI[m],schemasExp,m,db);
 						//TODO find a way to travers the terms correctly
 						//TODO check why was matched field at the experimentsschemapairs wasn't updated
-						if (m==availableMatchers.length)
+						if (m==availableMatchers.length-1)
 							updateWasMatchedWithAllMatchers(schemasExp.getSPID(),db);
 						}
 					
@@ -178,6 +144,7 @@ public class OB_SMB_Interface {
 			//  2.4 Output schema pair, term list, list of matchers and matches to URL    
 	        try 
 	      		{
+	        	outputArrayListofStringArrays(outputPath,SMIDs,"BasicConfigurations.tab");
 	      		//writeItems(firstLineMM,schemasExp.getCandidateId() , DBInterface, true);
 	      		//writeItems(firstLineMM,schemasExp.getTargetId() , db, false);
 	      		//writeMatchingResult(secondLineST,target.getName(), candidate.getName());   		
@@ -228,37 +195,64 @@ public class OB_SMB_Interface {
 
 	}
 	
-	private static void updateWasMatchedWithAllMatchers(double spid,DBInterface db) {
-		String sql = "SELECT * FROM experimentschemapairs WHERE SPID=" + spid; 
-		ArrayList<String[]> schemaList = 	db.runSelectQuery(sql, 4);
-		Iterator<String[]> it = schemaList.iterator();		
-		for (int i=0;i<schemaList.size();i++){		
-			if ( Double.valueOf(schemaList.get(i)[0]) == spid){
-			
-				HashMap<Field,Object> values = new HashMap<Field,Object>();	
-				values = new HashMap<Field,Object>();	
+	/**
+	 * Make sure (2nd Line) matchers supplied exist in the DB 
+	 * @param db DB Interface to look inside 
+	 * @param availableMatchers List of matchers to lookup
+	 * @param sysCode system code of matchers
+	 * @return list of MatcherID and matcherName pairs as a String array
+	 */
+	private static ArrayList<String[]> documentMatchers(DBInterface db,
+			String[] availableMatchers, int sysCode) 
+	{
+		for (String matcherName : availableMatchers)
+		{
+			String sql = "SELECT MatcherID FROM matchers WHERE System = " + sysCode + " AND MatcherName='" + matcherName + "'";
+			if (db.runSelectQuery(sql, 2).size()==0)
+				{
 				
-				Field f = new Field ("EID", FieldType.LONG );
-				values.put(f, (Object)schemaList.get(i)[0]);
-				//Time time = new Time(1);
-			
-				f = new Field ("SPID", FieldType.LONG);
-				values.put(f, (Object)(long)spid);
-			
-				f = new Field ("Training", FieldType.BOOLEAN);
-				boolean training =  false;
-				values.put(f, (Object)training);
-				
-				f = new Field ("WasMatched", FieldType.BOOLEAN);
-				boolean WasMatched =  true;
-				values.put(f, (Object)WasMatched);
-				
-				sql = "DELETE * FROM experimentschemapairs WHERE SPID=" + spid + " EID=" + Double.valueOf(schemaList.get(i)[0]);  
-				db.runDeleteQuery(sql);
-				db.insertSingleRow(values,"experimentschemapairs");
-				
-			}
+					HashMap<Field, Object> values = new HashMap<Field, Object>();
+					values.put(new Field("MatcherName",FieldType.STRING), matcherName);
+					values.put(new Field("System",FieldType.INT), new Integer(sysCode));
+					db.insertSingleRow(values , "matchers");
+				}
 		}
+		
+		String sql = "SELECT MatcherID, MatcherName FROM matchers WHERE System = " + sysCode + ";";
+		return db.runSelectQuery(sql, 2);
+	}
+
+	/**
+	 * Make sure similarity measures supplied exist in the DB 
+	 * @param db DB Interface to look inside 
+	 * @param availableMatchers List of matchers to lookup
+	 * @param sysCode system code of matchers
+	 * @return list of SimilarityMeasure and matcherName pairs as a String array
+	 */
+	private static ArrayList<String[]> documentSimilarityMeasures(DBInterface db,
+			String[] availableMatchers,int sysCode) 
+	{
+		for (String matcherName : availableMatchers)
+		{
+			String sql = "SELECT SMID, MeasureName FROM similaritymeasures WHERE System = " + sysCode + " AND MeasureName='" + matcherName + "'";
+			if (db.runSelectQuery(sql, 2).size()==0)
+				{
+				
+					HashMap<Field, Object> values = new HashMap<Field, Object>();
+					values.put(new Field("MeasureName",FieldType.STRING), matcherName);
+					values.put(new Field("System",FieldType.INT), new Integer(sysCode));
+					db.insertSingleRow(values , "similaritymeasures");
+				}
+		}
+		
+		String sql = "SELECT SMID, MeasureName FROM similaritymeasures WHERE System = " + sysCode + ";";
+		return db.runSelectQuery(sql, 2);
+	}
+
+	private static void updateWasMatchedWithAllMatchers(double spid,DBInterface db) 
+	{
+		String sql = "UPDATE experimentschemapairs SET WasMatched = TRUE WHERE EID = " + eid + " AND SPID = " + spid + ";"; 
+		db.runUpdateQuery(sql);
 	}
 
 	/**
@@ -268,9 +262,9 @@ public class OB_SMB_Interface {
 	 */
 	
 	private static boolean checkIfSchemaPairWasMatched(double schemaPairId,DBInterface db) {
-		String sql  = "SELECT WasMatched FROM experimentschemapairs WHERE SPID=\"" + schemaPairId + "\";"; 
+		String sql  = "SELECT WasMatched FROM experimentschemapairs WHERE SPID='" + schemaPairId + "';"; 
 		ArrayList<String[]> schemaList = db.runSelectQuery(sql, 1);
-		if (Integer.valueOf(schemaList.get(0)[0]) == 1)
+		if (schemaList.size()>0)
 				return true;
 		return false;
 	}
@@ -424,7 +418,7 @@ public class OB_SMB_Interface {
 	 * @param fName
 	 * @throws IOException
 	 */
-	private static void ouputArrayListofStringArrays(File outputPath,
+	private static void outputArrayListofStringArrays(File outputPath,
 			ArrayList<String[]> res, String fName) throws IOException {
 		DataFile write = DataFile.createWriter("8859_1", false);
 		write.setDataFormat(new TabFormat());			
@@ -463,7 +457,7 @@ public class OB_SMB_Interface {
 	 * @return ArrayList of Schema Experiments. 
 	 * @throws Exception if K is larger than the no. of available schema pairs in the db
 	 */
-	private static ArrayList<SchemasExperiment> UploadKExperiments(DBInterface db, int K) throws Exception {
+	private static ArrayList<SchemasExperiment> loadKExperiments(DBInterface db, int K) throws Exception {
 		
 		ArrayList<SchemasExperiment> ds = new ArrayList<SchemasExperiment>();
 		String sql = "SELECT COUNT(*) FROM schemapairs";
@@ -482,7 +476,7 @@ public class OB_SMB_Interface {
 		ds.add(schemasExp);
 		}
 		//document the new experiment in to DB 
-		writeExperimentsToDB(db,ds,k_Schemapairs);
+		eid = writeExperimentsToDB(db,ds,k_Schemapairs);
 		return ds;
 	}
 
@@ -506,8 +500,15 @@ public class OB_SMB_Interface {
 		}
 		return -1;
 	}
-	//this function returns false if writing experiment into DB fails (due to missing ontology files, etc.)
-	private static boolean writeExperimentsToDB(DBInterface db, ArrayList<SchemasExperiment> ds, ArrayList<String[]> k_Schemapairs) {
+	/**
+	 * Adds an experiment to the experiments table and the schemapairs to the experiment schema pairs table
+	 * Otherwise 
+	 * @param db
+	 * @param ds
+	 * @param k_Schemapairs
+	 * @return Experiment ID from db. Returns null if writing experiment into DB fails (due to missing ontology files, etc.)
+	 */
+	private static long writeExperimentsToDB(DBInterface db, ArrayList<SchemasExperiment> ds, ArrayList<String[]> k_Schemapairs) {
 		
 		//document the experiment into experiment table
 		String sql  = "SELECT MAX(EID) FROM experiments";
@@ -584,7 +585,7 @@ public class OB_SMB_Interface {
 				return false;
 			}*/
 		}
-		return true;
+		return currentEID;
 		
 	}
 		
