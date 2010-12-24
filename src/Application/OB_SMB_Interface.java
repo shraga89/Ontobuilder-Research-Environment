@@ -82,9 +82,10 @@ public class OB_SMB_Interface {
         MatchMatrix firstLineMM[]= new MatchMatrix[availableMatchers.length];
 	    String[] available2ndLMatchers = MappingAlgorithms.ALL_ALGORITHM_NAMES;
         SchemaTranslator secondLineST[] = new SchemaTranslator[available2ndLMatchers.length*availableMatchers.length];
-	    // Make sure all matchers and similarity measures are documented in the DB with the right SMID
-        ArrayList<String[]> SMIDs = documentSimilarityMeasures(db,availableMatchers,1);
-        ArrayList<String[]> MIDs = documentMatchers(db,available2ndLMatchers,1);
+	    int sysCode = 1; //Ontobuilder sysCode
+		// Make sure all matchers and similarity measures are documented in the DB with the right SMID
+        ArrayList<String[]> SMIDs = documentSimilarityMeasures(db,availableMatchers,sysCode );
+        ArrayList<String[]> MIDs = documentMatchers(db,available2ndLMatchers,sysCode);
         
 		// 2 For each experiment in the list:
 	    for (int i = 0; i < ds.size(); ++i) {  //size
@@ -100,22 +101,33 @@ public class OB_SMB_Interface {
 	        //2.2 1st line match using all available matchers in OB // missing similarity flooding -> adjustment were made lines: 74-77;
 	        try {
 	        int counter = 0;
-	        for (int m=0;m<availableMatchers.length;m++){				
+	        for (int m=0;m<availableMatchers.length;m++)
+	        {				
 					System.out.println ("Starting " + counter);
-					//check if we haven't run current first line matcher on this pair before, if we didn't run matchers, run; if did, retrieve from DB 
+					//check if we haven't run current first line matcher on this pair before, if we didn't run matchers, run; 
+					 
 					if (!checkIfSchemaPairWasMatched(schemasExp.getSPID(),db))
 						{
 						firstLineMI[m] = obw.matchOntologies(candidate, target,availableMatchers[m]);
-						firstLineST[m] = new SchemaTranslator(firstLineMI[m]);
-						firstLineST[m].importIdsFromMatchInfo(firstLineMI[m],true);
-						BestMappingsWrapper.matchMatrix = firstLineMI[m].getMatrix();
+						//firstLineST[m] = new SchemaTranslator(firstLineMI[m]);
+						//firstLineST[m].importIdsFromMatchInfo(firstLineMI[m],true);
 						firstLineMM[m] = firstLineMI[m].getMatrix();
 						loadSMtoDB(firstLineMI[m],schemasExp,m,db);
 						//TODO find a way to travers the terms correctly
-						//TODO check why was matched field at the experimentsschemapairs wasn't updated
-						if (m==availableMatchers.length-1)
-							updateWasMatchedWithAllMatchers(schemasExp.getSPID(),db);
 						}
+					else // TODO: if already matched, retrieve from DB 
+						{
+							ArrayList<String[]> firstLineMMfromDB = getSimilarityMatrix(db,availableMatchers[m], sysCode, (long) schemasExp.getSPID());
+							MatchInformation mi = new MatchInformation();
+							mi.setCandidateOntology(candidate);
+							mi.setTargetOntology(target);
+							ArrayList<Match> matches = new ArrayList<Match>();
+							for (String[] matchFromDB : firstLineMMfromDB) matches.add(new Match(candidate.getTermByID(Long.parseLong(matchFromDB[1])), target.getTermByID(Long.parseLong(matchFromDB[3])),Double.parseDouble(matchFromDB[4])));
+							mi.setMatches(matches );
+						}
+					BestMappingsWrapper.matchMatrix = firstLineMI[m].getMatrix();
+					if (m==availableMatchers.length-1)
+						updateWasMatchedWithAllMatchers(schemasExp.getSPID(),db);
 					
 					//searchIfSMIDwasUsedOnPair(availableMatchers[m],db);
 					// 2.3 2nd line match using all available matchers in OB with original matrix   	
@@ -156,8 +168,8 @@ public class OB_SMB_Interface {
     				e.printStackTrace();
     			  }
 			// TODO 2.5 run SMB_service with args: E URL
-    		//SMB smb = new SMB();
-    		//SMB.SMBRun (db,"E","C:\\Documents and Settings\\Administrator\\Desktop\\project\\frames",null,null,null,null);
+    		SMB smb = new SMB();
+    		smb.enhance(outputPath.getPath(), outputPath.getPath(), 2.0, .2, 2.0);
 
 			// TODO 2.6 load enhanced matching result into OB object
 	        	//Look at LoadWorkingSet from SMB.java
@@ -193,6 +205,23 @@ public class OB_SMB_Interface {
 	    }  
 	  }
 
+	}
+
+	/**
+	 * Return the similarity matrix of the supplied schema pair using the similarity measure supplied
+	 * If the matrix isn't documented in the db, returns nul
+	 * @param db Database to search in
+	 * @param smid Similarity measure (1st line matcher) ID to look for
+	 * @param spid Schema Pair ID to look for
+	 * @return String array {CandidateSchemaID,CandidateTermID,TargetSchemaID,TargetTermID,confidence} or null if data isn't found
+	 */
+	private static ArrayList<String[]> getSimilarityMatrix(DBInterface db,String smName, int sysCode, long spid) 
+	{
+		String sql = "SELECT `similaritymatrices`.`CandidateSchemaID` , `similaritymatrices`.`CandidateTermID` " +
+				", `similaritymatrices`.`TargetSchemaID` , `similaritymatrices`.`TargetTermID` , `similaritymatrices`.`confidence` " +
+				" FROM `schemamatching`.`schemapairs` INNER JOIN `schemamatching`.`similaritymatrices` ON (`schemapairs`.`TargetSchema` = `similaritymatrices`.`TargetSchemaID`) AND (`schemapairs`.`CandidateSchema` = `similaritymatrices`.`CandidateSchemaID`)" +
+				"WHERE (`similaritymeasures`.`MeasureName` = '" + smName + "' AND `similaritymeasures`.`System` = " + sysCode + " AND `schemapairs`.`SPID` = " + spid + ");";
+		return db.runSelectQuery(sql, 5);
 	}
 	
 	/**
