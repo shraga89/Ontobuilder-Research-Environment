@@ -394,11 +394,6 @@ public class SchemaTranslator extends AbstractMapping{
       return getTotalMatchWeight();
   }
 
-public void setAlgorithm(int m, int mp, String firstLine, String secondLine) {
-	configuration = m * numberOfAvailableMatchers2 + mp;
-	hm.put( configuration , firstLine+ " ; " + secondLine);
-}
-
 public int getConfigurationNum() {
 	return configuration;
 }
