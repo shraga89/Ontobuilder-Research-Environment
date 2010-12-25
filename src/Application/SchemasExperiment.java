@@ -2,7 +2,6 @@ package Application;
 
 import java.io.File;
 import java.sql.Date;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Properties;
@@ -21,7 +20,6 @@ import smb_service.DBInterface;
 
 import com.modica.ontology.*;
 import com.modica.ontology.match.MatchInformation;
-import com.sun.org.apache.bcel.internal.generic.NEW;
 
 /**
  * <p>Title: Schema Pair Matching Experiment</p>
@@ -70,12 +68,12 @@ public class SchemasExperiment {
   }
   //function returns Experiments ID
   
-  public void setSPID (double spid){
-	  this.SPID = (long)spid;
+  public void setSPID (long spid){
+	  this.SPID = spid;
   }
   
   
-  public double getSPID (){
+  public long getSPID (){
 	  return this.SPID;
   }
   
@@ -364,19 +362,19 @@ public class SchemasExperiment {
 		 return sCandidateOntologyName;
 	 }
 	 
-	 public double getCandidateID(){
+	 public long getCandidateID(){
 		 return CandidateID;
 	 }
 	 
-	 public double getTargetID(){
+	 public long getTargetID(){
 		 return targetID;
 	 }
 	 
-	 public void setCandidateID(double id){
+	 public void setCandidateID(long id){
 		 CandidateID = id;
 	 }
 	 
-	 public void setTargetID(double id){
+	 public void setTargetID(long id){
 		 targetID = id;
 	 }
 	 
@@ -394,8 +392,8 @@ public class SchemasExperiment {
   private int DSID = 0; //default values is "not specifies"
   private long configurationID; // default according to table configurationTyps
   private long SPID;
-  private double targetID;
-  private double CandidateID;
+  private long targetID;
+  private long CandidateID;
   private Date date = new Date(1);
   private static HashMap configurations = new HashMap();
 
