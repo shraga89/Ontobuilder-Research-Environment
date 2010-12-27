@@ -58,7 +58,7 @@ public class OB_SMB_Interface {
 	public static void main(String[] args) throws NumberFormatException, Exception 
 	{
 		File outputPath = new File(args[0]); // folder in which temporary files will be saved
-	    Properties pMap = PropertyLoader.loadProperties("resources");
+	    Properties pMap = PropertyLoader.loadProperties("ob_interface");
 	    db = new DBInterface(Integer.parseInt((String)pMap.get("dbmstype")),(String)pMap.get("host"),(String)pMap.get("dbname"),(String)pMap.get("username"),(String)pMap.get("pwd"));
 	    DSURL = (String)pMap.get("schemaPath"); 
 	
