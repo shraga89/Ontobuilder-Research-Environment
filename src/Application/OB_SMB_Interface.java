@@ -408,8 +408,9 @@ public class OB_SMB_Interface {
 		 * @param Onotology
 		 * @throws Exception
 		 */
-	private static void AddInfoAboutSchemaToDB(long schemaID, Ontology ontology,DBInterface db) throws Exception {
-		
+	private static void AddInfoAboutSchemaToDB(long schemaID, Ontology ontology,DBInterface db) throws Exception 
+	{
+		//TODO Nimrod - change this to an update query
 		String sql  = "SELECT * FROM schemata WHERE SchemaID=\"" + schemaID + "\";"; 
 		String[] schemaList = db.runSelectQuery(sql, 12).get(0);
 		HashMap<Field,Object> schemaValues = new HashMap<Field,Object>();	
@@ -419,7 +420,7 @@ public class OB_SMB_Interface {
 			schemaValues.put(new Field ("SchemaName", FieldType.STRING ), schemaList[1]);
 			schemaValues.put(new Field ("DSID", FieldType.INT ), Integer.valueOf(schemaList[2]));
 			schemaValues.put(new Field ("DS_SchemaID", FieldType.INT ), 0);
-			schemaValues.put(new Field ("path", FieldType.STRING ), schemaList[4]);
+			schemaValues.put(new Field ("filePath", FieldType.STRING ), schemaList[4]);
 			//Calculated Fields
 			schemaValues.put(new Field ("Max_Height_of_the_class_hierarchy", FieldType.INT), ontology.getHeight());
 			int NumOfClasses = getNumberOfClasses (ontology);
