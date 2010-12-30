@@ -49,7 +49,7 @@ public class OB_SMB_Interface {
 +	 * @param args[1] Experiment Type : "Clarity" or other?
 +	 * @param args[2] K - number of experiments for clarity
 +	 * @param args[3] mode for the SMB (E,L,R)
-	 * Note: Set paramaters for connecting the DB and set the path of the schema matching at the resouces.properties 
+	 * Note: Set parameters for connecting the DB and set the path of the schema matching at the resouces.properties 
 	 */
 	static double TIMEOUT = 20 * 1000;
 	public static String DSURL = "";
@@ -79,12 +79,12 @@ public class OB_SMB_Interface {
 	    String[] available2ndLMatchers = MappingAlgorithms.ALL_ALGORITHM_NAMES;
         SchemaTranslator secondLineST[] = new SchemaTranslator[available2ndLMatchers.length*availableMatchers.length];
 	    int sysCode = 1; //Ontobuilder sysCode
-	    int smbSysCode = 2; //SMB enhancement results are documented under a different sysCode
+	    //int smbSysCode = 2; //SMB enhancement results are documented under a different sysCode
 		// Make sure all matchers and similarity measures are documented in the DB with the right matcher ID
         ArrayList<String[]> SMIDs = documentSimilarityMeasures(availableMatchers,sysCode );
-        documentSimilarityMeasures(availableMatchers,smbSysCode );
+        //documentSimilarityMeasures(availableMatchers,smbSysCode );
         documentMatchers(available2ndLMatchers, sysCode);
-        documentMatchers(available2ndLMatchers, smbSysCode);
+        //documentMatchers(available2ndLMatchers, smbSysCode);
         
 		// 2 For each experiment in the list:
 	    for (SchemasExperiment schemasExp : ds) 
@@ -94,10 +94,6 @@ public class OB_SMB_Interface {
 	        candidate = schemasExp.getCandidateOntology();
 	        exactMapping = schemasExp.getExactMapping();
 	        long spid = schemasExp.getSPID();
-			//document exact match in db if doesn't exist
-	        uploadExactMatch(exactMapping, spid);
-	        	        
-	        //TODO 1.add to each schema experiments the SPID and the onology's ID4
 	        AddInfoAboutSchemaToDB(schemasExp.getTargetID(),target,db);
 	        AddInfoAboutSchemaToDB(schemasExp.getCandidateID(),candidate,db);
 	        //2.2 1st line match using all available matchers in OB // missing similarity flooding -> adjustment were made lines: 74-77;
@@ -109,8 +105,7 @@ public class OB_SMB_Interface {
 					if (!checkIfSchemaPairWasMatched(spid))
 						{
 						firstLineMI[m] = obw.matchOntologies(candidate, target,availableMatchers[m]);
-						loadSMtoDB(firstLineMI[m],schemasExp,m);
-						//TODO find a way to travers the terms correctly
+						loadSMtoDB(firstLineMI[m],schemasExp,false, m);
 						}
 					else // if already matched, retrieve from DB 
 						{
@@ -144,11 +139,13 @@ public class OB_SMB_Interface {
 							}
 							
 						}
-						upload2ndLineMatchToDB(availableMatchers[m], available2ndLMatchers[mp],sysCode, spid, mapping);
+						upload2ndLineMatchToDB(availableMatchers[m], available2ndLMatchers[mp],false, sysCode, spid, mapping);
 					}
 					System.out.println ("Finished 2nd line matching " + counter);
 					counter++;
 	        }//end for of 1st line matcher
+	        //document exact match in db if doesn't exist
+	        uploadExactMatch(exactMapping, spid);
 			//  2.4 Output schema pair, term list, list of matchers and matches to URL    
 	        	outputArrayListofStringArrays(outputPath,SMIDs,"BasicConfigurations.tab");
 	        	outputArrayListofStringArrays(outputPath,db.runSelectQuery("SELECT `SchemaID`, `SchemaName`, `Max_Height_of_the_class_hierarchy`,`Number_of_association_relationships`, `Number_of_attributes_in_Schema`,  `Number_of_classes`,  `Number_of_visible_items`,  `Number_of_instances` FROM schemata,schemapairs WHERE (schemata.SchemaID = schemapairs.CandidateSchema OR schemata.SchemaID = schemapairs.TargetSchema) AND schemapairs.SPID = " + spid + ";", 2),"Schema.tab");
@@ -168,6 +165,7 @@ public class OB_SMB_Interface {
 			//  2.6 load enhanced matching result into OB object
     			//load enhanced similarity matrix to ArrayList
     			ArrayList<String[]> enhancedMatrices = readFile(new File(outputPath,"EnhancedSimilarityMatrix.tab"));
+    			//TODO Nimrod - document clarity.tab
     			//Split array list by SMIDs
     			HashMap<Long,ArrayList<String[]>> similarityMeasureMatrices = new HashMap<Long,ArrayList<String[]>>();
     			for (String[] sm : SMIDs) similarityMeasureMatrices.put(Long.parseLong(sm[0]), new ArrayList<String[]>());
@@ -188,7 +186,6 @@ public class OB_SMB_Interface {
 						System.out.println ("doing " + counter + "." + secondLineM );
 						SchemaTranslator st = BestMappingsWrapper.GetBestMapping(secondLineM);
 						st.importIdsFromMatchInfo(EnhancedMI.get(sm),true);
-						
 						for (MatchedAttributePair match : st.getMatchedPairs())
 						{
 							e[1] = Long.toString(match.id1);
@@ -196,11 +193,11 @@ public class OB_SMB_Interface {
 							mapping.add(e);
 						}
 						// Update enhanced matrix and mapping results to db
-						// TODO since these are enhanced matrices  think how to document them without running over the non-enhanced matrices
-						loadSMtoDB(EnhancedMI.get(sm),schemasExp,(int)sm);
+						// Since these are enhanced matrices use true
+						loadSMtoDB(EnhancedMI.get(sm),schemasExp,true, (int)sm);
 						
-						// using the smbSysCode to separate the non enhanced from the enhanced result 
-						upload2ndLineMatchToDB(SMName, secondLineM,smbSysCode, spid, mapping);
+						// using false to separate the non enhanced from the enhanced result 
+						upload2ndLineMatchToDB(SMName, secondLineM,true, sysCode, spid, mapping);
 					}
     			}
     			 
@@ -254,7 +251,7 @@ public class OB_SMB_Interface {
 	 * @param spid schema pair id
 	 * @param mapping ArrayList of mappings : [SPID,CandidateTermID,TargetTermID,MatcherID,SMID]
 	 */
-	private static void upload2ndLineMatchToDB(String measureName,String matcherName, int sysCode,
+	private static void upload2ndLineMatchToDB(String measureName,String matcherName, boolean enhanced, int sysCode,
 			long spid, ArrayList<String[]> mapping) {
 		HashMap<Field, Object> values = new HashMap<Field, Object>();
 		values.put(new Field("EID", FieldType.LONG),eid);
@@ -263,6 +260,7 @@ public class OB_SMB_Interface {
 		values.put(new Field("SMID",FieldType.LONG), getSMID(measureName,sysCode));
 		Field candTerm = new Field("CandidateTermID",FieldType.LONG);
 		Field targTerm = new Field("TargetTermID",FieldType.LONG);
+		values.put(new Field("enhanced",FieldType.BOOLEAN),enhanced);
 		for (String[] mappingRow : mapping) 
 		{
 			values.put(candTerm, Long.parseLong(mappingRow[1]));
@@ -326,11 +324,11 @@ public class OB_SMB_Interface {
 	 */
 	private static ArrayList<String[]> getSimilarityMatrix(String smName,int sysCode, long spid) 
 	{
-		String sql = "SELECT `similaritymatrices`.`SMID`,`similaritymatrices`.`CandidateSchemaID` , `similaritymatrices`.`CandidateTermID` " +
-				", `similaritymatrices`.`TargetSchemaID` , `similaritymatrices`.`TargetTermID` , `similaritymatrices`.`confidence` " +
-				" FROM `schemapairs` INNER JOIN `similaritymatrices` ON (`schemapairs`.`TargetSchema` = `similaritymatrices`.`TargetSchemaID`) AND (`schemapairs`.`CandidateSchema` = `similaritymatrices`.`CandidateSchemaID`)" +
-				"WHERE (`similaritymeasures`.`MeasureName` = '" + smName + "' AND `similaritymeasures`.`System` = " + sysCode + " AND `schemapairs`.`SPID` = " + spid + ");";
-		return db.runSelectQuery(sql, 5);
+		String sql = "SELECT `similaritymatrices`.`SMID`,`similaritymatrices`.`CandidateSchemaID` , `similaritymatrices`.`CandidateTermID`, `similaritymatrices`.`TargetSchemaID` , `similaritymatrices`.`TargetTermID` , `similaritymatrices`.`confidence` FROM `schemapairs` INNER JOIN `similaritymatrices` ON (`schemapairs`.`TargetSchema` = `similaritymatrices`.`TargetSchemaID`) AND (`schemapairs`.`CandidateSchema` = `similaritymatrices`.`CandidateSchemaID`) WHERE (`similaritymeasures`.`MeasureName` = '" + smName + "' AND `similaritymeasures`.`System` = " + sysCode + " AND `schemapairs`.`SPID` = " + spid + ");";
+		System.out.println(sql);
+		ArrayList<String[]> res = null; 
+		res = db.runSelectQuery(sql, 5);
+		return res;
 	}
 	
 	/**
@@ -344,7 +342,7 @@ public class OB_SMB_Interface {
 		for (String matcherName : availableMatchers)
 		{
 			String sql = "SELECT MatcherID FROM matchers WHERE System = " + sysCode + " AND MatcherName='" + matcherName + "'";
-			if (db.runSelectQuery(sql, 2).size()==0)
+			if (db.runSelectQuery(sql, 1).size()==0)
 				{
 					HashMap<Field, Object> values = new HashMap<Field, Object>();
 					values.put(new Field("MatcherName",FieldType.STRING), matcherName);
@@ -635,12 +633,9 @@ public class OB_SMB_Interface {
 		db.insertSingleRow(values, "experiments");
 
 		//document the experiment into experimentschemapairs table
-		Iterator <SchemasExperiment> it = ds.iterator();
 		//k_Schemapairs holds the info from the DB (ontology's id, etc)
-		Iterator <String[]> it2 = k_Schemapairs.iterator();
-		while (it.hasNext() && it2.hasNext()){
-			SchemasExperiment schemasexperiment = it.next();
-			String[] s = it2.next();
+		for(String[] s : k_Schemapairs)
+		{
 			values = new HashMap<Field,Object>();	
 			
 			f = new Field ("EID", FieldType.LONG );
@@ -660,88 +655,10 @@ public class OB_SMB_Interface {
 			values.put(f, (Object)WasMatched);
 
 			db.insertSingleRow(values, "experimentschemapairs");
-			/*
-		//parse ontologies terms
-			try {
-				Ontology Candidate = schemasexperiment.getCandidateOntology();
-				Ontology Target = schemasexperiment.getTargetOntology();
-				long CandidateID = (long)Integer.valueOf(s[3]);
-				long TargetID = (long)Integer.valueOf(s[2]); //it.next().getOntologyDBId(Target.getName(),db);
-		
-		//before parsing a given ontology, check it isn't already in the DB
-				if (!checkOntologywasParsedtoDB(CandidateID,db))
-					System.out.println ("Ontology: " + Candidate.getName() + "have been parsed before ");
-				else
-					WriteTermsToDB(CandidateID, Candidate, db);
-		
-				if (!checkOntologywasParsedtoDB(TargetID,db))
-					System.out.println ("Ontology: " + Candidate.getName() + "have been parsed before ");
-				else 
-					WriteTermsToDB(TargetID, Target, db);
-		
-			}
-			catch (Throwable e){
-				System.out.println ("Failed  " + e.getLocalizedMessage());
-				return false;
-			}*/
 		}
 		return currentEID;
 		
 	}
-		
-	//this method checks if the ontology was parsed into terms or not
-	private static boolean checkOntologywasParsedtoDB(long OntologyId,DBInterface db) {
-		//check if this field was already inserted into the table
-		String sql = "SELECT SchemaID From terms WHERE Tid=" + OntologyId + ";";
-		ArrayList<String[]> existInDB =  db.runSelectQuery(sql, 1);
-		Iterator<String[]> exists = existInDB.iterator();	
-		if (exists.hasNext())
-			return true;
-		return false;
-	}
-
-	
-	/**
-	 *Receives an Ontology and parses all terms to DB
-	 * @param db, Ontology - 
-	 * @param OntologyID - due to the structure of the DB, the Id that we choose for each of the ontology's may not agree with the one stored at the ontonlog fields (for example, when building the onotolgy object through ontobuilder)
-	 **/
-	
-	private static void WriteTermsToDB(long OntologyID, Ontology ontology) {
-		
-		Vector<Term> terms = ontology.getModel().getTerms();
-		Iterator<Term> it = terms.iterator();
-		
-		while (it.hasNext()){
-			
-		HashMap<Field,Object> values = new HashMap<Field,Object>();	
-		Term t = it.next();
-		
-		Field f = new Field ("SchemaID", FieldType.LONG );
-		values.put(f, (Object)OntologyID);
-		
-		long id = SchemasExperiment.PJWHash(t.getName());
-		//Only put into DB Terms with names (=> (t.getName() =! empty) string)
-		//prevent duplication of terms
-		if  (!checkTermExistenceAtDB(id,OntologyID))
-			{
-			f = new Field ("Tid", FieldType.LONG );
-			values.put(f, (Object)(id) );
-		
-			f = new Field ("TName", FieldType.STRING );
-			values.put(f, (Object)t.getName());
-		
-			f = new Field ("DomainNumber", FieldType.INT);
-			values.put(f, (Object)getDomainNumber(t.getDomain().getName()));
-		
-			f = new Field ("DomainName", FieldType.STRING );
-			values.put(f, (Object)t.getDomain().getName());
-		
-			db.insertSingleRow(values,"terms");
-			}
-		}
-	}
-	
 	
 	/**
 	 *Receives an single term and parses it to DB, if terms already exist returns without documenting it
@@ -826,31 +743,35 @@ public class OB_SMB_Interface {
 	 * @Remark, when storing an id we since we decide on the id of a term 
 	 * 	 */
 	@SuppressWarnings("unchecked")
-	private static void loadSMtoDB(MatchInformation firstLineMI, SchemasExperiment schemasExp, int SerialNumOfMatcher) throws IOException 
+	private static void loadSMtoDB(MatchInformation firstLineMI, SchemasExperiment schemasExp,boolean enhanced, int SerialNumOfMatcher) throws IOException 
 	{
-		//TODO fix this (term documentation should probably move to somewhere else
 		ArrayList<Match> matches = firstLineMI.getMatches();
-		Iterator<Match> it = matches.iterator();
-		while (it.hasNext()){
-			Match match = it.next();
-			Term cadidateTerm = match.getCandidateTerm();
+		HashMap<Field,Object> values = new HashMap<Field,Object>();
+		values.put(new Field ("TargetSchemaID", FieldType.LONG ), (long)schemasExp.getTargetID());
+		values.put(new Field ("CandidateSchemaID", FieldType.LONG ), (long)schemasExp.getCandidateID());
+		values.put(new Field ("enhanced", FieldType.BOOLEAN ), enhanced);
+		values.put(new Field ("SMID", FieldType.LONG ), (long)SerialNumOfMatcher);
+		Field tTermID = new Field ("TargetTermID", FieldType.LONG );
+		Field cTermID = new Field ("CandidateTermID", FieldType.LONG );
+		Field conf = new Field ("confidence", FieldType.DOUBLE );
+		Field tTermName = new Field ("TTermName", FieldType.STRING );
+		Field cTermName = new Field ("CTermName", FieldType.STRING );
+		
+		for (Match match : matches)
+		{
+			Term candidateTerm = match.getCandidateTerm();
 			Term targetTerm = 	match.getTargetTerm();
 			
 			//write the term to the DB
 			
 			writeTermToDB((long)schemasExp.getTargetID(),targetTerm);
-			writeTermToDB((long)schemasExp.getCandidateID(),cadidateTerm);
-							
-			HashMap<Field,Object> values = new HashMap<Field,Object>();	
-				
-			values.put(new Field ("TargetSchemaID", FieldType.LONG ), (long)schemasExp.getTargetID());
-			values.put(new Field ("TargetTermID", FieldType.LONG ), (long)targetTerm.getId());
-			values.put(new Field ("CandidateSchemaID", FieldType.LONG ), (long)schemasExp.getCandidateID());
-			values.put(new Field ("CandidateTermID", FieldType.LONG ), (long)cadidateTerm.getId());
-			values.put(new Field ("SMID", FieldType.LONG ), (long)SerialNumOfMatcher);
-			values.put(new Field ("confidence", FieldType.DOUBLE ), match.getEffectiveness());
-			values.put(new Field ("TTermName", FieldType.STRING ), targetTerm.getName());
-			values.put(new Field ("CTermName", FieldType.STRING ), cadidateTerm.getName());
+			writeTermToDB((long)schemasExp.getCandidateID(),candidateTerm);
+			
+			values.put(tTermID , (long)targetTerm.getId());
+			values.put(cTermID, (long)candidateTerm.getId());
+			values.put(conf , match.getEffectiveness());
+			values.put(tTermName, targetTerm.getName());
+			values.put(cTermName , candidateTerm.getName());
 			db.insertSingleRow(values, "similaritymatrices");
 		}
 	}
