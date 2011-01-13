@@ -53,6 +53,7 @@ public class OB_SMB_Interface {
 	 */
 	static double TIMEOUT = 20 * 1000;
 	public static String DSURL = "";
+	public static String DBName = "";
 	private static long eid;
 	private static DBInterface db;
 	public static void main(String[] args) throws NumberFormatException, Exception 
@@ -61,7 +62,7 @@ public class OB_SMB_Interface {
 	    Properties pMap = PropertyLoader.loadProperties("ob_interface");
 	    db = new DBInterface(Integer.parseInt((String)pMap.get("dbmstype")),(String)pMap.get("host"),(String)pMap.get("dbname"),(String)pMap.get("username"),(String)pMap.get("pwd"));
 	    DSURL = (String)pMap.get("schemaPath"); 
-	
+	    DBName = (String)pMap.get("dbname"); 
 	    
 	    
 	// 1 Load K experiments into an experiment list and document experiment and schema pairs in db
@@ -148,13 +149,13 @@ public class OB_SMB_Interface {
 	        uploadExactMatch(exactMapping, spid);
 			//  2.4 Output schema pair, term list, list of matchers and matches to URL    
 	        	outputArrayListofStringArrays(outputPath,SMIDs,"BasicConfigurations.tab");
-	        	outputArrayListofStringArrays(outputPath,db.runSelectQuery("SELECT `SchemaID`, `SchemaName`, `Max_Height_of_the_class_hierarchy`,`Number_of_association_relationships`, `Number_of_attributes_in_Schema`,  `Number_of_classes`,  `Number_of_visible_items`,  `Number_of_instances` FROM schemata,schemapairs WHERE (schemata.SchemaID = schemapairs.CandidateSchema OR schemata.SchemaID = schemapairs.TargetSchema) AND schemapairs.SPID = " + spid + ";", 2),"Schema.tab");
+	        	outputArrayListofStringArrays(outputPath,db.runSelectQuery("SELECT `SchemaID`, `SchemaName`, `source`,`language`,`Real`,`Modeling_Language`,`Max_Height_of_the_class_hierarchy`,`subclass_relationships`,`Number_of_association_relationships`, `Number_of_attributes_in_Schema`,  `Number_of_classes`,  `Number_of_visible_items`,  `Number_of_instances` FROM schemata,schemapairs WHERE (SchemaID = schemapairs.CandidateSchema OR SchemaID = schemapairs.TargetSchema) AND schemapairs.SPID = " + spid + ";", 13),"Schema.tab");
 	        	outputArrayListofStringArrays(outputPath,db.runSelectQuery("SELECT `SchemaID`, `Tid`, `DomainNumber`, `TName`, `Known Composite`, `Known Partial`" +
-	        									"FROM `schemamatching`.`terms` WHERE SchemaID = " + schemasExp.getCandidateID() + " OR SchemaID = " + schemasExp.getTargetID() + ";", 6),"Item.tab");
+	        									"FROM `"+DBName+"`.`terms` WHERE SchemaID = " + schemasExp.getCandidateID() + " OR SchemaID = " + schemasExp.getTargetID() + ";", 6),"Item.tab");
 	        	outputArrayListofStringArrays(outputPath,db.runSelectQuery("SELECT `similaritymatrices`.`SMID` , `similaritymatrices`.`CandidateSchemaID` , `similaritymatrices`.`CandidateTermID` , `similaritymatrices`.`TargetSchemaID` , `similaritymatrices`.`TargetTermID` , `similaritymatrices`.`confidence`" +
-	        								" FROM  `schemamatching`.`experimentschemapairs` INNER JOIN `schemamatching`.`schemapairs` ON (`experimentschemapairs`.`SPID` = `schemapairs`.`SPID`)" +
-	        								" INNER JOIN `schemamatching`.`similaritymatrices` ON (`schemapairs`.`TargetSchema` = `similaritymatrices`.`TargetSchemaID`) AND (`schemapairs`.`CandidateSchema` = `similaritymatrices`.`CandidateSchemaID`)" +
-	        								" INNER JOIN `schemamatching`.`similaritymeasures` ON (`similaritymeasures`.`SMID` = `similaritymatrices`.`SMID`)" +
+	        								" FROM  `"+DBName+"`.`experimentschemapairs` INNER JOIN `"+DBName+"`.`schemapairs` ON (`experimentschemapairs`.`SPID` = `schemapairs`.`SPID`)" +
+	        								" INNER JOIN `"+DBName+"`.`similaritymatrices` ON (`schemapairs`.`TargetSchema` = `similaritymatrices`.`TargetSchemaID`) AND (`schemapairs`.`CandidateSchema` = `similaritymatrices`.`CandidateSchemaID`)" +
+	        								" INNER JOIN `"+DBName+"`.`similaritymeasures` ON (`similaritymeasures`.`SMID` = `similaritymatrices`.`SMID`)" +
 	        								" WHERE (`similaritymeasures`.`System` = " + sysCode + ") AND (EID = " + eid + ");", 6),"MatchingResult.tab");
 	      		   		
 
@@ -239,7 +240,8 @@ public class OB_SMB_Interface {
 		    {
 		    	values.put(candTerm, match.id1);
 		    	values.put(targTerm, match.id2);
-		    	db.insertSingleRow(values, "exactmatches");
+		    	if (db.runSelectQuery("SELECT * FROM exactmatches WHERE SPID='" + spid + "' AND TargetTermID='" + match.id1 + "' AND CandidateTermID='"+ match.id2 + "';" , 4) == null)
+		    		db.insertSingleRow(values, "exactmatches");
 		    }
 		}
 	}
@@ -277,8 +279,8 @@ public class OB_SMB_Interface {
 	 */
 	private static Long getSMID(String SMName, int sysCode) 
 	{
-		String sql = "SELECT `SMID`, FROM `schemamatching`.`similaritymeasures` " +
-					" WHERE `MeasureName` = '" + SMName + "' AND `System` = " + sysCode + ";";
+		//String sql = "SELECT `similaritymeasures`.`SMID`, FROM `similaritymeasures` " + " WHERE `MeasureName` = '" + SMName + "' AND `System` = " + sysCode + ";";
+		String sql = "SELECT `similaritymeasures`.`SMID` FROM `similaritymeasures` WHERE `similaritymeasures`.`MeasureName`= '"+SMName+"' AND `similaritymeasures`.`System`='" + sysCode + "';";
 		return Long.parseLong(db.runSelectQuery(sql, 1).get(0)[0]);
 	}
 
@@ -290,7 +292,7 @@ public class OB_SMB_Interface {
 	 */
 	private static Long getMID(String MName, int sysCode) 
 	{
-		String sql = "SELECT `MatcherID` FROM `schemamatching`.`matchers`" + 
+		String sql = "SELECT `MatcherID` FROM `"+DBName+"`.`matchers`" + 
 					 " WHERE `MatcherName` = '" + MName + "' AND `System` = " + sysCode +  ";";
 		return Long.parseLong(db.runSelectQuery(sql, 1).get(0)[0]);
 	}
@@ -305,10 +307,10 @@ public class OB_SMB_Interface {
 	 */
 	private static ArrayList<String[]> getMappings(String secondLineM, String SMName, long spid, int sysCode) 
 	{
-		String sql = "SELECT `mapping`.`SPID`, `mapping`.`CandidateTermID` , `mapping`.`TargetTermID` , `mapping`.`MatcherID`, `mapping`.`SMID` FROM `schemamatching`.`similaritymeasures`" +
-					" INNER JOIN `schemamatching`.`mapping` ON (`similaritymeasures`.`SMID` = `mapping`.`SMID`)" +
-					" INNER JOIN `schemamatching`.`matchers` ON (`matchers`.`MatcherID` = `mapping`.`MatcherID`)" +
-					" WHERE (`mapping`.`SPID` = " + spid + "AND `similaritymeasures`.`MeasureName` = '" + SMName +
+		String sql = "SELECT `mapping`.`SPID`, `mapping`.`CandidateTermID` , `mapping`.`TargetTermID` , `mapping`.`MatcherID`, `mapping`.`SMID` FROM `"+DBName+"`.`similaritymeasures`" +
+					" INNER JOIN `"+DBName+"`.`mapping` ON (`similaritymeasures`.`SMID` = `mapping`.`SMID`)" +
+					" INNER JOIN `"+DBName+"`.`matchers` ON (`matchers`.`MatcherID` = `mapping`.`MatcherID`)" +
+					" WHERE (`mapping`.`SPID` = " + spid + " AND `similaritymeasures`.`MeasureName` = '" + SMName +
 					" ' AND `matchers`.`MatcherName` = '" + secondLineM + "' AND `similaritymeasures`.`System` = " + sysCode +
 					" AND `matchers`.`System` = " + sysCode + "1);";
 		return db.runSelectQuery(sql, 5);
@@ -316,7 +318,7 @@ public class OB_SMB_Interface {
 
 	/**
 	 * Return the similarity matrix of the supplied schema pair using the similarity measure supplied
-	 * If the matrix isn't documented in the db, returns nul
+	 * If the matrix isn't documented in the db, returns null
 	 * @param smName Similarity measure (1st line matcher) name to look for
 	 * @param sysCode code of matching system
 	 * @param spid Schema Pair ID to look for
@@ -324,11 +326,15 @@ public class OB_SMB_Interface {
 	 */
 	private static ArrayList<String[]> getSimilarityMatrix(String smName,int sysCode, long spid) 
 	{
-		String sql = "SELECT `similaritymatrices`.`SMID`,`similaritymatrices`.`CandidateSchemaID` , `similaritymatrices`.`CandidateTermID`, `similaritymatrices`.`TargetSchemaID` , `similaritymatrices`.`TargetTermID` , `similaritymatrices`.`confidence` FROM `schemapairs` INNER JOIN `similaritymatrices` ON (`schemapairs`.`TargetSchema` = `similaritymatrices`.`TargetSchemaID`) AND (`schemapairs`.`CandidateSchema` = `similaritymatrices`.`CandidateSchemaID`) WHERE (`similaritymeasures`.`MeasureName` = '" + smName + "' AND `similaritymeasures`.`System` = " + sysCode + " AND `schemapairs`.`SPID` = " + spid + ");";
+		
+		ArrayList<String[]> res = null;
+		String sql = "SELECT `similaritymeasures`.`SMID`, `similaritymeasures`.`System`  FROM `similaritymeasures` WHERE `similaritymeasures`.`MeasureName`= '"+smName+"' AND `similaritymeasures`.`System`='" + sysCode + "';";
+		res = db.runSelectQuery(sql, 2);
+		sql = "SELECT `similaritymatrices`.`SMID`,`similaritymatrices`.`CandidateSchemaID` , `similaritymatrices`.`CandidateTermID`, `similaritymatrices`.`TargetSchemaID` , `similaritymatrices`.`TargetTermID` , `similaritymatrices`.`confidence` FROM `schemapairs` INNER JOIN `similaritymatrices` ON (`schemapairs`.`TargetSchema` = `similaritymatrices`.`TargetSchemaID`) AND (`schemapairs`.`CandidateSchema` = `similaritymatrices`.`CandidateSchemaID`) WHERE (`similaritymatrices`.`SMID` = '" + res.get(0)[0] + "' AND `schemapairs`.`SPID` = " + spid + ");";
 		System.out.println(sql);
-		ArrayList<String[]> res = null; 
-		res = db.runSelectQuery(sql, 5);
-		return res;
+		ArrayList<String[]> res2 = null;
+		res2 = db.runSelectQuery(sql, 5);
+		return res2;
 	}
 	
 	/**
@@ -395,7 +401,7 @@ public class OB_SMB_Interface {
 	private static boolean checkIfSchemaPairWasMatched(double schemaPairId) {
 		String sql  = "SELECT WasMatched FROM experimentschemapairs WHERE SPID='" + schemaPairId + "';"; 
 		ArrayList<String[]> schemaList = db.runSelectQuery(sql, 1);
-		if (schemaList.size()>0)
+		if (Long.parseLong(schemaList.get(0)[0])==1)
 				return true;
 		return false;
 	}
@@ -408,33 +414,18 @@ public class OB_SMB_Interface {
 		 */
 	private static void AddInfoAboutSchemaToDB(long schemaID, Ontology ontology,DBInterface db) throws Exception 
 	{
-		//TODO Nimrod - change this to an update query
 		String sql  = "SELECT * FROM schemata WHERE SchemaID=\"" + schemaID + "\";"; 
-		String[] schemaList = db.runSelectQuery(sql, 12).get(0);
-		HashMap<Field,Object> schemaValues = new HashMap<Field,Object>();	
+		String[] schemaList = db.runSelectQuery(sql, 13).get(0);
 		//check the flag of the ontology to see if it was parsed before
-		if (Double.valueOf(schemaList[11])==1)	return;
-			schemaValues.put(new Field ("SchemaID", FieldType.INT ),Integer.parseInt(schemaList[0]));	
-			schemaValues.put(new Field ("SchemaName", FieldType.STRING ), schemaList[1]);
-			schemaValues.put(new Field ("DSID", FieldType.INT ), Integer.valueOf(schemaList[2]));
-			schemaValues.put(new Field ("DS_SchemaID", FieldType.INT ), 0);
-			schemaValues.put(new Field ("filePath", FieldType.STRING ), schemaList[4]);
-			//Calculated Fields
-			schemaValues.put(new Field ("Max_Height_of_the_class_hierarchy", FieldType.INT), ontology.getHeight());
-			int NumOfClasses = getNumberOfClasses (ontology);
-			ArrayList <Integer> A = calculateTermsHiddenAssociationInOntology (ontology);
-			schemaValues.put(new Field ("Number_of_classes", FieldType.INT ),NumOfClasses);			
-			schemaValues.put(new Field ("Number_of_association_relationships", FieldType.INT ), A.get(2));
-			schemaValues.put(new Field ("Number_of_attributes_in_Schema", FieldType.INT ), A.get(0) );
-						
-			//For webforms only recursively count terms that the ontology class is not "hidden" 
-			schemaValues.put(new Field ("Number_of_visible_items", FieldType.INT ), A.get(1)-A.get(0)); 
-			schemaValues.put(new Field ("Number_of_instances", FieldType.INT ), 0); //Ontobuilder doesn't support instances	
-			schemaValues.put(new Field ("Was_Fully_Parsed", FieldType.INT ), 0);
-			//sql = "DELETE FROM schemata_copy WHERE SchemaID=" + ontologyid; 
-			//db.runDeleteQuery(sql);
-			db.insertSingleRow(schemaValues, "schemata_copy");
-
+		if (Double.valueOf(schemaList[12])==1)	return;
+		int NumOfClasses = getNumberOfClasses (ontology);
+		ArrayList <Integer> A = calculateTermsHiddenAssociationInOntology (ontology);
+		//For webforms only recursively count terms that the ontology class is not "hidden" 
+		sql = "UPDATE schemata SET `Was_Fully_Parsed` = '1',`Max_Height_of_the_class_hierarchy`= '" + ontology.getHeight() + 
+		"', `Number_of_classes` =  '" + NumOfClasses + "', `Number_of_association_relationships` = '" + A.get(2) + 
+		"', `Number_of_attributes_in_Schema`= '" + A.get(0) + "', `Number_of_visible_items` = '" +  (A.get(1)-A.get(0)) + 
+		"', `Number_of_instances` = '" + 0 + "' WHERE SchemaID = '" + schemaID + "';";
+		db.runUpdateQuery(sql);
 		}
 	
 	
