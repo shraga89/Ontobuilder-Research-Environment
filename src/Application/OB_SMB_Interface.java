@@ -49,6 +49,7 @@ public class OB_SMB_Interface {
 +	 * @param args[1] Experiment Type : "Clarity" or other?
 +	 * @param args[2] K - number of experiments for clarity
 +	 * @param args[3] mode for the SMB (E,L,R)
+	 * @param args[4] schemapair ID (if null will use random)
 	 * Note: Set parameters for connecting the DB and set the path of the schema matching at the resouces.properties 
 	 */
 	static double TIMEOUT = 20 * 1000;
@@ -67,7 +68,7 @@ public class OB_SMB_Interface {
 	    
 	// 1 Load K experiments into an experiment list and document experiment and schema pairs in db
 	    
-	    ArrayList<SchemasExperiment> ds = loadKExperiments(Integer.parseInt(args[2]));
+	    ArrayList<SchemasExperiment> ds = loadKExperiments(Integer.parseInt(args[2]), ((args.length==5)?Integer.parseInt(args[4]):0));
 	    //TODO document experiment SMIDs and MIDs
   		System.out.println("DataSet size is: " + ds.size());
   		
@@ -163,7 +164,7 @@ public class OB_SMB_Interface {
 	        								" FROM  `"+DBName+"`.`experimentschemapairs` INNER JOIN `"+DBName+"`.`schemapairs` ON (`experimentschemapairs`.`SPID` = `schemapairs`.`SPID`)" +
 	        								" INNER JOIN `"+DBName+"`.`similaritymatrices` ON (`schemapairs`.`TargetSchema` = `similaritymatrices`.`TargetSchemaID`) AND (`schemapairs`.`CandidateSchema` = `similaritymatrices`.`CandidateSchemaID`)" +
 	        								" INNER JOIN `"+DBName+"`.`similaritymeasures` ON (`similaritymeasures`.`SMID` = `similaritymatrices`.`SMID`)" +
-	        								" WHERE (`similaritymeasures`.`System` = " + sysCode + ") AND (EID = " + eid + ");", 6),"MatchingResult.tab");
+	        								" WHERE (`similaritymeasures`.`System` = " + sysCode + ") AND (EID = " + eid + ") AND `schemapairs`.`SPID` = " + schemasExp.getSPID() + ";", 6),"MatchingResult.tab");
 	      		   		
 
 			//2.5 run SMB_service in Enhance mode
@@ -276,6 +277,7 @@ public class OB_SMB_Interface {
 	 * @param matchList [SMID,CandidateSchemaID,CandidateTermID,TargetSchemaID, TargetTermID,Confidence]
 	 * @return Ontobuilder Match Information object with supplied matches
 	 */
+	@SuppressWarnings("unchecked")
 	private static MatchInformation createMIfromArrayList(Ontology candidate,Ontology target, ArrayList<String[]> matchList) {
 		MatchInformation mi = new MatchInformation();
 		mi.setCandidateOntology(candidate);
@@ -284,6 +286,15 @@ public class OB_SMB_Interface {
 		for (String[] match : matchList) 
 			matches.add(new Match(candidate.getTermByID(Long.parseLong(match[2])), target.getTermByID(Long.parseLong(match[4])),Double.parseDouble(match[4])));
 		mi.setMatches(matches );
+		ArrayList<Term> candTerms = new ArrayList<Term>(); 
+		Vector<Term> tmp = candidate.getModel().getTerms();
+		for (Term t : tmp) candTerms.add(t);
+		ArrayList<Term> targetTerms  = new ArrayList<Term>(); 
+		tmp = candidate.getModel().getTerms();
+		for (Term t : tmp) targetTerms.add(t);
+		MatchMatrix matrix = new MatchMatrix(candTerms.size(),targetTerms.size(),candTerms, targetTerms);
+		for (Match m : matches) matrix.setMatchConfidence(m.getCandidateTerm(), m.getTargetTerm(), m.getEffectiveness());
+		mi.setMatrix(matrix);
 		return mi;
 	}
 
@@ -634,10 +645,12 @@ public class OB_SMB_Interface {
 	 * Note: This method assumes that schema files were not changed (hence if a schema was parsed before,
 	 * it will not be parsed again and changes will not be detected  
 	 * @param K no. of random experiments to load
+	 * @param spid if not 0, get a specific schema pair
 	 * @return ArrayList of Schema Experiments. 
 	 * @throws Exception if K is larger than the no. of available schema pairs in the db
 	 */
-	private static ArrayList<SchemasExperiment> loadKExperiments(int K) throws Exception {
+	private static ArrayList<SchemasExperiment> loadKExperiments(int K, int spid) throws Exception 
+	{
 		
 		ArrayList<SchemasExperiment> ds = new ArrayList<SchemasExperiment>();
 		String sql = "SELECT COUNT(*) FROM schemapairs";
@@ -645,7 +658,9 @@ public class OB_SMB_Interface {
 		//check the number of available experiments is larger then k
 		if (K>Integer.valueOf(NumberOfSchemaPairs.get(0)[0])) throw new Exception("K is too large");
 		//extracting pairs from the DB
-		sql  = "SELECT * FROM schemapairs ORDER BY RAND() LIMIT " + String.valueOf(K); 
+		if (spid!=0) sql = "SELECT * FROM schemapairs WHERE SPID = " + spid + ";" ;
+		//TODO externalize DSID
+		else sql  = "SELECT * FROM schemapairs WHERE DSID = 1 ORDER BY RAND() LIMIT " + String.valueOf(K); 
 		ArrayList<String[]> k_Schemapairs =  db.runSelectQuery(sql, 5);
 		for (int i=0;i<K;i++){
 		String full_url = DSURL;
@@ -831,8 +846,8 @@ public class OB_SMB_Interface {
 			values.put(tTermID , (long)targetTerm.getId());
 			values.put(cTermID, (long)candidateTerm.getId());
 			values.put(conf , match.getEffectiveness());
-			values.put(tTermName, targetTerm.getName());
-			values.put(cTermName , candidateTerm.getName());
+			values.put(tTermName, truncate(targetTerm.getName(),300));
+			values.put(cTermName , truncate(candidateTerm.getName(),300));
 			db.insertSingleRow(values, "similaritymatrices");
 		}
 	}
@@ -865,6 +880,13 @@ public class OB_SMB_Interface {
 		}
 		return res;
 	}
+	public static String truncate(String value, int length)
+	{
+	  if (value != null && value.length() > length)
+	    value = value.substring(0, length);
+	  return value;
+	}
+
 	
 }
 
