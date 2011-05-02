@@ -69,13 +69,30 @@ public class OB_SMB_Interface {
 	// 1 Load K experiments into an experiment list and document experiment and schema pairs in db
 	    
 	    ArrayList<SchemasExperiment> ds = loadKExperiments(Integer.parseInt(args[2]), ((args.length==5)?Integer.parseInt(args[4]):0));
+	  //document exact match in db if doesn't exist
+	    SchemaTranslator exactMapping;
+	    ArrayList<SchemasExperiment> badSE = new ArrayList<SchemasExperiment>();
+	    for (SchemasExperiment schemasExp : ds) 
+	    {
+			// 2.1 load from file into OB objects
+	        exactMapping = schemasExp.getExactMapping();
+	        long spid = schemasExp.getSPID();
+	        if (exactMapping == null)
+	        {	
+	        	badSE.add(schemasExp);
+	        	System.err.println("Bad spid: "  + spid);
+	        	continue;
+	        }
+	    
+	        uploadExactMatch(exactMapping, spid);
+	    }
+        ds.removeAll(badSE);
 	    //TODO document experiment SMIDs and MIDs
   		System.out.println("DataSet size is: " + ds.size());
   		
 	    Ontology target;
 	    Ontology candidate;
 	    OntoBuilderWrapper obw = new OntoBuilderWrapper();
-	    SchemaTranslator exactMapping;
 	    String[] availableMatchers =  MatchingAlgorithms.ALL_ALGORITHM_NAMES;
         MatchInformation firstLineMI[]= new MatchInformation[availableMatchers.length];
         MatchMatrix firstLineMM[]= new MatchMatrix[availableMatchers.length];
@@ -132,6 +149,11 @@ public class OB_SMB_Interface {
 							mapping = new ArrayList<String[]>();
 							System.out.println ("doing " + counter + "." + available2ndLMatchers[mp] );
 							secondLineST[mp*(m+1)] = BestMappingsWrapper.GetBestMapping(available2ndLMatchers[mp]);
+							if (secondLineST[mp*(m+1)]==null)
+							{
+								System.err.println("empty match spid:" + spid + " smid: " +  availableMatchers[m] + "matcher:" + available2ndLMatchers[mp]);
+								continue;
+							}
 							secondLineST[mp*(m+1)].importIdsFromMatchInfo(firstLineMI[m],true);
 							
 							for (MatchedAttributePair match : secondLineST[mp*(m+1)].getMatchedPairs())
@@ -148,8 +170,8 @@ public class OB_SMB_Interface {
 					System.out.println ("Finished 2nd line matching " + counter);
 					counter++;
 	        }//end for of 1st line matcher
-	        //document exact match in db if doesn't exist
-	        uploadExactMatch(exactMapping, spid);
+	        if (args[1].equals("Clarity"))
+	        {
 			//  2.4 Output schema pair, term list, list of matchers and matches to URL    
 	        	outputArrayListofStringArrays(outputPath,SMIDs,"BasicConfigurations.tab");
 	        	//order of schemas: Candidate and then target
@@ -215,6 +237,7 @@ public class OB_SMB_Interface {
 					}
     				eCounter++;
     			}
+	        }// end clarity experiment type
     			 
     	  
 	  }// end for loop of experiment
@@ -228,6 +251,7 @@ public class OB_SMB_Interface {
 	private static void documentMeasuresMatchersInEID(
 			ArrayList<String[]> sMIDs, ArrayList<String[]> mIDs) 
 	{
+		
 		HashMap<Field, Object> values = new HashMap<Field, Object>();
 		values.put(new Field("EID",FieldType.LONG), eid);
 		Field smid = new Field("SMID",FieldType.LONG);
@@ -284,7 +308,7 @@ public class OB_SMB_Interface {
 		mi.setTargetOntology(target);
 		ArrayList<Match> matches = new ArrayList<Match>();
 		for (String[] match : matchList) 
-			matches.add(new Match(candidate.getTermByID(Long.parseLong(match[2])), target.getTermByID(Long.parseLong(match[4])),Double.parseDouble(match[4])));
+			matches.add(new Match(candidate.getTermByID(Long.parseLong(match[2])), target.getTermByID(Long.parseLong(match[4])),Double.parseDouble(match[5])));
 		mi.setMatches(matches );
 		ArrayList<Term> candTerms = new ArrayList<Term>(); 
 		Vector<Term> tmp = candidate.getModel().getTerms();
@@ -314,8 +338,8 @@ public class OB_SMB_Interface {
 		    Field candTerm = new Field("CandidateTermID",FieldType.LONG);
 		    for (MatchedAttributePair match : exactMapping.getMatchedPairs())
 		    {
-		    	values.put(candTerm, match.id1);
-		    	values.put(targTerm, match.id2);
+		    	values.put(candTerm, match.id2);
+		    	values.put(targTerm, match.id1);
 		    	if (db.runSelectQuery("SELECT * FROM exactmatches WHERE SPID='" + spid + "' AND TargetTermID='" + match.id1 + "' AND CandidateTermID='"+ match.id2 + "';" , 4).isEmpty())
 		    		db.insertSingleRow(values, "exactmatches");
 		    }
@@ -407,9 +431,8 @@ public class OB_SMB_Interface {
 		String sql = "SELECT `similaritymeasures`.`SMID`, `similaritymeasures`.`System`  FROM `similaritymeasures` WHERE `similaritymeasures`.`MeasureName`= '"+smName+"' AND `similaritymeasures`.`System`='" + sysCode + "';";
 		res = db.runSelectQuery(sql, 2);
 		sql = "SELECT `similaritymatrices`.`SMID`,`similaritymatrices`.`CandidateSchemaID` , `similaritymatrices`.`CandidateTermID`, `similaritymatrices`.`TargetSchemaID` , `similaritymatrices`.`TargetTermID` , `similaritymatrices`.`confidence` FROM `schemapairs` INNER JOIN `similaritymatrices` ON (`schemapairs`.`TargetSchema` = `similaritymatrices`.`TargetSchemaID`) AND (`schemapairs`.`CandidateSchema` = `similaritymatrices`.`CandidateSchemaID`) WHERE (`similaritymatrices`.`SMID` = '" + res.get(0)[0] + "' AND `schemapairs`.`SPID` = " + spid + ");";
-		System.out.println(sql);
 		ArrayList<String[]> res2 = null;
-		res2 = db.runSelectQuery(sql, 5);
+		res2 = db.runSelectQuery(sql, 6);
 		return res2;
 	}
 	
@@ -830,8 +853,8 @@ public class OB_SMB_Interface {
 		Field tTermID = new Field ("TargetTermID", FieldType.LONG );
 		Field cTermID = new Field ("CandidateTermID", FieldType.LONG );
 		Field conf = new Field ("confidence", FieldType.DOUBLE );
-		Field tTermName = new Field ("TTermName", FieldType.STRING );
-		Field cTermName = new Field ("CTermName", FieldType.STRING );
+		//Field tTermName = new Field ("TTermName", FieldType.STRING );
+		//Field cTermName = new Field ("CTermName", FieldType.STRING );
 		
 		for (Match match : matches)
 		{
@@ -846,8 +869,12 @@ public class OB_SMB_Interface {
 			values.put(tTermID , (long)targetTerm.getId());
 			values.put(cTermID, (long)candidateTerm.getId());
 			values.put(conf , match.getEffectiveness());
-			values.put(tTermName, truncate(targetTerm.getName(),300));
-			values.put(cTermName , truncate(candidateTerm.getName(),300));
+			if ((Double)values.get(conf)>1)
+			{
+				System.err.println("oops");
+			}
+			//values.put(tTermName, truncate(targetTerm.getName(),300));
+			//values.put(cTermName , truncate(candidateTerm.getName(),300));
 			db.insertSingleRow(values, "similaritymatrices");
 		}
 	}
