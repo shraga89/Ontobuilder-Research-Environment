@@ -61,6 +61,7 @@ public class OBExperimentRunner {
 	private static DBInterface db;
 	public static void main(String[] args) throws NumberFormatException, Exception 
 	{
+		//TODO: check command line arguments and print usage instructions if wrong parameters are entered
 		File outputPath = new File(args[0]); // folder in which temporary files will be saved
 	    Properties pMap = PropertyLoader.loadProperties("ob_interface");
 	    db = new DBInterface(Integer.parseInt((String)pMap.get("dbmstype")),(String)pMap.get("host"),(String)pMap.get("dbname"),(String)pMap.get("username"),(String)pMap.get("pwd"));
