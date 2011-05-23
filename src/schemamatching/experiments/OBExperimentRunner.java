@@ -1,7 +1,9 @@
 /**
- * 
+ * The schemamatching.experiments package includes experiments in schema matching
+ * on the ontobuilder schema matching system and other utilities developed at the Technion schema matching research group. 
+ * Experiments are run on a dataset library documented in a mysql database.  
  */
-package Application;
+package schemamatching.experiments;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -38,11 +40,11 @@ import com.modica.ontology.match.Match;
 import com.modica.ontology.match.MatchInformation;
 
 /**
- * @author Tomer Sagi and Nimrod Busany 1
+ * @author Tomer Sagi and Nimrod Busany
  * Input: K - number of experiments to run (an integer)
  */
 
-public class OB_SMB_Interface {
+public class OBExperimentRunner {
 
 	/**
 	 * @param args[0] Output folder 
@@ -64,9 +66,11 @@ public class OB_SMB_Interface {
 	    db = new DBInterface(Integer.parseInt((String)pMap.get("dbmstype")),(String)pMap.get("host"),(String)pMap.get("dbname"),(String)pMap.get("username"),(String)pMap.get("pwd"));
 	    DSURL = (String)pMap.get("schemaPath"); 
 	    DBName = (String)pMap.get("dbname"); 
-	    
-	    
-	// 1 Load K experiments into an experiment list and document experiment and schema pairs in db
+	 
+	    /* TODO: major refactoring required here. Create an experiment interface class, define what it includes and how it is documented in the DB.
+	     * Extract experiment loading into a method. Extract the clarity experiment into a method.   
+	    */
+	 // 1 Load K experiments into an experiment list and document experiment and schema pairs in db
 	    
 	    ArrayList<SchemasExperiment> ds = loadKExperiments(Integer.parseInt(args[2]), ((args.length==5)?Integer.parseInt(args[4]):0));
 	  //document exact match in db if doesn't exist
@@ -77,7 +81,7 @@ public class OB_SMB_Interface {
 			// 2.1 load from file into OB objects
 	        exactMapping = schemasExp.getExactMapping();
 	        long spid = schemasExp.getSPID();
-	        if (exactMapping == null)
+	        if (exactMapping == null )
 	        {	
 	        	badSE.add(schemasExp);
 	        	System.err.println("Bad spid: "  + spid);
@@ -124,7 +128,7 @@ public class OB_SMB_Interface {
 					//check if we haven't run current first line matcher on this pair before, if we didn't run matchers, run
 					if (!checkIfSchemaPairWasMatched(spid, m, 0))
 						{
-							firstLineMI[m] = obw.matchOntologies(target, candidate,availableMatchers[m]);
+							firstLineMI[m] = obw.matchOntologies(candidate,target ,availableMatchers[m]);
 							loadSMtoDB(firstLineMI[m],schemasExp,false, m);
 						}
 					else // if already matched, retrieve from DB 
