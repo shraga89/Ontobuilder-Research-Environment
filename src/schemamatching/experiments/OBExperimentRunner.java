@@ -51,7 +51,7 @@ public class OBExperimentRunner {
 +	 * @param args[1] Experiment Type : "Clarity" or other?
 +	 * @param args[2] K - number of experiments for clarity
 +	 * @param args[3] mode for the SMB (E,L,R)
-	 * @param args[4] schemapair ID (if null will use random)
+	 * @param args[4] schema pair ID (if null will use random)
 	 * Note: Set parameters for connecting the DB and set the path of the schema matching at the resouces.properties 
 	 */
 	static double TIMEOUT = 20 * 1000;
