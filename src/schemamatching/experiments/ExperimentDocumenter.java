@@ -6,9 +6,9 @@ package schemamatching.experiments;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.modica.ontology.match.MatchInformation;
+import technion.iem.schemamatching.dbutils.DBInterface;
 
-import smb_service.DBInterface;
+import com.modica.ontology.match.MatchInformation;
 
 /**
  * @author Tomer Sagi
