@@ -1,7 +1,7 @@
 /**
  * 
  */
-package schemamatching.experiments;
+package technion.iem.schemamatching.experiments;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,7 +21,7 @@ public class ExperimentDocumenter
 {
 	private DBInterface db;
 	private long eid;
-	private ArrayList<SchemasExperiment> myExperiments;
+	private ArrayList<ExperimentSchemaPair> myExperiments;
 	
 	/**
 	 * Class constructor creates an experiment in the DB and stores it's eid
@@ -33,7 +33,7 @@ public class ExperimentDocumenter
 		this.db = db;
 	}
 
-	public ArrayList<SchemasExperiment> getMyExperiments() {
+	public ArrayList<ExperimentSchemaPair> getMyExperiments() {
 		return myExperiments;
 	}
 
@@ -41,7 +41,7 @@ public class ExperimentDocumenter
 	 * documents Experiment schema pairs in DB (including terms)
 	 * @param myExperiments
 	 */
-	public void setMyExperiments(ArrayList<SchemasExperiment> myExperiments) 
+	public void setMyExperiments(ArrayList<ExperimentSchemaPair> myExperiments) 
 	{
 		this.myExperiments = myExperiments;
 		//TODO stub
@@ -73,6 +73,11 @@ public class ExperimentDocumenter
 	public void documentMapping(long spid, MatchInformation mi)
 	{
 		//TODO stub
+	}
+
+	public int getEid() {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }
