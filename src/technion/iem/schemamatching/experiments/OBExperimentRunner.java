@@ -3,7 +3,7 @@
  * on the ontobuilder schema matching system and other utilities developed at the Technion schema matching research group. 
  * Experiments are run on a dataset library documented in a mysql database.  
  */
-package schemamatching.experiments;
+package technion.iem.schemamatching.experiments;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -13,8 +13,10 @@ import java.io.IOException;
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Properties;
+import java.util.Set;
 import java.util.Vector;
 
 import schemamatchings.meta.match.MatchedAttributePair;
@@ -24,11 +26,11 @@ import schemamatchings.ontobuilder.OntoBuilderWrapper;
 import schemamatchings.util.BestMappingsWrapper;
 import schemamatchings.util.MappingAlgorithms;
 import schemamatchings.util.SchemaTranslator;
-import smb_service.DBInterface;
-import smb_service.Field;
-import smb_service.Field.FieldType;
 import smb_service.PropertyLoader;
 import smb_service.SMB;
+import technion.iem.schemamatching.dbutils.DBInterface;
+import technion.iem.schemamatching.dbutils.Field;
+import technion.iem.schemamatching.dbutils.Field.FieldType;
 
 import com.infomata.data.DataFile;
 import com.infomata.data.DataRow;
@@ -44,40 +46,89 @@ import com.modica.ontology.match.MatchInformation;
  * Input: K - number of experiments to run (an integer)
  */
 
+/**
+ * The class provides tools for running schema matching experiments. 
+ */
 public class OBExperimentRunner {
 
 	/**
 	 * @param args[0] Output folder 
-+	 * @param args[1] Experiment Type : "Clarity" or other?
-+	 * @param args[2] K - number of experiments for clarity
-+	 * @param args[3] mode for the SMB (E,L,R)
+	 * @param args[1] Experiment Type : "Clarity" or other?
+	 * @param args[2] K - number of experiments for clarity
+	 * @param args[3] mode for the SMB (E,L,R)
 	 * @param args[4] schema pair ID (if null will use random)
 	 * Note: Set parameters for connecting the DB and set the path of the schema matching at the resouces.properties 
 	 */
-	static double TIMEOUT = 20 * 1000;
-	public static String DSURL = "";
-	public static String DBName = "";
-	private static long eid;
-	private static DBInterface db;
+	protected String dsurl;
+	protected DBInterface db;
+	private ArrayList<ExperimentSchemaPair> dataset;
+	protected HashMap<Integer,String> frstLineMatchers; //TODO Initialize in base constructor or maybe make an enum type or update the Ontobuilder existing enum type
+	protected HashMap<Integer,String> scndLineMatchers; //TODO Initialize in base constructor or maybe make an enum type or update the Ontobuilder existing enum type
+	protected ExperimentDocumenter doc;
+	protected OntoBuilderWrapper obw;
+	
+	/**
+	 * Base constructor
+	 * @param db
+	 * @param datasetURL
+	 */
+	public OBExperimentRunner(DBInterface db,String datasetURL)
+	{
+		this.db = db;
+		dsurl = datasetURL;
+		File dsFolder = new File(dsurl);
+		if (dsFolder == null || !dsFolder.isDirectory()) error("Supplied dataset url is invalid or unreachable");
+		obw = new OntoBuilderWrapper();
+		doc = new ExperimentDocumenter(dsurl, db);
+	}
+	
+	/**
+	 * Class constructor for an experiment on a specific schema pair
+	 * @param db
+	 * @param datasetURL
+	 * @param schemaPairID
+	 */
+	public OBExperimentRunner(DBInterface db,String datasetURL,int schemaPairID)
+	{
+		this(db,datasetURL);
+		dataset = selectExperiments(1,schemaPairID, 0, null);
+		doc = new ExperimentDocumenter("",this.db); //TODO fill experiment description
+	}
+	
+	/**
+	 * Class constructor for an experiment on K random schemas from a specific dataset and list of domains 
+	 * @param db
+	 * @param datasetURL
+	 * @param datasetID
+	 * @param domainCodes
+	 * @param size
+	 */
+	public OBExperimentRunner(DBInterface db,String datasetURL,Integer datasetID,HashSet<Integer> domainCodes,Integer size)
+	{
+		this(db,datasetURL);
+		dataset = selectExperiments(size,0, datasetID, domainCodes);
+		//TODO externalize to Main(args[]) domainCodes and datasetID
+	}
+
 	public static void main(String[] args) throws NumberFormatException, Exception 
 	{
-		//TODO: check command line arguments and print usage instructions if wrong parameters are entered
+		//TODO: 1 check command line arguments and print usage instructions if wrong parameters are entered
 		File outputPath = new File(args[0]); // folder in which temporary files will be saved
 	    Properties pMap = PropertyLoader.loadProperties("ob_interface");
-	    db = new DBInterface(Integer.parseInt((String)pMap.get("dbmstype")),(String)pMap.get("host"),(String)pMap.get("dbname"),(String)pMap.get("username"),(String)pMap.get("pwd"));
-	    DSURL = (String)pMap.get("schemaPath"); 
-	    DBName = (String)pMap.get("dbname"); 
-	 
-	    /* TODO: major refactoring required here. Create an experiment interface class, define what it includes and how it is documented in the DB.
-	     * Extract experiment loading into a method. Extract the clarity experiment into a method.   
-	    */
-	 // 1 Load K experiments into an experiment list and document experiment and schema pairs in db
 	    
-	    ArrayList<SchemasExperiment> ds = loadKExperiments(Integer.parseInt(args[2]), ((args.length==5)?Integer.parseInt(args[4]):0));
-	  //document exact match in db if doesn't exist
+	    DBInterface myDB = new DBInterface(Integer.parseInt((String)pMap.get("dbmstype")),(String)pMap.get("host"),(String)pMap.get("dbname"),(String)pMap.get("username"),(String)pMap.get("pwd"));
+	    //TODO: 2 run the relevant constructor according to command line args
+		OBExperimentRunner myExpRunner = new OBExperimentRunner(myDB,(String)pMap.get("schemaPath"));  
+	    int eid = myExpRunner.doc.getEid();
+	    /* TODO: 3 major refactoring required here. Create an experiment interface class, define what it includes and how it is documented in the DB.
+	     * Extract experiment loading into a method. Extract the SMBservice / Clarity experiment into a method.   
+	    */
+	    
+	    //TODO: 4 move this section to the ExperimentDocumenter method
+		//document exact match in db if doesn't exist
 	    SchemaTranslator exactMapping;
-	    ArrayList<SchemasExperiment> badSE = new ArrayList<SchemasExperiment>();
-	    for (SchemasExperiment schemasExp : ds) 
+	    ArrayList<ExperimentSchemaPair> badSE = new ArrayList<ExperimentSchemaPair>();
+	    for (ExperimentSchemaPair schemasExp : myExpRunner.getDS()) 
 	    {
 			// 2.1 load from file into OB objects
 	        exactMapping = schemasExp.getExactMapping();
@@ -89,65 +140,49 @@ public class OBExperimentRunner {
 	        	continue;
 	        }
 	    
-	        uploadExactMatch(exactMapping, spid);
+	        myExpRunner.uploadExactMatch(exactMapping, spid);
 	    }
-        ds.removeAll(badSE);
-	    //TODO document experiment SMIDs and MIDs
-  		System.out.println("DataSet size is: " + ds.size());
-  		
+	    
+        myExpRunner.getDS().removeAll(badSE);
+  		System.out.println("DataSet size is: " + myExpRunner.getDS().size());
+  		// end TODO 4  
+  		  
 	    Ontology target;
 	    Ontology candidate;
-	    OntoBuilderWrapper obw = new OntoBuilderWrapper();
 	    String[] availableMatchers =  MatchingAlgorithms.ALL_ALGORITHM_NAMES;
         MatchInformation firstLineMI[]= new MatchInformation[availableMatchers.length];
-        MatchMatrix firstLineMM[]= new MatchMatrix[availableMatchers.length];
 	    String[] available2ndLMatchers = MappingAlgorithms.ALL_ALGORITHM_NAMES;
         SchemaTranslator secondLineST[] = new SchemaTranslator[available2ndLMatchers.length*availableMatchers.length];
 	    int sysCode = 1; //Ontobuilder sysCode
 	    //int smbSysCode = 2; //SMB enhancement results are documented under a different sysCode
 		// Make sure all matchers and similarity measures are documented in the DB with the right matcher ID
-        ArrayList<String[]> SMIDs = documentSimilarityMeasures(availableMatchers,sysCode );
+        ArrayList<String[]> SMIDs = myExpRunner.documentSimilarityMeasures(availableMatchers,sysCode );
         //documentSimilarityMeasures(availableMatchers,smbSysCode );
-        ArrayList<String[]> MIDs = documentMatchers(available2ndLMatchers, sysCode);
+        ArrayList<String[]> MIDs = myExpRunner.documentMatchers(available2ndLMatchers, sysCode);
         //documentMatchers(available2ndLMatchers, smbSysCode);
-        documentMeasuresMatchersInEID(SMIDs,MIDs);
+        myExpRunner.documentMeasuresMatchersInEID(SMIDs,MIDs);
 		// 2 For each experiment in the list:
-	    for (SchemasExperiment schemasExp : ds) 
+	    for (ExperimentSchemaPair schemasExp : myExpRunner.getDS()) 
 	    {
 			// 2.1 load from file into OB objects
 	        target = schemasExp.getTargetOntology();
 	        candidate = schemasExp.getCandidateOntology();
-	        exactMapping = schemasExp.getExactMapping();
-	        long spid = schemasExp.getSPID();
-	        AddInfoAboutSchemaToDB(schemasExp.getTargetID(),target,db);
-	        AddInfoAboutSchemaToDB(schemasExp.getCandidateID(),candidate,db);
+	        int spid = schemasExp.getSPID();
+	        //TODO Move this action to the ExperimentSchemaPair constructor
+	        AddInfoAboutSchemaToDB(schemasExp.getTargetID(),target,myExpRunner.db);
+	        AddInfoAboutSchemaToDB(schemasExp.getCandidateID(),candidate,myExpRunner.db);
 	        //2.2 1st line match using all available matchers in OB // missing similarity flooding -> adjustment were made lines: 74-77;
 	        int counter = 0;
 	        for (int m=0;m<availableMatchers.length;m++)
 	        {				
-					System.out.println ("Starting " + counter);
-					//check if we haven't run current first line matcher on this pair before, if we didn't run matchers, run
-					if (!checkIfSchemaPairWasMatched(spid, m, 0))
-						{
-							firstLineMI[m] = obw.matchOntologies(candidate,target ,availableMatchers[m]);
-							loadSMtoDB(firstLineMI[m],schemasExp,false, m);
-						}
-					else // if already matched, retrieve from DB 
-						{
-							ArrayList<String[]> firstLineMMfromDB = getSimilarityMatrix(availableMatchers[m],sysCode,spid);
-							MatchInformation mi = createMIfromArrayList(candidate,target, firstLineMMfromDB);
-							firstLineMI[m] = mi;
-						}
-					firstLineMM[m] = firstLineMI[m].getMatrix();
-					BestMappingsWrapper.matchMatrix = firstLineMI[m].getMatrix();
-					if (m==availableMatchers.length-1)
-						updateWasMatchedWithAllMatchers(spid);
-					
-					// 2.3 2nd line match using all available matchers in OB with original matrix and document in DB   	
-					for (int mp=0;mp<available2ndLMatchers.length;mp++)
-					{   
-						//get a matching from db, if 2nd line match not in db, perform matching
-						ArrayList<String[]> mapping = getMappings(available2ndLMatchers[mp],availableMatchers[m],spid,sysCode);
+				System.out.println ("Starting " + counter);
+				firstLineMI[m] = schemasExp.getSimilarityMatrix(m); //TODO instead of m should be the smid from the HashMap
+				BestMappingsWrapper.matchMatrix = firstLineMI[m].getMatrix();	
+				// 2.3 2nd line match using all available matchers in OB with original matrix and document in DB   	
+				for (int mp=0;mp<available2ndLMatchers.length;mp++)
+				{   
+					//get a matching from db, if 2nd line match not in db, perform matching
+					ArrayList<String[]> mapping = myExpRunner.getMappings(available2ndLMatchers[mp],availableMatchers[m],spid,sysCode);
 						if (mapping.isEmpty())
 						{
 							
@@ -163,34 +198,35 @@ public class OBExperimentRunner {
 							
 							for (MatchedAttributePair match : secondLineST[mp*(m+1)].getMatchedPairs())
 							{
-								String[] e = {Long.toString(spid),"","",Long.toString(getMID(available2ndLMatchers[mp],sysCode)),Long.toString(getSMID(availableMatchers[m],sysCode))};
+								String[] e = {Long.toString(spid),"","",Long.toString(myExpRunner.getMID(available2ndLMatchers[mp],sysCode)),Long.toString(myExpRunner.getSMID(availableMatchers[m],sysCode))};
 								e[1] = Long.toString(match.id1);
 								e[2] = Long.toString(match.id2);
 								mapping.add(e);
 							}
 							
 						}
-						upload2ndLineMatchToDB(availableMatchers[m], available2ndLMatchers[mp],false, sysCode, spid, mapping);
+						myExpRunner.upload2ndLineMatchToDB(availableMatchers[m], available2ndLMatchers[mp],false, sysCode, spid, mapping,eid);
 					}
 					System.out.println ("Finished 2nd line matching " + counter);
 					counter++;
 	        }//end for of 1st line matcher
+	        //TODO move this whole section to the ClarityExperiment
 	        if (args[1].equals("Clarity"))
 	        {
 			//  2.4 Output schema pair, term list, list of matchers and matches to URL    
 	        	outputArrayListofStringArrays(outputPath,SMIDs,"BasicConfigurations.tab");
 	        	//order of schemas: Candidate and then target
 	        	ArrayList<String[]> schemaRes = new ArrayList<String[]>();
-	        	schemaRes.addAll(db.runSelectQuery("SELECT `SchemaID`, `SchemaName`, `source`,`language`,`Real`,`Language`,`Max_Height_of_the_class_hierarchy`,`Number_of_association_relationships`, `Number_of_attributes_in_Schema`,  `Number_of_classes`,  `Number_of_visible_items`,  `Number_of_instances` FROM schemata,schemapairs,datasets WHERE schemapairs.DSID = datasets.DSID AND SchemaID = schemapairs.CandidateSchema AND schemapairs.SPID = " + spid + ";", 12));
-	        	schemaRes.addAll(db.runSelectQuery("SELECT `SchemaID`, `SchemaName`, `source`,`language`,`Real`,`Language`,`Max_Height_of_the_class_hierarchy`,`Number_of_association_relationships`, `Number_of_attributes_in_Schema`,  `Number_of_classes`,  `Number_of_visible_items`,  `Number_of_instances` FROM schemata,schemapairs,datasets WHERE schemapairs.DSID = datasets.DSID AND SchemaID = schemapairs.TargetSchema AND schemapairs.SPID = " + spid + ";", 12));
+	        	schemaRes.addAll(myExpRunner.db.runSelectQuery("SELECT `SchemaID`, `SchemaName`, `source`,`language`,`Real`,`Language`,`Max_Height_of_the_class_hierarchy`,`Number_of_association_relationships`, `Number_of_attributes_in_Schema`,  `Number_of_classes`,  `Number_of_visible_items`,  `Number_of_instances` FROM schemata,schemapairs,datasets WHERE schemapairs.DSID = datasets.DSID AND SchemaID = schemapairs.CandidateSchema AND schemapairs.SPID = " + spid + ";", 12));
+	        	schemaRes.addAll(myExpRunner.db.runSelectQuery("SELECT `SchemaID`, `SchemaName`, `source`,`language`,`Real`,`Language`,`Max_Height_of_the_class_hierarchy`,`Number_of_association_relationships`, `Number_of_attributes_in_Schema`,  `Number_of_classes`,  `Number_of_visible_items`,  `Number_of_instances` FROM schemata,schemapairs,datasets WHERE schemapairs.DSID = datasets.DSID AND SchemaID = schemapairs.TargetSchema AND schemapairs.SPID = " + spid + ";", 12));
 	        	
 	        	outputArrayListofStringArrays(outputPath,schemaRes,"Schema.tab");
-	        	outputArrayListofStringArrays(outputPath,db.runSelectQuery("SELECT `SchemaID`, `Tid`, `DomainNumber`, `TName`, `Known Composite`, `Known Partial`" +
-	        									"FROM `"+DBName+"`.`terms` WHERE SchemaID = " + schemasExp.getCandidateID() + " OR SchemaID = " + schemasExp.getTargetID() + ";", 6),"Item.tab");
-	        	outputArrayListofStringArrays(outputPath,db.runSelectQuery("SELECT `similaritymatrices`.`SMID` , `similaritymatrices`.`CandidateSchemaID` , `similaritymatrices`.`CandidateTermID` , `similaritymatrices`.`TargetSchemaID` , `similaritymatrices`.`TargetTermID` , `similaritymatrices`.`confidence`" +
-	        								" FROM  `"+DBName+"`.`experimentschemapairs` INNER JOIN `"+DBName+"`.`schemapairs` ON (`experimentschemapairs`.`SPID` = `schemapairs`.`SPID`)" +
-	        								" INNER JOIN `"+DBName+"`.`similaritymatrices` ON (`schemapairs`.`TargetSchema` = `similaritymatrices`.`TargetSchemaID`) AND (`schemapairs`.`CandidateSchema` = `similaritymatrices`.`CandidateSchemaID`)" +
-	        								" INNER JOIN `"+DBName+"`.`similaritymeasures` ON (`similaritymeasures`.`SMID` = `similaritymatrices`.`SMID`)" +
+	        	outputArrayListofStringArrays(outputPath,myExpRunner.db.runSelectQuery("SELECT `SchemaID`, `Tid`, `DomainNumber`, `TName`, `Known Composite`, `Known Partial`" +
+	        									"FROM `terms` WHERE SchemaID = " + schemasExp.getCandidateID() + " OR SchemaID = " + schemasExp.getTargetID() + ";", 6),"Item.tab");
+	        	outputArrayListofStringArrays(outputPath,myExpRunner.db.runSelectQuery("SELECT `similaritymatrices`.`SMID` , `similaritymatrices`.`CandidateSchemaID` , `similaritymatrices`.`CandidateTermID` , `similaritymatrices`.`TargetSchemaID` , `similaritymatrices`.`TargetTermID` , `similaritymatrices`.`confidence`" +
+	        								" FROM `experimentschemapairs` INNER JOIN `schemapairs` ON (`experimentschemapairs`.`SPID` = `schemapairs`.`SPID`)" +
+	        								" INNER JOIN `similaritymatrices` ON (`schemapairs`.`TargetSchema` = `similaritymatrices`.`TargetSchemaID`) AND (`schemapairs`.`CandidateSchema` = `similaritymatrices`.`CandidateSchemaID`)" +
+	        								" INNER JOIN `similaritymeasures` ON (`similaritymeasures`.`SMID` = `similaritymatrices`.`SMID`)" +
 	        								" WHERE (`similaritymeasures`.`System` = " + sysCode + ") AND (EID = " + eid + ") AND `schemapairs`.`SPID` = " + schemasExp.getSPID() + ";", 6),"MatchingResult.tab");
 	      		   		
 
@@ -207,7 +243,7 @@ public class OBExperimentRunner {
     			for (String[] matrixRow : enhancedMatrices) similarityMeasureMatrices.get(Long.parseLong(matrixRow[0])).add(matrixRow);
     			//create MI object for each arraylist using createMIfromArrayList
     			HashMap<Long,MatchInformation> EnhancedMI = new HashMap<Long,MatchInformation>();
-    			for ( long sm : similarityMeasureMatrices.keySet()) EnhancedMI.put(sm, createMIfromArrayList(candidate, target,similarityMeasureMatrices.get(sm) ) );
+    			for ( long sm : similarityMeasureMatrices.keySet()) EnhancedMI.put(sm, DBInterface.createMIfromArrayList(candidate, target,similarityMeasureMatrices.get(sm) ) );
 			// 2.7 2nd line match using all available matchers in OB with enhanced matrix
     			int eCounter = 0;
     			for (String[] smRow : SMIDs)
@@ -217,11 +253,11 @@ public class OBExperimentRunner {
     				String SMName = smRow[1];
     				// Update enhanced matrix and mapping results to db
 					// Since these are enhanced matrices use true
-    				if (!checkIfSchemaPairWasMatched(spid, (int)sm, 1))
-    					loadSMtoDB(EnhancedMI.get(sm),schemasExp,true, (int)sm);
+    				//TODO Replace this with documentation of an experiment schema pair
+    				myExpRunner.loadSMtoDB(EnhancedMI.get(sm),schemasExp,true, (int)sm);
 					//document ClarityScore.tab
 	    			ArrayList<String[]> clarityRes = readFile(new File(outputPath,"ClarityScore.tab"));
-	    			loadClarityToDB(clarityRes,schemasExp,(int)sm);
+	    			myExpRunner.loadClarityToDB(clarityRes,schemasExp,(int)sm);
     				for(String secondLineM : available2ndLMatchers)
     				{
     					// Match
@@ -231,14 +267,14 @@ public class OBExperimentRunner {
 						st.importIdsFromMatchInfo(EnhancedMI.get(sm),true);
 						for (MatchedAttributePair match : st.getMatchedPairs())
 						{
-							String[] e = {Long.toString(spid),"","",Long.toString(getMID(secondLineM,sysCode)),smRow[0]};
+							String[] e = {Long.toString(spid),"","",Long.toString(myExpRunner.getMID(secondLineM,sysCode)),smRow[0]};
 							e[1] = Long.toString(match.id1);
 							e[2] = Long.toString(match.id2);
 							mapping.add(e);
 						}
 						
 						// using false to separate the non enhanced from the enhanced result 
-						upload2ndLineMatchToDB(SMName, secondLineM,true, sysCode, spid, mapping);
+						myExpRunner.upload2ndLineMatchToDB(SMName, secondLineM,true, sysCode, spid, mapping,eid);
 					}
     				eCounter++;
     			}
@@ -248,12 +284,16 @@ public class OBExperimentRunner {
 	  }// end for loop of experiment
 	}
 	
+	public ArrayList<ExperimentSchemaPair> getDS() 
+	{return dataset;}
+	
 	/**
 	 * Documents the matchers and similarity measures used in the experiment in the database
 	 * @param sMIDs ArrayList of {SimilarityMeasureID,SMName}
 	 * @param mIDs ArrayList of {MatcherID,MatcherName}
+	 * @deprecated TODO consider removing
 	 */
-	private static void documentMeasuresMatchersInEID(
+	private void documentMeasuresMatchersInEID(
 			ArrayList<String[]> sMIDs, ArrayList<String[]> mIDs) 
 	{
 		
@@ -279,9 +319,10 @@ public class OBExperimentRunner {
 	 * @param clarityRes ArrayList of rows recieved from Clarity.tab result of SMB matching
 	 * @param schemasExp Schema Expirment object to get schema ID, EID and SPID
 	 * @param sm Similarity Measure ID
+	 * @deprecated TODO move to Experiment Documenter
 	 */
-	private static void loadClarityToDB(ArrayList<String[]> clarityRes,
-			SchemasExperiment schemasExp, int sm) 
+	private void loadClarityToDB(ArrayList<String[]> clarityRes,
+			ExperimentSchemaPair schemasExp, int sm) 
 	{
 		HashMap<Field, Object> values = new HashMap<Field, Object>(); 
 		Field schemaID = new Field("SchemaID",FieldType.LONG);
@@ -299,40 +340,15 @@ public class OBExperimentRunner {
 		}
 		
 	}
-	/**
-	 * Receive an array list of matches and 2 ontologies and upload them to an Ontobuilder Match Information object
-	 * @param candidate Ontology object of candidate schema
-	 * @param target Ontology object of target schema
-	 * @param matchList [SMID,CandidateSchemaID,CandidateTermID,TargetSchemaID, TargetTermID,Confidence]
-	 * @return Ontobuilder Match Information object with supplied matches
-	 */
-	@SuppressWarnings("unchecked")
-	private static MatchInformation createMIfromArrayList(Ontology candidate,Ontology target, ArrayList<String[]> matchList) {
-		MatchInformation mi = new MatchInformation();
-		mi.setCandidateOntology(candidate);
-		mi.setTargetOntology(target);
-		ArrayList<Match> matches = new ArrayList<Match>();
-		for (String[] match : matchList) 
-			matches.add(new Match(candidate.getTermByID(Long.parseLong(match[2])), target.getTermByID(Long.parseLong(match[4])),Double.parseDouble(match[5])));
-		mi.setMatches(matches );
-		ArrayList<Term> candTerms = new ArrayList<Term>(); 
-		Vector<Term> tmp = candidate.getModel().getTerms();
-		for (Term t : tmp) candTerms.add(t);
-		ArrayList<Term> targetTerms  = new ArrayList<Term>(); 
-		tmp = candidate.getModel().getTerms();
-		for (Term t : tmp) targetTerms.add(t);
-		MatchMatrix matrix = new MatchMatrix(candTerms.size(),targetTerms.size(),candTerms, targetTerms);
-		for (Match m : matches) matrix.setMatchConfidence(m.getCandidateTerm(), m.getTargetTerm(), m.getEffectiveness());
-		mi.setMatrix(matrix);
-		return mi;
-	}
+	
 
 	/**
 	 * If exact match is not documented in db, document it
 	 * @param exactMapping SchemaTranslator object with mappings between terms. In each pair, assuming first is candidate and second is target
 	 * @param spid Schema Pair ID
+	 * @deprecated TODO move to Experiment Documenter
 	 */
-	private static void uploadExactMatch(SchemaTranslator exactMapping,
+	private void uploadExactMatch(SchemaTranslator exactMapping,
 			long spid) {
 		String sql = "SELECT SPID FROM exactmatches WHERE SPID = " + spid + ";";
 		if (db.runSelectQuery(sql,1).isEmpty())
@@ -357,9 +373,11 @@ public class OBExperimentRunner {
 	 * @param sysCode matching system code
 	 * @param spid schema pair id
 	 * @param mapping ArrayList of mappings : [SPID,CandidateTermID,TargetTermID,MatcherID,SMID]
+	 * @param eid experiment id
+	 * @deprecated TODO move to Experiment Documenter
 	 */
-	private static void upload2ndLineMatchToDB(String measureName,String matcherName, boolean enhanced, int sysCode,
-			long spid, ArrayList<String[]> mapping) {
+	private void upload2ndLineMatchToDB(String measureName,String matcherName, boolean enhanced, int sysCode,
+			long spid, ArrayList<String[]> mapping, Object eid) {
 		HashMap<Field, Object> values = new HashMap<Field, Object>();
 		values.put(new Field("EID", FieldType.LONG),eid);
 		values.put(new Field("SPID",FieldType.LONG),spid);
@@ -380,11 +398,11 @@ public class OBExperimentRunner {
 	 * Get the similarity measure (first line matcher) ID for the supplied name and system
 	 * @param SMName similarity measure name
 	 * @param sysCode matching system
+	 * @deprecated TODO use an enum type instead
 	 * @return
 	 */
-	private static Long getSMID(String SMName, int sysCode) 
+	private Long getSMID(String SMName, int sysCode) 
 	{
-		//String sql = "SELECT `similaritymeasures`.`SMID`, FROM `similaritymeasures` " + " WHERE `MeasureName` = '" + SMName + "' AND `System` = " + sysCode + ";";
 		String sql = "SELECT `similaritymeasures`.`SMID` FROM `similaritymeasures` WHERE `similaritymeasures`.`MeasureName`= '"+SMName+"' AND `similaritymeasures`.`System`='" + sysCode + "';";
 		return Long.parseLong(db.runSelectQuery(sql, 1).get(0)[0]);
 	}
@@ -393,11 +411,12 @@ public class OBExperimentRunner {
 	 * Get the (2nd Line) matcher ID for the supplied name and system
 	 * @param MName Matcher Name
 	 * @param sysCode Matching System
+	 * @deprecated TODO move to Experiment Documenter
 	 * @return
 	 */
-	private static Long getMID(String MName, int sysCode) 
+	private Long getMID(String MName, int sysCode) 
 	{
-		String sql = "SELECT `MatcherID` FROM `"+DBName+"`.`matchers`" + 
+		String sql = "SELECT `MatcherID` FROM `matchers`" + 
 					 " WHERE `MatcherName` = '" + MName + "' AND `System` = " + sysCode +  ";";
 		return Long.parseLong(db.runSelectQuery(sql, 1).get(0)[0]);
 	}
@@ -408,46 +427,28 @@ public class OBExperimentRunner {
 	 * @param SMName Similarity Measure Name (1st line matcher)
 	 * @param spid Schema Pair ID
 	 * @param sysCode Matching system code
+	 * @deprecated TODO Mappings are experiment specific, consider if needed at all
 	 * @return mapping : ArrayList of [SPID,CandidateTermID,TargetTermID,MatcherID,SMID] arrays
 	 */
-	private static ArrayList<String[]> getMappings(String secondLineM, String SMName, long spid, int sysCode) 
+	private ArrayList<String[]> getMappings(String secondLineM, String SMName, long spid, int sysCode) 
 	{
-		String sql = "SELECT DISTINCT `mapping`.`SPID`, `mapping`.`CandidateTermID` , `mapping`.`TargetTermID` , `mapping`.`MatcherID`, `mapping`.`SMID` FROM `"+DBName+"`.`similaritymeasures`" +
-					" INNER JOIN `"+DBName+"`.`mapping` ON (`similaritymeasures`.`SMID` = `mapping`.`SMID`)" +
-					" INNER JOIN `"+DBName+"`.`matchers` ON (`matchers`.`MatcherID` = `mapping`.`MatcherID`)" +
+		String sql = " SELECT DISTINCT `mapping`.`SPID`, `mapping`.`CandidateTermID` , `mapping`.`TargetTermID` , `mapping`.`MatcherID`, `mapping`.`SMID` FROM `similaritymeasures`" +
+					" INNER JOIN `mapping` ON (`similaritymeasures`.`SMID` = `mapping`.`SMID`)" +
+					" INNER JOIN `matchers` ON (`matchers`.`MatcherID` = `mapping`.`MatcherID`)" +
 					" WHERE (`mapping`.`SPID` = " + spid + " AND `similaritymeasures`.`MeasureName` = '" + SMName +
 					" ' AND `matchers`.`MatcherName` = '" + secondLineM + "' AND `similaritymeasures`.`System` = " + sysCode +
 					" AND `matchers`.`System` = " + sysCode + "1);";
 		return db.runSelectQuery(sql, 5);
-	}
-
-	/**
-	 * Return the similarity matrix of the supplied schema pair using the similarity measure supplied
-	 * If the matrix isn't documented in the db, returns null
-	 * @param smName Similarity measure (1st line matcher) name to look for
-	 * @param sysCode code of matching system
-	 * @param spid Schema Pair ID to look for
-	 * @return String array {SMID,CandidateSchemaID,CandidateTermID,TargetSchemaID,TargetTermID,confidence} or null if data isn't found
-	 */
-	private static ArrayList<String[]> getSimilarityMatrix(String smName,int sysCode, long spid) 
-	{
-		
-		ArrayList<String[]> res = null;
-		String sql = "SELECT `similaritymeasures`.`SMID`, `similaritymeasures`.`System`  FROM `similaritymeasures` WHERE `similaritymeasures`.`MeasureName`= '"+smName+"' AND `similaritymeasures`.`System`='" + sysCode + "';";
-		res = db.runSelectQuery(sql, 2);
-		sql = "SELECT `similaritymatrices`.`SMID`,`similaritymatrices`.`CandidateSchemaID` , `similaritymatrices`.`CandidateTermID`, `similaritymatrices`.`TargetSchemaID` , `similaritymatrices`.`TargetTermID` , `similaritymatrices`.`confidence` FROM `schemapairs` INNER JOIN `similaritymatrices` ON (`schemapairs`.`TargetSchema` = `similaritymatrices`.`TargetSchemaID`) AND (`schemapairs`.`CandidateSchema` = `similaritymatrices`.`CandidateSchemaID`) WHERE (`similaritymatrices`.`SMID` = '" + res.get(0)[0] + "' AND `schemapairs`.`SPID` = " + spid + ");";
-		ArrayList<String[]> res2 = null;
-		res2 = db.runSelectQuery(sql, 6);
-		return res2;
 	}
 	
 	/**
 	 * Make sure (2nd Line) matchers supplied exist in the DB 
 	 * @param availableMatchers List of matchers to lookup
 	 * @param sysCode system code of matchers
+	 * @deprecated TODO move to Experiment Documenter
 	 * @return list of MatcherID and matcherName pairs as a String array
 	 */
-	private static ArrayList<String[]> documentMatchers(String[] availableMatchers, int sysCode) 
+	private ArrayList<String[]> documentMatchers(String[] availableMatchers, int sysCode) 
 	{
 		for (String matcherName : availableMatchers)
 		{
@@ -469,9 +470,10 @@ public class OBExperimentRunner {
 	 * Make sure similarity measures supplied exist in the DB 
 	 * @param availableMatchers List of matchers to lookup
 	 * @param sysCode system code of matchers
+	 * @deprecated TODO create as an enum type or fill into a hashmap or something
 	 * @return list of SimilarityMeasure and matcherName pairs as a String array
 	 */
-	private static ArrayList<String[]> documentSimilarityMeasures(String[] availableMatchers,int sysCode) 
+	private ArrayList<String[]> documentSimilarityMeasures(String[] availableMatchers,int sysCode) 
 	{
 		for (String matcherName : availableMatchers)
 		{
@@ -490,29 +492,14 @@ public class OBExperimentRunner {
 		return db.runSelectQuery(sql, 2);
 	}
 
-	private static void updateWasMatchedWithAllMatchers(double spid) 
+	/**
+	 * @deprecated TODO This doesn't make sense. This is a dynamic property, should not be documented
+	 * @param spid
+	 */
+	private void updateWasMatchedWithAllMatchers(double spid) 
 	{
 		String sql = "UPDATE experimentschemapairs SET WasMatched = TRUE WHERE EID = " + eid + " AND SPID = " + spid + ";"; 
 		db.runUpdateQuery(sql);
-	}
-
-	/**
-	 * This method checks if a schema pair was matched before with this matcher 
-	 * and stored in the DB. if so, returns true
-	 * @param schemaPairId Schema Pair ID
-	 * @param smid Similarity Measure ID
-	 * @param enhanced 1 For true 0 for false
-	 * @return boolean 
-	 */
-	
-	private static boolean checkIfSchemaPairWasMatched(double schemaPairId,Integer smid,int enhanced) {
-		String sql  = "SELECT `similaritymatrices`.`confidence` FROM `schemamatching`.`schemapairs` INNER JOIN `schemamatching`.`similaritymatrices` " +
-        			  " ON (`schemapairs`.`TargetSchema` = `similaritymatrices`.`TargetSchemaID`) AND (`schemapairs`.`CandidateSchema` = `similaritymatrices`.`CandidateSchemaID`) " +
-        			  " WHERE (`similaritymatrices`.`enhanced` = " + enhanced + " AND `similaritymatrices`.`SMID` = " + smid + " AND `schemapairs`.`SPID` = " + schemaPairId + ");"; 
-		ArrayList<String[]> schemaList = db.runSelectQuery(sql, 1);
-		if (!schemaList.isEmpty())
-				return true;
-		return false;
 	}
 
 	/**
@@ -520,6 +507,7 @@ public class OBExperimentRunner {
 		 * @param schemaID 
 		 * @param Onotology
 		 * @throws Exception
+		 * @deprecated TODO move to Experiment Documenter
 		 */
 	private static void AddInfoAboutSchemaToDB(long schemaID, Ontology ontology,DBInterface db) throws Exception 
 	{
@@ -548,6 +536,7 @@ public class OBExperimentRunner {
 	 * 								 A(1) number of hidden terms
 	 * 								 A(2) number of association
 	 * @throws Exception
+	 * @deprecated TODO move to Experiment Documenter
 	 */
 	
 	private static ArrayList<Integer> calculateTermsHiddenAssociationInOntology(Ontology ontology) {
@@ -580,6 +569,7 @@ public class OBExperimentRunner {
 	 * function will run recursively until it gets to all the leafs reachable from the term
 	 * Remark: We assume that a single entity in the graph has only one parent
 	 * @param term
+	 * @deprecated TODO move to Experiment Documenter
 	 * @throws Exception
 	 */
 	
@@ -609,6 +599,7 @@ public class OBExperimentRunner {
 	/**
 	 * This method's returns the number of subclasses within an onotology
 	 * @param Onotology
+	 * @deprecated TODO move to Experiment Documenter
 	 * @throws Exception
 	 */
 	
@@ -627,7 +618,8 @@ public class OBExperimentRunner {
 	
 	/**
 	 * This method's returns the number of subclasses from an OntologyClass
-	 * iterate recursively from the given OntologyClass to its subclasses until it reaches subclasses with no subclasses 
+	 * iterate recursively from the given OntologyClass to its subclasses until it reaches subclasses with no subclasses
+	 * @deprecated TODO move to Experiment Documenter 
 	 * @param OntologyClass
 	 * @throws Exception
 	 */
@@ -648,6 +640,7 @@ public class OBExperimentRunner {
 	 * @param outputPath
 	 * @param res
 	 * @param fName
+	 * * @deprecated TODO move to SMB experiment
 	 * @throws IOException
 	 */
 	private static void outputArrayListofStringArrays(File outputPath,
@@ -672,45 +665,58 @@ public class OBExperimentRunner {
 	 * if the terms are not documented, adds them as well to the terms table.
 	 * Note: This method assumes that schema files were not changed (hence if a schema was parsed before,
 	 * it will not be parsed again and changes will not be detected  
-	 * @param K no. of random experiments to load
-	 * @param spid if not 0, get a specific schema pair
+	 * @param K no. of random experiments to load, put 0 for a specific schema pair
+	 * @param spid get a specific schema pair, ignored if K <> 0
+	 * @param datasetID default value 1 (Ontobuilder Dataset) if not null, the experiment will be loaded from the supplied dataset code
+	 * @param domainCodes A list of domainCodes to limit the random schema selection with. If null, all domains are used. 
 	 * @return ArrayList of Schema Experiments. 
-	 * @throws Exception if K is larger than the no. of available schema pairs in the db
 	 */
-	private static ArrayList<SchemasExperiment> loadKExperiments(int K, int spid) throws Exception 
+	private ArrayList<ExperimentSchemaPair> selectExperiments(int K, int spid, int datasetID, HashSet<Integer> domainCodes) 
 	{
+		if (datasetID == 0) datasetID = 1;
+		ArrayList<ExperimentSchemaPair> ds = new ArrayList<ExperimentSchemaPair>();
+		String sql = "FROM `schemapairs`, schemata WHERE (schemapairs.`CandidateSchema` =" + 
+					 " schemata.`SchemaID` OR schemapairs.`TargetSchema` = schemata.`SchemaID`) AND schemapairs.DSID = " + Integer.toString(datasetID) +  
+					 (domainCodes.isEmpty()?";" : " AND ( schemata.`domainCode` IN (" + domainCodes.toString().substring(1,domainCodes.toString().length()-1) + ") )");
 		
-		ArrayList<SchemasExperiment> ds = new ArrayList<SchemasExperiment>();
-		String sql = "SELECT COUNT(*) FROM schemapairs";
-		ArrayList<String[]> NumberOfSchemaPairs =  db.runSelectQuery(sql, 1);
+		ArrayList<String[]> NumberOfSchemaPairs =  db.runSelectQuery("SELECT COUNT( DISTINCT spid) " + sql, 1);
 		//check the number of available experiments is larger then k
-		if (K>Integer.valueOf(NumberOfSchemaPairs.get(0)[0])) throw new Exception("K is too large");
+		if (K>Integer.valueOf(NumberOfSchemaPairs.get(0)[0])) 
+			error("No. of experiments requested is larger than the no. of schema pairs in the dataset");
 		//extracting pairs from the DB
-		if (spid!=0) sql = "SELECT * FROM schemapairs WHERE SPID = " + spid + ";" ;
-		//TODO externalize DSID
-		else sql  = "SELECT * FROM schemapairs WHERE DSID = 1 ORDER BY RAND() LIMIT " + String.valueOf(K); 
-		ArrayList<String[]> k_Schemapairs =  db.runSelectQuery(sql, 5);
-		for (int i=0;i<K;i++){
-		String full_url = DSURL;
-		String url = parseFolderPathFromSchemapairs((k_Schemapairs.get(i))[4]);
-		full_url = full_url.concat(url);
-		File f = new File(full_url);
-		SchemasExperiment schemasExp = new SchemasExperiment(f,Long.valueOf(k_Schemapairs.get(i)[0]),Long.valueOf(k_Schemapairs.get(i)[2]),Long.valueOf(k_Schemapairs.get(i)[3]));
-		ds.add(schemasExp);
+		if (spid!=0) sql = "SELECT spid FROM schemapairs WHERE SPID = " + spid + ";" ;
+		else sql  = "SELECT DISTINCT spid " + sql +" ORDER BY RAND() LIMIT " + String.valueOf(K); 
+		ArrayList<String[]> k_Schemapairs =  db.runSelectQuery(sql, 1);
+		for (String[] strPair : k_Schemapairs)
+		{
+			ExperimentSchemaPair schemasExp = new ExperimentSchemaPair(this, Integer.parseInt(strPair[0]));
+			ds.add(schemasExp);
 		}
 		//document the new experiment in to DB 
-		eid = writeExperimentsToDB(ds,k_Schemapairs);
+		writeExperimentsToDB(ds,k_Schemapairs); //TODO replace this with a call to experiment documenter
 		return ds;
+	}
+
+	/**
+	 * Sends the provided error message to the err stream and exits with code 1
+	 * @param msg
+	 */
+	protected static void error(String msg) 
+	{
+		System.err.println(msg);
+		System.exit(1);
+		
 	}
 
 	/**
 	 * Adds an experiment to the experiments table and the schemapairs to the experiment schema pairs table
 	 * Otherwise 
-	 * @param ds
+	 * @param myExpRunner.getDS()
 	 * @param k_Schemapairs
 	 * @return Experiment ID from db. Returns null if writing experiment into DB fails (due to missing ontology files, etc.)
+	 * @deprecated to be moved to ExperimentDocumenter
 	 */
-	private static long writeExperimentsToDB(ArrayList<SchemasExperiment> ds, ArrayList<String[]> k_Schemapairs) {
+	private long writeExperimentsToDB(ArrayList<ExperimentSchemaPair> ds, ArrayList<String[]> k_Schemapairs) {
 		
 		//document the experiment into experiment table
 		String sql  = "SELECT MAX(EID) FROM experiments";
@@ -731,7 +737,7 @@ public class OBExperimentRunner {
 		values.put(f, (Object)time);
 
 		f = new Field ("ExperimentDesc", FieldType.STRING);
-		String str = ("SMB(E," + DSURL + ",s)");
+		String str = ("SMB(E," + dsurl + ",s)");
 		values.put(f, (Object)str);
 		
 		db.insertSingleRow(values, "experiments");
@@ -766,11 +772,12 @@ public class OBExperimentRunner {
 	
 	/**
 	 *Receives an single term and parses it to DB, if terms already exist returns without documenting it
-	 * @ Term  
+	 * @param Term  
 	 * @param OntologyID - ID of the onotology the term belongs to
+	 * @deprecated TODO move to Experiment Documenter
 	 */
 	
-	private static void writeTermToDB(long OntologyID, Term term) {
+	private void writeTermToDB(long OntologyID, Term term) {
 		
 			
 		HashMap<Field,Object> values = new HashMap<Field,Object>();	
@@ -799,23 +806,25 @@ public class OBExperimentRunner {
 			}
 	}
 	
-	private static boolean checkTermExistenceAtDB(long id, long ontologyID) {
+	/**
+	 * @deprecated TODO move to Experiment Documenter
+	 * @param id
+	 * @param ontologyID
+	 * @return
+	 */
+	private boolean checkTermExistenceAtDB(long id, long ontologyID) {
 	String sql = "SELECT SchemaID,Tid From terms WHERE Tid=" + id +  " AND SchemaID=" + ontologyID + ";";
 	ArrayList<String[]> existInDB =  db.runSelectQuery(sql, 1);
 	if (!existInDB.isEmpty())
 		return true;
 	return false;
 	}
-
-	//private static void writeToDB(DBInterface db, HashMap<Field,Object> values, String table) throws SQLException {
-	//	db.insertSingleRow(values, table);		
-	//}
-
-	private static String parseFolderPathFromSchemapairs(String url) {
-		String str[] = url.split("/");
-		return str[0];
-	}
 	
+	/**
+	 * @deprecated TODO move to Experiment Documenter
+	 * @param domain
+	 * @return
+	 */
 	private static int getDomainNumber(String domain) {
 		if ( domain.equalsIgnoreCase("Text")) 
 			return 1;
@@ -843,11 +852,12 @@ public class OBExperimentRunner {
 	 * This method gets a MatchInformation and SchemaTranslator and outputs the matched result (matched terms and their similarity value) to DB
 	 * @param SerialNumOfMatcher - according to the serial number described in the DB, under similaritymeasures;
 	 * @param MatchInformation - holds a set of matches
-	 * @param SchemasExperiment - holds the 2 ontology we match (used to get their IDs)
+	 * @param ExperimentSchemaPair - holds the 2 ontology we match (used to get their IDs)
+	 * @deprecated TODO move to Experiment Documenter
 	 * @Remark, when storing an id we since we decide on the id of a term 
 	 * 	 */
 	@SuppressWarnings("unchecked")
-	private static void loadSMtoDB(MatchInformation firstLineMI, SchemasExperiment schemasExp,boolean enhanced, int SerialNumOfMatcher) throws IOException 
+	private void loadSMtoDB(MatchInformation firstLineMI, ExperimentSchemaPair schemasExp,boolean enhanced, int SerialNumOfMatcher) throws IOException 
 	{
 		ArrayList<Match> matches = firstLineMI.getMatches();
 		HashMap<Field,Object> values = new HashMap<Field,Object>();
@@ -857,17 +867,13 @@ public class OBExperimentRunner {
 		values.put(new Field ("SMID", FieldType.LONG ), (long)SerialNumOfMatcher);
 		Field tTermID = new Field ("TargetTermID", FieldType.LONG );
 		Field cTermID = new Field ("CandidateTermID", FieldType.LONG );
-		Field conf = new Field ("confidence", FieldType.DOUBLE );
-		//Field tTermName = new Field ("TTermName", FieldType.STRING );
-		//Field cTermName = new Field ("CTermName", FieldType.STRING );
-		
+		Field conf = new Field ("confidence", FieldType.DOUBLE );	
 		for (Match match : matches)
 		{
 			Term candidateTerm = match.getCandidateTerm();
 			Term targetTerm = 	match.getTargetTerm();
 			
 			//write the term to the DB
-			
 			writeTermToDB((long)schemasExp.getTargetID(),targetTerm);
 			writeTermToDB((long)schemasExp.getCandidateID(),candidateTerm);
 			
@@ -878,8 +884,6 @@ public class OBExperimentRunner {
 			{
 				System.err.println("oops");
 			}
-			//values.put(tTermName, truncate(targetTerm.getName(),300));
-			//values.put(cTermName , truncate(candidateTerm.getName(),300));
 			db.insertSingleRow(values, "similaritymatrices");
 		}
 	}
@@ -888,6 +892,7 @@ public class OBExperimentRunner {
 	 * readFile supplied into ArrayList of string arrays
 	 * @param f File to read
 	 * @return Array list of string arrays
+	 * @deprecated TODO move to SMBService experiment
 	 */
 	private static ArrayList<String[]> readFile(File f)
 	{
