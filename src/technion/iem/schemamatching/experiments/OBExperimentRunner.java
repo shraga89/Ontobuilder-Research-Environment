@@ -42,21 +42,18 @@ import com.modica.ontology.match.Match;
 import com.modica.ontology.match.MatchInformation;
 
 /**
- * @author Tomer Sagi and Nimrod Busany
- * Input: K - number of experiments to run (an integer)
- */
-
-/**
- * The class provides tools for running schema matching experiments. 
+ * The class provides tools for running schema matching experiments.
+ * @author Tomer Sagi
+ * @author Nimrod Busany 
  */
 public class OBExperimentRunner {
 
 	/**
 	 * @param args[0] Output folder 
 	 * @param args[1] Experiment Type : "Clarity" or other?
-	 * @param args[2] K - number of experiments for clarity
+	 * @param args[2] K - number of experiments for clarity, set 0 to use a specific ID
 	 * @param args[3] mode for the SMB (E,L,R)
-	 * @param args[4] schema pair ID (if null will use random)
+	 * @param args[4] schema pair ID (ignored unless K is 0
 	 * Note: Set parameters for connecting the DB and set the path of the schema matching at the resouces.properties 
 	 */
 	protected String dsurl;
@@ -154,7 +151,6 @@ public class OBExperimentRunner {
 	    String[] available2ndLMatchers = MappingAlgorithms.ALL_ALGORITHM_NAMES;
         SchemaTranslator secondLineST[] = new SchemaTranslator[available2ndLMatchers.length*availableMatchers.length];
 	    int sysCode = 1; //Ontobuilder sysCode
-	    //int smbSysCode = 2; //SMB enhancement results are documented under a different sysCode
 		// Make sure all matchers and similarity measures are documented in the DB with the right matcher ID
         ArrayList<String[]> SMIDs = myExpRunner.documentSimilarityMeasures(availableMatchers,sysCode );
         //documentSimilarityMeasures(availableMatchers,smbSysCode );
