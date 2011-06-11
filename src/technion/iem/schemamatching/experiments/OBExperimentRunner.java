@@ -89,7 +89,7 @@ public class OBExperimentRunner {
 	{
 		this(db,datasetURL);
 		dataset = selectExperiments(1,schemaPairID, 0, null);
-		doc = new ExperimentDocumenter("",this.db); //TODO fill experiment description
+		doc = new ExperimentDocumenter(datasetURL,this.db); //TODO fill experiment description - filled it with DS url, but I suspect this isn't not what you wanted. not sure why not...
 	}
 	
 	/**
@@ -116,33 +116,12 @@ public class OBExperimentRunner {
 	    DBInterface myDB = new DBInterface(Integer.parseInt((String)pMap.get("dbmstype")),(String)pMap.get("host"),(String)pMap.get("dbname"),(String)pMap.get("username"),(String)pMap.get("pwd"));
 	    //TODO: 2 run the relevant constructor according to command line args
 		OBExperimentRunner myExpRunner = new OBExperimentRunner(myDB,(String)pMap.get("schemaPath"));  
-	    int eid = myExpRunner.doc.getEid();
+	    int eid = myExpRunner.getDoc().getEid();
 	    /* TODO: 3 major refactoring required here. Create an experiment interface class, define what it includes and how it is documented in the DB.
 	     * Extract experiment loading into a method. Extract the SMBservice / Clarity experiment into a method.   
 	    */
+	    //TODO: 4 move this section to the ExperimentDocumenter method ------- Implemented 
 	    
-	    //TODO: 4 move this section to the ExperimentDocumenter method
-		//document exact match in db if doesn't exist
-	    SchemaTranslator exactMapping;
-	    ArrayList<ExperimentSchemaPair> badSE = new ArrayList<ExperimentSchemaPair>();
-	    for (ExperimentSchemaPair schemasExp : myExpRunner.getDS()) 
-	    {
-			// 2.1 load from file into OB objects
-	        exactMapping = schemasExp.getExactMapping();
-	        long spid = schemasExp.getSPID();
-	        if (exactMapping == null )
-	        {	
-	        	badSE.add(schemasExp);
-	        	System.err.println("Bad spid: "  + spid);
-	        	continue;
-	        }
-	    
-	        myExpRunner.uploadExactMatch(exactMapping, spid);
-	    }
-	    
-        myExpRunner.getDS().removeAll(badSE);
-  		System.out.println("DataSet size is: " + myExpRunner.getDS().size());
-  		// end TODO 4  
   		  
 	    Ontology target;
 	    Ontology candidate;
@@ -151,9 +130,15 @@ public class OBExperimentRunner {
 	    String[] available2ndLMatchers = MappingAlgorithms.ALL_ALGORITHM_NAMES;
         SchemaTranslator secondLineST[] = new SchemaTranslator[available2ndLMatchers.length*availableMatchers.length];
 	    int sysCode = 1; //Ontobuilder sysCode
-		// Make sure all matchers and similarity measures are documented in the DB with the right matcher ID
-        ArrayList<String[]> SMIDs = myExpRunner.documentSimilarityMeasures(availableMatchers,sysCode );
-        //documentSimilarityMeasures(availableMatchers,smbSysCode );
+		
+	    // Make sure all matchers and similarity measures are documented in the DB with the right matcher ID
+        //ArrayList<String[]> SMIDs = myExpRunner.documentSimilarityMeasures(availableMatchers,sysCode );
+	    ArrayList<String[]> SMIDs = myExpRunner.getDoc().documentSimilarityMeasures(availableMatchers,sysCode );
+	    // -------- recreated the function at ExperimentDocumenter, still depricated because I didn't understand your
+	    // not about the enum or hashtable
+	    
+	    
+	    //documentSimilarityMeasures(availableMatchers,smbSysCode );
         ArrayList<String[]> MIDs = myExpRunner.documentMatchers(available2ndLMatchers, sysCode);
         //documentMatchers(available2ndLMatchers, smbSysCode);
         myExpRunner.documentMeasuresMatchersInEID(SMIDs,MIDs);
@@ -280,6 +265,10 @@ public class OBExperimentRunner {
 	  }// end for loop of experiment
 	}
 	
+	private ExperimentDocumenter getDoc() {
+		return doc;
+	}
+
 	public ArrayList<ExperimentSchemaPair> getDS() 
 	{return dataset;}
 	
@@ -338,30 +327,7 @@ public class OBExperimentRunner {
 	}
 	
 
-	/**
-	 * If exact match is not documented in db, document it
-	 * @param exactMapping SchemaTranslator object with mappings between terms. In each pair, assuming first is candidate and second is target
-	 * @param spid Schema Pair ID
-	 * @deprecated TODO move to Experiment Documenter
-	 */
-	private void uploadExactMatch(SchemaTranslator exactMapping,
-			long spid) {
-		String sql = "SELECT SPID FROM exactmatches WHERE SPID = " + spid + ";";
-		if (db.runSelectQuery(sql,1).isEmpty())
-		{
-		    HashMap<Field, Object> values = new HashMap<Field, Object>();
-		    values.put(new Field("SPID",FieldType.LONG),spid);
-		    Field targTerm = new Field("TargetTermID",FieldType.LONG);
-		    Field candTerm = new Field("CandidateTermID",FieldType.LONG);
-		    for (MatchedAttributePair match : exactMapping.getMatchedPairs())
-		    {
-		    	values.put(candTerm, match.id2);
-		    	values.put(targTerm, match.id1);
-		    	if (db.runSelectQuery("SELECT * FROM exactmatches WHERE SPID='" + spid + "' AND TargetTermID='" + match.id1 + "' AND CandidateTermID='"+ match.id2 + "';" , 4).isEmpty())
-		    		db.insertSingleRow(values, "exactmatches");
-		    }
-		}
-	}
+	
 
 	/**
 	 * @param measureName similarity measure (first line matcher) name
@@ -918,6 +884,11 @@ public class OBExperimentRunner {
 	  if (value != null && value.length() > length)
 	    value = value.substring(0, length);
 	  return value;
+	}
+	
+	public DBInterface getDB()
+	{
+	  return db;
 	}
 
 	
