@@ -1,7 +1,11 @@
 package technion.iem.schemamatching.experiments;
 
+import java.lang.annotation.Target;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Vector;
+
 import schemamatchings.ontobuilder.MatchingAlgorithms;
 import schemamatchings.ontobuilder.OntoBuilderWrapperException;
 import schemamatchings.util.SchemaMatchingsUtilities;
@@ -241,6 +245,140 @@ public class ExperimentSchemaPair {
 				return true;
 		return false;
 	}
-}
 
+	
+		/**
+		 * This method gets an ontology and ontology's id and updates into the DB additional info about the schema
+		 * @param schemaID 
+		 * @param Onotology
+		 * @throws Exception
+		 */
+	public void AddInfoAboutSchemaToDB(DBInterface db) throws Exception 
+	{
+		int i=0;
+		long schemaID;
+		while(i<1){
+			if (i==0) schemaID = (long)targetID;
+			else schemaID = (long)candidateID;
+			String sql  = "SELECT * FROM schemata WHERE SchemaID=\"" + schemaID + "\";"; 
+			String[] schemaList = db.runSelectQuery(sql, 13).get(0);
+			//check the flag of the ontology to see if it was parsed before
+			if (Double.valueOf(schemaList[12])==1)	{i++; continue;}
+			Ontology ontology;
+			if (i==0) ontology = target;
+			else ontology = candidate;
+			int NumOfClasses = getNumberOfClasses (ontology);
+			ArrayList <Integer> A = calculateTermsHiddenAssociationInOntology (ontology);
+			//For webforms only recursively count terms that the ontology class is not "hidden" 
+			sql = "UPDATE schemata SET `Was_Fully_Parsed` = '1',`Max_Height_of_the_class_hierarchy`= '" + ontology.getHeight() + 
+			"', `Number_of_classes` =  '" + NumOfClasses + "', `Number_of_association_relationships` = '" + A.get(2) + 
+			"', `Number_of_attributes_in_Schema`= '" + A.get(0) + "', `Number_of_visible_items` = '" +  (A.get(1)-A.get(0)) + 
+			"', `Number_of_instances` = '" + 0 + "' WHERE SchemaID = '" + schemaID + "';";
+			db.runUpdateQuery(sql);
+			i++;
+			}
+		}
+	
+	/**
+	 * This method's returns the number of subclasses within an onotology
+	 * @param Onotology
+	 * @throws Exception
+	 */
+	@SuppressWarnings("unchecked")
+	private static int getNumberOfClasses(Ontology ontology) {
+		Vector<OntologyClass> v = ontology.getModel().getClasses();
+		//OntologyClass c = (OntologyClass) v.get(0);
+		Iterator<OntologyClass> it = v.iterator();
+		int count = v.size();
+		while (it.hasNext()){
+			OntologyClass c = it.next();
+			count+=c.getSubClassesCount() + iterativeCountingOfClasses (c);
+		}		
+		return count;
+	}
+		
+	/**
+	 * This method's returns the number of subclasses from an OntologyClass
+	 * iterate recursively from the given OntologyClass to its subclasses until it reaches subclasses with no subclasses
+	 * @param OntologyClass
+	 * @throws Exception
+	 */
+
+	private static int iterativeCountingOfClasses(OntologyClass c) {
+		int count = 0;
+		count+= c.getSubClassesCount();
+		for (int i =0; i<c.getSubClassesCount(); i++){
+			count+=iterativeCountingOfClasses(c.getSubClass(i));
+		}
+		return count;
+	}
+	
+	
+	/**
+	 * This method given an ontology will calculate (by iterating recursively) all of it's terms, hidden terms, and associations
+	 * Remark: We assume that is a unique path to each term (so terms arn't being counted more than once)
+	 * @param Onotology
+	 * Return: ArrayList<integer> A: A(0) number of terms
+	 * 								 A(1) number of hidden terms
+	 * 								 A(2) number of association
+	 * @throws Exception
+	 */
+	
+	private static ArrayList<Integer> calculateTermsHiddenAssociationInOntology(Ontology ontology) {
+		
+		int TotalNumOfTerms = 0;
+		int counthiddens = 0;
+		int Associationcount = 0;
+		for (int i=0;i<ontology.getTermsCount();i++){
+			Term t = ontology.getTerm(i);
+			ArrayList <Integer> B = countTermsChildren (t);
+			TotalNumOfTerms+= B.get(0);
+			counthiddens+=B.get(1);
+			Associationcount += B.get(2);
+			if (t.getSuperClass().getName().contains("hidden"))
+				counthiddens++;
+			for (int j=0;j<t.getRelationshipsCount();j++)
+				if (!t.getRelationship(j).getName().contains("is child of") && !t.getRelationship(j).getName().contains("is parent of"))	
+					Associationcount++;
+		}		
+		ArrayList<Integer> A = new ArrayList<Integer>();
+		A.add(TotalNumOfTerms);
+		A.add(counthiddens);
+		A.add(Associationcount);
+		return A;
+	}
+	/**
+	 * This method's returns the number of the children from a given term (not only terms)
+	 * function will run recursively until it gets to all the leafs reachable from the term
+	 * Remark: We assume that a single entity in the graph has only one parent
+	 * @param term
+	 * @throws Exception
+	 */
+	
+	private static ArrayList <Integer> countTermsChildren(Term t) {
+		
+		int tCount = t.getTermsCount();
+		int countNumberOfDecendants=0;
+		int hidden=0;
+		int countAssociation = 0;
+		for (int i=0; i<tCount;i++){
+			ArrayList <Integer> B = countTermsChildren(t.getTerm(i));
+			countNumberOfDecendants+=B.get(0);
+			hidden+=B.get(1);
+			if (t.getTerm(i).getSuperClass().getName().contains("hidden"))	
+				hidden++;
+			for (int j=0;j<t.getRelationshipsCount();j++)
+				if (!t.getRelationship(j).getName().contains("is child of") && !t.getRelationship(j).getName().contains("is parent of"))	
+					countAssociation++;
+		}
+		ArrayList <Integer> A = new ArrayList<Integer>();
+		A.add(1+countNumberOfDecendants);
+		A.add(hidden);
+		A.add(countAssociation);
+		return A;
+	}
+	
+	
+
+}
   
