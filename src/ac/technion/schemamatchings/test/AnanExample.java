@@ -1,6 +1,6 @@
 
 
-package schemamatchings.test;
+package ac.technion.schemamatchings.test;
 
 import schemamatchings.meta.algorithms.TKMInitializationException;
 import schemamatchings.meta.algorithms.TKMRunningException;

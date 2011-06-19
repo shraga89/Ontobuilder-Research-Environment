@@ -1,4 +1,4 @@
-package schemamatchings.test;
+package ac.technion.schemamatchings.test;
 
 import schemamatchings.ontobuilder.MatchingAlgorithms;
 import schemamatchings.ontobuilder.OntoBuilderWrapper;

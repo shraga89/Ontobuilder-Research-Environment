@@ -1,7 +1,7 @@
 /**
  * The schemamatchings.test package houses a variety of tests for the various components of Ontobuilder
  */
-package schemamatchings.test;
+package ac.technion.schemamatchings.test;
 
 import java.io.File;
 import java.io.FilenameFilter;

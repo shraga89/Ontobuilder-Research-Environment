@@ -1,4 +1,4 @@
-package technion.iem.schemamatching.experiments;
+package ac.technion.schemamatching.experiments;
 
 import java.lang.annotation.Target;
 import java.util.ArrayList;

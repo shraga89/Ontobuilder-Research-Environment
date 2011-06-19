@@ -1,4 +1,4 @@
-package schemamatchings.test;
+package ac.technion.schemamatchings.test;
 /*
 This objects wrappes a matched pair and adds data to it as is needed to be collected
 for an experiment.

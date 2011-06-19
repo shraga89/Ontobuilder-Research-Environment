@@ -1,7 +1,7 @@
 /**
  * 
  */
-package technion.iem.schemamatching.experiments;
+package ac.technion.schemamatching.experiments;
 
 import java.io.IOException;
 import java.sql.Time;
@@ -14,8 +14,9 @@ import schemamatchings.util.SchemaTranslator;
 import technion.iem.schemamatching.dbutils.DBInterface;
 import technion.iem.schemamatching.dbutils.Field;
 import technion.iem.schemamatching.dbutils.Field.FieldType;
-import technion.iem.schemamatching.experiments.ExperimentSchemaPair;
-import technion.iem.schemamatching.experiments.OBExperimentRunner;
+
+import ac.technion.schemamatching.experiments.ExperimentSchemaPair;
+import ac.technion.schemamatching.experiments.OBExperimentRunner;
 
 import com.modica.ontology.Term;
 import com.modica.ontology.match.Match;
