@@ -1,4 +1,4 @@
-package schemamatchings.util;
+package ac.technion.schemamatching.util;
 
 import com.modica.ontology.*;
 import com.modica.ontology.match.*;
