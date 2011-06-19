@@ -1,4 +1,4 @@
-package ac.technion.schemamatchings.test;
+package ac.technion.schemamatching.test;
 import com.modica.ontology.Ontology;
 import com.modica.ontology.Term;
 

@@ -1,5 +1,5 @@
 
-package ac.technion.schemamatchings.test;
+package ac.technion.schemamatching.test;
 
 import schemamatchings.meta.match.MatchedAttributePair;
 import schemamatchings.ontobuilder.MatchMatrix;
