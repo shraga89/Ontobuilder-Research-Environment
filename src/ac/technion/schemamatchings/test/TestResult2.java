@@ -1,10 +1,10 @@
-package schemamatchings.test;
+package ac.technion.schemamatchings.test;
 
 import java.io.FileWriter;
 import java.util.Enumeration;
 import java.util.Vector;
 
-public class TestResult1 extends TestResult{
+public class TestResult2 extends TestResult{
 
   public String printResult() {
     Enumeration keys, values;
@@ -38,7 +38,7 @@ public class TestResult1 extends TestResult{
     FileWriter file;
     file = new FileWriter(fileName + "0.txt");
     Enumeration termKeys, termValues, combinedKeys, combinedValues;
-    file.write("Candidate File\tTarget File\tK\tPercentage\n");
+    file.write("Candidate File\tTarget File\n");
     termKeys = termResults.keys();
     termValues = termResults.elements();
     combinedKeys = combinedResults.keys();
@@ -51,8 +51,8 @@ public class TestResult1 extends TestResult{
       if (((String)termKey.get(0)).equals(combinedKey.get(0)) &&
           ((String)termKey.get(1)).equals(combinedKey.get(1))    ) {
         file.write((String)termKey.get(0) + "\t" + (String)termKey.get(1) + "\n");
-        file.write("Term Results:\n"+((Test1FileResult)termValues.nextElement()).printForFile1());
-        file.write("Combined Results:\n"+((Test1FileResult)combinedValues.nextElement()).printForFile1()+"\n");
+        file.write("Term Results:\n"+((Test1FileResult)termValues.nextElement()).printForFile2());
+        file.write("Combined Results:\n"+((Test1FileResult)combinedValues.nextElement()).printForFile2()+"\n");
       }
     }
     file.close();

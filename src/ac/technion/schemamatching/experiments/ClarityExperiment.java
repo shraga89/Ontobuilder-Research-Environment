@@ -1,7 +1,7 @@
 /**
  * 
  */
-package technion.iem.schemamatching.experiments;
+package ac.technion.schemamatching.experiments;
 
 import com.modica.ontology.match.MatchInformation;
 

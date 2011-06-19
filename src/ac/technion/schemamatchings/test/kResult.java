@@ -1,4 +1,4 @@
-package schemamatchings.test;
+package ac.technion.schemamatchings.test;
 
 /*
 This is a generic object used to hold data pertaining to a specific K-best mapping.

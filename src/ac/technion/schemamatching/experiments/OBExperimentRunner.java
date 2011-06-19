@@ -3,24 +3,18 @@
  * on the ontobuilder schema matching system and other utilities developed at the Technion schema matching research group. 
  * Experiments are run on a dataset library documented in a mysql database.  
  */
-package technion.iem.schemamatching.experiments;
+package ac.technion.schemamatching.experiments;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Properties;
-import java.util.Set;
-import java.util.Vector;
-
 import schemamatchings.meta.match.MatchedAttributePair;
-import schemamatchings.ontobuilder.MatchMatrix;
 import schemamatchings.ontobuilder.MatchingAlgorithms;
 import schemamatchings.ontobuilder.OntoBuilderWrapper;
 import schemamatchings.util.BestMappingsWrapper;
@@ -29,16 +23,10 @@ import schemamatchings.util.SchemaTranslator;
 import smb_service.PropertyLoader;
 import smb_service.SMB;
 import technion.iem.schemamatching.dbutils.DBInterface;
-import technion.iem.schemamatching.dbutils.Field;
-import technion.iem.schemamatching.dbutils.Field.FieldType;
-
 import com.infomata.data.DataFile;
 import com.infomata.data.DataRow;
 import com.infomata.data.TabFormat;
 import com.modica.ontology.Ontology;
-import com.modica.ontology.OntologyClass;
-import com.modica.ontology.Term;
-import com.modica.ontology.match.Match;
 import com.modica.ontology.match.MatchInformation;
 
 import java.util.Calendar;
@@ -122,7 +110,6 @@ public class OBExperimentRunner {
 		String DATE_FORMAT_NOW = "yyyy-MM-dd HH:mm:ss";
 	    SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT_NOW);
 	    return sdf.format(cal.getTime());
-		return null;
 	}
 	
 	/**
@@ -338,7 +325,6 @@ public class OBExperimentRunner {
 	    DBInterface myDB = new DBInterface(Integer.parseInt((String)pMap.get("dbmstype")),(String)pMap.get("host"),(String)pMap.get("dbname"),(String)pMap.get("username"),(String)pMap.get("pwd"));
 	    String sql = "SELECT `SchemaID` FROM schemata WHERE SchemaID='" + spid +"';";
 		return (myDB.runSelectQuery(sql, 1).get(0)[0]!=null);
-	return false;
 }
 
 

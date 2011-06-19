@@ -1,4 +1,4 @@
-package schemamatchings.test;
+package ac.technion.schemamatchings.test;
 
 import schemamatchings.meta.agr.SumGlobalAggregator;
 import schemamatchings.meta.agr.SumLocalAggregator;

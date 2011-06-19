@@ -1,4 +1,4 @@
-package schemamatchings.test;
+package ac.technion.schemamatchings.test;
 
 import java.util.Hashtable;
 import java.util.Vector;
