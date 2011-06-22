@@ -13,7 +13,7 @@ import java.util.Properties;
  */
 public class ClarityExperiment implements MatchingExperiment {
 
-	public HashMap<String, ArrayList<Statistic>> runExperiment(
+	public ArrayList<Statistic> runExperiment(
 			ExperimentSchemaPair esp) {
 		// TODO Auto-generated method stub
 		return null;
