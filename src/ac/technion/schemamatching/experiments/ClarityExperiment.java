@@ -3,7 +3,9 @@
  */
 package ac.technion.schemamatching.experiments;
 
-import com.modica.ontology.match.MatchInformation;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Properties;
 
 /**
  * @author tomer_s
@@ -11,11 +13,19 @@ import com.modica.ontology.match.MatchInformation;
  */
 public class ClarityExperiment implements MatchingExperiment {
 
-	/* (non-Javadoc)
-	 * @see technion.iem.schemamatching.experiments.MatchingExperiment#runExperiment(com.modica.ontology.match.MatchInformation)
-	 */
-	public MatchInformation runExperiment(MatchInformation in) {
-		// TODO Fill from OBERunner main
+	public HashMap<String, ArrayList<Statistic>> runExperiment(
+			ExperimentSchemaPair esp) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public boolean init(Properties properties, ArrayList<OtherMatcher> om) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public String getDescription() {
+		// TODO Auto-generated method stub
 		return null;
 	}
 
