@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Properties;
 
 /**
- * @author tomer_s
+ * @author Tomer Sagi
  *
  */
 public class ClarityExperiment implements MatchingExperiment {
@@ -19,7 +19,7 @@ public class ClarityExperiment implements MatchingExperiment {
 		return null;
 	}
 
-	public boolean init(Properties properties, ArrayList<OtherMatcher> om) {
+	public boolean init(OBExperimentRunner oer, Properties properties, ArrayList<OtherMatcher> om) {
 		// TODO Auto-generated method stub
 		return false;
 	}

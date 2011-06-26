@@ -34,7 +34,7 @@ public class Prediction implements MatchingExperiment {
 	/* (non-Javadoc)
 	 * @see ac.technion.schemamatching.experiments.MatchingExperiment#init(java.util.Properties, java.util.ArrayList)
 	 */
-	public boolean init(Properties properties, ArrayList<OtherMatcher> om) {
+	public boolean init(OBExperimentRunner oer, Properties properties, ArrayList<OtherMatcher> om) {
 		// TODO Auto-generated method stub
 		return false;
 	}
