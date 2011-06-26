@@ -3,6 +3,8 @@
  */
 package ac.technion.schemamatching.experiments;
 
+import schemamatchings.util.SchemaTranslator;
+
 import com.modica.ontology.match.MatchInformation;
 
 /**
@@ -11,5 +13,5 @@ import com.modica.ontology.match.MatchInformation;
  */
 public interface GoldenStatistic extends Statistic {
 
-	boolean init(MatchInformation mi, MatchInformation golden);
+	boolean init(MatchInformation mi, SchemaTranslator schemaTranslator);
 }

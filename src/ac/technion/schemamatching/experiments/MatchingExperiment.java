@@ -27,7 +27,7 @@ public interface MatchingExperiment
 	 * @param om list of other matchers to which ontobuilder results should be compared
 	 * @return true if initialization succeeded false otherwise
 	 */
-	public boolean init(Properties properties, ArrayList<OtherMatcher> om);
+	public boolean init(OBExperimentRunner oer, Properties properties, ArrayList<OtherMatcher> om);
 	/**
 	 * 
 	 * @return Experiment Description

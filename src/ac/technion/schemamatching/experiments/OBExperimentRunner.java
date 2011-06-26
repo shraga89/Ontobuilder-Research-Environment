@@ -36,7 +36,7 @@ import java.text.SimpleDateFormat;
  * @author Tomer Sagi
  * @author Nimrod Busany 
  */
-public class OBExperimentRunner {
+public class OBExperimentRunner { //TODO - make experiment runner a singleton
 
 	/**
 	 * @param args[0] Output folder 
