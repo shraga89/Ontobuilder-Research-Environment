@@ -1,7 +1,7 @@
 /**
  * 
  */
-package ac.technion.schemamatching.experiments;
+package ac.technion.schemamatching.statistics;
 
 import schemamatchings.util.SchemaTranslator;
 

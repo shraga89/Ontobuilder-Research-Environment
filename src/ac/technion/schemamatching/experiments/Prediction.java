@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Properties;
 
+import ac.technion.schemamatching.statistics.Statistic;
+
 /**
  * @author Tomer Sagi
  *	This experiment creates ensembles using prediction values on matrices, terms and values.
