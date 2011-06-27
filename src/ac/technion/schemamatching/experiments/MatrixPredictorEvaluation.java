@@ -8,6 +8,11 @@ import schemamatchings.ontobuilder.OntoBuilderWrapper;
 import schemamatchings.util.BestMappingsWrapper;
 import schemamatchings.util.SchemaTranslator;
 
+import ac.technion.schemamatching.statistics.BasicGolden;
+import ac.technion.schemamatching.statistics.GoldenStatistic;
+import ac.technion.schemamatching.statistics.MatrixPredictors;
+import ac.technion.schemamatching.statistics.Statistic;
+
 import com.modica.ontology.match.Match;
 import com.modica.ontology.match.MatchInformation;
 
@@ -51,7 +56,7 @@ public class MatrixPredictorEvaluation implements MatchingExperiment {
 			mwbg[i] = sm[i]; //TODO implement clone on MatchInformation
 			mwbg[i].setMatches(st.getMatches());
 			// TODO calculate precision, recall, L2 similarity and predictor values
-			oer.doc.documentMapping(esp.getSPID(), mwbg[i]);
+			oer.getDoc().documentMapping(esp.getSPID(), mwbg[i]);
 		}
 		double th = 0.2;
 		MatchInformation t[] = new MatchInformation[5];
@@ -67,7 +72,7 @@ public class MatrixPredictorEvaluation implements MatchingExperiment {
 					removeList.add(om);
 			}
 			t[i].getMatches().removeAll(removeList);
-			oer.doc.documentMapping(esp.getSPID(), t[i]);
+			oer.getDoc().documentMapping(esp.getSPID(), t[i]);
 			//TODO calculate precision, recall, L2 similarity and predictor values
 			GoldenStatistic gs = new BasicGolden();
 			gs.init(t[i], esp.getExactMapping());

@@ -151,7 +151,6 @@ public class ExperimentDocumenter
 	 */
 	public void documentSimMatrices(HashMap<Long,MatchInformation> miCollection)
 	{
-		MatchInformation n;
 		for (Long spid : miCollection.keySet())
 		{
 			documentSimMatrix(spid,miCollection.get(spid));
@@ -163,88 +162,10 @@ public class ExperimentDocumenter
 		//TODO stub
 	}
 
-	public int getEid() {
-		// TODO Auto-generated method stub
-		return 0;
+	public long getEid() {
+		return eid;
 	}
-	
-	
-	/**
-	 * Make sure similarity measures supplied exist in the DB 
-	 * @param availableMatchers List of matchers to lookup
-	 * @param sysCode system code of matchers
-	 * @deprecated TODO create as an enum type or fill into a hashmap or something
-	 * @return list of SimilarityMeasure and matcherName pairs as a String array
-	 */
-	public ArrayList<String[]> documentSimilarityMeasures(String[] availableMatchers,int sysCode) 
-	{
-		for (String matcherName : availableMatchers)
-		{
-			String sql = "SELECT SMID, MeasureName FROM similaritymeasures WHERE System = " + sysCode + " AND MeasureName='" + matcherName + "'";
-			if (db.runSelectQuery(sql, 1).size()==0)
-				{
-				
-					HashMap<Field, Object> values = new HashMap<Field, Object>();
-					values.put(new Field("MeasureName",FieldType.STRING), matcherName);
-					values.put(new Field("System",FieldType.INT), new Integer(sysCode));
-					db.insertSingleRow(values , "similaritymeasures");
-				}
-		}
 		
-		String sql = "SELECT SMID, MeasureName FROM similaritymeasures WHERE System = " + sysCode + ";";
-		return db.runSelectQuery(sql, 2);
-	}
-	
-	/**
-	 * Make sure (2nd Line) matchers supplied exist in the DB 
-	 * @param availableMatchers List of matchers to lookup
-	 * @param sysCode system code of matchers
-	 * @return list of MatcherID and matcherName pairs as a String array
-	 */
-	public ArrayList<String[]> documentMatchers(String[] availableMatchers, int sysCode) 
-	{
-		for (String matcherName : availableMatchers)
-		{
-			String sql = "SELECT MatcherID FROM matchers WHERE System = " + sysCode + " AND MatcherName='" + matcherName + "'";
-			if (db.runSelectQuery(sql, 1).size()==0)
-				{
-					HashMap<Field, Object> values = new HashMap<Field, Object>();
-					values.put(new Field("MatcherName",FieldType.STRING), matcherName);
-					values.put(new Field("System",FieldType.INT), new Integer(sysCode));
-					db.insertSingleRow(values , "matchers");
-				}
-		}
-		
-		String sql = "SELECT MatcherID, MatcherName FROM matchers WHERE System = " + sysCode + ";";
-		return db.runSelectQuery(sql, 2);
-	}
-	
-	/**
-	 * Documents the matchers and similarity measures used in the experiment in the database
-	 * @param sMIDs ArrayList of {SimilarityMeasureID,SMName}
-	 * @param mIDs ArrayList of {MatcherID,MatcherName}
-	 * @deprecated TODO consider removing
-	 */
-	public void documentMeasuresMatchersInEID(
-			ArrayList<String[]> sMIDs, ArrayList<String[]> mIDs) 
-	{
-		
-		HashMap<Field, Object> values = new HashMap<Field, Object>();
-		values.put(new Field("EID",FieldType.LONG), eid);
-		Field smid = new Field("SMID",FieldType.LONG);
-		Field mid = new Field("MID",FieldType.LONG);
-		for (String[] smRow: sMIDs)
-		{
-			values.put(smid, Long.parseLong(smRow[0]));
-			for (String[] mRow : mIDs)
-			{
-				values.put(mid, Long.parseLong(mRow[0]));
-				db.insertSingleRow(values , "experimentconfigs");
-			}
-		}
-	}
-
-
 	/**
 	 * This method gets a MatchInformation and SchemaTranslator and outputs the matched result (matched terms and their similarity value) to DB
 	 * @param SerialNumOfMatcher - according to the serial number described in the DB, under similaritymeasures;
@@ -351,7 +272,7 @@ public class ExperimentDocumenter
 	 * @param OntologyID - ID of the onotology the term belongs to
 	 */
 	
-	public void writeTermToDB(long OntologyID, Term term) {
+	private void writeTermToDB(long OntologyID, Term term) {
 		
 			
 		HashMap<Field,Object> values = new HashMap<Field,Object>();	

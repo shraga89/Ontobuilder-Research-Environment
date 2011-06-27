@@ -23,6 +23,8 @@ import schemamatchings.util.SchemaTranslator;
 import smb_service.PropertyLoader;
 import smb_service.SMB;
 import technion.iem.schemamatching.dbutils.DBInterface;
+import ac.technion.schemamatching.statistics.Statistic;
+
 import com.infomata.data.DataFile;
 import com.infomata.data.DataRow;
 import com.infomata.data.TabFormat;
@@ -38,14 +40,6 @@ import java.text.SimpleDateFormat;
  */
 public class OBExperimentRunner { //TODO - make experiment runner a singleton
 
-	/**
-	 * @param args[0] Output folder 
-	 * @param args[1] Experiment Type : "Clarity" or other?
-	 * @param args[2] K - number of experiments for clarity, set 0 to use a specific ID
-	 * @param args[3] mode for the SMB (E,L,R)
-	 * @param args[4] schema pair ID (ignored unless K is 0
-	 * Note: Set parameters for connecting the DB and set the path of the schema matching at the resouces.properties 
-	 */
 	protected String dsurl;
 	protected DBInterface db;
 	private ArrayList<ExperimentSchemaPair> dataset;
@@ -53,6 +47,8 @@ public class OBExperimentRunner { //TODO - make experiment runner a singleton
 	protected HashMap<Integer,String> scndLineMatchers;
 	protected ExperimentDocumenter doc;
 	protected OntoBuilderWrapper obw;
+	private Properties properties;
+	private ArrayList<OtherMatcher> om;
 	public static HashMap<Integer,String> measures = new HashMap<Integer,String>();
 	public static HashMap<Integer,String> matchers = new HashMap<Integer,String>();
 	//Used to get from a matcher to it's ID
@@ -85,7 +81,6 @@ public class OBExperimentRunner { //TODO - make experiment runner a singleton
 	{
 		this(db,datasetURL);
 		dataset = selectExperiments(1,schemaPairID, 0, null);
-		fillHashMeasures();
 		doc = new ExperimentDocumenter(datasetURL + "  " + getTime() ,this.db); 
 	}
 	
@@ -100,7 +95,6 @@ public class OBExperimentRunner { //TODO - make experiment runner a singleton
 	public OBExperimentRunner(DBInterface db,String datasetURL,Integer datasetID,HashSet<Integer> domainCodes,Integer size){
 		this(db,datasetURL);
 		dataset = selectExperiments(size,0, datasetID, domainCodes);
-		fillHashMeasures(); 
 		//TODO externalize to Main(args[]) -- not sure what you mean by that, externalize what to main? 
 	}
 
@@ -139,7 +133,7 @@ public class OBExperimentRunner { //TODO - make experiment runner a singleton
 	    	HashSet<Integer> domainCodes = parseDomainCodes(args[6]);
 	    	myExpRunner = new OBExperimentRunner(myDB,(String)pMap.get("schemaPath"),datasetID,domainCodes,size);
 	    	}
-	    int eid = myExpRunner.getDoc().getEid();
+	    long eid = myExpRunner.getDoc().getEid();
 	    /* TODO: 3 major refactoring required here. Create an experiment interface class, define what it includes and how it is documented in the DB.
 	     * Extract experiment loading into a method. Extract the SMBservice / Clarity experiment into a method.   
 	    */
@@ -158,11 +152,9 @@ public class OBExperimentRunner { //TODO - make experiment runner a singleton
 	    // not about the enum or hashtable
 	    
 	    
-	    //documentSimilarityMeasures(availableMatchers,smbSysCode );
+	    
         ArrayList<String[]> MIDs = myExpRunner.getDoc().documentMatchers(available2ndLMatchers, sysCode);
-        //documentMatchers(available2ndLMatchers, smbSysCode);
-        myExpRunner.getDoc().documentMeasuresMatchersInEID(SMIDs,MIDs);
-		
+        
         // 2 For each experiment in the list:
 	    for (ExperimentSchemaPair schemasExp : myExpRunner.getDS()) 
 	    {
@@ -303,14 +295,6 @@ public class OBExperimentRunner { //TODO - make experiment runner a singleton
 	}
 
 
-/**
-	 * Main method runs an experiment according to the supplied parameters
-	 * @param args[0]  - outputPath folder in which temporary files will be saved
-	 * @param args[1] Experiment Type : "Clarity" or other?
-	 * @param args[2] K - number of experiments for clarity, set 0 to use a specific ID
-	 * @param args[3] mode for the SMB (E,L,R)
-	 * @param args[4] schema pair ID (ignored unless K is 0
-	 */
 	private static void checkInputParameters(String[] args) {
 		if (args[0]==null) {System.err.println("Please enter an output folder path");System.exit(0);}
 		if ( Integer.valueOf(args[2])==0 && args[4]==null ){System.err.println("Please enter an number of experiment to sample or a spid");System.exit(0);}
@@ -330,7 +314,7 @@ public class OBExperimentRunner { //TODO - make experiment runner a singleton
 
 
 
-	private ExperimentDocumenter getDoc() {
+	public ExperimentDocumenter getDoc() {
 		return doc;
 	}
 
@@ -365,43 +349,6 @@ public class OBExperimentRunner { //TODO - make experiment runner a singleton
 	}
 	
 	
-
-	/**
-	 * @deprecated TODO This doesn't make sense. This is a dynamic property, should not be documented
-	 * @param spid
-	 
-	private void updateWasMatchedWithAllMatchers(double spid) 
-	{
-		String sql = "UPDATE experimentschemapairs SET WasMatched = TRUE WHERE EID = " + eid + " AND SPID = " + spid + ";"; 
-		db.runUpdateQuery(sql);
-	}
-	*/
-
-	/**
-	 * Outputs a tab delimited file of the supplied name to the supplied path
-	 * From an ArrayList of string arrays each arrayList item representing a row 
-	 * and each String array item representing a column.  
-	 * @param outputPath
-	 * @param res
-	 * @param fName
-	 * * @deprecated TODO move to SMB experiment
-	 * @throws IOException
-	 */
-	private static void outputArrayListofStringArrays(File outputPath,
-			ArrayList<String[]> res, String fName) throws IOException {
-		DataFile write = DataFile.createWriter("8859_1", false);
-		write.setDataFormat(new TabFormat());			
-		File outputCOFile = new File(outputPath,fName );
-		write.open(outputCOFile);
-		for (int i=0;i<res.size();i++)
-		{
-			DataRow row = write.next();
-			String rRow[] = res.get(i);
-			for (int j=0;j<rRow.length;j++) row.add(rRow[j]);
-		}
-		write.close();
-	}
-
 	/**
 	 * Selects K random Schema Matching Experiments from the database and loads into OB objects
 	 * A Schema matching experiment Includes a schema pair and exact match.
@@ -496,6 +443,34 @@ public class OBExperimentRunner { //TODO - make experiment runner a singleton
 	  return db;
 	}
 	
+	/**
+	 * Runs experiment e on the loaded dataset and writes the result to the file object supplied 
+	 * @param e Experiment to run
+	 * @param resultFile File object to which to append the result. File will be created if not exists
+	 */
+	public void runExperiment(ExperimentType et,File resultFile)
+	{
+		MatchingExperiment e = et.getExperiment();
+		ArrayList<Statistic> res = new ArrayList<Statistic>();
+		e.init(this, properties, om);
+		for (ExperimentSchemaPair esp : dataset)
+		{
+			res.addAll(e.runExperiment(esp));
+		}
+		resultFile = formatStatistics(res);	
+	}
+	
+	/**
+	 * Collects statistics by type and outputs in CSV format
+	 * @param res
+	 * @return
+	 */
+	private File formatStatistics(ArrayList<Statistic> res) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
 	private void fillHashMeasures() {
 		//fill in the firstlines table
 		measures.put(1,"Term Match");
