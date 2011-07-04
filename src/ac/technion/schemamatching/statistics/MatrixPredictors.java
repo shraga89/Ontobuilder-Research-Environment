@@ -16,7 +16,7 @@ import com.modica.ontology.match.MatchInformation;
  */
 public class MatrixPredictors implements Statistic {
 
-	private static String[] header = {"L1DistBinary","L2DistBinary","L2SimilarityBinary","L1Dist1:1","L2Dist1:1","L2Similarity1:1"};
+	private static String[] header = {"SPID","SMID","L1DistBinary","L2DistBinary","L2SimilarityBinary","L1Dist1:1","L2Dist1:1","L2Similarity1:1"};
 	private static String name = "Matrix Predictors";
 	private ArrayList<String[]> data = new ArrayList<String[]>();
 	/* (non-Javadoc)

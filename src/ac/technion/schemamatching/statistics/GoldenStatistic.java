@@ -3,8 +3,6 @@
  */
 package ac.technion.schemamatching.statistics;
 
-import schemamatchings.util.SchemaTranslator;
-
 import com.modica.ontology.match.MatchInformation;
 
 /**
@@ -13,5 +11,12 @@ import com.modica.ontology.match.MatchInformation;
  */
 public interface GoldenStatistic extends Statistic {
 
-	boolean init(MatchInformation mi, SchemaTranslator schemaTranslator);
+	/**
+	 * Initializes the statistic
+	 * @param instanceDescription Description of current instance on which the statistic is calculated
+	 * @param mi MatchInformation containing the similarity matrix to be compared with exact match
+	 * @param exactMatch MatchInformation containing the correct correspondences
+	 * @return true if initialization was successful
+	 */
+	boolean init(String instanceDescription, MatchInformation mi, MatchInformation exactMatch);
 }
