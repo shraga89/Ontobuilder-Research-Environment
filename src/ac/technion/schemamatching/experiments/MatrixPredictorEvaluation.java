@@ -30,6 +30,7 @@ public class MatrixPredictorEvaluation implements MatchingExperiment {
 	 * (non-Javadoc)
 	 * @see ac.technion.schemamatching.experiments.MatchingExperiment#runExperiment(ac.technion.schemamatching.experiments.ExperimentSchemaPair)
 	 */
+	@SuppressWarnings("unchecked")
 	public ArrayList<Statistic> runExperiment(
 			ExperimentSchemaPair esp) {
 		// Match using 5 Ontobuilder 1st line matchers 
@@ -53,17 +54,22 @@ public class MatrixPredictorEvaluation implements MatchingExperiment {
 			BestMappingsWrapper.matchMatrix = sm[i].getMatrix();	
 			SchemaTranslator st = BestMappingsWrapper.GetBestMapping("MAX_WEIGHT_BIPARTITE_GRAPH");
 			st.importIdsFromMatchInfo(sm[i],true);
-			mwbg[i] = sm[i]; //TODO implement clone on MatchInformation
+			mwbg[i] = sm[i].clone(); //TODO implement clone on MatchInformation
 			mwbg[i].setMatches(st.getMatches());
-			// TODO calculate precision, recall, L2 similarity and predictor values
-			oer.getDoc().documentMapping(esp.getSPID(), mwbg[i]);
+			//Calculate precision, recall
+			GoldenStatistic  b = new BasicGolden();
+			String desc = Integer.toString(esp.getSPID()) + "," + Integer.toString(i) + "MWBG";
+			b.init(desc, mwbg[i],esp.getExactMapping());
+			mwbgRes.add(b);
+			//TODO L2 similarity
+			oer.getDoc().documentMapping(esp.getSPID(),smids[i],1,0, mwbg[i]);
 		}
 		double th = 0.2;
 		MatchInformation t[] = new MatchInformation[5];
 		ArrayList<Statistic> tRes = new ArrayList<Statistic>();
 		for (int i=0;i<t.length;i++)
 		{
-			t[i] = sm[i]; //TODO implement clone on MatchInformation
+			t[i] = sm[i].clone();
 			ArrayList<Object> removeList = new ArrayList<Object>();
 			for (Object om : t[i].getMatches())
 			{
@@ -72,11 +78,13 @@ public class MatrixPredictorEvaluation implements MatchingExperiment {
 					removeList.add(om);
 			}
 			t[i].getMatches().removeAll(removeList);
-			oer.getDoc().documentMapping(esp.getSPID(), t[i]);
-			//TODO calculate precision, recall, L2 similarity and predictor values
+			oer.getDoc().documentMapping(esp.getSPID(),smids[i],0,0, t[i]);
+			//Precision, recall
 			GoldenStatistic gs = new BasicGolden();
-			gs.init(t[i], esp.getExactMapping());
+			String desc = Integer.toString(esp.getSPID()) + "," + Integer.toString(i) + "Threshold:" + Double.toString(th);
+			gs.init(desc, t[i], esp.getExactMapping());
 			tRes.add(gs);
+			//TODO L2 similarity
 		}
 		predictions.addAll(mwbgRes);
 		predictions.addAll(tRes);
