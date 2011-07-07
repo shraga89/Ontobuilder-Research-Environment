@@ -1,15 +1,14 @@
 package ac.technion.schemamatching.experiments;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Properties;
 
-import schemamatchings.ontobuilder.OntoBuilderWrapper;
 import schemamatchings.util.BestMappingsWrapper;
 import schemamatchings.util.SchemaTranslator;
 
 import ac.technion.schemamatching.statistics.BasicGolden;
 import ac.technion.schemamatching.statistics.GoldenStatistic;
+import ac.technion.schemamatching.statistics.L2similarityGolden;
 import ac.technion.schemamatching.statistics.MatrixPredictors;
 import ac.technion.schemamatching.statistics.Statistic;
 
@@ -43,7 +42,7 @@ public class MatrixPredictorEvaluation implements MatchingExperiment {
 		for (int i=0;i<sm.length;i++)
 		{
 			Statistic  p = new MatrixPredictors();
-			p.init(esp.getSPID()+","+smids[i], sm[i]);
+			assert(p.init(esp.getSPID()+","+smids[i], sm[i]));
 			predictions.add(p);
 		}
 		//Match select using MWBG and Threshold 0.2
@@ -52,16 +51,29 @@ public class MatrixPredictorEvaluation implements MatchingExperiment {
 		for (int i=0;i<mwbg.length;i++)
 		{
 			BestMappingsWrapper.matchMatrix = sm[i].getMatrix();	
-			SchemaTranslator st = BestMappingsWrapper.GetBestMapping("MAX_WEIGHT_BIPARTITE_GRAPH");
+			SchemaTranslator st = BestMappingsWrapper.GetBestMapping("Max Weighted Bipartite Graph");
+			assert (st!=null);
 			st.importIdsFromMatchInfo(sm[i],true);
-			mwbg[i] = sm[i].clone(); //TODO implement clone on MatchInformation
+			mwbg[i] = sm[i].clone(); 
+			/*TODO this isn't working. st returns ArrayList<MatchedAttributePair> 
+			 * and mwbg[i] is expecting ArrayList<Matches>. Need to upgrade mwbg[i] to work with
+			 * matched attribute pairs. 
+			 */
 			mwbg[i].setMatches(st.getMatches());
+			/*TODO use mwbg[i].addMatch(targetTerm, candidateTerm, effectiveness); 
+			 * To write a method.   
+			*/
+			fillMI(mwbg[i],st);
 			//Calculate precision, recall
 			GoldenStatistic  b = new BasicGolden();
 			String desc = Integer.toString(esp.getSPID()) + "," + Integer.toString(i) + "MWBG";
-			b.init(desc, mwbg[i],esp.getExactMapping());
+			b.init(desc, mwbg[i],esp.getExact());
 			mwbgRes.add(b);
-			//TODO L2 similarity
+			//L2 similarity
+			L2similarityGolden l2 = new L2similarityGolden();
+			l2.init(desc, mwbg[i], esp.getExact());
+			mwbgRes.add(l2);
+			//Document Result in DB
 			oer.getDoc().documentMapping(esp.getSPID(),smids[i],1,0, mwbg[i]);
 		}
 		double th = 0.2;
@@ -82,13 +94,22 @@ public class MatrixPredictorEvaluation implements MatchingExperiment {
 			//Precision, recall
 			GoldenStatistic gs = new BasicGolden();
 			String desc = Integer.toString(esp.getSPID()) + "," + Integer.toString(i) + "Threshold:" + Double.toString(th);
-			gs.init(desc, t[i], esp.getExactMapping());
+			gs.init(desc, t[i], esp.getExact());
 			tRes.add(gs);
-			//TODO L2 similarity
+			//L2 similarity
+			L2similarityGolden l2 = new L2similarityGolden();
+			l2.init(desc, t[i], esp.getExact());
+			mwbgRes.add(l2);
+			oer.getDoc().documentMapping(esp.getSPID(),smids[i],0,0, t[i]);
 		}
 		predictions.addAll(mwbgRes);
 		predictions.addAll(tRes);
 		return predictions;
+	}
+
+	private void fillMI(MatchInformation matchInformation, SchemaTranslator st) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	/*

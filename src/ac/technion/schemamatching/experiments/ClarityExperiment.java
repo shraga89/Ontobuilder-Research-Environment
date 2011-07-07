@@ -68,7 +68,7 @@ public class ClarityExperiment implements MatchingExperiment {
 	        for (int m=0;m<availableMatchers.length;m++)
 	        {				
 				System.out.println ("Starting " + counter);
-				firstLineMI[m] = schemasExp.getSimilarityMatrix(OBExperimentRunner.reversedmeasures.get(availableMatchers[m])); 
+				firstLineMI[m] = schemasExp.getSimilarityMatrix(myExpRunner.reversedmeasures.get(availableMatchers[m])); 
 				BestMappingsWrapper.matchMatrix = firstLineMI[m].getMatrix();	
 				// 2.3 2nd line match using all available matchers in OB with original matrix and document in DB   	
 				for (int mp=0;mp<available2ndLMatchers.length;mp++)
@@ -266,8 +266,8 @@ public class ClarityExperiment implements MatchingExperiment {
 	private ArrayList<String[]> getSimilarityMeasures(
 			String[] availableMatchers, int sysCode) {
 		ArrayList<String[]> res = new ArrayList<String[]>();
-		for (Integer sm : myExpRunner.frstLineMatchers.keySet())
-			res.add(new String[] {sm.toString(),myExpRunner.frstLineMatchers.get(sm)});
+		for (Integer sm : myExpRunner.measures.keySet())
+			res.add(new String[] {sm.toString(),myExpRunner.measures.get(sm)});
 		return res;
 	}
 
