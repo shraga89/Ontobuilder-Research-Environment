@@ -48,7 +48,7 @@ public class MatrixPredictors implements Statistic {
 		//Fill comparison matrices
 		String[] res = new String[7];
 		double[][] mm = mi.getMatchMatrix();
-		if (mm == null) return false;
+		if (mm == null || mm.length == 0) return false;
 		double[][] closest1to1 = new double[mm.length][mm[0].length];
 		double sumL1distBin=0;
 		double sumL2distBin=0;

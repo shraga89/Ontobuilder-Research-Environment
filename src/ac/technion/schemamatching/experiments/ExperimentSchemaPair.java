@@ -1,15 +1,10 @@
 package ac.technion.schemamatching.experiments;
 
-import java.lang.annotation.Target;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Vector;
-
 import schemamatchings.ontobuilder.MatchingAlgorithms;
 import schemamatchings.ontobuilder.OntoBuilderWrapperException;
 import schemamatchings.util.SchemaMatchingsUtilities;
-import schemamatchings.util.SchemaTranslator;
 import technion.iem.schemamatching.dbutils.DBInterface;
 
 import com.modica.ontology.*;
@@ -58,7 +53,7 @@ public class ExperimentSchemaPair {
 		return candidate;
 	}
 	
-	public MatchInformation getExactMapping() {
+	public MatchInformation getExact() {
 		return exactMapping;
 	}
 
@@ -71,9 +66,14 @@ public class ExperimentSchemaPair {
    */
   private void loadXML() 
   {
+	  //Get ids
+	  String sql = "SELECT CandidateSchema, TargetSchema FROM schemapairs WHERE SPID = " + SPID + ";";
+	  ArrayList<String[]> res = parent.db.runSelectQuery(sql, 2);
+	  candidateID = Integer.parseInt(res.get(0)[0]);
+	  targetID = Integer.parseInt(res.get(0)[1]);
 	  //Load candidate ontology
-	  String sql = "SELECT path FROM schemapairs WHERE SchemaID = " + candidateID + ";";
-	  ArrayList<String[]> res = parent.db.runSelectQuery(sql, 1);
+	  sql = "SELECT filePath FROM schemata WHERE SchemaID = " + candidateID + ";";
+	  res = parent.db.runSelectQuery(sql, 1);
 	  if (res.isEmpty()) OBExperimentRunner.error("No url recieved from the database for schema no." + Integer.toString(candidateID));
       String sTargetOnologyFileName = parent.dsurl + res.get(0)[0];
       try {target = parent.obw.readOntologyXMLFile(sTargetOnologyFileName ,false);}
@@ -83,7 +83,7 @@ public class ExperimentSchemaPair {
       }
       
       //Load target ontology
-      sql = "SELECT path FROM schemapairs WHERE SchemaID = " + targetID + ";";
+      sql = "SELECT filePath FROM schemata WHERE SchemaID = " + targetID + ";";
 	  res = parent.db.runSelectQuery(sql, 1);
 	  if (res.isEmpty()) OBExperimentRunner.error("No url recieved from the database for schema no." 
 			  + Integer.toString(targetID));
@@ -137,7 +137,7 @@ public class ExperimentSchemaPair {
 			if (!checkIfSchemaPairWasMatched(SPID,smid,parent.db))
   		 	{
   		 		try {
-					mi = parent.obw.matchOntologies(candidate, target, parent.frstLineMatchers.get(smid));
+					mi = parent.obw.matchOntologies(candidate, target, parent.measures.get(smid));
 				} catch (OntoBuilderWrapperException e) {
 					e.printStackTrace();
 				}
