@@ -9,6 +9,8 @@ import schemamatchings.util.SchemaTranslator;
 import com.modica.ontology.match.Match;
 import com.modica.ontology.match.MatchInformation;
 
+import ac.technion.schemamatching.matchers.FirstLineMatcher;
+import ac.technion.schemamatching.matchers.SecondLineMatcher;
 import ac.technion.schemamatching.statistics.BasicGolden;
 import ac.technion.schemamatching.statistics.GoldenStatistic;
 import ac.technion.schemamatching.statistics.L2similarityGolden;
@@ -116,7 +118,7 @@ public class MatrixPredictorEnsemble implements MatchingExperiment {
 	}
 
 	public boolean init(OBExperimentRunner oer, Properties properties,
-			ArrayList<OtherMatcher> om) {
+			ArrayList<FirstLineMatcher> flM, ArrayList<SecondLineMatcher> slM) {
 		// TODO Implement Other Matchers
 		this.oer = oer;
 		return true;

@@ -26,6 +26,8 @@ import com.infomata.data.TabFormat;
 import com.modica.ontology.Ontology;
 import com.modica.ontology.match.MatchInformation;
 
+import ac.technion.schemamatching.matchers.FirstLineMatcher;
+import ac.technion.schemamatching.matchers.SecondLineMatcher;
 import ac.technion.schemamatching.statistics.Statistic;
 
 /**
@@ -191,7 +193,7 @@ public class ClarityExperiment implements MatchingExperiment {
 		return null;
 	}
 
-	public boolean init(OBExperimentRunner oer, Properties properties, ArrayList<OtherMatcher> om) 
+	public boolean init(OBExperimentRunner oer, Properties properties, ArrayList<FirstLineMatcher> flM, ArrayList<SecondLineMatcher> slM) 
 	{
 		// TODO Auto-generated method stub
 		myExpRunner = oer;

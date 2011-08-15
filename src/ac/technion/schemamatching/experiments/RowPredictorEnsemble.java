@@ -6,10 +6,12 @@ package ac.technion.schemamatching.experiments;
 import java.util.ArrayList;
 import java.util.Properties;
 
+import ac.technion.schemamatching.matchers.FirstLineMatcher;
+import ac.technion.schemamatching.matchers.SecondLineMatcher;
 import ac.technion.schemamatching.statistics.Statistic;
 
 /**
- * @author tomer_s
+ * @author Tomer Sagi
  *
  */
 public class RowPredictorEnsemble implements MatchingExperiment {
@@ -26,7 +28,7 @@ public class RowPredictorEnsemble implements MatchingExperiment {
 	 * @see ac.technion.schemamatching.experiments.MatchingExperiment#init(ac.technion.schemamatching.experiments.OBExperimentRunner, java.util.Properties, java.util.ArrayList)
 	 */
 	public boolean init(OBExperimentRunner oer, Properties properties,
-			ArrayList<OtherMatcher> om) {
+			ArrayList<FirstLineMatcher> flM, ArrayList<SecondLineMatcher> slM) {
 		// TODO Auto-generated method stub
 		return false;
 	}

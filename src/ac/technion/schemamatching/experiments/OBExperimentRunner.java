@@ -18,6 +18,8 @@ import ac.technion.schemamatching.statistics.Statistic;
 import com.infomata.data.CSVFormat;
 import com.infomata.data.DataFile;
 import com.infomata.data.DataRow;
+import ac.technion.schemamatching.matchers.*;
+
 /**
  * The class provides tools for running schema matching experiments.
  * @author Tomer Sagi
@@ -31,7 +33,8 @@ public class OBExperimentRunner { //TODO - make experiment runner a singleton
 	protected ExperimentDocumenter doc;
 	protected OntoBuilderWrapper obw;
 	private Properties properties;
-	private ArrayList<OtherMatcher> om;
+	private ArrayList<FirstLineMatcher> flm = new ArrayList<FirstLineMatcher>();
+	private ArrayList<SecondLineMatcher> slm = new ArrayList<SecondLineMatcher>();
 	public HashMap<Integer,String> measures = new HashMap<Integer,String>();
 	public HashMap<Integer,String> matchers = new HashMap<Integer,String>();
 	public HashMap<String,Integer> reversedmeasures = new HashMap<String,Integer>();
@@ -231,7 +234,7 @@ public class OBExperimentRunner { //TODO - make experiment runner a singleton
 	{
 		MatchingExperiment e = et.getExperiment();
 		ArrayList<Statistic> res = new ArrayList<Statistic>();
-		e.init(this, properties, om);
+		e.init(this, properties, flm, slm);
 		resultFolder = getFolder(resultFolder);
 		for (ExperimentSchemaPair esp : dataset)
 		{

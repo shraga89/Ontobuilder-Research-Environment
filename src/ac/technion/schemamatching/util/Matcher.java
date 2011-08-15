@@ -15,6 +15,7 @@ import schemamatchings.ontobuilder.*;
  *
  * @author not attributable
  * @version 1.0
+ * @deprecated unknown usage for this class
  */
 public class Matcher {
   String m_sMatcherName;
