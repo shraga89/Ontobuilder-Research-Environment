@@ -34,4 +34,10 @@ public interface SecondLineMatcher {
 	 * @return String describing the current configuration.
 	 */
 	public String getConfig();
+	
+	/**
+	 * Return the schema matching database id of this matcher. 
+	 * @return integer corresponding to the SMID field in the SimilarityMeasures table in the schema matching DB
+	 */
+	public int getDBid();
 }
