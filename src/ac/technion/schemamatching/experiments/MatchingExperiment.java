@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Properties;
 
+import ac.technion.schemamatching.matchers.FirstLineMatcher;
+import ac.technion.schemamatching.matchers.SecondLineMatcher;
 import ac.technion.schemamatching.statistics.Statistic;
 
 /**
@@ -27,10 +29,11 @@ public interface MatchingExperiment
 	/**
 	 * Used to initialize a matching experiment. replaces a parameterized constructor
 	 * @param properties configuration parameters for the matching experiment
-	 * @param om list of other matchers to which ontobuilder results should be compared
+	 * @param flm list of @link{FirstLineMatcher} with which the experiment is run
+	 * @param slm list of @link{SecondLineMatcher} with which the experiment is run 
 	 * @return true if initialization succeeded false otherwise
 	 */
-	public boolean init(OBExperimentRunner oer, Properties properties, ArrayList<OtherMatcher> om);
+	public boolean init(OBExperimentRunner oer, Properties properties, ArrayList<FirstLineMatcher> flM, ArrayList<SecondLineMatcher> slM);
 	/**
 	 * 
 	 * @return Experiment Description
