@@ -7,6 +7,8 @@ import schemamatchings.ontobuilder.OntoBuilderWrapperException;
 import schemamatchings.util.SchemaMatchingsUtilities;
 import technion.iem.schemamatching.dbutils.DBInterface;
 
+import ac.technion.schemamatching.matchers.FirstLineMatcher;
+
 import com.modica.ontology.*;
 import com.modica.ontology.match.MatchInformation;
 
@@ -121,26 +123,20 @@ public class ExperimentSchemaPair {
     }
   	
   /**
-   * Return a basic similarity matrix using the supplied SMID
+   * Return a basic similarity matrix using the supplied @link{FirstLineMatcher}
    * Retrieves from the db if it exists, otherwise creates it and documents it in the DB
-   * @param smid
-   * @param db
-   * @param obw
-   * @param smName 
+   * @param flm 
    * @return
    */
-  	public MatchInformation getSimilarityMatrix(int smid)
+  	public MatchInformation getSimilarityMatrix(FirstLineMatcher flm)
   	{
+  		int smid = flm.getDBid();
   		if (!basicMatrices.containsKey(smid))
   		{
   		 	MatchInformation mi = null;
 			if (!checkIfSchemaPairWasMatched(SPID,smid,parent.db))
   		 	{
-  		 		try {
-					mi = parent.obw.matchOntologies(candidate, target, parent.measures.get(smid));
-				} catch (OntoBuilderWrapperException e) {
-					e.printStackTrace();
-				}
+				mi = flm.match(candidate, target, false);
   		 	}
   		 	else
   		 	{mi = DBInterface.createMIfromArrayList(candidate, target, getSimilarityMatrixFromDB(smid,SPID, parent.db));}

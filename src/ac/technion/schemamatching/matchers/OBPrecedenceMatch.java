@@ -13,7 +13,7 @@ import com.modica.ontology.match.MatchInformation;
  *
  */
 public class OBPrecedenceMatch implements FirstLineMatcher {
-	PrecedenceAlgorithm ga = new PrecedenceAlgorithm(); 
+	PrecedenceAlgorithm pa = new PrecedenceAlgorithm(); 
 	/* (non-Javadoc)
 	 * @see ac.technion.schemamatching.matchers.FirstLineMatcher#getName()
 	 */
@@ -31,8 +31,8 @@ public class OBPrecedenceMatch implements FirstLineMatcher {
 	/* (non-Javadoc)
 	 * @see ac.technion.schemamatching.matchers.FirstLineMatcher#match(com.modica.ontology.Ontology, com.modica.ontology.Ontology, boolean)
 	 */
-	public MatchInformation match(Ontology o1, Ontology o2, boolean binary) { 
-		return ga.match(o1,o2);
+	public MatchInformation match(Ontology candidate, Ontology target, boolean binary) { 
+		return pa.match(candidate,target);
 	}
 
 	/* (non-Javadoc)

@@ -32,8 +32,8 @@ public class OBTermMatch implements FirstLineMatcher {
 	/* (non-Javadoc)
 	 * @see ac.technion.schemamatching.matchers.FirstLineMatcher#match(com.modica.ontology.Ontology, com.modica.ontology.Ontology, boolean)
 	 */
-	public MatchInformation match(Ontology o1, Ontology o2, boolean binary) { 
-		return ta.match(o1,o2);
+	public MatchInformation match(Ontology candidate, Ontology target, boolean binary) { 
+		return ta.match(candidate,target);
 	}
 
 	/* (non-Javadoc)

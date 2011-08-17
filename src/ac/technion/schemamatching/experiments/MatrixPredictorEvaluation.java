@@ -38,7 +38,7 @@ public class MatrixPredictorEvaluation implements MatchingExperiment {
 		for (FirstLineMatcher m : flM)
 		{
 			//Match
-			MatchInformation mi = esp.getSimilarityMatrix(m.getDBid());
+			MatchInformation mi = esp.getSimilarityMatrix(m);
 			sm.add(mi);
 			// Calculate predictors
 			Statistic  p = new MatrixPredictors();

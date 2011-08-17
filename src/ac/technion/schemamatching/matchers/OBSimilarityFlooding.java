@@ -31,8 +31,8 @@ public class OBSimilarityFlooding implements FirstLineMatcher {
 	/* (non-Javadoc)
 	 * @see ac.technion.schemamatching.matchers.FirstLineMatcher#match(com.modica.ontology.Ontology, com.modica.ontology.Ontology, boolean)
 	 */
-	public MatchInformation match(Ontology o1, Ontology o2, boolean binary) { 
-		return ga.match(o1,o2);
+	public MatchInformation match(Ontology candidate, Ontology target, boolean binary) { 
+		return ga.match(candidate,target);
 	}
 
 	/* (non-Javadoc)

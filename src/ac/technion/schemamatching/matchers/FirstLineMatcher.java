@@ -33,13 +33,13 @@ public interface FirstLineMatcher {
 	
 	/**
 	 * Main method of the matcher. 
-	 * @param o1 Ontology / Schema to be matched
-	 * @param o2 Ontology / Schema to be matched
+	 * @param candidate Ontology / Schema to be matched
+	 * @param target Ontology / Schema to be matched
 	 * @param binary If the algorithm can return a binary matrix
 	 * then setting this parameter to true will cause it to do so. 
 	 * @return a MatchInformation object containing the similarity matrix created
 	 */
-	public MatchInformation match(Ontology o1,Ontology o2,boolean binary);
+	public MatchInformation match(Ontology candidate,Ontology target,boolean binary);
 	
 	/**
 	 * For matchers with configuration parameters. This method 
