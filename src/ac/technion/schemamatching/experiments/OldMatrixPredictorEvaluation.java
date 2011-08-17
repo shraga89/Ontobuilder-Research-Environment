@@ -34,7 +34,7 @@ public class OldMatrixPredictorEvaluation implements MatchingExperiment {
 	@SuppressWarnings("unchecked")
 	public ArrayList<Statistic> runExperiment(
 			ExperimentSchemaPair esp) {
-		// Match using 5 Ontobuilder 1st line matchers 
+		/*// Match using 5 Ontobuilder 1st line matchers 
 		MatchInformation sm[] = new MatchInformation[5];
 		int[] smids = new int[] {0,1,4,5,6};
 		for (int i=0;i<smids.length;i++)
@@ -57,14 +57,14 @@ public class OldMatrixPredictorEvaluation implements MatchingExperiment {
 			assert (st!=null);
 			st.importIdsFromMatchInfo(sm[i],true);
 			mwbg[i] = sm[i].clone(); 
-			/*TODO this isn't working. st returns ArrayList<MatchedAttributePair> 
+			TODO this isn't working. st returns ArrayList<MatchedAttributePair> 
 			 * and mwbg[i] is expecting ArrayList<Matches>. Need to upgrade mwbg[i] to work with
 			 * matched attribute pairs. 
-			 */
+			 
 			mwbg[i].setMatches(st.getMatches());
-			/*TODO use mwbg[i].addMatch(targetTerm, candidateTerm, effectiveness); 
+			TODO use mwbg[i].addMatch(targetTerm, candidateTerm, effectiveness); 
 			 * To write a method.   
-			*/
+			
 			fillMI(mwbg[i],st);
 			//Calculate precision, recall
 			GoldenStatistic  b = new BasicGolden();
@@ -106,7 +106,8 @@ public class OldMatrixPredictorEvaluation implements MatchingExperiment {
 		}
 		predictions.addAll(mwbgRes);
 		predictions.addAll(tRes);
-		return predictions;
+		return predictions;*/
+		return null;
 	}
 
 	private void fillMI(MatchInformation matchInformation, SchemaTranslator st) {

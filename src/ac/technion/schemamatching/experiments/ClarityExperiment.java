@@ -41,7 +41,7 @@ public class ClarityExperiment implements MatchingExperiment {
 	private OBExperimentRunner myExpRunner;
 	public ArrayList<Statistic> runExperiment(ExperimentSchemaPair esp) 
 	{
-		Ontology target;
+		/*Ontology target;
 	    Ontology candidate;
 	    String[] availableMatchers =  MatchingAlgorithms.ALL_ALGORITHM_NAMES;
         MatchInformation firstLineMI[]= new MatchInformation[availableMatchers.length];
@@ -189,7 +189,7 @@ public class ClarityExperiment implements MatchingExperiment {
     			 
     	  
 	  }// end for loop of experiment
-
+*/
 		return null;
 	}
 
