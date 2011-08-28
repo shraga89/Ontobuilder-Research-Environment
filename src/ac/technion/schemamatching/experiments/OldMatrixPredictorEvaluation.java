@@ -23,6 +23,7 @@ public class OldMatrixPredictorEvaluation implements MatchingExperiment {
 	 * (non-Javadoc)
 	 * @see ac.technion.schemamatching.experiments.MatchingExperiment#runExperiment(ac.technion.schemamatching.experiments.ExperimentSchemaPair)
 	 */
+	@SuppressWarnings("unchecked")
 	public ArrayList<Statistic> runExperiment(
 			ExperimentSchemaPair esp) {
 		/*// Match using 5 Ontobuilder 1st line matchers 
