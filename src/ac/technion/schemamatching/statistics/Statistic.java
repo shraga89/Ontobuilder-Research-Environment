@@ -5,7 +5,7 @@ package ac.technion.schemamatching.statistics;
 
 import java.util.ArrayList;
 
-import com.modica.ontology.match.MatchInformation;
+import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 
 /**
  * @author Tomer Sagi

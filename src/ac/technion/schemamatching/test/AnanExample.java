@@ -2,10 +2,10 @@
 
 package ac.technion.schemamatching.test;
 
-import schemamatchings.meta.algorithms.TKMInitializationException;
-import schemamatchings.meta.algorithms.TKMRunningException;
-import schemamatchings.util.SchemaMatchingAlgorithmsRunner;
-import schemamatchings.util.SchemaTranslator;
+import ac.technion.iem.ontobuilder.matching.algorithms.line2.tkm.TKMInitializationException;
+import ac.technion.iem.ontobuilder.matching.algorithms.line2.tkm.TKMRunningException;
+import ac.technion.iem.ontobuilder.matching.utils.SchemaMatchingAlgorithmsRunner;
+import ac.technion.iem.ontobuilder.matching.utils.SchemaTranslator;
 
 /**
  * @author haggai

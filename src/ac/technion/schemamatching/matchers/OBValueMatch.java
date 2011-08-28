@@ -3,9 +3,12 @@
  */
 package ac.technion.schemamatching.matchers;
 
-import com.modica.ontology.Ontology;
-import com.modica.ontology.algorithm.ValueAlgorithm;
-import com.modica.ontology.match.MatchInformation;
+import ac.technion.iem.ontobuilder.core.ontology.Ontology;
+import ac.technion.iem.ontobuilder.matching.algorithms.line2.misc.MatchingAlgorithmsNamesEnum;
+import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
+import ac.technion.iem.ontobuilder.matching.wrapper.OntoBuilderWrapper;
+import ac.technion.iem.ontobuilder.matching.wrapper.OntoBuilderWrapperException;
+import ac.technion.schemamatching.experiments.OBExperimentRunner;
 
 /**
  * Wrapper for default configurated Value Match
@@ -13,7 +16,6 @@ import com.modica.ontology.match.MatchInformation;
  *
  */
 public class OBValueMatch implements FirstLineMatcher {
-	ValueAlgorithm va = new ValueAlgorithm(); 
 	/* (non-Javadoc)
 	 * @see ac.technion.schemamatching.matchers.FirstLineMatcher#getName()
 	 */
@@ -32,7 +34,14 @@ public class OBValueMatch implements FirstLineMatcher {
 	 * @see ac.technion.schemamatching.matchers.FirstLineMatcher#match(com.modica.ontology.Ontology, com.modica.ontology.Ontology, boolean)
 	 */
 	public MatchInformation match(Ontology candidate, Ontology target, boolean binary) { 
-		return va.match(candidate,target);
+		OntoBuilderWrapper obw = OBExperimentRunner.getOER().getOBW();
+		MatchInformation res = null;
+		try {
+			res = obw.matchOntologies(candidate, target, MatchingAlgorithmsNamesEnum.VALUE.toString());
+		} catch (OntoBuilderWrapperException e) {
+			e.printStackTrace();
+		}
+		return res;
 	}
 
 	/* (non-Javadoc)

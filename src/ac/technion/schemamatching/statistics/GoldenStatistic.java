@@ -3,7 +3,7 @@
  */
 package ac.technion.schemamatching.statistics;
 
-import com.modica.ontology.match.MatchInformation;
+import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 
 /**
  * @author Tomer Sagi

@@ -3,22 +3,26 @@
  */
 package ac.technion.schemamatching.matchers;
 
-import com.modica.ontology.Ontology;
-import com.modica.ontology.algorithm.GraphAlgorithm;
-import com.modica.ontology.match.MatchInformation;
+import ac.technion.iem.ontobuilder.core.ontology.Ontology;
+import ac.technion.iem.ontobuilder.matching.algorithms.line2.misc.MatchingAlgorithmsNamesEnum;
+import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
+import ac.technion.iem.ontobuilder.matching.wrapper.OntoBuilderWrapper;
+import ac.technion.iem.ontobuilder.matching.wrapper.OntoBuilderWrapperException;
+import ac.technion.schemamatching.experiments.OBExperimentRunner;
+
+
 
 /**
  * Wrapper for default configurated Graph Match
  * @author Tomer Sagi
  *
  */
-public class OBSimilarityFlooding implements FirstLineMatcher {
-	GraphAlgorithm ga = new GraphAlgorithm(); 
+public class OBSimilarityFlooding implements FirstLineMatcher { 
 	/* (non-Javadoc)
 	 * @see ac.technion.schemamatching.matchers.FirstLineMatcher#getName()
 	 */
 	public String getName() {
-		return "Ontobuilder Graph Match";
+		return "Ontobuilder Implementation of Similarity Flooding";
 	}
 
 	/* (non-Javadoc)
@@ -32,7 +36,14 @@ public class OBSimilarityFlooding implements FirstLineMatcher {
 	 * @see ac.technion.schemamatching.matchers.FirstLineMatcher#match(com.modica.ontology.Ontology, com.modica.ontology.Ontology, boolean)
 	 */
 	public MatchInformation match(Ontology candidate, Ontology target, boolean binary) { 
-		return ga.match(candidate,target);
+		OntoBuilderWrapper obw = OBExperimentRunner.getOER().getOBW();
+		MatchInformation res = null;
+		try {
+			res = obw.matchOntologies(candidate, target, MatchingAlgorithmsNamesEnum.SIMILARITY_FLOODING.toString());
+		} catch (OntoBuilderWrapperException e) {
+			e.printStackTrace();
+		}
+		return res;
 	}
 
 	/* (non-Javadoc)

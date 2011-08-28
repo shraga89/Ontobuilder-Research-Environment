@@ -9,23 +9,11 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Properties;
-
-import schemamatchings.meta.match.MatchedAttributePair;
-import schemamatchings.ontobuilder.MatchingAlgorithms;
-import schemamatchings.util.BestMappingsWrapper;
-import schemamatchings.util.MappingAlgorithms;
-import schemamatchings.util.SchemaTranslator;
-import smb_service.SMB;
-import technion.iem.schemamatching.dbutils.DBInterface;
 
 import com.infomata.data.DataFile;
 import com.infomata.data.DataRow;
 import com.infomata.data.TabFormat;
-import com.modica.ontology.Ontology;
-import com.modica.ontology.match.MatchInformation;
-
 import ac.technion.schemamatching.matchers.FirstLineMatcher;
 import ac.technion.schemamatching.matchers.SecondLineMatcher;
 import ac.technion.schemamatching.statistics.Statistic;
@@ -267,10 +255,11 @@ public class ClarityExperiment implements MatchingExperiment {
 	 */
 	private ArrayList<String[]> getSimilarityMeasures(
 			String[] availableMatchers, int sysCode) {
-		ArrayList<String[]> res = new ArrayList<String[]>();
+		/*ArrayList<String[]> res = new ArrayList<String[]>();
 		for (Integer sm : myExpRunner.measures.keySet())
 			res.add(new String[] {sm.toString(),myExpRunner.measures.get(sm)});
-		return res;
+		return res;*/
+		return null;
 	}
 
 }

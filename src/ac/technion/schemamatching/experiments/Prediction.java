@@ -4,7 +4,6 @@
 package ac.technion.schemamatching.experiments;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Properties;
 
 import ac.technion.schemamatching.matchers.FirstLineMatcher;

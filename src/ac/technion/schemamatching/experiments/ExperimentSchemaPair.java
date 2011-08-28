@@ -2,15 +2,15 @@ package ac.technion.schemamatching.experiments;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import schemamatchings.ontobuilder.MatchingAlgorithms;
-import schemamatchings.ontobuilder.OntoBuilderWrapperException;
-import schemamatchings.util.SchemaMatchingsUtilities;
 import technion.iem.schemamatching.dbutils.DBInterface;
 
+import ac.technion.iem.ontobuilder.core.ontology.Ontology;
+import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
+import ac.technion.iem.ontobuilder.matching.utils.SchemaMatchingsUtilities;
+import ac.technion.iem.ontobuilder.matching.wrapper.OntoBuilderWrapperException;
 import ac.technion.schemamatching.matchers.FirstLineMatcher;
+import ac.technion.schemamatching.util.ConversionUtils;
 
-import com.modica.ontology.*;
-import com.modica.ontology.match.MatchInformation;
 
 /**
  * <p>Title: Schema Pair Matching Experiment</p>
@@ -78,7 +78,7 @@ public class ExperimentSchemaPair {
 	  res = parent.db.runSelectQuery(sql, 1);
 	  if (res.isEmpty()) OBExperimentRunner.error("No url recieved from the database for schema no." + Integer.toString(candidateID));
       String sTargetOnologyFileName = parent.dsurl + res.get(0)[0];
-      try {target = parent.obw.readOntologyXMLFile(sTargetOnologyFileName ,false);}
+      try {target = parent.xfh.readOntologyXMLFile(sTargetOnologyFileName ,false);}
       catch (Exception e) {
 		  e.printStackTrace();
 		  OBExperimentRunner.error("XML Load failed on:" + sTargetOnologyFileName);
@@ -90,7 +90,7 @@ public class ExperimentSchemaPair {
 	  if (res.isEmpty()) OBExperimentRunner.error("No url recieved from the database for schema no." 
 			  + Integer.toString(targetID));
       String sCandidateOnologyFileName = parent.dsurl + res.get(0)[0];
-      try {candidate = parent.obw.readOntologyXMLFile(sCandidateOnologyFileName ,false);}
+      try {candidate = parent.xfh.readOntologyXMLFile(sCandidateOnologyFileName ,false);}
       catch (Exception e) {
 		  e.printStackTrace();
 		  OBExperimentRunner.error("XML Load failed on:" + res.get(0)[0]);
@@ -106,9 +106,10 @@ public class ExperimentSchemaPair {
 			String sExactMappingFileName = parent.dsurl + res.get(0)[0];
     	  try 
     	  {
-    		  exactMapping = parent.obw.matchOntologies(candidate, target, MatchingAlgorithms.TERM);
-    		  SchemaMatchingsUtilities.readXMLBestMatchingFile(sExactMappingFileName,exactMapping.getMatrix());
-    		  //exactMapping.importIdsFromMatchInfo(mi, true);
+    		  //exactMapping = parent.obw.matchOntologies(candidate, target, MatchingAlgorithms.TERM); 
+    		  //This was wrong!!! Caused the match matrix to be smaller than the original matrix
+    		  exactMapping = new MatchInformation(candidate,target);
+    		  ConversionUtils.fillMI(exactMapping,SchemaMatchingsUtilities.readXMLBestMatchingFile(sExactMappingFileName,exactMapping.getMatrix()));
     	  }
     	  catch (OntoBuilderWrapperException e){	
     		  e.printStackTrace(); 
@@ -137,9 +138,14 @@ public class ExperimentSchemaPair {
 			if (!checkIfSchemaPairWasMatched(SPID,smid,parent.db))
   		 	{
 				mi = flm.match(candidate, target, false);
+				assert(mi!=null);
+				//If match information dimensions are reduced, expand them
+				if (mi.getCandidateOntology().getAllTermsCount()>mi.getMatrix().getColCount())
+				{ConversionUtils.fillMI(mi);}
   		 	}
   		 	else
   		 	{mi = DBInterface.createMIfromArrayList(candidate, target, getSimilarityMatrixFromDB(smid,SPID, parent.db));}
+			assert(mi!=null);
   		 	basicMatrices.put(smid, mi);
   		}
   		

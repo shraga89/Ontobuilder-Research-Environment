@@ -2,7 +2,7 @@ package ac.technion.schemamatching.statistics;
 
 import java.util.ArrayList;
 
-import com.modica.ontology.match.MatchInformation;
+import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 
 /**
  * Assumes matrices are of the same size and calculates their product Normed by L2
@@ -37,8 +37,8 @@ public class L2similarityGolden implements GoldenStatistic {
 		double lengthOfM = mi.getOverallMatchConfidence()*mi.getTotalMatches();
 		double lengthOfE = exactMatch.getOverallMatchConfidence()*mi.getTotalMatches();
 		double sumProduct = 0.0;
-		for (int r=0;r<m.length;r++)
-			for (int c=0;c<m[r].length;c++)
+		for (int r=0;r<e.length;r++)
+			for (int c=0;c<e[r].length;c++)
 				sumProduct+=m[r][c]*e[r][c];
 		Double res = (lengthOfE*lengthOfM==0?0:sumProduct/(lengthOfE*lengthOfM));
 		data.add(new String[] {instanceDescription, res.toString()});

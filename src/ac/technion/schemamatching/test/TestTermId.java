@@ -2,25 +2,27 @@ package ac.technion.schemamatching.test;
 
 
 import java.io.File;
+import ac.technion.iem.ontobuilder.core.ontology.Ontology;
+import ac.technion.iem.ontobuilder.core.utils.files.XmlFileHandler;
+import ac.technion.iem.ontobuilder.matching.algorithms.line2.misc.MatchingAlgorithmsNamesEnum;
+import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
+import ac.technion.iem.ontobuilder.matching.meta.match.MatchMatrix;
+import ac.technion.iem.ontobuilder.matching.utils.SchemaMatchingsUtilities;
+import ac.technion.iem.ontobuilder.matching.utils.SchemaTranslator;
+import ac.technion.iem.ontobuilder.matching.wrapper.OntoBuilderWrapper;
 
-import schemamatchings.ontobuilder.MatchMatrix;
-import schemamatchings.ontobuilder.MatchingAlgorithms;
-import schemamatchings.ontobuilder.OntoBuilderWrapper;
-import schemamatchings.util.SchemaMatchingsUtilities;
-import schemamatchings.util.SchemaTranslator;
-
-import com.modica.ontology.Ontology;
-import com.modica.ontology.match.MatchInformation;
 
 public class TestTermId {
-	public static void main(String[] args) throws Exception{
+	public static void main(String[] args) throws Exception
+	{
 		OntoBuilderWrapper obw = new OntoBuilderWrapper();
+		XmlFileHandler xhf = new XmlFileHandler();
 		String folder = "D:\\Ontology_Pairs_and_Exact_Mappings\\Ontology Pairs and Exact Mappings\\3-national_geographic.xml_6-people.xml_EXACT";
-		Ontology o1 = obw.readOntologyXMLFile(folder+"\\"+"3-national_geographic.xml",true);
+		Ontology o1 = xhf.readOntologyXMLFile(folder+"\\"+"3-national_geographic.xml",true);
 		o1.save(new File(folder+"\\"+"3-national_geographic.xml"));
-		Ontology o2 = obw.readOntologyXMLFile(folder+"\\"+"6-people.xml",true);
+		Ontology o2 = xhf.readOntologyXMLFile(folder+"\\"+"6-people.xml",true);
 		o2.save(new File(folder+"\\"+"6-people.xml"));
-		MatchInformation mi = obw.matchOntologies(o1,o2,MatchingAlgorithms.TERM);
+		MatchInformation mi = obw.matchOntologies(o1,o2,MatchingAlgorithmsNamesEnum.TERM.toString());
 		SchemaTranslator st = new SchemaTranslator();
 		st.importIdsFromMatchInfo(mi,true);
 		MatchMatrix mm = mi.getMatrix();

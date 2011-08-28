@@ -3,15 +3,19 @@
  */
 package ac.technion.schemamatching.matchers;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+import ac.technion.iem.ontobuilder.core.ontology.Ontology;
+import ac.technion.iem.ontobuilder.core.ontology.Term;
+import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
+import ac.technion.iem.ontobuilder.matching.meta.match.MatchMatrix;
 import ac.technion.schemamatching.util.ConversionUtils;
 
-import com.modica.ontology.Ontology;
-import com.modica.ontology.match.MatchInformation;
+import com.google.common.collect.HashBiMap;
 import com.sap.research.amc.utils.cli.MatcherType;
 import com.sap.research.amc.utils.cli.MatchingConfiguration;
 import com.sap.research.amc.utils.cli.MatchingPerformer;
@@ -57,31 +61,44 @@ public class AMCTokenPath implements FirstLineMatcher {
 	 */
 	public MatchInformation match(Ontology candidate, Ontology target, boolean binary) {
 		final NisbGraph srcNG = new InMemoryStore(); 
-		ConversionUtils.convertOntologytoNisBGraph(candidate, srcNG);
-		final NisbGraph trgNG = new InMemoryStore(); 
-		ConversionUtils.convertOntologytoNisBGraph(target, trgNG);
-		MatchInformation res = new MatchInformation();
-		res.setCandidateOntology(candidate);
-		res.setTargetOntology(target);
+		HashBiMap<Long, String> candMap = ConversionUtils.convertOntologytoNisBGraph(candidate, srcNG);
+		final NisbGraph trg = new InMemoryStore(); 
+		HashBiMap<Long, String> targMap = ConversionUtils.convertOntologytoNisBGraph(target, trg);
+		MatchInformation res = new MatchInformation(candidate,target);
+		ArrayList<Term> candList = new ArrayList<Term>();
+		candList.addAll(candidate.getTerms(true));
+		ArrayList<Term> targList = new ArrayList<Term>();
+		targList.addAll(target.getTerms(true));
+		MatchMatrix mm = new MatchMatrix(candList.size(),targList.size(),candList,targList);
 		if (binary)
 		{
-			List<Correspondence> matchList = MatchingPerformer.performMatch(conf, srcNG, trgNG);
+			List<Correspondence> matchList = MatchingPerformer.performMatch(conf, srcNG, trg);
 			for(Correspondence c : matchList)
 				for (Attribute l : c.getLeftAttributes())
 					for (Attribute r : c.getRightAttributes())
-						res.addMatch(target.getTermByID(Long.parseLong(r.getUri())),candidate.getTermByID(Long.parseLong(l.getUri())) , c.getQuality());
+						{
+							res.addMatch(target.getTermByID(targMap.inverse().get(r.getUri())),candidate.getTermByID(candMap.inverse().get(l.getUri())) , c.getQuality());
+						}
 		}
 		else
 		{
-			NisbSimilarityMatrix mat = MatchingPerformer.getSimilarityMatrix(matcher, srcNG, trgNG);
+			NisbSimilarityMatrix mat = MatchingPerformer.getSimilarityMatrix(matcher, srcNG, trg);
 			Set<Attribute> all_source = srcNG.getAllAttributes();
-			Set<Attribute> all_target = trgNG.getAllAttributes();
+			Set<Attribute> all_target = trg.getAllAttributes();
 			for (Attribute srcAtt : all_source) {
 				for (Attribute trgAtt : all_target) {
-					res.addMatch(target.getTermByID(Long.parseLong(trgAtt.getUri())), candidate.getTermByID(Long.parseLong(srcAtt.getUri())), mat.getSimilarity(srcAtt, trgAtt));
+					Term t = target.getTermByID(targMap.inverse().get(trgAtt.getUri()));
+					Term c = candidate.getTermByID(candMap.inverse().get(srcAtt.getUri()));
+					double confidence =  mat.getSimilarity(srcAtt, trgAtt);
+					if (confidence > 0.0)
+					{
+						res.addMatch(t, c,confidence );
+						mm.setMatchConfidence(c, t, confidence);
+					}
 				}
 			}
 		}
+		res.setMatrix(mm);
 		return res;
 	}
 

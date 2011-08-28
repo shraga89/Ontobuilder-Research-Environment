@@ -4,13 +4,14 @@ package ac.technion.schemamatching.test;
 
 import java.util.ArrayList;
 
-import schemamatchings.topk.algorithms.MaxWeightBipartiteMatchingAlgorithm;
-import schemamatchings.topk.graphs.BipartiteGraph;
-import schemamatchings.topk.graphs.EdgesSet;
-import schemamatchings.topk.graphs.Graph;
-import schemamatchings.topk.graphs.GraphFactory;
-import schemamatchings.topk.graphs.util.EdgeArray;
-import schemamatchings.topk.graphs.util.VertexArray;
+import ac.technion.iem.ontobuilder.matching.algorithms.line2.topk.graphs.entities.BipartiteGraph;
+import ac.technion.iem.ontobuilder.matching.algorithms.line2.topk.graphs.entities.EdgesSet;
+import ac.technion.iem.ontobuilder.matching.algorithms.line2.topk.graphs.entities.Graph;
+import ac.technion.iem.ontobuilder.matching.algorithms.line2.topk.graphs.entities.GraphFactory;
+import ac.technion.iem.ontobuilder.matching.algorithms.line2.topk.graphs.utils.EdgeArray;
+import ac.technion.iem.ontobuilder.matching.algorithms.line2.topk.graphs.utils.VertexArray;
+import ac.technion.iem.ontobuilder.matching.algorithms.line2.topk.impl.MaxWeightBipartiteMatchingAlgorithm;
+
 
 /**
  *  
@@ -26,9 +27,9 @@ public class MWBATest {
         
         double[][] adjMatrix = new double[lSize+rSize][lSize+rSize];
         //labels for left vertexes
-        ArrayList leftVertexNames = new ArrayList();
+        ArrayList<String> leftVertexNames = new ArrayList<String>();
         //labels for right vertexes
-        ArrayList rightVertexNames = new ArrayList();
+        ArrayList<String> rightVertexNames = new ArrayList<String>();
         
         //init graph
         for (int i=0;i<lSize;i++) {

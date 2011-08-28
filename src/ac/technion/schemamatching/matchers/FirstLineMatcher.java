@@ -3,8 +3,8 @@
  */
 package ac.technion.schemamatching.matchers;
 
-import com.modica.ontology.Ontology;
-import com.modica.ontology.match.MatchInformation;
+import ac.technion.iem.ontobuilder.core.ontology.Ontology;
+import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 
 /**
  * This interface is intended for usage in generating wrapper classes 

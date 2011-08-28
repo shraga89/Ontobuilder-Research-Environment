@@ -1,6 +1,7 @@
 package ac.technion.schemamatching.test;
-import com.modica.ontology.Ontology;
-import com.modica.ontology.Term;
+
+import ac.technion.iem.ontobuilder.core.ontology.Ontology;
+import ac.technion.iem.ontobuilder.core.ontology.Term;
 
 public class TermDeletionTest {
 
@@ -16,8 +17,8 @@ public class TermDeletionTest {
 //		t.setOntology(o.getModel());
 //		t.setSuperClass(c);
 		o.addTerm(t);
-		System.out.println("after insert term, # terms::"+o.getModel().getTermsCount());
+		System.out.println("after insert term, # terms::"+o.getAllTermsCount());
 		o.removeTerm(chT);
-		System.out.println("after remove term, # terms::"+o.getModel().getTermsCount());
+		System.out.println("after remove term, # terms::"+o.getAllTermsCount());
 	}
 }

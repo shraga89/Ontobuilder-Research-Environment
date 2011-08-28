@@ -2,10 +2,9 @@
 
 package ac.technion.schemamatching.util;
 
-import schemamatchings.meta.match.MatchedAttributePair;
-import schemamatchings.util.SchemaTranslator;
-
-import com.modica.ontology.Ontology;
+import ac.technion.iem.ontobuilder.core.ontology.Ontology;
+import ac.technion.iem.ontobuilder.matching.meta.match.MatchedAttributePair;
+import ac.technion.iem.ontobuilder.matching.utils.SchemaTranslator;
 
 
 public class RandomMatchingProblemInstance {

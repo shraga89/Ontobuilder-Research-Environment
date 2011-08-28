@@ -14,14 +14,14 @@ import technion.iem.schemamatching.dbutils.DBInterface;
 import technion.iem.schemamatching.dbutils.Field;
 import technion.iem.schemamatching.dbutils.Field.FieldType;
 
+import ac.technion.iem.ontobuilder.core.ontology.Ontology;
+import ac.technion.iem.ontobuilder.core.ontology.OntologyClass;
+import ac.technion.iem.ontobuilder.core.ontology.Term;
+import ac.technion.iem.ontobuilder.matching.match.Match;
+import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 import ac.technion.schemamatching.experiments.ExperimentSchemaPair;
 import ac.technion.schemamatching.experiments.OBExperimentRunner;
 
-import com.modica.ontology.Ontology;
-import com.modica.ontology.OntologyClass;
-import com.modica.ontology.Term;
-import com.modica.ontology.match.Match;
-import com.modica.ontology.match.MatchInformation;
 
 /**
  * @author Tomer Sagi
@@ -39,15 +39,23 @@ public class ExperimentDocumenter
 	 * Class constructor creates an experiment in the DB and stores it's eid
 	 * @param experimentDescription
 	 */
-	public ExperimentDocumenter(OBExperimentRunner myExpRunner, String experimentDescription)
+	public ExperimentDocumenter(ArrayList<ExperimentSchemaPair> dataset, String experimentDescription)
 	{
-		this(experimentDescription,myExpRunner.getDB());
+		this(experimentDescription);
+		documentDataset(dataset);
+	}
+
+
+	/**
+	 * @param dataset
+	 */
+	private void documentDataset(ArrayList<ExperimentSchemaPair> dataset) {
 		MatchInformation exactMapping;
 		HashMap<Field, Object> values = new HashMap<Field, Object>();
 		Field spID = new Field("SPID",FieldType.INT);
 		values.put(new Field("EID",FieldType.LONG), eid);
 		ArrayList<ExperimentSchemaPair> badSE = new ArrayList<ExperimentSchemaPair>();
-		    for (ExperimentSchemaPair schemasExp : myExpRunner.getDS()) 
+		    for (ExperimentSchemaPair schemasExp : dataset) 
 		    {
 				// 2.1 load from file into OB objects
 		    	exactMapping = schemasExp.getExact();
@@ -71,12 +79,12 @@ public class ExperimentDocumenter
 				for (Object o : exactMapping.getOriginalTargetTerms())
 					writeTermToDB(schemasExp.getTargetID(), (Term)o);
 				//Document exact match
-		        uploadExactMatch(exactMapping, spid, myExpRunner.getDB());
+		        uploadExactMatch(exactMapping, spid);
 		        
 		    }
 		    
-	        myExpRunner.getDS().removeAll(badSE);
-	  		System.out.println("DataSet size is: " + myExpRunner.getDS().size());
+	        dataset.removeAll(badSE);
+	  		System.out.println("DataSet size is: " + dataset.size());
 	}
 
 	
@@ -84,9 +92,9 @@ public class ExperimentDocumenter
 	 * Class constructor creates an experiment in the DB and stores it's eid
 	 * @param experimentDescription
 	 */
-	private ExperimentDocumenter(String experimentDescription,DBInterface db)
+	private ExperimentDocumenter(String experimentDescription)
 	{
-		this.db = db;
+		this.db = OBExperimentRunner.getOER().getDB();
 		//set the current EID to be one past the largest EID 
 		eid = (Integer.parseInt((db.runSelectQuery("SELECT Max(EID) FROM experiments;",1)).get(0)[0]))+1; //write a query which retrieves the maximal EID in the db
 		HashMap<Field, Object> values = new HashMap<Field, Object>();
@@ -102,7 +110,7 @@ public class ExperimentDocumenter
 	 * @param exactMapping SchemaTranslator object with mappings between terms. In each pair, assuming first is candidate and second is target
 	 * @param spid Schema Pair ID
 	 */
-	private static void uploadExactMatch(MatchInformation exactMapping, long spid, DBInterface db) {
+	private void uploadExactMatch(MatchInformation exactMapping, long spid) {
 		String sql = "SELECT SPID FROM exactmatches WHERE SPID = " + spid + ";";
 		if (db.runSelectQuery(sql,1).isEmpty())
 		{
@@ -185,7 +193,6 @@ public class ExperimentDocumenter
 	 * @param ExperimentSchemaPair - holds the 2 ontology we match (used to get their IDs)
 	 * @Remark, when storing an id we since we decide on the id of a term 
 	 * 	 */
-	@SuppressWarnings("unchecked")
 	public void loadSMtoDB(MatchInformation firstLineMI, ExperimentSchemaPair schemasExp,boolean enhanced, int SerialNumOfMatcher) throws IOException 
 	{
 		ArrayList<Match> matches = firstLineMI.getMatches();
@@ -467,7 +474,7 @@ public class ExperimentDocumenter
 		int NumOfClasses = getNumberOfClasses (ontology);
 		ArrayList <Integer> A = calculateTermsHiddenAssociationInOntology (ontology);
 		//For webforms only recursively count terms that the ontology class is not "hidden" 
-		sql = "UPDATE schemata SET `Was_Fully_Parsed` = '1',`Max_Height_of_the_class_hierarchy`= '" + ontology.getHeight() + 
+		sql = "UPDATE schemata SET `Was_Fully_Parsed` = '1',`Max_Height_of_the_class_hierarchy`= '" + ontology.getClassHeight() + 
 		"', `Number_of_classes` =  '" + NumOfClasses + "', `Number_of_association_relationships` = '" + A.get(2) + 
 		"', `Number_of_attributes_in_Schema`= '" + A.get(0) + "', `Number_of_visible_items` = '" +  (A.get(1)-A.get(0)) + 
 		"', `Number_of_instances` = '" + 0 + "' WHERE SchemaID = '" + schemaID + "';";
@@ -549,9 +556,8 @@ public class ExperimentDocumenter
 	 * @throws Exception
 	 */
 	
-	@SuppressWarnings("unchecked")
 	private static int getNumberOfClasses(Ontology ontology) {
-		Vector<OntologyClass> v = ontology.getModel().getClasses();
+		Vector<OntologyClass> v = ontology.getClasses(true);
 		//OntologyClass c = (OntologyClass) v.get(0);
 		Iterator<OntologyClass> it = v.iterator();
 		int count = v.size();
