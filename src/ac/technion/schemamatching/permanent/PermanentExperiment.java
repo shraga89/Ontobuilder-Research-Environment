@@ -5,21 +5,21 @@ package ac.technion.schemamatching.permanent;
 import java.io.File;
 
 
-import schemamatchings.meta.match.MatchedAttributePair;
-import schemamatchings.ontobuilder.MatchMatrix;
-import schemamatchings.ontobuilder.MatchingAlgorithms;
-import schemamatchings.ontobuilder.OntoBuilderWrapper;
-import schemamatchings.topk.wrapper.SchemaMatchingsWrapper;
-import schemamatchings.util.SchemaMatchingsUtilities;
-import schemamatchings.util.SchemaTranslator;
-
+import ac.technion.iem.ontobuilder.core.ontology.Ontology;
+import ac.technion.iem.ontobuilder.core.ontology.Term;
+import ac.technion.iem.ontobuilder.core.utils.files.XmlFileHandler;
+import ac.technion.iem.ontobuilder.matching.algorithms.line1.term.TermAlgorithm;
+import ac.technion.iem.ontobuilder.matching.algorithms.line2.misc.MatchingAlgorithmsNamesEnum;
+import ac.technion.iem.ontobuilder.matching.algorithms.line2.topk.wrapper.SchemaMatchingsWrapper;
+import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
+import ac.technion.iem.ontobuilder.matching.meta.match.MatchMatrix;
+import ac.technion.iem.ontobuilder.matching.meta.match.MatchedAttributePair;
+import ac.technion.iem.ontobuilder.matching.utils.SchemaMatchingsUtilities;
+import ac.technion.iem.ontobuilder.matching.utils.SchemaTranslator;
+import ac.technion.iem.ontobuilder.matching.wrapper.OntoBuilderWrapper;
 import ac.technion.schemamatching.util.RandomMatchingProblemGenerator;
 import ac.technion.schemamatching.util.RandomMatchingProblemInstance;
 
-import com.modica.ontology.Ontology;
-import com.modica.ontology.Term;
-import com.modica.ontology.algorithm.TermAlgorithm;
-import com.modica.ontology.match.MatchInformation;
 
 
 public class PermanentExperiment{
@@ -50,6 +50,7 @@ public class PermanentExperiment{
 		RandomMatchingProblemGenerator generator;
 		
 		OntoBuilderWrapper ob = new OntoBuilderWrapper();
+		XmlFileHandler xfh = new XmlFileHandler();
 		try {
 			File workDir = new File(workDirName); 
 			File[] triplets = workDir.listFiles();
@@ -73,14 +74,14 @@ public class PermanentExperiment{
 							targetOntology = filePath; 
 						}
 					}
-					Ontology candidate = ob.readOntologyXMLFile(candidateOntology,false);
-					Ontology target = ob.readOntologyXMLFile(targetOntology,false);
+					Ontology candidate = xfh.readOntologyXMLFile(candidateOntology,false);
+					Ontology target = xfh.readOntologyXMLFile(targetOntology,false);
 					SchemaTranslator exact = SchemaMatchingsUtilities.readXMLBestMatchingFile(exactMapping);
 					
 					generator = new RandomMatchingProblemGenerator(exact, candidate, target);
 					RandomMatchingProblemInstance instance = generator.generateProblem(Math.min(size,exact.getMatchedPairs().length));
 					
-					TermAlgorithm term = (TermAlgorithm)ob.loadMatchAlgorithm(MatchingAlgorithms.TERM);
+					TermAlgorithm term = (TermAlgorithm)ob.loadMatchAlgorithm(MatchingAlgorithmsNamesEnum.TERM);
 					
 					MatchInformation matchInfo = term.match(instance.getTargetOntology(), instance.getCandOntology());
 					SchemaMatchingsWrapper best = new SchemaMatchingsWrapper(matchInfo.getMatrix());
@@ -94,7 +95,7 @@ public class PermanentExperiment{
 					double recall = SchemaMatchingsUtilities.calculateRecall(exact, match);
 					matchInfo.getMatrix().normalize();
 					double[][] matrix = extractMatrix(matchInfo.getMatchMatrix()[0].length, matchInfo.getMatrix(), instance.getExactPairs(), 0.0);
-					int dim = matrix[0].length;
+					//int dim = matrix[0].length;
 					
 					double permanent = SchemaMatchingsUtilities.calcPermanentValue(matrix);
 					System.out.println(precision+"\t"+recall+"\t"+permanent);

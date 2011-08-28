@@ -11,9 +11,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Properties;
-import schemamatchings.ontobuilder.OntoBuilderWrapper;
 import smb_service.PropertyLoader;
 import technion.iem.schemamatching.dbutils.DBInterface;
+import ac.technion.iem.ontobuilder.core.utils.files.XmlFileHandler;
+import ac.technion.iem.ontobuilder.matching.wrapper.OntoBuilderWrapper;
 import ac.technion.schemamatching.statistics.Statistic;
 import com.infomata.data.CSVFormat;
 import com.infomata.data.DataFile;
@@ -24,101 +25,122 @@ import ac.technion.schemamatching.matchers.*;
  * The class provides tools for running schema matching experiments.
  * @author Tomer Sagi
  * @author Nimrod Busany 
+ * @category Singleton
  */
-public class OBExperimentRunner { //TODO - make experiment runner a singleton
+public class OBExperimentRunner { 
 
+	private static OBExperimentRunner oer;
+	private HashMap<Long,ArrayList<ExperimentSchemaPair>> experimentDatasets = new HashMap<Long,ArrayList<ExperimentSchemaPair>>();
+	private HashMap<Long,ExperimentDocumenter> experimentDocumenters = new HashMap<Long,ExperimentDocumenter>();
 	protected String dsurl;
 	protected DBInterface db;
-	private ArrayList<ExperimentSchemaPair> dataset;
-	protected ExperimentDocumenter doc;
 	protected OntoBuilderWrapper obw;
+	protected XmlFileHandler xfh;
 	private Properties properties;
 	private ArrayList<FirstLineMatcher> flm = new ArrayList<FirstLineMatcher>();
 	private ArrayList<SecondLineMatcher> slm = new ArrayList<SecondLineMatcher>();
-	public HashMap<Integer,String> measures = new HashMap<Integer,String>();
-	public HashMap<Integer,String> matchers = new HashMap<Integer,String>();
-	public HashMap<String,Integer> reversedmeasures = new HashMap<String,Integer>();
-	public HashMap<String,Integer> reversedmatchers = new HashMap<String,Integer>();
+	
 	/**
 	 * Main method runs an experiment according to the supplied parameters
-	 * @param args[0] outputPath folder in which temporary files will be saved
-	 * @param args[1] Experiment Type compared against enum ExperimentType
-	 * @param args[2] K - number of experiments schema pairs, set 0 to use a specific SPID
-	 * @param args[3] schema pair ID (ignored unless K is 0
-	 * @param args[4] datasetID (for random K)
-	 * @param args[5] domainCodes - (optional) string in the following format "2,3,4,2" (without the Quotation mark)
+	 * @param args[0] run as command line (cmd) or console application (console)
+	 * @param args[1] output path
+	 * @param args[2] Experiment Type compared against enum ExperimentType
+	 * @param args[3] K - number of experiments schema pairs, set 0 to use a specific SPID
+	 * @param args[4] schema pair ID (ignored unless K is 0
+	 * @param args[5] datasetID (for random K)
+	 * @param args[6] domainCodes - (optional) string in the following format "2,3,4,2" (without the Quotation mark)
 	 */
 	public static void main(String[] args) 
 	{
-		checkInputParameters(args);
-		File outputPath = new File(args[0]); // folder in which temporary files will be saved
-	    Properties pMap = PropertyLoader.loadProperties("ob_interface");
-	    DBInterface myDB = new DBInterface(Integer.parseInt((String)pMap.get("dbmstype")),(String)pMap.get("host"),(String)pMap.get("dbname"),(String)pMap.get("username"),(String)pMap.get("pwd"));
-	
-	
-	    OBExperimentRunner myExpRunner;
-	    if (Integer.valueOf(args[2])==0)
-	    	myExpRunner = new OBExperimentRunner(myDB,(String)pMap.get("schemaPath"),Integer.valueOf(args[3]), args.toString());  
-	    else{
-	    	Integer datasetID = Integer.valueOf(args[4]);
-	    	Integer size = Integer.valueOf(args[2]);
-	    	HashSet<Integer> domainCodes= null;
-	    	if (args.length==6)
-	    	{domainCodes = parseDomainCodes(args[5]);}
-	    	myExpRunner = new OBExperimentRunner(myDB,(String)pMap.get("schemaPath"),datasetID,domainCodes,size, "Experiment Type: " + args[1]+ " k=" + args[2] + " SPID: " + args[3] + " Dataset: " + args[4]);
+		OBExperimentRunner myExpRunner = getOER();
+		File outputPath = null;
+		ExperimentType et = null;
+		ArrayList<ExperimentSchemaPair> dataset = new ArrayList<ExperimentSchemaPair>();
+		String expDesc = "None provided";
+		HashSet<Integer> dc =new HashSet<Integer>();
+		if (args[0].equalsIgnoreCase("cmd"))
+		{
+			myExpRunner.checkInputParameters(args);
+			outputPath = new File(args[1]); // folder in which temporary files will be saved
+			et = ExperimentType.valueOf(args[2]);
+			if (Integer.valueOf(args[3])==0){
+	    		
+				dataset =oer.selectExperiments(0,Integer.valueOf(args[4]), 0, dc );}  
+			else{
+		    	Integer datasetID = Integer.valueOf(args[5]);
+		    	Integer size = Integer.valueOf(args[3]);
+		    	if (args.length==7)
+		    	{dc = parseDomainCodes(args[6]);}
+		    	expDesc =  "Experiment Type: " + args[2]+ " k=" + args[3] + " SPID: " + args[4] + " Dataset: " + args[5];
+		    	if (dc==null) dc = new HashSet<Integer>();
+				dataset = oer.selectExperiments(size,0, datasetID, dc);
 	    	}
-	    myExpRunner.runExperiment(ExperimentType.valueOf(args[1]), outputPath);
-		  
+		}
+		else if (args[0].equalsIgnoreCase("console"))
+		{
+			//TODO initialize console application
+		    
+		}
+		else
+		{
+			printGeneralInstructions();
+			error("invalid 1st parameter supplied");
+		}
+		Long eid = myExpRunner.initExperiment(dataset, expDesc);
+		myExpRunner.runExperiment(et,eid, outputPath);
 	 }
+	
+	public OntoBuilderWrapper getOBW()
+	{
+		return obw;
+	}
+
+	private static void printGeneralInstructions() 
+	{
+		System.out.println("Usage: java -jar OBExperimentRunner.jar <cmd/console> [cmd param args...]");
+		System.out.println("Command line mode parameters:");
+		System.out.println("1: output path");
+		System.out.println("2: Experiment Type compared against enum ExperimentType");
+		System.out.println("3: K - number of experiments schema pairs, set 0 to use a specific SPID");
+		System.out.println("4: schema pair ID (ignored unless K is 0");
+		System.out.println("5: datasetID (for random K)");
+		System.out.println("6: domainCodes - (optional) string in the following format \",3,4,2\" (without the Quotation marks)");
+	}
 
 
 	/**
-	 * Base constructor
-	 * @param db
-	 * @param datasetURL
-	 * @param experimentDescription
+	 * Base constructor, private (Singleton)
 	 */
-	private OBExperimentRunner(DBInterface db,String datasetURL)
+	private OBExperimentRunner()
 	{
-		this.db = db;
-		dsurl = datasetURL;
+		Properties pMap = PropertyLoader.loadProperties("ob_interface");
+	    db = new DBInterface(Integer.parseInt((String)pMap.get("dbmstype")),(String)pMap.get("host"),(String)pMap.get("dbname"),(String)pMap.get("username"),(String)pMap.get("pwd"));
+		dsurl = (String)pMap.get("schemaPath");
 		File dsFolder = new File(dsurl);
 		if (dsFolder == null || !dsFolder.isDirectory()) error("Supplied dataset url is invalid or unreachable");
 		obw = new OntoBuilderWrapper();
-		fillHashMeasures();
+		xfh = new XmlFileHandler();
+		for (FLMList f : FLMList.values())
+			flm.add(f.getFLM());
+		//TODO same for slm
 	}
 	
-
 	/**
-	 * Class constructor for an experiment on a specific schema pair
-	 * @param db
-	 * @param datasetURL
-	 * @param schemaPairID
-	 * @param experimentDescription TODO
+	 * Getter method instead of constructor - Singleton design Pattern
+	 * @return
 	 */
-	public OBExperimentRunner(DBInterface db,String datasetURL,int schemaPairID, String experimentDescription)
+	public static synchronized OBExperimentRunner getOER()
 	{
-		this(db,datasetURL);
-		dataset = selectExperiments(1,schemaPairID, 0, null);
-		doc = new ExperimentDocumenter(this,experimentDescription); 
+		if (oer  == null)
+			oer = new OBExperimentRunner();
+		return oer;
 	}
 	
-	/**
-	 * Class constructor for an experiment on K random schemas from a specific dataset and list of domains 
-	 * @param db - shouldn't this be included in the Property file?
-	 * @param datasetURL
-	 * @param datasetID
-	 * @param domainCodes (Optional list of domain codes to use for random schema pair selection
-	 * @param size number of scemapairs you wish to include in your experiment
-	 * @param experimentDescription
-	 */
-	public OBExperimentRunner(DBInterface db,String datasetURL,Integer datasetID,HashSet<Integer> domainCodes,Integer size, String experimentDescription){
-		this(db,datasetURL);
-		if (domainCodes==null) domainCodes = new HashSet<Integer>();
-		dataset = selectExperiments(size,0, datasetID, domainCodes); 
-		doc = new ExperimentDocumenter(this,experimentDescription);
+	public OBExperimentRunner clone()throws CloneNotSupportedException {
+		throw new CloneNotSupportedException();
 	}
-	
+
+
 	/**
 	 * @param DomainCodes - a string in the following format "2,3,4,2" (without the Quotation mark)
 	 * @return HashSet<Integer>
@@ -133,13 +155,13 @@ public class OBExperimentRunner { //TODO - make experiment runner a singleton
 	}
 
 
-	private static void checkInputParameters(String[] args) {
+	private void checkInputParameters(String[] args) {
 		if (args[0]==null) {error("Please enter an output folder path");}
-		if ( Integer.valueOf(args[2])==0 && args[3]==null ){error("Please enter an number of experiment to sample or a spid");}
-		if (Integer.valueOf(args[2])<0) {error("Illegal number of experiments to sample");}
-		if ( Integer.valueOf(args[2])==0 && !findSPID(args[3]) ){error("SPID wasn't found");}
+		if ( Integer.valueOf(args[3])==0 && args[4]==null ){error("Please enter an number of experiment to sample or a spid");}
+		if (Integer.valueOf(args[3])<0) {error("Illegal number of experiments to sample");}
+		if ( Integer.valueOf(args[3])==0 && !findSPID(args[4]) ){error("SPID wasn't found");}
 		try {
-				ExperimentType.valueOf(args[1]);
+				ExperimentType.valueOf(args[2]);
 		}
 		catch (Exception e)
 		{
@@ -148,19 +170,27 @@ public class OBExperimentRunner { //TODO - make experiment runner a singleton
 		
 	}
 	
-	private static boolean findSPID(String spid) {
-		Properties pMap = PropertyLoader.loadProperties("ob_interface");
-	    DBInterface myDB = new DBInterface(Integer.parseInt((String)pMap.get("dbmstype")),(String)pMap.get("host"),(String)pMap.get("dbname"),(String)pMap.get("username"),(String)pMap.get("pwd"));
-	    String sql = "SELECT `SchemaID` FROM schemata WHERE SchemaID='" + spid +"';";
-		return (myDB.runSelectQuery(sql, 1).get(0)[0]!=null);
+	private boolean findSPID(String spid) {
+	    String sql = "SELECT `SPID` FROM schemapairs WHERE SPID='" + spid +"';";
+		return (db.runSelectQuery(sql, 1).get(0)[0]!=null);
 }
 
-	public ExperimentDocumenter getDoc() {
-		return doc;
+	/**
+	 * Returns the ExperimentDocumenter object for a given experiment ID
+	 * @param eid Experiment ID
+	 * @return ExperimentDocumenter object
+	 */
+	public ExperimentDocumenter getDoc(Long eid) {
+		return experimentDocumenters.get(eid);
 	}
 
-	public ArrayList<ExperimentSchemaPair> getDS() 
-	{return dataset;}
+	/**
+	 * Returns the dataset for a supplied experiment id
+	 * @param eid
+	 * @return
+	 */
+	public ArrayList<ExperimentSchemaPair> getDS(Long eid) 
+	{return experimentDatasets.get(eid);}
 	
 	
 	/**
@@ -226,12 +256,13 @@ public class OBExperimentRunner { //TODO - make experiment runner a singleton
 	}
 	
 	/**
-	 * Runs experiment e on the loaded dataset and writes the result to the file object supplied 
-	 * @param e Experiment to run
+	 * Runs experiment on the loaded dataset and writes the result to the file object supplied 
+	 * @param eid Experiment to run
 	 * @param resultFolder File object in which to create the results. Folder will be created if not exists
 	 */
-	public void runExperiment(ExperimentType et,File resultFolder)
+	public void runExperiment(ExperimentType et, Long eid,File resultFolder)
 	{
+		ArrayList<ExperimentSchemaPair> dataset = getDS(eid);
 		MatchingExperiment e = et.getExperiment();
 		ArrayList<Statistic> res = new ArrayList<Statistic>();
 		e.init(this, properties, flm, slm);
@@ -241,6 +272,15 @@ public class OBExperimentRunner { //TODO - make experiment runner a singleton
 			res.addAll(e.runExperiment(esp));
 		}
 		formatStatistics(res, resultFolder);	
+	}
+	
+	public Long initExperiment(ArrayList<ExperimentSchemaPair> dataset,String desc)
+	{
+		ExperimentDocumenter ed= new ExperimentDocumenter(dataset,desc);
+		Long eid = ed.getEid();
+		experimentDatasets.put(eid, dataset);
+		experimentDocumenters.put(eid, ed);
+		return eid;
 	}
 	
 	/**
@@ -277,11 +317,12 @@ public class OBExperimentRunner { //TODO - make experiment runner a singleton
 		{
 			ArrayList<Statistic> tmp;
 			if (collected.containsKey(s.getName()))
-				tmp = collected.get(s);
+				tmp = collected.get(s.getName());
 			else
 				tmp = new ArrayList<Statistic>();
 			
 			tmp.add(s);
+			collected.put(s.getName(), tmp);
 		}
 		
 		//Output a file for each statistic
@@ -325,39 +366,6 @@ public class OBExperimentRunner { //TODO - make experiment runner a singleton
 			e.printStackTrace();
 		}
 	}
-
-
-	private void fillHashMeasures() {
-		//fill in the firstlines table
-		measures.put(0,"Term Match");
-		measures.put(1,"Value Match");
-		measures.put(2,"Term and Value Match");
-		measures.put(3,"Combined Match");
-		measures.put(4,"Precedence Match");
-		measures.put(5,"Graph Match");
-		measures.put(6,"Similarity Flooding Algorithm");
-		//fill in the firstlines reversed table
-		reversedmeasures.put("Term Match",0);
-		reversedmeasures.put("Value Match",1);
-		reversedmeasures.put("Term and Value Match",2);
-		reversedmeasures.put("Combined Match",3);
-		reversedmeasures.put("Precedence Match",4);
-		reversedmeasures.put("Graph Match",5);
-		reversedmeasures.put("Similarity Flooding Algorithm",6);		
-		//fill in second line matchers' table
-		matchers.put(1,"Max Weighted Bipartite Graph");
-		matchers.put(2,"Stable Marriage");
-		matchers.put(3,"Dominants");
-		matchers.put(4,"Intersection");
-		matchers.put(5,"Union");
-		//fill in second line matchers' reversed table
-		reversedmatchers.put("Max Weighted Bipartite Graph",1);
-		reversedmatchers.put("Stable Marriage",2);
-		reversedmatchers.put("Dominants",3);
-		reversedmatchers.put("Intersection",4);
-		reversedmatchers.put("Union",5);
-	}
-	
 }
 
 

@@ -3,9 +3,12 @@
  */
 package ac.technion.schemamatching.matchers;
 
-import com.modica.ontology.Ontology;
-import com.modica.ontology.algorithm.TermAlgorithm;
-import com.modica.ontology.match.MatchInformation;
+import ac.technion.iem.ontobuilder.core.ontology.Ontology;
+import ac.technion.iem.ontobuilder.matching.algorithms.line2.misc.MatchingAlgorithmsNamesEnum;
+import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
+import ac.technion.iem.ontobuilder.matching.wrapper.OntoBuilderWrapper;
+import ac.technion.iem.ontobuilder.matching.wrapper.OntoBuilderWrapperException;
+import ac.technion.schemamatching.experiments.OBExperimentRunner;
 
 /**
  * Wrapper for default configurated Ontobuilder Term Match
@@ -13,8 +16,6 @@ import com.modica.ontology.match.MatchInformation;
  *
  */
 public class OBTermMatch implements FirstLineMatcher {
-	TermAlgorithm ta = new TermAlgorithm();;
-
 	/* (non-Javadoc)
 	 * @see ac.technion.schemamatching.matchers.FirstLineMatcher#getName()
 	 */
@@ -32,8 +33,15 @@ public class OBTermMatch implements FirstLineMatcher {
 	/* (non-Javadoc)
 	 * @see ac.technion.schemamatching.matchers.FirstLineMatcher#match(com.modica.ontology.Ontology, com.modica.ontology.Ontology, boolean)
 	 */
-	public MatchInformation match(Ontology candidate, Ontology target, boolean binary) { 
-		return ta.match(candidate,target);
+	public MatchInformation match(Ontology candidate, Ontology target, boolean binary) {
+		OntoBuilderWrapper obw = OBExperimentRunner.getOER().getOBW();
+		MatchInformation res = null;
+		try {
+			res = obw.matchOntologies(candidate, target, MatchingAlgorithmsNamesEnum.TERM.toString());
+		} catch (OntoBuilderWrapperException e) {
+			e.printStackTrace();
+		}
+		return res;
 	}
 
 	/* (non-Javadoc)

@@ -3,9 +3,7 @@ package ac.technion.schemamatching.experiments;
 import java.util.ArrayList;
 import java.util.Properties;
 
-import schemamatchings.util.BestMappingsWrapper;
-import schemamatchings.util.SchemaTranslator;
-
+import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 import ac.technion.schemamatching.matchers.FirstLineMatcher;
 import ac.technion.schemamatching.matchers.SecondLineMatcher;
 import ac.technion.schemamatching.statistics.BasicGolden;
@@ -13,9 +11,6 @@ import ac.technion.schemamatching.statistics.GoldenStatistic;
 import ac.technion.schemamatching.statistics.L2similarityGolden;
 import ac.technion.schemamatching.statistics.MatrixPredictors;
 import ac.technion.schemamatching.statistics.Statistic;
-
-import com.modica.ontology.match.Match;
-import com.modica.ontology.match.MatchInformation;
 
 /**
  * Evaluates matrix predictors by returning the predictor value next to
@@ -32,18 +27,17 @@ public class MatrixPredictorEvaluation implements MatchingExperiment {
 	 */
 	public ArrayList<Statistic> runExperiment(ExperimentSchemaPair esp) {
 		// Using all 1st line matchers 
-		ArrayList<MatchInformation> sm = new ArrayList<MatchInformation>();
 		ArrayList<Statistic> predictions = new ArrayList<Statistic>();
 		ArrayList<Statistic> evaluations = new ArrayList<Statistic>();
 		for (FirstLineMatcher m : flM)
 		{
 			//Match
 			MatchInformation mi = esp.getSimilarityMatrix(m);
-			sm.add(mi);
 			// Calculate predictors
 			Statistic  p = new MatrixPredictors();
-			String instanceDesc = esp.getSPID()+","+m.getName()+","+m.getConfig();
-			assert(p.init(instanceDesc, mi));
+			String instanceDesc = esp.getSPID()+"_"+m.getName()+"_"+m.getConfig();
+			p.init(instanceDesc, mi);
+			predictions.add(p);
 			//Calculate precision, recall
 			GoldenStatistic  b = new BasicGolden();
 			b.init(instanceDesc, mi,esp.getExact());

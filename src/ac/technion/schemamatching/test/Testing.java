@@ -1,7 +1,7 @@
 package ac.technion.schemamatching.test;
 
-import schemamatchings.util.SchemaMatchingAlgorithmsRunner;
-import schemamatchings.util.SchemaTranslator;
+import ac.technion.iem.ontobuilder.matching.utils.SchemaMatchingAlgorithmsRunner;
+import ac.technion.iem.ontobuilder.matching.utils.SchemaTranslator;
 
 public class Testing {
 

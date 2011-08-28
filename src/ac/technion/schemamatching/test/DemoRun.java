@@ -1,16 +1,15 @@
 
 package ac.technion.schemamatching.test;
 
-import com.modica.ontology.Ontology;
-import com.modica.ontology.algorithm.TermAlgorithm;
-import com.modica.ontology.algorithm.ValueAlgorithm;
-import com.modica.ontology.match.MatchInformation;
-
-import schemamatchings.meta.algorithms.MatchAlgorithm;
-import schemamatchings.ontobuilder.MatchingAlgorithms;
-import schemamatchings.ontobuilder.OntoBuilderWrapper;
-import schemamatchings.topk.wrapper.SchemaMatchingsWrapper;
-import schemamatchings.util.SchemaTranslator;
+import ac.technion.iem.ontobuilder.core.ontology.Ontology;
+import ac.technion.iem.ontobuilder.core.utils.files.XmlFileHandler;
+import ac.technion.iem.ontobuilder.matching.algorithms.line1.term.TermAlgorithm;
+import ac.technion.iem.ontobuilder.matching.algorithms.line1.term.ValueAlgorithm;
+import ac.technion.iem.ontobuilder.matching.algorithms.line2.misc.MatchingAlgorithmsNamesEnum;
+import ac.technion.iem.ontobuilder.matching.algorithms.line2.topk.wrapper.SchemaMatchingsWrapper;
+import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
+import ac.technion.iem.ontobuilder.matching.utils.SchemaTranslator;
+import ac.technion.iem.ontobuilder.matching.wrapper.OntoBuilderWrapper;
 
 /**
  * @author haggai
@@ -20,12 +19,13 @@ public class DemoRun {
 
 	public static void main(String[] args){
 		   OntoBuilderWrapper ob = new OntoBuilderWrapper();
+		   XmlFileHandler xfh = new XmlFileHandler();
 		   try {
-			Ontology target = ob.readOntologyXMLFile("d:/demo/MevoJerusalem.xml",true);
-			Ontology candidate = ob.readOntologyXMLFile("d:/demo/NeptuneEilat.xml",true);
-			MatchAlgorithm[] matchAlgorithms = new MatchAlgorithm[2];
-			TermAlgorithm term = (TermAlgorithm)ob.loadMatchAlgorithm(MatchingAlgorithms.TERM);
-			ValueAlgorithm value = (ValueAlgorithm)ob.loadMatchAlgorithm(MatchingAlgorithms.VALUE);
+			Ontology target = xfh.readOntologyXMLFile("d:/demo/MevoJerusalem.xml",true);
+			Ontology candidate = xfh.readOntologyXMLFile("d:/demo/NeptuneEilat.xml",true);
+//			MatchAlgorithm[] matchAlgorithms = new MatchAlgorithm[2];
+			TermAlgorithm term = (TermAlgorithm)ob.loadMatchAlgorithm(MatchingAlgorithmsNamesEnum.TERM);
+			ValueAlgorithm value = (ValueAlgorithm)ob.loadMatchAlgorithm(MatchingAlgorithmsNamesEnum.VALUE);
 			MatchInformation tm = term.match(candidate,target);
 			MatchInformation vm = value.match(candidate,target);
 			SchemaMatchingsWrapper smwt = new SchemaMatchingsWrapper(tm.getMatrix());

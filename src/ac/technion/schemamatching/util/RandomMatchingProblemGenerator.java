@@ -4,11 +4,10 @@ package ac.technion.schemamatching.util;
 
 import java.util.HashMap;
 
-import schemamatchings.meta.match.MatchedAttributePair;
+import ac.technion.iem.ontobuilder.core.ontology.Ontology;
+import ac.technion.iem.ontobuilder.matching.meta.match.MatchedAttributePair;
+import ac.technion.iem.ontobuilder.matching.utils.SchemaTranslator;
 import ac.technion.schemamatching.util.RandomMatchingProblemInstance;
-import schemamatchings.util.SchemaTranslator;
-
-import com.modica.ontology.Ontology;
 
 
 public class RandomMatchingProblemGenerator {
@@ -56,8 +55,8 @@ public class RandomMatchingProblemGenerator {
 		MatchedAttributePair pair;
 		for (int i=0;i<size;i++){
 			pair = chosenPairs[i];//.substring(0,chosenPairs[i].getAttribute1().indexOf(":")+1
-			cand.addTerm(candOntology.getModel().searchTerm(chosenPairs[i].getAttribute1()));
-			target.addTerm(targetOntology.getModel().searchTerm(chosenPairs[i].getAttribute2()));	
+			cand.addTerm(candOntology.searchTerm(chosenPairs[i].getAttribute1()));
+			target.addTerm(targetOntology.searchTerm(chosenPairs[i].getAttribute2()));	
 		}
 		
 		return new RandomMatchingProblemInstance(exact, cand, target, chosenPairs);

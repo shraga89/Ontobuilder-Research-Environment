@@ -2,9 +2,8 @@ package ac.technion.schemamatching.statistics;
 
 import java.util.ArrayList;
 
-import schemamatchings.util.SchemaTranslator;
-
-import com.modica.ontology.match.MatchInformation;
+import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
+import ac.technion.schemamatching.util.SimilarityVectorUtils;
 
 public class BasicGolden implements GoldenStatistic {
 	private ArrayList<String[]> data;
@@ -29,9 +28,34 @@ public class BasicGolden implements GoldenStatistic {
 	public boolean init(String instanceDescription, MatchInformation mi, MatchInformation exactMatch) {
 		data = new ArrayList<String[]>();
 		header = new String[]{"instance","Precision","Recall"};
-		SchemaTranslator st = new SchemaTranslator(exactMatch);
-		data.add(new String[] {instanceDescription, Double.toString(mi.getPrecision(st)),Double.toString(mi.getRecall(st))});
+		data.add(new String[] {instanceDescription, Double.toString(calcSMPrecision(mi,exactMatch)),Double.toString(calcSMRecall(mi,exactMatch))});
 		return true;
+	}
+
+	/**
+	 * N^2 Calculation of Similarity Matrix Precision
+	 * @param mi match information result of matcher
+	 * @param exactMatch 
+	 * @return
+	 */
+	private double calcSMPrecision(MatchInformation mi,
+			MatchInformation exactMatch) {
+		double[] vMI = SimilarityVectorUtils.makeArray(mi);
+		double[] vExact = SimilarityVectorUtils.makeArray(exactMatch);
+		return SimilarityVectorUtils.calcDotProduct(vMI, vExact)/SimilarityVectorUtils.calcL1Length(vMI);
+	}
+	
+	/**
+	 * N^2 Calculation of Similarity Matrix Recall
+	 * @param mi match information result of matcher
+	 * @param exactMatch 
+	 * @return
+	 */
+	private double calcSMRecall(MatchInformation mi,
+			MatchInformation exactMatch) {
+		double[] vMI = SimilarityVectorUtils.makeArray(mi);
+		double[] vExact = SimilarityVectorUtils.makeArray(exactMatch);
+		return SimilarityVectorUtils.calcDotProduct(vMI, vExact)/SimilarityVectorUtils.calcL1Length(vExact);
 	}
 
 }

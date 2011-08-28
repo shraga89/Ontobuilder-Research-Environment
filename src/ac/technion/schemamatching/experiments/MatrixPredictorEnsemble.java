@@ -3,18 +3,10 @@ package ac.technion.schemamatching.experiments;
 import java.util.ArrayList;
 import java.util.Properties;
 
-import schemamatchings.util.BestMappingsWrapper;
-import schemamatchings.util.SchemaTranslator;
-
-import com.modica.ontology.match.Match;
-import com.modica.ontology.match.MatchInformation;
-
+import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
+import ac.technion.iem.ontobuilder.matching.utils.SchemaTranslator;
 import ac.technion.schemamatching.matchers.FirstLineMatcher;
 import ac.technion.schemamatching.matchers.SecondLineMatcher;
-import ac.technion.schemamatching.statistics.BasicGolden;
-import ac.technion.schemamatching.statistics.GoldenStatistic;
-import ac.technion.schemamatching.statistics.L2similarityGolden;
-import ac.technion.schemamatching.statistics.MatrixPredictors;
 import ac.technion.schemamatching.statistics.Statistic;
 
 /**

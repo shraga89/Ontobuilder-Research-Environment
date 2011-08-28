@@ -2,7 +2,7 @@
 
 package ac.technion.schemamatching.permanent;
 
-import schemamatchings.util.PermanentCalculator;
+import ac.technion.iem.ontobuilder.matching.utils.PermanentCalculator;
 
 
 public class RandomPermanentExperiment {

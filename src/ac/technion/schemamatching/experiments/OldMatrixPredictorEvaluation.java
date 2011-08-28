@@ -3,19 +3,11 @@ package ac.technion.schemamatching.experiments;
 import java.util.ArrayList;
 import java.util.Properties;
 
-import schemamatchings.util.BestMappingsWrapper;
-import schemamatchings.util.SchemaTranslator;
-
+import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
+import ac.technion.iem.ontobuilder.matching.utils.SchemaTranslator;
 import ac.technion.schemamatching.matchers.FirstLineMatcher;
 import ac.technion.schemamatching.matchers.SecondLineMatcher;
-import ac.technion.schemamatching.statistics.BasicGolden;
-import ac.technion.schemamatching.statistics.GoldenStatistic;
-import ac.technion.schemamatching.statistics.L2similarityGolden;
-import ac.technion.schemamatching.statistics.MatrixPredictors;
 import ac.technion.schemamatching.statistics.Statistic;
-
-import com.modica.ontology.match.Match;
-import com.modica.ontology.match.MatchInformation;
 
 /**
  * Evaluates matrix predictors by returning the predictor value next to
@@ -31,7 +23,6 @@ public class OldMatrixPredictorEvaluation implements MatchingExperiment {
 	 * (non-Javadoc)
 	 * @see ac.technion.schemamatching.experiments.MatchingExperiment#runExperiment(ac.technion.schemamatching.experiments.ExperimentSchemaPair)
 	 */
-	@SuppressWarnings("unchecked")
 	public ArrayList<Statistic> runExperiment(
 			ExperimentSchemaPair esp) {
 		/*// Match using 5 Ontobuilder 1st line matchers 

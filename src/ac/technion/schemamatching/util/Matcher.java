@@ -1,8 +1,11 @@
 package ac.technion.schemamatching.util;
 
-import com.modica.ontology.*;
-import com.modica.ontology.match.*;
-import schemamatchings.ontobuilder.*;
+import ac.technion.iem.ontobuilder.core.ontology.Ontology;
+import ac.technion.iem.ontobuilder.core.utils.files.XmlFileHandler;
+import ac.technion.iem.ontobuilder.matching.algorithms.line2.misc.MatchingAlgorithmsNamesEnum;
+import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
+import ac.technion.iem.ontobuilder.matching.meta.match.MatchMatrix;
+import ac.technion.iem.ontobuilder.matching.wrapper.OntoBuilderWrapper;
 
 /**
  * <p>Title: </p>
@@ -18,15 +21,17 @@ import schemamatchings.ontobuilder.*;
  * @deprecated unknown usage for this class
  */
 public class Matcher {
-  String m_sMatcherName;
+  MatchingAlgorithmsNamesEnum m_sMatcherName;
   OntoBuilderWrapper m_OntoBuilderWrapper;
+  XmlFileHandler xfh;
   MatchInformation m_Match;
   Ontology target;
   Ontology candidate;
 
-  public Matcher(String sMatcherName) {
+  public Matcher(MatchingAlgorithmsNamesEnum sMatcherName) {
     super();
     m_OntoBuilderWrapper = new OntoBuilderWrapper();
+    xfh = new XmlFileHandler();
     m_sMatcherName = sMatcherName;
     m_Match = null;
     target = null;
@@ -44,10 +49,10 @@ public class Matcher {
 
 
   public String getName(){
-    return m_sMatcherName;
+    return m_sMatcherName.getName();
   }
 
-  public void setName(String sMatcherName){
+  public void setAlgorithm(MatchingAlgorithmsNamesEnum sMatcherName){
     m_sMatcherName = sMatcherName;
   }
 
@@ -66,9 +71,9 @@ public class Matcher {
   public void match(String sXmlCandidateFile, String sXmlTargetFile){
 
     try {
-      Ontology oCandidate = m_OntoBuilderWrapper.readOntologyXMLFile(sXmlCandidateFile);
+      Ontology oCandidate = xfh.readOntologyXMLFile(sXmlCandidateFile);
       oCandidate.normalize();
-      Ontology oTarget = m_OntoBuilderWrapper.readOntologyXMLFile(sXmlTargetFile);
+      Ontology oTarget = xfh.readOntologyXMLFile(sXmlTargetFile);
       oTarget.normalize();
       m_Match = m_OntoBuilderWrapper.loadMatchAlgorithm(m_sMatcherName).match(oTarget, oCandidate);
       target = oTarget;

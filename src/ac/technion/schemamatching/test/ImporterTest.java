@@ -7,11 +7,10 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
 
-import schemamatchings.ontobuilder.OntoBuilderWrapper;
-
-import com.modica.ontobuilder.imports.ImportException;
-import com.modica.ontobuilder.imports.XSDImporter;
-import com.modica.ontology.Ontology;
+import ac.technion.iem.ontobuilder.core.ontology.Ontology;
+import ac.technion.iem.ontobuilder.io.imports.ImportException;
+import ac.technion.iem.ontobuilder.io.imports.XSDImporter;
+import ac.technion.iem.ontobuilder.matching.wrapper.OntoBuilderWrapper;
 
 
 
