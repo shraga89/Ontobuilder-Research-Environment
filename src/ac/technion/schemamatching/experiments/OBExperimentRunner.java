@@ -219,12 +219,12 @@ public class OBExperimentRunner {
 		if (K>Integer.valueOf(NumberOfSchemaPairs.get(0)[0])) 
 			error("No. of experiments requested is larger than the no. of schema pairs in the dataset");
 		//extracting pairs from the DB
-		if (spid!=0) sql = "SELECT spid FROM schemapairs WHERE SPID = " + spid + ";" ;
-		else sql  = "SELECT DISTINCT spid " + sql +" ORDER BY RAND() LIMIT " + String.valueOf(K) + ";"; 
-		ArrayList<String[]> k_Schemapairs =  db.runSelectQuery(sql, 1);
+		if (spid!=0) sql = "SELECT spid, dsid FROM schemapairs WHERE SPID = " + spid + ";" ;
+		else sql  = "SELECT DISTINCT spid, dsid " + sql +" ORDER BY RAND() LIMIT " + String.valueOf(K) + ";"; 
+		ArrayList<String[]> k_Schemapairs =  db.runSelectQuery(sql, 2);
 		for (String[] strPair : k_Schemapairs)
 		{
-			ExperimentSchemaPair schemasExp = new ExperimentSchemaPair(this, Integer.parseInt(strPair[0]));
+			ExperimentSchemaPair schemasExp = new ExperimentSchemaPair(this, Integer.parseInt(strPair[0]),Integer.parseInt(strPair[1]));
 			ds.add(schemasExp);
 		}
 		//document the new experiment in to DB 

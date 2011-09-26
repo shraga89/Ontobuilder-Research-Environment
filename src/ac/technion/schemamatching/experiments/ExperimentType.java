@@ -11,6 +11,7 @@ package ac.technion.schemamatching.experiments;
 public enum ExperimentType 
 {
 	Clarity(new ClarityExperiment()),MatrixPredictEval(new MatrixPredictorEvaluation()),Boosting(new BoostingExperiment())
+	,TuneTerm(new TuneTermExperiment())
 	,RowPredictEval(new RowPredictionEvaluation()),EntryPredictEval(new EntryPredictionEvaluation())
 	,MatrixPredictorEnsemble(new MatrixPredictorEnsemble()),RowPredictorEnsemble(new RowPredictorEnsemble())
 	,EntryPredictorEnsemble(new EntryPredictorEnsemble());
