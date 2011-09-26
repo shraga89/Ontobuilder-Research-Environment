@@ -5,7 +5,12 @@ import java.util.ArrayList;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 import ac.technion.schemamatching.util.SimilarityVectorUtils;
 
-public class BasicGolden implements GoldenStatistic {
+/**
+ * Calculates non-binary precision and recall
+ * @author Tomer Sagi
+ *
+ */
+public class NBGolden implements GoldenStatistic {
 	private ArrayList<String[]> data;
 	private String[] header;
 	
@@ -14,7 +19,7 @@ public class BasicGolden implements GoldenStatistic {
 	}
 
 	public String getName() {
-		return "Basic Golden Mapping Statistic";
+		return "Non binary Golden Statistic";
 	}
 
 	public ArrayList<String[]> getData() {

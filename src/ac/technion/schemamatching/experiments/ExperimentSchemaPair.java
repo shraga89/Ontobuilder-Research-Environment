@@ -7,8 +7,10 @@ import technion.iem.schemamatching.dbutils.DBInterface;
 import ac.technion.iem.ontobuilder.core.ontology.Ontology;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 import ac.technion.iem.ontobuilder.matching.utils.SchemaMatchingsUtilities;
+import ac.technion.iem.ontobuilder.matching.utils.SchemaTranslator;
 import ac.technion.iem.ontobuilder.matching.wrapper.OntoBuilderWrapperException;
 import ac.technion.schemamatching.matchers.FirstLineMatcher;
+import ac.technion.schemamatching.testbed.OREDataSetEnum;
 import ac.technion.schemamatching.util.ConversionUtils;
 
 
@@ -18,7 +20,7 @@ import ac.technion.schemamatching.util.ConversionUtils;
  * <p>Description: A Schema experiment consists of 2 schemas and an optional exact match.  
  *
  * @author Tomer Sagi (Version 1.0 by Anan Marie)
- * @version 2.0
+ * @version 2.1
  */
 
 public class ExperimentSchemaPair {
@@ -31,11 +33,12 @@ public class ExperimentSchemaPair {
 	 * @param candidateID
 	 * @param targetID
 	 */
-	public ExperimentSchemaPair(OBExperimentRunner inExpRunner,int spid) 
+	public ExperimentSchemaPair(OBExperimentRunner inExpRunner,int spid,int dsid) 
 	{
 		parent = inExpRunner;
 		SPID = spid;
-		loadXML();
+		dsEnum = OREDataSetEnum.getByDbid(dsid);
+		load(); 
 		basicMatrices = new HashMap<Integer,MatchInformation>();
 	}	
 
@@ -59,6 +62,14 @@ public class ExperimentSchemaPair {
 		return exactMapping;
 	}
 
+	/**
+	 * Gets exact match in schema translator format
+	 * @return
+	 */
+	public SchemaTranslator getSTExact() {
+		return stExactMapping;
+	}
+
   
   /**
    * Create schemaExp objects and adds them to the dataset. Each object includes
@@ -66,8 +77,9 @@ public class ExperimentSchemaPair {
    * Assumes that each sub-directory includes 2 schemas and an exact match with .xml type
    * Assumes exact match ends with the string "xml_EXACT.xml"
    */
-  private void loadXML() 
+  private void load() 
   {
+	//TODO revise to use the new OREDataSetEnum
 	  //Get ids
 	  String sql = "SELECT CandidateSchema, TargetSchema FROM schemapairs WHERE SPID = " + SPID + ";";
 	  ArrayList<String[]> res = parent.db.runSelectQuery(sql, 2);
@@ -108,8 +120,11 @@ public class ExperimentSchemaPair {
     	  {
     		  //exactMapping = parent.obw.matchOntologies(candidate, target, MatchingAlgorithms.TERM); 
     		  //This was wrong!!! Caused the match matrix to be smaller than the original matrix
+    		  
+    		  stExactMapping = SchemaMatchingsUtilities.readXMLBestMatchingFile(sExactMappingFileName,exactMapping.getMatrix());
     		  exactMapping = new MatchInformation(candidate,target);
-    		  ConversionUtils.fillMI(exactMapping,SchemaMatchingsUtilities.readXMLBestMatchingFile(sExactMappingFileName,exactMapping.getMatrix()));
+    		  stExactMapping = SchemaMatchingsUtilities.readXMLBestMatchingFile(sExactMappingFileName,exactMapping.getMatrix());
+    		  ConversionUtils.fillMI(exactMapping,stExactMapping);
     	  }
     	  catch (OntoBuilderWrapperException e){	
     		  e.printStackTrace(); 
@@ -209,8 +224,10 @@ public class ExperimentSchemaPair {
   private int targetID;
   private int candidateID;
   private MatchInformation exactMapping;
+  private SchemaTranslator stExactMapping;
   private int SPID;
   private HashMap<Integer,MatchInformation> basicMatrices;
+  private OREDataSetEnum dsEnum;
   
   /**
 	 * Return the similarity matrix of the supplied schema pair using the similarity measure supplied
