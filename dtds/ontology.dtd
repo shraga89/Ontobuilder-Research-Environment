@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XML Spy v4.3 U (http://www.xmlspy.com) by pepito (personal) -->
+<!ELEMENT ontology (classes*, terms)>
+<!ATTLIST ontology
+	name CDATA #REQUIRED
+	title CDATA #REQUIRED
+	site CDATA #IMPLIED
+        type (full | light) "full"
+>
+<!ELEMENT classes (class*)>
+<!ELEMENT terms (term*)>
+<!ELEMENT class (domain, attributes, axioms, subclasses)>
+<!ATTLIST class
+	name CDATA #REQUIRED
+>
+<!ELEMENT attributes (attribute*)>
+<!ELEMENT axioms (axiom*)>
+<!ELEMENT subclasses (class*)>
+<!ELEMENT domain (entry | term)*>
+<!ATTLIST domain
+	name CDATA #IMPLIED
+	type CDATA #IMPLIED
+>
+<!ELEMENT entry ANY>
+<!ELEMENT attribute (domain)>
+<!ATTLIST attribute
+	name CDATA #REQUIRED
+	value CDATA #IMPLIED
+>
+<!ELEMENT axiom (#PCDATA)>
+<!ATTLIST axiom
+	name CDATA #REQUIRED
+>
+<!ELEMENT term (domain, attributes, axioms, relationships, subterms)>
+<!ATTLIST term
+	id CDATA #IMPLIED
+	name CDATA #REQUIRED
+	value CDATA #IMPLIED
+	class CDATA #IMPLIED
+>
+<!ELEMENT relationships (relationship*)>
+<!ELEMENT subterms (term*)>
+<!ELEMENT relationship (source, targets)>
+<!ATTLIST relationship
+	name CDATA #REQUIRED
+>
+<!ELEMENT source (#PCDATA)>
+<!ELEMENT targets (#PCDATA)>

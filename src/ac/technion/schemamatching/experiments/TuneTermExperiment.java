@@ -33,11 +33,11 @@ public class TuneTermExperiment implements MatchingExperiment
 	 * @see ac.technion.schemamatching.experiments.MatchingExperiment#runExperiment(ac.technion.schemamatching.experiments.ExperimentSchemaPair)
 	 */
 	public ArrayList<Statistic> runExperiment(ExperimentSchemaPair esp) {
-		ArrayList<Statistic> res = new ArrayList<Statistic>(); 
-		double weightNGram;
-		for (int i=0;i<11;i++)
+		ArrayList<Statistic> res = new ArrayList<Statistic>();
+		double weightNGram = 0;
+		for (double i=0;i<=100;i+=10)
 		{ 
-			weightNGram = 0.05*i;
+			weightNGram = i/100;
 			String instanceDescription = esp.getSPID() + "," + Double.toString(weightNGram); 
 			//Run Term using these weights on supplied experiment schema pair
 			OBTermMatch obt = new OBTermMatch(weightNGram);
@@ -60,12 +60,13 @@ public class TuneTermExperiment implements MatchingExperiment
 			}
 			//Generate binary statistics
 			BinaryGolden bg = new BinaryGolden();
-			bg.init(instanceDescription + "mwbg", mwbg,esp.getSTExact());
+			bg.init(instanceDescription + ",mwbg", mwbg,esp.getSTExact());
 			res.add(bg);
 			//2ndLine match using Threshold (0.5)
 			MatchInformation miTH = mi.clone(); 
 			SchemaTranslator tmp = new SchemaTranslator(miTH);
 			SchemaTranslator th = SchemaMatchingsUtilities.getSTwithThresholdSensitivity(tmp, 0.5);
+			th.importIdsFromMatchInfo(mi, true);
 			try {
 				ConversionUtils.fillMI(miTH,th);
 			} catch (Exception e) {
@@ -74,10 +75,10 @@ public class TuneTermExperiment implements MatchingExperiment
 			
 			//Generate binary statistics
 			BinaryGolden thbg = new BinaryGolden();
-			thbg.init(instanceDescription + "Threshold(0.5)", miTH,esp.getSTExact());
+			thbg.init(instanceDescription + ",Threshold(0.5)", miTH,esp.getSTExact());
 			res.add(thbg);
 		}
-		return null;
+		return res;
 	}
 
 	/* (non-Javadoc)
