@@ -3,6 +3,7 @@ package ac.technion.schemamatching.statistics;
 import java.util.ArrayList;
 
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
+import ac.technion.schemamatching.util.ConversionUtils;
 import ac.technion.schemamatching.util.SimilarityVectorUtils;
 
 /**
@@ -33,6 +34,12 @@ public class NBGolden implements GoldenStatistic {
 	public boolean init(String instanceDescription, MatchInformation mi, MatchInformation exactMatch) {
 		data = new ArrayList<String[]>();
 		header = new String[]{"instance","Precision","Recall"};
+		if (mi.getMatchMatrix().length<=exactMatch.getMatchMatrix().length)
+			try {
+				mi = ConversionUtils.expandMatrix(mi,exactMatch);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		data.add(new String[] {instanceDescription, Double.toString(calcSMPrecision(mi,exactMatch)),Double.toString(calcSMRecall(mi,exactMatch))});
 		return true;
 	}

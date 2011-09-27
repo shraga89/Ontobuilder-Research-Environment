@@ -119,7 +119,8 @@ public class ConversionUtils {
 		for (MatchedAttributePair map : st.getMatchedPairs())
 		{
 			Term cTerm = mi.getCandidateOntology().getTermByID(map.id1);
-			if (cTerm==null) throw new Exception("Candidate Term with id:" + Long.toString(map.id1)+ " could not be found in "+ mi.getCandidateOntology().getName());
+			if (cTerm==null) 
+				throw new Exception("Candidate Term with id:" + Long.toString(map.id1)+ " could not be found in "+ mi.getCandidateOntology().getName());
 			Term tTerm = mi.getTargetOntology().getTermByID(map.id2);
 			if (tTerm==null) throw new Exception("Target Term with id:" + Long.toString(map.id2)+ " could not be found in "+ mi.getTargetOntology().getName());
 			double confidence = map.getMatchedPairWeight();
@@ -148,4 +149,28 @@ public class ConversionUtils {
 		mi.setMatrix(mm);
 	}
 	
+	/**
+	 * Takes match matrix of smaller matrix and expands it to the size of the larger matrix
+	 * @param small MAtchInformation object containing a match matrix which is a subset of the one in big
+	 * @param big MatchInformation object containing a larger match matrix 
+	 * @throws Exception if small matchInformation object's match matrix 
+	 * is larger than big or if terms from small are missing in big
+	 */
+	public static MatchInformation expandMatrix(MatchInformation small, MatchInformation big) throws Exception
+	{
+		if (small.getMatchMatrix().length>big.getMatchMatrix().length) throw new Exception("Match Information declared as small is larger than the one declared as big");
+		MatchInformation newMI = big.clone();
+		MatchMatrix newMM = newMI.getMatrix();
+		newMM.copyWithEmptyMatrix(big.getMatrix());
+		MatchMatrix sMM = small.getMatrix();
+		
+		for (Term c : sMM.getCandidateTerms())
+			for (Term t : sMM.getTargetTerms())
+			{
+				double conf = sMM.getMatchConfidence(c, t);
+				if (conf==-1) throw new Exception("Candidate term: " + c.getName() + " or target term: " + t.getName() + " not found in big match matrix.");
+				newMM.setMatchConfidence(c, t, conf);
+			}
+		return newMI;
+	}
 }

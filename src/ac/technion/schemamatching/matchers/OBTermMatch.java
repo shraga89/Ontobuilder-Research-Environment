@@ -39,7 +39,7 @@ public class OBTermMatch implements FirstLineMatcher {
 		parameterValues.put("nGramWeight", weightNGram);
 		parameterValues.put("maxCommonSubStringWeight", weightMaxSubString);
 		try {
-			AlgorithmXMLEditor.updateAlgorithmParams("Term",parameterValues);
+			AlgorithmXMLEditor.updateAlgorithmParams("Term Match",parameterValues);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -65,7 +65,7 @@ public class OBTermMatch implements FirstLineMatcher {
 		OntoBuilderWrapper obw = OBExperimentRunner.getOER().getOBW();
 		MatchInformation res = null;
 		try {
-			res = obw.matchOntologies(candidate, target, MatchingAlgorithmsNamesEnum.TERM.toString());
+			res = obw.matchOntologies(candidate, target, MatchingAlgorithmsNamesEnum.TERM.getName());
 		} catch (OntoBuilderWrapperException e) {
 			e.printStackTrace();
 		}

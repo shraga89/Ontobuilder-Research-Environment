@@ -85,8 +85,8 @@ public class ExperimentSchemaPair {
 	  ArrayList<String[]> res = parent.db.runSelectQuery(sql, 2);
 	  candidateID = Integer.parseInt(res.get(0)[0]);
 	  targetID = Integer.parseInt(res.get(0)[1]);
-	  //Load candidate ontology
-	  sql = "SELECT filePath FROM schemata WHERE SchemaID = " + candidateID + ";";
+	  //Load target ontology
+	  sql = "SELECT filePath FROM schemata WHERE SchemaID = " + targetID + ";";
 	  res = parent.db.runSelectQuery(sql, 1);
 	  if (res.isEmpty()) OBExperimentRunner.error("No url recieved from the database for schema no." + Integer.toString(candidateID));
       String sTargetOnologyFileName = parent.dsurl + res.get(0)[0];
@@ -96,8 +96,8 @@ public class ExperimentSchemaPair {
 		  OBExperimentRunner.error("XML Load failed on:" + sTargetOnologyFileName);
       }
       
-      //Load target ontology
-      sql = "SELECT filePath FROM schemata WHERE SchemaID = " + targetID + ";";
+      //Load candidate ontology
+      sql = "SELECT filePath FROM schemata WHERE SchemaID = " + candidateID + ";";
 	  res = parent.db.runSelectQuery(sql, 1);
 	  if (res.isEmpty()) OBExperimentRunner.error("No url recieved from the database for schema no." 
 			  + Integer.toString(targetID));
@@ -121,7 +121,6 @@ public class ExperimentSchemaPair {
     		  //exactMapping = parent.obw.matchOntologies(candidate, target, MatchingAlgorithms.TERM); 
     		  //This was wrong!!! Caused the match matrix to be smaller than the original matrix
     		  
-    		  stExactMapping = SchemaMatchingsUtilities.readXMLBestMatchingFile(sExactMappingFileName,exactMapping.getMatrix());
     		  exactMapping = new MatchInformation(candidate,target);
     		  stExactMapping = SchemaMatchingsUtilities.readXMLBestMatchingFile(sExactMappingFileName,exactMapping.getMatrix());
     		  ConversionUtils.fillMI(exactMapping,stExactMapping);
