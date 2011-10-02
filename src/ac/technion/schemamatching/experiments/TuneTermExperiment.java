@@ -35,12 +35,14 @@ public class TuneTermExperiment implements MatchingExperiment
 	public ArrayList<Statistic> runExperiment(ExperimentSchemaPair esp) {
 		ArrayList<Statistic> res = new ArrayList<Statistic>();
 		double weightNGram = 0;
-		for (double i=0;i<=100;i+=10)
+		double weightJaro = 0;
+		for (double i=0;i<=75;i+=25)
 		{ 
-			weightNGram = i/100;
-			String instanceDescription = esp.getSPID() + "," + Double.toString(weightNGram); 
+			weightNGram = 0.25;
+			weightJaro = i/100;
+			String instanceDescription = esp.getSPID() + "," + Double.toString(weightNGram) + "," + Double.toString(weightJaro); 
 			//Run Term using these weights on supplied experiment schema pair
-			OBTermMatch obt = new OBTermMatch(weightNGram);
+			OBTermMatch obt = new OBTermMatch(weightNGram,weightJaro);
 			MatchInformation mi = obt.match(esp.getCandidateOntology(), esp.getTargetOntology(), false);
 			//Generate non-binary statistics
 			NBGolden nbg = new NBGolden();

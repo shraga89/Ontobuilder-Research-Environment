@@ -22,22 +22,25 @@ public class OBTermMatch implements FirstLineMatcher {
 	/* (non-Javadoc)
 	 * @see ac.technion.schemamatching.matchers.FirstLineMatcher#getName()
 	 */
-	private double weightMaxSubString = 0.5;
-	private double weightNGram = 0.5;
+	private double weightMaxSubString = 0.4;
+	private double weightNGram = 0.4;
+	private double weightJaroWinkler = 0.2;
 	
 	/**
 	 * Parameterized constructor, edits algorithm.xml file and sets the relevant parameters
-	 * with nGram weight and maxSubStringWeight (1- nGramWeight)
+	 * with nGram weight, jaroWinklerWeight and maxSubStringWeight (1- nGramWeight - jaroWinklerWeight)
 	 *  
 	 * @param nGramWeight
 	 */
-	public OBTermMatch(double nGramWeight)
+	public OBTermMatch(double nGramWeight, double jaroWinklerWeight)
 	{
-		weightMaxSubString = 1-nGramWeight;
+		weightMaxSubString = 1-nGramWeight- jaroWinklerWeight;
 		weightNGram = nGramWeight;
+		weightJaroWinkler = jaroWinklerWeight;
 		HashMap<String,Double> parameterValues = new HashMap<String,Double>(); 
 		parameterValues.put("nGramWeight", weightNGram);
 		parameterValues.put("maxCommonSubStringWeight", weightMaxSubString);
+		parameterValues.put("jaroWinklerWeight",weightJaroWinkler);
 		try {
 			AlgorithmXMLEditor.updateAlgorithmParams("Term Match",parameterValues);
 		} catch (Exception e) {
