@@ -1,5 +1,6 @@
 package ac.technion.schemamatching.experiments;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import technion.iem.schemamatching.dbutils.DBInterface;
@@ -80,49 +81,64 @@ public class ExperimentSchemaPair {
   private void load() 
   {
 	//TODO revise to use the new OREDataSetEnum
-	  //Get ids
-	  String sql = "SELECT CandidateSchema, TargetSchema FROM schemapairs WHERE SPID = " + SPID + ";";
-	  ArrayList<String[]> res = parent.db.runSelectQuery(sql, 2);
+	  
+	  //get paths
+	  String exactMatchPath;
+	  String candPath;
+	  String targPath;
+	  
+	  String sql = "SELECT CandidateSchema, TargetSchema, DSID, path FROM schemapairs WHERE SPID = " + SPID + ";";
+	  ArrayList<String[]> res = parent.db.runSelectQuery(sql, 4);
 	  candidateID = Integer.parseInt(res.get(0)[0]);
 	  targetID = Integer.parseInt(res.get(0)[1]);
+	  int dsid = Integer.parseInt(res.get(0)[2]);
+	  exactMatchPath = res.get(0)[3];
+	  
+	  //For ontobuilder webform dataset (DSID ==1) the path of the schemas is parsed from the path of the exact match
+	  if (dsid==1)
+	  {
+		//For example: edit.travel.yahoo.com.xml_www.klm.com.xml_EXACT/edit.travel.yahoo.com.xml_www.klm.com.xml_EXACT.xml
+		  String pairFolder = exactMatchPath.split("/")[0];
+		  candPath =  parent.dsurl + pairFolder + File.separatorChar + pairFolder.split("_")[0];
+		  targPath =  parent.dsurl + pairFolder + File.separatorChar + pairFolder.split("_")[1];
+	  }
+	  else
+	  {
+		  //get target path from db
+		  sql = "SELECT filePath FROM schemata WHERE SchemaID = " + targetID + ";";
+		  res = parent.db.runSelectQuery(sql, 1);
+		  if (res.isEmpty()) OBExperimentRunner.error("No url recieved from the database for schema no." + Integer.toString(candidateID));
+		  targPath = parent.dsurl + res.get(0)[0];
+		  //get candidate path from db
+		  sql = "SELECT filePath FROM schemata WHERE SchemaID = " + candidateID + ";";
+		  res = parent.db.runSelectQuery(sql, 1);
+		  if (res.isEmpty()) OBExperimentRunner.error("No url recieved from the database for schema no." 
+				  + Integer.toString(targetID));
+		  candPath = parent.dsurl + res.get(0)[0];
+	  }
+	  
 	  //Load target ontology
-	  sql = "SELECT filePath FROM schemata WHERE SchemaID = " + targetID + ";";
-	  res = parent.db.runSelectQuery(sql, 1);
-	  if (res.isEmpty()) OBExperimentRunner.error("No url recieved from the database for schema no." + Integer.toString(candidateID));
-      String sTargetOnologyFileName = parent.dsurl + res.get(0)[0];
-      try {target = parent.xfh.readOntologyXMLFile(sTargetOnologyFileName ,false);}
+	  try {target = parent.xfh.readOntologyXMLFile(targPath ,false);}
       catch (Exception e) {
 		  e.printStackTrace();
-		  OBExperimentRunner.error("XML Load failed on:" + sTargetOnologyFileName);
+		  OBExperimentRunner.error("XML Load failed on:" + targPath);
       }
       
       //Load candidate ontology
-      sql = "SELECT filePath FROM schemata WHERE SchemaID = " + candidateID + ";";
-	  res = parent.db.runSelectQuery(sql, 1);
-	  if (res.isEmpty()) OBExperimentRunner.error("No url recieved from the database for schema no." 
-			  + Integer.toString(targetID));
-      String sCandidateOnologyFileName = parent.dsurl + res.get(0)[0];
-      try {candidate = parent.xfh.readOntologyXMLFile(sCandidateOnologyFileName ,false);}
+      try {candidate = parent.xfh.readOntologyXMLFile(candPath ,false);}
       catch (Exception e) {
 		  e.printStackTrace();
-		  OBExperimentRunner.error("XML Load failed on:" + res.get(0)[0]);
+		  OBExperimentRunner.error("XML Load failed on:" + candPath);
       }
 
       //Load exact match
-      	sql = "SELECT path FROM schemapairs WHERE spid = " + SPID + ";";
-		res = parent.db.runSelectQuery(sql, 1);
-		if (res.isEmpty())
-			exactMapping = null;
-		else
-		{
-			String sExactMappingFileName = parent.dsurl + res.get(0)[0];
-    	  try 
-    	  {
-    		  //exactMapping = parent.obw.matchOntologies(candidate, target, MatchingAlgorithms.TERM); 
-    		  //This was wrong!!! Caused the match matrix to be smaller than the original matrix
-    		  
+      try 
+      {
+    	  //exactMapping = parent.obw.matchOntologies(candidate, target, MatchingAlgorithms.TERM); 
+    	  //This was wrong!!! Caused the match matrix to be smaller than the original matrix
+    	
     		  exactMapping = new MatchInformation(candidate,target);
-    		  stExactMapping = SchemaMatchingsUtilities.readXMLBestMatchingFile(sExactMappingFileName,exactMapping.getMatrix());
+    		  stExactMapping = SchemaMatchingsUtilities.readXMLBestMatchingFile(parent.dsurl + exactMatchPath,exactMapping.getMatrix());
     		  ConversionUtils.fillMI(exactMapping,stExactMapping);
     	  }
     	  catch (OntoBuilderWrapperException e){	
@@ -132,10 +148,9 @@ public class ExperimentSchemaPair {
     	  catch (Exception e) 
     	  {
 			e.printStackTrace();
-			OBExperimentRunner.error("XML Load failed on:" + sExactMappingFileName);
+			OBExperimentRunner.error("XML Load failed on:" + exactMatchPath);
     	  }
       }
-    }
   	
   /**
    * Return a basic similarity matrix using the supplied @link{FirstLineMatcher}

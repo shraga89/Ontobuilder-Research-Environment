@@ -34,40 +34,35 @@ public class TuneTermExperiment implements MatchingExperiment
 	 */
 	public ArrayList<Statistic> runExperiment(ExperimentSchemaPair esp) {
 		ArrayList<Statistic> res = new ArrayList<Statistic>();
-		double weightNGram = 0;
-		double weightJaro = 0;
-		for (double i=0;i<=75;i+=25)
+		double weightNGram = 0.5;
+		double weightJaro = 0.0;
+		double stringNameWeight = 0.25;
+		double wordNameWeight = 0;
+		double stringLabelWeight = 0.25;
+		double wordLabelWeight = 0;
+		for (double i=0;i<=100;i+=10)
 		{ 
-			weightNGram = 0.25;
-			weightJaro = i/100;
-			String instanceDescription = esp.getSPID() + "," + Double.toString(weightNGram) + "," + Double.toString(weightJaro); 
+			wordNameWeight = i/200;
+			stringNameWeight= i/200;
+			wordLabelWeight = (100-i)/200;
+			//for (double j=0;j<=(100-i);j+=10)
+			//{
+			stringLabelWeight = (100-i)/200;
+			//wordNameWeight = (100-i-j)/200;
+			//wordLabelWeight = (100-i-j)/200;
+			
+			String instanceDescription = esp.getSPID() + "," + Double.toString(stringNameWeight) + "," + Double.toString(stringLabelWeight); 
 			//Run Term using these weights on supplied experiment schema pair
-			OBTermMatch obt = new OBTermMatch(weightNGram,weightJaro);
+			OBTermMatch obt = new OBTermMatch(weightNGram,weightJaro, wordNameWeight, stringNameWeight, stringLabelWeight, wordLabelWeight);
 			MatchInformation mi = obt.match(esp.getCandidateOntology(), esp.getTargetOntology(), false);
 			//Generate non-binary statistics
 			NBGolden nbg = new NBGolden();
 			nbg.init(instanceDescription, mi, esp.getExact());
 			res.add(nbg);
-			
-			//2ndLine match using MWBG
-			BestMappingsWrapper.matchMatrix = mi.getMatrix();	
-			SchemaTranslator st = BestMappingsWrapper.GetBestMapping("Max Weighted Bipartite Graph");
-			assert (st!=null);
-			st.importIdsFromMatchInfo(mi,true);
-			MatchInformation mwbg = mi.clone(); 
-			try {
-				ConversionUtils.fillMI(mwbg,st);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			//Generate binary statistics
-			BinaryGolden bg = new BinaryGolden();
-			bg.init(instanceDescription + ",mwbg", mwbg,esp.getSTExact());
-			res.add(bg);
-			//2ndLine match using Threshold (0.5)
-			MatchInformation miTH = mi.clone(); 
-			SchemaTranslator tmp = new SchemaTranslator(miTH);
-			SchemaTranslator th = SchemaMatchingsUtilities.getSTwithThresholdSensitivity(tmp, 0.5);
+			//2ndLine match using Threshold (0.25)
+			MatchInformation miTH = new MatchInformation(mi.getCandidateOntology(),mi.getTargetOntology()); 
+			SchemaTranslator tmp = new SchemaTranslator(mi);
+			SchemaTranslator th = SchemaMatchingsUtilities.getSTwithThresholdSensitivity(tmp, 0.25);
 			th.importIdsFromMatchInfo(mi, true);
 			try {
 				ConversionUtils.fillMI(miTH,th);
@@ -77,9 +72,50 @@ public class TuneTermExperiment implements MatchingExperiment
 			
 			//Generate binary statistics
 			BinaryGolden thbg = new BinaryGolden();
-			thbg.init(instanceDescription + ",Threshold(0.5)", miTH,esp.getSTExact());
+			thbg.init(instanceDescription + ",Threshold(0.25)", miTH,esp.getSTExact());
 			res.add(thbg);
-		}
+			
+			//2ndLine match using Threshold (0.2)
+			MatchInformation miTH2 = new MatchInformation(mi.getCandidateOntology(),mi.getTargetOntology());
+			th = SchemaMatchingsUtilities.getSTwithThresholdSensitivity(tmp, 0.2);
+			th.importIdsFromMatchInfo(mi, true);
+			try {
+				ConversionUtils.fillMI(miTH2,th);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			//debug
+//			MatchListPrinter miMLP = new MatchListPrinter();
+//			miMLP.init(instanceDescription + "mi", mi);
+//			res.add(miMLP);
+//			MatchListPrinter thMLP = new MatchListPrinter();
+//			thMLP.init(instanceDescription + "miTH", miTH);
+//			res.add(thMLP);
+			
+			//Generate binary statistics
+			BinaryGolden th2bg = new BinaryGolden();
+			th2bg.init(instanceDescription + ",Threshold(0.2)", miTH2,esp.getSTExact());
+			res.add(th2bg);
+			
+			//2ndLine match using MWBG
+			BestMappingsWrapper.matchMatrix = mi.getMatrix();	
+			SchemaTranslator st = BestMappingsWrapper.GetBestMapping("Max Weighted Bipartite Graph");
+			assert (st!=null);
+			st.importIdsFromMatchInfo(mi,true);
+			MatchInformation mwbg = new MatchInformation(mi.getCandidateOntology(),mi.getTargetOntology()); 
+			try {
+				ConversionUtils.fillMI(mwbg,st);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			//Generate binary statistics
+			BinaryGolden bg = new BinaryGolden();
+			bg.init(instanceDescription + ",mwbg", mwbg,esp.getSTExact());
+			res.add(bg);
+			
+			}
+		//}
 		return res;
 	}
 
