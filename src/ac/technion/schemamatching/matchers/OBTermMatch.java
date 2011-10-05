@@ -25,6 +25,10 @@ public class OBTermMatch implements FirstLineMatcher {
 	private double weightMaxSubString = 0.4;
 	private double weightNGram = 0.4;
 	private double weightJaroWinkler = 0.2;
+	private double stringNameWeight = 0.25;
+	private double wordNameWeight = 0.25;
+	private double stringLabelWeight = 0.25;
+	private double wordLabelWeight = 0.25;
 	
 	/**
 	 * Parameterized constructor, edits algorithm.xml file and sets the relevant parameters
@@ -32,15 +36,23 @@ public class OBTermMatch implements FirstLineMatcher {
 	 *  
 	 * @param nGramWeight
 	 */
-	public OBTermMatch(double nGramWeight, double jaroWinklerWeight)
+	public OBTermMatch(double nGramWeight, double jaroWinklerWeight, double wordNameWeight,double stringNameWeight ,double stringLabelWeight, double wordLabelWeight)
 	{
 		weightMaxSubString = 1-nGramWeight- jaroWinklerWeight;
 		weightNGram = nGramWeight;
 		weightJaroWinkler = jaroWinklerWeight;
+		this.wordLabelWeight = wordLabelWeight;
+		this.stringLabelWeight = stringLabelWeight;
+		this.wordNameWeight = wordNameWeight;
+		this.stringNameWeight = stringNameWeight;
 		HashMap<String,Double> parameterValues = new HashMap<String,Double>(); 
 		parameterValues.put("nGramWeight", weightNGram);
 		parameterValues.put("maxCommonSubStringWeight", weightMaxSubString);
 		parameterValues.put("jaroWinklerWeight",weightJaroWinkler);
+		parameterValues.put("wordLabelWeight",wordLabelWeight);
+		parameterValues.put("stringLabelWeight",stringLabelWeight);
+		parameterValues.put("wordNameWeight",wordNameWeight);
+		parameterValues.put("stringNameWeight",stringNameWeight);
 		try {
 			AlgorithmXMLEditor.updateAlgorithmParams("Term Match",parameterValues);
 		} catch (Exception e) {
@@ -79,7 +91,14 @@ public class OBTermMatch implements FirstLineMatcher {
 	 * @see ac.technion.schemamatching.matchers.FirstLineMatcher#getConfig()
 	 */
 	public String getConfig() { 
-		String config = "NGram=" + Double.toString(weightNGram)+ ";MaxSubStr=" + Double.toString(weightMaxSubString);
+		String config = "NGram=" + Double.toString(weightNGram)
+						+ ";MaxSubStr=" + Double.toString(weightMaxSubString)
+						+ ";weightJaroWinkler=" + Double.toString(weightJaroWinkler)
+						+ ";wordLabelWeight=" + Double.toString(wordLabelWeight)
+						+ ";stringLabelWeight=" + Double.toString(stringLabelWeight)
+						+ ";wordNameWeight=" + Double.toString(wordNameWeight)
+						+ ";stringNameWeight=" + Double.toString(stringNameWeight)
+						+ ";weightJaroWinkler=" + Double.toString(weightJaroWinkler);
 		return config;
 	}
 
