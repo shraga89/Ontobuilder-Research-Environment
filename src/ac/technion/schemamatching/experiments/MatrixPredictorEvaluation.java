@@ -11,6 +11,7 @@ import ac.technion.schemamatching.statistics.GoldenStatistic;
 import ac.technion.schemamatching.statistics.L2similarityGolden;
 import ac.technion.schemamatching.statistics.MatrixPredictors;
 import ac.technion.schemamatching.statistics.Statistic;
+import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
 
 /**
  * Evaluates matrix predictors by returning the predictor value next to

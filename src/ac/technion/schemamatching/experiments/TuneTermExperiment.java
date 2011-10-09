@@ -16,6 +16,7 @@ import ac.technion.schemamatching.matchers.SecondLineMatcher;
 import ac.technion.schemamatching.statistics.BinaryGolden;
 import ac.technion.schemamatching.statistics.NBGolden;
 import ac.technion.schemamatching.statistics.Statistic;
+import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
 import ac.technion.schemamatching.util.ConversionUtils;
 
 /**
@@ -72,7 +73,7 @@ public class TuneTermExperiment implements MatchingExperiment
 			
 			//Generate binary statistics
 			BinaryGolden thbg = new BinaryGolden();
-			thbg.init(instanceDescription + ",Threshold(0.25)", miTH,esp.getSTExact());
+			thbg.init(instanceDescription + ",Threshold(0.25)", miTH,esp.getExact());
 			res.add(thbg);
 			
 			//2ndLine match using Threshold (0.2)
@@ -95,7 +96,7 @@ public class TuneTermExperiment implements MatchingExperiment
 			
 			//Generate binary statistics
 			BinaryGolden th2bg = new BinaryGolden();
-			th2bg.init(instanceDescription + ",Threshold(0.2)", miTH2,esp.getSTExact());
+			th2bg.init(instanceDescription + ",Threshold(0.2)", miTH2,esp.getExact());
 			res.add(th2bg);
 			
 			//2ndLine match using MWBG
@@ -111,7 +112,7 @@ public class TuneTermExperiment implements MatchingExperiment
 			}
 			//Generate binary statistics
 			BinaryGolden bg = new BinaryGolden();
-			bg.init(instanceDescription + ",mwbg", mwbg,esp.getSTExact());
+			bg.init(instanceDescription + ",mwbg", mwbg,esp.getExact());
 			res.add(bg);
 			
 			}

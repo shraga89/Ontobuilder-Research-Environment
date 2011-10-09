@@ -15,7 +15,7 @@ import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
  */
 public class MatrixPredictors implements Statistic {
 
-	private static String[] header = {"SPID","SMID","L1DistBinary","L2DistBinary","L2SimilarityBinary","L1Dist1:1","L2Dist1:1","L2Similarity1:1"};
+	private static String[] header = {"SPID","SMID","L1DistBinary","L2DistBinary","L2SimilarityBinary","L1Dist1:1","L2Dist1:1","L2Similarity1:1","Harmony"};
 	private static String name = "Matrix Predictors";
 	private ArrayList<String[]> data = new ArrayList<String[]>();
 	/* (non-Javadoc)
@@ -45,7 +45,7 @@ public class MatrixPredictors implements Statistic {
 	public boolean init(String instanceDesc, MatchInformation mi) {
 		// TODO Find a way to do this efficiently for sparse matrices
 		//Fill comparison matrices
-		String[] res = new String[7];
+		String[] res = new String[8];
 		double[][] mm = mi.getMatchMatrix();
 		if (mm == null || mm.length == 0) return false;
 		double[][] closest1to1 = new double[mm.length][mm[0].length];
@@ -85,8 +85,57 @@ public class MatrixPredictors implements Statistic {
 		// L2 Similarity = sum(Xij*Yij)/(sqrt(sum(Xij^2))*sqrt(sum(Xij^2)))
 		res[5] = Double.toString(sumProductBin/(Math.sqrt(sumL2ResSize)*Math.sqrt(sumL2BinSize)));
 		res[6] = Double.toString(sumProduct1to1/(Math.sqrt(sumL2ResSize)*Math.sqrt(sumL21to1Size)));
+		res[7] = calcHarmony(mm).toString();
 		data.add(res);
 		return true;
+	}
+	
+	/**
+	 * Calculates the "Harmony" property for similarity matrices. 
+	 * assuming 1:1 using no. of dominant matches / max(no. of attributes in schema a, no. attributes in schema b)
+	 * @param mm
+	 * @return
+	 */
+	Double calcHarmony(double[][] mm)
+	{
+		int rows = mm.length;
+		int cols = mm[0].length;
+		//For each row get max value and column it appears in
+		int maxColumnInRow[] = new int[rows];
+		double maxRowVal[]=new double[rows];
+		//For each column get max value and row it appears in
+		int maxRowInColumn[] = new int[cols];
+		double maxColVal[]=new double[rows];
+		for (int i= 0;i<rows;i++)
+		{
+			
+			for (int j=0;j<cols;j++)
+			{
+				if (maxRowVal[i]<mm[i][j])
+				{
+					maxColumnInRow[i]=j;
+					maxRowVal[i]=mm[i][j];
+				}
+				
+				if (maxColVal[j]<mm[i][j])
+				{
+					maxRowInColumn[j]=i;
+					maxColVal[j]=mm[i][j];
+				}
+			}
+			
+		}
+		
+		//for each row i: if the max column's max row equals i then +1.0
+		Double res = 0.0;
+		for (int i=0;i<rows;i++)
+		{
+			if (maxRowVal[i]==maxColVal[maxColumnInRow[i]] && maxRowInColumn[maxColumnInRow[i]]==i)
+				res+=1.0;
+		}
+		
+		double denom = Math.max((double)rows,(double)cols);
+		return res/denom;
 	}
 
 }

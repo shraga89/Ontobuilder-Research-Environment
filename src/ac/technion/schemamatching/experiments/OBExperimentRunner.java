@@ -16,6 +16,8 @@ import technion.iem.schemamatching.dbutils.DBInterface;
 import ac.technion.iem.ontobuilder.core.utils.files.XmlFileHandler;
 import ac.technion.iem.ontobuilder.matching.wrapper.OntoBuilderWrapper;
 import ac.technion.schemamatching.statistics.Statistic;
+import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
+
 import com.infomata.data.CSVFormat;
 import com.infomata.data.DataFile;
 import com.infomata.data.DataRow;
@@ -32,10 +34,10 @@ public class OBExperimentRunner {
 	private static OBExperimentRunner oer;
 	private HashMap<Long,ArrayList<ExperimentSchemaPair>> experimentDatasets = new HashMap<Long,ArrayList<ExperimentSchemaPair>>();
 	private HashMap<Long,ExperimentDocumenter> experimentDocumenters = new HashMap<Long,ExperimentDocumenter>();
-	protected String dsurl;
+	private String dsurl;
 	protected DBInterface db;
 	protected OntoBuilderWrapper obw;
-	protected XmlFileHandler xfh;
+	private XmlFileHandler xfh;
 	private Properties properties;
 	private ArrayList<FirstLineMatcher> flm = new ArrayList<FirstLineMatcher>();
 	private ArrayList<SecondLineMatcher> slm = new ArrayList<SecondLineMatcher>();
@@ -236,7 +238,7 @@ public class OBExperimentRunner {
 	 * Sends the provided error message to the err stream and exits with code 1
 	 * @param msg
 	 */
-	protected static void error(String msg) 
+	public static void error(String msg) 
 	{
 		System.err.println(msg);
 		System.exit(1);
@@ -365,6 +367,22 @@ public class OBExperimentRunner {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void setDsurl(String dsurl) {
+		this.dsurl = dsurl;
+	}
+
+	public String getDsurl() {
+		return dsurl;
+	}
+
+	public void setXfh(XmlFileHandler xfh) {
+		this.xfh = xfh;
+	}
+
+	public XmlFileHandler getXfh() {
+		return xfh;
 	}
 }
 

@@ -1,4 +1,4 @@
-package ac.technion.schemamatching.experiments;
+package ac.technion.schemamatching.testbed;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -6,12 +6,13 @@ import java.util.HashMap;
 import technion.iem.schemamatching.dbutils.DBInterface;
 
 import ac.technion.iem.ontobuilder.core.ontology.Ontology;
+import ac.technion.iem.ontobuilder.io.imports.Importer;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 import ac.technion.iem.ontobuilder.matching.utils.SchemaMatchingsUtilities;
 import ac.technion.iem.ontobuilder.matching.utils.SchemaTranslator;
 import ac.technion.iem.ontobuilder.matching.wrapper.OntoBuilderWrapperException;
+import ac.technion.schemamatching.experiments.OBExperimentRunner;
 import ac.technion.schemamatching.matchers.FirstLineMatcher;
-import ac.technion.schemamatching.testbed.OREDataSetEnum;
 import ac.technion.schemamatching.util.ConversionUtils;
 
 
@@ -63,15 +64,6 @@ public class ExperimentSchemaPair {
 		return exactMapping;
 	}
 
-	/**
-	 * Gets exact match in schema translator format
-	 * @return
-	 */
-	public SchemaTranslator getSTExact() {
-		return stExactMapping;
-	}
-
-  
   /**
    * Create schemaExp objects and adds them to the dataset. Each object includes
    * A target Schema, Candidate Schema and Exact mapping.
@@ -80,15 +72,16 @@ public class ExperimentSchemaPair {
    */
   private void load() 
   {
-	//TODO revise to use the new OREDataSetEnum
 	  
 	  //get paths
 	  String exactMatchPath;
 	  String candPath;
 	  String targPath;
+	  Importer imp = dsEnum.getImporter();
+	  
 	  
 	  String sql = "SELECT CandidateSchema, TargetSchema, DSID, path FROM schemapairs WHERE SPID = " + SPID + ";";
-	  ArrayList<String[]> res = parent.db.runSelectQuery(sql, 4);
+	  ArrayList<String[]> res = parent.getDB().runSelectQuery(sql, 4);
 	  candidateID = Integer.parseInt(res.get(0)[0]);
 	  targetID = Integer.parseInt(res.get(0)[1]);
 	  int dsid = Integer.parseInt(res.get(0)[2]);
@@ -99,36 +92,36 @@ public class ExperimentSchemaPair {
 	  {
 		//For example: edit.travel.yahoo.com.xml_www.klm.com.xml_EXACT/edit.travel.yahoo.com.xml_www.klm.com.xml_EXACT.xml
 		  String pairFolder = exactMatchPath.split("/")[0];
-		  candPath =  parent.dsurl + pairFolder + File.separatorChar + pairFolder.split("_")[0];
-		  targPath =  parent.dsurl + pairFolder + File.separatorChar + pairFolder.split("_")[1];
+		  candPath =  parent.getDsurl() + pairFolder + File.separatorChar + pairFolder.split("_")[0];
+		  targPath =  parent.getDsurl() + pairFolder + File.separatorChar + pairFolder.split("_")[1];
 	  }
 	  else
 	  {
 		  //get target path from db
 		  sql = "SELECT filePath FROM schemata WHERE SchemaID = " + targetID + ";";
-		  res = parent.db.runSelectQuery(sql, 1);
+		  res = parent.getDB().runSelectQuery(sql, 1);
 		  if (res.isEmpty()) OBExperimentRunner.error("No url recieved from the database for schema no." + Integer.toString(candidateID));
-		  targPath = parent.dsurl + res.get(0)[0];
+		  targPath = parent.getDsurl() + res.get(0)[0];
 		  //get candidate path from db
 		  sql = "SELECT filePath FROM schemata WHERE SchemaID = " + candidateID + ";";
-		  res = parent.db.runSelectQuery(sql, 1);
+		  res = parent.getDB().runSelectQuery(sql, 1);
 		  if (res.isEmpty()) OBExperimentRunner.error("No url recieved from the database for schema no." 
 				  + Integer.toString(targetID));
-		  candPath = parent.dsurl + res.get(0)[0];
+		  candPath = parent.getDsurl() + res.get(0)[0];
 	  }
 	  
 	  //Load target ontology
-	  try {target = parent.xfh.readOntologyXMLFile(targPath ,false);}
+	  try {target = imp.importFile(new File(targPath));}
       catch (Exception e) {
 		  e.printStackTrace();
-		  OBExperimentRunner.error("XML Load failed on:" + targPath);
+		  OBExperimentRunner.error("File Load failed on:" + targPath);
       }
       
       //Load candidate ontology
-      try {candidate = parent.xfh.readOntologyXMLFile(candPath ,false);}
+      try {candidate =  imp.importFile(new File(candPath));}
       catch (Exception e) {
 		  e.printStackTrace();
-		  OBExperimentRunner.error("XML Load failed on:" + candPath);
+		  OBExperimentRunner.error("File Load failed on:" + candPath);
       }
 
       //Load exact match
@@ -136,15 +129,13 @@ public class ExperimentSchemaPair {
       {
     	  //exactMapping = parent.obw.matchOntologies(candidate, target, MatchingAlgorithms.TERM); 
     	  //This was wrong!!! Caused the match matrix to be smaller than the original matrix
-    	
-    		  exactMapping = new MatchInformation(candidate,target);
-    		  stExactMapping = SchemaMatchingsUtilities.readXMLBestMatchingFile(parent.dsurl + exactMatchPath,exactMapping.getMatrix());
-    		  ConversionUtils.fillMI(exactMapping,stExactMapping);
+
+    	  // Replaced with dataset importer 05/10/11
+//    		  exactMapping = new MatchInformation(candidate,target);
+//    		  stExactMapping = SchemaMatchingsUtilities.readXMLBestMatchingFile(parent.getDsurl() + exactMatchPath,exactMapping.getMatrix());
+//    		  ConversionUtils.fillMI(exactMapping,stExactMapping);
+    	  exactMapping = dsEnum.getMatchImp().importMatch(new MatchInformation(candidate,target), new File(parent.getDsurl() + exactMatchPath));
     	  }
-    	  catch (OntoBuilderWrapperException e){	
-    		  e.printStackTrace(); 
-    		  OBExperimentRunner.error("Failed to match schema pair: " + Integer.toString(SPID));
-    	  } 
     	  catch (Exception e) 
     	  {
 			e.printStackTrace();
@@ -164,7 +155,7 @@ public class ExperimentSchemaPair {
   		if (!basicMatrices.containsKey(smid))
   		{
   		 	MatchInformation mi = null;
-			if (!checkIfSchemaPairWasMatched(SPID,smid,parent.db))
+			if (!checkIfSchemaPairWasMatched(SPID,smid,parent.getDB()))
   		 	{
 				mi = flm.match(candidate, target, false);
 				assert(mi!=null);
@@ -173,7 +164,7 @@ public class ExperimentSchemaPair {
 				{ConversionUtils.fillMI(mi);}
   		 	}
   		 	else
-  		 	{mi = DBInterface.createMIfromArrayList(candidate, target, getSimilarityMatrixFromDB(smid,SPID, parent.db));}
+  		 	{mi = DBInterface.createMIfromArrayList(candidate, target, getSimilarityMatrixFromDB(smid,SPID, parent.getDB()));}
 			assert(mi!=null);
   		 	basicMatrices.put(smid, mi);
   		}
@@ -238,7 +229,6 @@ public class ExperimentSchemaPair {
   private int targetID;
   private int candidateID;
   private MatchInformation exactMapping;
-  private SchemaTranslator stExactMapping;
   private int SPID;
   private HashMap<Integer,MatchInformation> basicMatrices;
   private OREDataSetEnum dsEnum;
