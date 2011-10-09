@@ -8,6 +8,7 @@ import ac.technion.iem.ontobuilder.matching.utils.SchemaTranslator;
 import ac.technion.schemamatching.matchers.FirstLineMatcher;
 import ac.technion.schemamatching.matchers.SecondLineMatcher;
 import ac.technion.schemamatching.statistics.Statistic;
+import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
 
 /**
  * Evaluates matrix predictors by returning the predictor value next to

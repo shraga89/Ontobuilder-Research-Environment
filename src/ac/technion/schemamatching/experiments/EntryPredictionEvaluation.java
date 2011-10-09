@@ -6,6 +6,7 @@ import java.util.Properties;
 import ac.technion.schemamatching.matchers.FirstLineMatcher;
 import ac.technion.schemamatching.matchers.SecondLineMatcher;
 import ac.technion.schemamatching.statistics.Statistic;
+import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
 
 public class EntryPredictionEvaluation implements MatchingExperiment {
 

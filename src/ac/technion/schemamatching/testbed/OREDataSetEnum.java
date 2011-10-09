@@ -7,11 +7,12 @@ import ac.technion.iem.ontobuilder.io.imports.Importer;
 import ac.technion.iem.ontobuilder.io.imports.NativeImporter;
 import ac.technion.iem.ontobuilder.io.imports.WSDLImporter;
 import ac.technion.iem.ontobuilder.io.imports.XSDImporter;
+import ac.technion.iem.ontobuilder.io.matchimport.MappingMatchImporter;
 import ac.technion.iem.ontobuilder.io.matchimport.MatchImporter;
 import ac.technion.iem.ontobuilder.io.matchimport.NativeMatchImporter;
 
 /**
- * @author Tomer
+ * @author Tomer Sagi
  *
  */
 public enum OREDataSetEnum 
@@ -31,7 +32,7 @@ public enum OREDataSetEnum
 	OAEIConference(14,"Ontology alignment conference OAEI conference track",null,null,true),
 	OAEIBecnhmark(15,"Ontology alignment conference OAEI benchmark track",null,null,true),
 	NisBUBL(16,"NisB UBL mega schema vs. vendor",null,null,true),
-	NisPO(17,"NisB Purchase Order schemas (XSD)",null,null,true),
+	NisPO(17,"NisB Purchase Order schemas (XSD)",new XSDImporter(),new MappingMatchImporter(),true),
 	NisPOBig(18,"NisB Big Purchase Order schemas (XSD)",null,null,true),
 	NisBHungSynthetic(19,"Synthetic schemas based on vendor and ubl (NisBRDF)",null,null,true);
 	
@@ -61,6 +62,7 @@ public enum OREDataSetEnum
 	{
 		datasetDBid = dsid;
 		datasetDescription = dsDesc;
+		importer = imp;
 		matchImp = matchImporter;
 		hasExact = hasExactMatch;
 	}

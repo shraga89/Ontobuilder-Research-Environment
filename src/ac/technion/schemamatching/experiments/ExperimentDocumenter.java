@@ -19,8 +19,8 @@ import ac.technion.iem.ontobuilder.core.ontology.OntologyClass;
 import ac.technion.iem.ontobuilder.core.ontology.Term;
 import ac.technion.iem.ontobuilder.matching.match.Match;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
-import ac.technion.schemamatching.experiments.ExperimentSchemaPair;
 import ac.technion.schemamatching.experiments.OBExperimentRunner;
+import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
 
 
 /**

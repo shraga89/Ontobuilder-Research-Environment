@@ -19,7 +19,10 @@ public class SimilarityVectorUtils {
 		double[] res = new double[rows*cols];
 		for (int i = 0; i<rows; i++)
 			for (int j=0;j<cols; j++)
-				res[i*cols+j] = mi.getMatchMatrix()[i][j]; 
+			{
+				//if (mi.getMatchMatrix()[i][j]>0.1) 
+					res[i*cols+j] = mi.getMatchMatrix()[i][j];
+			}
 		return res;
 	}
 	

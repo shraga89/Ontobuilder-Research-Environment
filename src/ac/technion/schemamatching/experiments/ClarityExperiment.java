@@ -17,6 +17,7 @@ import com.infomata.data.TabFormat;
 import ac.technion.schemamatching.matchers.FirstLineMatcher;
 import ac.technion.schemamatching.matchers.SecondLineMatcher;
 import ac.technion.schemamatching.statistics.Statistic;
+import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
 
 /**
  * @author Tomer Sagi
