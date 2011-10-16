@@ -35,20 +35,20 @@ public class TuneTermExperiment implements MatchingExperiment
 	 */
 	public ArrayList<Statistic> runExperiment(ExperimentSchemaPair esp) {
 		ArrayList<Statistic> res = new ArrayList<Statistic>();
-		double weightNGram = 0.5;
-		double weightJaro = 0.0;
+		double weightNGram = 0.4;
+		double weightJaro = 0.2;
 		double stringNameWeight = 0.25;
-		double wordNameWeight = 0;
-		double stringLabelWeight = 0.25;
+		double wordNameWeight = 0.75;
+		double stringLabelWeight = 0;
 		double wordLabelWeight = 0;
 		for (double i=0;i<=100;i+=10)
 		{ 
-			wordNameWeight = i/200;
-			stringNameWeight= i/200;
-			wordLabelWeight = (100-i)/200;
+			wordNameWeight = i/100;
+			stringNameWeight= (100-i)/100;
+			//wordLabelWeight = (100-i)/200;
 			//for (double j=0;j<=(100-i);j+=10)
 			//{
-			stringLabelWeight = (100-i)/200;
+			//stringLabelWeight = (100-i)/200;
 			//wordNameWeight = (100-i-j)/200;
 			//wordLabelWeight = (100-i-j)/200;
 			
