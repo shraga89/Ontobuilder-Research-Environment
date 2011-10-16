@@ -505,7 +505,7 @@ public class ExperimentDocumenter
 			TotalNumOfTerms+= B.get(0);
 			counthiddens+=B.get(1);
 			Associationcount += B.get(2);
-			if (t.getSuperClass().getName().contains("hidden"))
+			if (t.getSuperClass() != null &&  t.getSuperClass().getName().contains("hidden"))
 				counthiddens++;
 			for (int j=0;j<t.getRelationshipsCount();j++)
 				if (!t.getRelationship(j).getName().contains("is child of") && !t.getRelationship(j).getName().contains("is parent of"))	
@@ -537,7 +537,7 @@ public class ExperimentDocumenter
 			ArrayList <Integer> B = countTermsChildren(t.getTerm(i));
 			countNumberOfDecendants+=B.get(0);
 			hidden+=B.get(1);
-			if (t.getTerm(i).getSuperClass().getName().contains("hidden"))	
+			if (t.getTerm(i).getSuperClass() != null && t.getTerm(i).getSuperClass().getName().contains("hidden"))	
 				hidden++;
 			for (int j=0;j<t.getRelationshipsCount();j++)
 				if (!t.getRelationship(j).getName().contains("is child of") && !t.getRelationship(j).getName().contains("is parent of"))	
