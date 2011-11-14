@@ -39,7 +39,7 @@ public class OBSimilarityFlooding implements FirstLineMatcher {
 		OntoBuilderWrapper obw = OBExperimentRunner.getOER().getOBW();
 		MatchInformation res = null;
 		try {
-			res = obw.matchOntologies(candidate, target, MatchingAlgorithmsNamesEnum.SIMILARITY_FLOODING.toString());
+			res = obw.matchOntologies(candidate, target, MatchingAlgorithmsNamesEnum.SIMILARITY_FLOODING.getName());
 		} catch (OntoBuilderWrapperException e) {
 			e.printStackTrace();
 		}
@@ -65,7 +65,7 @@ public class OBSimilarityFlooding implements FirstLineMatcher {
 	 * @see ac.technion.schemamatching.matchers.FirstLineMatcher#getDBid()
 	 */
 	public int getDBid() {
-		return 5;
+		return 6;
 	}
 
 

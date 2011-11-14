@@ -6,10 +6,7 @@ package ac.technion.schemamatching.experiments;
 import java.util.ArrayList;
 import java.util.Properties;
 
-import ac.technion.iem.ontobuilder.matching.algorithms.line2.topk.wrapper.BestMappingsWrapper;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
-import ac.technion.iem.ontobuilder.matching.utils.SchemaMatchingsUtilities;
-import ac.technion.iem.ontobuilder.matching.utils.SchemaTranslator;
 import ac.technion.schemamatching.matchers.FirstLineMatcher;
 import ac.technion.schemamatching.matchers.OBTermMatch;
 import ac.technion.schemamatching.matchers.SecondLineMatcher;
@@ -17,7 +14,8 @@ import ac.technion.schemamatching.statistics.BinaryGolden;
 import ac.technion.schemamatching.statistics.NBGolden;
 import ac.technion.schemamatching.statistics.Statistic;
 import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
-import ac.technion.schemamatching.util.ConversionUtils;
+import ac.technion.schemamatching.matchers.OBThreshold;
+import ac.technion.schemamatching.matchers.OBStableMarriage;
 
 /**
  * @author Tomer Sagi
@@ -61,30 +59,17 @@ public class TuneTermExperiment implements MatchingExperiment
 			nbg.init(instanceDescription, mi, esp.getExact());
 			res.add(nbg);
 			//2ndLine match using Threshold (0.25)
-			MatchInformation miTH = new MatchInformation(mi.getCandidateOntology(),mi.getTargetOntology()); 
-			SchemaTranslator tmp = new SchemaTranslator(mi);
-			SchemaTranslator th = SchemaMatchingsUtilities.getSTwithThresholdSensitivity(tmp, 0.25);
-			th.importIdsFromMatchInfo(mi, true);
-			try {
-				ConversionUtils.fillMI(miTH,th);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			OBThreshold th1 = new OBThreshold(0.25);
+			MatchInformation mi2 = th1.match(mi);
 			
 			//Generate binary statistics
 			BinaryGolden thbg = new BinaryGolden();
-			thbg.init(instanceDescription + ",Threshold(0.25)", miTH,esp.getExact());
+			thbg.init(instanceDescription + ",Threshold(0.25)", mi2,esp.getExact());
 			res.add(thbg);
 			
 			//2ndLine match using Threshold (0.2)
-			MatchInformation miTH2 = new MatchInformation(mi.getCandidateOntology(),mi.getTargetOntology());
-			th = SchemaMatchingsUtilities.getSTwithThresholdSensitivity(tmp, 0.2);
-			th.importIdsFromMatchInfo(mi, true);
-			try {
-				ConversionUtils.fillMI(miTH2,th);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			th1.setThreshold(0.2);
+			MatchInformation mi3 = th1.match(mi);
 			
 			//debug
 //			MatchListPrinter miMLP = new MatchListPrinter();
@@ -96,23 +81,32 @@ public class TuneTermExperiment implements MatchingExperiment
 			
 			//Generate binary statistics
 			BinaryGolden th2bg = new BinaryGolden();
-			th2bg.init(instanceDescription + ",Threshold(0.2)", miTH2,esp.getExact());
+			th2bg.init(instanceDescription + ",Threshold(0.2)", mi3,esp.getExact());
 			res.add(th2bg);
 			
-			//2ndLine match using MWBG
-			BestMappingsWrapper.matchMatrix = mi.getMatrix();	
-			SchemaTranslator st = BestMappingsWrapper.GetBestMapping("Max Weighted Bipartite Graph");
-			assert (st!=null);
-			st.importIdsFromMatchInfo(mi,true);
-			MatchInformation mwbg = new MatchInformation(mi.getCandidateOntology(),mi.getTargetOntology()); 
-			try {
-				ConversionUtils.fillMI(mwbg,st);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+//			//2ndLine match using MWBG
+//			BestMappingsWrapper.matchMatrix = mi.getMatrix();	
+//			SchemaTranslator st = BestMappingsWrapper.GetBestMapping("Max Weighted Bipartite Graph");
+//			assert (st!=null);
+//			st.importIdsFromMatchInfo(mi,true);
+//			MatchInformation mwbg = new MatchInformation(mi.getCandidateOntology(),mi.getTargetOntology()); 
+//			try {
+//				ConversionUtils.fillMI(mwbg,st);
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
+//			//Generate binary statistics
+//			BinaryGolden bg = new BinaryGolden();
+//			bg.init(instanceDescription + ",mwbg", mwbg,esp.getExact());
+//			res.add(bg);
+			
+			//2ndLine match using SM
+			OBStableMarriage sm = new OBStableMarriage(); 
+			MatchInformation mi4 = sm.match(mi);
+			
 			//Generate binary statistics
 			BinaryGolden bg = new BinaryGolden();
-			bg.init(instanceDescription + ",mwbg", mwbg,esp.getExact());
+			bg.init(instanceDescription + ",sm", mi4,esp.getExact());
 			res.add(bg);
 			
 			}
