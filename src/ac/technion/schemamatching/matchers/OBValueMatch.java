@@ -37,7 +37,7 @@ public class OBValueMatch implements FirstLineMatcher {
 		OntoBuilderWrapper obw = OBExperimentRunner.getOER().getOBW();
 		MatchInformation res = null;
 		try {
-			res = obw.matchOntologies(candidate, target, MatchingAlgorithmsNamesEnum.VALUE.toString());
+			res = obw.matchOntologies(candidate, target, MatchingAlgorithmsNamesEnum.VALUE.getName());
 		} catch (OntoBuilderWrapperException e) {
 			e.printStackTrace();
 		}

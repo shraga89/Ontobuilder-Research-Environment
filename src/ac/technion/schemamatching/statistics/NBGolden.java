@@ -52,8 +52,8 @@ public class NBGolden implements GoldenStatistic {
 	 */
 	private double calcSMPrecision(MatchInformation mi,
 			MatchInformation exactMatch) {
-		double[] vMI = SimilarityVectorUtils.makeArray(mi);
-		double[] vExact = SimilarityVectorUtils.makeArray(exactMatch);
+		Double[] vMI = SimilarityVectorUtils.makeArray(mi);
+		Double[] vExact = SimilarityVectorUtils.makeArray(exactMatch);
 		return SimilarityVectorUtils.calcDotProduct(vMI, vExact)/SimilarityVectorUtils.calcL1Length(vMI);
 	}
 	
@@ -65,8 +65,8 @@ public class NBGolden implements GoldenStatistic {
 	 */
 	private double calcSMRecall(MatchInformation mi,
 			MatchInformation exactMatch) {
-		double[] vMI = SimilarityVectorUtils.makeArray(mi);
-		double[] vExact = SimilarityVectorUtils.makeArray(exactMatch);
+		Double[] vMI = SimilarityVectorUtils.makeArray(mi);
+		Double[] vExact = SimilarityVectorUtils.makeArray(exactMatch);
 		return SimilarityVectorUtils.calcDotProduct(vMI, vExact)/SimilarityVectorUtils.calcL1Length(vExact);
 	}
 

@@ -39,7 +39,7 @@ public class OBPrecedenceMatch implements FirstLineMatcher {
 		OntoBuilderWrapper obw = OBExperimentRunner.getOER().getOBW();
 		MatchInformation res = null;
 		try {
-			res = obw.matchOntologies(candidate, target, MatchingAlgorithmsNamesEnum.PRECEDENCE.toString());
+			res = obw.matchOntologies(candidate, target, MatchingAlgorithmsNamesEnum.PRECEDENCE.getName());
 		} catch (OntoBuilderWrapperException e) {
 			e.printStackTrace();
 		}
@@ -65,7 +65,7 @@ public class OBPrecedenceMatch implements FirstLineMatcher {
 	 * @see ac.technion.schemamatching.matchers.FirstLineMatcher#getDBid()
 	 */
 	public int getDBid() {
-		return 5;
+		return 4;
 	}
 
 

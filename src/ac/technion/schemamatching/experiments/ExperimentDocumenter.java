@@ -68,18 +68,20 @@ public class ExperimentDocumenter
 		        }
 		        
 				//Document experiment schemapairs
-		        values.put(spID, schemasExp.getSPID());
+		     // TODO document only those that are not documented yet
+		        /*values.put(spID, schemasExp.getSPID());
 				db.insertSingleRow(values, "experimentschemapairs");
 				//Document schema parameters
 				AddInfoAboutSchemaToDB(schemasExp.getCandidateID(), schemasExp.getCandidateOntology());
 				AddInfoAboutSchemaToDB(schemasExp.getTargetID(), schemasExp.getTargetOntology());
 				//Document term parameters
+				 
 				for (Object o : exactMapping.getOriginalCandidateTerms())
 					writeTermToDB(schemasExp.getCandidateID(), (Term)o);
 				for (Object o : exactMapping.getOriginalTargetTerms())
 					writeTermToDB(schemasExp.getTargetID(), (Term)o);
 				//Document exact match
-		        uploadExactMatch(exactMapping, spid);
+		        uploadExactMatch(exactMapping, spid);*/
 		        
 		    }
 		    

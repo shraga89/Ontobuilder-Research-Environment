@@ -63,7 +63,7 @@ public class OBGraphMatch implements FirstLineMatcher {
 	 * @see ac.technion.schemamatching.matchers.FirstLineMatcher#getDBid()
 	 */
 	public int getDBid() {
-		return 6;
+		return 5;
 	}
 
 

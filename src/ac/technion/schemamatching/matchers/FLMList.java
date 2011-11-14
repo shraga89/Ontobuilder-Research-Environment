@@ -3,6 +3,8 @@
  */
 package ac.technion.schemamatching.matchers;
 
+import java.util.HashMap;
+
 /**
  * This enum type lists the available @link{FirstLineMatcher}s in the Ontobuilder Research Environment. 
  * @author Tomer Sagi
@@ -20,6 +22,16 @@ private FLMList(FirstLineMatcher flm)
 
 public FirstLineMatcher getFLM() {
 	return myFLM;
+}
+
+public static HashMap<Integer,FirstLineMatcher> getIdFLMHash()
+{
+	HashMap<Integer,FirstLineMatcher> res = new HashMap<Integer,FirstLineMatcher>();
+	for (FLMList f : FLMList.values())
+	{
+		res.put(f.myFLM.getDBid(), f.myFLM);
+	}
+	return res;
 }
 private FirstLineMatcher myFLM;
 

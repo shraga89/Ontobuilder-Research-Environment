@@ -12,7 +12,7 @@ public enum ExperimentType
 {
 	Clarity(new ClarityExperiment()),MatrixPredictEval(new MatrixPredictorEvaluation()),Boosting(new BoostingExperiment())
 	,TuneTerm(new TuneTermExperiment())
-	,RowPredictEval(new RowPredictionEvaluation()),EntryPredictEval(new EntryPredictionEvaluation())
+	,RowPredictEval(new RowPredictionEvaluation()),EntryPredictEval(new EntryPredictionEvaluation()), AttributePredictEval(new AttributePredictorEvaluation())
 	,MatrixPredictorEnsemble(new MatrixPredictorEnsemble()),RowPredictorEnsemble(new RowPredictorEnsemble())
 	,EntryPredictorEnsemble(new EntryPredictorEnsemble());
 	private ExperimentType(MatchingExperiment e)

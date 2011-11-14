@@ -6,9 +6,10 @@ import java.util.Properties;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 import ac.technion.schemamatching.matchers.FirstLineMatcher;
 import ac.technion.schemamatching.matchers.SecondLineMatcher;
+import ac.technion.schemamatching.statistics.AttributeNBGolden;
+import ac.technion.schemamatching.statistics.AttributePredictors;
 import ac.technion.schemamatching.statistics.NBGolden;
 import ac.technion.schemamatching.statistics.GoldenStatistic;
-import ac.technion.schemamatching.statistics.L2similarityGolden;
 import ac.technion.schemamatching.statistics.MatrixPredictors;
 import ac.technion.schemamatching.statistics.Statistic;
 import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
@@ -19,7 +20,7 @@ import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
  * @author Tomer Sagi
  *
  */
-public class MatrixPredictorEvaluation implements MatchingExperiment {
+public class AttributePredictorEvaluation implements MatchingExperiment {
 	private ArrayList<FirstLineMatcher> flM;
 
 	/*
@@ -28,19 +29,20 @@ public class MatrixPredictorEvaluation implements MatchingExperiment {
 	 */
 	public ArrayList<Statistic> runExperiment(ExperimentSchemaPair esp) {
 		// Using all 1st line matchers 
-		ArrayList<Statistic> predictions = new ArrayList<Statistic>();
+		ArrayList<Statistic> predictions =  new ArrayList<Statistic>();
 		ArrayList<Statistic> evaluations = new ArrayList<Statistic>();
 		for (FirstLineMatcher m : flM)
 		{
 			//Match
 			MatchInformation mi = esp.getSimilarityMatrix(m);
+			
 			// Calculate predictors
-			Statistic  p = new MatrixPredictors();
-			String instanceDesc = esp.getSPID()+"_"+m.getName()+"_"+m.getConfig();
+			Statistic  p = new AttributePredictors();
+			String instanceDesc = esp.getSPID() + "_"+m.getName()+"_"+m.getConfig();
 			p.init(instanceDesc, mi);
 			predictions.add(p);
 			//Calculate NBprecision, NBrecall
-			GoldenStatistic  b = new NBGolden();
+			GoldenStatistic  b = new AttributeNBGolden();
 			b.init(instanceDesc, mi,esp.getExact());
 			evaluations.add(b);
 			//Precision Recall

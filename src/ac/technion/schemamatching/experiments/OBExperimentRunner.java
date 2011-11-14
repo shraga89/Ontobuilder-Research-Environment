@@ -6,22 +6,26 @@
 package ac.technion.schemamatching.experiments;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Properties;
-import smb_service.PropertyLoader;
+
 import technion.iem.schemamatching.dbutils.DBInterface;
 import ac.technion.iem.ontobuilder.core.utils.files.XmlFileHandler;
 import ac.technion.iem.ontobuilder.matching.wrapper.OntoBuilderWrapper;
+import ac.technion.schemamatching.matchers.FLMList;
+import ac.technion.schemamatching.matchers.SLMList;
+import ac.technion.schemamatching.matchers.FirstLineMatcher;
+import ac.technion.schemamatching.matchers.SecondLineMatcher;
 import ac.technion.schemamatching.statistics.Statistic;
 import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
-
 import com.infomata.data.CSVFormat;
 import com.infomata.data.DataFile;
 import com.infomata.data.DataRow;
-import ac.technion.schemamatching.matchers.*;
 
 /**
  * The class provides tools for running schema matching experiments.
@@ -39,8 +43,6 @@ public class OBExperimentRunner {
 	protected OntoBuilderWrapper obw;
 	private XmlFileHandler xfh;
 	private Properties properties;
-	private ArrayList<FirstLineMatcher> flm = new ArrayList<FirstLineMatcher>();
-	private ArrayList<SecondLineMatcher> slm = new ArrayList<SecondLineMatcher>();
 	
 	/**
 	 * Main method runs an experiment according to the supplied parameters
@@ -50,7 +52,9 @@ public class OBExperimentRunner {
 	 * @param args[3] K - number of experiments schema pairs, set 0 to use a specific SPID
 	 * @param args[4] schema pair ID (ignored unless K is 0
 	 * @param args[5] datasetID (for random K)
-	 * @param args[6] domainCodes - (optional) string in the following format "2,3,4,2" (without the Quotation mark)
+	 * @param args[6] -d:domainCodes - (optional) string in the following format "2,3,4,2" (without the Quotation mark)
+	 * or -flm:First Line Matcher Codes
+	 * 
 	 */
 	public static void main(String[] args) 
 	{
@@ -60,28 +64,53 @@ public class OBExperimentRunner {
 		ArrayList<ExperimentSchemaPair> dataset = new ArrayList<ExperimentSchemaPair>();
 		String expDesc = "None provided";
 		HashSet<Integer> dc =new HashSet<Integer>();
+		ArrayList<FirstLineMatcher> flm = null;
+		ArrayList<SecondLineMatcher> slm = null; 
 		if (args[0].equalsIgnoreCase("cmd"))
 		{
 			myExpRunner.checkInputParameters(args);
 			outputPath = new File(args[1]); // folder in which temporary files will be saved
 			et = ExperimentType.valueOf(args[2]);
-			if (Integer.valueOf(args[3])==0){
+			if (args.length>6)
+	    	{
+	    		//iterate over optional arguments
+	    		for (int i=6;i<args.length;i++)
+	    		{
+	    			char p = args[i].charAt(1);
+	    			String list = args[i].substring(3);
+	    			switch(p)
+	    			{
+	    				case 'd': dc = parseDomainCodes(list);
+	    				case 'f': flm = parseFLMids(list);
+	    				case 's': slm = parseSLMids(list);
+	    			}
+	    		}
 	    		
+	    	}
+			if (Integer.valueOf(args[3])==0){
 				dataset =oer.selectExperiments(0,Integer.valueOf(args[4]), 0, dc );}  
 			else{
 		    	Integer datasetID = Integer.valueOf(args[5]);
 		    	Integer size = Integer.valueOf(args[3]);
-		    	if (args.length==7)
-		    	{dc = parseDomainCodes(args[6]);}
 		    	expDesc =  "Experiment Type: " + args[2]+ " k=" + args[3] + " SPID: " + args[4] + " Dataset: " + args[5];
-		    	if (dc==null) dc = new HashSet<Integer>();
+		    	if (dc == null) dc = new HashSet<Integer>();
 				dataset = oer.selectExperiments(size,0, datasetID, dc);
 	    	}
+			if (flm == null) 
+    		{
+    			flm = new ArrayList<FirstLineMatcher>();
+    			flm.addAll(FLMList.getIdFLMHash().values());
+    		}
+	    	if (slm == null) 
+    		{
+    			slm = new ArrayList<SecondLineMatcher>();
+    			slm.addAll(SLMList.getIdSLMHash().values());
+    		}
+	    	
 		}
 		else if (args[0].equalsIgnoreCase("console"))
 		{
 			//TODO initialize console application
-		    
 		}
 		else
 		{
@@ -89,9 +118,45 @@ public class OBExperimentRunner {
 			error("invalid 1st parameter supplied");
 		}
 		Long eid = myExpRunner.initExperiment(dataset, expDesc);
-		myExpRunner.runExperiment(et,eid, outputPath);
+		myExpRunner.runExperiment(et,eid, outputPath,flm,slm);
 	 }
 	
+	/**
+	 * 
+	 * @param slmCodes
+	 * @return
+	 */
+	private static ArrayList<SecondLineMatcher> parseSLMids(String slmCodes) {
+		String[] st = slmCodes.split(",");
+		ArrayList<SecondLineMatcher> slm = new ArrayList<SecondLineMatcher>();
+		HashMap<Integer, SecondLineMatcher> hash = SLMList.getIdSLMHash();
+		for (String id : st)
+		{
+			int intID = Integer.parseInt(id);
+			if (hash.containsKey(intID))
+				slm.add(hash.get(intID));
+		}
+		return slm;
+	}
+
+	/**
+	 * Receives a parameter string 
+	 * @param flmCodes assumed to contain a comma seperated list of first line matcher codes
+	 * @return list of FLM found to match codes given
+	 */
+	private static ArrayList<FirstLineMatcher> parseFLMids(String flmCodes) {
+		String[] st = flmCodes.split(",");
+		ArrayList<FirstLineMatcher> flm = new ArrayList<FirstLineMatcher>();
+		HashMap<Integer, FirstLineMatcher> hash = FLMList.getIdFLMHash();
+		for (String id : st)
+		{
+			int intID = Integer.parseInt(id);
+			if (hash.containsKey(intID))
+				flm.add(hash.get(intID));
+		}
+		return flm;
+	}
+
 	public OntoBuilderWrapper getOBW()
 	{
 		return obw;
@@ -106,7 +171,9 @@ public class OBExperimentRunner {
 		System.out.println("3: K - number of experiments schema pairs, set 0 to use a specific SPID");
 		System.out.println("4: schema pair ID (ignored unless K is 0");
 		System.out.println("5: datasetID (for random K)");
-		System.out.println("6: domainCodes - (optional) string in the following format \",3,4,2\" (without the Quotation marks)");
+		System.out.println("6: -d:domainCodes - (optional) string in the following format \"-d:3,4,2\" (without the Quotation marks)");
+		System.out.println("7: -f:first line matcher ids - (optional) string in the following format \"-f:3,4,2\" (without the Quotation marks)");
+		System.out.println("8: -s:second line matcher ids - (optional) string in the following format \"-s:1,2,4\" (without the Quotation marks)");
 	}
 
 
@@ -115,16 +182,22 @@ public class OBExperimentRunner {
 	 */
 	private OBExperimentRunner()
 	{
-		Properties pMap = PropertyLoader.loadProperties("ob_interface");
+		Properties pMap = new Properties();
+		try {
+			pMap.load(new FileInputStream("ob_interface.properties"));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		System.out.println((String)pMap.get("dbmstype") + " " + (String)pMap.get("host") + " " + (String)pMap.get("dbname") + " " + (String)pMap.get("username") + " " + (String)pMap.get("pwd"));
 	    db = new DBInterface(Integer.parseInt((String)pMap.get("dbmstype")),(String)pMap.get("host"),(String)pMap.get("dbname"),(String)pMap.get("username"),(String)pMap.get("pwd"));
 		dsurl = (String)pMap.get("schemaPath");
 		File dsFolder = new File(dsurl);
 		if (dsFolder == null || !dsFolder.isDirectory()) error("Supplied dataset url is invalid or unreachable");
 		obw = new OntoBuilderWrapper();
 		xfh = new XmlFileHandler();
-		for (FLMList f : FLMList.values())
-			flm.add(f.getFLM());
-		//TODO same for slm
+
 	}
 	
 	/**
@@ -261,17 +334,21 @@ public class OBExperimentRunner {
 	 * Runs experiment on the loaded dataset and writes the result to the file object supplied 
 	 * @param eid Experiment to run
 	 * @param resultFolder File object in which to create the results. Folder will be created if not exists
+	 * @param flm list of first line matchers to use
+	 * @param slm list of second line matchers to use
 	 */
-	public void runExperiment(ExperimentType et, Long eid,File resultFolder)
+	public void runExperiment(ExperimentType et, Long eid,File resultFolder, ArrayList<FirstLineMatcher> flm, ArrayList<SecondLineMatcher> slm)
 	{
 		ArrayList<ExperimentSchemaPair> dataset = getDS(eid);
 		MatchingExperiment e = et.getExperiment();
 		ArrayList<Statistic> res = new ArrayList<Statistic>();
 		e.init(this, properties, flm, slm);
 		resultFolder = getFolder(resultFolder);
+		int i = 0;
 		for (ExperimentSchemaPair esp : dataset)
 		{
 			res.addAll(e.runExperiment(esp));
+			System.out.println("finished " + Integer.toString(++i) + " out of " + Integer.toString(dataset.size()));
 		}
 		formatStatistics(res, resultFolder);	
 	}
