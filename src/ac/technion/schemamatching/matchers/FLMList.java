@@ -11,7 +11,7 @@ import java.util.HashMap;
  *
  */
 public enum FLMList {AMCDataType(new AMCDataType()),AMCName(new AMCName())
-	,AMCTokenPath(new AMCTokenPath()),OBGraphMatch(new OBGraphMatch())
+	,AMCTokenPath(new AMCTokenPath()),AMCPath(new AMCPath()),AMCSibling(new AMCSibling()),OBGraphMatch(new OBGraphMatch())
 	,OBPrecedence(new OBPrecedenceMatch()),OBSimilarityFlooding(new OBSimilarityFlooding())
 	,OBTerm(new OBTermMatch()),OBValue(new OBValueMatch());
 
