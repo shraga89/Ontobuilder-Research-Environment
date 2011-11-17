@@ -65,7 +65,7 @@ public class AMCPath extends AMCTokenPath {
 	 * @see ac.technion.schemamatching.matchers.FirstLineMatcher#getDBid()
 	 */
 	public int getDBid() {
-		return 7;
+		return 11;
 	}
 
 }

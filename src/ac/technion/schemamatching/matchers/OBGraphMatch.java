@@ -37,7 +37,7 @@ public class OBGraphMatch implements FirstLineMatcher {
 		OntoBuilderWrapper obw = OBExperimentRunner.getOER().getOBW();
 		MatchInformation res = null;
 		try {
-			res = obw.matchOntologies(candidate, target, MatchingAlgorithmsNamesEnum.COMPOSITION.toString());
+			res = obw.matchOntologies(candidate, target, MatchingAlgorithmsNamesEnum.COMPOSITION.getName());
 		} catch (OntoBuilderWrapperException e) {
 			e.printStackTrace();
 		}
