@@ -52,7 +52,7 @@ public class ExperimentDocumenter
 	private void documentDataset(ArrayList<ExperimentSchemaPair> dataset) {
 		MatchInformation exactMapping;
 		HashMap<Field, Object> values = new HashMap<Field, Object>();
-		Field spID = new Field("SPID",FieldType.INT);
+//		Field spID = new Field("SPID",FieldType.INT);
 		values.put(new Field("EID",FieldType.LONG), eid);
 		ArrayList<ExperimentSchemaPair> badSE = new ArrayList<ExperimentSchemaPair>();
 		    for (ExperimentSchemaPair schemasExp : dataset) 
@@ -112,6 +112,7 @@ public class ExperimentDocumenter
 	 * @param exactMapping SchemaTranslator object with mappings between terms. In each pair, assuming first is candidate and second is target
 	 * @param spid Schema Pair ID
 	 */
+	@SuppressWarnings("unused")
 	private void uploadExactMatch(MatchInformation exactMapping, long spid) {
 		String sql = "SELECT SPID FROM exactmatches WHERE SPID = " + spid + ";";
 		if (db.runSelectQuery(sql,1).isEmpty())
@@ -467,6 +468,7 @@ public class ExperimentDocumenter
 	 * @param Onotology
 	 * @throws Exception
 	 */
+	@SuppressWarnings("unused")
 	private void AddInfoAboutSchemaToDB(long schemaID, Ontology ontology)
 	{
 		String sql  = "SELECT Was_Fully_Parsed FROM schemata WHERE SchemaID=" + schemaID + ";"; 

@@ -4,6 +4,7 @@
 package ac.technion.schemamatching.util;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -152,11 +153,17 @@ public class ConversionUtils {
 		ArrayList<Term> targetTerms = new ArrayList<Term>();
 		targetTerms.addAll(mi.getTargetOntology().getTerms(true));
 		MatchMatrix mm = new MatchMatrix(candTerms.size(),targetTerms.size(), candTerms, targetTerms);
-		for (Object o : mi.getMatches())
-		{
-			Match m = (Match)o;
-			mm.setMatchConfidence(m.getCandidateTerm(), m.getTargetTerm(), m.getEffectiveness());
-		}
+		for (Term c : candTerms)
+			for (Term t : targetTerms)
+			{
+				double conf = mi.getMatrix().getMatchConfidence(c, t);
+				mm.setMatchConfidence(c, t,(conf==-1?0:conf) );
+			}
+//		for (Object o : mi.getMatches())
+//		{
+//			Match m = (Match)o;
+//			mm.setMatchConfidence(m.getCandidateTerm(), m.getTargetTerm(), m.getEffectiveness());
+//		}
 		mi.setMatrix(mm);
 	}
 	
@@ -183,5 +190,18 @@ public class ConversionUtils {
 				newMM.setMatchConfidence(c, t, conf);
 			}
 		return newMI;
+	}
+	
+	/**
+	 * Updates match matrix. Sets all unmatched entries to 0
+	 * @param mi
+	 */
+	public static void zeroNonMatched(MatchInformation mi)
+	{
+	
+		MatchMatrix mm = new MatchMatrix();
+		mm.copyWithEmptyMatrix(mi.getMatrix());
+		for (Match m : mi.getMatches())
+			mm.setMatchConfidence(m.getCandidateTerm(), m.getTargetTerm(), m.getEffectiveness());
 	}
 }

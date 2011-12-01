@@ -2,7 +2,7 @@
 
 package ac.technion.schemamatching.util;
 
-import java.util.HashMap;
+import java.util.HashSet;
 
 import ac.technion.iem.ontobuilder.core.ontology.Ontology;
 import ac.technion.iem.ontobuilder.matching.meta.match.MatchedAttributePair;
@@ -31,19 +31,19 @@ public class RandomMatchingProblemGenerator {
 	}
 	
 	public RandomMatchingProblemInstance generateProblem(int size){
-		int numMatchings = exactMatching.getMatchedAttributesPairsCount();
+//		int numMatchings = exactMatching.getMatchedAttributesPairsCount();
 		//generate exact matching
 		MatchedAttributePair[] pairs = exactMatching.getMatchedPairs();
 		MatchedAttributePair[] chosenPairs = new MatchedAttributePair[size];
 		int index;
-		HashMap chosenIndexs = new HashMap();
+		HashSet<Integer> chosenIndexs = new HashSet<Integer>();
 		for (int i=0;i<size;){
 			index = (int)Math.floor(Math.random()*pairs.length);
-			if (chosenIndexs.containsKey(new Integer(index))){
+			if (chosenIndexs.contains(new Integer(index))){
 				continue;
 			}else{
 				chosenPairs[i] = new MatchedAttributePair(pairs[index].getAttribute1(),pairs[index].getAttribute2(),1.0);
-				chosenIndexs.put(new Integer(index), null);
+				chosenIndexs.add(new Integer(index));
 				i++;
 			}
 		}
@@ -52,9 +52,9 @@ public class RandomMatchingProblemGenerator {
 		//generate ontologies
 		Ontology cand = new Ontology(candOntology.getName());
 		Ontology target = new Ontology(targetOntology.getName());
-		MatchedAttributePair pair;
+//		MatchedAttributePair pair;
 		for (int i=0;i<size;i++){
-			pair = chosenPairs[i];//.substring(0,chosenPairs[i].getAttribute1().indexOf(":")+1
+//			pair = chosenPairs[i];//.substring(0,chosenPairs[i].getAttribute1().indexOf(":")+1
 			cand.addTerm(candOntology.searchTerm(chosenPairs[i].getAttribute1()));
 			target.addTerm(targetOntology.searchTerm(chosenPairs[i].getAttribute2()));	
 		}

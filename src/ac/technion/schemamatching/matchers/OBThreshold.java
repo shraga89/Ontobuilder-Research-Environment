@@ -6,6 +6,7 @@ package ac.technion.schemamatching.matchers;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 import ac.technion.iem.ontobuilder.matching.utils.SchemaMatchingsUtilities;
 import ac.technion.iem.ontobuilder.matching.utils.SchemaTranslator;
+import ac.technion.schemamatching.util.ConversionUtils;
 
 /**
  * @author Tomer Sagi
@@ -17,7 +18,7 @@ public class OBThreshold implements SecondLineMatcher {
 	 * @see ac.technion.schemamatching.matchers.SecondLineMatcher#getName()
 	 */
 	public String getName() {
-		return "Ontobuilder Stable Marriage";
+		return "Ontobuilder Threshold";
 	}
 
 	/* (non-Javadoc)
@@ -28,6 +29,7 @@ public class OBThreshold implements SecondLineMatcher {
 		SchemaTranslator tmp = new SchemaTranslator(mi);
 		SchemaTranslator th = SchemaMatchingsUtilities.getSTwithThresholdSensitivity(tmp, threshold);
 		miTH.setMatches(th.toOntoBuilderMatchList(miTH.getMatrix()));
+		ConversionUtils.zeroNonMatched(miTH);
 		return miTH;
 	}
 
