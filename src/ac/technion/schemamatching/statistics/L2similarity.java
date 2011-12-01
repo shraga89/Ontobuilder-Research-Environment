@@ -9,7 +9,7 @@ import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
  * @author Tomer Sagi
  *
  */
-public class L2similarityGolden implements GoldenStatistic {
+public class L2similarity implements K2Statistic {
 	private ArrayList<String[]> data;
 	private String[] header;
 	

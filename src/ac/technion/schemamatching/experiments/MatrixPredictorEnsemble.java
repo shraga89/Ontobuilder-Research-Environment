@@ -3,8 +3,6 @@ package ac.technion.schemamatching.experiments;
 import java.util.ArrayList;
 import java.util.Properties;
 
-import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
-import ac.technion.iem.ontobuilder.matching.utils.SchemaTranslator;
 import ac.technion.schemamatching.matchers.FirstLineMatcher;
 import ac.technion.schemamatching.matchers.SecondLineMatcher;
 import ac.technion.schemamatching.statistics.Statistic;
@@ -27,15 +25,6 @@ public class MatrixPredictorEnsemble implements MatchingExperiment {
 		return null;
 	}
 
-	/**
-	 * Takes a schema translator object and fill the supplied matchInformation from the objects in the schematranslator
-	 * @param matchInformation
-	 * @param st
-	 */
-	private void fillMI(MatchInformation matchInformation, SchemaTranslator st) {
-		// TODO Auto-generated method stub
-		
-	}
 
 	public boolean init(OBExperimentRunner oer, Properties properties,
 			ArrayList<FirstLineMatcher> flM, ArrayList<SecondLineMatcher> slM) {

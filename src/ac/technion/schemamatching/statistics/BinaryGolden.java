@@ -13,7 +13,7 @@ import ac.technion.iem.ontobuilder.matching.utils.SchemaTranslator;
  * @author Tomer Sagi
  *
  */
-public class BinaryGolden implements GoldenStatistic {
+public class BinaryGolden implements K2Statistic {
 	private ArrayList<String[]> data;
 	private String[] header;
 	HashSet<String> matchListIds = new HashSet<String>();

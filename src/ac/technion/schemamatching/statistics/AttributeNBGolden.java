@@ -11,7 +11,7 @@ import ac.technion.schemamatching.util.SimilarityVectorUtils;
  * @author Tomer Sagi
  *
  */
-public class AttributeNBGolden implements GoldenStatistic {
+public class AttributeNBGolden implements K2Statistic {
 	private ArrayList<String[]> data;
 	private String[] header;
 	

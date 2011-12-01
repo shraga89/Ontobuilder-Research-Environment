@@ -6,6 +6,7 @@ package ac.technion.schemamatching.matchers;
 import ac.technion.iem.ontobuilder.matching.algorithms.line2.topk.wrapper.BestMappingsWrapper;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 import ac.technion.iem.ontobuilder.matching.utils.SchemaTranslator;
+import ac.technion.schemamatching.util.ConversionUtils;
 
 /**
  * @author Tomer Sagi
@@ -29,6 +30,7 @@ public class OBmwbg implements SecondLineMatcher {
 		assert (st!=null);
 		MatchInformation mwbg = new MatchInformation(mi.getCandidateOntology(),mi.getTargetOntology());
 		mwbg.setMatches(st.toOntoBuilderMatchList(mwbg.getMatrix()));
+		ConversionUtils.zeroNonMatched(mwbg);
 		return mwbg;
 	}
 

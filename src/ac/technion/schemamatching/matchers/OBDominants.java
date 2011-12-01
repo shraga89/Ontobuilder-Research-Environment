@@ -10,15 +10,15 @@ import ac.technion.schemamatching.util.ConversionUtils;
 
 /**
  * @author Tomer Sagi
- * Ontobuilder Research Environment wrapper for Stable Marriage second line matcher
+ * Ontobuilder Research Environment wrapper for Dominants second line matcher
  */
-public class OBStableMarriage implements SecondLineMatcher {
+public class OBDominants implements SecondLineMatcher {
 
 	/* (non-Javadoc)
 	 * @see ac.technion.schemamatching.matchers.SecondLineMatcher#getName()
 	 */
 	public String getName() {
-		return "Ontobuilder Stable Marriage";
+		return "Ontobuilder Dominants";
 	}
 
 	/* (non-Javadoc)
@@ -26,7 +26,7 @@ public class OBStableMarriage implements SecondLineMatcher {
 	 */
 	public MatchInformation match(MatchInformation mi) {
 		BestMappingsWrapper.matchMatrix = mi.getMatrix();	
-		SchemaTranslator st = BestMappingsWrapper.GetBestMapping("Stable Marriage");
+		SchemaTranslator st = BestMappingsWrapper.GetBestMapping("Dominants");
 		assert (st!=null);
 		MatchInformation res = new MatchInformation(mi.getCandidateOntology(),mi.getTargetOntology());
 		res.setMatches(st.toOntoBuilderMatchList(res.getMatrix()));
@@ -45,7 +45,7 @@ public class OBStableMarriage implements SecondLineMatcher {
 	 * @see ac.technion.schemamatching.matchers.SecondLineMatcher#getDBid()
 	 */
 	public int getDBid() {
-		return 2;
+		return 3;
 	}
 
 }

@@ -14,7 +14,7 @@ public enum ExperimentType
 	,TuneTerm(new TuneTermExperiment())
 	,RowPredictEval(new RowPredictionEvaluation()),EntryPredictEval(new EntryPredictionEvaluation()), AttributePredictEval(new AttributePredictorEvaluation())
 	,MatrixPredictorEnsemble(new MatrixPredictorEnsemble()),RowPredictorEnsemble(new RowPredictorEnsemble())
-	,ClusteringMatches(new ClusteringMatches())
+	,ClusteringMatches(new ClusteringMatches()),Drift(new Drift2LM())
 	,EntryPredictorEnsemble(new EntryPredictorEnsemble());
 	private ExperimentType(MatchingExperiment e)
 	{

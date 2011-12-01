@@ -6,10 +6,9 @@ import java.util.Properties;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 import ac.technion.schemamatching.matchers.FirstLineMatcher;
 import ac.technion.schemamatching.matchers.SecondLineMatcher;
-import ac.technion.schemamatching.statistics.NBGolden;
-import ac.technion.schemamatching.statistics.GoldenStatistic;
-import ac.technion.schemamatching.statistics.L2similarityGolden;
+import ac.technion.schemamatching.statistics.K2Statistic;
 import ac.technion.schemamatching.statistics.MatrixPredictors;
+import ac.technion.schemamatching.statistics.NBGolden;
 import ac.technion.schemamatching.statistics.Statistic;
 import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
 
@@ -40,7 +39,7 @@ public class MatrixPredictorEvaluation implements MatchingExperiment {
 			p.init(instanceDesc, mi);
 			predictions.add(p);
 			//Calculate NBprecision, NBrecall
-			GoldenStatistic  b = new NBGolden();
+			K2Statistic  b = new NBGolden();
 			b.init(instanceDesc, mi,esp.getExact());
 			evaluations.add(b);
 			//Precision Recall

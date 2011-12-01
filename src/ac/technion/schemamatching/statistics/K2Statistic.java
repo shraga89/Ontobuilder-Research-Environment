@@ -9,7 +9,7 @@ import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
  * @author Tomer Sagi
  *
  */
-public interface GoldenStatistic extends Statistic {
+public interface K2Statistic extends Statistic {
 
 	/**
 	 * Initializes the statistic

@@ -8,9 +8,7 @@ import ac.technion.schemamatching.matchers.FirstLineMatcher;
 import ac.technion.schemamatching.matchers.SecondLineMatcher;
 import ac.technion.schemamatching.statistics.AttributeNBGolden;
 import ac.technion.schemamatching.statistics.AttributePredictors;
-import ac.technion.schemamatching.statistics.NBGolden;
-import ac.technion.schemamatching.statistics.GoldenStatistic;
-import ac.technion.schemamatching.statistics.MatrixPredictors;
+import ac.technion.schemamatching.statistics.K2Statistic;
 import ac.technion.schemamatching.statistics.Statistic;
 import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
 
@@ -42,7 +40,7 @@ public class AttributePredictorEvaluation implements MatchingExperiment {
 			p.init(instanceDesc, mi);
 			predictions.add(p);
 			//Calculate NBprecision, NBrecall
-			GoldenStatistic  b = new AttributeNBGolden();
+			K2Statistic  b = new AttributeNBGolden();
 			b.init(instanceDesc, mi,esp.getExact());
 			evaluations.add(b);
 			//Precision Recall

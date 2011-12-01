@@ -10,7 +10,9 @@ import java.util.HashMap;
  * @author Tomer Sagi
  *
  */
-public enum SLMList {OBMWBG(new OBmwbg());
+public enum SLMList {OBMWBG(new OBmwbg()),OBSM(new OBStableMarriage()),
+	OBDom(new OBDominants()),OBIntersection(new OBIntersection()),
+	OBUnion(new OBUnion()),OBThreshold025(new OBThreshold(0.25));
 
 private SLMList(SecondLineMatcher slm)
 {
