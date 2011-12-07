@@ -23,6 +23,8 @@ import ac.technion.schemamatching.matchers.FirstLineMatcher;
 import ac.technion.schemamatching.matchers.SecondLineMatcher;
 import ac.technion.schemamatching.statistics.Statistic;
 import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
+import ac.technion.schemamatching.util.PropertyLoader;
+
 import com.infomata.data.CSVFormat;
 import com.infomata.data.DataFile;
 import com.infomata.data.DataRow;
@@ -42,7 +44,6 @@ public class OBExperimentRunner {
 	protected DBInterface db;
 	protected OntoBuilderWrapper obw;
 	private XmlFileHandler xfh;
-	private Properties properties;
 	
 	/**
 	 * Main method runs an experiment according to the supplied parameters
@@ -53,7 +54,7 @@ public class OBExperimentRunner {
 	 * @param args[4] schema pair ID (ignored unless K is 0
 	 * @param args[5] datasetID (for random K)
 	 * @param args[6] -d:domainCodes - (optional) string in the following format "2,3,4,2" (without the Quotation mark)
-	 * or -flm:First Line Matcher Codes
+	 * or -flm:First Line Matcher Codes or -p:properties file used to configure the experiment
 	 * 
 	 */
 	public static void main(String[] args) 
@@ -66,6 +67,7 @@ public class OBExperimentRunner {
 		HashSet<Integer> dc =new HashSet<Integer>();
 		ArrayList<FirstLineMatcher> flm = null;
 		ArrayList<SecondLineMatcher> slm = null; 
+		Properties pFile = null;
 		if (args[0].equalsIgnoreCase("cmd"))
 		{
 			myExpRunner.checkInputParameters(args);
@@ -77,12 +79,13 @@ public class OBExperimentRunner {
 	    		for (int i=6;i<args.length;i++)
 	    		{
 	    			char p = args[i].charAt(1);
-	    			String list = args[i].substring(3);
+	    			String arguments = args[i].substring(3);
 	    			switch(p)
 	    			{
-	    				case 'd': dc = parseDomainCodes(list);
-	    				case 'f': flm = parseFLMids(list);
-	    				case 's': slm = parseSLMids(list);
+	    				case 'd': dc = parseDomainCodes(arguments); break;
+	    				case 'f': flm = parseFLMids(arguments); break;
+	    				case 's': slm = parseSLMids(arguments); break;
+	    				case 'p': pFile = PropertyLoader.loadProperties(arguments); break; 
 	    			}
 	    		}
 	    		
@@ -118,7 +121,7 @@ public class OBExperimentRunner {
 			error("invalid 1st parameter supplied");
 		}
 		Long eid = myExpRunner.initExperiment(dataset, expDesc);
-		myExpRunner.runExperiment(et,eid, outputPath,flm,slm);
+		myExpRunner.runExperiment(et,eid, outputPath,flm,slm,pFile);
 	 }
 	
 	/**
@@ -336,13 +339,14 @@ public class OBExperimentRunner {
 	 * @param resultFolder File object in which to create the results. Folder will be created if not exists
 	 * @param flm list of first line matchers to use
 	 * @param slm list of second line matchers to use
+	 * @param properties file for configuring the experiment
 	 */
-	public void runExperiment(ExperimentType et, Long eid,File resultFolder, ArrayList<FirstLineMatcher> flm, ArrayList<SecondLineMatcher> slm)
+	public void runExperiment(ExperimentType et, Long eid,File resultFolder, ArrayList<FirstLineMatcher> flm, ArrayList<SecondLineMatcher> slm,Properties pFile)
 	{
 		ArrayList<ExperimentSchemaPair> dataset = getDS(eid);
 		MatchingExperiment e = et.getExperiment();
 		ArrayList<Statistic> res = new ArrayList<Statistic>();
-		e.init(this, properties, flm, slm);
+		e.init(this, pFile, flm, slm);
 		resultFolder = getFolder(resultFolder);
 		int i = 0;
 		for (ExperimentSchemaPair esp : dataset)
