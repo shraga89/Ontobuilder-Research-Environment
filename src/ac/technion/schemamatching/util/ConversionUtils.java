@@ -4,7 +4,6 @@
 package ac.technion.schemamatching.util;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -181,7 +180,6 @@ public class ConversionUtils {
 		MatchMatrix newMM = newMI.getMatrix();
 		newMM.copyWithEmptyMatrix(big.getMatrix());
 		MatchMatrix sMM = small.getMatrix();
-		
 		for (Term c : sMM.getCandidateTerms())
 			for (Term t : sMM.getTargetTerms())
 			{
@@ -189,6 +187,7 @@ public class ConversionUtils {
 				if (conf==-1) throw new Exception("Candidate term: " + c.getName() + " or target term: " + t.getName() + " not found in big match matrix.");
 				newMM.setMatchConfidence(c, t, conf);
 			}
+		newMI.setMatches(small.getMatches());
 		return newMI;
 	}
 	
