@@ -15,7 +15,8 @@ public enum ExperimentType
 	,RowPredictEval(new RowPredictionEvaluation()),EntryPredictEval(new EntryPredictionEvaluation()), AttributePredictEval(new AttributePredictorEvaluation())
 	,MatrixPredictorEnsemble(new MatrixPredictorEnsemble()),RowPredictorEnsemble(new RowPredictorEnsemble())
 	,ClusteringMatches(new ClusteringMatches()),Drift(new Drift2LM())
-	,EntryPredictorEnsemble(new EntryPredictorEnsemble());
+	,EntryPredictorEnsemble(new EntryPredictorEnsemble())
+	,ROCCurve(new ROCExperiment());
 	private ExperimentType(MatchingExperiment e)
 	{
 		exp = e;
