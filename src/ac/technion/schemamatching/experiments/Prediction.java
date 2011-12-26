@@ -58,5 +58,10 @@ public class Prediction implements MatchingExperiment {
 	public String getDescription() {
 		return "Prediction";
 	}
+	
+	public ArrayList<Statistic> summaryStatistics() {
+		//unused
+		return null;
+	}
 
 }

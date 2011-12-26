@@ -39,4 +39,10 @@ public interface MatchingExperiment
 	 * @return Experiment Description
 	 */
 	public String getDescription();
+	
+	/**
+	 * 
+	 * @return Statistics sumarizing the experiment (for all schema pairs)
+	 */
+	public ArrayList<Statistic> summaryStatistics();
 }

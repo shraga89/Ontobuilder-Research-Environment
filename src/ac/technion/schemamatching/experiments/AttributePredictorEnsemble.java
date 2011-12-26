@@ -5,20 +5,19 @@ import java.util.HashMap;
 import java.util.Properties;
 
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
+import ac.technion.schemamatching.ensembles.PAttributeEnsemble;
 import ac.technion.schemamatching.ensembles.Ensemble;
-import ac.technion.schemamatching.ensembles.SimpleWeightedEnsemble;
 import ac.technion.schemamatching.matchers.FirstLineMatcher;
 import ac.technion.schemamatching.matchers.SLMList;
 import ac.technion.schemamatching.matchers.SecondLineMatcher;
 import ac.technion.schemamatching.statistics.BinaryGolden;
 import ac.technion.schemamatching.statistics.K2Statistic;
-import ac.technion.schemamatching.statistics.MatrixPredictors;
 import ac.technion.schemamatching.statistics.NBGolden;
 import ac.technion.schemamatching.statistics.Statistic;
 import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
 
 /**
- * Uses values of matrix predictors to ensemble 1st line matchers and second line matchers. 
+ * Uses values of attribute predictors to ensemble 1st line matchers and second line matchers. 
  * Assumes it recieves a properties file with predictor weights in the following format: 
  * PredictorName = 0.2
  * Note that predictor name should match the result of the getName() method in the corresponding 
@@ -26,7 +25,7 @@ import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
  * @author Tomer Sagi
  *
  */
-public class MatrixPredictorEnsemble implements MatchingExperiment {
+public class AttributePredictorEnsemble implements MatchingExperiment {
 	
 	private HashMap<String,Double> predictorWeights = new HashMap<String,Double>();
 	private ArrayList<FirstLineMatcher> flM;
@@ -39,28 +38,9 @@ public class MatrixPredictorEnsemble implements MatchingExperiment {
 		for (FirstLineMatcher f : flM)
 			flMatches.put(f.getName(),f.match(esp.getCandidateOntology(), esp.getTargetOntology(), false));
 		
-		//Generate predictor values for 1LMs and use for matcher weights
-		HashMap<String, Double> matcherWeights = new HashMap<String, Double>();
-		for (String mName : flMatches.keySet())
-		{
-			MatrixPredictors mv = new MatrixPredictors(); 
-			mv.init(esp.getSPID() + "," + mName, flMatches.get(mName));
-			String h[] = mv.getHeader();
-			int numPredictors = h.length -1;
-			Double weightedSumOfPrediction = new Double(0.0);
-			for (int i=0;i<numPredictors;i++)
-			{
-				Double p = Double.parseDouble(mv.getData().get(0)[i]);
-				Double w = (predictorWeights.containsKey(h[0])?predictorWeights.get(h[i]):0.0);
-				weightedSumOfPrediction+=(p*w);
-				res.add(mv);
-			}
-			matcherWeights.put(mName, weightedSumOfPrediction/numPredictors);
-		}
-		
 		//Create ensemble
-		Ensemble e = new SimpleWeightedEnsemble();
-		e.init(flMatches, matcherWeights);
+		Ensemble e = new PAttributeEnsemble();
+		e.init(flMatches, predictorWeights);
 		MatchInformation weightedMI = e.getWeightedMatch();
 		
 		//Calculate NB Precision and Recall
@@ -95,9 +75,10 @@ public class MatrixPredictorEnsemble implements MatchingExperiment {
 	public String getDescription() {
 		return "Ensemble using matrix predictors";
 	}
-	
+
+
 	public ArrayList<Statistic> summaryStatistics() {
-		//unused
+		//Unused in this experiment
 		return null;
 	}
 

@@ -53,4 +53,8 @@ public class ClusteringMatches implements MatchingExperiment {
 		return null;
 	}
 
+	public ArrayList<Statistic> summaryStatistics() {
+		//unused
+		return null;
+	}
 }

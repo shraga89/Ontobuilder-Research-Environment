@@ -73,4 +73,9 @@ public class AttributePredictorEvaluation implements MatchingExperiment {
 		return "Matrix Predictor Evaluation";
 	}
 
+	public ArrayList<Statistic> summaryStatistics() {
+		//unused
+		return null;
+	}
+
 }
