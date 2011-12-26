@@ -25,5 +25,10 @@ public class EntryPredictionEvaluation implements MatchingExperiment {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	public ArrayList<Statistic> summaryStatistics() {
+		//unused
+		return null;
+	}
 
 }

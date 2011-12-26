@@ -4,8 +4,11 @@
 package ac.technion.schemamatching.util;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
+
+import smb_service.Schema;
 
 
 import ac.technion.iem.ontobuilder.core.ontology.Ontology;
@@ -202,5 +205,23 @@ public class ConversionUtils {
 		mm.copyWithEmptyMatrix(mi.getMatrix());
 		for (Match m : mi.getMatches())
 			mm.setMatchConfidence(m.getCandidateTerm(), m.getTargetTerm(), m.getEffectiveness());
+	}
+	
+	/**
+	 * Converts from an Ontology to the Schema format specified in @link{SMB}
+	 * @param o
+	 * @return
+	 */
+	public static Schema ontology2schema(Ontology o)
+	{
+		//TODO complete this from the feature documenter in ORE
+		HashMap<String, Long> features = new HashMap<String, Long>();
+
+		HashMap<Long, String> terms = new HashMap<Long, String>();
+		for (Term t : o.getTerms(true))
+			terms.put(t.getId(), t.getName());
+		
+		Schema res = new Schema(o.getId(), o.getName(),features,terms);
+		return res;
 	}
 }

@@ -75,4 +75,8 @@ public class Drift2LM implements MatchingExperiment
 		return desc;
 	}
 
+	public ArrayList<Statistic> summaryStatistics() {
+		//unused
+		return null;
+	}
 }
