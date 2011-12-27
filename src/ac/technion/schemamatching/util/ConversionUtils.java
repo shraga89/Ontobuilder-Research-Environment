@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import smb_service.Schema;
+import smb_service.SimilarityMatrix;
 
 
 import ac.technion.iem.ontobuilder.core.ontology.Ontology;
@@ -222,6 +223,33 @@ public class ConversionUtils {
 			terms.put(t.getId(), t.getName());
 		
 		Schema res = new Schema(o.getId(), o.getName(),features,terms);
+		return res;
+	}
+	
+	/**
+	 * Converts from a matchInformation object to the SimilarityMatrix class specified in @link{SMB}
+	 * @param mi Match Information Object to be converted
+	 * @return
+	 */
+	public static SimilarityMatrix mi2simMatrix(MatchInformation mi)
+	{
+		HashMap<Long,Integer> candidateTerms = new HashMap<Long,Integer>();
+		HashMap<Long,Integer> targetTerms =  new HashMap<Long,Integer>();
+		MatchMatrix mm = mi.getMatrix();
+		int i=0,j=0;
+		double[][] inSimilarityM = new double[candidateTerms.size()][targetTerms.size()];
+		for (Term c : mm.getCandidateTerms())
+		{
+			candidateTerms.put(c.getId(),i);
+			for (Term t : mm.getTargetTerms())
+			{
+				targetTerms.put(t.getId(), j);
+				inSimilarityM[i++][j++] = mm.getMatchConfidence(c, t);
+			}
+		}
+
+		SimilarityMatrix res = new SimilarityMatrix(mi.getCandidateOntology().getId(),mi.getTargetOntology().getId(),candidateTerms,targetTerms,inSimilarityM);
+		
 		return res;
 	}
 }

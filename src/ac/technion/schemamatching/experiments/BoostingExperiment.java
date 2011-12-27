@@ -13,6 +13,8 @@ import smb_service.Schema;
 import smb_service.SchemaPair;
 import smb_service.SimilarityMatrix;
 
+import ac.technion.iem.ontobuilder.core.ontology.Ontology;
+import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 import ac.technion.schemamatching.matchers.FirstLineMatcher;
 import ac.technion.schemamatching.matchers.SecondLineMatcher;
 import ac.technion.schemamatching.statistics.Statistic;
@@ -35,18 +37,31 @@ public class BoostingExperiment implements MatchingExperiment {
 	/* (non-Javadoc)
 	 * @see ac.technion.schemamatching.experiments.MatchingExperiment#runExperiment(ac.technion.schemamatching.experiments.ExperimentSchemaPair)
 	 */
-	public ArrayList<Statistic> runExperiment(ExperimentSchemaPair esp) {
+	public ArrayList<Statistic> runExperiment(ExperimentSchemaPair esp) 
+	{
+		Ontology co = esp.getCandidateOntology();
+		Ontology to = esp.getTargetOntology();
+		Schema c = ConversionUtils.ontology2schema(co); 
+		Schema t = ConversionUtils.ontology2schema(to);
 		
-		Schema c = ConversionUtils.ontology2schema(esp.getCandidateOntology()); 
-		Schema t = ConversionUtils.ontology2schema(esp.getTargetOntology());
-		SimilarityMatrix e = new SimilarityMatrix();
-		//TODO fil with exact match results
-		SchemaPair p = new SchemaPair(c,t,e);
-		lws.schemaPairList.add(p);
+		SimilarityMatrix e = ConversionUtils.mi2simMatrix(esp.getExact());
+		SchemaPair p = new SchemaPair(c,t,e );
 		
 		//TODO match and add matching results to lws
-		
-		return null;
+		HashMap<Long,SimilarityMatrix> correspondenceSet = new HashMap<Long,SimilarityMatrix>();
+		for (FirstLineMatcher f : flm)
+		{
+			MatchInformation mi = f.match(co, to, false);
+			for (SecondLineMatcher s :slm)
+			{
+				MatchInformation sMI = s.match(mi);
+				SimilarityMatrix sm = ConversionUtils.mi2simMatrix(sMI);
+				correspondenceSet.put((long)1000 * f.getDBid() + s.getDBid(), sm);
+			}
+		}
+		p.setCorrespondenceSet(correspondenceSet);
+		lws.schemaPairList.add(p);
+		return null; //No statistics here, Training weights are given after all pairs are added
 	}
 
 	/* (non-Javadoc)
@@ -78,8 +93,13 @@ public class BoostingExperiment implements MatchingExperiment {
 	}
 
 	public ArrayList<Statistic> summaryStatistics() {
-		// TODO init SMB, train, return weights as statistics
-		return null;
+		//Train SMB and get weights
+		SMBTrain st = new SMBTrain(lws);
+		HashMap<Long, Double> res = st.Train();
+		Statistic s = new SMBTrainingPrinter(res);
+		ArrayList<Statistic> a = new ArrayList<Statistic>();
+		a.add(s);
+		return a;
 	}
 
 }
