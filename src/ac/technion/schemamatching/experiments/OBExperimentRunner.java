@@ -59,6 +59,16 @@ public class OBExperimentRunner {
 	 */
 	public static void main(String[] args) 
 	{
+		args = new String[6];
+		args[0]="cmd";
+		args[1]="c:\\";
+		args[2]="ROCCurve";
+		args[3]="0";
+		args[4]="1";
+		args[5]="1";
+		
+				
+		
 		OBExperimentRunner myExpRunner = getOER();
 		File outputPath = null;
 		ExperimentType et = null;
@@ -351,10 +361,13 @@ public class OBExperimentRunner {
 		int i = 0;
 		for (ExperimentSchemaPair esp : dataset)
 		{
-			res.addAll(e.runExperiment(esp));
+			 ArrayList<Statistic> expResults = e.runExperiment(esp);
+			 if ( expResults !=null)
+				 res.addAll(e.runExperiment(esp));
 			System.out.println("finished " + esp.getSPID() + " : " + Integer.toString(++i) + " out of " + Integer.toString(dataset.size()));
 		}
-		res.addAll(e.summaryStatistics());
+		if (e.summaryStatistics()!=null )
+			res.addAll(e.summaryStatistics());
 		formatStatistics(res, resultFolder);	
 	}
 	
