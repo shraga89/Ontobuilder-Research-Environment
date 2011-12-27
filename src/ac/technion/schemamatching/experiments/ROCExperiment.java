@@ -27,12 +27,12 @@ import ac.technion.schemamatching.matchers.OBStableMarriage;
  */
 public class ROCExperiment implements MatchingExperiment 
 {
-	
+	ArrayList<Statistic> res = new ArrayList<Statistic>();
 	/* (non-Javadoc)
 	 * @see ac.technion.schemamatching.experiments.MatchingExperiment#runExperiment(ac.technion.schemamatching.experiments.ExperimentSchemaPair)
 	 */
 	public ArrayList<Statistic> runExperiment(ExperimentSchemaPair esp) {
-		ArrayList<Statistic> res = new ArrayList<Statistic>();
+		
 		double weightNGram = 0.4;
 		double weightJaro = 0.2;
 		double stringNameWeight = 0.25;
@@ -61,9 +61,9 @@ public class ROCExperiment implements MatchingExperiment
 		rocStat.init(instanceDescription, mi2,esp.getExact());
 		res.add(rocStat);
 		
+		return res; //No statistics here, Training weights are given after all pairs are added
 		
 		
-		return res;
 	}
 
 	/* (non-Javadoc)
@@ -87,7 +87,6 @@ public class ROCExperiment implements MatchingExperiment
 	}
 
 	public ArrayList<Statistic> summaryStatistics() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
