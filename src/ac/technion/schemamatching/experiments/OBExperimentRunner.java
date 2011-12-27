@@ -352,8 +352,9 @@ public class OBExperimentRunner {
 		for (ExperimentSchemaPair esp : dataset)
 		{
 			res.addAll(e.runExperiment(esp));
-			System.out.println("finished " + Integer.toString(++i) + " out of " + Integer.toString(dataset.size()));
+			System.out.println("finished " + esp.getSPID() + " : " + Integer.toString(++i) + " out of " + Integer.toString(dataset.size()));
 		}
+		res.addAll(e.summaryStatistics());
 		formatStatistics(res, resultFolder);	
 	}
 	
