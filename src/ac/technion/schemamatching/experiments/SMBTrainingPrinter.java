@@ -23,9 +23,10 @@ public class SMBTrainingPrinter implements Statistic {
 		for (Long config : res.keySet())
 		{
 			String[] str = new String[3];
-			long fid = config % 1000;
+			long fid = (config>1000?config % 1000:config);
+			long sid = (config>1000?(config - fid)/1000:0);
 			str[0] = Long.toString(fid);
-			str[1] = Long.toString(config - fid*1000);
+			str[1] = Long.toString(sid);
 			str[2] = res.get(config).toString();
 			data.add(str);
 		}

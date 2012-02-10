@@ -54,7 +54,7 @@ public class NBGolden implements K2Statistic {
 			MatchInformation exactMatch) {
 		Double[] vMI = SimilarityVectorUtils.makeArray(mi);
 		Double[] vExact = SimilarityVectorUtils.makeArray(exactMatch);
-		return SimilarityVectorUtils.calcDotProduct(vMI, vExact)/SimilarityVectorUtils.calcL1Length(vMI);
+		return SimilarityVectorUtils.calcDotProduct(vMI, vExact)/Math.pow(SimilarityVectorUtils.calcL1Length(vMI),2);
 	}
 	
 	/**
@@ -67,7 +67,7 @@ public class NBGolden implements K2Statistic {
 			MatchInformation exactMatch) {
 		Double[] vMI = SimilarityVectorUtils.makeArray(mi);
 		Double[] vExact = SimilarityVectorUtils.makeArray(exactMatch);
-		return SimilarityVectorUtils.calcDotProduct(vMI, vExact)/SimilarityVectorUtils.calcL1Length(vExact);
+		return SimilarityVectorUtils.calcDotProduct(vMI, vExact)/Math.pow(SimilarityVectorUtils.calcL1Length(vExact),2);
 	}
 
 }

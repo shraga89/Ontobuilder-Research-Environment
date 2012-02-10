@@ -237,15 +237,18 @@ public class ConversionUtils {
 		HashMap<Long,Integer> targetTerms =  new HashMap<Long,Integer>();
 		MatchMatrix mm = mi.getMatrix();
 		int i=0,j=0;
-		double[][] inSimilarityM = new double[candidateTerms.size()][targetTerms.size()];
+		double[][] inSimilarityM = new double[mm.getCandidateTerms().size()][mm.getTargetTerms().size()];
 		for (Term c : mm.getCandidateTerms())
 		{
 			candidateTerms.put(c.getId(),i);
 			for (Term t : mm.getTargetTerms())
 			{
 				targetTerms.put(t.getId(), j);
-				inSimilarityM[i++][j++] = mm.getMatchConfidence(c, t);
+				inSimilarityM[i][j] = mm.getMatchConfidence(c, t);
+				j++;
 			}
+			i++;
+			j=0;
 		}
 
 		SimilarityMatrix res = new SimilarityMatrix(mi.getCandidateOntology().getId(),mi.getTargetOntology().getId(),candidateTerms,targetTerms,inSimilarityM);

@@ -100,7 +100,7 @@ public class SimilarityVectorUtils {
 		double res = 0;
 		for (int i = 0 ; i<vRes.length; i++ )
 			res+= vRes[i];
-		return res;
+		return Math.sqrt(res);
 	}
 	
 	/**

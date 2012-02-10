@@ -5,7 +5,7 @@ package ac.technion.schemamatching.matchers;
 
 
 import ac.technion.iem.ontobuilder.core.ontology.Ontology;
-import ac.technion.iem.ontobuilder.matching.algorithms.line2.misc.MatchingAlgorithmsNamesEnum;
+import ac.technion.iem.ontobuilder.matching.algorithms.line1.misc.MatchingAlgorithmsNamesEnum;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 import ac.technion.iem.ontobuilder.matching.wrapper.OntoBuilderWrapper;
 import ac.technion.iem.ontobuilder.matching.wrapper.OntoBuilderWrapperException;
@@ -39,7 +39,7 @@ public class OBPrecedenceMatch implements FirstLineMatcher {
 		OntoBuilderWrapper obw = OBExperimentRunner.getOER().getOBW();
 		MatchInformation res = null;
 		try {
-			res = obw.matchOntologies(candidate, target, MatchingAlgorithmsNamesEnum.PRECEDENCE.getName());
+			res = obw.matchOntologies(candidate, target, MatchingAlgorithmsNamesEnum.NEW_PRECEDENCE.getName());
 		} catch (OntoBuilderWrapperException e) {
 			e.printStackTrace();
 		}

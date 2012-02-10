@@ -43,7 +43,8 @@ public class MatrixPredictorEnsemble implements MatchingExperiment {
 		HashMap<String, Double> matcherWeights = new HashMap<String, Double>();
 		for (String mName : flMatches.keySet())
 		{
-			MatrixPredictors mv = new MatrixPredictors(); 
+			MatrixPredictors mv = new MatrixPredictors();
+			if (flMatches.get(mName)  == null) continue;
 			mv.init(esp.getSPID() + "," + mName, flMatches.get(mName));
 			String h[] = mv.getHeader();
 			int numPredictors = h.length -1;
@@ -51,7 +52,7 @@ public class MatrixPredictorEnsemble implements MatchingExperiment {
 			for (int i=0;i<numPredictors;i++)
 			{
 				Double p = Double.parseDouble(mv.getData().get(0)[i]);
-				Double w = (predictorWeights.containsKey(h[0])?predictorWeights.get(h[i]):0.0);
+				Double w = (predictorWeights.containsKey(h[i])?predictorWeights.get(h[i]):0.0);
 				weightedSumOfPrediction+=(p*w);
 				res.add(mv);
 			}

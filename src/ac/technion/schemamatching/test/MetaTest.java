@@ -5,7 +5,7 @@ import ac.technion.iem.ontobuilder.core.utils.files.XmlFileHandler;
 import ac.technion.iem.ontobuilder.matching.algorithms.common.MatchAlgorithm;
 import ac.technion.iem.ontobuilder.matching.algorithms.line2.meta.MetaAlgorithmNamesEnum;
 import ac.technion.iem.ontobuilder.matching.algorithms.line2.meta.MetaAlgorithmsFactory;
-import ac.technion.iem.ontobuilder.matching.algorithms.line2.misc.MatchingAlgorithmsNamesEnum;
+import ac.technion.iem.ontobuilder.matching.algorithms.line1.misc.MatchingAlgorithmsNamesEnum;
 import ac.technion.iem.ontobuilder.matching.algorithms.line2.misc.MatrixDirectAlgorithm;
 import ac.technion.iem.ontobuilder.matching.algorithms.line2.misc.SMThersholdAlgorithm;
 import ac.technion.iem.ontobuilder.matching.meta.aggregators.SumGlobalAggregator;
