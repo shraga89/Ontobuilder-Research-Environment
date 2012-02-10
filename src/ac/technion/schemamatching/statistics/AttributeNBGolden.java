@@ -71,7 +71,7 @@ public class AttributeNBGolden implements K2Statistic {
 	 */
 	private double calcSMPrecision(Double[] vRes,Double[] vExact) {
 		double len = SimilarityVectorUtils.calcL1Length(vRes);
-		double res = (len==0.0?0.0:SimilarityVectorUtils.calcDotProduct(vRes, vExact)/SimilarityVectorUtils.calcL1Length(vRes));
+		double res = (len==0.0?0.0:SimilarityVectorUtils.calcDotProduct(vRes, vExact)/Math.pow(SimilarityVectorUtils.calcL1Length(vRes),2));
 		return res;
 	}
 	
@@ -83,7 +83,7 @@ public class AttributeNBGolden implements K2Statistic {
 	 */
 	private double calcSMRecall(Double[] vRes,Double[] vExact) {
 		double len = SimilarityVectorUtils.calcL1Length(vExact);
-		double res = (len==0.0?0.0:SimilarityVectorUtils.calcDotProduct(vRes, vExact)/SimilarityVectorUtils.calcL1Length(vExact));
+		double res = (len==0.0?0.0:SimilarityVectorUtils.calcDotProduct(vRes, vExact)/Math.pow(SimilarityVectorUtils.calcL1Length(vExact),2));
 		return res;
 	}
 

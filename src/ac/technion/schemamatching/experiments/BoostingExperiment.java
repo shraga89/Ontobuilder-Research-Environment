@@ -47,7 +47,7 @@ public class BoostingExperiment implements MatchingExperiment {
 		SimilarityMatrix e = ConversionUtils.mi2simMatrix(esp.getExact());
 		SchemaPair p = new SchemaPair(c,t,e );
 		
-		//TODO match and add matching results to lws
+		//match and add matching results to lws
 		HashMap<Long,SimilarityMatrix> correspondenceSet = new HashMap<Long,SimilarityMatrix>();
 		for (FirstLineMatcher f : flm)
 		{
@@ -56,7 +56,7 @@ public class BoostingExperiment implements MatchingExperiment {
 			{
 				MatchInformation sMI = s.match(mi);
 				SimilarityMatrix sm = ConversionUtils.mi2simMatrix(sMI);
-				correspondenceSet.put((long)1000 * f.getDBid() + s.getDBid(), sm);
+				correspondenceSet.put((long)1000 * s.getDBid() + f.getDBid(), sm);
 			}
 		}
 		p.setCorrespondenceSet(correspondenceSet);
@@ -75,7 +75,7 @@ public class BoostingExperiment implements MatchingExperiment {
 		for (FirstLineMatcher f : flm)
 			for (SecondLineMatcher s :slm)
 			{
-				Long cCode = (long)1000 * f.getDBid() + s.getDBid();
+				Long cCode = (long)1000 * s.getDBid() + f.getDBid();
 				String cName = f.getName() + "," + s.getName();
 				configs.put(cCode, cName);
 			}

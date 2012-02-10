@@ -7,7 +7,7 @@ import ac.technion.iem.ontobuilder.matching.algorithms.line1.term.CombinedAlgori
 import ac.technion.iem.ontobuilder.matching.algorithms.line1.term.GraphAlgorithm;
 import ac.technion.iem.ontobuilder.matching.algorithms.line1.term.TermAlgorithm;
 import ac.technion.iem.ontobuilder.matching.algorithms.line1.term.TermValueAlgorithm;
-import ac.technion.iem.ontobuilder.matching.algorithms.line2.misc.MatchingAlgorithmsNamesEnum;
+import ac.technion.iem.ontobuilder.matching.algorithms.line1.misc.MatchingAlgorithmsNamesEnum;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 import ac.technion.iem.ontobuilder.matching.wrapper.OntoBuilderWrapper;
 

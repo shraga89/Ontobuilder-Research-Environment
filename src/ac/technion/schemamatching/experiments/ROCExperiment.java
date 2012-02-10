@@ -9,15 +9,11 @@ import java.util.Properties;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 import ac.technion.schemamatching.matchers.FirstLineMatcher;
 import ac.technion.schemamatching.matchers.OBTermMatch;
-import ac.technion.schemamatching.matchers.OBValueMatch;
 import ac.technion.schemamatching.matchers.SecondLineMatcher;
-import ac.technion.schemamatching.statistics.BinaryGolden;
 import ac.technion.schemamatching.statistics.BinaryROCStatistics;
-import ac.technion.schemamatching.statistics.NBGolden;
 import ac.technion.schemamatching.statistics.Statistic;
 import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
 import ac.technion.schemamatching.matchers.OBThreshold;
-import ac.technion.schemamatching.matchers.OBStableMarriage;
 
 /**
  * @author Adham Hurani

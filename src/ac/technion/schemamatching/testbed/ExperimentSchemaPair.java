@@ -264,6 +264,10 @@ public class ExperimentSchemaPair {
 				return true;
 		return false;
 	}
-
+	
+	public String toString()
+	{
+		return Integer.toString(SPID);
+	}
 }
   

@@ -351,10 +351,12 @@ public class OBExperimentRunner {
 		int i = 0;
 		for (ExperimentSchemaPair esp : dataset)
 		{
-			res.addAll(e.runExperiment(esp));
+			ArrayList<Statistic> eRes = e.runExperiment(esp);
+			if (eRes != null) res.addAll(eRes);
 			System.out.println("finished " + esp.getSPID() + " : " + Integer.toString(++i) + " out of " + Integer.toString(dataset.size()));
 		}
-		res.addAll(e.summaryStatistics());
+		ArrayList<Statistic> eRes = e.summaryStatistics();
+		if (eRes != null) res.addAll(eRes);
 		formatStatistics(res, resultFolder);	
 	}
 	
