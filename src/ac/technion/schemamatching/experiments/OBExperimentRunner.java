@@ -50,8 +50,8 @@ public class OBExperimentRunner {
 	 * @param args[0] run as command line (cmd) or console application (console)
 	 * @param args[1] output path
 	 * @param args[2] Experiment Type compared against enum ExperimentType
-	 * @param args[3] K - number of experiments schema pairs, set 0 to use a specific SPID
-	 * @param args[4] schema pair ID (ignored unless K is 0
+	 * @param args[3] K - number of experiments schema pairs
+	 * @param args[4] schema pair ID Set ( e.g. 1,2,3  or 1 )  (ignored unless K is greater than 0 )
 	 * @param args[5] datasetID (for random K)
 	 * @param args[6] -d:domainCodes - (optional) string in the following format "2,3,4,2" (without the Quotation mark)
 	 * or -flm:First Line Matcher Codes or -p:properties file used to configure the experiment
@@ -59,6 +59,17 @@ public class OBExperimentRunner {
 	 */
 	public static void main(String[] args) 
 	{
+		//Section Intended for Testing purposes
+		//args = new String[6];
+		//args[0]="cmd";
+		//args[1]="c:\\";
+		//args[2]="ROCCurve";
+		//args[3]="0";
+		//args[4]="1,2,3,4,5,6,7,8,9,10";
+		//args[5]="1";
+		
+				
+		
 		OBExperimentRunner myExpRunner = getOER();
 		File outputPath = null;
 		ExperimentType et = null;
@@ -90,14 +101,14 @@ public class OBExperimentRunner {
 	    		}
 	    		
 	    	}
-			if (Integer.valueOf(args[3])==0){
-				dataset =oer.selectExperiments(0,Integer.valueOf(args[4]), 0, dc );}  
+			if (Integer.valueOf(args[3])<=0){
+				dataset =oer.selectExperiments(Integer.valueOf(args[3]),args[4], 0, dc );}  
 			else{
 		    	Integer datasetID = Integer.valueOf(args[5]);
 		    	Integer size = Integer.valueOf(args[3]);
 		    	expDesc =  "Experiment Type: " + args[2]+ " k=" + args[3] + " SPID: " + args[4] + " Dataset: " + args[5];
 		    	if (dc == null) dc = new HashSet<Integer>();
-				dataset = oer.selectExperiments(size,0, datasetID, dc);
+				dataset = oer.selectExperiments(size,"0", datasetID, dc);
 	    	}
 			if (flm == null) 
     		{
@@ -284,7 +295,7 @@ public class OBExperimentRunner {
 	 * @param domainCodes A list of domainCodes to limit the random schema selection with. If null, all domains are used. 
 	 * @return ArrayList of Schema Experiments. 
 	 */
-	private ArrayList<ExperimentSchemaPair> selectExperiments(int K, int spid, int datasetID, HashSet<Integer> domainCodes) 
+	private ArrayList<ExperimentSchemaPair> selectExperiments(int K, String spid, int datasetID, HashSet<Integer> domainCodes) 
 	{
 		if (datasetID == 0) datasetID = 1;
 		ArrayList<ExperimentSchemaPair> ds = new ArrayList<ExperimentSchemaPair>();
@@ -294,11 +305,18 @@ public class OBExperimentRunner {
 		
 		ArrayList<String[]> NumberOfSchemaPairs =  db.runSelectQuery("SELECT COUNT( DISTINCT spid) " + sql, 1);
 		//check the number of available experiments is larger then k
-		if (K>Integer.valueOf(NumberOfSchemaPairs.get(0)[0])) 
+		if ((K>Integer.valueOf(NumberOfSchemaPairs.get(0)[0])) || ( K==0 && spid.split(",").length> Integer.valueOf(NumberOfSchemaPairs.get(0)[0]))) 
 			error("No. of experiments requested is larger than the no. of schema pairs in the dataset");
 		//extracting pairs from the DB
-		if (spid!=0) sql = "SELECT spid, dsid FROM schemapairs WHERE SPID = " + spid + ";" ;
-		else sql  = "SELECT DISTINCT spid, schemapairs.dsid " + sql +" ORDER BY RAND() LIMIT " + String.valueOf(K) + ";"; 
+		if (K>0)
+		{
+			sql  = "SELECT DISTINCT spid, schemapairs.dsid " + sql +" ORDER BY RAND() LIMIT " + String.valueOf(K) + ";"; 
+		}
+		else
+		{
+			if (spid!="0") sql = "SELECT spid, dsid FROM schemapairs WHERE SPID in (" + spid + ");" ;
+		}
+		
 		ArrayList<String[]> k_Schemapairs =  db.runSelectQuery(sql, 2);
 		for (String[] strPair : k_Schemapairs)
 		{
