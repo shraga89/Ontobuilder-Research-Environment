@@ -57,9 +57,9 @@ public class ROCExperiment implements MatchingExperiment
 		rocStat.init(instanceDescription, mi2,esp.getExact());
 		res.add(rocStat);
 		
+		return res; //No statistics here, Training weights are given after all pairs are added
 		
 		
-		return res;
 	}
 
 	/* (non-Javadoc)
@@ -83,7 +83,6 @@ public class ROCExperiment implements MatchingExperiment
 	}
 
 	public ArrayList<Statistic> summaryStatistics() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
