@@ -39,6 +39,16 @@ public class MatrixPredictorEnsemble implements MatchingExperiment {
 		for (FirstLineMatcher f : flM)
 			flMatches.put(f.getName(),f.match(esp.getCandidateOntology(), esp.getTargetOntology(), false));
 		
+		//Calculate unEnsembled results
+		for (String f : flMatches.keySet())
+		{
+			K2Statistic singleNB = new NBGolden();
+			MatchInformation mi = flMatches.get(f);
+			String id = esp.getSPID()+ "," + f; 
+			singleNB.init(id, mi, esp.getExact());
+			res.add(singleNB);
+		}
+		
 		//Generate predictor values for 1LMs and use for matcher weights
 		HashMap<String, Double> matcherWeights = new HashMap<String, Double>();
 		for (String mName : flMatches.keySet())
@@ -54,8 +64,9 @@ public class MatrixPredictorEnsemble implements MatchingExperiment {
 				Double p = Double.parseDouble(mv.getData().get(0)[i]);
 				Double w = (predictorWeights.containsKey(h[i])?predictorWeights.get(h[i]):0.0);
 				weightedSumOfPrediction+=(p*w);
-				res.add(mv);
+				
 			}
+			res.add(mv);
 			matcherWeights.put(mName, weightedSumOfPrediction/numPredictors);
 		}
 		
@@ -77,6 +88,17 @@ public class MatrixPredictorEnsemble implements MatchingExperiment {
 		b.init(id, matchSelected,esp.getExact());
 		res.add(b);
 				
+		
+		//Calculate unEnsembled results
+		for (String f : flMatches.keySet())
+		{
+			K2Statistic singleB = new BinaryGolden();
+			MatchInformation mi = flMatches.get(f);
+			matchSelected = SLMList.OBSM.getSLM().match(mi);
+			id = esp.getSPID()+ "," + f; 
+			singleB.init(id, matchSelected, esp.getExact());
+			res.add(singleB);
+		}
 		return res;
 	}
 
