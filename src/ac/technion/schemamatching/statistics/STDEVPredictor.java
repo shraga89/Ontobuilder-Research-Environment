@@ -12,7 +12,7 @@ public class STDEVPredictor implements Predictor{
 
 	private double sum;
 	private double zeros;
-	private ArrayList<Double> nonZeros = new ArrayList<Double>();
+	private ArrayList<Double> nonZeros;
 	private long len;
 	
 	public String getName() 
@@ -35,7 +35,12 @@ public class STDEVPredictor implements Predictor{
 	}
 
 	public void init(int rows, int cols) 
-	{}
+	{
+		nonZeros = new ArrayList<Double>();
+		sum =0;
+		zeros = 0;
+		len = 0;
+	}
 
 	public double getRes() 
 	{

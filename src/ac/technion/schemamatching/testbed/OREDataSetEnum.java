@@ -35,7 +35,8 @@ public enum OREDataSetEnum
 	NisBUBL(16,"NisB UBL mega schema vs. vendor",null,null,true),
 	NisPO(17,"NisB Purchase Order schemas (XSD)",new XSDImporterUsingXSOM(),new MappingMatchImporter(),true),
 	NisPOBig(18,"NisB Big Purchase Order schemas (XSD)",null,null,true),
-	NisBHungSynthetic(19,"Synthetic schemas based on vendor and ubl (NisBRDF)",null,null,true);
+	NisBHungSynthetic(19,"Synthetic schemas based on vendor and ubl (NisBRDF)",null,null,true),
+	University(20,"University Application Forms",new XSDImporterUsingXSOM(),new MappingMatchImporter(),true);
 	
 	/**
 	 * Get a OREDataSetEnum by it's dataset id in O(n)

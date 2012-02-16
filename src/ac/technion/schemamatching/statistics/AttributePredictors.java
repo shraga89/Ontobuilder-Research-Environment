@@ -6,7 +6,9 @@ package ac.technion.schemamatching.statistics;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import ac.technion.iem.ontobuilder.core.ontology.Term;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
+import ac.technion.iem.ontobuilder.matching.meta.match.MatchMatrix;
 
 /**
  * Calculates various predictions on an attribute vector
@@ -60,6 +62,10 @@ public class AttributePredictors implements Statistic {
 	public boolean init(String instanceDesc, MatchInformation mi) {
 		double[][] mm = mi.getMatchMatrix();
 		if (mm == null || mm.length == 0) return false;
+		//Make Reverse Hash to lookup termID by row / col:
+		HashMap<Integer, Long> candidateIDs = makeReverseHash(mi, true);
+		HashMap<Integer, Long> targetIDs = makeReverseHash(mi, false);
+				
 		//Row Attribute Predictions
 		for (int row =0; row < mm.length; row++)
 		{
@@ -79,9 +85,10 @@ public class AttributePredictors implements Statistic {
 			double stdevp = predictors.get("STDEVPredictor").getRes();
 			double avg = predictors.get("AvgAPredictor").getRes();
 			res [predictors.size()] = Double.toString((avg==0?0.0:stdevp/avg));
-			res[predictors.size()+1] = instanceDesc + "_R" + row;
+			res[predictors.size()+1] = instanceDesc + ",Target," + targetIDs.get(row);
 			data.add(res);
 		}
+		//Col Attribute Predictors
 		for (int col =0; col < mm[0].length; col++)
 		{
 			for (Predictor p : predictors.values())
@@ -100,10 +107,28 @@ public class AttributePredictors implements Statistic {
 			double stdevp = predictors.get("STDEVPredictor").getRes();
 			double avg = predictors.get("AvgAPredictor").getRes();
 			res [predictors.size()] = Double.toString((avg==0?0.0:stdevp/avg));
-			res[predictors.size()+1] = instanceDesc + "_C" + col;
+			res[predictors.size()+1] = instanceDesc + ",Candidate," + candidateIDs.get(col);
 			data.add(res);
 		}
 		return true;
+	}
+
+	/**
+	 * @param mi
+	 * @param candidateIDs
+	 * @return
+	 */
+	private HashMap<Integer, Long> makeReverseHash(MatchInformation mi,boolean candidate) {
+		HashMap<Integer, Long> indexIDs = new HashMap<Integer, Long>();
+		MatchMatrix m = mi.getMatrix();
+		ArrayList<Term> termList = (candidate?m.getCandidateTerms():m.getTargetTerms()) ;
+		for (Term t : termList)
+		{
+			Integer ind = m.getTermIndex(termList, t,candidate);
+			assert (ind!=null); 
+			indexIDs.put(ind, t.getId());
+		}
+		return indexIDs;
 	}
 
 }

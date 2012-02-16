@@ -73,7 +73,7 @@ public class AttributePredictorEnsemble implements MatchingExperiment {
 	}
 
 	public String getDescription() {
-		return "Ensemble using matrix predictors";
+		return "Ensemble using attribute predictors";
 	}
 
 
