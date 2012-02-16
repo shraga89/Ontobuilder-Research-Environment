@@ -22,7 +22,7 @@ public class AMCPath extends AMCTokenPath {
 
 	public AMCPath()
 	{
-		matcher = Arrays.asList(com.sap.research.amc.utils.cli.MatcherType.SIBLING);
+		matcher = Arrays.asList(com.sap.research.amc.utils.cli.MatcherType.PATH);
 		conf = new MatchingConfiguration(matcher);
 	}
 	
