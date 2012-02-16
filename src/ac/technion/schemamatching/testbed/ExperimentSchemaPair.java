@@ -1,6 +1,7 @@
 package ac.technion.schemamatching.testbed;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import technion.iem.schemamatching.dbutils.DBInterface;
@@ -27,14 +28,12 @@ public class ExperimentSchemaPair {
 
 	/**
 	 * Class Constructor. Loads schema pairs, ontologies and exact match if exists
-	 * @param inExpRunner
 	 * @param spid
 	 * @param candidateID
 	 * @param targetID
 	 */
-	public ExperimentSchemaPair(OBExperimentRunner inExpRunner,int spid,int dsid) 
+	public ExperimentSchemaPair(int spid,int dsid) 
 	{
-		parent = inExpRunner;
 		SPID = spid;
 		dsEnum = OREDataSetEnum.getByDbid(dsid);
 		load(); 
@@ -78,7 +77,7 @@ public class ExperimentSchemaPair {
 	  
 	  
 	  String sql = "SELECT CandidateSchema, TargetSchema, DSID, path FROM schemapairs WHERE SPID = " + SPID + ";";
-	  ArrayList<String[]> res = parent.getDB().runSelectQuery(sql, 4);
+	  ArrayList<String[]> res = OBExperimentRunner.getOER().getDB().runSelectQuery(sql, 4);
 	  candidateID = Integer.parseInt(res.get(0)[0]);
 	  targetID = Integer.parseInt(res.get(0)[1]);
 	  int dsid = Integer.parseInt(res.get(0)[2]);
@@ -89,22 +88,22 @@ public class ExperimentSchemaPair {
 	  {
 		//For example: edit.travel.yahoo.com.xml_www.klm.com.xml_EXACT/edit.travel.yahoo.com.xml_www.klm.com.xml_EXACT.xml
 		  String pairFolder = exactMatchPath.split("/")[0];
-		  candPath =  parent.getDsurl() + pairFolder + File.separatorChar + pairFolder.split("_")[0];
-		  targPath =  parent.getDsurl() + pairFolder + File.separatorChar + pairFolder.split("_")[1];
+		  candPath =  OBExperimentRunner.getOER().getDsurl() + pairFolder + File.separatorChar + pairFolder.split("_")[0];
+		  targPath =  OBExperimentRunner.getOER().getDsurl() + pairFolder + File.separatorChar + pairFolder.split("_")[1];
 	  }
 	  else
 	  {
 		  //get target path from db
 		  sql = "SELECT filePath FROM schemata WHERE SchemaID = " + targetID + ";";
-		  res = parent.getDB().runSelectQuery(sql, 1);
+		  res = OBExperimentRunner.getOER().getDB().runSelectQuery(sql, 1);
 		  if (res.isEmpty()) OBExperimentRunner.error("No url recieved from the database for schema no." + Integer.toString(candidateID));
-		  targPath = parent.getDsurl() + res.get(0)[0];
+		  targPath = OBExperimentRunner.getOER().getDsurl() + res.get(0)[0];
 		  //get candidate path from db
 		  sql = "SELECT filePath FROM schemata WHERE SchemaID = " + candidateID + ";";
-		  res = parent.getDB().runSelectQuery(sql, 1);
+		  res = OBExperimentRunner.getOER().getDB().runSelectQuery(sql, 1);
 		  if (res.isEmpty()) OBExperimentRunner.error("No url recieved from the database for schema no." 
 				  + Integer.toString(targetID));
-		  candPath = parent.getDsurl() + res.get(0)[0];
+		  candPath = OBExperimentRunner.getOER().getDsurl() + res.get(0)[0];
 	  }
 	  
 	  //Load target ontology
@@ -124,14 +123,15 @@ public class ExperimentSchemaPair {
       //Load exact match
       try 
       {
-    	  //exactMapping = parent.obw.matchOntologies(candidate, target, MatchingAlgorithms.TERM); 
+    	  //exactMapping = OBExperimentRunner.getOER().obw.matchOntologies(candidate, target, MatchingAlgorithms.TERM); 
     	  //This was wrong!!! Caused the match matrix to be smaller than the original matrix
 
     	  // Replaced with dataset importer 05/10/11
 //    		  exactMapping = new MatchInformation(candidate,target);
-//    		  stExactMapping = SchemaMatchingsUtilities.readXMLBestMatchingFile(parent.getDsurl() + exactMatchPath,exactMapping.getMatrix());
+//    		  stExactMapping = SchemaMatchingsUtilities.readXMLBestMatchingFile(OBExperimentRunner.getOER().getDsurl() + exactMatchPath,exactMapping.getMatrix());
 //    		  ConversionUtils.fillMI(exactMapping,stExactMapping);
-    	  exactMapping = dsEnum.getMatchImp().importMatch(new MatchInformation(candidate,target), new File(parent.getDsurl() + exactMatchPath));
+    	  exactMapping = dsEnum.getMatchImp().importMatch(new MatchInformation(candidate,target), new File(OBExperimentRunner.getOER().getDsurl() + exactMatchPath));
+    	  
     	  }
     	  catch (Exception e) 
     	  {
@@ -152,18 +152,26 @@ public class ExperimentSchemaPair {
   		if (!basicMatrices.containsKey(smid))
   		{
   		 	MatchInformation mi = null;
-			if (!checkIfSchemaPairWasMatched(SPID,smid,parent.getDB()))
+			if (!OBExperimentRunner.getOER().getDoc().checkIfSchemaPairWasMatched(SPID,smid))
   		 	{
 				mi = flm.match(candidate, target, false);
 				assert(mi!=null);
 				//If match information dimensions are reduced, expand them
 				if (mi.getCandidateOntology().getAllTermsCount()>mi.getMatrix().getColCount())
 				{ConversionUtils.fillMI(mi);}
+				//document similarity matrix
+				try {
+					OBExperimentRunner.getOER().getDoc().loadSMtoDB(mi, this, smid);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
   		 	}
   		 	else
-  		 	{mi = DBInterface.createMIfromArrayList(candidate, target, getSimilarityMatrixFromDB(smid,SPID, parent.getDB()));}
+  		 	{mi = DBInterface.createMIfromArrayList(candidate, target, getSimilarityMatrixFromDB(smid,SPID, OBExperimentRunner.getOER().getDB()));}
 			assert(mi!=null);
   		 	basicMatrices.put(smid, mi);
+  		 	
   		}
   		
   		return basicMatrices.get(smid);
@@ -220,7 +228,6 @@ public class ExperimentSchemaPair {
 			return Id;
 	 	}
 
-  private OBExperimentRunner parent;
   private Ontology target;
   private Ontology candidate;
   private int targetID;
@@ -245,24 +252,6 @@ public class ExperimentSchemaPair {
 		String sql = "SELECT `similaritymatrices`.`SMID`,`similaritymatrices`.`CandidateSchemaID` , `similaritymatrices`.`CandidateTermID`, `similaritymatrices`.`TargetSchemaID` , `similaritymatrices`.`TargetTermID` , `similaritymatrices`.`confidence` FROM `schemapairs` INNER JOIN `similaritymatrices` ON (`schemapairs`.`TargetSchema` = `similaritymatrices`.`TargetSchemaID`) AND (`schemapairs`.`CandidateSchema` = `similaritymatrices`.`CandidateSchemaID`) WHERE (`similaritymatrices`.`SMID` = '" + smid + "' AND `schemapairs`.`SPID` = " + spid + ");";
 		res = db.runSelectQuery(sql, 6);
 		return res;
-	}
-	
-	/**
-	 * This method checks if a schema pair was matched before with this matcher 
-	 * and stored in the DB. if so, returns true
-	 * @param schemaPairId Schema Pair ID
-	 * @param smid Similarity Measure ID
-	 * @param db DBInterface to use to check in
-	 * @return boolean 
-	 */
-	private static boolean checkIfSchemaPairWasMatched(int schemaPairId,Integer smid,DBInterface db) {
-		String sql  = "SELECT `similaritymatrices`.`confidence` FROM `schemamatching`.`schemapairs` INNER JOIN `schemamatching`.`similaritymatrices` " +
-        			  " ON (`schemapairs`.`TargetSchema` = `similaritymatrices`.`TargetSchemaID`) AND (`schemapairs`.`CandidateSchema` = `similaritymatrices`.`CandidateSchemaID`) " +
-        			  " WHERE (`similaritymatrices`.`SMID` = " + smid + " AND `schemapairs`.`SPID` = " + schemaPairId + ");"; 
-		ArrayList<String[]> schemaList = db.runSelectQuery(sql, 1);
-		if (!schemaList.isEmpty())
-				return true;
-		return false;
 	}
 	
 	public String toString()

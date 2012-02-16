@@ -39,9 +39,9 @@ public class OBExperimentRunner {
 
 	private static OBExperimentRunner oer;
 	private HashMap<Long,ArrayList<ExperimentSchemaPair>> experimentDatasets = new HashMap<Long,ArrayList<ExperimentSchemaPair>>();
-	private HashMap<Long,ExperimentDocumenter> experimentDocumenters = new HashMap<Long,ExperimentDocumenter>();
-	private String dsurl;
 	protected DBInterface db;
+	private ExperimentDocumenter experimentDocumenter = new ExperimentDocumenter();
+	private String dsurl;
 	protected OntoBuilderWrapper obw;
 	private XmlFileHandler xfh;
 	
@@ -211,6 +211,7 @@ public class OBExperimentRunner {
 		if (dsFolder == null || !dsFolder.isDirectory()) error("Supplied dataset url is invalid or unreachable");
 		obw = new OntoBuilderWrapper();
 		xfh = new XmlFileHandler();
+		experimentDocumenter = new ExperimentDocumenter();
 
 	}
 	
@@ -269,8 +270,8 @@ public class OBExperimentRunner {
 	 * @param eid Experiment ID
 	 * @return ExperimentDocumenter object
 	 */
-	public ExperimentDocumenter getDoc(Long eid) {
-		return experimentDocumenters.get(eid);
+	public ExperimentDocumenter getDoc() {
+		return experimentDocumenter;
 	}
 
 	/**
@@ -320,11 +321,10 @@ public class OBExperimentRunner {
 		ArrayList<String[]> k_Schemapairs =  db.runSelectQuery(sql, 2);
 		for (String[] strPair : k_Schemapairs)
 		{
-			ExperimentSchemaPair schemasExp = new ExperimentSchemaPair(this, Integer.parseInt(strPair[0]),Integer.parseInt(strPair[1]));
+			ExperimentSchemaPair schemasExp = new ExperimentSchemaPair(Integer.parseInt(strPair[0]),Integer.parseInt(strPair[1]));
 			ds.add(schemasExp);
 		}
-		//document the new experiment in to DB 
-		//this.getDoc().writeExperimentsToDB(ds,k_Schemapairs,dsurl); 
+
 		return ds;
 	}
 
@@ -380,10 +380,8 @@ public class OBExperimentRunner {
 	
 	public Long initExperiment(ArrayList<ExperimentSchemaPair> dataset,String desc)
 	{
-		ExperimentDocumenter ed= new ExperimentDocumenter(dataset,desc);
-		Long eid = ed.getEid();
+		long eid = experimentDocumenter.documentExperiment(desc, dataset);
 		experimentDatasets.put(eid, dataset);
-		experimentDocumenters.put(eid, ed);
 		return eid;
 	}
 	

@@ -42,15 +42,15 @@ public class AttributePredictorEvaluation implements MatchingExperiment {
 			p.init(instanceDesc, mi);
 			predictions.add(p);
 			//Calculate NBprecision, NBrecall
-			K2Statistic  nb = new AttributeNBGolden();
-			nb.init(instanceDesc, mi,esp.getExact());
-			evaluations.add(nb);
-			//Precision Recall
-			MatchInformation matchSelected = SLMList.OBSM.getSLM().match(mi);
-			K2Statistic b = new BinaryGolden();
-			b.init(instanceDesc, matchSelected,esp.getExact());
-			evaluations.add(b);
-			
+//			K2Statistic  nb = new AttributeNBGolden();
+//			nb.init(instanceDesc, mi,esp.getExact());
+//			evaluations.add(nb);
+//			//Precision Recall
+//			MatchInformation matchSelected = SLMList.OBSM.getSLM().match(mi);
+//			K2Statistic b = new BinaryGolden();
+//			b.init(instanceDesc, matchSelected,esp.getExact());
+//			evaluations.add(b);
+//			
 		}
 		predictions.addAll(evaluations);
 		return predictions;
