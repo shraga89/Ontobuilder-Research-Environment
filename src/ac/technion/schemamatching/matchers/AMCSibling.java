@@ -17,9 +17,6 @@ import com.sap.research.amc.utils.cli.MatchingConfiguration;
  */
 public class AMCSibling extends AMCTokenPath {
 
-	protected Collection<MatcherType> matcher;
-	protected MatchingConfiguration conf;
-
 	public AMCSibling()
 	{
 		matcher = Arrays.asList(com.sap.research.amc.utils.cli.MatcherType.SIBLING);
@@ -30,7 +27,7 @@ public class AMCSibling extends AMCTokenPath {
 	 * @see ac.technion.schemamatching.matchers.FirstLineMatcher#getName()
 	 */
 	public String getName() {
-		return "AMC Path";
+		return "AMC Sibling";
 	}
 
 	/* (non-Javadoc)

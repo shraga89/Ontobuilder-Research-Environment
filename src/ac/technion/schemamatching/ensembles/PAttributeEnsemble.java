@@ -115,7 +115,7 @@ public class PAttributeEnsemble implements Ensemble {
 					MatchMatrix mm = mi.getMatrix(); 
 					double conf = mm.getMatchConfidence(c, t);
 					double p = predict(new Match(t,c,conf) ,mm);
-					e+=p*conf;
+					if (p>0) e+=p*conf;
 				}
 					
 				res.getMatrix().setMatchConfidence(c, t, e/matches.size());

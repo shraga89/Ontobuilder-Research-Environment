@@ -17,9 +17,6 @@ import com.sap.research.amc.utils.cli.MatchingConfiguration;
  */
 public class AMCPath extends AMCTokenPath {
 
-	protected Collection<MatcherType> matcher;
-	protected MatchingConfiguration conf;
-
 	public AMCPath()
 	{
 		matcher = Arrays.asList(com.sap.research.amc.utils.cli.MatcherType.PATH);
@@ -30,7 +27,7 @@ public class AMCPath extends AMCTokenPath {
 	 * @see ac.technion.schemamatching.matchers.FirstLineMatcher#getName()
 	 */
 	public String getName() {
-		return "AMC Sibling";
+		return "AMC Path";
 	}
 
 	/* (non-Javadoc)
@@ -44,7 +41,7 @@ public class AMCPath extends AMCTokenPath {
 	 * @see ac.technion.schemamatching.matchers.FirstLineMatcher#match(com.modica.ontology.Ontology, com.modica.ontology.Ontology, boolean)
 	 */
 	public MatchInformation match(Ontology candidate, Ontology target, boolean binary) {
-		return super.match(candidate,target,binary);
+		return super.match(candidate,target,true);
 	}
 
 	/* (non-Javadoc)

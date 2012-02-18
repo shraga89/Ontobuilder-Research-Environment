@@ -67,7 +67,8 @@ public class MatrixPredictorEnsemble implements MatchingExperiment {
 				
 			}
 			res.add(mv);
-			matcherWeights.put(mName, weightedSumOfPrediction/numPredictors);
+			if (weightedSumOfPrediction>0) 
+				matcherWeights.put(mName, weightedSumOfPrediction);
 		}
 		
 		//Create ensemble
