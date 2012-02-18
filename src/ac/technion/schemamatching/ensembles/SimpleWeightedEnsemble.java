@@ -119,7 +119,7 @@ public class SimpleWeightedEnsemble implements Ensemble {
 		
 		//init matches
 		if (matches == null || matches.isEmpty()) return false;
-		this.matches = matches;
+		this.matches = new HashMap<String, MatchInformation>();
 		MatchInformation someMI = (MatchInformation)matches.values().toArray()[0];
 		res = new MatchInformation(someMI.getCandidateOntology(),someMI.getTargetOntology());
 		
@@ -127,7 +127,7 @@ public class SimpleWeightedEnsemble implements Ensemble {
 		for (String m : matches.keySet())
 		{
 			try {
-				matches.put(m,ConversionUtils.expandMatrix(matches.get(m), res));
+				this.matches.put(m,ConversionUtils.expandMatrix(matches.get(m), res));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

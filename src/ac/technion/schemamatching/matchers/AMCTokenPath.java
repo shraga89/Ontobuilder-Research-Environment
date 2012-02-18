@@ -40,6 +40,7 @@ public class AMCTokenPath implements FirstLineMatcher {
 	{
 		matcher = Arrays.asList(com.sap.research.amc.utils.cli.MatcherType.TOKENPATH);
 		conf = new MatchingConfiguration(matcher);
+		conf.setThreshold(0.1f);
 	}
 	
 	/* (non-Javadoc)
@@ -77,7 +78,10 @@ public class AMCTokenPath implements FirstLineMatcher {
 				for (Attribute l : c.getLeftAttributes())
 					for (Attribute r : c.getRightAttributes())
 						{
-							res.addMatch(target.getTermByID(targMap.inverse().get(r.getUri())),candidate.getTermByID(candMap.inverse().get(l.getUri())) , c.getQuality());
+							Term t = target.getTermByID(targMap.inverse().get(r.getUri()));
+							Term tc = candidate.getTermByID(candMap.inverse().get(l.getUri()));
+							res.addMatch(t, tc , c.getQuality());
+							mm.setMatchConfidence(tc, t, c.getQuality());
 						}
 		}
 		else
@@ -90,7 +94,7 @@ public class AMCTokenPath implements FirstLineMatcher {
 					Term t = target.getTermByID(targMap.inverse().get(trgAtt.getUri()));
 					Term c = candidate.getTermByID(candMap.inverse().get(srcAtt.getUri()));
 					double confidence =  mat.getSimilarity(srcAtt, trgAtt);
-					if (confidence > 0.0)
+					if (confidence > 0.1)
 					{
 						res.addMatch(t, c,confidence );
 						mm.setMatchConfidence(c, t, confidence);
