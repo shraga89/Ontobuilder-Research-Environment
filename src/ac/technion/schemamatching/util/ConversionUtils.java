@@ -10,8 +10,6 @@ import java.util.Set;
 
 import smb_service.Schema;
 import smb_service.SimilarityMatrix;
-
-
 import ac.technion.iem.ontobuilder.core.ontology.Ontology;
 import ac.technion.iem.ontobuilder.core.ontology.Term;
 import ac.technion.iem.ontobuilder.matching.match.Match;
@@ -21,6 +19,7 @@ import ac.technion.iem.ontobuilder.matching.meta.match.MatchedAttributePair;
 import ac.technion.iem.ontobuilder.matching.utils.SchemaTranslator;
 
 import com.google.common.collect.HashBiMap;
+
 import eu.nisb.project.graph.NisbGraph;
 import eu.nisb.project.objects.Attribute;
 import eu.nisb.project.objects.Concept;
@@ -207,7 +206,19 @@ public class ConversionUtils {
 		for (Match m : mi.getMatches())
 			mm.setMatchConfidence(m.getCandidateTerm(), m.getTargetTerm(), m.getEffectiveness());
 	}
-	
+
+	/**
+	 * Updates match matrix. Sets all entries with weight below threshold to 0 
+	 * @param mi
+	 */
+	public static void zeroWeightsByThreshold(MatchInformation mi, double threshold)
+	{
+		for (int i = 0; i < mi.getMatchMatrix().length; i++) 
+			for (int j = 0; j < mi.getMatchMatrix()[i].length; j++) 
+				if (mi.getMatchMatrix()[i][j] < threshold)
+					mi.getMatchMatrix()[i][j] = 0;
+	}
+
 	/**
 	 * Converts from an Ontology to the Schema format specified in @link{SMB}
 	 * @param o
