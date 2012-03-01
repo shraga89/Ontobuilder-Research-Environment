@@ -13,6 +13,7 @@ import ac.technion.iem.ontobuilder.matching.wrapper.OntoBuilderWrapper;
 
 
 public class TestTermId {
+	@SuppressWarnings("deprecation")
 	public static void main(String[] args) throws Exception
 	{
 		OntoBuilderWrapper obw = new OntoBuilderWrapper();

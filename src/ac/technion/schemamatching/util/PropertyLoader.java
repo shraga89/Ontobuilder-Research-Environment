@@ -70,7 +70,7 @@ abstract class PropertyLoader
                     Locale.getDefault (), loader);
                 
                 result = new Properties ();
-                for (Enumeration keys = rb.getKeys (); keys.hasMoreElements ();)
+                for (Enumeration<?> keys = rb.getKeys (); keys.hasMoreElements ();)
                 {
                     final String key = (String) keys.nextElement ();
                     final String value = rb.getString (key);
