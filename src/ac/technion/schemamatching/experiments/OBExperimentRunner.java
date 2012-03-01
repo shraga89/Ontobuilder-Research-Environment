@@ -155,7 +155,7 @@ public class OBExperimentRunner {
 
 	/**
 	 * Receives a parameter string 
-	 * @param flmCodes assumed to contain a comma seperated list of first line matcher codes
+	 * @param flmCodes assumed to contain a comma separated list of first line matcher codes
 	 * @return list of FLM found to match codes given
 	 */
 	private static ArrayList<FirstLineMatcher> parseFLMids(String flmCodes) {

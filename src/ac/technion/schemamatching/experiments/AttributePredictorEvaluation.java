@@ -5,12 +5,8 @@ import java.util.Properties;
 
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 import ac.technion.schemamatching.matchers.FirstLineMatcher;
-import ac.technion.schemamatching.matchers.SLMList;
 import ac.technion.schemamatching.matchers.SecondLineMatcher;
-import ac.technion.schemamatching.statistics.AttributeNBGolden;
 import ac.technion.schemamatching.statistics.AttributePredictors;
-import ac.technion.schemamatching.statistics.BinaryGolden;
-import ac.technion.schemamatching.statistics.K2Statistic;
 import ac.technion.schemamatching.statistics.Statistic;
 import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
 

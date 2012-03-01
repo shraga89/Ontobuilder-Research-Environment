@@ -4,10 +4,8 @@
 package ac.technion.schemamatching.matchers;
 
 import java.util.Arrays;
-import java.util.Collection;
 import ac.technion.iem.ontobuilder.core.ontology.Ontology;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
-import com.sap.research.amc.utils.cli.MatcherType;
 import com.sap.research.amc.utils.cli.MatchingConfiguration;
 
 /**
