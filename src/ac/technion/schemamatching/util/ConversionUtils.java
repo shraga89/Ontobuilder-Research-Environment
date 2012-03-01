@@ -255,4 +255,20 @@ public class ConversionUtils {
 		
 		return res;
 	}
+
+	/**
+	 * Restores confidence values in matches res from values in mi
+	 * Used to fix 2LM which set confidence values to 1
+	 * @param res
+	 * @param mi
+	 */
+	public static void restoreConfidence(MatchInformation res,
+			MatchInformation mi) {
+		for (Match m: res.getMatches())
+		{
+			double conf = mi.getMatchConfidence(m.getTargetTerm(), m.getCandidateTerm());
+			m.setEffectiveness((conf==0.0?1:conf));
+		}
+		
+	}
 }

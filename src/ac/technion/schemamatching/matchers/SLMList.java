@@ -12,7 +12,7 @@ import java.util.HashMap;
  */
 public enum SLMList {OBMWBG(new OBmwbg()),OBSM(new OBStableMarriage()),
 	OBDom(new OBDominants()),OBIntersection(new OBIntersection()),
-	OBUnion(new OBUnion()),OBThreshold025(new OBThreshold(0.25));
+	OBUnion(new OBUnion()),OBThreshold015(new OBThreshold(0.15)),OBThreshold025(new OBThreshold(0.25)),OBThreshold050(new OBThreshold(0.50)),OBThreshold075(new OBThreshold(0.75));
 
 private SLMList(SecondLineMatcher slm)
 {

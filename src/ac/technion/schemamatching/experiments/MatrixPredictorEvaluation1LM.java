@@ -20,7 +20,7 @@ import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
  * @author Tomer Sagi
  *
  */
-public class MatrixPredictorEvaluation implements MatchingExperiment {
+public class MatrixPredictorEvaluation1LM implements MatchingExperiment {
 	private ArrayList<FirstLineMatcher> flM;
 
 	/*
@@ -34,29 +34,21 @@ public class MatrixPredictorEvaluation implements MatchingExperiment {
 		for (FirstLineMatcher m : flM)
 		{
 			//Match
-			MatchInformation mi = m.match(esp.getCandidateOntology(), esp.getTargetOntology(), false);
-			MatchInformation mi1 = SLMList.OBThreshold015.getSLM().match(mi);
-			//SecondLineMatches.put("T015," + flmName , mi1);
+			MatchInformation mi = esp.getSimilarityMatrix(m);
 			// Calculate predictors
 			Statistic  p = new MatrixPredictors();
-			String instanceDesc = esp.getSPID()+","+m.getName()+","+"T015";
-			p.init(instanceDesc, mi1);
+			String instanceDesc = esp.getSPID()+"_"+m.getName()+"_"+m.getConfig();
+			p.init(instanceDesc, mi);
 			predictions.add(p);
+			//Calculate NBprecision, NBrecall
+			K2Statistic  nb = new NBGolden();
+			nb.init(instanceDesc, mi,esp.getExact());
+			evaluations.add(nb);
 			//Precision Recall
+			MatchInformation matchSelected = SLMList.OBSM.getSLM().match(mi);
 			K2Statistic b = new BinaryGolden();
-			b.init(instanceDesc, mi1,esp.getExact());
+			b.init(instanceDesc, matchSelected,esp.getExact());
 			evaluations.add(b);
-			//Additional 2LM
-			MatchInformation mi2 = SLMList.OBThreshold075.getSLM().match(mi);
-			Statistic  p2 = new MatrixPredictors();
-			instanceDesc = esp.getSPID()+","+m.getName()+","+"T075";
-			p2.init(instanceDesc, mi2);
-			predictions.add(p2);
-			//Precision Recall
-			K2Statistic b2 = new BinaryGolden();
-			b2.init(instanceDesc, mi2,esp.getExact());
-			evaluations.add(b2);
-			
 		}
 		predictions.addAll(evaluations);
 		return predictions;
