@@ -100,14 +100,14 @@ public class TuneTermExperiment implements MatchingExperiment
 //			bg.init(instanceDescription + ",mwbg", mwbg,esp.getExact());
 //			res.add(bg);
 			
-			//2ndLine match using SM
-			OBStableMarriage sm = new OBStableMarriage(); 
-			MatchInformation mi4 = sm.match(mi);
-			
-			//Generate binary statistics
-			BinaryGolden bg = new BinaryGolden();
-			bg.init(instanceDescription + ",sm", mi4,esp.getExact());
-			res.add(bg);
+//			//2ndLine match using SM
+//			OBStableMarriage sm = new OBStableMarriage(); 
+//			MatchInformation mi4 = sm.match(mi);
+//			
+//			//Generate binary statistics
+//			BinaryGolden bg = new BinaryGolden();
+//			bg.init(instanceDescription + ",sm", mi4,esp.getExact());
+//			res.add(bg);
 			
 			}
 		//}
