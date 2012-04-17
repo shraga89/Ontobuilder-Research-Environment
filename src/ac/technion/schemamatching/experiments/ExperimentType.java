@@ -10,7 +10,8 @@ package ac.technion.schemamatching.experiments;
  */
 public enum ExperimentType 
 {
-	Clarity(new ClarityExperiment()),MatrixPredictEval(new MatrixPredictorEvaluation()),Boosting(new BoostingExperiment())
+	SimpleMatch(new SimpleMatchExperiment())
+	,Clarity(new ClarityExperiment()),MatrixPredictEval(new MatrixPredictorEvaluation()),Boosting(new BoostingExperiment())
 	,TuneTerm(new TuneTermExperiment()), StaticEnsemble(new StaticEnsemble())
 	,EntryPredictEval(new EntryPredictionEvaluation()), AttributePredictEval(new AttributePredictorEvaluation())
 	,MatrixPredictorEnsemble(new MatrixPredictorEnsemble()),AttributePredictorEnsemble(new AttributePredictorEnsemble())
