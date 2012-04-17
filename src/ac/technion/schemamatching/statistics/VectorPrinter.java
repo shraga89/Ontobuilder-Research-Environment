@@ -5,6 +5,7 @@ package ac.technion.schemamatching.statistics;
 
 import java.util.ArrayList;
 
+import ac.technion.iem.ontobuilder.core.ontology.Term;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 import ac.technion.iem.ontobuilder.matching.meta.match.MatchMatrix;
 import ac.technion.schemamatching.util.ConversionUtils;
@@ -38,15 +39,16 @@ public class VectorPrinter implements K2Statistic{
 	public boolean init(String instanceDescription, MatchInformation mi,
 			MatchInformation exactMatch) {
 		MatchMatrix exactM = exactMatch.getMatrix();
-		int vLen = exactM.getRowCount()*exactM.getColCount();
+		//int vLen = exactM.getRowCount()*exactM.getColCount();
+		int vLen = exactM.getColCount();
 		
 		//Create Header
-		header = new String[vLen+1];
-		header[vLen] = "instance";
+		header = new String[vLen+2];
+		header[0] = "instance";
 		
-		//Create Data Row
+		//Create Data list
 		data = new ArrayList<String[]>();
-		String[] v = new String[vLen+1];
+		
 		if (mi.getMatchMatrix().length<=exactMatch.getMatchMatrix().length)
 			try {
 				mi = ConversionUtils.expandMatrix(mi,exactMatch);
@@ -54,19 +56,28 @@ public class VectorPrinter implements K2Statistic{
 				e.printStackTrace();
 			}
 		
-		//Fill header and data
-		int k=0;
-		for (int i = 0;i<exactM.getRowCount();i++)
-			for (int j = 0;j<exactM.getColCount();j++)
+		//Fill header : [instanceName, TargetTerm, CandidateTerm1.provenance,...,CandidateTermN.provenance] 
+		
+		for (Term c : exactM.getCandidateTerms())
+		{
+			header[1] = "TargetTerm";
+			int tID = exactM.getTermIndex(exactM.getCandidateTerms(), c, true);
+			header[tID+2] = c.getProvenance();
+		}
+		
+		//Fill data
+		for (Term t : exactM.getTargetTerms())
+		{
+		String[] v = new String[vLen+2];
+		v[0] = instanceDescription;
+		v[1] = t.getProvenance();
+			for (Term c : exactM.getCandidateTerms())
 				{
-					v[k] = Double.toString(mi.getMatrix().getMatchConfidenceAt(i,j));
-					header[k++] = "R" + Integer.toString(i) + "C" + Integer.toString(j);
-					
+					v[2+exactM.getTermIndex(exactM.getCandidateTerms(), c, true)] = Double.toString(mi.getMatrix().getMatchConfidence(c,t));
 				}
+			data.add(v);
+		}
 		
-		
-		v[vLen] = instanceDescription;
-		data.add(v);
 		return true;
 	}
 
