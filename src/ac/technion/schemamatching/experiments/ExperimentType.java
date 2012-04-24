@@ -19,7 +19,7 @@ public enum ExperimentType
 	,EntryPredictorEnsemble(new EntryPredictorEnsemble())
 	,ROCCurve(new ROCExperiment())
 	,TopKClustering(new TopKClustering())
-	,VectorPrinting(new VectorPrinting()));
+	,VectorPrinting(new VectorPrinting());
 	
 	private ExperimentType(MatchingExperiment e)
 	{
