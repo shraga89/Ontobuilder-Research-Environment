@@ -1,10 +1,6 @@
 package ac.technion.schemamatching.test;
 
 import ac.technion.iem.ontobuilder.matching.meta.match.MatchedAttributePair;
-/*
-This objects wrappes a matched pair and adds data to it as is needed to be collected
-for an experiment.
-*/
 
 public class MatchedPairData {
   protected String attribute1 ;

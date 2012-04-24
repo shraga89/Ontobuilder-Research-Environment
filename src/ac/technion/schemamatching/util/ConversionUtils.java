@@ -208,15 +208,24 @@ public class ConversionUtils {
 	}
 
 	/**
-	 * Updates match matrix. Sets all entries with weight below threshold to 0 
+	 * Updates the match information object. Sets all entries in the match
+	 * matrix with weight below threshold to 0 and removes the according matches.
 	 * @param mi
+	 * @param threshold 
 	 */
-	public static void zeroWeightsByThreshold(MatchInformation mi, double threshold)
+	public static void zeroWeightsByThresholdAndRemoveMatches(MatchInformation mi, double threshold)
 	{
 		for (int i = 0; i < mi.getMatchMatrix().length; i++) 
 			for (int j = 0; j < mi.getMatchMatrix()[i].length; j++) 
 				if (mi.getMatchMatrix()[i][j] < threshold)
 					mi.getMatchMatrix()[i][j] = 0;
+		
+		Set<Match> toRemove = new HashSet<Match>();
+		for (Match m : mi.getMatches()) 
+			if (m.getEffectiveness() < threshold)
+				toRemove.add(m);
+		
+		mi.getMatches().removeAll(toRemove);
 	}
 
 	/**

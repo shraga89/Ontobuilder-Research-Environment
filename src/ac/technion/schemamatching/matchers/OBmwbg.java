@@ -25,10 +25,12 @@ public class OBmwbg implements SecondLineMatcher {
 	 * @see ac.technion.schemamatching.matchers.SecondLineMatcher#match(ac.technion.iem.ontobuilder.matching.match.MatchInformation)
 	 */
 	public MatchInformation match(MatchInformation mi) {
-		BestMappingsWrapper.matchMatrix = mi.getMatrix();	
+		MatchInformation mwbg = new MatchInformation(mi.getCandidateOntology(),mi.getTargetOntology());
+		mwbg.setMatrix(mi.getMatrix());
+		ConversionUtils.zeroWeightsByThresholdAndRemoveMatches(mwbg, 0.01);
+		BestMappingsWrapper.matchMatrix = mwbg.getMatrix();	
 		SchemaTranslator st = BestMappingsWrapper.GetBestMapping("Max Weighted Bipartite Graph");
 		assert (st!=null);
-		MatchInformation mwbg = new MatchInformation(mi.getCandidateOntology(),mi.getTargetOntology());
 		mwbg.setMatches(st.toOntoBuilderMatchList(mwbg.getMatrix()));
 		ConversionUtils.zeroNonMatched(mwbg);
 		return mwbg;

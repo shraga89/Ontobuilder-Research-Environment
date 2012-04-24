@@ -7,7 +7,6 @@ import java.util.HashSet;
 import ac.technion.iem.ontobuilder.core.ontology.Ontology;
 import ac.technion.iem.ontobuilder.matching.meta.match.MatchedAttributePair;
 import ac.technion.iem.ontobuilder.matching.utils.SchemaTranslator;
-import ac.technion.schemamatching.util.RandomMatchingProblemInstance;
 
 
 public class RandomMatchingProblemGenerator {
@@ -42,7 +41,7 @@ public class RandomMatchingProblemGenerator {
 			if (chosenIndexs.contains(new Integer(index))){
 				continue;
 			}else{
-				chosenPairs[i] = new MatchedAttributePair(pairs[index].getAttribute1(),pairs[index].getAttribute2(),1.0);
+				chosenPairs[i] = new MatchedAttributePair(pairs[index].getAttribute1(),pairs[index].getAttribute2(),1.0,pairs[index].getId1(),pairs[index].getId2());
 				chosenIndexs.add(new Integer(index));
 				i++;
 			}
