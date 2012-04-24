@@ -51,7 +51,7 @@ public class OBExperimentRunner {
 	 * @param args[1] output path
 	 * @param args[2] Experiment Type compared against enum ExperimentType
 	 * @param args[3] K - number of experiments schema pairs
-	 * @param args[4] schema pair ID Set ( e.g. 1,2,3  or 1 )  (ignored unless K is greater than 0 )
+	 * @param args[4] schema pair ID Set ( e.g. 1,2,3  or 1 )  (ignored if K <> 0)
 	 * @param args[5] datasetID (for random K)
 	 * @param args[6] -d:domainCodes - (optional) string in the following format "2,3,4,2" (without the Quotation mark)
 	 * or -flm:First Line Matcher Codes or -p:properties file used to configure the experiment
@@ -60,13 +60,18 @@ public class OBExperimentRunner {
 	public static void main(String[] args) 
 	{
 		//Section Intended for Testing purposes
-		//args = new String[6];
-		//args[0]="cmd";
-		//args[1]="c:\\";
-		//args[2]="ROCCurve";
-		//args[3]="0";
-		//args[4]="1,2,3,4,5,6,7,8,9,10";
-		//args[5]="1";
+		args = new String[7];
+		args[0]="cmd";
+		args[1]="c:\\Users\\matthias\\Documents\\workspace\\output";
+		args[2]="TopKClustering";
+		args[3]="0";
+		args[4]="600,601,602,603,604";
+		//383
+		//592,593,595,596,597,598,599
+		//600,601,602,603,604
+		//592,593,595,596,597,598,599,600,601,602,603,604,632
+		args[5]="20";
+		args[6]=" p mWeights.properties";
 		
 				
 		

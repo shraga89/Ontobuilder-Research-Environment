@@ -18,8 +18,8 @@ public class AnanExample {
 	  public static void main(String args[]) {
 	    try{
 	    	
-	      String[] rightNames = {"a1","b1","c1"};
-	  	  String[] leftNames = {"a2","b2","c2"};
+	      long[] rightNames = {11,12,13};
+	  	  long[] leftNames = {21,22,23};
 	  	  double[][] adjMatrix = {{0.1,0.3,0.6},
 	  	                          {0.2,0.1,0.5},
 	  	                          {0.4,0.5,0.8}};

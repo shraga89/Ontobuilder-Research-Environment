@@ -5,8 +5,8 @@ import ac.technion.iem.ontobuilder.matching.utils.SchemaTranslator;
 
 public class Testing {
 
-  static String[] rightNames = {"a","b","c"};
-  static String[] leftNames = {"1","2","3"};
+  long[] rightNames = {11,12,13};
+  long[] leftNames = {21,22,23};
   double[][] adjMatrix = {{0.1,0.3,0.6},
                           {0.2,0.9,0.5},
                           {0.4,0.5,0.8}};

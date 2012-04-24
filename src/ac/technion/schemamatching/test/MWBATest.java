@@ -27,14 +27,14 @@ public class MWBATest {
         
         double[][] adjMatrix = new double[lSize+rSize][lSize+rSize];
         //labels for left vertexes
-        ArrayList<String> leftVertexNames = new ArrayList<String>();
+        ArrayList<Long> leftVertexNames = new ArrayList<Long>();
         //labels for right vertexes
-        ArrayList<String> rightVertexNames = new ArrayList<String>();
+        ArrayList<Long> rightVertexNames = new ArrayList<Long>();
         
         //init graph
-        for (int i=0;i<lSize;i++) {
-            leftVertexNames.add(Integer.toString(i));
-            rightVertexNames.add(Integer.toString(i));         
+        for (long i=0;i<lSize;i++) {
+            leftVertexNames.add(i);
+            rightVertexNames.add(i);         
         }
         //generate randow bipartite graph
         for (int i=0;i<lSize;i++)
