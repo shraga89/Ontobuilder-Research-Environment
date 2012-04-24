@@ -41,7 +41,8 @@ public class WeightsTest {
       term_value.configureAlgorithmsWeights(algorithmsWeights1);
 
       //new match version
-      MatchInformation match1 = term_value.match(candidate,target);
+      @SuppressWarnings("unused")
+	MatchInformation match1 = term_value.match(candidate,target);
 
       CombinedAlgorithm combined = (CombinedAlgorithm)ob.loadMatchAlgorithm(MatchingAlgorithmsNamesEnum.TERM_VALUE_PRECEDENCE_COMPOSITION_COMBINED);
       double[]  algorithmsWeights2 = {0.25,0.25,0.25,0.25};
@@ -49,7 +50,8 @@ public class WeightsTest {
       combined.configureAlgorithmsWeights(algorithmsWeights2);
 
       //new match version
-      MatchInformation match2 = combined.match(candidate,target);
+      @SuppressWarnings("unused")
+	MatchInformation match2 = combined.match(candidate,target);
 
     }catch(Exception e){
       e.printStackTrace();

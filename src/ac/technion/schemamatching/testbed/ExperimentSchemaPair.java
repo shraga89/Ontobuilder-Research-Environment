@@ -86,10 +86,10 @@ public class ExperimentSchemaPair {
 	  //For ontobuilder webform dataset (DSID ==1) the path of the schemas is parsed from the path of the exact match
 	  if (dsid==1)
 	  {
-		//For example: edit.travel.yahoo.com.xml_www.klm.com.xml_EXACT/edit.travel.yahoo.com.xml_www.klm.com.xml_EXACT.xml
-		  String pairFolder = exactMatchPath.split("/")[0];
-		  candPath =  OBExperimentRunner.getOER().getDsurl() + pairFolder + File.separatorChar + pairFolder.split("_")[0];
-		  targPath =  OBExperimentRunner.getOER().getDsurl() + pairFolder + File.separatorChar + pairFolder.split("_")[1];
+		//For example: WebForm/edit.travel.yahoo.com.xml_www.klm.com.xml_EXACT/edit.travel.yahoo.com.xml_www.klm.com.xml_EXACT.xml
+		  String pairFolder = exactMatchPath.split("/")[1];
+		  candPath =  OBExperimentRunner.getOER().getDsurl() + exactMatchPath.split("/")[0] +  File.separatorChar + pairFolder + File.separatorChar + pairFolder.split("_")[0];
+		  targPath =  OBExperimentRunner.getOER().getDsurl() + exactMatchPath.split("/")[0] +  File.separatorChar + pairFolder + File.separatorChar + pairFolder.split("_")[1];;
 	  }
 	  else
 	  {

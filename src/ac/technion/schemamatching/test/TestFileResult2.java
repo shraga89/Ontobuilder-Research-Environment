@@ -2,11 +2,13 @@ package ac.technion.schemamatching.test;
 
 import java.util.Vector;
 
+import ac.technion.iem.ontobuilder.matching.meta.match.MatchedAttributePair;
+
 public class TestFileResult2 {
-  private Vector correctAttributeMappings,incorrectAttributeMappings;
+  private Vector<MatchedAttributePair> correctAttributeMappings,incorrectAttributeMappings;
   private int totalKs,totalCorrectMappings ;
 
-  public TestFileResult2(Vector correctAttributeMappings,Vector incorrectAttributeMappings,
+  public TestFileResult2(Vector<MatchedAttributePair> correctAttributeMappings,Vector<MatchedAttributePair> incorrectAttributeMappings,
                          int totalKs,int totalCorrectMappings) {
     this.correctAttributeMappings = correctAttributeMappings ;
     this.incorrectAttributeMappings = incorrectAttributeMappings ;

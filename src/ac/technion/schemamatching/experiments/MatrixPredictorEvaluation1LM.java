@@ -5,8 +5,12 @@ import java.util.Properties;
 
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 import ac.technion.schemamatching.matchers.FirstLineMatcher;
+import ac.technion.schemamatching.matchers.SLMList;
 import ac.technion.schemamatching.matchers.SecondLineMatcher;
-import ac.technion.schemamatching.statistics.AttributePredictors;
+import ac.technion.schemamatching.statistics.BinaryGolden;
+import ac.technion.schemamatching.statistics.K2Statistic;
+import ac.technion.schemamatching.statistics.MatrixPredictors;
+import ac.technion.schemamatching.statistics.NBGolden;
 import ac.technion.schemamatching.statistics.Statistic;
 import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
 
@@ -16,7 +20,7 @@ import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
  * @author Tomer Sagi
  *
  */
-public class AttributePredictorEvaluation implements MatchingExperiment {
+public class MatrixPredictorEvaluation1LM implements MatchingExperiment {
 	private ArrayList<FirstLineMatcher> flM;
 
 	/*
@@ -25,28 +29,26 @@ public class AttributePredictorEvaluation implements MatchingExperiment {
 	 */
 	public ArrayList<Statistic> runExperiment(ExperimentSchemaPair esp) {
 		// Using all 1st line matchers 
-		ArrayList<Statistic> predictions =  new ArrayList<Statistic>();
+		ArrayList<Statistic> predictions = new ArrayList<Statistic>();
 		ArrayList<Statistic> evaluations = new ArrayList<Statistic>();
 		for (FirstLineMatcher m : flM)
 		{
 			//Match
 			MatchInformation mi = esp.getSimilarityMatrix(m);
-			
 			// Calculate predictors
-			Statistic  p = new AttributePredictors();
-			String instanceDesc = esp.getSPID() + "_"+m.getName()+"_"+m.getConfig();
+			Statistic  p = new MatrixPredictors();
+			String instanceDesc = esp.getSPID()+"_"+m.getName()+"_"+m.getConfig();
 			p.init(instanceDesc, mi);
 			predictions.add(p);
 			//Calculate NBprecision, NBrecall
-//			K2Statistic  nb = new AttributeNBGolden();
-//			nb.init(instanceDesc, mi,esp.getExact());
-//			evaluations.add(nb);
-//			//Precision Recall
-//			MatchInformation matchSelected = SLMList.OBSM.getSLM().match(mi);
-//			K2Statistic b = new BinaryGolden();
-//			b.init(instanceDesc, matchSelected,esp.getExact());
-//			evaluations.add(b);
-//			
+			K2Statistic  nb = new NBGolden();
+			nb.init(instanceDesc, mi,esp.getExact());
+			evaluations.add(nb);
+			//Precision Recall
+			MatchInformation matchSelected = SLMList.OBSM.getSLM().match(mi);
+			K2Statistic b = new BinaryGolden();
+			b.init(instanceDesc, matchSelected,esp.getExact());
+			evaluations.add(b);
 		}
 		predictions.addAll(evaluations);
 		return predictions;
@@ -68,7 +70,7 @@ public class AttributePredictorEvaluation implements MatchingExperiment {
 	public String getDescription() {
 		return "Matrix Predictor Evaluation";
 	}
-
+	
 	public ArrayList<Statistic> summaryStatistics() {
 		//unused
 		return null;
