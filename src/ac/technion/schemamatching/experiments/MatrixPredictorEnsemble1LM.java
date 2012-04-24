@@ -13,11 +13,12 @@ import ac.technion.schemamatching.matchers.SecondLineMatcher;
 import ac.technion.schemamatching.statistics.BinaryGolden;
 import ac.technion.schemamatching.statistics.K2Statistic;
 import ac.technion.schemamatching.statistics.MatrixPredictors;
+import ac.technion.schemamatching.statistics.NBGolden;
 import ac.technion.schemamatching.statistics.Statistic;
 import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
 
 /**
- * Uses values of matrix predictors to ensemble 1st and second line matcher configs 
+ * Uses values of matrix predictors to ensemble 1st line matchers and second line matchers. 
  * Assumes it recieves a properties file with predictor weights in the following format: 
  * PredictorName = 0.2
  * Note that predictor name should match the result of the getName() method in the corresponding 
@@ -25,7 +26,7 @@ import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
  * @author Tomer Sagi
  *
  */
-public class MatrixPredictorEnsemble implements MatchingExperiment {
+public class MatrixPredictorEnsemble1LM implements MatchingExperiment {
 	
 	private HashMap<String,Double> predictorWeights = new HashMap<String,Double>();
 	private ArrayList<FirstLineMatcher> flM;
@@ -38,33 +39,23 @@ public class MatrixPredictorEnsemble implements MatchingExperiment {
 		for (FirstLineMatcher f : flM)
 			flMatches.put(f.getName(),f.match(esp.getCandidateOntology(), esp.getTargetOntology(), false));
 		
-		//Match Select using 3 2LMs and calculate Precision and Recall
-		HashMap<String,MatchInformation> SecondLineMatches = new HashMap<String,MatchInformation>();
-		for (String flmName : flMatches.keySet())
+		//Calculate unEnsembled results
+		for (String f : flMatches.keySet())
 		{
-			MatchInformation tmpMI = flMatches.get(flmName);
-			MatchInformation mi1 = SLMList.OBThreshold015.getSLM().match(tmpMI);
-			SecondLineMatches.put("T015," + flmName, mi1);
-			MatchInformation mi2 = SLMList.OBThreshold025.getSLM().match(tmpMI);
-			SecondLineMatches.put("T025," + flmName, mi2);
-			//MatchInformation mi3 = SLMList.OBSM.getSLM().match(tmpMI);
-			//SecondLineMatches.put("SM," + flmName, mi3);
+			K2Statistic singleNB = new NBGolden();
+			MatchInformation mi = flMatches.get(f);
+			String id = esp.getSPID()+ "," + f; 
+			singleNB.init(id, mi, esp.getExact());
+			res.add(singleNB);
 		}
 		
-		for (String config : SecondLineMatches.keySet())
-		{
-			K2Statistic b = new BinaryGolden();
-			b.init(esp.getSPID() + "," + config,SecondLineMatches.get(config) ,esp.getExact());
-			res.add(b);
-		}
-				
 		//Generate predictor values for 1LMs and use for matcher weights
 		HashMap<String, Double> matcherWeights = new HashMap<String, Double>();
-		for (String mName : SecondLineMatches.keySet())
+		for (String mName : flMatches.keySet())
 		{
 			MatrixPredictors mv = new MatrixPredictors();
-			if (SecondLineMatches.get(mName)  == null) continue;
-			mv.init(esp.getSPID() + "," + mName, SecondLineMatches.get(mName));
+			if (flMatches.get(mName)  == null) continue;
+			mv.init(esp.getSPID() + "," + mName, flMatches.get(mName));
 			String h[] = mv.getHeader();
 			int numPredictors = h.length -1;
 			Double weightedSumOfPrediction = new Double(0.0);
@@ -82,14 +73,33 @@ public class MatrixPredictorEnsemble implements MatchingExperiment {
 		
 		//Create ensemble
 		Ensemble e = new SimpleWeightedEnsemble();
-		e.init(SecondLineMatches, matcherWeights);
+		e.init(flMatches, matcherWeights);
 		MatchInformation weightedMI = e.getWeightedMatch();
 		
-		//Calcualte Golden on ensemble results
-		K2Statistic b = new BinaryGolden();
-		b.init(esp.getSPID() + ",weighted",weightedMI ,esp.getExact());
-		res.add(b);
+		//Calculate NB Precision and Recall
+		K2Statistic nb = new NBGolden();
+		String id = esp.getSPID()+",weighted"; 
+		nb.init(id, weightedMI, esp.getExact());
+		res.add(nb);
 		
+		//Match Select and calculate Precision and Recall 
+		//MatchInformation matchSelected = SLMList.OBThreshold025.getSLM().match(weightedMI);
+		MatchInformation matchSelected = SLMList.OBSM.getSLM().match(weightedMI);
+		K2Statistic b = new BinaryGolden();
+		b.init(id, matchSelected,esp.getExact());
+		res.add(b);
+				
+		
+		//Calculate unEnsembled results
+		for (String f : flMatches.keySet())
+		{
+			K2Statistic singleB = new BinaryGolden();
+			MatchInformation mi = flMatches.get(f);
+			matchSelected = SLMList.OBSM.getSLM().match(mi);
+			id = esp.getSPID()+ "," + f; 
+			singleB.init(id, matchSelected, esp.getExact());
+			res.add(singleB);
+		}
 		return res;
 	}
 

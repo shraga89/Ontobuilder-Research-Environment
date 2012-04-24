@@ -54,7 +54,7 @@ public class OBExperimentRunner {
 	 * @param args[4] schema pair ID Set ( e.g. 1,2,3  or 1 )  (ignored if K <> 0)
 	 * @param args[5] datasetID (for random K)
 	 * @param args[6] -d:domainCodes - (optional) string in the following format "2,3,4,2" (without the Quotation mark)
-	 * or -flm:First Line Matcher Codes or -p:properties file used to configure the experiment
+	 * or -f:First Line Matcher Codes or -p:properties file used to configure the experiment or -s:second line matcher codes (from db or enum)
 	 * 
 	 */
 	public static void main(String[] args) 
@@ -160,7 +160,7 @@ public class OBExperimentRunner {
 
 	/**
 	 * Receives a parameter string 
-	 * @param flmCodes assumed to contain a comma seperated list of first line matcher codes
+	 * @param flmCodes assumed to contain a comma separated list of first line matcher codes
 	 * @return list of FLM found to match codes given
 	 */
 	private static ArrayList<FirstLineMatcher> parseFLMids(String flmCodes) {

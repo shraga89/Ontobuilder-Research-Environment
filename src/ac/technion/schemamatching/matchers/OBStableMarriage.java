@@ -30,6 +30,7 @@ public class OBStableMarriage implements SecondLineMatcher {
 		assert (st!=null);
 		MatchInformation res = new MatchInformation(mi.getCandidateOntology(),mi.getTargetOntology());
 		res.setMatches(st.toOntoBuilderMatchList(res.getMatrix()));
+		ConversionUtils.restoreConfidence(res,mi);
 		ConversionUtils.zeroNonMatched(res);
 		return res;
 	}

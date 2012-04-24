@@ -38,6 +38,6 @@ public class AMCDataType extends AMCTokenPath {
 	 * @see ac.technion.schemamatching.matchers.FirstLineMatcher#getDBid()
 	 */
 	public int getDBid() {
-		return 9;
+		return 10;
 	}
 }

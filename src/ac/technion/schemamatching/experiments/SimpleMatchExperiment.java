@@ -6,18 +6,20 @@ import java.util.Properties;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 import ac.technion.schemamatching.matchers.FirstLineMatcher;
 import ac.technion.schemamatching.matchers.SecondLineMatcher;
-import ac.technion.schemamatching.statistics.AttributePredictors;
+import ac.technion.schemamatching.statistics.BinaryGolden;
+import ac.technion.schemamatching.statistics.K2Statistic;
 import ac.technion.schemamatching.statistics.Statistic;
 import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
 
 /**
- * Evaluates matrix predictors by returning the predictor value next to
- * precision, recall and L2 similarity measures 
+ * Matches using all 1LM and 2LM supplied and returns
+ * precision and recall 
  * @author Tomer Sagi
  *
  */
-public class AttributePredictorEvaluation implements MatchingExperiment {
+public class SimpleMatchExperiment implements MatchingExperiment {
 	private ArrayList<FirstLineMatcher> flM;
+	private ArrayList<SecondLineMatcher> slM;
 
 	/*
 	 * (non-Javadoc)
@@ -25,31 +27,25 @@ public class AttributePredictorEvaluation implements MatchingExperiment {
 	 */
 	public ArrayList<Statistic> runExperiment(ExperimentSchemaPair esp) {
 		// Using all 1st line matchers 
-		ArrayList<Statistic> predictions =  new ArrayList<Statistic>();
 		ArrayList<Statistic> evaluations = new ArrayList<Statistic>();
 		for (FirstLineMatcher m : flM)
 		{
 			//Match
-			MatchInformation mi = esp.getSimilarityMatrix(m);
+			MatchInformation mi = m.match(esp.getCandidateOntology(), esp.getTargetOntology(), false);
+			//Using all second line matchers
+			for (SecondLineMatcher s : slM)
+			{
+				//Second Line Match
+				MatchInformation mi1 = s.match(mi);
+				//calculate Precision and Recall
+				K2Statistic b2 = new BinaryGolden();
+				String instanceDesc =  esp.getSPID() + "," + m.getName() + "," + s.getName();
+				b2.init(instanceDesc, mi1,esp.getExact());
+				evaluations.add(b2);
+			}
 			
-			// Calculate predictors
-			Statistic  p = new AttributePredictors();
-			String instanceDesc = esp.getSPID() + "_"+m.getName()+"_"+m.getConfig();
-			p.init(instanceDesc, mi);
-			predictions.add(p);
-			//Calculate NBprecision, NBrecall
-//			K2Statistic  nb = new AttributeNBGolden();
-//			nb.init(instanceDesc, mi,esp.getExact());
-//			evaluations.add(nb);
-//			//Precision Recall
-//			MatchInformation matchSelected = SLMList.OBSM.getSLM().match(mi);
-//			K2Statistic b = new BinaryGolden();
-//			b.init(instanceDesc, matchSelected,esp.getExact());
-//			evaluations.add(b);
-//			
 		}
-		predictions.addAll(evaluations);
-		return predictions;
+		return evaluations;
 	}
 
 	/*
@@ -58,6 +54,7 @@ public class AttributePredictorEvaluation implements MatchingExperiment {
 	 */
 	public boolean init(OBExperimentRunner oer,Properties properties, ArrayList<FirstLineMatcher> flM, ArrayList<SecondLineMatcher> slM) {
 		this.flM = flM;
+		this.slM = slM;
 		return true;
 	}
 
@@ -68,7 +65,7 @@ public class AttributePredictorEvaluation implements MatchingExperiment {
 	public String getDescription() {
 		return "Matrix Predictor Evaluation";
 	}
-
+	
 	public ArrayList<Statistic> summaryStatistics() {
 		//unused
 		return null;

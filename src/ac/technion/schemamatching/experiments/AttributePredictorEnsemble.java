@@ -51,7 +51,8 @@ public class AttributePredictorEnsemble implements MatchingExperiment {
 		
 		//Match Select and calculate Precision and Recall 
 		//MatchInformation matchSelected = SLMList.OBThreshold025.getSLM().match(weightedMI);
-		MatchInformation matchSelected = SLMList.OBSM.getSLM().match(weightedMI);
+		//MatchInformation matchSelected = SLMList.OBSM.getSLM().match(weightedMI);
+		MatchInformation matchSelected = SLMList.OBMWBG.getSLM().match(weightedMI);
 		K2Statistic b = new BinaryGolden();
 		b.init(id, matchSelected,esp.getExact());
 		res.add(b);

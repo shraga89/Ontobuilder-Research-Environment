@@ -43,6 +43,7 @@ public class ImporterTest
 	 */
 	private Ontology getOntologyFromFile(File f) 
 	{
+		@SuppressWarnings("unused")
 		OntoBuilderWrapper obw = new OntoBuilderWrapper();
 		Ontology o = null;
 		XSDImporter imp = new XSDImporter();

@@ -22,8 +22,7 @@ public class Testing {
         System.exit(1);
       }
       SchemaTranslator st;
-      SchemaTranslator prevSt;
-      prevSt = st = smar.getNextBestMatching(true);
+      st = smar.getNextBestMatching(true);
       st.printTranslations();
       //prevSt = st;
 //      st.printTranslations();
@@ -41,9 +40,7 @@ public class Testing {
      // prevSt = st;
       st = smar.getNextBestMatching(true);
       st.printTranslations();
-      //SchemaMatchingsUtilities.saveDiffBestMatchesToXML(prevSt,st,2,3,"candSchemata","targetSchemata","bestMatchDiff2_3");
-      prevSt = st;
-//      st.printTranslations();
+      //      st.printTranslations();
 //      st = SchemaMatchingsUtilities.getSTwithThresholdSensitivity(st,0.1);
 //      st.printTranslations();
       //st.saveMatchToXML(3,"candSchemata","targetSchemata","match");
@@ -51,9 +48,7 @@ public class Testing {
       //prevSt = st;
       st = smar.getNextBestMatching(true);
       st.printTranslations();
-      //SchemaMatchingsUtilities.saveDiffBestMatchesToXML(prevSt,st,3,4,"candSchemata","targetSchemata","bestMatchDiff3_4");
-      prevSt = st;
-//      st.printTranslations();
+      //      st.printTranslations();
 //      st = SchemaMatchingsUtilities.getSTwithThresholdSensitivity(st,0.1);
 //      st.printTranslations();
       //st.saveMatchToXML(4,"candSchemata","targetSchemata","match");
@@ -61,9 +56,7 @@ public class Testing {
      // prevSt = st;
       st = smar.getNextBestMatching(true);
       st.printTranslations();
-      //SchemaMatchingsUtilities.saveDiffBestMatchesToXML(prevSt,st,4,5,"candSchemata","targetSchemata","bestMatchDiff4_5");
-      prevSt = st;
-//      st.printTranslations();
+      //      st.printTranslations();
 //      st = SchemaMatchingsUtilities.getSTwithThresholdSensitivity(st,0.1);
 //      st.printTranslations();
 //      st.saveMatchToXML(5,"cand","target","newMatch.xml");
