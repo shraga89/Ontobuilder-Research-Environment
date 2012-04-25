@@ -3,11 +3,13 @@
 package ac.technion.schemamatching.test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import ac.technion.iem.ontobuilder.matching.algorithms.line2.topk.graphs.entities.BipartiteGraph;
 import ac.technion.iem.ontobuilder.matching.algorithms.line2.topk.graphs.entities.EdgesSet;
 import ac.technion.iem.ontobuilder.matching.algorithms.line2.topk.graphs.entities.Graph;
 import ac.technion.iem.ontobuilder.matching.algorithms.line2.topk.graphs.entities.GraphFactory;
+
 import ac.technion.iem.ontobuilder.matching.algorithms.line2.topk.graphs.utils.EdgeArray;
 import ac.technion.iem.ontobuilder.matching.algorithms.line2.topk.graphs.utils.VertexArray;
 import ac.technion.iem.ontobuilder.matching.algorithms.line2.topk.impl.MaxWeightBipartiteMatchingAlgorithm;
@@ -28,6 +30,7 @@ public class MWBATest {
         double[][] adjMatrix = new double[lSize+rSize][lSize+rSize];
         //labels for left vertexes
         ArrayList<Long> leftVertexNames = new ArrayList<Long>();
+        
         //labels for right vertexes
         ArrayList<Long> rightVertexNames = new ArrayList<Long>();
         
@@ -36,6 +39,7 @@ public class MWBATest {
             leftVertexNames.add(i);
             rightVertexNames.add(i);         
         }
+        
         //generate randow bipartite graph
         for (int i=0;i<lSize;i++)
             for (int j=0;j<lSize;j++){
@@ -51,10 +55,12 @@ public class MWBATest {
                if (i!=j) adjMatrix[i][j] = Graph.INF;
             }
 
-
+          String[] rightVertexLabels = new String[rightVertexNames.size()];
+          String[] leftVertexLabels = new String[leftVertexNames.size()];
             BipartiteGraph bg = GraphFactory.buildBipartiteGraph(adjMatrix,
                     rightVertexNames, leftVertexNames, rightVertexNames.size(),
-                    leftVertexNames.size(), false);
+                    leftVertexNames.size(), false,rightVertexNames.toArray(rightVertexLabels),leftVertexNames.toArray(leftVertexLabels));
+            
             EdgeArray c = null;
             VertexArray pot = null;
             c = new EdgeArray(bg);
