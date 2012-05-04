@@ -95,7 +95,7 @@ public class ExperimentDocumenter
 		    values.put(new Field("SPID",FieldType.LONG),spid);
 		    Field targTerm = new Field("TargetTermID",FieldType.LONG);
 		    Field candTerm = new Field("CandidateTermID",FieldType.LONG);
-		    for (Object o : exactMapping.getMatches())
+		    for (Object o : exactMapping.getCopyOfMatches())
 		    {
 		    	Match match = (Match)o;
 		    	values.put(candTerm, match.getCandidateTerm().getId());
@@ -143,7 +143,7 @@ public class ExperimentDocumenter
 	    values.put(new Field("MID",FieldType.INT),mid);
 	    values.put(new Field("SMID",FieldType.INT),smid);
 	    values.put(new Field("step",FieldType.INT),step);
-		for (Object o : mi.getMatches())
+		for (Object o : mi.getCopyOfMatches())
 		{
 			Match m = (Match)o;
 			values.put(new Field("CandidateTerm",FieldType.LONG),m.getCandidateTerm().getId());
@@ -162,7 +162,7 @@ public class ExperimentDocumenter
 	 * 	 */
 	public void loadSMtoDB(MatchInformation firstLineMI, ExperimentSchemaPair schemasExp,int SerialNumOfMatcher) throws IOException 
 	{
-		ArrayList<Match> matches = firstLineMI.getMatches();
+		ArrayList<Match> matches = firstLineMI.getCopyOfMatches();
 		HashMap<Field,Object> values = new HashMap<Field,Object>();
 		values.put(new Field ("TargetSchemaID", FieldType.LONG ), (long)schemasExp.getTargetID());
 		values.put(new Field ("CandidateSchemaID", FieldType.LONG ), (long)schemasExp.getCandidateID());

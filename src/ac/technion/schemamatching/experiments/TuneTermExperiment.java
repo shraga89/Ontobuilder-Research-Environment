@@ -15,7 +15,6 @@ import ac.technion.schemamatching.statistics.NBGolden;
 import ac.technion.schemamatching.statistics.Statistic;
 import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
 import ac.technion.schemamatching.matchers.OBThreshold;
-import ac.technion.schemamatching.matchers.OBStableMarriage;
 
 /**
  * @author Tomer Sagi

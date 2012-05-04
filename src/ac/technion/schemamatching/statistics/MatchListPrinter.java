@@ -42,7 +42,7 @@ public class MatchListPrinter implements Statistic {
 	 * @see ac.technion.schemamatching.statistics.Statistic#init(java.lang.String, ac.technion.iem.ontobuilder.matching.match.MatchInformation)
 	 */
 	public boolean init(String instanceDescription, MatchInformation mi) {
-		for (Match m : mi.getMatches())
+		for (Match m : mi.getCopyOfMatches())
 		{
 			Term c = m.getCandidateTerm();
 			Term t = m.getTargetTerm();

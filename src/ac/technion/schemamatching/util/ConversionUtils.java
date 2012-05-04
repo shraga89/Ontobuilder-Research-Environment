@@ -100,10 +100,8 @@ public class ConversionUtils {
 	{
 		MatchMatrix res = new MatchMatrix();
 		res.copyWithEmptyMatrix(mi.getMatrix());
-		for (Object o : mi.getMatches())
+		for (Match m : mi.getCopyOfMatches())
 		{
-			Match m = (Match)o;
-			m.setEffectiveness(1.0);
 			res.setMatchConfidence(m.getCandidateTerm(), m.getTargetTerm(), 1.0);
 		}
 		mi.setMatrix(res);
@@ -137,9 +135,7 @@ public class ConversionUtils {
 			if (tTerm==null) 
 				throw new Exception("Target Term with id:" + Long.toString(map.id2)+ " could not be found in "+ mi.getTargetOntology().getName());
 			double confidence = map.getMatchedPairWeight();
-			Match m = new Match(tTerm,cTerm,confidence);
-			mi.addMatch(m);
-			mi.getMatrix().setMatchConfidence(cTerm, tTerm, confidence);
+			mi.updateMatch(tTerm, cTerm, confidence);
 		}
 	}
 
@@ -190,7 +186,7 @@ public class ConversionUtils {
 				if (conf==-1) throw new Exception("Candidate term: " + c.getName() + " or target term: " + t.getName() + " not found in big match matrix.");
 				newMM.setMatchConfidence(c, t, conf);
 			}
-		newMI.setMatches(small.getMatches());
+		newMI.setMatrix(newMM);
 		return newMI;
 	}
 	
@@ -203,8 +199,9 @@ public class ConversionUtils {
 	
 		MatchMatrix mm = new MatchMatrix();
 		mm.copyWithEmptyMatrix(mi.getMatrix());
-		for (Match m : mi.getMatches())
+		for (Match m : mi.getCopyOfMatches())
 			mm.setMatchConfidence(m.getCandidateTerm(), m.getTargetTerm(), m.getEffectiveness());
+		
 	}
 
 	/**
@@ -220,12 +217,10 @@ public class ConversionUtils {
 				if (mi.getMatchMatrix()[i][j] < threshold)
 					mi.getMatchMatrix()[i][j] = 0;
 		
-		Set<Match> toRemove = new HashSet<Match>();
-		for (Match m : mi.getMatches()) 
+		for (Match m : mi.getCopyOfMatches()) 
 			if (m.getEffectiveness() < threshold)
-				toRemove.add(m);
+				mi.updateMatch(m.getTargetTerm(), m.getCandidateTerm(), 0.0);
 		
-		mi.getMatches().removeAll(toRemove);
 	}
 
 	/**
@@ -284,11 +279,8 @@ public class ConversionUtils {
 	 */
 	public static void restoreConfidence(MatchInformation res,
 			MatchInformation mi) {
-		for (Match m: res.getMatches())
-		{
-			double conf = mi.getMatchConfidence(m.getTargetTerm(), m.getCandidateTerm());
-			m.setEffectiveness((conf==0.0?1:conf));
-		}
+		for (Match m: mi.getCopyOfMatches())
+			res.updateMatch(m.getTargetTerm(), m.getCandidateTerm(), m.getEffectiveness());
 		
 	}
 }

@@ -2,8 +2,8 @@ package ac.technion.schemamatching.test;
 
 import ac.technion.iem.ontobuilder.core.ontology.Ontology;
 import ac.technion.iem.ontobuilder.core.utils.files.XmlFileHandler;
-import ac.technion.iem.ontobuilder.matching.algorithms.common.MatchAlgorithm;
-import ac.technion.iem.ontobuilder.matching.algorithms.line1.misc.MatchingAlgorithmsNamesEnum;
+import ac.technion.iem.ontobuilder.matching.algorithms.line1.common.Algorithm;
+import ac.technion.iem.ontobuilder.matching.algorithms.line1.common.MatchingAlgorithmsNamesEnum;
 import ac.technion.iem.ontobuilder.matching.algorithms.line2.meta.MetaAlgorithmNamesEnum;
 import ac.technion.iem.ontobuilder.matching.algorithms.line2.meta.MetaAlgorithmsFactory;
 import ac.technion.iem.ontobuilder.matching.algorithms.line2.misc.MatrixDirectAlgorithm;
@@ -27,7 +27,7 @@ public class MetaTest {
    XmlFileHandler xfh = new XmlFileHandler();
    Ontology candidate = xfh.readOntologyXMLFile("ontologies/Aviation/www.elal.co.il.xml",true);
    Ontology target = xfh.readOntologyXMLFile("ontologies/Aviation/www.thy.com.xml",true);
-   MatchAlgorithm[] matchAlgorithms = new MatchAlgorithm[2];
+   Algorithm[] matchAlgorithms = new Algorithm[2];
    matchAlgorithms[0] = ob.loadMatchAlgorithm(MatchingAlgorithmsNamesEnum.TERM);
    matchAlgorithms[1] = ob.loadMatchAlgorithm(MatchingAlgorithmsNamesEnum.VALUE);
 //   matchAlgorithms[2] = ob.loadMatchAlgorithm(MatchingAlgorithms.TERM);
