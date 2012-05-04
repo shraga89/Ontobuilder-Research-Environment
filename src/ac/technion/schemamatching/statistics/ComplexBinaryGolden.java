@@ -43,7 +43,7 @@ public class ComplexBinaryGolden implements K2Statistic {
 	}
 
 	private boolean isPartOfComplexMatch(MatchInformation mi, Match m) {
-		for (Match m2 : mi.getMatches()) {
+		for (Match m2 : mi.getCopyOfMatches()) {
 			if ((m2.getCandidateTerm().getId() == m.getCandidateTerm().getId() && m2.getTargetTerm().getId() != m.getTargetTerm().getId())
 					|| (m2.getCandidateTerm().getId() != m.getCandidateTerm().getId() && m2.getTargetTerm().getId() == m.getTargetTerm().getId()))
 				return true;
@@ -63,13 +63,13 @@ public class ComplexBinaryGolden implements K2Statistic {
 	public boolean init(String instanceDescription, MatchInformation mi, MatchInformation exactMatch) {
 		
 		
-		for (Match m : mi.getMatches()) {
+		for (Match m : mi.getCopyOfMatches()) {
 			Long candID = m.getCandidateTerm().getId();
 			Long targID = m.getTargetTerm().getId();
 			
 			matchListIds.add(candID.toString()+","+targID.toString());
 		}
-		for (Match m : exactMatch.getMatches()) {
+		for (Match m : exactMatch.getCopyOfMatches()) {
 			if (isPartOfComplexMatch(exactMatch, m)) {
 				Long candID = m.getCandidateTerm().getId();
 				Long targID = m.getTargetTerm().getId();
@@ -87,7 +87,7 @@ public class ComplexBinaryGolden implements K2Statistic {
 		header = new String[]{"instance","Share Complex", "Complex Recall", "Complex Completeness"};
 		Double recall = calcRecall();
 		Double compl = calcCompl();
-		Double shareComplex = ((double) exactMatchListIds.size()) / ((double) exactMatch.getMatches().size());
+		Double shareComplex = ((double) exactMatchListIds.size()) / ((double) exactMatch.getNumMatches());
 		data.add(new String[] {instanceDescription, shareComplex.toString(), recall.toString(),compl.toString()});
 		return true;
 	}
@@ -177,7 +177,7 @@ public class ComplexBinaryGolden implements K2Statistic {
 	 * @return
 	 */
 	public boolean init(String instanceDescription, MatchInformation mi, SchemaTranslator exactMatch) {
-		for (Match m : mi.getMatches()) {
+		for (Match m : mi.getCopyOfMatches()) {
 			Long candID = m.getCandidateTerm().getId();
 			Long targID = m.getTargetTerm().getId();
 			matchListIds.add(candID.toString()+","+targID.toString());

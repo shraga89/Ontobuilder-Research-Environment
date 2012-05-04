@@ -80,7 +80,6 @@ public class AMCTokenPath implements FirstLineMatcher {
 						{
 							Term t = target.getTermByID(targMap.inverse().get(r.getUri()));
 							Term tc = candidate.getTermByID(candMap.inverse().get(l.getUri()));
-							res.addMatch(t, tc , c.getQuality());
 							mm.setMatchConfidence(tc, t, c.getQuality());
 						}
 		}
@@ -96,7 +95,6 @@ public class AMCTokenPath implements FirstLineMatcher {
 					double confidence =  mat.getSimilarity(srcAtt, trgAtt);
 					if (confidence > 0.1)
 					{
-						res.addMatch(t, c,confidence );
 						mm.setMatchConfidence(c, t, confidence);
 					}
 				}

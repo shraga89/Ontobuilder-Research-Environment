@@ -54,7 +54,7 @@ public class UnifiedTopKMatchingCreator {
 						
 		if (this.weighting.equals(UnifiedTopKMatchingCreator.WEIGHTING.SIMILARITY)) {
 			for (MatchInformation mi : this.matchings) {
-				for (Match m : mi.getMatches()) {
+				for (Match m : mi.getCopyOfMatches()) {
 					this.unifiedTopKGraph.setMatchConfidence(
 							m.getCandidateTerm(), m.getTargetTerm(), mi.getMatchConfidence(m.getCandidateTerm(), m.getTargetTerm()));
 				}
@@ -65,7 +65,7 @@ public class UnifiedTopKMatchingCreator {
 				MatchInformation mi = this.matchings.get(i);
 				double k = this.matchings.size();
 				double conf = (2.0*(k-i)) / (k* (k + 1.0));
-				for (Match m : mi.getMatches()) {
+				for (Match m : mi.getCopyOfMatches()) {
 					this.unifiedTopKGraph.setMatchConfidence(
 							m.getCandidateTerm(), m.getTargetTerm(), this.unifiedTopKGraph.getMatchConfidence(m.getCandidateTerm(), m.getTargetTerm()) + conf);
 				}
@@ -75,7 +75,7 @@ public class UnifiedTopKMatchingCreator {
 			for (int i = 0; i < this.matchings.size(); i++) {
 				MatchInformation mi = this.matchings.get(i);
 				double k = this.matchings.size();
-				for (Match m : mi.getMatches()) {
+				for (Match m : mi.getCopyOfMatches()) {
 					double conf = 1.0 / k;
 					this.unifiedTopKGraph.setMatchConfidence(
 							m.getCandidateTerm(), m.getTargetTerm(), this.unifiedTopKGraph.getMatchConfidence(m.getCandidateTerm(), m.getTargetTerm()) + conf);
@@ -483,7 +483,7 @@ public class UnifiedTopKMatchingCreator {
 			
 			for (Term tar : c.targetTerms) {
 				for (Term cand : c.candidateTerms) {
-					res.addMatch(tar, cand, conf);
+					res.updateMatch(tar, cand, conf);
 				}
 			}
 		}

@@ -2,7 +2,7 @@ package ac.technion.schemamatching.test;
 
 import ac.technion.iem.ontobuilder.core.ontology.Ontology;
 import ac.technion.iem.ontobuilder.core.utils.files.XmlFileHandler;
-import ac.technion.iem.ontobuilder.matching.algorithms.line1.misc.MatchingAlgorithmsNamesEnum;
+import ac.technion.iem.ontobuilder.matching.algorithms.line1.common.MatchingAlgorithmsNamesEnum;
 import ac.technion.iem.ontobuilder.matching.algorithms.line1.precedence.PrecedenceAlgorithm;
 import ac.technion.iem.ontobuilder.matching.algorithms.line1.term.CombinedAlgorithm;
 import ac.technion.iem.ontobuilder.matching.algorithms.line1.term.GraphAlgorithm;

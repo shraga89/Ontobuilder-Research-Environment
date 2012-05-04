@@ -46,7 +46,7 @@ public class SimpleWeightedEnsemble implements Ensemble {
 		for (String mName : matches.keySet())
 		{
 			MatchInformation mi = matches.get(mName);
-			for (Match m : mi.getMatches())
+			for (Match m : mi.getCopyOfMatches())
 			{
 				Double vote = (matchVotes.containsKey(m)?matchVotes.get(m):0.0);
 				vote+=(useWeights?matcherWeights.get(mName):1.0);
@@ -83,7 +83,7 @@ public class SimpleWeightedEnsemble implements Ensemble {
 		for (String mName : matches.keySet())
 		{
 			MatchInformation mi = matches.get(mName);
-			for (Match m : mi.getMatches())
+			for (Match m : mi.getCopyOfMatches())
 			{
 				Double vote = 0.0;
 				if (matchVotes.containsKey(m))

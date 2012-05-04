@@ -36,13 +36,13 @@ public class BinaryGolden implements K2Statistic {
 	}
 
 	public boolean init(String instanceDescription, MatchInformation mi, MatchInformation exactMatch) {
-		for (Match m : mi.getMatches())
+		for (Match m : mi.getCopyOfMatches())
 		{
 			Long candID = m.getCandidateTerm().getId();
 			Long targID = m.getTargetTerm().getId();
 			matchListIds.add(candID.toString()+targID.toString());
 		}
-		for (Match m : exactMatch.getMatches())
+		for (Match m : exactMatch.getCopyOfMatches())
 		{
 			Long candID = m.getCandidateTerm().getId();
 			Long targID = m.getTargetTerm().getId();
@@ -86,7 +86,7 @@ public class BinaryGolden implements K2Statistic {
 	 * @return
 	 */
 	public boolean init(String instanceDescription, MatchInformation mi, SchemaTranslator exactMatch) {
-		for (Match m : mi.getMatches())
+		for (Match m : mi.getCopyOfMatches())
 		{
 			Long candID = m.getCandidateTerm().getId();
 			Long targID = m.getTargetTerm().getId();

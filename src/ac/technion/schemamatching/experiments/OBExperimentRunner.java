@@ -59,22 +59,6 @@ public class OBExperimentRunner {
 	 */
 	public static void main(String[] args) 
 	{
-		//Section Intended for Testing purposes
-		args = new String[7];
-		args[0]="cmd";
-		args[1]="c:\\Users\\matthias\\Documents\\workspace\\output";
-		args[2]="TopKClustering";
-		args[3]="0";
-		args[4]="600,601,602,603,604";
-		//383
-		//592,593,595,596,597,598,599
-		//600,601,602,603,604
-		//592,593,595,596,597,598,599,600,601,602,603,604,632
-		args[5]="20";
-		args[6]=" p mWeights.properties";
-		
-				
-		
 		OBExperimentRunner myExpRunner = getOER();
 		File outputPath = null;
 		ExperimentType et = null;

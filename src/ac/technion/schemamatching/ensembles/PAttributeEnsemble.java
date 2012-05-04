@@ -47,12 +47,11 @@ public class PAttributeEnsemble implements Ensemble {
 	 * @param useWeights if true will count each vote as the corresponding matcher's weight. otherwise will count each vote as 1. 
 	 */
 	private void vote(double minVote,boolean useWeights) {
-		//TODO copy pasted from simple ensemble. Revise to use predictions
 		HashMap<Match,Double> matchVotes = new HashMap<Match,Double>();
 		for (String mName : matches.keySet())
 		{
 			MatchInformation mi = matches.get(mName);
-			for (Match m : mi.getMatches())
+			for (Match m : mi.getCopyOfMatches())
 			{
 				Double vote = (matchVotes.containsKey(m)?matchVotes.get(m):0.0);
 				vote+=(useWeights?predictorWeights.get(mName):1.0);
@@ -89,7 +88,7 @@ public class PAttributeEnsemble implements Ensemble {
 		for (String mName : matches.keySet())
 		{
 			MatchInformation mi = matches.get(mName);
-			for (Match m : mi.getMatches())
+			for (Match m : mi.getCopyOfMatches())
 			{
 				Double vote = 0.0;
 				if (matchVotes.containsKey(m))

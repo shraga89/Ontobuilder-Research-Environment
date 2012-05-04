@@ -5,14 +5,11 @@ import java.util.HashMap;
 import java.util.Properties;
 
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
-import ac.technion.schemamatching.ensembles.Ensemble;
-import ac.technion.schemamatching.ensembles.SimpleWeightedEnsemble;
 import ac.technion.schemamatching.matchers.FLMList;
 import ac.technion.schemamatching.matchers.FirstLineMatcher;
 import ac.technion.schemamatching.matchers.OBTopK;
 import ac.technion.schemamatching.matchers.SLMList;
 import ac.technion.schemamatching.matchers.SecondLineMatcher;
-import ac.technion.schemamatching.statistics.BinaryGolden;
 import ac.technion.schemamatching.statistics.ComplexBinaryGolden;
 import ac.technion.schemamatching.statistics.K2Statistic;
 import ac.technion.schemamatching.statistics.Statistic;
