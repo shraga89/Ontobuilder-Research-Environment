@@ -18,7 +18,7 @@ import ac.technion.schemamatching.util.ConversionUtils;
 
 public class TopKClustering implements MatchingExperiment {
 
-	private ArrayList<FirstLineMatcher> flM;
+//	private ArrayList<FirstLineMatcher> flM;
 	private HashMap<String,Double> matcherWeights = new HashMap<String,Double>();
 
 	public ArrayList<Statistic> runExperiment(ExperimentSchemaPair esp) {
@@ -111,7 +111,7 @@ public class TopKClustering implements MatchingExperiment {
 	public boolean init(OBExperimentRunner oer, Properties properties,
 			ArrayList<FirstLineMatcher> flM, ArrayList<SecondLineMatcher> slM) {
 		
-		this.flM = flM;
+//		this.flM = flM;
 		HashMap<Integer, FirstLineMatcher> flmHash = FLMList.getIdFLMHash();
 		for (Object key : properties.keySet())
 		{
