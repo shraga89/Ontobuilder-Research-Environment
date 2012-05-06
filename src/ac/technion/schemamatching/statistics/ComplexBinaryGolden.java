@@ -9,8 +9,6 @@ import java.util.Set;
 
 import ac.technion.iem.ontobuilder.matching.match.Match;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
-import ac.technion.iem.ontobuilder.matching.meta.match.MatchedAttributePair;
-import ac.technion.iem.ontobuilder.matching.utils.SchemaTranslator;
 
 /**
  * Calculates binary recall for complex correspondences
@@ -46,15 +44,6 @@ public class ComplexBinaryGolden implements K2Statistic {
 		for (Match m2 : mi.getCopyOfMatches()) {
 			if ((m2.getCandidateTerm().getId() == m.getCandidateTerm().getId() && m2.getTargetTerm().getId() != m.getTargetTerm().getId())
 					|| (m2.getCandidateTerm().getId() != m.getCandidateTerm().getId() && m2.getTargetTerm().getId() == m.getTargetTerm().getId()))
-				return true;
-		}
-		return false;
-	}
-	
-	private boolean isPartOfComplexMatch(SchemaTranslator mi, MatchedAttributePair m) {
-		for (MatchedAttributePair m2 : mi.getMatches()) {
-			if ((m2.id2 == m.id2 && m2.id1 != m.id1)
-					|| (m2.id2 != m.id2 && m2.id1 == m.id1))
 				return true;
 		}
 		return false;
@@ -166,43 +155,6 @@ public class ComplexBinaryGolden implements K2Statistic {
 			if (exactMatchListIds.contains(match)) res+=1.0;
 		}
 		return res;
-	}
-
-
-	/**
-	 * A more efficient init saving the conversion from match information to schema translator for the exact match
-	 * @param instanceDescription
-	 * @param mi
-	 * @param exactMatch
-	 * @return
-	 */
-	public boolean init(String instanceDescription, MatchInformation mi, SchemaTranslator exactMatch) {
-		for (Match m : mi.getCopyOfMatches()) {
-			Long candID = m.getCandidateTerm().getId();
-			Long targID = m.getTargetTerm().getId();
-			matchListIds.add(candID.toString()+","+targID.toString());
-		}
-		for (MatchedAttributePair m : exactMatch.getMatches()) {
-			if (isPartOfComplexMatch(exactMatch, m)) {
-				Long candID = m.id1;
-				Long targID = m.id2;
-				
-				if (!candToTar.containsKey(candID))
-					candToTar.put(candID,new HashSet<Long>());
-
-				candToTar.get(candID).add(targID);
-
-				exactMatchListIds.add(candID.toString()+","+targID.toString());
-			}
-		}
-
-		data = new ArrayList<String[]>();
-		header = new String[]{"instance","Share Complex", "Complex Recall", "Complex Completeness"};
-		Double recall = calcRecall();
-		Double compl = calcCompl();
-		Double shareComplex = ((double) exactMatchListIds.size()) / ((double) exactMatch.getMatches().size());
-		data.add(new String[] {instanceDescription, shareComplex.toString(), recall.toString(),compl.toString()});
-		return true;
 	}
 
 }

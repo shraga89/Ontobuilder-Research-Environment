@@ -15,8 +15,6 @@ import ac.technion.iem.ontobuilder.core.ontology.Term;
 import ac.technion.iem.ontobuilder.matching.match.Match;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 import ac.technion.iem.ontobuilder.matching.meta.match.MatchMatrix;
-import ac.technion.iem.ontobuilder.matching.meta.match.MatchedAttributePair;
-import ac.technion.iem.ontobuilder.matching.utils.SchemaTranslator;
 
 import com.google.common.collect.HashBiMap;
 
@@ -107,39 +105,7 @@ public class ConversionUtils {
 		mi.setMatrix(res);
 	}
 	
-	/**
-	 * Updates MatchInformation object with matches found in schema translator object
-	 * Assumes term id's in matched attribute pairs exist in candidate and target ontologies
-	 * @param mi
-	 * @param st
-	 * @throws Exception if terms in schema translator object are not found in ontologies in the match information object
-	 */
-	
-	public static void fillMI(MatchInformation mi, SchemaTranslator st) throws Exception
-	{
-		for (MatchedAttributePair map : st.getMatchedPairs())
-		{
-			Term cTerm = mi.getCandidateOntology().getTermByID(map.id1);
-			if (cTerm==null) 
-			{
-				if (mi.getTargetOntology().getTermByID(map.id1)!=null) //Ontologies are reversed in database
-				{
-					throw new Exception("reversed ontologies");
-				}
-				else
-					throw new Exception("Candidate Term with id:" + Long.toString(map.id1)+ " could not be found in "+ mi.getCandidateOntology().getName());
-					
-			}
-			
-			Term tTerm = mi.getTargetOntology().getTermByID(map.id2);
-			if (tTerm==null) 
-				throw new Exception("Target Term with id:" + Long.toString(map.id2)+ " could not be found in "+ mi.getTargetOntology().getName());
-			double confidence = map.getMatchedPairWeight();
-			mi.updateMatch(tTerm, cTerm, confidence);
-		}
-	}
 
-	
 	/**
 	 * Fills missing terms in the MatchMatrix object of the supplied 
 	 * MatchInformation object so that the matrix is n X m.

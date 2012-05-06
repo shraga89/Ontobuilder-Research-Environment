@@ -5,8 +5,6 @@ import java.util.HashSet;
 
 import ac.technion.iem.ontobuilder.matching.match.Match;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
-import ac.technion.iem.ontobuilder.matching.meta.match.MatchedAttributePair;
-import ac.technion.iem.ontobuilder.matching.utils.SchemaTranslator;
 
 /**
  * @author Adham Hurani
@@ -102,38 +100,6 @@ public class BinaryROCStatistics implements K2Statistic {
 			if (!exactMatchListIds.contains(match)) res+=1.0;
 		}
 		return res;
-	}
-
-
-	/**
-	 * A more efficient init saving the conversion from match information to schema translator for the exact match
-	 * @param instanceDescription
-	 * @param mi
-	 * @param exactMatch
-	 * @return
-	 */
-	public boolean init(String instanceDescription, MatchInformation mi, SchemaTranslator exactMatch) {
-		for (Match m : mi.getCopyOfMatches())
-		{
-			Long candID = m.getCandidateTerm().getId();
-			Long targID = m.getTargetTerm().getId();
-			matchListIds.add(candID.toString()+targID.toString());
-		}
-		for (MatchedAttributePair m : exactMatch.getMatches())
-		{
-			Long candID = m.id1;
-			Long targID = m.id2;
-			exactMatchListIds.add(candID.toString()+targID.toString());
-		}
-		//Irrelevant Pairs Count
-		//neagtiveMatches =  exactMatch.()* exactMatch.getCandidateOntologyTermsTotal() - exactMatchListIds.size();
-		
-		data = new ArrayList<String[]>();
-		header = new String[]{"instance","TPR","FPR"};
-		Double TPR = calcTPR();
-		Double FPR = calcTPR();
-		data.add(new String[] {instanceDescription,TPR.toString(), FPR.toString()});
-		return true;
 	}
 
 }
