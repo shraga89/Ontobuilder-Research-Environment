@@ -3,10 +3,10 @@
  */
 package ac.technion.schemamatching.matchers;
 
+import java.util.Properties;
+
+import ac.technion.iem.ontobuilder.matching.algorithms.line2.simple.Threshold2LM;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
-import ac.technion.iem.ontobuilder.matching.utils.SchemaMatchingsUtilities;
-import ac.technion.iem.ontobuilder.matching.utils.SchemaTranslator;
-import ac.technion.schemamatching.util.ConversionUtils;
 
 /**
  * @author Tomer Sagi
@@ -14,6 +14,7 @@ import ac.technion.schemamatching.util.ConversionUtils;
  */
 public class OBThreshold implements SecondLineMatcher {
 
+	private Threshold2LM my2LM;
 	/* (non-Javadoc)
 	 * @see ac.technion.schemamatching.matchers.SecondLineMatcher#getName()
 	 */
@@ -25,12 +26,7 @@ public class OBThreshold implements SecondLineMatcher {
 	 * @see ac.technion.schemamatching.matchers.SecondLineMatcher#match(ac.technion.iem.ontobuilder.matching.match.MatchInformation)
 	 */
 	public MatchInformation match(MatchInformation mi) {
-		MatchInformation miTH = new MatchInformation(mi.getCandidateOntology(),mi.getTargetOntology()); 
-		SchemaTranslator tmp = new SchemaTranslator(mi);
-		SchemaTranslator th = SchemaMatchingsUtilities.getSTwithThresholdSensitivity(tmp, threshold);
-		miTH.setMatches(th.toOntoBuilderMatchList(miTH.getMatrix()));
-		ConversionUtils.zeroNonMatched(miTH);
-		return miTH;
+		return my2LM.match(mi);
 	}
 
 	/* (non-Javadoc)
@@ -53,6 +49,10 @@ public class OBThreshold implements SecondLineMatcher {
 	 */
 	public OBThreshold(double threshold)
 	{
+		this.my2LM = new Threshold2LM();
+		Properties p = new Properties();
+		p.put("threshold", threshold);
+		my2LM.init(p);
 		this.threshold = threshold;
 	}
 	public void setThreshold(double threshold) {
