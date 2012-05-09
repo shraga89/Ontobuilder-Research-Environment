@@ -1,7 +1,7 @@
 package ac.technion.schemamatching.statistics;
 
 public enum PredictorList {AvgAPredictor(new AvgAPredictor()),BMMPredictor(new BMMPredictor()),
-						   BMPredictor(new BMPredictor()),LMMPredictor(new LMMPredictor()),
+						   BMPredictor(new BMPredictor()),LMMPredictor(new LMMPredictor()),MaxPredictor(new MaxPredictor()),
 						   MaxAPredictor(new MaxAPredictor()),OneToOnePredictor(new OneToOneAPredictor())
 						   ,STDEVPredictor(new STDEVPredictor());
 
