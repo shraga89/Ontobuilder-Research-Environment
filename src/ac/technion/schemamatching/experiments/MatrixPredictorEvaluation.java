@@ -34,11 +34,11 @@ public class MatrixPredictorEvaluation implements MatchingExperiment {
 		{
 			//Match
 			MatchInformation mi = m.match(esp.getCandidateOntology(), esp.getTargetOntology(), false);
-			MatchInformation mi1 = SLMList.OBThreshold015.getSLM().match(mi);
+			MatchInformation mi1 = SLMList.OBThreshold025.getSLM().match(mi);
 			//SecondLineMatches.put("T015," + flmName , mi1);
 			// Calculate predictors
 			Statistic  p = new MatrixPredictors();
-			String instanceDesc = esp.getSPID()+","+m.getName()+","+"T015";
+			String instanceDesc = esp.getSPID()+","+m.getName()+","+"T025";
 			p.init(instanceDesc, mi1);
 			predictions.add(p);
 			//Precision Recall
@@ -46,9 +46,9 @@ public class MatrixPredictorEvaluation implements MatchingExperiment {
 			b.init(instanceDesc, mi1,esp.getExact());
 			evaluations.add(b);
 			//Additional 2LM
-			MatchInformation mi2 = SLMList.OBThreshold075.getSLM().match(mi);
+			MatchInformation mi2 = SLMList.OBMaxDelta01.getSLM().match(mi);
 			Statistic  p2 = new MatrixPredictors();
-			instanceDesc = esp.getSPID()+","+m.getName()+","+"T075";
+			instanceDesc = esp.getSPID()+","+m.getName()+","+"MaxDelta0.1";
 			p2.init(instanceDesc, mi2);
 			predictions.add(p2);
 			//Precision Recall

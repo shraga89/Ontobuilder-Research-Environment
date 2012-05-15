@@ -3,21 +3,21 @@
  */
 package ac.technion.schemamatching.matchers;
 
-import ac.technion.iem.ontobuilder.matching.algorithms.line2.simple.Threshold2LM;
+import ac.technion.iem.ontobuilder.matching.algorithms.line2.simple.Max2LM;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 
 /**
  * @author Tomer Sagi
- * Ontobuilder Research Environment wrapper for Threshold second line matcher
+ * Ontobuilder Research Environment wrapper for Max2LM second line matcher
  */
-public class OBThreshold implements SecondLineMatcher {
+public class OBMaxDelta implements SecondLineMatcher {
 
-	private Threshold2LM my2LM;
+	private Max2LM my2LM;
 	/* (non-Javadoc)
 	 * @see ac.technion.schemamatching.matchers.SecondLineMatcher#getName()
 	 */
 	public String getName() {
-		return "Ontobuilder Threshold";
+		return "Ontobuilder Max Delta";
 	}
 
 	/* (non-Javadoc)
@@ -31,7 +31,7 @@ public class OBThreshold implements SecondLineMatcher {
 	 * @see ac.technion.schemamatching.matchers.SecondLineMatcher#getConfig()
 	 */
 	public String getConfig() {
-		return "Threshold:" + Double.toString(threshold);
+		return "Delta:" + Double.toString(delta);
 	}
 
 	/* (non-Javadoc)
@@ -42,23 +42,23 @@ public class OBThreshold implements SecondLineMatcher {
 	}
 
 	/**
-	 * Sets threshold to supplied value
-	 * @param threshold
+	 * Sets delta to supplied value
+	 * @param delta
 	 */
-	public OBThreshold(double threshold)
+	public OBMaxDelta(double delta)
 	{
-		this.my2LM = new Threshold2LM(threshold);
+		this.my2LM = new Max2LM(delta);
 //		Properties p = new Properties();
 //		p.put("t", threshold);
 //		my2LM.init(p);
-		this.threshold = threshold;
+		this.delta = delta;
 	}
-	public void setThreshold(double threshold) {
-		this.threshold = threshold;
+	public void setDelta(double delta) {
+		this.delta = delta;
 	}
 
-	public double getThreshold() {
-		return threshold;
+	public double getDelta() {
+		return delta;
 	}
-	private double threshold = 0.25;
+	private double delta = 0.1;
 }

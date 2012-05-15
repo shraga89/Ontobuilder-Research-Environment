@@ -387,10 +387,10 @@ public class OBExperimentRunner {
 						.println("Unable to create folder");
 				return null;
 			}
-		} else {
-				for (File testFile : testFolder.listFiles()) {
-					testFile.delete();
-				}
+//		} else {
+//				for (File testFile : testFolder.listFiles()) {
+//					testFile.delete();
+//				}
 		}
 		return testFolder;
 	}
@@ -419,7 +419,7 @@ public class OBExperimentRunner {
 		//Output a file for each statistic
 		for (String statName : collected.keySet())
 		{
-			File f = new File(resultFolder,statName + ".csv");
+			File f = new File(resultFolder,System.currentTimeMillis()+ statName + ".csv");
 			String[] header = collected.get(statName).get(0).getHeader();
 			ArrayList<String[]> data = new ArrayList<String[]>();
 			for (Statistic s : collected.get(statName))
