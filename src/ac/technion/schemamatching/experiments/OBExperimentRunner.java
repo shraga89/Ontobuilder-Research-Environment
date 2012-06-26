@@ -33,6 +33,7 @@ import com.infomata.data.DataRow;
  * The class provides tools for running schema matching experiments.
  * @author Tomer Sagi
  * @author Nimrod Busany 
+ * @author Tatiana Sematch
  * @category Singleton
  */
 public class OBExperimentRunner { 
@@ -113,7 +114,10 @@ public class OBExperimentRunner {
 		}
 		else if (args[0].equalsIgnoreCase("console"))
 		{
-			//TODO initialize console application
+			printMainMenu();
+			//TODO handle input
+			System.exit(0);
+			
 		}
 		else
 		{
@@ -124,6 +128,14 @@ public class OBExperimentRunner {
 		myExpRunner.runExperiment(et,eid, outputPath,flm,slm,pFile);
 	 }
 	
+	private static void printMainMenu() {
+		System.out.println("Welcome to the Ontobuilder Research Environment");
+		System.out.println("Please select one of the following options:");
+		System.out.println("1.Run Experiment");
+		System.out.println("2.Quit");
+		
+	}
+
 	/**
 	 * 
 	 * @param slmCodes
