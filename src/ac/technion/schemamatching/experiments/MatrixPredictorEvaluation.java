@@ -34,11 +34,10 @@ public class MatrixPredictorEvaluation implements MatchingExperiment {
 		{
 			//Match
 			MatchInformation mi = m.match(esp.getCandidateOntology(), esp.getTargetOntology(), false);
-			MatchInformation mi1 = SLMList.OBThreshold025.getSLM().match(mi);
-			//SecondLineMatches.put("T015," + flmName , mi1);
+			MatchInformation mi1 = SLMList.OBMaxDelta005.getSLM().match(mi);
 			// Calculate predictors
 			Statistic  p = new MatrixPredictors();
-			String instanceDesc = esp.getSPID()+","+m.getName()+","+"T025";
+			String instanceDesc = esp.getSPID()+","+m.getName()+","+"MaxDelta005";
 			p.init(instanceDesc, mi1);
 			predictions.add(p);
 			//Precision Recall
@@ -46,15 +45,25 @@ public class MatrixPredictorEvaluation implements MatchingExperiment {
 			b.init(instanceDesc, mi1,esp.getExact());
 			evaluations.add(b);
 			//Additional 2LM
-			MatchInformation mi2 = SLMList.OBMaxDelta01.getSLM().match(mi);
+			MatchInformation mi2 = SLMList.OBMax.getSLM().match(mi);
 			Statistic  p2 = new MatrixPredictors();
-			instanceDesc = esp.getSPID()+","+m.getName()+","+"MaxDelta0.1";
+			instanceDesc = esp.getSPID()+","+m.getName()+","+"MaxDelta0";
 			p2.init(instanceDesc, mi2);
 			predictions.add(p2);
 			//Precision Recall
 			K2Statistic b2 = new BinaryGolden();
 			b2.init(instanceDesc, mi2,esp.getExact());
 			evaluations.add(b2);
+			//Additional 2LM
+			MatchInformation mi3 = SLMList.OBThreshold050.getSLM().match(mi);
+			Statistic  p3 = new MatrixPredictors();
+			instanceDesc = esp.getSPID()+","+m.getName()+","+"Threshold050";
+			p3.init(instanceDesc, mi3);
+			predictions.add(p3);
+			//Precision Recall
+			K2Statistic b3 = new BinaryGolden();
+			b3.init(instanceDesc, mi3,esp.getExact());
+			evaluations.add(b3);
 			
 		}
 		predictions.addAll(evaluations);

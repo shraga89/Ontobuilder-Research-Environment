@@ -51,7 +51,7 @@ public class ExperimentDocumenter
 				
 				MatchInformation exactMapping = esp.getExact();
 				//Document term parameters 
-				for (Object o : exactMapping .getOriginalCandidateTerms())
+				for (Object o : exactMapping.getOriginalCandidateTerms())
 					writeTermToDB(esp.getCandidateID(), (Term)o);
 				for (Object o : exactMapping.getOriginalTargetTerms())
 					writeTermToDB(esp.getTargetID(), (Term)o);
