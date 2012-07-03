@@ -1,7 +1,8 @@
 /**
  * 
  */
-package ac.technion.schemamatching.matchers;
+package ac.technion.schemamatching.matchers.firstline;
+
 
 import ac.technion.iem.ontobuilder.core.ontology.Ontology;
 import ac.technion.iem.ontobuilder.matching.algorithms.line1.common.MatchingAlgorithmsNamesEnum;
@@ -9,20 +10,20 @@ import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 import ac.technion.iem.ontobuilder.matching.wrapper.OntoBuilderWrapper;
 import ac.technion.iem.ontobuilder.matching.wrapper.OntoBuilderWrapperException;
 import ac.technion.schemamatching.experiments.OBExperimentRunner;
-
+import ac.technion.schemamatching.matchers.MatcherType;
 
 
 /**
- * Wrapper for default configurated Graph Match
+ * Wrapper for default configurated Precedence Match
  * @author Tomer Sagi
  *
  */
-public class OBSimilarityFlooding implements FirstLineMatcher { 
+public class OBPrecedenceMatch implements FirstLineMatcher { 
 	/* (non-Javadoc)
 	 * @see ac.technion.schemamatching.matchers.FirstLineMatcher#getName()
 	 */
 	public String getName() {
-		return "Ontobuilder Implementation of Similarity Flooding";
+		return "Ontobuilder Precedence Match";
 	}
 
 	/* (non-Javadoc)
@@ -39,7 +40,7 @@ public class OBSimilarityFlooding implements FirstLineMatcher {
 		OntoBuilderWrapper obw = OBExperimentRunner.getOER().getOBW();
 		MatchInformation res = null;
 		try {
-			res = obw.matchOntologies(candidate, target, MatchingAlgorithmsNamesEnum.SIMILARITY_FLOODING.getName());
+			res = obw.matchOntologies(candidate, target, MatchingAlgorithmsNamesEnum.NEW_PRECEDENCE.getName());
 		} catch (OntoBuilderWrapperException e) {
 			e.printStackTrace();
 		}
@@ -58,14 +59,14 @@ public class OBSimilarityFlooding implements FirstLineMatcher {
 	 * @see ac.technion.schemamatching.matchers.FirstLineMatcher#getType()
 	 */
 	public MatcherType getType() {
-		return MatcherType.STRUCTURAL_PARENTCHILD;
+		return MatcherType.STRUCTURAL_SIBLING;
 	}
 
 	/* (non-Javadoc)
 	 * @see ac.technion.schemamatching.matchers.FirstLineMatcher#getDBid()
 	 */
 	public int getDBid() {
-		return 6;
+		return 4;
 	}
 
 

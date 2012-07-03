@@ -1,9 +1,10 @@
 /**
  * 
  */
-package ac.technion.schemamatching.matchers;
+package ac.technion.schemamatching.matchers.firstline;
 
 import java.util.HashMap;
+
 
 /**
  * This enum type lists the available @link{FirstLineMatcher}s in the Ontobuilder Research Environment. 

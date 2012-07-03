@@ -1,7 +1,7 @@
 /**
  * 
  */
-package ac.technion.schemamatching.matchers;
+package ac.technion.schemamatching.matchers.firstline;
 
 import java.util.ArrayList;
 import java.util.Arrays;

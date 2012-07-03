@@ -1,7 +1,7 @@
 /**
  * 
  */
-package ac.technion.schemamatching.matchers;
+package ac.technion.schemamatching.matchers.firstline;
 
 import ac.technion.iem.ontobuilder.core.ontology.Ontology;
 import ac.technion.iem.ontobuilder.matching.algorithms.line1.common.MatchingAlgorithmsNamesEnum;
@@ -9,18 +9,21 @@ import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 import ac.technion.iem.ontobuilder.matching.wrapper.OntoBuilderWrapper;
 import ac.technion.iem.ontobuilder.matching.wrapper.OntoBuilderWrapperException;
 import ac.technion.schemamatching.experiments.OBExperimentRunner;
+import ac.technion.schemamatching.matchers.MatcherType;
+
+
 
 /**
  * Wrapper for default configurated Graph Match
  * @author Tomer Sagi
  *
  */
-public class OBGraphMatch implements FirstLineMatcher { 
+public class OBSimilarityFlooding implements FirstLineMatcher { 
 	/* (non-Javadoc)
 	 * @see ac.technion.schemamatching.matchers.FirstLineMatcher#getName()
 	 */
 	public String getName() {
-		return "Ontobuilder Graph Match";
+		return "Ontobuilder Implementation of Similarity Flooding";
 	}
 
 	/* (non-Javadoc)
@@ -37,7 +40,7 @@ public class OBGraphMatch implements FirstLineMatcher {
 		OntoBuilderWrapper obw = OBExperimentRunner.getOER().getOBW();
 		MatchInformation res = null;
 		try {
-			res = obw.matchOntologies(candidate, target, MatchingAlgorithmsNamesEnum.COMPOSITION.getName());
+			res = obw.matchOntologies(candidate, target, MatchingAlgorithmsNamesEnum.SIMILARITY_FLOODING.getName());
 		} catch (OntoBuilderWrapperException e) {
 			e.printStackTrace();
 		}
@@ -63,7 +66,7 @@ public class OBGraphMatch implements FirstLineMatcher {
 	 * @see ac.technion.schemamatching.matchers.FirstLineMatcher#getDBid()
 	 */
 	public int getDBid() {
-		return 5;
+		return 6;
 	}
 
 
