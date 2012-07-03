@@ -1,15 +1,13 @@
 /**
  * 
  */
-package ac.technion.schemamatching.matchers;
+package ac.technion.schemamatching.matchers.firstline;
 
 import java.util.Arrays;
-import java.util.Collection;
-
 import ac.technion.iem.ontobuilder.core.ontology.Ontology;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
+import ac.technion.schemamatching.matchers.MatcherType;
 
-import com.sap.research.amc.utils.cli.MatcherType;
 import com.sap.research.amc.utils.cli.MatchingConfiguration;
 
 /**
@@ -18,9 +16,6 @@ import com.sap.research.amc.utils.cli.MatchingConfiguration;
  *
  */
 public class AMCSibling extends AMCTokenPath {
-
-	protected Collection<MatcherType> matcher;
-	protected MatchingConfiguration conf;
 
 	public AMCSibling()
 	{
@@ -32,7 +27,7 @@ public class AMCSibling extends AMCTokenPath {
 	 * @see ac.technion.schemamatching.matchers.FirstLineMatcher#getName()
 	 */
 	public String getName() {
-		return "AMC Path";
+		return "AMC Sibling";
 	}
 
 	/* (non-Javadoc)

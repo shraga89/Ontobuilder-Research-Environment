@@ -1,22 +1,24 @@
 /**
  * 
  */
-package ac.technion.schemamatching.matchers;
+package ac.technion.schemamatching.matchers.firstline;
 
 import java.util.Arrays;
+
+import ac.technion.schemamatching.matchers.MatcherType;
 
 import com.sap.research.amc.utils.cli.MatchingConfiguration;
 
 /**
- * Wrapper class for NisB Auto Mapping Core - Name Algorithm
+ * Wrapper class for NisB Auto Mapping Core - DataType Algorithm
  * @author Tomer Sagi
  *
  */
-public class AMCName extends AMCTokenPath {
+public class AMCDataType extends AMCTokenPath {
 
-	public AMCName()
+	public AMCDataType()
 	{
-		matcher = Arrays.asList(com.sap.research.amc.utils.cli.MatcherType.NAME);
+		matcher = Arrays.asList(com.sap.research.amc.utils.cli.MatcherType.DATATYPE);
 		conf = new MatchingConfiguration(matcher);
 	}
 	
@@ -24,20 +26,20 @@ public class AMCName extends AMCTokenPath {
 	 * @see ac.technion.schemamatching.matchers.FirstLineMatcher#getName()
 	 */
 	public String getName() {
-		return "AMC Name";
+		return "AMC DataType";
 	}
 	
 	/* (non-Javadoc)
 	 * @see ac.technion.schemamatching.matchers.FirstLineMatcher#getType()
 	 */
 	public ac.technion.schemamatching.matchers.MatcherType getType() {
-		return  ac.technion.schemamatching.matchers.MatcherType.SYNTACTIC;
+		return  ac.technion.schemamatching.matchers.MatcherType.DATATYPE;
 	}
 	
 	/* (non-Javadoc)
 	 * @see ac.technion.schemamatching.matchers.FirstLineMatcher#getDBid()
 	 */
 	public int getDBid() {
-		return 8;
+		return 10;
 	}
 }

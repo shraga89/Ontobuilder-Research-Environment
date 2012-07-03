@@ -1,10 +1,11 @@
 /**
  * 
  */
-package ac.technion.schemamatching.matchers;
+package ac.technion.schemamatching.matchers.firstline;
 
 import ac.technion.iem.ontobuilder.core.ontology.Ontology;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
+import ac.technion.schemamatching.matchers.MatcherType;
 
 /**
  * This interface is intended for usage in generating wrapper classes 

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package ac.technion.schemamatching.matchers;
+package ac.technion.schemamatching.matchers.secondline;
 
 import ac.technion.iem.ontobuilder.matching.algorithms.line2.topk.wrapper.BestMappingsWrapper;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
@@ -10,28 +10,30 @@ import ac.technion.schemamatching.util.ConversionUtils;
 
 /**
  * @author Tomer Sagi
- * Ontobuilder Research Environment wrapper for Union second line matcher
+ * Ontobuilder Research Environment wrapper for MWBG second line matcher
  */
-public class OBUnion implements SecondLineMatcher {
+public class OBmwbg implements SecondLineMatcher {
 
 	/* (non-Javadoc)
 	 * @see ac.technion.schemamatching.matchers.SecondLineMatcher#getName()
 	 */
 	public String getName() {
-		return "Ontobuilder Union";
+		return "Ontobuilder MWBG";
 	}
 
 	/* (non-Javadoc)
 	 * @see ac.technion.schemamatching.matchers.SecondLineMatcher#match(ac.technion.iem.ontobuilder.matching.match.MatchInformation)
 	 */
 	public MatchInformation match(MatchInformation mi) {
-		BestMappingsWrapper.matchMatrix = mi.getMatrix();	
-		SchemaTranslator st = BestMappingsWrapper.GetBestMapping("Union");
+		MatchInformation mwbg = new MatchInformation(mi.getCandidateOntology(),mi.getTargetOntology());
+		mwbg.setMatrix(mi.getMatrix());
+		ConversionUtils.zeroWeightsByThresholdAndRemoveMatches(mwbg, 0.01);
+		BestMappingsWrapper.matchMatrix = mwbg.getMatrix();	
+		SchemaTranslator st = BestMappingsWrapper.GetBestMapping("Max Weighted Bipartite Graph");
 		assert (st!=null);
-		MatchInformation res = new MatchInformation(mi.getCandidateOntology(),mi.getTargetOntology());
-		res.setMatches(st.toOntoBuilderMatchList(res.getMatrix()));
-		ConversionUtils.zeroNonMatched(res);
-		return res;
+		mwbg.setMatches(st.toOntoBuilderMatchList(mwbg.getMatrix()));
+		ConversionUtils.zeroNonMatched(mwbg);
+		return mwbg;
 	}
 
 	/* (non-Javadoc)
@@ -45,7 +47,7 @@ public class OBUnion implements SecondLineMatcher {
 	 * @see ac.technion.schemamatching.matchers.SecondLineMatcher#getDBid()
 	 */
 	public int getDBid() {
-		return 5;
+		return 1;
 	}
 
 }

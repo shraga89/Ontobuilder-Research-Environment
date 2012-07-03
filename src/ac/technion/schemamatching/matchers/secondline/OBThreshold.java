@@ -1,7 +1,7 @@
 /**
  * 
  */
-package ac.technion.schemamatching.matchers;
+package ac.technion.schemamatching.matchers.secondline;
 
 import java.util.Properties;
 

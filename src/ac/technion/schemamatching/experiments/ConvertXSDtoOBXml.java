@@ -7,8 +7,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Properties;
 
-import ac.technion.schemamatching.matchers.FirstLineMatcher;
-import ac.technion.schemamatching.matchers.SecondLineMatcher;
+import ac.technion.schemamatching.matchers.firstline.FirstLineMatcher;
+import ac.technion.schemamatching.matchers.secondline.SecondLineMatcher;
 import ac.technion.schemamatching.statistics.Statistic;
 import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
 

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package ac.technion.schemamatching.matchers;
+package ac.technion.schemamatching.matchers.secondline;
 
 import ac.technion.iem.ontobuilder.matching.algorithms.line2.topk.wrapper.SchemaMatchingsWrapper;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;

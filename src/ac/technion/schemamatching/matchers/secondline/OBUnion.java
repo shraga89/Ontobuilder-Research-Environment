@@ -1,32 +1,29 @@
 /**
  * 
  */
-package ac.technion.schemamatching.matchers;
+package ac.technion.schemamatching.matchers.secondline;
 
-import ac.technion.iem.ontobuilder.matching.algorithms.line2.stablemarriage.StableMarriageWrapper;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
-
+import ac.technion.iem.ontobuilder.matching.algorithms.line2.set.Union2LM;
 /**
  * @author Tomer Sagi
- * Ontobuilder Research Environment wrapper for Stable Marriage second line matcher
+ * Ontobuilder Research Environment wrapper for Union second line matcher
  */
-public class OBStableMarriage implements SecondLineMatcher {
+public class OBUnion implements SecondLineMatcher {
 
 	/* (non-Javadoc)
 	 * @see ac.technion.schemamatching.matchers.SecondLineMatcher#getName()
 	 */
 	public String getName() {
-		return "Ontobuilder Stable Marriage";
+		return "Ontobuilder Union Dominants Stable-Marriage";
 	}
 
 	/* (non-Javadoc)
 	 * @see ac.technion.schemamatching.matchers.SecondLineMatcher#match(ac.technion.iem.ontobuilder.matching.match.MatchInformation)
 	 */
 	public MatchInformation match(MatchInformation mi) {
-		StableMarriageWrapper m_StableMarriageWrapper = new StableMarriageWrapper();
-		MatchInformation res = m_StableMarriageWrapper.runAlgorithm(mi.getMatrix(), mi.getCandidateOntology(),mi.getTargetOntology());
-		assert (res!=null);
-		return res;
+		Union2LM u = new Union2LM();
+		return u.match(mi);
 	}
 
 	/* (non-Javadoc)
@@ -40,7 +37,7 @@ public class OBStableMarriage implements SecondLineMatcher {
 	 * @see ac.technion.schemamatching.matchers.SecondLineMatcher#getDBid()
 	 */
 	public int getDBid() {
-		return 2;
+		return 5;
 	}
 
 }

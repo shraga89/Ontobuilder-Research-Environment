@@ -10,7 +10,7 @@ import ac.technion.iem.ontobuilder.core.ontology.Ontology;
 import ac.technion.iem.ontobuilder.io.imports.Importer;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 import ac.technion.schemamatching.experiments.OBExperimentRunner;
-import ac.technion.schemamatching.matchers.FirstLineMatcher;
+import ac.technion.schemamatching.matchers.firstline.FirstLineMatcher;
 import ac.technion.schemamatching.util.ConversionUtils;
 
 

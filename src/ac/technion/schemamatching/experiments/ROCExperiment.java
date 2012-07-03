@@ -7,13 +7,13 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
-import ac.technion.schemamatching.matchers.FirstLineMatcher;
-import ac.technion.schemamatching.matchers.OBTermMatch;
-import ac.technion.schemamatching.matchers.SecondLineMatcher;
 import ac.technion.schemamatching.statistics.BinaryROCStatistics;
 import ac.technion.schemamatching.statistics.Statistic;
 import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
-import ac.technion.schemamatching.matchers.OBThreshold;
+import ac.technion.schemamatching.matchers.firstline.FirstLineMatcher;
+import ac.technion.schemamatching.matchers.firstline.OBTermMatch;
+import ac.technion.schemamatching.matchers.secondline.OBThreshold;
+import ac.technion.schemamatching.matchers.secondline.SecondLineMatcher;
 
 /**
  * @author Adham Hurani
