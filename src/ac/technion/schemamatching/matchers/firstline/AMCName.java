@@ -5,8 +5,6 @@ package ac.technion.schemamatching.matchers.firstline;
 
 import java.util.Arrays;
 
-import ac.technion.schemamatching.matchers.MatcherType;
-
 import com.sap.research.amc.utils.cli.MatchingConfiguration;
 
 /**
