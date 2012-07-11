@@ -6,8 +6,6 @@ package ac.technion.schemamatching.matchers.firstline;
 import java.util.Arrays;
 import ac.technion.iem.ontobuilder.core.ontology.Ontology;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
-import ac.technion.schemamatching.matchers.MatcherType;
-
 import com.sap.research.amc.utils.cli.MatchingConfiguration;
 
 /**
