@@ -370,6 +370,7 @@ public class OBExperimentRunner {
 		int i = 0;
 		for (ExperimentSchemaPair esp : dataset)
 		{
+			System.out.println("Starting " + esp.getSPID());
 			ArrayList<Statistic> eRes = e.runExperiment(esp);
 			if (eRes != null) res.addAll(eRes);
 			System.out.println("finished " + esp.getSPID() + " : " + Integer.toString(++i) + " out of " + Integer.toString(dataset.size()));
