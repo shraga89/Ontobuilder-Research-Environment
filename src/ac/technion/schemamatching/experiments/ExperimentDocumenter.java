@@ -184,7 +184,7 @@ public class ExperimentDocumenter
 			values.put(conf , match.getEffectiveness());
 			if ((Double)values.get(conf)>1)
 			{
-				System.err.println("oops");
+				System.err.println("oops, confidence of " + values.toString() +" is higher than 1");
 			}
 			OBExperimentRunner.getOER().getDB().insertSingleRow(values, "similaritymatrices");
 		}
