@@ -10,7 +10,7 @@ import ac.technion.iem.ontobuilder.core.ontology.Ontology;
 import ac.technion.iem.ontobuilder.io.imports.Importer;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 import ac.technion.schemamatching.experiments.OBExperimentRunner;
-import ac.technion.schemamatching.matchers.FirstLineMatcher;
+import ac.technion.schemamatching.matchers.firstline.FirstLineMatcher;
 import ac.technion.schemamatching.util.ConversionUtils;
 
 
@@ -151,8 +151,14 @@ public class ExperimentSchemaPair {
   		int smid = flm.getDBid();
   		if (!basicMatrices.containsKey(smid))
   		{
-  		 	MatchInformation mi = null;
-			if (!OBExperimentRunner.getOER().getDoc().checkIfSchemaPairWasMatched(SPID,smid))
+  			MatchInformation mi = null;
+  			if (!this.dsEnum.isSupportsDBLookUp())
+  	  		{
+  	  			System.err.println("The " + dsEnum.name() + 
+  	  					" dataset does not support database lookup, matching ontologies instead.");
+  	  			mi = flm.match(candidate, target, false);
+  	  		}
+  			else if (!OBExperimentRunner.getOER().getDoc().checkIfSchemaPairWasMatched(SPID,smid))
   		 	{
 				mi = flm.match(candidate, target, false);
 				assert(mi!=null);
@@ -163,7 +169,6 @@ public class ExperimentSchemaPair {
 				try {
 					OBExperimentRunner.getOER().getDoc().loadSMtoDB(mi, this, smid);
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
   		 	}

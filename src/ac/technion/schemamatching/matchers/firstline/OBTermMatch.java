@@ -1,7 +1,7 @@
 /**
  * 
  */
-package ac.technion.schemamatching.matchers;
+package ac.technion.schemamatching.matchers.firstline;
 
 import java.util.HashMap;
 
@@ -12,6 +12,7 @@ import ac.technion.iem.ontobuilder.matching.utils.AlgorithmXMLEditor;
 import ac.technion.iem.ontobuilder.matching.wrapper.OntoBuilderWrapper;
 import ac.technion.iem.ontobuilder.matching.wrapper.OntoBuilderWrapperException;
 import ac.technion.schemamatching.experiments.OBExperimentRunner;
+import ac.technion.schemamatching.matchers.MatcherType;
 
 /**
  * Wrapper for default configurated Ontobuilder Term Match

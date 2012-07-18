@@ -17,10 +17,10 @@ import java.util.Properties;
 import technion.iem.schemamatching.dbutils.DBInterface;
 import ac.technion.iem.ontobuilder.core.utils.files.XmlFileHandler;
 import ac.technion.iem.ontobuilder.matching.wrapper.OntoBuilderWrapper;
-import ac.technion.schemamatching.matchers.FLMList;
-import ac.technion.schemamatching.matchers.SLMList;
-import ac.technion.schemamatching.matchers.FirstLineMatcher;
-import ac.technion.schemamatching.matchers.SecondLineMatcher;
+import ac.technion.schemamatching.matchers.firstline.FLMList;
+import ac.technion.schemamatching.matchers.firstline.FirstLineMatcher;
+import ac.technion.schemamatching.matchers.secondline.SLMList;
+import ac.technion.schemamatching.matchers.secondline.SecondLineMatcher;
 import ac.technion.schemamatching.statistics.Statistic;
 import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
 import ac.technion.schemamatching.util.PropertyLoader;
@@ -33,6 +33,7 @@ import com.infomata.data.DataRow;
  * The class provides tools for running schema matching experiments.
  * @author Tomer Sagi
  * @author Nimrod Busany 
+ * @author Tatiana Sematch
  * @category Singleton
  */
 public class OBExperimentRunner { 
@@ -113,7 +114,10 @@ public class OBExperimentRunner {
 		}
 		else if (args[0].equalsIgnoreCase("console"))
 		{
-			//TODO initialize console application
+			printMainMenu();
+			//TODO handle input
+			System.exit(0);
+			
 		}
 		else
 		{
@@ -124,6 +128,14 @@ public class OBExperimentRunner {
 		myExpRunner.runExperiment(et,eid, outputPath,flm,slm,pFile);
 	 }
 	
+	private static void printMainMenu() {
+		System.out.println("Welcome to the Ontobuilder Research Environment");
+		System.out.println("Please select one of the following options:");
+		System.out.println("1.Run Experiment");
+		System.out.println("2.Quit");
+		
+	}
+
 	/**
 	 * 
 	 * @param slmCodes
@@ -358,6 +370,7 @@ public class OBExperimentRunner {
 		int i = 0;
 		for (ExperimentSchemaPair esp : dataset)
 		{
+			System.out.println("Starting " + esp.getSPID());
 			ArrayList<Statistic> eRes = e.runExperiment(esp);
 			if (eRes != null) res.addAll(eRes);
 			System.out.println("finished " + esp.getSPID() + " : " + Integer.toString(++i) + " out of " + Integer.toString(dataset.size()));

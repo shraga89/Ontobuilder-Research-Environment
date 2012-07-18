@@ -1,8 +1,7 @@
 /**
  * 
  */
-package ac.technion.schemamatching.matchers;
-
+package ac.technion.schemamatching.matchers.firstline;
 
 import ac.technion.iem.ontobuilder.core.ontology.Ontology;
 import ac.technion.iem.ontobuilder.matching.algorithms.line1.common.MatchingAlgorithmsNamesEnum;
@@ -10,19 +9,19 @@ import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 import ac.technion.iem.ontobuilder.matching.wrapper.OntoBuilderWrapper;
 import ac.technion.iem.ontobuilder.matching.wrapper.OntoBuilderWrapperException;
 import ac.technion.schemamatching.experiments.OBExperimentRunner;
-
+import ac.technion.schemamatching.matchers.MatcherType;
 
 /**
- * Wrapper for default configurated Precedence Match
+ * Wrapper for default configurated Graph Match
  * @author Tomer Sagi
  *
  */
-public class OBPrecedenceMatch implements FirstLineMatcher { 
+public class OBGraphMatch implements FirstLineMatcher { 
 	/* (non-Javadoc)
 	 * @see ac.technion.schemamatching.matchers.FirstLineMatcher#getName()
 	 */
 	public String getName() {
-		return "Ontobuilder Precedence Match";
+		return "Ontobuilder Graph Match";
 	}
 
 	/* (non-Javadoc)
@@ -39,7 +38,7 @@ public class OBPrecedenceMatch implements FirstLineMatcher {
 		OntoBuilderWrapper obw = OBExperimentRunner.getOER().getOBW();
 		MatchInformation res = null;
 		try {
-			res = obw.matchOntologies(candidate, target, MatchingAlgorithmsNamesEnum.NEW_PRECEDENCE.getName());
+			res = obw.matchOntologies(candidate, target, MatchingAlgorithmsNamesEnum.COMPOSITION.getName());
 		} catch (OntoBuilderWrapperException e) {
 			e.printStackTrace();
 		}
@@ -58,14 +57,14 @@ public class OBPrecedenceMatch implements FirstLineMatcher {
 	 * @see ac.technion.schemamatching.matchers.FirstLineMatcher#getType()
 	 */
 	public MatcherType getType() {
-		return MatcherType.STRUCTURAL_SIBLING;
+		return MatcherType.STRUCTURAL_PARENTCHILD;
 	}
 
 	/* (non-Javadoc)
 	 * @see ac.technion.schemamatching.matchers.FirstLineMatcher#getDBid()
 	 */
 	public int getDBid() {
-		return 4;
+		return 5;
 	}
 
 

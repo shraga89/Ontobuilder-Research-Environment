@@ -1,13 +1,10 @@
 /**
  * 
  */
-package ac.technion.schemamatching.matchers;
+package ac.technion.schemamatching.matchers.secondline;
 
-import ac.technion.iem.ontobuilder.matching.algorithms.line2.topk.wrapper.BestMappingsWrapper;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
-import ac.technion.iem.ontobuilder.matching.utils.SchemaTranslator;
-import ac.technion.schemamatching.util.ConversionUtils;
-
+import ac.technion.iem.ontobuilder.matching.algorithms.line2.set.Union2LM;
 /**
  * @author Tomer Sagi
  * Ontobuilder Research Environment wrapper for Union second line matcher
@@ -18,20 +15,15 @@ public class OBUnion implements SecondLineMatcher {
 	 * @see ac.technion.schemamatching.matchers.SecondLineMatcher#getName()
 	 */
 	public String getName() {
-		return "Ontobuilder Union";
+		return "Ontobuilder Union Dominants Stable-Marriage";
 	}
 
 	/* (non-Javadoc)
 	 * @see ac.technion.schemamatching.matchers.SecondLineMatcher#match(ac.technion.iem.ontobuilder.matching.match.MatchInformation)
 	 */
 	public MatchInformation match(MatchInformation mi) {
-		BestMappingsWrapper.matchMatrix = mi.getMatrix();	
-		SchemaTranslator st = BestMappingsWrapper.GetBestMapping("Union");
-		assert (st!=null);
-		MatchInformation res = new MatchInformation(mi.getCandidateOntology(),mi.getTargetOntology());
-		res.setMatches(st.toOntoBuilderMatchList(res.getMatrix()));
-		ConversionUtils.zeroNonMatched(res);
-		return res;
+		Union2LM u = new Union2LM();
+		return u.match(mi);
 	}
 
 	/* (non-Javadoc)
