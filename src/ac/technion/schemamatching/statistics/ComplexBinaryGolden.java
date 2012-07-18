@@ -11,7 +11,7 @@ import ac.technion.iem.ontobuilder.matching.match.Match;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 
 /**
- * Calculates binary recall for complex correspondences
+ * Calculates binary recall and completeness for complex correspondences
  * @author Matthias Weidlich
  *
  */
@@ -40,6 +40,13 @@ public class ComplexBinaryGolden implements K2Statistic {
 		return false; //Golden statistics don't implement this method
 	}
 
+	/**
+	 * Checks whether a given attribute pair is part of a complex correspondence.
+	 * 
+	 * @param mi the MatchInformation object holding the mapping
+	 * @param m the Match object representing the attribute pair
+	 * @return true if the attribute pair is part of a complex correspondence, false otherwise
+	 */
 	private boolean isPartOfComplexMatch(MatchInformation mi, Match m) {
 		for (Match m2 : mi.getCopyOfMatches()) {
 			if ((m2.getCandidateTerm().getId() == m.getCandidateTerm().getId() && m2.getTargetTerm().getId() != m.getTargetTerm().getId())
@@ -87,6 +94,16 @@ public class ComplexBinaryGolden implements K2Statistic {
 		return (exact==0?0:truePositives/exact);
 	}
 	
+	/**
+	 * Returns the average completeness of all complex correspondences.
+	 * The completeness of a complex correspondence refers to the extent 
+	 * to which the expected attribute pairs related to a complex 
+	 * correspondence (Cartesian product of the attributes of two schemas 
+	 * that are covered by the complex correspondence) are actually 
+	 * represented by attribute pairs in the MatchInformation object.
+	 * 
+	 * @return the average of the completeness values of all complex correspondences
+	 */
 	private Double calcCompl() {
 
 		List<Set<String>> complexSets = new ArrayList<Set<String>>();
@@ -97,7 +114,11 @@ public class ComplexBinaryGolden implements K2Statistic {
 				complexSet.add(cId.toString()+","+tId.toString());
 			complexSets.add(complexSet);
 		}
-			
+		
+		/*
+		 * Build up the actual complex correspondences from the 
+		 * attribute pairs		
+		 */
 		boolean found = true;
 		while (found) {
 			List<Set<String>> complexSets2 = new ArrayList<Set<String>>();
