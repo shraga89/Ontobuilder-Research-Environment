@@ -130,7 +130,10 @@ public class ExperimentSchemaPair {
 //    		  exactMapping = new MatchInformation(candidate,target);
 //    		  stExactMapping = SchemaMatchingsUtilities.readXMLBestMatchingFile(OBExperimentRunner.getOER().getDsurl() + exactMatchPath,exactMapping.getMatrix());
 //    		  ConversionUtils.fillMI(exactMapping,stExactMapping);
-    	  exactMapping = dsEnum.getMatchImp().importMatch(new MatchInformation(candidate,target), new File(OBExperimentRunner.getOER().getDsurl() + exactMatchPath));
+    	  if (dsEnum.isHasExact())
+    		  exactMapping = dsEnum.getMatchImp().importMatch(new MatchInformation(candidate,target), new File(OBExperimentRunner.getOER().getDsurl() + exactMatchPath));
+    	  else
+    		  exactMapping = null;
     	  
     	  }
     	  catch (Exception e) 

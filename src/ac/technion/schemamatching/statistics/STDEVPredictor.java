@@ -3,6 +3,8 @@ package ac.technion.schemamatching.statistics;
 
 import java.util.ArrayList;
 
+import ac.technion.schemamatching.statistics.predictors.Predictor;
+
 /**
  * Calculates the population standard deviation over the vector
  * @author Tomer Sagi

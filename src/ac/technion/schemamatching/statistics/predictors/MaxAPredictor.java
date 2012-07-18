@@ -1,4 +1,4 @@
-package ac.technion.schemamatching.statistics;
+package ac.technion.schemamatching.statistics.predictors;
 
 /**
  * simple Predictor which calculates max of vector and returns it

@@ -1,12 +1,16 @@
 /**
  * 
  */
-package ac.technion.schemamatching.statistics;
+package ac.technion.schemamatching.statistics.predictors;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
+import ac.technion.schemamatching.statistics.BMMPredictor;
+import ac.technion.schemamatching.statistics.BMPredictor;
+import ac.technion.schemamatching.statistics.STDEVPredictor;
+import ac.technion.schemamatching.statistics.Statistic;
 
 /**
  * Calculates various predictions on a similarity matrix

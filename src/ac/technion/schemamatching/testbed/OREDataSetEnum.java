@@ -8,6 +8,7 @@ import ac.technion.iem.ontobuilder.io.imports.NativeImporter;
 import ac.technion.iem.ontobuilder.io.imports.WSDLImporter;
 import ac.technion.iem.ontobuilder.io.imports.XSDImporter;
 import ac.technion.iem.ontobuilder.io.imports.XSDImporterUsingXSOM;
+import ac.technion.iem.ontobuilder.io.matchimport.CSVMatchImporter;
 import ac.technion.iem.ontobuilder.io.matchimport.MappingMatchImporter;
 import ac.technion.iem.ontobuilder.io.matchimport.MatchImporter;
 import ac.technion.iem.ontobuilder.io.matchimport.NativeMatchImporter;
@@ -25,7 +26,7 @@ public enum OREDataSetEnum
 	NisBSAPTest(4,"SAP simple test schemas in NisbRDF format",null,null,true,false), 
 	OBSynthetic(5,"Synthetic concepts designed by Nimrod Busany",null,null,true, true),
 	SAPSchemasRDF(6,"SAP software schemas in NisB rdf format",null,null,true, false),
-	Thalia(8,"",new XSDImporter(),null,true, false),
+	Thalia(8,"",new XSDImporter(),new CSVMatchImporter(),true, false),
 	XBenchMatch(9,"",new XSDImporter(),null,true, false),
 	NisBSynthetic(10,"Synthetic concepts designed by Nimrod Busany",new NativeImporter(),new NativeMatchImporter(),true, false),
 	SAPSchemasXSD(11,"SAP software schemas in XSD format",new XSDImporter(),null,true, false),

@@ -14,7 +14,7 @@ import ac.technion.schemamatching.util.ConversionUtils;
  * @author Tomer Sagi
  *
  */
-public class VectorPrinter implements K2Statistic{
+public class VectorPrinterUsingExact implements K2Statistic{
 
 	private ArrayList<String[]> data;
 	private String[] header;
