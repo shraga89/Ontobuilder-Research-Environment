@@ -8,43 +8,32 @@ import java.util.Properties;
 
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 import ac.technion.schemamatching.matchers.firstline.FirstLineMatcher;
+import ac.technion.schemamatching.matchers.firstline.OBTermMatch;
+import ac.technion.schemamatching.matchers.secondline.OBMaxDelta;
 import ac.technion.schemamatching.matchers.secondline.SecondLineMatcher;
-import ac.technion.schemamatching.statistics.K2Statistic;
+import ac.technion.schemamatching.statistics.MappingPrinter;
 import ac.technion.schemamatching.statistics.Statistic;
-import ac.technion.schemamatching.statistics.VectorPrinterUsingExact;
 import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
 
 /**
  * @author Tomer Sagi
- * This experiment prints vectors of match results using all 1st and 2nd line matchers supplied
+ * Generates mappings to be used to convert to goldenmappings
  *
  */
-public class VectorPrinting implements MatchingExperiment {
-
-	private ArrayList<FirstLineMatcher> flM = new ArrayList<FirstLineMatcher>();
-	private ArrayList<SecondLineMatcher> slM = new ArrayList<SecondLineMatcher>(); 
+public class MappingPrinting implements MatchingExperiment {
 
 	/* (non-Javadoc)
 	 * @see ac.technion.schemamatching.experiments.MatchingExperiment#runExperiment(ac.technion.schemamatching.testbed.ExperimentSchemaPair)
 	 */
 	public ArrayList<Statistic> runExperiment(ExperimentSchemaPair esp) {
-		ArrayList<Statistic> vectors = new ArrayList<Statistic>();
-		for (FirstLineMatcher m : flM)
-		{
-			//Match
-			MatchInformation mi = m.match(esp.getCandidateOntology(), esp.getTargetOntology(), false);
-			K2Statistic v = new VectorPrinterUsingExact();
-			v.init(m.getName(), mi,esp.getExact());
-			vectors.add(v);
-			for (SecondLineMatcher slm : slM)
-			{
-				MatchInformation mi1 = slm.match(mi);
-			    K2Statistic v2 = new VectorPrinterUsingExact();
-				v2.init(m.getName() + "," + slm.getName(), mi1,esp.getExact());
-				vectors.add(v2);
-			}
-		}
-		return vectors;
+		MappingPrinter mp = new MappingPrinter();
+		String instanceDescription = esp.getCandidateOntology().getName() + "2" + esp.getTargetOntology().getName();
+		MatchInformation mi = esp.getSimilarityMatrix(new OBTermMatch());
+		OBMaxDelta slm = new OBMaxDelta(0);
+		mp.init(instanceDescription,slm.match(mi));
+		ArrayList<Statistic> res = new ArrayList<Statistic>();
+		res.add(mp);
+		return res;
 	}
 
 	/* (non-Javadoc)
@@ -52,8 +41,6 @@ public class VectorPrinting implements MatchingExperiment {
 	 */
 	public boolean init(OBExperimentRunner oer, Properties properties,
 			ArrayList<FirstLineMatcher> flM, ArrayList<SecondLineMatcher> slM) {
-		this.flM = flM;
-		this.slM = slM;
 		return true;
 	}
 
@@ -61,15 +48,15 @@ public class VectorPrinting implements MatchingExperiment {
 	 * @see ac.technion.schemamatching.experiments.MatchingExperiment#getDescription()
 	 */
 	public String getDescription() {
-		String res = "This experiment prints vectors of match results using all 1st and 2nd line matchers supplied";
-		return res;
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	/* (non-Javadoc)
 	 * @see ac.technion.schemamatching.experiments.MatchingExperiment#summaryStatistics()
 	 */
 	public ArrayList<Statistic> summaryStatistics() {
-		//Irrelevant
+		// TODO Auto-generated method stub
 		return null;
 	}
 

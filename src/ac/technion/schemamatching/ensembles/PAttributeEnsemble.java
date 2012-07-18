@@ -10,8 +10,8 @@ import ac.technion.iem.ontobuilder.core.ontology.Term;
 import ac.technion.iem.ontobuilder.matching.match.Match;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 import ac.technion.iem.ontobuilder.matching.meta.match.MatchMatrix;
-import ac.technion.schemamatching.statistics.Predictor;
-import ac.technion.schemamatching.statistics.PredictorList;
+import ac.technion.schemamatching.statistics.predictors.Predictor;
+import ac.technion.schemamatching.statistics.predictors.PredictorList;
 import ac.technion.schemamatching.util.ConversionUtils;
 
 /**

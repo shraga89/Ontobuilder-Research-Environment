@@ -1,5 +1,7 @@
 package ac.technion.schemamatching.statistics;
 
+import ac.technion.schemamatching.statistics.predictors.Predictor;
+
 public class BMPredictor implements Predictor{
 
 	private double prod;

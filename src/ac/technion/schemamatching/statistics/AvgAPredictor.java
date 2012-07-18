@@ -1,5 +1,7 @@
 package ac.technion.schemamatching.statistics;
 
+import ac.technion.schemamatching.statistics.predictors.Predictor;
+
 public class AvgAPredictor implements Predictor {
 	private double sum = 0.0;
 	private double len = 0.0;

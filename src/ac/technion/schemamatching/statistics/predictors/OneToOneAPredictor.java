@@ -1,7 +1,7 @@
 /**
  * 
  */
-package ac.technion.schemamatching.statistics;
+package ac.technion.schemamatching.statistics.predictors;
 
 /**
  * @author Tomer Sagi

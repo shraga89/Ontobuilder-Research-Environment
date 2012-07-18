@@ -10,7 +10,7 @@ import ac.technion.schemamatching.matchers.firstline.FirstLineMatcher;
 import ac.technion.schemamatching.matchers.secondline.SecondLineMatcher;
 import ac.technion.schemamatching.statistics.K2Statistic;
 import ac.technion.schemamatching.statistics.Statistic;
-import ac.technion.schemamatching.statistics.VectorPrinter;
+import ac.technion.schemamatching.statistics.VectorPrinterUsingExact;
 import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
 
 /**
@@ -29,7 +29,7 @@ public class ClusteringMatches implements MatchingExperiment {
 		ArrayList<Statistic> res = new ArrayList<Statistic>();
 		for (FirstLineMatcher f : flM)
 		{
-			K2Statistic v = new VectorPrinter();
+			K2Statistic v = new VectorPrinterUsingExact();
 			v.init(f.getName(),esp.getSimilarityMatrix(f) ,esp.getExact());
 			res.add(v);
 		}

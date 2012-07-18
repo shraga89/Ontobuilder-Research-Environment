@@ -1,4 +1,4 @@
-package ac.technion.schemamatching.statistics;
+package ac.technion.schemamatching.statistics.predictors;
 
 import java.util.HashMap;
 

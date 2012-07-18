@@ -2,6 +2,8 @@ package ac.technion.schemamatching.statistics;
 
 
 import java.util.TreeSet;
+
+import ac.technion.schemamatching.statistics.predictors.Predictor;
 /**
  * Implementation of the @link{Predictor} interface
  * Returns the cosine similarity between the result vector and

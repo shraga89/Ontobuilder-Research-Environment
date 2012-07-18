@@ -1,4 +1,9 @@
-package ac.technion.schemamatching.statistics;
+package ac.technion.schemamatching.statistics.predictors;
+
+import ac.technion.schemamatching.statistics.AvgAPredictor;
+import ac.technion.schemamatching.statistics.BMMPredictor;
+import ac.technion.schemamatching.statistics.BMPredictor;
+import ac.technion.schemamatching.statistics.STDEVPredictor;
 
 public enum PredictorList {AvgAPredictor(new AvgAPredictor()),BMMPredictor(new BMMPredictor()),
 						   BMPredictor(new BMPredictor()),LMMPredictor(new LMMPredictor()),MaxPredictor(new MaxPredictor()),

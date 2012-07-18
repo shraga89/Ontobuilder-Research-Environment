@@ -51,14 +51,17 @@ public class ExperimentDocumenter
 				
 				MatchInformation exactMapping = esp.getExact();
 				//Document term parameters 
-				for (Object o : exactMapping.getOriginalCandidateTerms())
-					writeTermToDB(esp.getCandidateID(), (Term)o);
-				for (Object o : exactMapping.getOriginalTargetTerms())
-					writeTermToDB(esp.getTargetID(), (Term)o);
-				
-				//Document exact match
-		        uploadExactMatch(exactMapping, esp.getSPID());
-		        
+				if (exactMapping != null){
+					for (Object o : exactMapping.getOriginalCandidateTerms())
+						writeTermToDB(esp.getCandidateID(), (Term)o);
+					for (Object o : exactMapping.getOriginalTargetTerms())
+						writeTermToDB(esp.getTargetID(), (Term)o);
+					
+					//Document exact match
+			        uploadExactMatch(exactMapping, esp.getSPID());
+			   
+				}
+				     
 		   
 		}
 	  		System.out.println("DataSet size is: " + dataset.size());
