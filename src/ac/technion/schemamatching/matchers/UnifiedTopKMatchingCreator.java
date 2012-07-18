@@ -134,9 +134,7 @@ public class UnifiedTopKMatchingCreator {
 			}
 			if (matched.isEmpty())
 				clusters.add(new Cluster(t,null));
-			else if (matched.size() == 1)
-				clusters.add(new Cluster(t,matched.iterator().next()));
-			else {
+			else if (matched.size() > 1) {
 				toOptTarget.add(t);
 				toOptCandidate.addAll(matched);
 			}
@@ -150,12 +148,20 @@ public class UnifiedTopKMatchingCreator {
 			}
 			if (matched.isEmpty())
 				clusters.add(new Cluster(null,c));
-			else if (matched.size() == 1) {
-				// done already
-			}
-			else {
+			else if (matched.size() > 1) {
 				toOptTarget.addAll(matched);
 				toOptCandidate.add(c);
+			}
+		}
+
+		for (Term t : this.unifiedTopKGraph.getTargetTerms()) {
+			Set<Term> matched = new HashSet<Term>();
+			for (Term c : this.unifiedTopKGraph.getCandidateTerms()) {
+				if (this.unifiedTopKGraph.getMatchConfidence(c, t) > 0)
+					matched.add(c);
+			}
+			if (matched.size() == 1 && !toOptTarget.contains(t)) {
+					clusters.add(new Cluster(t,matched.iterator().next()));
 			}
 		}
 		
