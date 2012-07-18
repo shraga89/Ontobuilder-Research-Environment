@@ -1,12 +1,10 @@
 /**
  * 
  */
-package ac.technion.schemamatching.matchers;
+package ac.technion.schemamatching.matchers.secondline;
 
-import ac.technion.iem.ontobuilder.matching.algorithms.line2.topk.wrapper.BestMappingsWrapper;
+import ac.technion.iem.ontobuilder.matching.algorithms.line2.simple.Dominants2LM;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
-import ac.technion.iem.ontobuilder.matching.utils.SchemaTranslator;
-import ac.technion.schemamatching.util.ConversionUtils;
 
 /**
  * @author Tomer Sagi
@@ -25,13 +23,8 @@ public class OBDominants implements SecondLineMatcher {
 	 * @see ac.technion.schemamatching.matchers.SecondLineMatcher#match(ac.technion.iem.ontobuilder.matching.match.MatchInformation)
 	 */
 	public MatchInformation match(MatchInformation mi) {
-		BestMappingsWrapper.matchMatrix = mi.getMatrix();	
-		SchemaTranslator st = BestMappingsWrapper.GetBestMapping("Dominants");
-		assert (st!=null);
-		MatchInformation res = new MatchInformation(mi.getCandidateOntology(),mi.getTargetOntology());
-		res.setMatches(st.toOntoBuilderMatchList(res.getMatrix()));
-		ConversionUtils.zeroNonMatched(res);
-		return res;
+		Dominants2LM d = new Dominants2LM();
+		return d.match(mi);
 	}
 
 	/* (non-Javadoc)

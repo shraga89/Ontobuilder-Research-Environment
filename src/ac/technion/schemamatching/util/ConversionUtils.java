@@ -112,23 +112,15 @@ public class ConversionUtils {
 	 * @param mi
 	 */
 	public static void fillMI(MatchInformation mi) {
+		ArrayList<Match> matches = mi.getCopyOfMatches();
 		ArrayList<Term> candTerms = new ArrayList<Term>();
 		candTerms.addAll(mi.getCandidateOntology().getTerms(true));
 		ArrayList<Term> targetTerms = new ArrayList<Term>();
 		targetTerms.addAll(mi.getTargetOntology().getTerms(true));
 		MatchMatrix mm = new MatchMatrix(candTerms.size(),targetTerms.size(), candTerms, targetTerms);
-		for (Term c : candTerms)
-			for (Term t : targetTerms)
-			{
-				double conf = mi.getMatrix().getMatchConfidence(c, t);
-				mm.setMatchConfidence(c, t,(conf==-1?0:conf) );
-			}
-//		for (Object o : mi.getMatches())
-//		{
-//			Match m = (Match)o;
-//			mm.setMatchConfidence(m.getCandidateTerm(), m.getTargetTerm(), m.getEffectiveness());
-//		}
 		mi.setMatrix(mm);
+		for (Match m : matches)
+				mi.updateMatch(m.getTargetTerm(), m.getCandidateTerm(), m.getEffectiveness());
 	}
 	
 	/**

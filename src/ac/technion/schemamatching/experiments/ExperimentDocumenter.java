@@ -51,7 +51,7 @@ public class ExperimentDocumenter
 				
 				MatchInformation exactMapping = esp.getExact();
 				//Document term parameters 
-				for (Object o : exactMapping .getOriginalCandidateTerms())
+				for (Object o : exactMapping.getOriginalCandidateTerms())
 					writeTermToDB(esp.getCandidateID(), (Term)o);
 				for (Object o : exactMapping.getOriginalTargetTerms())
 					writeTermToDB(esp.getTargetID(), (Term)o);
@@ -184,7 +184,7 @@ public class ExperimentDocumenter
 			values.put(conf , match.getEffectiveness());
 			if ((Double)values.get(conf)>1)
 			{
-				System.err.println("oops");
+				System.err.println("oops, confidence of " + values.toString() +" is higher than 1");
 			}
 			OBExperimentRunner.getOER().getDB().insertSingleRow(values, "similaritymatrices");
 		}

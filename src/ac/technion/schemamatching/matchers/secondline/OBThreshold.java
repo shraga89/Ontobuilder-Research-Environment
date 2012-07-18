@@ -1,7 +1,9 @@
 /**
  * 
  */
-package ac.technion.schemamatching.matchers;
+package ac.technion.schemamatching.matchers.secondline;
+
+import java.util.Properties;
 
 import ac.technion.iem.ontobuilder.matching.algorithms.line2.simple.Threshold2LM;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
@@ -48,9 +50,9 @@ public class OBThreshold implements SecondLineMatcher {
 	public OBThreshold(double threshold)
 	{
 		this.my2LM = new Threshold2LM(threshold);
-//		Properties p = new Properties();
-//		p.put("t", threshold);
-//		my2LM.init(p);
+		Properties p = new Properties();
+		p.setProperty("t", Double.toString(threshold));
+		my2LM.init(p);
 		this.threshold = threshold;
 	}
 	public void setThreshold(double threshold) {
