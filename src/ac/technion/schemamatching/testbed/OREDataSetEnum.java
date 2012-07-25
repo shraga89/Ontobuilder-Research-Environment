@@ -8,6 +8,7 @@ import ac.technion.iem.ontobuilder.io.imports.NativeImporter;
 import ac.technion.iem.ontobuilder.io.imports.WSDLImporter;
 import ac.technion.iem.ontobuilder.io.imports.XSDImporter;
 import ac.technion.iem.ontobuilder.io.imports.XSDImporterUsingXSOM;
+import ac.technion.iem.ontobuilder.io.matchimport.CRFMatchImporter;
 import ac.technion.iem.ontobuilder.io.matchimport.CSVMatchImporter;
 import ac.technion.iem.ontobuilder.io.matchimport.MappingMatchImporter;
 import ac.technion.iem.ontobuilder.io.matchimport.MatchImporter;
@@ -38,7 +39,8 @@ public enum OREDataSetEnum
 	NisPO(17,"NisB Purchase Order schemas (XSD)",new XSDImporterUsingXSOM(),new MappingMatchImporter(),true, false),
 	NisPOBig(18,"NisB Big Purchase Order schemas (XSD)",null,null,true, false),
 	NisBHungSynthetic(19,"Synthetic schemas based on vendor and ubl (NisBRDF)",null,null,true, false),
-	University(20,"University Application Forms",new XSDImporterUsingXSOM(),new MappingMatchImporter(),true, false);
+	University(20,"University Application Forms",new XSDImporterUsingXSOM(),new MappingMatchImporter(),true, false),
+	CRF(22,"Fiat Research Contributed Schemas", new XSDImporterUsingXSOM(),new CRFMatchImporter(),true,false);
 	
 	/**
 	 * Get a OREDataSetEnum by it's dataset id in O(n)
