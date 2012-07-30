@@ -2,9 +2,12 @@ package ac.technion.schemamatching.experiments;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Properties;
 
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
+import ac.technion.schemamatching.ensembles.Ensemble;
+import ac.technion.schemamatching.ensembles.SimpleWeightedEnsemble;
 import ac.technion.schemamatching.matchers.firstline.FLMList;
 import ac.technion.schemamatching.matchers.firstline.FirstLineMatcher;
 import ac.technion.schemamatching.matchers.secondline.OBTopK;
@@ -18,28 +21,44 @@ import ac.technion.schemamatching.util.ConversionUtils;
 
 public class TopKClustering implements MatchingExperiment {
 
-//	private ArrayList<FirstLineMatcher> flM;
+	private List<FirstLineMatcher> flM;
 	private HashMap<String,Double> matcherWeights = new HashMap<String,Double>();
 
 	public ArrayList<Statistic> runExperiment(ExperimentSchemaPair esp) {
 		
 		ArrayList<Statistic> res = new ArrayList<Statistic>();
-		
-//		System.out.println(weightedMI.getMatches());
+
 
 //		double[] simThresholds = new double[]{0.55,0.5,0.45,0.4,0.35,0.3,0.25};
 //		int[] ks = new int[]{20,40,60,80,100,120};
 		
-		double[] simThresholds = new double[]{0.5};
-		int[] ks = new int[]{20,40,60,80,100};
+		double[] simThresholds = new double[]{0.7};
+		int[] ks = new int[]{20};
 		
 		for (int i = 0; i < simThresholds.length; i++) {
 			double simThreshold = simThresholds[i];
 			for (int j = 0; j < ks.length; j++) {
 				int k = ks[j];
 				
+				HashMap<String,MatchInformation> flMatches = new HashMap<String,MatchInformation>(); 
+				//List all 1LMs with over 0 weight in file
+				ArrayList<FirstLineMatcher> tmp = new ArrayList<FirstLineMatcher>();
+				for (FirstLineMatcher f : flM)
+				{
+					String mName = f.getName();
+					if (matcherWeights.containsKey(mName) && matcherWeights.get(mName)>0)
+						tmp.add(f);
+				}
 				
-				MatchInformation weightedMI = FLMList.AMCName.getFLM().match(esp.getCandidateOntology(), esp.getTargetOntology(), false);
+				//Match
+				for (FirstLineMatcher f : tmp)
+					flMatches.put(f.getName(),f.match(esp.getCandidateOntology(), esp.getTargetOntology(), false));
+				
+				//Create ensemble
+				Ensemble e = new SimpleWeightedEnsemble();
+				e.init(flMatches, matcherWeights);
+				MatchInformation weightedMI = e.getWeightedMatch();
+
 				ConversionUtils.zeroWeightsByThresholdAndRemoveMatches(weightedMI, simThreshold);
 				
 				OBTopK.k = k;
@@ -49,6 +68,8 @@ public class TopKClustering implements MatchingExperiment {
 				String id = esp.getSPID()+",baseline," + simThreshold + "," + k; 
 				b.init(id, matchesBaseline,esp.getExact());
 				res.add(b);
+				
+				System.out.println(matchesBaseline.getCopyOfMatches());
 				
 				System.out.println("Baseline");
 				for (String[] s : b.getData())
@@ -61,7 +82,9 @@ public class TopKClustering implements MatchingExperiment {
 				id = new String(esp.getSPID()+",clustered," + simThreshold + "," + k); 
 				b.init(id, matchesClustered,esp.getExact());
 				res.add(b);
-				
+
+				System.out.println(matchesClustered.getCopyOfMatches());
+
 				System.out.println("Top-K");
 				for (String[] s : b.getData())
 					for (int l = 0; l < s.length; l++)
@@ -111,7 +134,7 @@ public class TopKClustering implements MatchingExperiment {
 	public boolean init(OBExperimentRunner oer, Properties properties,
 			ArrayList<FirstLineMatcher> flM, ArrayList<SecondLineMatcher> slM) {
 		
-//		this.flM = flM;
+		this.flM = flM;
 		HashMap<Integer, FirstLineMatcher> flmHash = FLMList.getIdFLMHash();
 		for (Object key : properties.keySet())
 		{
