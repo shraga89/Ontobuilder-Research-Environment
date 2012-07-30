@@ -123,7 +123,6 @@ public class ComplexBinaryGolden implements K2Statistic {
 		while (found) {
 			List<Set<String>> complexSets2 = new ArrayList<Set<String>>();
 			for (Set<String> set1 : complexSets) {
-				List<Set<String>> toRemove = new ArrayList<Set<String>>();
 				for (Set<String> set2 : complexSets) {
 					if (set1.equals(set2))
 						continue;
@@ -140,12 +139,14 @@ public class ComplexBinaryGolden implements K2Statistic {
 					}
 					if (found) {
 						set1.addAll(set2);
-						toRemove.add(set2);
 					}
 				}
-				complexSets2.add(set1);
+				if (!complexSets2.contains(set1))
+					complexSets2.add(set1);
 			}
 			complexSets = complexSets2;
+			if (complexSets2.size() < 2)
+				found = false;
 		}
 
 		/*
