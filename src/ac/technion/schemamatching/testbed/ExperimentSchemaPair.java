@@ -74,8 +74,6 @@ public class ExperimentSchemaPair {
 	  String candPath;
 	  String targPath;
 	  Importer imp = dsEnum.getImporter();
-	  
-	  
 	  String sql = "SELECT CandidateSchema, TargetSchema, DSID, path FROM schemapairs WHERE SPID = " + SPID + ";";
 	  ArrayList<String[]> res = OBExperimentRunner.getOER().getDB().runSelectQuery(sql, 4);
 	  candidateID = Integer.parseInt(res.get(0)[0]);
@@ -91,7 +89,7 @@ public class ExperimentSchemaPair {
 		  candPath =  OBExperimentRunner.getOER().getDsurl() + exactMatchPath.split("/")[0] +  File.separatorChar + pairFolder + File.separatorChar + pairFolder.split("_")[0];
 		  targPath =  OBExperimentRunner.getOER().getDsurl() + exactMatchPath.split("/")[0] +  File.separatorChar + pairFolder + File.separatorChar + pairFolder.split("_")[1];;
 	  }
-	  else
+	  else //Non ontobuilder webform dataset
 	  {
 		  //get target path from db
 		  sql = "SELECT filePath FROM schemata WHERE SchemaID = " + targetID + ";";
@@ -105,43 +103,43 @@ public class ExperimentSchemaPair {
 				  + Integer.toString(targetID));
 		  candPath = OBExperimentRunner.getOER().getDsurl() + res.get(0)[0];
 	  }
-	  
-	  //Load target ontology
-	  try {target = imp.importFile(new File(targPath));}
-      catch (Exception e) {
-		  e.printStackTrace();
-		  OBExperimentRunner.error("File Load failed on:" + targPath);
-      }
+	  //load schemas to ontologies
+	  target = loadOntologyFromPath(targPath, imp);
+      candidate = loadOntologyFromPath(candPath, imp);
       
-      //Load candidate ontology
-      try {candidate =  imp.importFile(new File(candPath));}
-      catch (Exception e) {
-		  e.printStackTrace();
-		  OBExperimentRunner.error("File Load failed on:" + candPath);
-      }
-
-      //Load exact match
-      try 
-      {
-    	  //exactMapping = OBExperimentRunner.getOER().obw.matchOntologies(candidate, target, MatchingAlgorithms.TERM); 
-    	  //This was wrong!!! Caused the match matrix to be smaller than the original matrix
-
-    	  // Replaced with dataset importer 05/10/11
-//    		  exactMapping = new MatchInformation(candidate,target);
-//    		  stExactMapping = SchemaMatchingsUtilities.readXMLBestMatchingFile(OBExperimentRunner.getOER().getDsurl() + exactMatchPath,exactMapping.getMatrix());
-//    		  ConversionUtils.fillMI(exactMapping,stExactMapping);
+      //load exact match
+      try {
     	  if (dsEnum.isHasExact())
     		  exactMapping = dsEnum.getMatchImp().importMatch(new MatchInformation(candidate,target), new File(OBExperimentRunner.getOER().getDsurl() + exactMatchPath));
     	  else
-    		  exactMapping = null;
-    	  
+    		  exactMapping = null;    	  
     	  }
-    	  catch (Exception e) 
-    	  {
+    	  catch (Exception e) {
 			e.printStackTrace();
-			OBExperimentRunner.error("XML Load failed on:" + exactMatchPath);
-    	  }
+			OBExperimentRunner.error("XML Load failed on:" + exactMatchPath);}
       }
+
+/**
+ * @param schemaFilePath
+ * @param imp
+ * @return 
+ */
+private Ontology loadOntologyFromPath(String schemaFilePath, Importer imp) {
+	try {
+		  	File schemaFile = new File(schemaFilePath);
+		  	if (dsEnum.isHasInstances())
+		  	{
+		  		File instanceFile = new File(schemaFilePath.substring(0, schemaFilePath.length()-4) + ".xml");
+		  		return imp.importFile(schemaFile,instanceFile);
+		  	}
+		  	else
+		  		return imp.importFile(schemaFile);}
+      catch (Exception e) {
+		  e.printStackTrace();
+		  OBExperimentRunner.error("File Load failed on:" + schemaFilePath);
+      }
+	return null;
+}
   	
   /**
    * Return a basic similarity matrix using the supplied @link{FirstLineMatcher}
@@ -257,7 +255,15 @@ public class ExperimentSchemaPair {
 	{
 		
 		ArrayList<String[]> res = null;
-		String sql = "SELECT `similaritymatrices`.`SMID`,`similaritymatrices`.`CandidateSchemaID` , `similaritymatrices`.`CandidateTermID`, `similaritymatrices`.`TargetSchemaID` , `similaritymatrices`.`TargetTermID` , `similaritymatrices`.`confidence` FROM `schemapairs` INNER JOIN `similaritymatrices` ON (`schemapairs`.`TargetSchema` = `similaritymatrices`.`TargetSchemaID`) AND (`schemapairs`.`CandidateSchema` = `similaritymatrices`.`CandidateSchemaID`) WHERE (`similaritymatrices`.`SMID` = '" + smid + "' AND `schemapairs`.`SPID` = " + spid + ");";
+		String sql = "SELECT `similaritymatrices`.`SMID`,`similaritymatrices`." +
+				"`CandidateSchemaID` , `similaritymatrices`.`CandidateTermID`, " +
+				"`similaritymatrices`.`TargetSchemaID` , `similaritymatrices`." +
+				"`TargetTermID` , `similaritymatrices`.`confidence` " +
+				"FROM `schemapairs` INNER JOIN `similaritymatrices` " +
+				"ON (`schemapairs`.`TargetSchema` = `similaritymatrices`.`TargetSchemaID`) " +
+				"AND (`schemapairs`.`CandidateSchema` = `similaritymatrices`.`CandidateSchemaID`)" +
+				" WHERE (`similaritymatrices`.`SMID` = '" + smid + "' " +
+						"AND `schemapairs`.`SPID` = " + spid + ");";
 		res = db.runSelectQuery(sql, 6);
 		return res;
 	}
