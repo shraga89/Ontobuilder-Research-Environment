@@ -20,27 +20,28 @@ import ac.technion.iem.ontobuilder.io.matchimport.NativeMatchImporter;
  */
 public enum OREDataSetEnum 
 {
-	OBWebForms(1,"Ontobuilder Web Forms",new NativeImporter(),new NativeMatchImporter(),true,true),
-	OBWebFormsTest(21,"Ontobuilder Web Forms",new NativeImporter(),new NativeMatchImporter(),true, true),
-	Tel8(2,"Tel-8",null,null,false,false),
-	NisBESW(3,"WSDL supplied by SAP",new WSDLImporter(),null,false, false),
-	NisBSAPTest(4,"SAP simple test schemas in NisbRDF format",null,null,true,false), 
-	OBSynthetic(5,"Synthetic concepts designed by Nimrod Busany",null,null,true, true),
-	SAPSchemasRDF(6,"SAP software schemas in NisB rdf format",null,null,true, false),
-	Thalia(8,"",new XSDImporter(),new CSVMatchImporter(),true, false),
-	XBenchMatch(9,"",new XSDImporter(),null,true, false),
-	NisBSynthetic(10,"Synthetic concepts designed by Nimrod Busany",new NativeImporter(),new NativeMatchImporter(),true, false),
-	SAPSchemasXSD(11,"SAP software schemas in XSD format",new XSDImporter(),null,true, false),
-	eTuner(12,"Small schemas and instances used to generate eTuner synthetic datasets",null,null,true, false),
-	I3Con(13,"Ontology alignment contest ICon3 in owl format",null,null,true, false),
-	OAEIConference(14,"Ontology alignment conference OAEI conference track",null,null,true, false),
-	OAEIBecnhmark(15,"Ontology alignment conference OAEI benchmark track",null,null,true, false),
-	NisBUBL(16,"NisB UBL mega schema vs. vendor",null,null,true, false),
-	NisPO(17,"NisB Purchase Order schemas (XSD)",new XSDImporterUsingXSOM(),new MappingMatchImporter(),true, false),
-	NisPOBig(18,"NisB Big Purchase Order schemas (XSD)",null,null,true, false),
-	NisBHungSynthetic(19,"Synthetic schemas based on vendor and ubl (NisBRDF)",null,null,true, false),
-	University(20,"University Application Forms",new XSDImporterUsingXSOM(),new MappingMatchImporter(),true, false),
-	CRF(22,"Fiat Research Contributed Schemas", new XSDImporterUsingXSOM(),new CRFMatchImporter(),true,false);
+	OBWebForms(1,"Ontobuilder Web Forms",new NativeImporter(),new NativeMatchImporter(),true,true, false),
+	OBWebFormsTest(21,"Ontobuilder Web Forms",new NativeImporter(),new NativeMatchImporter(),true, true, false),
+	Tel8(2,"Tel-8",null,null,false,false, false),
+	NisBESW(3,"WSDL supplied by SAP",new WSDLImporter(),null,false, false, false),
+	NisBSAPTest(4,"SAP simple test schemas in NisbRDF format",null,null,true,false, false), 
+	OBSynthetic(5,"Synthetic concepts designed by Nimrod Busany",null,null,true, true, false),
+	SAPSchemasRDF(6,"SAP software schemas in NisB rdf format",null,null,true, false, false),
+	Thalia(8,"University Course Descriptions in XSD format",new XSDImporterUsingXSOM(),new CSVMatchImporter(),true, false, true),
+	XBenchMatch(9,"",new XSDImporter(),null,true, false, false),
+	NisBSynthetic(10,"Synthetic concepts designed by Nimrod Busany",new NativeImporter(),new NativeMatchImporter(),true, false, false),
+	SAPSchemasXSD(11,"SAP software schemas in XSD format",new XSDImporter(),null,true, false, false),
+	eTuner(12,"Small schemas and instances used to generate eTuner synthetic datasets",null,null,true, false, false),
+	I3Con(13,"Ontology alignment contest ICon3 in owl format",null,null,true, false, false),
+	OAEIConference(14,"Ontology alignment conference OAEI conference track",null,null,true, false, false),
+	OAEIBecnhmark(15,"Ontology alignment conference OAEI benchmark track",null,null,true, false, false),
+	NisBUBL(16,"NisB UBL mega schema vs. vendor",null,null,true, false, false),
+	NisPO(17,"NisB Purchase Order schemas (XSD)",new XSDImporterUsingXSOM(),new MappingMatchImporter(),true, false, false),
+	NisPOBig(18,"NisB Big Purchase Order schemas (XSD)",null,null,true, false, false),
+	NisBHungSynthetic(19,"Synthetic schemas based on vendor and ubl (NisBRDF)",null,null,true, false, false),
+	University(20,"University Application Forms",new XSDImporterUsingXSOM(),new MappingMatchImporter(),true, false, false),
+	IMAP(21,"Small scale relational schemas with instances", new XSDImporterUsingXSOM(),new CSVMatchImporter(),true,false,true),
+	CRF(22,"Fiat Research Contributed Schemas", new XSDImporterUsingXSOM(),new CRFMatchImporter(),true,false, false);
 	
 	/**
 	 * Get a OREDataSetEnum by it's dataset id in O(n)
@@ -65,7 +66,8 @@ public enum OREDataSetEnum
 		return _importer;
 	}
 	private OREDataSetEnum(int dsid,String dsDesc,Importer imp, 
-			MatchImporter matchImporter, boolean hasExactMatch, boolean supportsDBLook)
+			MatchImporter matchImporter, boolean hasExactMatch, 
+			boolean supportsDBLook, boolean hasInstances)
 	{
 		_datasetDBid = dsid;
 		_datasetDescription = dsDesc;
@@ -73,12 +75,17 @@ public enum OREDataSetEnum
 		_matchImp = matchImporter;
 		_hasExact = hasExactMatch;
 		_supportsDBLookup = supportsDBLook;
+		_hasInstances = hasInstances;
 	}
 	public MatchImporter getMatchImp() {
 		return _matchImp;
 	}
 	public boolean isHasExact() {
 		return _hasExact;
+	}
+	
+	public boolean isHasInstances()	{
+		return _hasInstances;
 	}
 	
 	/**
@@ -95,4 +102,5 @@ public enum OREDataSetEnum
 	private MatchImporter _matchImp;
 	private boolean _hasExact;
 	private boolean _supportsDBLookup; 
+	private boolean _hasInstances;
 }
