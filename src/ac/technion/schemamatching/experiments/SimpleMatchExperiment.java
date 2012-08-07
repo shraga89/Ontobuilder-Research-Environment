@@ -55,7 +55,7 @@ public class SimpleMatchExperiment implements MatchingExperiment {
 				MatchInformation mi1 = s.match(mi);
 				//calculate Precision and Recall
 				K2Statistic b2 = new BinaryGolden();
-				instanceDesc =  esp.getSPID() + "," + m.getName() + "," + s.getName();
+				instanceDesc =  esp.getSPID() + "," + m.getName() + "," + s.getName()+ "," + s.getConfig();
 				b2.init(instanceDesc, mi1,esp.getExact());
 				evaluations.add(b2);
 			}

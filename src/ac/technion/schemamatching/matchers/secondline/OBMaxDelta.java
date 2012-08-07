@@ -38,7 +38,7 @@ public class OBMaxDelta implements SecondLineMatcher {
 	 * @see ac.technion.schemamatching.matchers.SecondLineMatcher#getDBid()
 	 */
 	public int getDBid() {
-		return 7;
+		return 8;
 	}
 
 	/**
