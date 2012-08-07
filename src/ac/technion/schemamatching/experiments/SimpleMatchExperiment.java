@@ -8,6 +8,7 @@ import ac.technion.schemamatching.matchers.firstline.FirstLineMatcher;
 import ac.technion.schemamatching.matchers.secondline.SecondLineMatcher;
 import ac.technion.schemamatching.statistics.BinaryGolden;
 import ac.technion.schemamatching.statistics.K2Statistic;
+import ac.technion.schemamatching.statistics.NBGolden;
 import ac.technion.schemamatching.statistics.Statistic;
 import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
 
@@ -41,6 +42,12 @@ public class SimpleMatchExperiment implements MatchingExperiment {
 			*/
 			mi = esp.getSimilarityMatrix(m);
 			
+			//Calculate Non-Binary Precision and Recall
+			K2Statistic nb = new NBGolden();
+			String instanceDesc =  esp.getSPID() + "," + m.getName();
+			nb.init(instanceDesc, mi,esp.getExact());
+			evaluations.add(nb);
+			
 			//Using all second line matchers
 			for (SecondLineMatcher s : slM)
 			{
@@ -48,7 +55,7 @@ public class SimpleMatchExperiment implements MatchingExperiment {
 				MatchInformation mi1 = s.match(mi);
 				//calculate Precision and Recall
 				K2Statistic b2 = new BinaryGolden();
-				String instanceDesc =  esp.getSPID() + "," + m.getName() + "," + s.getName();
+				instanceDesc =  esp.getSPID() + "," + m.getName() + "," + s.getName();
 				b2.init(instanceDesc, mi1,esp.getExact());
 				evaluations.add(b2);
 			}
