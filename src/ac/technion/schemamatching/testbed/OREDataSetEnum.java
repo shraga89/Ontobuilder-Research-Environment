@@ -21,7 +21,6 @@ import ac.technion.iem.ontobuilder.io.matchimport.NativeMatchImporter;
 public enum OREDataSetEnum 
 {
 	OBWebForms(1,"Ontobuilder Web Forms",new NativeImporter(),new NativeMatchImporter(),true,true, false),
-	OBWebFormsTest(21,"Ontobuilder Web Forms",new NativeImporter(),new NativeMatchImporter(),true, true, false),
 	Tel8(2,"Tel-8",null,null,false,false, false),
 	NisBESW(3,"WSDL supplied by SAP",new WSDLImporter(),null,false, false, false),
 	NisBSAPTest(4,"SAP simple test schemas in NisbRDF format",null,null,true,false, false), 
