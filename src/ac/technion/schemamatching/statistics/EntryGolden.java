@@ -12,9 +12,11 @@ import ac.technion.schemamatching.util.ConversionUtils;
 
 /**
  * @author Tomer Sagi
- *
+ * Calculates TruePositive (TP), TrueNegative(TN)
+ * FalsePositive (FN), FalseNegative (FN)
+ * for each matrix entry
  */
-public class VectorPrinterUsingExact implements K2Statistic{
+public class EntryGolden implements K2Statistic{
 
 	private ArrayList<String[]> data;
 	private String[] header;
@@ -24,7 +26,7 @@ public class VectorPrinterUsingExact implements K2Statistic{
 	}
 
 	public String getName() {
-		return "VectorPrinter";
+		return "EntryGolden";
 	}
 
 	public ArrayList<String[]> getData() {
@@ -39,12 +41,9 @@ public class VectorPrinterUsingExact implements K2Statistic{
 	public boolean init(String instanceDescription, MatchInformation mi,
 			MatchInformation exactMatch) {
 		MatchMatrix exactM = exactMatch.getMatrix();
-		//int vLen = exactM.getRowCount()*exactM.getColCount();
-		int vLen = exactM.getColCount();
-		
+
 		//Create Header
-		header = new String[vLen+3];
-		header[0] = "instance";
+		header = new String[] {"instance","TP","TN","FP","FN","Res"};
 		
 		//Create Data list
 		data = new ArrayList<String[]>();
@@ -56,30 +55,22 @@ public class VectorPrinterUsingExact implements K2Statistic{
 				e.printStackTrace();
 			}
 		
-		//Fill header : [instanceName, TargetTerm, CandidateTerm1.provenance,...,CandidateTermN.provenance] 
-		
-		for (Term c : exactM.getCandidateTerms())
-		{
-			header[1] = "TargetTermID";
-			header[2] = "TargetTermProvenance";
-			int tID = exactM.getTermIndex(exactM.getCandidateTerms(), c, true);
-			header[tID+3] = c.getProvenance();
-		}
-		
 		//Fill data
 		for (Term t : exactM.getTargetTerms())
 		{
-		String[] v = new String[vLen+3];
-		v[0] = instanceDescription;
-		v[1] = "'" + Long.toString(t.getId()) + "'";
-		v[2] = t.getProvenance();
 			for (Term c : exactM.getCandidateTerms())
-				{
-					v[3+exactM.getTermIndex(exactM.getCandidateTerms(), c, true)] = Double.toString(mi.getMatrix().getMatchConfidence(c,t));
-				}
-			data.add(v);
+			{
+				boolean m = (mi.getMatchConfidence(c, t)>0);
+				boolean e = (exactM.getMatchConfidence(c, t)>0);
+				String v[] = new String[]{instanceDescription + "," + t.getId()+ "," + c.getId()
+						,(new Integer((m==e&&m==true?1:0))).toString()
+						,(new Integer((m==e&&m==false?1:0))).toString()
+						,(new Integer((m!=e&&m==true?1:0))).toString()
+						,(new Integer((m!=e&&m==false?1:0))).toString()
+						,new String((m==e&&m==true?"TP":(m==e&&m==false?"TN":(m!=e&&m==true?"FP":"FN"))))};
+				data.add(v);
+			}
 		}
-		
 		return true;
 	}
 

@@ -5,7 +5,7 @@ package ac.technion.schemamatching.statistics.predictors;
 
 /**
  * @author Tomer Sagi
- * Interface for classes that implement a predictor evaluation function
+ * <p>Interface for classes that implement a predictor evaluation function</p>
  *
  */
 public interface Predictor 

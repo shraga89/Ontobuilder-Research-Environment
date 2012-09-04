@@ -13,7 +13,7 @@ public enum ExperimentType
 	SimpleMatch(new SimpleMatchExperiment())
 	,Clarity(new ClarityExperiment()),MatrixPredictEval(new MatrixPredictorEvaluation()),Boosting(new BoostingExperiment())
 	,TuneTerm(new TuneTermExperiment()), StaticEnsemble(new StaticEnsemble())
-	,EntryPredictEval(new EntryPredictionEvaluation()), AttributePredictEval(new AttributePredictorEvaluation())
+	,EntryPredictEval(new EntryPredictorEvaluation()), AttributePredictEval(new AttributePredictorEvaluation())
 	,MatrixPredictorEnsemble(new MatrixPredictorEnsemble()),AttributePredictorEnsemble(new AttributePredictorEnsemble())
 	,ClusteringMatches(new ClusteringMatches()),Drift(new Drift2LM())
 	,EntryPredictorEnsemble(new EntryPredictorEnsemble())
