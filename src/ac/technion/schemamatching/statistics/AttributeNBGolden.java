@@ -46,7 +46,7 @@ public class AttributeNBGolden implements K2Statistic {
 		for (int i=0;i<miRowArrays.size();i++)
 		{
 			data.add(new String[] 
-			    {instanceDescription + "_R" + i
+			    {instanceDescription + ",Target," + exactMatch.getMatrix().getTargetTerms().get(i).getId()
 					, Double.toString(calcSMPrecision(miRowArrays.get(i),exactRowArrays.get(i)))
 					,Double.toString(calcSMRecall(miRowArrays.get(i),exactRowArrays.get(i)))});
 		}
@@ -55,7 +55,7 @@ public class AttributeNBGolden implements K2Statistic {
 		for (int i=0;i<miColArrays.size();i++)
 		{
 			data.add(new String[] 
-			    {instanceDescription + "_C" + i
+			    {instanceDescription + ",Candidate," + exactMatch.getMatrix().getCandidateTerms().get(i).getId()
 					, Double.toString(calcSMPrecision(miColArrays.get(i),exactColArrays.get(i)))
 					,Double.toString(calcSMRecall(miColArrays.get(i),exactColArrays.get(i)))});
 		}
