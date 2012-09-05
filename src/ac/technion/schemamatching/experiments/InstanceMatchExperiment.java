@@ -22,8 +22,6 @@ import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
  *
  */
 public class InstanceMatchExperiment implements MatchingExperiment {
-	private ArrayList<FirstLineMatcher> flM;
-	private ArrayList<SecondLineMatcher> slM;
 	private double th = 0.5;
 	private double matchTH=0.5;
 	/*
@@ -56,12 +54,7 @@ public class InstanceMatchExperiment implements MatchingExperiment {
 	 * (non-Javadoc)
 	 * @see ac.technion.schemamatching.experiments.MatchingExperiment#init(java.util.Properties, java.util.ArrayList)
 	 */
-	public boolean init(OBExperimentRunner oer,Properties properties, ArrayList<FirstLineMatcher> flM, ArrayList<SecondLineMatcher> slM) {
-		/*Using the supplied first line matcher list and second line matcher list allows run-time 
-		changes to matchers used in the experiment*/
-		this.flM = flM;
-		this.slM = slM;
-		//using property files allows to modify experiment parameters at runtime 
+	public boolean init(OBExperimentRunner oer,Properties properties, ArrayList<FirstLineMatcher> flM, ArrayList<SecondLineMatcher> slM) { 
 		th = Double.parseDouble(properties.getProperty("Threshold"));
 		matchTH=Double.parseDouble(properties.getProperty("MatchThreshold"));
 		return true;
