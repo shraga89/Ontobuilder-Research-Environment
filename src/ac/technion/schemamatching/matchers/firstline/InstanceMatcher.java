@@ -97,10 +97,10 @@ class TFIDF{
 			if(word==null||word.length()==0)continue;
 			addToMap(m, word,1);
 		}
-		Iterator<?> it=m.entrySet().iterator();
+		Iterator<Map.Entry<String, Integer>> it=m.entrySet().iterator();
 		//iterate on map to add word's frequency to the structure
 		while(it.hasNext()){
-			Map.Entry<String, Integer> e=(Map.Entry<String, Integer>)it.next();
+			Map.Entry<String, Integer> e=it.next();
 			addCountWord((String)e.getKey(),(Integer)e.getValue());
 		}
 	}
@@ -159,7 +159,7 @@ class TFIDF{
 	 * @param col column(node's) number
 	 */
 	void addNodeWords(Map<String,Integer> m,int col){
-		Iterator it=m.entrySet().iterator();
+		Iterator<Map.Entry<String, Integer>> it=m.entrySet().iterator();
 		double sum=0;
 		//iterate over the words map
 		while(it.hasNext()){
