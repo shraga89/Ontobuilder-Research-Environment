@@ -5,14 +5,17 @@
  */
 package ac.technion.schemamatching.experiments;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Properties;
+import java.util.StringTokenizer;
 
 import technion.iem.schemamatching.dbutils.DBInterface;
 import ac.technion.iem.ontobuilder.core.utils.files.XmlFileHandler;
@@ -28,6 +31,7 @@ import ac.technion.schemamatching.util.PropertyLoader;
 import com.infomata.data.CSVFormat;
 import com.infomata.data.DataFile;
 import com.infomata.data.DataRow;
+import com.sun.org.apache.bcel.internal.classfile.LineNumber;
 
 /**
  * The class provides tools for running schema matching experiments.
@@ -56,6 +60,7 @@ public class OBExperimentRunner {
 	 * @param args[5] datasetID (for random K)
 	 * @param args[6] -d:domainCodes - (optional) string in the following format "2,3,4,2" (without the Quotation mark)
 	 * or -f:First Line Matcher Codes or -p:properties file used to configure the experiment or -s:second line matcher codes (from db or enum)
+	 * or -l:list of schema pair ids to be used in experiment (file name containing the list)
 	 * 
 	 */
 	public static void main(String[] args) 
@@ -69,6 +74,7 @@ public class OBExperimentRunner {
 		ArrayList<FirstLineMatcher> flm = null;
 		ArrayList<SecondLineMatcher> slm = null; 
 		Properties pFile = null;
+		ArrayList<Long> spList = new ArrayList<Long>();  
 		if (args[0].equalsIgnoreCase("cmd"))
 		{
 			myExpRunner.checkInputParameters(args);
@@ -87,11 +93,17 @@ public class OBExperimentRunner {
 	    				case 'f': flm = parseFLMids(arguments); break;
 	    				case 's': slm = parseSLMids(arguments); break;
 	    				case 'p': pFile = PropertyLoader.loadProperties(arguments); break; 
+	    				case 'l': spList = extractSPList(arguments);
 	    			}
 	    		}
 	    		
 	    	}
-			if (Integer.valueOf(args[3])<=0){
+			if (spList.size()>0){ //Use manual list of Schema Pairs from file
+				String spids = spList.get(0).toString();
+				for (int i=1 ; i<spList.size();i++)
+					spids = spids + "," + spList.get(i).toString();
+				dataset =oer.selectExperiments(0,spids, 0, dc );}
+			else if (Integer.valueOf(args[3])<=0){
 				dataset =oer.selectExperiments(Integer.valueOf(args[3]),args[4], 0, dc );}  
 			else{
 		    	Integer datasetID = Integer.valueOf(args[5]);
@@ -128,6 +140,39 @@ public class OBExperimentRunner {
 		myExpRunner.runExperiment(et,eid, outputPath,flm,slm,pFile);
 	 }
 	
+	/**
+	 * Extracts list of schema pairs from supplied file. 
+	 * @param arguments file name assumed to be in program root directory
+	 * @return list of schema pair IDs
+	 */
+	private static ArrayList<Long> extractSPList(String arguments) {
+		ArrayList<Long> res = new ArrayList<Long>();
+		File spFile = new File("./" + arguments);
+		int lineNumber = 0;
+		if (!spFile.exists())
+		{
+			System.err.println("Invalid schema pair list file supplied:" + arguments);
+		}
+		else
+		{
+			BufferedReader br;
+			try 
+			{
+				br = new BufferedReader(new FileReader(spFile));
+			
+				String strLine = "";
+				while ((strLine = br.readLine()) != null && strLine.trim().length()>0) {
+					lineNumber++;
+					res.add(Long.parseLong(strLine));
+			}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		System.out.println("Read " + lineNumber + "lines from " + arguments );
+		return res;
+	}
+
 	private static void printMainMenu() {
 		System.out.println("Welcome to the Ontobuilder Research Environment");
 		System.out.println("Please select one of the following options:");
