@@ -1,9 +1,10 @@
-package ac.technion.schemamatching.experiments;
+package ac.technion.schemamatching.experiments.pairwise;
 
 import java.util.ArrayList;
 import java.util.Properties;
 
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
+import ac.technion.schemamatching.experiments.OBExperimentRunner;
 import ac.technion.schemamatching.matchers.firstline.FirstLineMatcher;
 import ac.technion.schemamatching.matchers.secondline.SLMList;
 import ac.technion.schemamatching.matchers.secondline.SecondLineMatcher;
@@ -19,7 +20,7 @@ import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
  * @author Tomer Sagi
  *
  */
-public class EntryPredictorEvaluation implements MatchingExperiment {
+public class EntryPredictorEvaluation implements PairWiseExperiment {
 	private ArrayList<FirstLineMatcher> flM;
 
 	/*
@@ -37,7 +38,7 @@ public class EntryPredictorEvaluation implements MatchingExperiment {
 			
 			// Calculate predictors
 			Statistic  p = new EntryPredictors();
-			String instanceDesc = esp.getSPID() + "_"+m.getName()+"_"+m.getConfig();
+			String instanceDesc = esp.getID() + "_"+m.getName()+"_"+m.getConfig();
 			p.init(instanceDesc, mi);
 			predictions.add(p);
 //			//Calculate NBprecision, NBrecall

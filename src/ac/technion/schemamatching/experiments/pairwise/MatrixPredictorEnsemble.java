@@ -1,4 +1,4 @@
-package ac.technion.schemamatching.experiments;
+package ac.technion.schemamatching.experiments.pairwise;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,6 +7,7 @@ import java.util.Properties;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 import ac.technion.schemamatching.ensembles.Ensemble;
 import ac.technion.schemamatching.ensembles.SimpleWeightedEnsemble;
+import ac.technion.schemamatching.experiments.OBExperimentRunner;
 import ac.technion.schemamatching.matchers.firstline.FirstLineMatcher;
 import ac.technion.schemamatching.matchers.secondline.SLMList;
 import ac.technion.schemamatching.matchers.secondline.SecondLineMatcher;
@@ -25,7 +26,7 @@ import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
  * @author Tomer Sagi
  *
  */
-public class MatrixPredictorEnsemble implements MatchingExperiment {
+public class MatrixPredictorEnsemble implements PairWiseExperiment {
 	
 	private HashMap<String,Double> predictorWeights = new HashMap<String,Double>();
 	private ArrayList<FirstLineMatcher> flM;
@@ -54,7 +55,7 @@ public class MatrixPredictorEnsemble implements MatchingExperiment {
 		for (String config : SecondLineMatches.keySet())
 		{
 			K2Statistic b = new BinaryGolden();
-			b.init(esp.getSPID() + "," + config,SecondLineMatches.get(config) ,esp.getExact());
+			b.init(esp.getID() + "," + config,SecondLineMatches.get(config) ,esp.getExact());
 			res.add(b);
 		}
 				
@@ -64,7 +65,7 @@ public class MatrixPredictorEnsemble implements MatchingExperiment {
 		{
 			MatrixPredictors mv = new MatrixPredictors();
 			if (SecondLineMatches.get(mName)  == null) continue;
-			mv.init(esp.getSPID() + "," + mName, SecondLineMatches.get(mName));
+			mv.init(esp.getID() + "," + mName, SecondLineMatches.get(mName));
 			String h[] = mv.getHeader();
 			int numPredictors = h.length -1;
 			Double weightedSumOfPrediction = new Double(0.0);
@@ -87,7 +88,7 @@ public class MatrixPredictorEnsemble implements MatchingExperiment {
 		
 		//Calcualte Golden on ensemble results
 		K2Statistic b = new BinaryGolden();
-		b.init(esp.getSPID() + ",weighted",weightedMI ,esp.getExact());
+		b.init(esp.getID() + ",weighted",weightedMI ,esp.getExact());
 		res.add(b);
 		
 		return res;

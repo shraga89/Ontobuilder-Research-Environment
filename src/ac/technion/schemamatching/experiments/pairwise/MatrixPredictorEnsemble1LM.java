@@ -1,4 +1,4 @@
-package ac.technion.schemamatching.experiments;
+package ac.technion.schemamatching.experiments.pairwise;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,6 +7,7 @@ import java.util.Properties;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 import ac.technion.schemamatching.ensembles.Ensemble;
 import ac.technion.schemamatching.ensembles.SimpleWeightedEnsemble;
+import ac.technion.schemamatching.experiments.OBExperimentRunner;
 import ac.technion.schemamatching.matchers.firstline.FirstLineMatcher;
 import ac.technion.schemamatching.matchers.secondline.SLMList;
 import ac.technion.schemamatching.matchers.secondline.SecondLineMatcher;
@@ -26,7 +27,7 @@ import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
  * @author Tomer Sagi
  *
  */
-public class MatrixPredictorEnsemble1LM implements MatchingExperiment {
+public class MatrixPredictorEnsemble1LM implements PairWiseExperiment {
 	
 	private HashMap<String,Double> predictorWeights = new HashMap<String,Double>();
 	private ArrayList<FirstLineMatcher> flM;
@@ -44,7 +45,7 @@ public class MatrixPredictorEnsemble1LM implements MatchingExperiment {
 		{
 			K2Statistic singleNB = new NBGolden();
 			MatchInformation mi = flMatches.get(f);
-			String id = esp.getSPID()+ "," + f; 
+			String id = esp.getID()+ "," + f; 
 			singleNB.init(id, mi, esp.getExact());
 			res.add(singleNB);
 		}
@@ -55,7 +56,7 @@ public class MatrixPredictorEnsemble1LM implements MatchingExperiment {
 		{
 			MatrixPredictors mv = new MatrixPredictors();
 			if (flMatches.get(mName)  == null) continue;
-			mv.init(esp.getSPID() + "," + mName, flMatches.get(mName));
+			mv.init(esp.getID() + "," + mName, flMatches.get(mName));
 			String h[] = mv.getHeader();
 			int numPredictors = h.length -1;
 			Double weightedSumOfPrediction = new Double(0.0);
@@ -78,7 +79,7 @@ public class MatrixPredictorEnsemble1LM implements MatchingExperiment {
 		
 		//Calculate NB Precision and Recall
 		K2Statistic nb = new NBGolden();
-		String id = esp.getSPID()+",weighted"; 
+		String id = esp.getID()+",weighted"; 
 		nb.init(id, weightedMI, esp.getExact());
 		res.add(nb);
 		
@@ -96,7 +97,7 @@ public class MatrixPredictorEnsemble1LM implements MatchingExperiment {
 			K2Statistic singleB = new BinaryGolden();
 			MatchInformation mi = flMatches.get(f);
 			matchSelected = SLMList.OBSM.getSLM().match(mi);
-			id = esp.getSPID()+ "," + f; 
+			id = esp.getID()+ "," + f; 
 			singleB.init(id, matchSelected, esp.getExact());
 			res.add(singleB);
 		}

@@ -1,12 +1,13 @@
 /**
  * 
  */
-package ac.technion.schemamatching.experiments;
+package ac.technion.schemamatching.experiments.pairwise;
 
 import java.util.ArrayList;
 import java.util.Properties;
 
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
+import ac.technion.schemamatching.experiments.OBExperimentRunner;
 import ac.technion.schemamatching.matchers.firstline.FirstLineMatcher;
 import ac.technion.schemamatching.matchers.secondline.SecondLineMatcher;
 import ac.technion.schemamatching.statistics.L2distance;
@@ -19,7 +20,7 @@ import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
  * This experiments calculates drift between 1LM and 2LM
  * using L2 distance
  */
-public class Drift2LM implements MatchingExperiment 
+public class Drift2LM implements PairWiseExperiment 
 {
 	ArrayList<FirstLineMatcher> flm;
 	ArrayList<SecondLineMatcher> slm;
@@ -33,7 +34,7 @@ public class Drift2LM implements MatchingExperiment
 		{
 			for (SecondLineMatcher s : slm)
 			{
-				String instanceDescription = esp.getSPID() + "," + f.getName() + "," + s.getName();
+				String instanceDescription = esp.getID() + "," + f.getName() + "," + s.getName();
 				MatchInformation fMI = esp.getSimilarityMatrix(f);
 				K2Statistic d1 = new L2distance();
 				//Distance between flm and reference

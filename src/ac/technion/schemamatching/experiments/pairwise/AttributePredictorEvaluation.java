@@ -1,26 +1,28 @@
-package ac.technion.schemamatching.experiments;
+package ac.technion.schemamatching.experiments.pairwise;
 
 import java.util.ArrayList;
 import java.util.Properties;
 
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
+import ac.technion.schemamatching.experiments.OBExperimentRunner;
 import ac.technion.schemamatching.matchers.firstline.FirstLineMatcher;
 import ac.technion.schemamatching.matchers.secondline.SLMList;
 import ac.technion.schemamatching.matchers.secondline.SecondLineMatcher;
+import ac.technion.schemamatching.statistics.AttributeNBGolden;
 import ac.technion.schemamatching.statistics.BinaryGolden;
 import ac.technion.schemamatching.statistics.K2Statistic;
-import ac.technion.schemamatching.statistics.NBGolden;
 import ac.technion.schemamatching.statistics.Statistic;
-import ac.technion.schemamatching.statistics.predictors.MatrixPredictors;
+import ac.technion.schemamatching.statistics.VectorPrinterUsingExact;
+import ac.technion.schemamatching.statistics.predictors.AttributePredictors;
 import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
 
 /**
- * Evaluates matrix predictors by returning the predictor value next to
+ * Evaluates attribute predictors by returning the predictor value next to
  * precision, recall and L2 similarity measures 
  * @author Tomer Sagi
  *
  */
-public class MatrixPredictorEvaluation1LM implements MatchingExperiment {
+public class AttributePredictorEvaluation implements PairWiseExperiment {
 	private ArrayList<FirstLineMatcher> flM;
 
 	/*
@@ -29,19 +31,20 @@ public class MatrixPredictorEvaluation1LM implements MatchingExperiment {
 	 */
 	public ArrayList<Statistic> runExperiment(ExperimentSchemaPair esp) {
 		// Using all 1st line matchers 
-		ArrayList<Statistic> predictions = new ArrayList<Statistic>();
+		ArrayList<Statistic> predictions =  new ArrayList<Statistic>();
 		ArrayList<Statistic> evaluations = new ArrayList<Statistic>();
 		for (FirstLineMatcher m : flM)
 		{
 			//Match
 			MatchInformation mi = esp.getSimilarityMatrix(m);
+			
 			// Calculate predictors
-			Statistic  p = new MatrixPredictors();
-			String instanceDesc = esp.getSPID()+"_"+m.getName()+"_"+m.getConfig();
+			Statistic  p = new AttributePredictors();
+			String instanceDesc = esp.getID() + "_"+m.getName()+"_"+m.getConfig();
 			p.init(instanceDesc, mi);
 			predictions.add(p);
 			//Calculate NBprecision, NBrecall
-			K2Statistic  nb = new NBGolden();
+			K2Statistic  nb = new AttributeNBGolden();
 			nb.init(instanceDesc, mi,esp.getExact());
 			evaluations.add(nb);
 			//Precision Recall
@@ -49,6 +52,14 @@ public class MatrixPredictorEvaluation1LM implements MatchingExperiment {
 			K2Statistic b = new BinaryGolden();
 			b.init(instanceDesc, matchSelected,esp.getExact());
 			evaluations.add(b);
+			//Vectors
+			K2Statistic pr = new VectorPrinterUsingExact();
+			pr.init(instanceDesc, mi, esp.getExact());
+			evaluations.add(pr);
+			K2Statistic prms = new VectorPrinterUsingExact();
+			prms.init(instanceDesc, matchSelected, esp.getExact());
+			evaluations.add(prms);
+
 		}
 		predictions.addAll(evaluations);
 		return predictions;
@@ -68,9 +79,9 @@ public class MatrixPredictorEvaluation1LM implements MatchingExperiment {
 	 * @see ac.technion.schemamatching.experiments.MatchingExperiment#getDescription()
 	 */
 	public String getDescription() {
-		return "Matrix Predictor Evaluation";
+		return "Attribute Predictor Evaluation";
 	}
-	
+
 	public ArrayList<Statistic> summaryStatistics() {
 		//unused
 		return null;
