@@ -1,9 +1,10 @@
-package ac.technion.schemamatching.experiments;
+package ac.technion.schemamatching.experiments.pairwise;
 
 import java.util.ArrayList;
 import java.util.Properties;
 
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
+import ac.technion.schemamatching.experiments.OBExperimentRunner;
 import ac.technion.schemamatching.matchers.firstline.FirstLineMatcher;
 import ac.technion.schemamatching.matchers.firstline.InstanceMatcher;
 import ac.technion.schemamatching.matchers.secondline.OBThreshold;
@@ -21,7 +22,7 @@ import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
  * @author Anna Margolin
  *
  */
-public class InstanceMatchExperiment implements MatchingExperiment {
+public class InstanceMatchExperiment implements PairWiseExperiment {
 	private double th = 0.5;
 	private double matchTH=0.5;
 	/*
@@ -42,7 +43,7 @@ public class InstanceMatchExperiment implements MatchingExperiment {
 		
 		//calculate Precision and Recall
 		K2Statistic b2 = new BinaryGolden();
-		String instanceDesc =  esp.getSPID() + ",InstanceMatcher, OBThreshold";
+		String instanceDesc =  esp.getID() + ",InstanceMatcher, OBThreshold";
 		b2.init(instanceDesc, mi1,esp.getExact());
 		//b2.init(instanceDesc, mi,esp.getExact());
 		evaluations.add(b2);

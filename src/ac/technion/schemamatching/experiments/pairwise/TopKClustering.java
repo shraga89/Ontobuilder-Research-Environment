@@ -1,4 +1,4 @@
-package ac.technion.schemamatching.experiments;
+package ac.technion.schemamatching.experiments.pairwise;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,6 +8,7 @@ import java.util.Properties;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 import ac.technion.schemamatching.ensembles.Ensemble;
 import ac.technion.schemamatching.ensembles.SimpleWeightedEnsemble;
+import ac.technion.schemamatching.experiments.OBExperimentRunner;
 import ac.technion.schemamatching.matchers.firstline.FLMList;
 import ac.technion.schemamatching.matchers.firstline.FirstLineMatcher;
 import ac.technion.schemamatching.matchers.secondline.OBTopK;
@@ -19,7 +20,7 @@ import ac.technion.schemamatching.statistics.Statistic;
 import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
 import ac.technion.schemamatching.util.ConversionUtils;
 
-public class TopKClustering implements MatchingExperiment {
+public class TopKClustering implements PairWiseExperiment {
 
 	private List<FirstLineMatcher> flM;
 	private HashMap<String,Double> matcherWeights = new HashMap<String,Double>();
@@ -65,7 +66,7 @@ public class TopKClustering implements MatchingExperiment {
 				
 				MatchInformation matchesBaseline = SLMList.OBMWBG.getSLM().match(weightedMI);
 				K2Statistic b = new ComplexBinaryGolden();
-				String id = esp.getSPID()+",baseline," + simThreshold + "," + k; 
+				String id = esp.getID()+",baseline," + simThreshold + "," + k; 
 				b.init(id, matchesBaseline,esp.getExact());
 				res.add(b);
 				
@@ -79,7 +80,7 @@ public class TopKClustering implements MatchingExperiment {
 				
 				MatchInformation matchesClustered = SLMList.OBTopK.getSLM().match(weightedMI);
 				b = new ComplexBinaryGolden();
-				id = new String(esp.getSPID()+",clustered," + simThreshold + "," + k); 
+				id = new String(esp.getID()+",clustered," + simThreshold + "," + k); 
 				b.init(id, matchesClustered,esp.getExact());
 				res.add(b);
 

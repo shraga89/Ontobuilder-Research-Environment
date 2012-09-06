@@ -1,11 +1,12 @@
 /**
  * 
  */
-package ac.technion.schemamatching.experiments;
+package ac.technion.schemamatching.experiments.pairwise;
 
 import java.util.ArrayList;
 import java.util.Properties;
 
+import ac.technion.schemamatching.experiments.OBExperimentRunner;
 import ac.technion.schemamatching.matchers.firstline.FirstLineMatcher;
 import ac.technion.schemamatching.matchers.secondline.SecondLineMatcher;
 import ac.technion.schemamatching.statistics.Statistic;
@@ -13,9 +14,10 @@ import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
 
 /**
  * @author Tomer Sagi
- *
+ * Interface for Pair-Wise Schema matching experiment where every
+ * pair is matched and evaluated independently. 
  */
-public interface MatchingExperiment 
+public interface PairWiseExperiment 
 {
 	/**
 	 * Runs the experiment and calculates statistics during the experiment 

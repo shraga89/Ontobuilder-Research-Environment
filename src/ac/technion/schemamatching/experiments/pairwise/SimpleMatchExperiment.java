@@ -1,9 +1,10 @@
-package ac.technion.schemamatching.experiments;
+package ac.technion.schemamatching.experiments.pairwise;
 
 import java.util.ArrayList;
 import java.util.Properties;
 
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
+import ac.technion.schemamatching.experiments.OBExperimentRunner;
 import ac.technion.schemamatching.matchers.firstline.FirstLineMatcher;
 import ac.technion.schemamatching.matchers.secondline.SecondLineMatcher;
 import ac.technion.schemamatching.statistics.BinaryGolden;
@@ -20,7 +21,7 @@ import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
  * @author Tomer Sagi
  *
  */
-public class SimpleMatchExperiment implements MatchingExperiment {
+public class SimpleMatchExperiment implements PairWiseExperiment {
 	private ArrayList<FirstLineMatcher> flM;
 	private ArrayList<SecondLineMatcher> slM;
 
@@ -44,7 +45,7 @@ public class SimpleMatchExperiment implements MatchingExperiment {
 			
 			//Calculate Non-Binary Precision and Recall
 			K2Statistic nb = new NBGolden();
-			String instanceDesc =  esp.getSPID() + "," + m.getName();
+			String instanceDesc =  esp.getID() + "," + m.getName();
 			nb.init(instanceDesc, mi,esp.getExact());
 			evaluations.add(nb);
 			
@@ -55,7 +56,7 @@ public class SimpleMatchExperiment implements MatchingExperiment {
 				MatchInformation mi1 = s.match(mi);
 				//calculate Precision and Recall
 				K2Statistic b2 = new BinaryGolden();
-				instanceDesc =  esp.getSPID() + "," + m.getName() + "," + s.getName()+ "," + s.getConfig();
+				instanceDesc =  esp.getID() + "," + m.getName() + "," + s.getName()+ "," + s.getConfig();
 				b2.init(instanceDesc, mi1,esp.getExact());
 				evaluations.add(b2);
 			}

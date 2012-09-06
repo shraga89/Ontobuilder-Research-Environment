@@ -1,7 +1,7 @@
 /**
  * 
  */
-package ac.technion.schemamatching.experiments;
+package ac.technion.schemamatching.experiments.pairwise;
 
 import java.util.ArrayList;
 import java.util.Properties;
@@ -11,6 +11,7 @@ import ac.technion.schemamatching.statistics.BinaryGolden;
 import ac.technion.schemamatching.statistics.NBGolden;
 import ac.technion.schemamatching.statistics.Statistic;
 import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
+import ac.technion.schemamatching.experiments.OBExperimentRunner;
 import ac.technion.schemamatching.matchers.firstline.FirstLineMatcher;
 import ac.technion.schemamatching.matchers.firstline.OBTermMatch;
 import ac.technion.schemamatching.matchers.secondline.OBThreshold;
@@ -24,7 +25,7 @@ import ac.technion.schemamatching.matchers.secondline.SecondLineMatcher;
  * over a given schema pair
  *
  */
-public class TuneTermExperiment implements MatchingExperiment 
+public class TuneTermExperiment implements PairWiseExperiment 
 {
 	
 	/* (non-Javadoc)
@@ -49,7 +50,7 @@ public class TuneTermExperiment implements MatchingExperiment
 			//wordNameWeight = (100-i-j)/200;
 			//wordLabelWeight = (100-i-j)/200;
 			
-			String instanceDescription = esp.getSPID() + "," + Double.toString(stringNameWeight) + "," + Double.toString(stringLabelWeight); 
+			String instanceDescription = esp.getID() + "," + Double.toString(stringNameWeight) + "," + Double.toString(stringLabelWeight); 
 			//Run Term using these weights on supplied experiment schema pair
 			OBTermMatch obt = new OBTermMatch(weightNGram,weightJaro, wordNameWeight, stringNameWeight, stringLabelWeight, wordLabelWeight);
 			MatchInformation mi = obt.match(esp.getCandidateOntology(), esp.getTargetOntology(), false);

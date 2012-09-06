@@ -1,14 +1,16 @@
 /**
  * 
  */
-package ac.technion.schemamatching.experiments;
+package ac.technion.schemamatching.experiments.pairwise;
+
 
 /**
  * @author Tomer Sagi
- * Lists experiment types available in the OntobuilderResearchFramework
+ * Lists pair wise schema matching experiment types available 
+ * in the OntobuilderResearchFramework
  * 
  */
-public enum ExperimentType 
+public enum PairExperimentEnum 
 {
 	SimpleMatch(new SimpleMatchExperiment())
 	,Clarity(new ClarityExperiment()),MatrixPredictEval(new MatrixPredictorEvaluation()),Boosting(new BoostingExperiment())
@@ -22,14 +24,14 @@ public enum ExperimentType
 	,VectorPrinting(new VectorPrinting())
 	,MappingPrinting(new MappingPrinting());
 	
-	private ExperimentType(MatchingExperiment e)
+	private PairExperimentEnum(PairWiseExperiment e)
 	{
 		exp = e;
 	}
-	public MatchingExperiment getExperiment() 
+	public PairWiseExperiment getExperiment() 
 	{
 		return exp;
 	}
-	private final MatchingExperiment exp;
+	private final PairWiseExperiment exp;
 
 }

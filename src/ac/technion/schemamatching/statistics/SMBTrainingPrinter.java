@@ -1,13 +1,12 @@
 /**
  * 
  */
-package ac.technion.schemamatching.experiments;
+package ac.technion.schemamatching.statistics;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
-import ac.technion.schemamatching.statistics.Statistic;
 
 /**
  * @author Tomer Sagi

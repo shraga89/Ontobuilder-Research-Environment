@@ -15,23 +15,26 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Properties;
-import java.util.StringTokenizer;
 
 import technion.iem.schemamatching.dbutils.DBInterface;
 import ac.technion.iem.ontobuilder.core.utils.files.XmlFileHandler;
 import ac.technion.iem.ontobuilder.matching.wrapper.OntoBuilderWrapper;
+import ac.technion.schemamatching.experiments.holistic.HolisticExperiment;
+import ac.technion.schemamatching.experiments.holistic.HolisticExperimentEnum;
+import ac.technion.schemamatching.experiments.pairwise.PairExperimentEnum;
+import ac.technion.schemamatching.experiments.pairwise.PairWiseExperiment;
 import ac.technion.schemamatching.matchers.firstline.FLMList;
 import ac.technion.schemamatching.matchers.firstline.FirstLineMatcher;
 import ac.technion.schemamatching.matchers.secondline.SLMList;
 import ac.technion.schemamatching.matchers.secondline.SecondLineMatcher;
 import ac.technion.schemamatching.statistics.Statistic;
+import ac.technion.schemamatching.testbed.ExperimentSchema;
 import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
 import ac.technion.schemamatching.util.PropertyLoader;
 
 import com.infomata.data.CSVFormat;
 import com.infomata.data.DataFile;
 import com.infomata.data.DataRow;
-import com.sun.org.apache.bcel.internal.classfile.LineNumber;
 
 /**
  * The class provides tools for running schema matching experiments.
@@ -43,7 +46,7 @@ import com.sun.org.apache.bcel.internal.classfile.LineNumber;
 public class OBExperimentRunner { 
 
 	private static OBExperimentRunner oer;
-	private HashMap<Long,ArrayList<ExperimentSchemaPair>> experimentDatasets = new HashMap<Long,ArrayList<ExperimentSchemaPair>>();
+	private HashMap<Long,ArrayList<? extends ExperimentSchema>> experimentDatasets = new HashMap<Long,ArrayList<? extends ExperimentSchema>>();
 	protected DBInterface db;
 	private ExperimentDocumenter experimentDocumenter = new ExperimentDocumenter();
 	private String dsurl;
@@ -54,7 +57,10 @@ public class OBExperimentRunner {
 	 * Main method runs an experiment according to the supplied parameters
 	 * @param args[0] run as command line (cmd) or console application (console)
 	 * @param args[1] output path
-	 * @param args[2] Experiment Type compared against enum ExperimentType
+	 * @param args[2] Experiment Type compared against enum types
+	 *  PairExperimentEnum and HolisticExperimentEnum. If found in Pair,
+	 *  a dataset of schema pairs will be created, if found in Holistic 
+	 *  a dataset of schemas will be created.  
 	 * @param args[3] K - number of experiments schema pairs
 	 * @param args[4] schema pair ID Set ( e.g. 1,2,3  or 1 )  (ignored if K <> 0)
 	 * @param args[5] datasetID (for random K)
@@ -67,19 +73,33 @@ public class OBExperimentRunner {
 	{
 		OBExperimentRunner myExpRunner = getOER();
 		File outputPath = null;
-		ExperimentType et = null;
-		ArrayList<ExperimentSchemaPair> dataset = new ArrayList<ExperimentSchemaPair>();
+		PairExperimentEnum pe = null;
+		HolisticExperimentEnum he = null;
+		ArrayList<ExperimentSchema> dataset = new ArrayList<ExperimentSchema>();
 		String expDesc = "None provided";
 		HashSet<Integer> dc =new HashSet<Integer>();
 		ArrayList<FirstLineMatcher> flm = null;
 		ArrayList<SecondLineMatcher> slm = null; 
 		Properties pFile = null;
-		ArrayList<Long> spList = new ArrayList<Long>();  
+		ArrayList<Long> spList = new ArrayList<Long>();
+		boolean pairMode = true;
 		if (args[0].equalsIgnoreCase("cmd"))
 		{
 			myExpRunner.checkInputParameters(args);
 			outputPath = new File(args[1]); // folder in which temporary files will be saved
-			et = ExperimentType.valueOf(args[2]);
+			if (!outputPath.exists()) fatalError("Output path not found");
+			for (PairExperimentEnum e : PairExperimentEnum.values())
+				if (e.name().equalsIgnoreCase(args[2]))
+					pe = PairExperimentEnum.valueOf(args[2]); 
+			
+			for (HolisticExperimentEnum e : HolisticExperimentEnum.values())
+				if (e.name().equalsIgnoreCase(args[2]))
+				{
+					he = HolisticExperimentEnum.valueOf(args[2]);
+					pairMode = false;
+				}
+			
+			if (pe==null && he == null) fatalError("Experiment type" + args[2] + " not recognized ");
 			if (args.length>6)
 	    	{
 	    		//iterate over optional arguments
@@ -102,15 +122,15 @@ public class OBExperimentRunner {
 				String spids = spList.get(0).toString();
 				for (int i=1 ; i<spList.size();i++)
 					spids = spids + "," + spList.get(i).toString();
-				dataset =oer.selectExperiments(0,spids, 0, dc );}
+				dataset =oer.selectExperiments(0,spids, 0, dc,pairMode );}
 			else if (Integer.valueOf(args[3])<=0){
-				dataset =oer.selectExperiments(Integer.valueOf(args[3]),args[4], 0, dc );}  
+				dataset =oer.selectExperiments(Integer.valueOf(args[3]),args[4], 0, dc ,pairMode);}  
 			else{
 		    	Integer datasetID = Integer.valueOf(args[5]);
 		    	Integer size = Integer.valueOf(args[3]);
 		    	expDesc =  "Experiment Type: " + args[2]+ " k=" + args[3] + " SPID: " + args[4] + " Dataset: " + args[5];
 		    	if (dc == null) dc = new HashSet<Integer>();
-				dataset = oer.selectExperiments(size,"0", datasetID, dc);
+				dataset = oer.selectExperiments(size,"0", datasetID, dc,pairMode);
 	    	}
 			if (flm == null) 
     		{
@@ -134,12 +154,39 @@ public class OBExperimentRunner {
 		else
 		{
 			printGeneralInstructions();
-			error("invalid 1st parameter supplied");
+			fatalError("invalid 1st parameter supplied");
 		}
 		Long eid = myExpRunner.initExperiment(dataset, expDesc);
-		myExpRunner.runExperiment(et,eid, outputPath,flm,slm,pFile);
+		if (pairMode)
+			
+			myExpRunner.runPairWiseExperiment(pe,eid, outputPath,flm,slm,pFile);
+		else //holistic mode
+			myExpRunner.runHolisticExperiment(he,eid, outputPath,flm,slm,pFile);
 	 }
 	
+	/**
+	 * Runs the supplied holistic experiment
+	 * @param he
+	 * @param eid
+	 * @param outputPath
+	 * @param flm
+	 * @param slm
+	 * @param pFile
+	 */
+	private void runHolisticExperiment(HolisticExperimentEnum he, Long eid,
+			File outputPath, ArrayList<FirstLineMatcher> flm,
+			ArrayList<SecondLineMatcher> slm, Properties pFile) {
+		@SuppressWarnings("unchecked")
+		ArrayList<ExperimentSchema> dataset = (ArrayList<ExperimentSchema>) getDS(eid);
+		HolisticExperiment e = he.getExperiment();
+		e.init(this, pFile, flm, slm);
+		outputPath = getFolder(outputPath);
+		e.init(getOER(), pFile, flm, slm);
+		ArrayList<Statistic> eRes = e.runExperiment(new HashSet<ExperimentSchema>(dataset));
+		formatStatistics(eRes, outputPath);
+		
+	}
+
 	/**
 	 * Extracts list of schema pairs from supplied file. 
 	 * @param arguments file name assumed to be in program root directory
@@ -254,7 +301,7 @@ public class OBExperimentRunner {
 	    db = new DBInterface(Integer.parseInt((String)pMap.get("dbmstype")),(String)pMap.get("host"),(String)pMap.get("dbname"),(String)pMap.get("username"),(String)pMap.get("pwd"));
 		dsurl = (String)pMap.get("schemaPath");
 		File dsFolder = new File(dsurl);
-		if (dsFolder == null || !dsFolder.isDirectory()) error("Supplied dataset url is invalid or unreachable");
+		if (dsFolder == null || !dsFolder.isDirectory()) fatalError("Supplied dataset url is invalid or unreachable");
 		obw = new OntoBuilderWrapper();
 		xfh = new XmlFileHandler();
 		experimentDocumenter = new ExperimentDocumenter();
@@ -292,16 +339,16 @@ public class OBExperimentRunner {
 
 
 	private void checkInputParameters(String[] args) {
-		if (args[0]==null) {error("Please enter an output folder path");}
-		if ( Integer.valueOf(args[3])==0 && args[4]==null ){error("Please enter an number of experiment to sample or a spid");}
-		if (Integer.valueOf(args[3])<0) {error("Illegal number of experiments to sample");}
-		if ( Integer.valueOf(args[3])==0 && !findSPID(args[4]) ){error("SPID wasn't found");}
+		if (args[0]==null) {fatalError("Please enter an output folder path");}
+		if ( Integer.valueOf(args[3])==0 && args[4]==null ){fatalError("Please enter an number of experiment to sample or a spid");}
+		if (Integer.valueOf(args[3])<0) {fatalError("Illegal number of experiments to sample");}
+		if ( Integer.valueOf(args[3])==0 && !findSPID(args[4]) ){fatalError("SPID wasn't found");}
 		try {
-				ExperimentType.valueOf(args[2]);
+				PairExperimentEnum.valueOf(args[2]);
 		}
 		catch (Exception e)
 		{
-			error("Invalid Matching Experiment Type.");
+			fatalError("Invalid Matching Experiment Type.");
 		}
 		
 	}
@@ -325,7 +372,7 @@ public class OBExperimentRunner {
 	 * @param eid
 	 * @return
 	 */
-	public ArrayList<ExperimentSchemaPair> getDS(Long eid) 
+	public ArrayList<? extends ExperimentSchema> getDS(Long eid) 
 	{return experimentDatasets.get(eid);}
 	
 	
@@ -339,36 +386,61 @@ public class OBExperimentRunner {
 	 * @param K no. of random experiments to load, put 0 for a specific schema pair
 	 * @param spid get a specific schema pair, ignored if K <> 0
 	 * @param datasetID default value 1 (Ontobuilder Dataset) if not null, the experiment will be loaded from the supplied dataset code
-	 * @param domainCodes A list of domainCodes to limit the random schema selection with. If null, all domains are used. 
+	 * @param domainCodes A list of domainCodes to limit the random schema selection with. If null, all domains are used.
+	 * @param pairMode if true assumes given schema IDs and returns schema pairs 
 	 * @return ArrayList of Schema Experiments. 
 	 */
-	private ArrayList<ExperimentSchemaPair> selectExperiments(int K, String spid, int datasetID, HashSet<Integer> domainCodes) 
+	private ArrayList<ExperimentSchema> selectExperiments(int K, String spid, int datasetID, HashSet<Integer> domainCodes,boolean pairMode) 
 	{
 		if (datasetID == 0) datasetID = 1;
-		ArrayList<ExperimentSchemaPair> ds = new ArrayList<ExperimentSchemaPair>();
-		String sql = "FROM `schemapairs`, `schemata` WHERE (`schemapairs`.`CandidateSchema` =" + 
-					 " `schemata`.`SchemaID` OR `schemapairs`.`TargetSchema` = `schemata`.`SchemaID`) AND `schemapairs`.`DSID` = " + Integer.toString(datasetID) +  
-					 (domainCodes.isEmpty()?"" : " AND ( schemata.`domainCode` IN (" + domainCodes.toString().substring(1,domainCodes.toString().length()-1) + ") )");
-		
-		ArrayList<String[]> NumberOfSchemaPairs =  db.runSelectQuery("SELECT COUNT( DISTINCT spid) " + sql, 1);
-		//check the number of available experiments is larger then k
-		if ((K>Integer.valueOf(NumberOfSchemaPairs.get(0)[0])) || ( K==0 && spid.split(",").length> Integer.valueOf(NumberOfSchemaPairs.get(0)[0]))) 
-			error("No. of experiments requested is larger than the no. of schema pairs in the dataset");
-		//extracting pairs from the DB
-		if (K>0)
+		ArrayList<ExperimentSchema> ds = new ArrayList<ExperimentSchema>();
+		String sql = "";
+		if (pairMode)
 		{
-			sql  = "SELECT DISTINCT spid, schemapairs.dsid " + sql +" ORDER BY RAND() LIMIT " + String.valueOf(K) + ";"; 
+			sql = "FROM `schemapairs`, `schemata` WHERE (`schemapairs`.`CandidateSchema` =" + 
+					 " `schemata`.`SchemaID` OR `schemapairs`.`TargetSchema` = `schemata`.`SchemaID`) AND `schemapairs`.`DSID` = ";
 		}
 		else
 		{
-			if (spid!="0") sql = "SELECT spid, dsid FROM schemapairs WHERE SPID in (" + spid + ");" ;
+			sql = "FROM `schemata` WHERE (`schemata`.`DSID` = ";
+		}
+		sql = sql + Integer.toString(datasetID)  
+			  + (domainCodes.isEmpty()?"" : " AND ( schemata.`domainCode` IN ("
+			  + domainCodes.toString().substring(1,domainCodes.toString().length()-1) + ") )");
+
+		ArrayList<String[]> numberOfItems =  
+				db.runSelectQuery("SELECT COUNT( DISTINCT " 
+				+ (pairMode?"spid":"SchemaID") + ") " + sql, 1);
+		//check the number of available experiments is larger then k
+		if ((K>Integer.valueOf(numberOfItems.get(0)[0])) || ( K==0 && spid.split(",").length> Integer.valueOf(numberOfItems.get(0)[0]))) 
+			fatalError("No. of experiments requested is larger than the no. of schema" 
+					+ (pairMode?" pairs":"s") + " in the dataset");
+		//extracting experiments from the DB
+		if (K>0)
+		{
+			sql  = "SELECT DISTINCT " 
+				+ (pairMode?"spid,schemapairs.DSID":"SchemaID,DSID" ) + sql +" ORDER BY RAND() LIMIT " + String.valueOf(K) + ";"; 
+		}
+		else
+		{
+			if (spid!="0") 
+				if (pairMode)
+					sql = "SELECT spid, dsid FROM schemapairs WHERE SPID in (" + spid + ");" ;
+				else
+					sql = "SELECT SchemaID, DSID FROM schemata WHERE SchemaID in (" + spid + ");" ;
 		}
 		
-		ArrayList<String[]> k_Schemapairs =  db.runSelectQuery(sql, 2);
-		for (String[] strPair : k_Schemapairs)
+		ArrayList<String[]> k_results =  db.runSelectQuery(sql, 2);
+		for (String[] strRes : k_results)
 		{
-			ExperimentSchemaPair schemasExp = new ExperimentSchemaPair(Integer.parseInt(strPair[0]),Integer.parseInt(strPair[1]));
-			ds.add(schemasExp);
+			int id = Integer.parseInt(strRes[0]);
+			int dsid = Integer.parseInt(strRes[1]);
+			ExperimentSchema exp;
+			if (pairMode)
+				exp = new ExperimentSchemaPair(id,dsid);
+			else
+				exp = new ExperimentSchema(id,dsid);
+			ds.add(exp);
 		}
 
 		return ds;
@@ -378,7 +450,7 @@ public class OBExperimentRunner {
 	 * Sends the provided error message to the err stream and exits with code 1
 	 * @param msg
 	 */
-	public static void error(String msg) 
+	public static void fatalError(String msg) 
 	{
 		System.err.println(msg);
 		System.exit(1);
@@ -398,39 +470,41 @@ public class OBExperimentRunner {
 	}
 	
 	/**
-	 * Runs experiment on the loaded dataset and writes the result to the file object supplied 
+	 * Runs a pairwise experiment on the loaded dataset and writes the result to the file object supplied 
 	 * @param eid Experiment to run
 	 * @param resultFolder File object in which to create the results. Folder will be created if not exists
 	 * @param flm list of first line matchers to use
 	 * @param slm list of second line matchers to use
 	 * @param properties file for configuring the experiment
 	 */
-	public void runExperiment(ExperimentType et, Long eid,File resultFolder, ArrayList<FirstLineMatcher> flm, ArrayList<SecondLineMatcher> slm,Properties pFile)
+	public void runPairWiseExperiment(PairExperimentEnum et, Long eid,File resultFolder, ArrayList<FirstLineMatcher> flm, ArrayList<SecondLineMatcher> slm,Properties pFile)
 	{
-		ArrayList<ExperimentSchemaPair> dataset = getDS(eid);
-		MatchingExperiment e = et.getExperiment();
+		@SuppressWarnings("unchecked")
+		ArrayList<ExperimentSchemaPair> dataset = (ArrayList<ExperimentSchemaPair>) getDS(eid);
+		PairWiseExperiment e = et.getExperiment();
 		ArrayList<Statistic> res = new ArrayList<Statistic>();
 		e.init(this, pFile, flm, slm);
 		resultFolder = getFolder(resultFolder);
 		int i = 0;
 		for (ExperimentSchemaPair esp : dataset)
 		{
-			System.out.println("Starting " + esp.getSPID());
+			System.out.println("Starting " + esp.getID());
 			ArrayList<Statistic> eRes = e.runExperiment(esp);
 			if (eRes != null) res.addAll(eRes);
-			System.out.println("finished " + esp.getSPID() + " : " + Integer.toString(++i) + " out of " + Integer.toString(dataset.size()));
+			System.out.println("finished " + esp.getID() + " : " + Integer.toString(++i) + " out of " + Integer.toString(dataset.size()));
 		}
 		ArrayList<Statistic> eRes = e.summaryStatistics();
 		if (eRes != null) res.addAll(eRes);
 		formatStatistics(res, resultFolder);	
 	}
 	
-	public Long initExperiment(ArrayList<ExperimentSchemaPair> dataset,String desc)
+	public Long initExperiment(ArrayList<? extends ExperimentSchema> dataset,String desc)
 	{
 		long eid = experimentDocumenter.documentExperiment(desc, dataset);
 		experimentDatasets.put(eid, dataset);
 		return eid;
 	}
+
 	
 	/**
 	 * Checks for existence of filepath supplied and creates the folder tree if needed

@@ -19,6 +19,7 @@ import ac.technion.iem.ontobuilder.core.ontology.Term;
 import ac.technion.iem.ontobuilder.matching.match.Match;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 import ac.technion.schemamatching.experiments.OBExperimentRunner;
+import ac.technion.schemamatching.testbed.ExperimentSchema;
 import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
 
 
@@ -35,20 +36,22 @@ public class ExperimentDocumenter
 	/**
 	 * @param dataset
 	 */
-	public long documentExperiment(String experimentDescription, ArrayList<ExperimentSchemaPair> dataset) {
+	public long documentExperiment(String experimentDescription, ArrayList<? extends ExperimentSchema> dataset) {
 		long eid = this.documentExperiment(experimentDescription);
 		HashMap<Field, Object> values = new HashMap<Field, Object>();
 		Field spID = new Field("SPID",FieldType.INT);
 		values.put(new Field("EID",FieldType.LONG), eid);
-		for (ExperimentSchemaPair esp : dataset)
+		for (ExperimentSchema es : dataset)
 		{
-			values.put(spID,esp.getSPID());
+			values.put(spID,es.getID());
 			OBExperimentRunner.getOER().getDB().insertSingleRow(values, "experimentschemapairs");
 			// TODO document only those that are not documented yet
 				//Document schema parameters
 				//AddInfoAboutSchemaToDB(esp.getCandidateID(), esp.getCandidateOntology());
 				//AddInfoAboutSchemaToDB(esp.getTargetID(), esp.getTargetOntology());
-				
+			if (es.getClass().equals(ExperimentSchemaPair.class))
+			{
+				ExperimentSchemaPair esp =  (ExperimentSchemaPair)es;
 				MatchInformation exactMapping = esp.getExact();
 				//Document term parameters 
 				if (exactMapping != null){
@@ -58,10 +61,10 @@ public class ExperimentDocumenter
 						writeTermToDB(esp.getTargetID(), (Term)o);
 					
 					//Document exact match
-			        uploadExactMatch(exactMapping, esp.getSPID());
+			        uploadExactMatch(exactMapping, esp.getID());
 			   
 				}
-				     
+			}	     
 		   
 		}
 	  		System.out.println("DataSet size is: " + dataset.size());
@@ -373,7 +376,7 @@ public class ExperimentDocumenter
 		Field val = new Field("ClarityScore",FieldType.DOUBLE);
 		values.put(new Field("SMID",FieldType.LONG), new Long(sm));
 		values.put(new Field("EID",FieldType.LONG), eid);
-		values.put(new Field("SPID",FieldType.LONG), schemasExp.getSPID());
+		values.put(new Field("SPID",FieldType.LONG), schemasExp.getID());
 		for (String[] row : clarityRes)
 		{
 			values.put(schemaID, Long.parseLong(row[1]));
@@ -544,6 +547,11 @@ public class ExperimentDocumenter
 		if (!schemaList.isEmpty())
 				return true;
 		return false;
+	}
+
+
+	public long documentHolisticExperiment(String desc, ArrayList<Ontology> dataset) {
+		return this.documentExperiment(desc);
 	}
 }
 

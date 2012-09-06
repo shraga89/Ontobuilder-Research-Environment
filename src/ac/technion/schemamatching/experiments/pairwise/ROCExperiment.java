@@ -1,7 +1,7 @@
 /**
  * 
  */
-package ac.technion.schemamatching.experiments;
+package ac.technion.schemamatching.experiments.pairwise;
 
 import java.util.ArrayList;
 import java.util.Properties;
@@ -10,6 +10,7 @@ import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 import ac.technion.schemamatching.statistics.BinaryROCStatistics;
 import ac.technion.schemamatching.statistics.Statistic;
 import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
+import ac.technion.schemamatching.experiments.OBExperimentRunner;
 import ac.technion.schemamatching.matchers.firstline.FirstLineMatcher;
 import ac.technion.schemamatching.matchers.firstline.OBTermMatch;
 import ac.technion.schemamatching.matchers.secondline.OBThreshold;
@@ -21,7 +22,7 @@ import ac.technion.schemamatching.matchers.secondline.SecondLineMatcher;
  * by calculation the True Positive Ratio vs. 
  * False Positive Ratio
  */
-public class ROCExperiment implements MatchingExperiment 
+public class ROCExperiment implements PairWiseExperiment 
 {
 	
 	/* (non-Javadoc)
@@ -38,7 +39,7 @@ public class ROCExperiment implements MatchingExperiment
 		
 			
 			
-		String instanceDescription = esp.getSPID() + "," + Double.toString(stringNameWeight) + "," + Double.toString(stringLabelWeight); 
+		String instanceDescription = esp.getID() + "," + Double.toString(stringNameWeight) + "," + Double.toString(stringLabelWeight); 
 		//Run Term using these weights on supplied experiment schema pair
 		OBTermMatch obt = new OBTermMatch(weightNGram,weightJaro, wordNameWeight, stringNameWeight, stringLabelWeight, wordLabelWeight);
 		MatchInformation mi = obt.match(esp.getCandidateOntology(), esp.getTargetOntology(), false);

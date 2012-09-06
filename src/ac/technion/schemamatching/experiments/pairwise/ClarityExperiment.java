@@ -1,7 +1,7 @@
 /**
  * 
  */
-package ac.technion.schemamatching.experiments;
+package ac.technion.schemamatching.experiments.pairwise;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -14,6 +14,8 @@ import java.util.Properties;
 import com.infomata.data.DataFile;
 import com.infomata.data.DataRow;
 import com.infomata.data.TabFormat;
+
+import ac.technion.schemamatching.experiments.OBExperimentRunner;
 import ac.technion.schemamatching.matchers.firstline.FirstLineMatcher;
 import ac.technion.schemamatching.matchers.secondline.SecondLineMatcher;
 import ac.technion.schemamatching.statistics.Statistic;
@@ -25,7 +27,7 @@ import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
  * on the result and compares to a base line of applying the 2nd line matchers to the
  * similarity matrices without enhancement. 
  */
-public class ClarityExperiment implements MatchingExperiment {
+public class ClarityExperiment implements PairWiseExperiment {
 
 	private OBExperimentRunner myExpRunner;
 	public ArrayList<Statistic> runExperiment(ExperimentSchemaPair esp) 

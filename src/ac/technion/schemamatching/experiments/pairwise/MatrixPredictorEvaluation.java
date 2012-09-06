@@ -1,27 +1,26 @@
-package ac.technion.schemamatching.experiments;
+package ac.technion.schemamatching.experiments.pairwise;
 
 import java.util.ArrayList;
 import java.util.Properties;
 
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
+import ac.technion.schemamatching.experiments.OBExperimentRunner;
 import ac.technion.schemamatching.matchers.firstline.FirstLineMatcher;
 import ac.technion.schemamatching.matchers.secondline.SLMList;
 import ac.technion.schemamatching.matchers.secondline.SecondLineMatcher;
-import ac.technion.schemamatching.statistics.AttributeNBGolden;
 import ac.technion.schemamatching.statistics.BinaryGolden;
 import ac.technion.schemamatching.statistics.K2Statistic;
 import ac.technion.schemamatching.statistics.Statistic;
-import ac.technion.schemamatching.statistics.VectorPrinterUsingExact;
-import ac.technion.schemamatching.statistics.predictors.AttributePredictors;
+import ac.technion.schemamatching.statistics.predictors.MatrixPredictors;
 import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
 
 /**
- * Evaluates attribute predictors by returning the predictor value next to
+ * Evaluates matrix predictors by returning the predictor value next to
  * precision, recall and L2 similarity measures 
  * @author Tomer Sagi
  *
  */
-public class AttributePredictorEvaluation implements MatchingExperiment {
+public class MatrixPredictorEvaluation implements PairWiseExperiment {
 	private ArrayList<FirstLineMatcher> flM;
 
 	/*
@@ -30,35 +29,43 @@ public class AttributePredictorEvaluation implements MatchingExperiment {
 	 */
 	public ArrayList<Statistic> runExperiment(ExperimentSchemaPair esp) {
 		// Using all 1st line matchers 
-		ArrayList<Statistic> predictions =  new ArrayList<Statistic>();
+		ArrayList<Statistic> predictions = new ArrayList<Statistic>();
 		ArrayList<Statistic> evaluations = new ArrayList<Statistic>();
 		for (FirstLineMatcher m : flM)
 		{
 			//Match
-			MatchInformation mi = esp.getSimilarityMatrix(m);
-			
+			MatchInformation mi = m.match(esp.getCandidateOntology(), esp.getTargetOntology(), false);
+			MatchInformation mi1 = SLMList.OBMaxDelta005.getSLM().match(mi);
 			// Calculate predictors
-			Statistic  p = new AttributePredictors();
-			String instanceDesc = esp.getSPID() + "_"+m.getName()+"_"+m.getConfig();
-			p.init(instanceDesc, mi);
+			Statistic  p = new MatrixPredictors();
+			String instanceDesc = esp.getID()+","+m.getName()+","+"MaxDelta005";
+			p.init(instanceDesc, mi1);
 			predictions.add(p);
-			//Calculate NBprecision, NBrecall
-			K2Statistic  nb = new AttributeNBGolden();
-			nb.init(instanceDesc, mi,esp.getExact());
-			evaluations.add(nb);
 			//Precision Recall
-			MatchInformation matchSelected = SLMList.OBSM.getSLM().match(mi);
 			K2Statistic b = new BinaryGolden();
-			b.init(instanceDesc, matchSelected,esp.getExact());
+			b.init(instanceDesc, mi1,esp.getExact());
 			evaluations.add(b);
-			//Vectors
-			K2Statistic pr = new VectorPrinterUsingExact();
-			pr.init(instanceDesc, mi, esp.getExact());
-			evaluations.add(pr);
-			K2Statistic prms = new VectorPrinterUsingExact();
-			prms.init(instanceDesc, matchSelected, esp.getExact());
-			evaluations.add(prms);
-
+			//Additional 2LM
+			MatchInformation mi2 = SLMList.OBMax.getSLM().match(mi);
+			Statistic  p2 = new MatrixPredictors();
+			instanceDesc = esp.getID()+","+m.getName()+","+"MaxDelta0";
+			p2.init(instanceDesc, mi2);
+			predictions.add(p2);
+			//Precision Recall
+			K2Statistic b2 = new BinaryGolden();
+			b2.init(instanceDesc, mi2,esp.getExact());
+			evaluations.add(b2);
+			//Additional 2LM
+			MatchInformation mi3 = SLMList.OBThreshold050.getSLM().match(mi);
+			Statistic  p3 = new MatrixPredictors();
+			instanceDesc = esp.getID()+","+m.getName()+","+"Threshold050";
+			p3.init(instanceDesc, mi3);
+			predictions.add(p3);
+			//Precision Recall
+			K2Statistic b3 = new BinaryGolden();
+			b3.init(instanceDesc, mi3,esp.getExact());
+			evaluations.add(b3);
+			
 		}
 		predictions.addAll(evaluations);
 		return predictions;
@@ -78,9 +85,9 @@ public class AttributePredictorEvaluation implements MatchingExperiment {
 	 * @see ac.technion.schemamatching.experiments.MatchingExperiment#getDescription()
 	 */
 	public String getDescription() {
-		return "Attribute Predictor Evaluation";
+		return "Matrix Predictor Evaluation";
 	}
-
+	
 	public ArrayList<Statistic> summaryStatistics() {
 		//unused
 		return null;

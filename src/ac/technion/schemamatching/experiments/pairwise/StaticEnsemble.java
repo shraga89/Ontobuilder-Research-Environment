@@ -1,12 +1,14 @@
-package ac.technion.schemamatching.experiments;
+package ac.technion.schemamatching.experiments.pairwise;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Properties;
 
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
-import ac.technion.schemamatching.ensembles.PAttributeEnsemble;
 import ac.technion.schemamatching.ensembles.Ensemble;
+import ac.technion.schemamatching.ensembles.SimpleWeightedEnsemble;
+import ac.technion.schemamatching.experiments.OBExperimentRunner;
+import ac.technion.schemamatching.matchers.firstline.FLMList;
 import ac.technion.schemamatching.matchers.firstline.FirstLineMatcher;
 import ac.technion.schemamatching.matchers.secondline.SLMList;
 import ac.technion.schemamatching.matchers.secondline.SecondLineMatcher;
@@ -17,42 +19,48 @@ import ac.technion.schemamatching.statistics.Statistic;
 import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
 
 /**
- * Uses values of attribute predictors to ensemble 1st line matchers and second line matchers. 
- * Assumes it recieves a properties file with predictor weights in the following format: 
- * PredictorName = 0.2
- * Note that predictor name should match the result of the getName() method in the corresponding 
- * @link{Predictor} class. 
+ * Uses values supplied to ensemble 1st line matchers 
+ * Assumes it receives a properties file with matcher weights in the following format: 
+ * w0 = 0.2 where 0 is the matcher id for Term Matcher in the similaritymeasures table of the schemamatching db 
  * @author Tomer Sagi
  *
  */
-public class AttributePredictorEnsemble implements MatchingExperiment {
+public class StaticEnsemble implements PairWiseExperiment {
 	
-	private HashMap<String,Double> predictorWeights = new HashMap<String,Double>();
+	private HashMap<String,Double> matcherWeights = new HashMap<String,Double>();
 	private ArrayList<FirstLineMatcher> flM;
 
 	public ArrayList<Statistic> runExperiment(ExperimentSchemaPair esp) 
 	{
 		ArrayList<Statistic> res = new ArrayList<Statistic>();
 		HashMap<String,MatchInformation> flMatches = new HashMap<String,MatchInformation>(); 
-		//Match using all 1LMs
+		//List all 1LMs with over 0 weight in file
+		ArrayList<FirstLineMatcher> tmp = new ArrayList<FirstLineMatcher>();
 		for (FirstLineMatcher f : flM)
+		{
+			String mName = f.getName();
+			if (matcherWeights.containsKey(mName) && matcherWeights.get(mName)>0)
+				tmp.add(f);
+		}
+		
+		//Match
+		for (FirstLineMatcher f : tmp)
 			flMatches.put(f.getName(),f.match(esp.getCandidateOntology(), esp.getTargetOntology(), false));
 		
 		//Create ensemble
-		Ensemble e = new PAttributeEnsemble();
-		e.init(flMatches, predictorWeights);
+		Ensemble e = new SimpleWeightedEnsemble();
+		e.init(flMatches, matcherWeights);
 		MatchInformation weightedMI = e.getWeightedMatch();
 		
 		//Calculate NB Precision and Recall
 		K2Statistic nb = new NBGolden();
-		String id = esp.getSPID()+",weighted"; 
+		String id = esp.getID()+",weighted"; 
 		nb.init(id, weightedMI, esp.getExact());
 		res.add(nb);
 		
 		//Match Select and calculate Precision and Recall 
 		//MatchInformation matchSelected = SLMList.OBThreshold025.getSLM().match(weightedMI);
-		//MatchInformation matchSelected = SLMList.OBSM.getSLM().match(weightedMI);
-		MatchInformation matchSelected = SLMList.OBMWBG.getSLM().match(weightedMI);
+		MatchInformation matchSelected = SLMList.OBSM.getSLM().match(weightedMI);
 		K2Statistic b = new BinaryGolden();
 		b.init(id, matchSelected,esp.getExact());
 		res.add(b);
@@ -64,23 +72,24 @@ public class AttributePredictorEnsemble implements MatchingExperiment {
 	public boolean init(OBExperimentRunner oer, Properties properties,
 			ArrayList<FirstLineMatcher> flM, ArrayList<SecondLineMatcher> slM) {
 		this.flM = flM;
+		HashMap<Integer, FirstLineMatcher> flmHash = FLMList.getIdFLMHash();
 		for (Object key : properties.keySet())
 		{
-			String pName = (String)key;
+			String strKey =(String)key; 
+			Integer mId = Integer.parseInt(strKey.substring(1));
+			
 			Double pWeight = Double.parseDouble((String)properties.get(key));
-			predictorWeights.put(pName, pWeight);
+			matcherWeights.put(flmHash.get(mId).getName(), pWeight);
 		}
 		return true;
 	}
 
 	public String getDescription() {
-		return "Ensemble using attribute predictors";
+		return "Ensemble using matrix predictors";
 	}
-
 
 	public ArrayList<Statistic> summaryStatistics() {
-		//Unused in this experiment
+		//unused
 		return null;
 	}
-
 }

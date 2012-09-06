@@ -1,7 +1,7 @@
 /**
  * 
  */
-package ac.technion.schemamatching.experiments;
+package ac.technion.schemamatching.experiments.pairwise;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 import ac.technion.iem.ontobuilder.core.ontology.Ontology;
+import ac.technion.schemamatching.experiments.OBExperimentRunner;
 import ac.technion.schemamatching.matchers.firstline.FirstLineMatcher;
 import ac.technion.schemamatching.matchers.secondline.SecondLineMatcher;
 import ac.technion.schemamatching.statistics.Statistic;
@@ -20,7 +21,7 @@ import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
  * Output is directed to supplied output directory via properties file
  *
  */
-public class ConvertXSDtoOBXml implements MatchingExperiment {
+public class ConvertXSDtoOBXml implements PairWiseExperiment {
 
 	private File outDir;
 	/* (non-Javadoc)

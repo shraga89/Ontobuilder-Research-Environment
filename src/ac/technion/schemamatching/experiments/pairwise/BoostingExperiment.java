@@ -1,7 +1,7 @@
 /**
  * 
  */
-package ac.technion.schemamatching.experiments;
+package ac.technion.schemamatching.experiments.pairwise;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,8 +15,10 @@ import smb_service.SimilarityMatrix;
 
 import ac.technion.iem.ontobuilder.core.ontology.Ontology;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
+import ac.technion.schemamatching.experiments.OBExperimentRunner;
 import ac.technion.schemamatching.matchers.firstline.FirstLineMatcher;
 import ac.technion.schemamatching.matchers.secondline.SecondLineMatcher;
+import ac.technion.schemamatching.statistics.SMBTrainingPrinter;
 import ac.technion.schemamatching.statistics.Statistic;
 import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
 import ac.technion.schemamatching.util.ConversionUtils;
@@ -27,7 +29,7 @@ import ac.technion.schemamatching.util.ConversionUtils;
  * Uses the Adaboost algorithm
  *
  */
-public class BoostingExperiment implements MatchingExperiment {
+public class BoostingExperiment implements PairWiseExperiment {
 	SMBTrain smb;
 	LearnWorkingSet lws = new LearnWorkingSet();
 	private ArrayList<FirstLineMatcher> flm;
