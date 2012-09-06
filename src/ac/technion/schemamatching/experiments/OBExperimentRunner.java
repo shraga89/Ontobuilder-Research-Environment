@@ -348,8 +348,13 @@ public class OBExperimentRunner {
 		}
 		catch (Exception e)
 		{
-			fatalError("Invalid Matching Experiment Type.");
+			try {
+				HolisticExperimentEnum.valueOf(args[2]);
 		}
+			catch (Exception e1)
+		{
+			fatalError("Invalid Matching Experiment Type.");
+		}}
 		
 	}
 	
@@ -404,7 +409,7 @@ public class OBExperimentRunner {
 		{
 			sql = "FROM `schemata` WHERE (`schemata`.`DSID` = ";
 		}
-		sql = sql + Integer.toString(datasetID)  
+		sql = sql + Integer.toString(datasetID) + ")" 
 			  + (domainCodes.isEmpty()?"" : " AND ( schemata.`domainCode` IN ("
 			  + domainCodes.toString().substring(1,domainCodes.toString().length()-1) + ") )");
 
@@ -419,7 +424,7 @@ public class OBExperimentRunner {
 		if (K>0)
 		{
 			sql  = "SELECT DISTINCT " 
-				+ (pairMode?"spid,schemapairs.DSID":"SchemaID,DSID" ) + sql +" ORDER BY RAND() LIMIT " + String.valueOf(K) + ";"; 
+				+ (pairMode?"spid,schemapairs.DSID ":" SchemaID,DSID " ) + sql +" ORDER BY RAND() LIMIT " + String.valueOf(K) + ";"; 
 		}
 		else
 		{

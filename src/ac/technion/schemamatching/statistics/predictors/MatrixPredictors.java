@@ -32,6 +32,7 @@ public class MatrixPredictors implements Statistic {
 		predictors.put("LMMPredictor", new LMMPredictor());
 		predictors.put("STDEVPredictor", new STDEVPredictor());
 		predictors.put("MaxPredictor", new MaxPredictor());
+		predictors.put("AvgConfPredictor", new AvgPredictor());
 		header = new String[predictors.size()+2];
 		predictors.keySet().toArray(header);
 		header[predictors.size()] = "Dominants";
