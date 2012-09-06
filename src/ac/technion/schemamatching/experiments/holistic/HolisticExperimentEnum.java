@@ -12,7 +12,7 @@ package ac.technion.schemamatching.experiments.holistic;
  */
 public enum HolisticExperimentEnum 
 {
-	;
+	schemaLookup(new SchemaLookup());
 	
 	private HolisticExperimentEnum(HolisticExperiment e)
 	{
