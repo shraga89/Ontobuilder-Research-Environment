@@ -403,7 +403,7 @@ public class OBExperimentRunner {
 		if (pairMode)
 		{
 			sql = "FROM `schemapairs`, `schemata` WHERE (`schemapairs`.`CandidateSchema` =" + 
-					 " `schemata`.`SchemaID` OR `schemapairs`.`TargetSchema` = `schemata`.`SchemaID`) AND `schemapairs`.`DSID` = ";
+					 " `schemata`.`SchemaID` OR `schemapairs`.`TargetSchema` = `schemata`.`SchemaID`) AND (`schemapairs`.`DSID` = ";
 		}
 		else
 		{
