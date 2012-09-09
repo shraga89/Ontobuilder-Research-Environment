@@ -342,7 +342,7 @@ public class OBExperimentRunner {
 		if (args[0]==null) {fatalError("Please enter an output folder path");}
 		if ( Integer.valueOf(args[3])==0 && args[4]==null ){fatalError("Please enter an number of experiment to sample or a spid");}
 		if (Integer.valueOf(args[3])<0) {fatalError("Illegal number of experiments to sample");}
-		if ( Integer.valueOf(args[3])==0 && !findSPID(args[4]) ){fatalError("SPID wasn't found");}
+		//TODO: fix this to work with schemata as well if ( Integer.valueOf(args[3])==0 && !findSPID(args[4]) ){fatalError("SPID wasn't found");}
 		try {
 				PairExperimentEnum.valueOf(args[2]);
 		}
