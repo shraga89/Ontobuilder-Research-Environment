@@ -18,7 +18,7 @@ public class UnifiedTopKMatchingCreator {
 	
 	public static double selectionThreshold = 0.0;
 	public static int groupCountThresholdExhaustiveSearch = 8;
-	public static int groupPartCountThresholdPatitiningHeuristic = 3;
+	public static int groupPartCountThresholdPatitiningHeuristic = 5;
 	
 	public enum WEIGHTING {
 		SIMILARITY,
