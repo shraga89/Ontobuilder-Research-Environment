@@ -17,6 +17,8 @@ import ac.technion.iem.ontobuilder.matching.meta.match.MatchMatrix;
 public class UnifiedTopKMatchingCreator {
 	
 	public static double selectionThreshold = 0.0;
+	public static int groupCountThresholdExhaustiveSearch = 8;
+	public static int groupPartCountThresholdPatitiningHeuristic = 3;
 	
 	public enum WEIGHTING {
 		SIMILARITY,
@@ -165,15 +167,25 @@ public class UnifiedTopKMatchingCreator {
 			}
 		}
 		
-		Set<Set<Term>> groups = extractIndependentGroups(toOptTarget, toOptCandidate);
+		Set<Set<Term>> groupsUnchecked = extractIndependentGroups(toOptTarget, toOptCandidate);
 		
 		System.out.println("Cluster: groups");
 		
-		for (Set<Term> group : groups) {
+		/*
+		 * Check whether group is small enough to check for exhaustive check 
+		 * or heuristic check with all partitionings of the respective nodes. 
+		 * If not, remove link with minimal weight to 
+		 * split up the group.
+		 */
+		Set<Set<Term>> groupsChecked = new HashSet<Set<Term>>();
+		for (Set<Term> group : groupsUnchecked) 
+			groupsChecked.addAll(splitUpGroupIfNeeded(group));
+		
+		for (Set<Term> group : groupsChecked) {
 			/*
 			 * can we go for exhaustive search?
 			 */
-			if (group.size() < 8) {
+			if (group.size() <= groupCountThresholdExhaustiveSearch) {
 				System.out.print(group.size()  + "()" + " ");
 				double maxMod = 0;
 				Set<Cluster> best = null;
@@ -209,7 +221,7 @@ public class UnifiedTopKMatchingCreator {
 				groupTarget.removeAll(this.unifiedTopKGraph.getCandidateTerms());
 				List<Term> groupCandidate = new ArrayList<Term>(group);
 				groupCandidate.removeAll(this.unifiedTopKGraph.getTargetTerms());
-				
+								
 				System.out.print(group.size()  + "(" + groupTarget.size() + ")" + " ");
 				
 				Set<Set<Set<Term>>> partitioningsTar = getAllPartitionings(groupTarget);
@@ -284,6 +296,46 @@ public class UnifiedTopKMatchingCreator {
 		
 	}
 	
+	protected Set<Set<Term>> splitUpGroupIfNeeded(Set<Term> group) {
+		List<Term> groupTarget = new ArrayList<Term>(group);
+		groupTarget.removeAll(this.unifiedTopKGraph.getCandidateTerms());
+		List<Term> groupCandidate = new ArrayList<Term>(group);
+		groupCandidate.removeAll(this.unifiedTopKGraph.getTargetTerms());
+		
+		Set<Set<Term>> result = new HashSet<Set<Term>>();
+		
+		if ((groupTarget.size() <= groupPartCountThresholdPatitiningHeuristic) && (groupCandidate.size() <= groupPartCountThresholdPatitiningHeuristic)) {
+			if (groupTarget.size() > 0 && groupCandidate.size() > 0)
+				result.add(group);
+			return result;
+		}
+		
+		// find min confidence larger than 0
+		double minConf = 1;
+		Term minTar = null;
+		Term minCand = null;
+		for (Term tar : groupTarget) {
+			for (Term cand : groupCandidate) {
+				double conf = this.unifiedTopKGraph.getMatchConfidence(cand, tar);
+				if (conf != 0) {
+					minConf = Math.min(minConf, conf);
+					if (minConf == conf) {
+						minTar = tar;
+						minCand = cand;
+					}
+				}
+			}
+		}
+		this.unifiedTopKGraph.setMatchConfidence(minCand, minTar, 0);
+		Set<Set<Term>> smallerGroups = extractIndependentGroups(groupTarget, groupCandidate);
+		
+		for (Set<Term> smallerGroup : smallerGroups) {
+			result.addAll(splitUpGroupIfNeeded(smallerGroup));
+		}
+		return result;
+	}
+
+
 	Map<Cluster, Double> clusterQualities = new HashMap<Cluster, Double>();
 	
 	private void judgeClustersQuality(Cluster c) {
