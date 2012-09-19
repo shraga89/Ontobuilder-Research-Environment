@@ -9,9 +9,6 @@ import java.util.HashMap;
 import ac.technion.iem.ontobuilder.core.ontology.Term;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 import ac.technion.iem.ontobuilder.matching.meta.match.MatchMatrix;
-import ac.technion.schemamatching.statistics.AvgAPredictor;
-import ac.technion.schemamatching.statistics.BMPredictor;
-import ac.technion.schemamatching.statistics.STDEVPredictor;
 import ac.technion.schemamatching.statistics.Statistic;
 
 /**

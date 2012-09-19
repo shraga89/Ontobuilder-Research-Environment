@@ -1,6 +1,5 @@
-package ac.technion.schemamatching.statistics;
+package ac.technion.schemamatching.statistics.predictors;
 
-import ac.technion.schemamatching.statistics.predictors.Predictor;
 
 public class BMPredictor implements Predictor{
 
