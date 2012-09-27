@@ -5,17 +5,17 @@ package ac.technion.schemamatching.statistics.predictors;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
+import ac.technion.iem.ontobuilder.core.ontology.Term;
+import ac.technion.iem.ontobuilder.matching.match.Match;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
-import ac.technion.schemamatching.statistics.BMMPredictor;
-import ac.technion.schemamatching.statistics.BMPredictor;
-import ac.technion.schemamatching.statistics.STDEVPredictor;
 import ac.technion.schemamatching.statistics.Statistic;
 
 /**
  * Calculates various predictions on a similarity matrix
  * with no golden mapping
- * @author tomer_s
+ * @author Tomer Sagi
  *
  */
 public class MatrixPredictors implements Statistic {
@@ -24,6 +24,7 @@ public class MatrixPredictors implements Statistic {
 	private static String name = "Matrix Predictors";
 	private String[] header;
 	private ArrayList<String[]> data = new ArrayList<String[]>();
+	private HashSet<Term> stopTerms  = new HashSet<Term>();
 	
 	public MatrixPredictors()
 	{
@@ -64,6 +65,15 @@ public class MatrixPredictors implements Statistic {
 	 */
 	public boolean init(String instanceDesc, MatchInformation mi) {
 		// TODO Find a way to do this efficiently for sparse matrices
+		HashMap<Term,HashSet<Term>> toVisit = new HashMap<Term,HashSet<Term>>();
+		for (Match m : mi.getCopyOfMatches())
+		{
+			Term t = m.getTargetTerm();
+			if (stopTerms.contains(t)) continue; //Skip target terms in stop list
+			HashSet<Term> candTerms = (toVisit.containsKey(t)?
+					toVisit.get(t):new HashSet<Term>());
+			candTerms.add(m.getCandidateTerm());
+		}//TODO limit predictor evaluation to toVisit
 		double[][] mm = mi.getMatchMatrix();
 		if (mm == null || mm.length == 0) return false;
 		
@@ -139,6 +149,20 @@ public class MatrixPredictors implements Statistic {
 		
 		double denom = Math.max((double)rows,(double)cols);
 		return res/denom;
+	}
+
+	/**
+	 * @return the stopTerms
+	 */
+	public HashSet<Term> getStopTerms() {
+		return stopTerms;
+	}
+
+	/**
+	 * @param stopTerms the stopTerms to set
+	 */
+	public void setStopTerms(HashSet<Term> stopTerms) {
+		this.stopTerms = stopTerms;
 	}
 
 }
