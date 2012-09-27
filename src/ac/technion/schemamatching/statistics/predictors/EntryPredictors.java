@@ -4,7 +4,9 @@
 package ac.technion.schemamatching.statistics.predictors;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.PriorityQueue;
 
 import ac.technion.iem.ontobuilder.core.ontology.Term;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
@@ -25,12 +27,18 @@ public class EntryPredictors implements Statistic {
 	
 	public EntryPredictors()
 	{
-		//DBN: Compare to vector with entry set to 1
-		//DSM: Set entry to max and all others unchanged
-		//DLA: Set all entries over this one to it's value
+		/*Idealizers based on the row and column of the entry:
+		DBN: Compare to vector with entry set to 1
+		DSM: Set entry to max and all others unchanged
+		DLA: Set all entries over this one to it's value
+		*/
+		/*Internalizers based on row properties:
+		 * RowNormedVal = (val-minVal)/(minVal-maxVal)
+		 * RowRankedVal = (rankedVal-1)/(maxRank-1)
+		/*Same Internalizers based on col properties*/
 		//Conf: Use value
 		
-		header = new String[]{"InstanceDesc","DBN","DSM","DLA","Val"};
+		header = new String[]{"InstanceDesc","DBN","DSM","DLA","RNV","RRV","CNV", "CRV","Val"};
 	}
 	
 	/* (non-Javadoc)
@@ -78,7 +86,14 @@ public class EntryPredictors implements Statistic {
 				double val = confM[row][col];
 				double entryVecLength = 0.0;
 				
-				double dsmVecLength = 0.0; double maxVal = val;
+				double maxVal = val;
+				double rMin = val;
+				double cMin = val;
+				
+				PriorityQueue<Double> rpq = new PriorityQueue<Double>(confM.length,Collections.reverseOrder());
+				PriorityQueue<Double> cpq = new PriorityQueue<Double>(confM[row].length,Collections.reverseOrder());
+				
+				double dsmVecLength = 0.0; 
 				double dlaVecLength = 0.0;
 				
 				double binVecDotProduct = val; //val X 1.0, all other entries are set to 0.0
@@ -93,6 +108,8 @@ public class EntryPredictors implements Statistic {
 					double entryVecVal=confM[r][col];
 					entryVecLength+=entryVecVal*entryVecVal;
 					maxVal = Math.max(maxVal, entryVecVal);
+					rMin = Math.min(rMin, entryVecVal);
+					rpq.add(entryVecVal);
 					dsmVecLength+=Math.pow(entryVecVal,2.0);
 					dsmVecDotProduct+=entryVecVal*entryVecVal;
 					
@@ -106,6 +123,8 @@ public class EntryPredictors implements Statistic {
 					double entryVecVal=confM[row][c];
 					entryVecLength+=entryVecVal*entryVecVal;
 					maxVal = Math.max(maxVal, entryVecVal);
+					cMin = Math.min(cMin, entryVecVal);
+					cpq.add(entryVecVal);
 					dsmVecLength+=Math.pow(entryVecVal,2.0);
 					dsmVecDotProduct+=entryVecVal*entryVecVal;
 					
@@ -120,6 +139,8 @@ public class EntryPredictors implements Statistic {
 				dlaVecLength+=val*val;
 				dlaVecDotProduct+=val*val;
 				entryVecLength+=val*val;
+				rpq.add(val);
+				cpq.add(val);
 				
 				//For 0 length vectors, set prediction to 0.0
 				double dbn  = (val==0.0?0.0:binVecDotProduct
@@ -131,7 +152,35 @@ public class EntryPredictors implements Statistic {
 				double dla = (val==0&&entryVecLength==0?0.0:dlaVecDotProduct
 						/Math.sqrt(dlaVecLength*entryVecLength));
 				res[3] =  new Double(dla).toString();
-				res[4] = new Double(val).toString();
+				double maxRVal = rpq.element().doubleValue();
+				double rnv = (maxRVal==0.0?0.0:
+						(val-rMin)/(maxRVal-rMin));
+				res[4] = new Double(rnv).toString();
+				int valRank = rpq.size();
+				int maxRank = rpq.size();
+				while(val!=rpq.element())
+				{
+					valRank--;
+					rpq.poll();
+				}
+				double rrv = (maxRVal==0.0?0.0:((double)valRank-1.0)/((double)maxRank-1.0));
+				res[5] = new Double(rrv).toString();
+				double maxCVal = cpq.element().doubleValue();
+				double cnv = (maxCVal==0.0?0.0:
+					(val-cMin)/(maxCVal-cMin));
+				res[6] = new Double(cnv).toString();
+				
+				valRank = cpq.size();
+				maxRank = cpq.size();
+				while(val!=cpq.element())
+				{
+					valRank--;
+					cpq.poll();
+				}
+				double crv = (maxCVal==0.0?0.0:((double)valRank-1.0)/((double)maxRank-1.0));
+				res[7] = new Double(crv).toString();
+				
+				res[8] = new Double(val).toString();
 				data.add(res);
 				assert(dbn<=1.0);
 				assert(dla<=1.0);
