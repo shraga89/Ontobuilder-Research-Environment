@@ -74,7 +74,7 @@ public class OBTopK implements SecondLineMatcher {
 	 * @see ac.technion.schemamatching.matchers.SecondLineMatcher#getDBid()
 	 */
 	public int getDBid() {
-		return 8;
+		return 10;
 	}
 
 }

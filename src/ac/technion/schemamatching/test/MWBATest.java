@@ -3,11 +3,10 @@
 package ac.technion.schemamatching.test;
 
 import java.util.ArrayList;
+
 import ac.technion.iem.ontobuilder.matching.algorithms.line2.topk.graphs.entities.BipartiteGraph;
-import ac.technion.iem.ontobuilder.matching.algorithms.line2.topk.graphs.entities.EdgesSet;
 import ac.technion.iem.ontobuilder.matching.algorithms.line2.topk.graphs.entities.Graph;
 import ac.technion.iem.ontobuilder.matching.algorithms.line2.topk.graphs.entities.GraphFactory;
-
 import ac.technion.iem.ontobuilder.matching.algorithms.line2.topk.graphs.utils.EdgeArray;
 import ac.technion.iem.ontobuilder.matching.algorithms.line2.topk.graphs.utils.VertexArray;
 import ac.technion.iem.ontobuilder.matching.algorithms.line2.topk.impl.MaxWeightBipartiteMatchingAlgorithm;
@@ -18,7 +17,8 @@ import ac.technion.iem.ontobuilder.matching.algorithms.line2.topk.impl.MaxWeight
  */
 public class MWBATest {
 
-    public static void main(String[] args) {
+    @SuppressWarnings("unused")
+	public static void main(String[] args) {
         
         try {
         
@@ -65,8 +65,9 @@ public class MWBATest {
             pot = new VertexArray(bg, new Double(0));
             MaxWeightBipartiteMatchingAlgorithm aBest = new MaxWeightBipartiteMatchingAlgorithm(
                     bg, c, pot);
-            EdgesSet matching = aBest.runAlgorithm();
+            /*EdgesSet matching = aBest.runAlgorithm();
             System.out.println(matching.printEdgesSet());
+            EdgeSet deprecated by Matthias September 2012*/
 
         } catch (Throwable e) {
             e.printStackTrace();
