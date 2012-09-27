@@ -50,41 +50,6 @@ public class NBGolden implements K2Statistic {
 		Double precision = (mLen==0.0?0.0:prod/mLen);
 		Double recall = (exactLen==0.0?0.0:prod/exactLen);
 		data.add(new String[] {instanceDescription, precision.toString(),recall.toString()});
-		//Commented out by Tomer on 27/09/12 to improve performance
-//		if (mi.getMatchMatrix().length<=exactMatch.getMatchMatrix().length)
-//			try {
-//				mi = ConversionUtils.expandMatrix(mi,exactMatch);
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//			}
-//		data.add(new String[] {instanceDescription, Double.toString(calcSMPrecision(mi,exactMatch)),Double.toString(calcSMRecall(mi,exactMatch))});
 		return true;
 	}
-
-	/**
-	 * N^2 Calculation of Similarity Matrix Precision
-	 * @param mi match information result of matcher
-	 * @param exactMatch 
-	 * @return
-	 */
-	private double calcSMPrecision(MatchInformation mi,
-			MatchInformation exactMatch) {
-		Double[] vMI = SimilarityVectorUtils.makeArray(mi);
-		Double[] vExact = SimilarityVectorUtils.makeArray(exactMatch);
-		return SimilarityVectorUtils.calcDotProduct(vMI, vExact)/Math.pow(SimilarityVectorUtils.calcL1Length(vMI),2);
-	}
-	
-	/**
-	 * N^2 Calculation of Similarity Matrix Recall
-	 * @param mi match information result of matcher
-	 * @param exactMatch 
-	 * @return
-	 */
-	private double calcSMRecall(MatchInformation mi,
-			MatchInformation exactMatch) {
-		Double[] vMI = SimilarityVectorUtils.makeArray(mi);
-		Double[] vExact = SimilarityVectorUtils.makeArray(exactMatch);
-		return SimilarityVectorUtils.calcDotProduct(vMI, vExact)/Math.pow(SimilarityVectorUtils.calcL1Length(vExact),2);
-	}
-
 }
