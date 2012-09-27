@@ -17,7 +17,7 @@ public class MaxPredictor implements Predictor {
 	 * @see ac.technion.schemamatching.statistics.Predictor#getName()
 	 */
 	public String getName() {
-		return "MaxAPredictor";
+		return "MaxPredictor";
 	}
 
 	/* (non-Javadoc)

@@ -2,6 +2,7 @@ package ac.technion.schemamatching.statistics;
 
 import java.util.ArrayList;
 
+import ac.technion.iem.ontobuilder.matching.match.Match;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 import ac.technion.schemamatching.util.ConversionUtils;
 import ac.technion.schemamatching.util.SimilarityVectorUtils;
@@ -34,13 +35,29 @@ public class NBGolden implements K2Statistic {
 	public boolean init(String instanceDescription, MatchInformation mi, MatchInformation exactMatch) {
 		data = new ArrayList<String[]>();
 		header = new String[]{"instance","Precision","Recall"};
-		if (mi.getMatchMatrix().length<=exactMatch.getMatchMatrix().length)
-			try {
-				mi = ConversionUtils.expandMatrix(mi,exactMatch);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		data.add(new String[] {instanceDescription, Double.toString(calcSMPrecision(mi,exactMatch)),Double.toString(calcSMRecall(mi,exactMatch))});
+		ArrayList<Match> matches = mi.getCopyOfMatches();
+		ArrayList<Match> exact = mi.getCopyOfMatches();
+		double prod = 0.0;
+		double exactLen = (double)exact.size();
+		double mLen = 0.0;
+		for (Match m : matches)
+		{
+			double tpVal = exactMatch.getMatchConfidence(m.getCandidateTerm(), m.getTargetTerm());
+			double val = m.getEffectiveness(); 
+			prod+=(tpVal*val);
+			mLen+=val;
+		}
+		Double precision = (mLen==0.0?0.0:prod/mLen);
+		Double recall = (exactLen==0.0?0.0:prod/exactLen);
+		data.add(new String[] {instanceDescription, precision.toString(),recall.toString()});
+		//Commented out by Tomer on 27/09/12 to improve performance
+//		if (mi.getMatchMatrix().length<=exactMatch.getMatchMatrix().length)
+//			try {
+//				mi = ConversionUtils.expandMatrix(mi,exactMatch);
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
+//		data.add(new String[] {instanceDescription, Double.toString(calcSMPrecision(mi,exactMatch)),Double.toString(calcSMRecall(mi,exactMatch))});
 		return true;
 	}
 
