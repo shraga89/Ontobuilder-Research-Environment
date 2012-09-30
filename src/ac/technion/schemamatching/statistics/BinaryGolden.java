@@ -48,10 +48,12 @@ public class BinaryGolden implements K2Statistic {
 		}
 		
 		data = new ArrayList<String[]>();
-		header = new String[]{"instance","Precision","Recall"};
+		header = new String[]{"instance","Precision","Recall", "F", "Overall"};
 		Double precision = calcPrecision();
 		Double recall = calcRecall();
-		data.add(new String[] {instanceDescription,precision.toString(), recall.toString()});
+		Double f = 2d * (precision * recall) / (precision + recall);
+		Double overall = recall * (2 - 1 / precision);
+		data.add(new String[] {instanceDescription,precision.toString(), recall.toString(), f.toString(), overall.toString()});
 		return true;
 	}
 	
