@@ -4,8 +4,6 @@ import java.util.ArrayList;
 
 import ac.technion.iem.ontobuilder.matching.match.Match;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
-import ac.technion.schemamatching.util.ConversionUtils;
-import ac.technion.schemamatching.util.SimilarityVectorUtils;
 
 /**
  * Calculates non-binary precision and recall
@@ -34,12 +32,13 @@ public class NBGolden implements K2Statistic {
 
 	public boolean init(String instanceDescription, MatchInformation mi, MatchInformation exactMatch) {
 		data = new ArrayList<String[]>();
-		header = new String[]{"instance","Precision","Recall"};
+		header = new String[]{"instance","Precision","Recall", "F", "Overall"};
 		ArrayList<Match> matches = mi.getCopyOfMatches();
 		ArrayList<Match> exact = mi.getCopyOfMatches();
-		double prod = 0.0;
+		double prod = 0.0d;
 		double exactLen = (double)exact.size();
-		double mLen = 0.0;
+		double mLen = 0.0d;
+		
 		for (Match m : matches)
 		{
 			double tpVal = exactMatch.getMatchConfidence(m.getCandidateTerm(), m.getTargetTerm());
@@ -49,7 +48,11 @@ public class NBGolden implements K2Statistic {
 		}
 		Double precision = (mLen==0.0?0.0:prod/mLen);
 		Double recall = (exactLen==0.0?0.0:prod/exactLen);
-		data.add(new String[] {instanceDescription, precision.toString(),recall.toString()});
+		Double f = 2d * (precision * recall) / (precision + recall);
+		Double overall = recall * (2d - 1d / precision);
+		
+		System.out.println(instanceDescription + "," + precision + ", " + recall + ", " + f + ", " + overall);
+		data.add(new String[] {instanceDescription, precision.toString(),recall.toString(), f.toString(), overall.toString()});
 		return true;
 	}
 }
