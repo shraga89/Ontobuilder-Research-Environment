@@ -1,0 +1,236 @@
+/**
+ * 
+ */
+package ac.technion.schemamatching.experiments.holistic;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
+
+import ac.technion.iem.ontobuilder.core.ontology.Term;
+import ac.technion.iem.ontobuilder.matching.match.Match;
+import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
+import ac.technion.schemamatching.experiments.OBExperimentRunner;
+import ac.technion.schemamatching.experiments.holistic.nq.CertaintyBetweennessRanking;
+import ac.technion.schemamatching.experiments.holistic.nq.CertaintyDegreeRanking;
+import ac.technion.schemamatching.experiments.holistic.nq.DecisivenessBetweennessRanking;
+import ac.technion.schemamatching.experiments.holistic.nq.DecisivenessDegreeRanking;
+import ac.technion.schemamatching.experiments.holistic.nq.NetworkEvolution;
+import ac.technion.schemamatching.experiments.holistic.nq.NetworkModel;
+import ac.technion.schemamatching.experiments.holistic.nq.RandomRanking;
+import ac.technion.schemamatching.experiments.holistic.nq.IndecisivenessDegreeRanking;
+import ac.technion.schemamatching.matchers.firstline.FLMList;
+import ac.technion.schemamatching.matchers.firstline.FirstLineMatcher;
+import ac.technion.schemamatching.matchers.firstline.OBTermMatch;
+import ac.technion.schemamatching.matchers.secondline.SecondLineMatcher;
+import ac.technion.schemamatching.statistics.BinaryGolden;
+import ac.technion.schemamatching.statistics.NBGolden;
+import ac.technion.schemamatching.statistics.Statistic;
+import ac.technion.schemamatching.statistics.predictors.MatrixPredictors;
+import ac.technion.schemamatching.testbed.ExperimentSchema;
+
+public class NetworkQualityExperiment implements HolisticExperiment{
+	
+	/*
+	 * Configuration of the experiment
+	 */
+	
+	// each schema is mapped to how many other schemas as part of the initialisation?
+	private int density = 3;
+	
+	private int feedbackBudget = 1000;
+	private int validatedPerEval = 10;
+	
+	private List<FirstLineMatcher> flM;
+	private HashMap<String,Double> matcherWeights = new HashMap<String,Double>();
+
+	public ArrayList<Statistic> runExperiment(HashSet<ExperimentSchema> eSet) {
+		
+		System.out.println("++++++++++++++++++++++++++++++++++++++");
+		System.out.println("Prepare schemas...");
+		for (ExperimentSchema s : eSet) {
+			Term sTerm = new Term(s.getTargetOntology().getName());
+			s.getTargetOntology().addTerm(sTerm);
+			for (Term t : s.getTargetOntology().getTerms(true)) {
+				if (t.getParent() == null && !t.equals(sTerm)) {
+					t.setParent(sTerm);
+					sTerm.addTerm(t);
+					s.getTargetOntology().removeTerm(t);
+				}
+			}
+		}
+		System.out.println("++++++++++++++++++++++++++++++++++++++");
+		System.out.println("Create network...");
+		NetworkModel network1 = new NetworkModel(eSet);
+		System.out.println("++++++++++++++++++++++++++++++++++++++");
+		System.out.println("Init network...");
+		network1.initNetwork(this.flM, this.matcherWeights, this.density);
+		NetworkModel network2 = (NetworkModel) network1.clone();
+		NetworkModel network3 = (NetworkModel) network1.clone();
+		NetworkModel network4 = (NetworkModel) network1.clone();
+		NetworkModel network5 = (NetworkModel) network1.clone();
+		NetworkModel network6 = (NetworkModel) network1.clone();
+		NetworkModel evolvedNetwork; 
+		Set<Match> toExclude;
+		
+		ArrayList<Statistic> res = new ArrayList<Statistic>();
+
+		System.out.println("Do initial measuring...");
+		NBGolden nb =  new NBGolden();
+		nb.init("Initial network", network1.getMI(), network1.getGoldStandard());
+		res.add(nb);
+		
+		
+		System.out.println("#####################################################");
+		System.out.println("Run Baseline");
+		toExclude = new HashSet<Match>();
+		evolvedNetwork = NetworkEvolution.evolveNetwork(network1, new RandomRanking(), feedbackBudget, validatedPerEval, toExclude);
+		System.out.println("Do measuring...");
+		NBGolden nb11 =  new NBGolden();
+		nb11.init("Baseline "  + feedbackBudget + "(" + validatedPerEval + ")", evolvedNetwork.getMI(), evolvedNetwork.getGoldStandard());
+		res.add(nb11);
+		evolvedNetwork = NetworkEvolution.evolveNetwork(evolvedNetwork, new RandomRanking(), feedbackBudget, validatedPerEval, toExclude);
+		System.out.println("Do measuring...");
+		NBGolden nb12 =  new NBGolden();
+		nb12.init("Baseline "  + 2* feedbackBudget + "(" + validatedPerEval + ")", evolvedNetwork.getMI(), evolvedNetwork.getGoldStandard());
+		res.add(nb12);
+		evolvedNetwork = NetworkEvolution.evolveNetwork(evolvedNetwork, new RandomRanking(), feedbackBudget, validatedPerEval, toExclude);
+		System.out.println("Do measuring...");
+		NBGolden nb13 =  new NBGolden();
+		nb13.init("Baseline "  + 3* feedbackBudget + "(" + validatedPerEval + ")", evolvedNetwork.getMI(), evolvedNetwork.getGoldStandard());
+		res.add(nb13);
+		evolvedNetwork = NetworkEvolution.evolveNetwork(evolvedNetwork, new RandomRanking(), feedbackBudget, validatedPerEval, toExclude);
+		System.out.println("Do measuring...");
+		NBGolden nb14 =  new NBGolden();
+		nb14.init("Baseline "  + 4* feedbackBudget + "(" + validatedPerEval + ")", evolvedNetwork.getMI(), evolvedNetwork.getGoldStandard());
+		res.add(nb14);
+		
+		System.out.println("#####################################################");
+		System.out.println("Run CertaintyDegreeRanking");
+		toExclude = new HashSet<Match>();
+		evolvedNetwork = NetworkEvolution.evolveNetwork(network2, new CertaintyDegreeRanking(), feedbackBudget, validatedPerEval, toExclude);
+		System.out.println("Do measuring...");
+		NBGolden nb21 =  new NBGolden();
+		nb21.init("CertaintyDegreeRanking 1", evolvedNetwork.getMI(), evolvedNetwork.getGoldStandard());
+		res.add(nb21);
+		evolvedNetwork = NetworkEvolution.evolveNetwork(evolvedNetwork, new CertaintyDegreeRanking(), feedbackBudget, validatedPerEval, toExclude);
+		System.out.println("Do measuring...");
+		NBGolden nb22 =  new NBGolden();
+		nb22.init("CertaintyDegreeRanking 2", evolvedNetwork.getMI(), evolvedNetwork.getGoldStandard());
+		res.add(nb22);
+		evolvedNetwork = NetworkEvolution.evolveNetwork(evolvedNetwork, new CertaintyDegreeRanking(), feedbackBudget, validatedPerEval, toExclude);
+		System.out.println("Do measuring...");
+		NBGolden nb23 =  new NBGolden();
+		nb23.init("CertaintyDegreeRanking 3", evolvedNetwork.getMI(), evolvedNetwork.getGoldStandard());
+		res.add(nb23);
+		evolvedNetwork = NetworkEvolution.evolveNetwork(evolvedNetwork, new CertaintyDegreeRanking(), feedbackBudget, validatedPerEval, toExclude);
+		System.out.println("Do measuring...");
+		NBGolden nb24 =  new NBGolden();
+		nb24.init("CertaintyDegreeRanking 4", evolvedNetwork.getMI(), evolvedNetwork.getGoldStandard());
+		res.add(nb24);
+
+		System.out.println("#####################################################");
+		System.out.println("Run DecisivenessDegreeRanking");
+		toExclude = new HashSet<Match>();
+		evolvedNetwork = NetworkEvolution.evolveNetwork(network3, new DecisivenessDegreeRanking(), feedbackBudget, validatedPerEval, toExclude);
+		System.out.println("Do measuring...");
+		NBGolden nb31 =  new NBGolden();
+		nb31.init("DecisivenessDegreeRanking 1", evolvedNetwork.getMI(), evolvedNetwork.getGoldStandard());
+		res.add(nb31);
+		evolvedNetwork = NetworkEvolution.evolveNetwork(evolvedNetwork, new DecisivenessDegreeRanking(), feedbackBudget, validatedPerEval, toExclude);
+		System.out.println("Do measuring...");
+		NBGolden nb32 =  new NBGolden();
+		nb32.init("DecisivenessDegreeRanking 2", evolvedNetwork.getMI(), evolvedNetwork.getGoldStandard());
+		res.add(nb32);
+		evolvedNetwork = NetworkEvolution.evolveNetwork(evolvedNetwork, new DecisivenessDegreeRanking(), feedbackBudget, validatedPerEval, toExclude);
+		System.out.println("Do measuring...");
+		NBGolden nb33 =  new NBGolden();
+		nb33.init("DecisivenessDegreeRanking 3", evolvedNetwork.getMI(), evolvedNetwork.getGoldStandard());
+		res.add(nb33);
+		evolvedNetwork = NetworkEvolution.evolveNetwork(evolvedNetwork, new DecisivenessDegreeRanking(), feedbackBudget, validatedPerEval, toExclude);
+		System.out.println("Do measuring...");
+		NBGolden nb34 =  new NBGolden();
+		nb34.init("DecisivenessDegreeRanking 4", evolvedNetwork.getMI(), evolvedNetwork.getGoldStandard());
+		res.add(nb34);
+		
+		System.out.println("#####################################################");
+		System.out.println("Run IndecisivenessDegreeRanking");
+		toExclude = new HashSet<Match>();
+		evolvedNetwork = NetworkEvolution.evolveNetwork(network6, new IndecisivenessDegreeRanking(), feedbackBudget, validatedPerEval, toExclude);
+		System.out.println("Do measuring...");
+		NBGolden nb61 =  new NBGolden();
+		nb61.init("IndecisivenessDegreeRanking 1", evolvedNetwork.getMI(), evolvedNetwork.getGoldStandard());
+		res.add(nb61);
+		evolvedNetwork = NetworkEvolution.evolveNetwork(evolvedNetwork, new IndecisivenessDegreeRanking(), feedbackBudget, validatedPerEval, toExclude);
+		System.out.println("Do measuring...");
+		NBGolden nb62 =  new NBGolden();
+		nb62.init("IndecisivenessDegreeRanking 2", evolvedNetwork.getMI(), evolvedNetwork.getGoldStandard());
+		res.add(nb62);
+		evolvedNetwork = NetworkEvolution.evolveNetwork(evolvedNetwork, new IndecisivenessDegreeRanking(), feedbackBudget, validatedPerEval, toExclude);
+		System.out.println("Do measuring...");
+		NBGolden nb63 =  new NBGolden();
+		nb63.init("IndecisivenessDegreeRanking 3", evolvedNetwork.getMI(), evolvedNetwork.getGoldStandard());
+		res.add(nb63);
+		evolvedNetwork = NetworkEvolution.evolveNetwork(evolvedNetwork, new IndecisivenessDegreeRanking(), feedbackBudget, validatedPerEval, toExclude);
+		System.out.println("Do measuring...");
+		NBGolden nb64 =  new NBGolden();
+		nb64.init("IndecisivenessDegreeRanking 4", evolvedNetwork.getMI(), evolvedNetwork.getGoldStandard());
+		res.add(nb64);
+
+//		System.out.println("#####################################################");
+//		System.out.println("Run CertaintyBetweennessRanking");
+//		toExclude = new HashSet<Match>();
+//		evolvedNetwork = NetworkEvolution.evolveNetwork(network4, new CertaintyBetweennessRanking(), feedbackBudget, validatedPerEval, toExclude);
+//		System.out.println("Do measuring...");
+//		NBGolden nb41 =  new NBGolden();
+//		nb41.init("CertaintyBetweennessRanking 1", evolvedNetwork.getMI(), evolvedNetwork.getGoldStandard());
+//		res.add(nb41);
+//		evolvedNetwork = NetworkEvolution.evolveNetwork(evolvedNetwork, new CertaintyBetweennessRanking(), feedbackBudget, validatedPerEval, toExclude);
+//		System.out.println("Do measuring...");
+//		NBGolden nb42 =  new NBGolden();
+//		nb42.init("CertaintyBetweennessRanking 2", evolvedNetwork.getMI(), evolvedNetwork.getGoldStandard());
+//		res.add(nb42);
+
+//		System.out.println("#####################################################");
+//		System.out.println("Run DecisivenessBetweennessRanking");
+//		toExclude = new HashSet<Match>();
+//		evolvedNetwork = NetworkEvolution.evolveNetwork(network5, new DecisivenessBetweennessRanking(), feedbackBudget, validatedPerEval, toExclude);
+//		System.out.println("Do measuring...");
+//		NBGolden nb51 =  new NBGolden();
+//		nb51.init("DecisivenessBetweennessRanking 1", evolvedNetwork.getMI(), evolvedNetwork.getGoldStandard());
+//		res.add(nb51);
+//		evolvedNetwork = NetworkEvolution.evolveNetwork(evolvedNetwork, new DecisivenessBetweennessRanking(), feedbackBudget, validatedPerEval, toExclude);
+//		System.out.println("Do measuring...");
+//		NBGolden nb52 =  new NBGolden();
+//		nb52.init("DecisivenessBetweennessRanking 2", evolvedNetwork.getMI(), evolvedNetwork.getGoldStandard());
+//		res.add(nb52);
+
+		return res;
+	}
+
+	public boolean init(OBExperimentRunner oer, Properties properties,
+			ArrayList<FirstLineMatcher> flM, ArrayList<SecondLineMatcher> slM) {
+		
+		this.flM = flM;
+		HashMap<Integer, FirstLineMatcher> flmHash = FLMList.getIdFLMHash();
+		for (Object key : properties.keySet()) {
+			String strKey =(String)key; 
+			Integer mId = Integer.parseInt(strKey.substring(1));
+			
+			Double pWeight = Double.parseDouble((String)properties.get(key));
+			matcherWeights.put(flmHash.get(mId).getName(), pWeight);
+		}
+		return true;
+	}
+
+	public String getDescription() {
+		String desc = "Network Quality Experiment";
+		return desc;
+	}
+	
+
+}
