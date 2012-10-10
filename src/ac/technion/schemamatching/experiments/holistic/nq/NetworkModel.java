@@ -18,6 +18,7 @@ import ac.technion.schemamatching.ensembles.SimpleWeightedEnsemble;
 import ac.technion.schemamatching.experiments.OBExperimentRunner;
 import ac.technion.schemamatching.matchers.firstline.FirstLineMatcher;
 import ac.technion.schemamatching.testbed.ExperimentSchema;
+import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
 import ac.technion.schemamatching.testbed.OREDataSetEnum;
 
 public class NetworkModel {
@@ -102,12 +103,13 @@ public class NetworkModel {
 		/*
 		 * Init gold standard
 		 */
+		
 		this.goldStandard = new MatchInformation(this.unifiedOntology, this.unifiedOntology);
 		OREDataSetEnum dsEnum = OREDataSetEnum.getByDbid(20);
 		for (ExperimentSchema s1 : this.schemas) {
 			for (ExperimentSchema s2 : this.schemas) {
 				if (s1.equals(s2)) continue;
-				
+				ExperimentSchemaPair pair = OBExperimentRunner.getOER().getDoc().getPair(s1,s2);
 				String exactMatchPath;
 				String sql = "SELECT path FROM schemapairs WHERE CandidateSchema = " + s1.getID() + " AND TargetSchema = " + s2.getID() + ";";
 				ArrayList<String[]> res = OBExperimentRunner.getOER().getDB().runSelectQuery(sql, 1);
