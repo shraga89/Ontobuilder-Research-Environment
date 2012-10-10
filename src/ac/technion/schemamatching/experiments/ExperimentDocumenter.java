@@ -553,5 +553,18 @@ public class ExperimentDocumenter
 	public long documentHolisticExperiment(String desc, ArrayList<Ontology> dataset) {
 		return this.documentExperiment(desc);
 	}
+
+
+	/**
+	 * 
+	 * @param s1
+	 * @param s2
+	 * @return ExperimentSchemaPair containing the golden mapping if exists or null otherwise
+	 */
+	public ExperimentSchemaPair getPair(ExperimentSchema s1, ExperimentSchema s2) {
+		//TODO
+		ExperimentSchemaPair res = new ExperimentSchemaPair(0, 0); 
+		return null;
+	}
 }
 
