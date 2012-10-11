@@ -357,11 +357,6 @@ public class OBExperimentRunner {
 		}}
 		
 	}
-	
-	private boolean findSPID(String spid) {
-	    String sql = "SELECT `SPID` FROM schemapairs WHERE SPID='" + spid +"';";
-		return (db.runSelectQuery(sql, 1).get(0)[0]!=null);
-}
 
 	/**
 	 * Returns the ExperimentDocumenter object for a given experiment ID
