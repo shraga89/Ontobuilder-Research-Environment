@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Properties;
 
 import technion.iem.schemamatching.dbutils.DBInterface;
@@ -182,7 +183,7 @@ public class OBExperimentRunner {
 		e.init(this, pFile, flm, slm);
 		outputPath = getFolder(outputPath);
 		e.init(getOER(), pFile, flm, slm);
-		ArrayList<Statistic> eRes = e.runExperiment(new HashSet<ExperimentSchema>(dataset));
+		List<Statistic> eRes = e.runExperiment(new HashSet<ExperimentSchema>(dataset));
 		formatStatistics(eRes, outputPath);
 		
 	}
@@ -533,12 +534,12 @@ public class OBExperimentRunner {
 	 * @param res
 	 * @param resultFolder 
 	 */
-	private void formatStatistics(ArrayList<Statistic> res, File resultFolder) {
+	private void formatStatistics(List<Statistic> res, File resultFolder) {
 		// Collect statistics by type
-		HashMap<String,ArrayList<Statistic>> collected = new HashMap<String,ArrayList<Statistic>>();
+		HashMap<String,List<Statistic>> collected = new HashMap<String,List<Statistic>>();
 		for (Statistic s : res)
 		{
-			ArrayList<Statistic> tmp;
+			List<Statistic> tmp;
 			if (collected.containsKey(s.getName()))
 				tmp = collected.get(s.getName());
 			else

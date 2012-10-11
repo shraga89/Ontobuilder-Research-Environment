@@ -58,9 +58,9 @@ public class SchemaNetwork {
 	 */
 	private NetworkGoldStandardHandler goldStandardHandler;
 
-	public SchemaNetwork(HashSet<ExperimentSchema> eSet) {
+	public SchemaNetwork(Set<ExperimentSchema> eSet) {
 
-		this.schemas = new HashSet<ExperimentSchema>(eSet);
+		this.schemas = eSet;
 		
 		this.goldStandardHandler = new NetworkGoldStandardHandler(this);
 		
@@ -230,44 +230,28 @@ public class SchemaNetwork {
 	}
 
 	/**
-	 * Wrapper that gets the match results for all schemas in the network.
-	 * 
-	 * @return the match results for all schemas
-	 */
-	public Set<MatchInformation> getMatchResults() {
-		return this.getMatchResultForSchemas(this.schemas);
-	}
-
-	/**
 	 * Get the match result from the network for the given schemas.
 	 * 
-	 * @param eSet a set of schemas that are part of the network
-	 * @return a set of match information objects comprising the match result for each schema pair 
+	 * @param s1 a schema that is part of the network
+	 * @param s2 a schema that is part of the network
+	 * @return a match information object comprising the match result for the schemas
 	 */
-	public Set<MatchInformation> getMatchResultForSchemas(Set<ExperimentSchema> eSet) {
+	public MatchInformation getMatchResultForSchemas(ExperimentSchema s1, ExperimentSchema s2) {
 		
-		assert(this.schemas.containsAll(eSet)) : "Not all schemas are known in the network";
+		assert(this.schemas.contains(s1) && this.schemas.contains(s2)) : "Not all schemas are known in the network";
 		
-		Set<MatchInformation> result = new HashSet<MatchInformation>();
-		
-		for (ExperimentSchema s1 : eSet) {
-			for (ExperimentSchema s2 : eSet) {
-
-				if (s1.equals(s2)) continue;
+		if (s1.equals(s2)) return null;
 				
-				MatchInformation mi = new MatchInformation(s1.getTargetOntology(), s2.getTargetOntology());
-				
-				for (Term t1 : this.schemaToTermMap.get(s1)) {
-					for (Term t2 : this.schemaToTermMap.get(s2)) {
-						double value = this.getMaximumPath().getMaximumBetweenTerms(t1, t2);
-						if ((value >= EVALUATION_THRESHOLD_HIGH) || (value <= EVALUATION_THRESHOLD_LOW))
-							mi.updateMatch(t1, t2, value);
-					}
-				}
-				result.add(mi);
+		MatchInformation mi = new MatchInformation(s1.getTargetOntology(), s2.getTargetOntology());
+		
+		for (Term t1 : this.schemaToTermMap.get(s1)) {
+			for (Term t2 : this.schemaToTermMap.get(s2)) {
+				double value = this.getMaximumPath().getMaximumBetweenTerms(t1, t2);
+				if ((value >= EVALUATION_THRESHOLD_HIGH) || (value <= EVALUATION_THRESHOLD_LOW))
+					mi.updateMatch(t1, t2, value);
 			}
 		}
-		return result;
+		return mi;
 	}
 
 	public double[][] getMatchMatrix() {

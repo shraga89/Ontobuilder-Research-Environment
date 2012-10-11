@@ -5,20 +5,14 @@ package ac.technion.schemamatching.experiments.holistic;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
-import ac.technion.iem.ontobuilder.core.ontology.Term;
 import ac.technion.iem.ontobuilder.matching.match.Match;
 import ac.technion.schemamatching.experiments.OBExperimentRunner;
+import ac.technion.schemamatching.experiments.holistic.network.NetworkStatisticsHandler;
 import ac.technion.schemamatching.experiments.holistic.network.SchemaNetwork;
-import ac.technion.schemamatching.experiments.holistic.network.ranking.CertaintyDegreeRanking;
-import ac.technion.schemamatching.experiments.holistic.network.ranking.DecisivenessDegreeRanking;
-import ac.technion.schemamatching.experiments.holistic.network.ranking.IndecisivenessDegreeRanking;
-import ac.technion.schemamatching.experiments.holistic.network.ranking.NetworkEvolution;
-import ac.technion.schemamatching.experiments.holistic.network.ranking.RandomRanking;
 import ac.technion.schemamatching.matchers.firstline.FLMList;
 import ac.technion.schemamatching.matchers.firstline.FirstLineMatcher;
 import ac.technion.schemamatching.matchers.secondline.SecondLineMatcher;
@@ -41,7 +35,7 @@ public class NetworkQualityExperiment implements HolisticExperiment{
 	private List<FirstLineMatcher> flM;
 	private HashMap<String,Double> matcherWeights = new HashMap<String,Double>();
 
-	public ArrayList<Statistic> runExperiment(HashSet<ExperimentSchema> eSet) {
+	public List<Statistic> runExperiment(Set<ExperimentSchema> eSet) {
 		
 		System.out.println("++++++++++++++++++++++++++++++++++++++");
 		System.out.println("Create network...");
@@ -58,12 +52,10 @@ public class NetworkQualityExperiment implements HolisticExperiment{
 		SchemaNetwork evolvedNetwork; 
 		Set<Match> toExclude;
 		
-		ArrayList<Statistic> res = new ArrayList<Statistic>();
-
+		NetworkStatisticsHandler networkStatisticsHandler = new NetworkStatisticsHandler();
+		
 		System.out.println("Do initial measuring...");
-//		NBGolden nb =  new NBGolden();
-//		nb.init("Initial network", network1.getMatchResults(), network1.getGoldStandard());
-//		res.add(nb);
+		networkStatisticsHandler.addStatistic(NBGolden.class, "Initial network", network1, network1.getSchemas());
 		
 		
 //		System.out.println("#####################################################");
@@ -190,7 +182,7 @@ public class NetworkQualityExperiment implements HolisticExperiment{
 //		nb52.init("DecisivenessBetweennessRanking 2", evolvedNetwork.getMI(), evolvedNetwork.getGoldStandard());
 //		res.add(nb52);
 
-		return res;
+		return networkStatisticsHandler.getStatistics();
 	}
 
 	public boolean init(OBExperimentRunner oer, Properties properties,

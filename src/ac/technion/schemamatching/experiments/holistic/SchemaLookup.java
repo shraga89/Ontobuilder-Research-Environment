@@ -5,11 +5,11 @@ package ac.technion.schemamatching.experiments.holistic;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Properties;
+import java.util.Set;
 
 import ac.technion.iem.ontobuilder.core.ontology.Term;
-import ac.technion.iem.ontobuilder.matching.algorithms.line1.term.TermPreprocessor;
 import ac.technion.iem.ontobuilder.matching.match.Match;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 import ac.technion.iem.ontobuilder.matching.meta.match.MatchMatrix;
@@ -30,7 +30,7 @@ import ac.technion.schemamatching.testbed.ExperimentSchema;
  *
  */
 public class SchemaLookup implements HolisticExperiment{
-	public ArrayList<Statistic> runExperiment(HashSet<ExperimentSchema> eSet) 
+	public List<Statistic> runExperiment(Set<ExperimentSchema> eSet) 
 	{
 		ArrayList<Statistic> res = new ArrayList<Statistic>();
 		OBTermMatch m = new OBTermMatch();

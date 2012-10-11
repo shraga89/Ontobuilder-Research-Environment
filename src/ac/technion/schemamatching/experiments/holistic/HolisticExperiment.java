@@ -4,8 +4,9 @@
 package ac.technion.schemamatching.experiments.holistic;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.List;
 import java.util.Properties;
+import java.util.Set;
 
 import ac.technion.schemamatching.experiments.OBExperimentRunner;
 import ac.technion.schemamatching.matchers.firstline.FirstLineMatcher;
@@ -28,7 +29,7 @@ public interface HolisticExperiment
 	 * associated with it.
 	 */
 	
-	public ArrayList<Statistic>  runExperiment(HashSet<ExperimentSchema> hashSet);
+	public List<Statistic>  runExperiment(Set<ExperimentSchema> hashSet);
 	/**
 	 * Used to initialize a matching experiment. replaces a parameterized constructor
 	 * @param properties configuration parameters for the matching experiment
