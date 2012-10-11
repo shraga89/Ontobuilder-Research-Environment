@@ -48,19 +48,18 @@ public class BinaryGolden implements K2Statistic {
 		}
 		
 		data = new ArrayList<String[]>();
-		header = new String[]{"instance","Precision","Recall", "F", "Overall"};
-		Double precision = calcPrecision();
-		Double recall = calcRecall();
+		header = new String[]{"instance","Precision","Recall", "F", "Overall","TP","Matches","ExactMatches"};
+		Double truePositives = calcTruePositives();
+		Double matches = (double) matchListIds.size();
+		Double exact = (double) exactMatchListIds.size();
+		Double precision = (matches==0?0:truePositives/matches);
+		Double recall = (exact==0?0:truePositives/exact);
 		Double f = 2d * (precision * recall) / (precision + recall);
 		Double overall = recall * (2 - 1 / precision);
-		data.add(new String[] {instanceDescription,precision.toString(), recall.toString(), f.toString(), overall.toString()});
+		data.add(new String[] {instanceDescription,precision.toString(), recall.toString(), 
+				f.toString(), overall.toString(),truePositives.toString(),
+				matches.toString(),exact.toString()});
 		return true;
-	}
-	
-	private Double calcRecall() {
-		Double truePositives = calcTruePositives();
-		Double exact = (double) exactMatchListIds.size();
-		return (exact==0?0:truePositives/exact);
 	}
 
 	private Double calcTruePositives() {
@@ -75,11 +74,4 @@ public class BinaryGolden implements K2Statistic {
 		}
 		return res;
 	}
-
-	private Double calcPrecision() {
-		Double truePositives = calcTruePositives();
-		Double matches = (double) matchListIds.size();
-		return (matches==0?0:truePositives/matches);
-	}
-
 }
