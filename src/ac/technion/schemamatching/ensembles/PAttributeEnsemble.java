@@ -5,6 +5,7 @@ package ac.technion.schemamatching.ensembles;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import ac.technion.iem.ontobuilder.core.ontology.Term;
 import ac.technion.iem.ontobuilder.matching.match.Match;
@@ -21,8 +22,8 @@ import ac.technion.schemamatching.util.ConversionUtils;
 public class PAttributeEnsemble implements Ensemble {
 
 	private String name = "Predictor Weighted Attribute Ensemble";
-	HashMap<String, MatchInformation> matches = new HashMap<String, MatchInformation>();
-	HashMap<String, Double> predictorWeights = new HashMap<String, Double>();
+	Map<String, MatchInformation> matches = new HashMap<String, MatchInformation>();
+	Map<String, Double> predictorWeights = new HashMap<String, Double>();
 	MatchInformation res;
 	
 	/* (non-Javadoc)
@@ -157,8 +158,8 @@ public class PAttributeEnsemble implements Ensemble {
 	/**
 	 * @param predictorWeights replaces interface parameter. Use to send the attribute predictor weights
 	 */
-	public boolean init(HashMap<String, MatchInformation> matches,
-			HashMap<String, Double> predictorWeights) {
+	public boolean init(Map<String, MatchInformation> matches,
+			Map<String, Double> predictorWeights) {
 		
 		//init matches
 		if (matches == null || matches.isEmpty()) return false;

@@ -490,11 +490,11 @@ public class OBExperimentRunner {
 		for (ExperimentSchemaPair esp : dataset)
 		{
 			System.out.println("Starting " + esp.getID());
-			ArrayList<Statistic> eRes = e.runExperiment(esp);
+			List<Statistic> eRes = e.runExperiment(esp);
 			if (eRes != null) res.addAll(eRes);
 			System.out.println("finished " + esp.getID() + " : " + Integer.toString(++i) + " out of " + Integer.toString(dataset.size()));
 		}
-		ArrayList<Statistic> eRes = e.summaryStatistics();
+		List<Statistic> eRes = e.summaryStatistics();
 		if (eRes != null) res.addAll(eRes);
 		formatStatistics(res, resultFolder);	
 	}
