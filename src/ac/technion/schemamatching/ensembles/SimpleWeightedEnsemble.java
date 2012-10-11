@@ -5,6 +5,8 @@ package ac.technion.schemamatching.ensembles;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
+
 import ac.technion.iem.ontobuilder.matching.match.Match;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 import ac.technion.schemamatching.util.ConversionUtils;
@@ -114,8 +116,8 @@ public class SimpleWeightedEnsemble implements Ensemble {
 	/* (non-Javadoc)
 	 * @see ac.technion.schemamatching.ensembles.Ensemble#init(java.util.HashMap, java.util.HashMap)
 	 */
-	public boolean init(HashMap<String, MatchInformation> matches,
-			HashMap<String, Double> matcherWeights) {
+	public boolean init(Map<String, MatchInformation> matches,
+			Map<String, Double> matcherWeights) {
 		
 		//init matches
 		if (matches == null || matches.isEmpty()) return false;

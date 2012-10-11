@@ -3,7 +3,7 @@
  */
 package ac.technion.schemamatching.ensembles;
 
-import java.util.HashMap;
+import java.util.Map;
 
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 
@@ -51,7 +51,7 @@ public interface Ensemble
 	 * @param matcherWeights optional HashMap of Matcher names -> weights to be applied
 	 * @return true if initialization succeeded
 	 */
-	boolean init(HashMap<String,MatchInformation> matches, HashMap<String,Double> matcherWeights);
+	boolean init(Map<String,MatchInformation> matches, Map<String,Double> matcherWeights);
 	
 	/**
 	 * Returns the short name of the ensemble method

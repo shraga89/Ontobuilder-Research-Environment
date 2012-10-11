@@ -4,6 +4,7 @@
 package ac.technion.schemamatching.experiments.pairwise;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 import ac.technion.schemamatching.experiments.OBExperimentRunner;
@@ -27,7 +28,7 @@ public interface PairWiseExperiment
 	 * associated with it.
 	 */
 	
-	public ArrayList<Statistic>  runExperiment(ExperimentSchemaPair esp);
+	public List<Statistic>  runExperiment(ExperimentSchemaPair esp);
 	/**
 	 * Used to initialize a matching experiment. replaces a parameterized constructor
 	 * @param properties configuration parameters for the matching experiment
@@ -46,5 +47,5 @@ public interface PairWiseExperiment
 	 * 
 	 * @return Statistics sumarizing the experiment (for all schema pairs)
 	 */
-	public ArrayList<Statistic> summaryStatistics();
+	public List<Statistic> summaryStatistics();
 }
