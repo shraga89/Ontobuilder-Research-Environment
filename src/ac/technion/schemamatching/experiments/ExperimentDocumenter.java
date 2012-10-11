@@ -554,17 +554,42 @@ public class ExperimentDocumenter
 		return this.documentExperiment(desc);
 	}
 
+	/**
+	 * Retrieves schema pair ID according to candidate and target IDs
+	 * @param candidateID
+	 * @param targetID
+	 * @param allowReverse if true will return a pair were the candidate 
+	 * 		  and target are swapped if such a pair exists and if a pair 
+	 * 		  with the original order doesn't exist.    
+	 * @return schema pair ID if a line exists with these schemas in the 
+	 * 	      schemapair db table or -1 if such a pair is not found. 
+	 */	
+	public int getPairID(int candidateID, int targetID, boolean allowReverse) {
+		String sql = "SELECT spid FROM schemapairs WHERE " +
+				     "(TargetSchema = " + targetID + " AND CandidateSchema = " 
+				     + candidateID +")";
+		if (allowReverse)
+			sql = sql + " OR (CandidateSchema = " + targetID + " AND TargetSchema = " 
+				     + candidateID +");";
+		ArrayList<String[]> schemaPairList = OBExperimentRunner.getOER().getDB().runSelectQuery(sql, 1);
+		if (!schemaPairList.isEmpty())
+			return Integer.parseInt(schemaPairList.get(0)[0]);
+		return -1;
+	}
+
 
 	/**
-	 * 
-	 * @param s1
-	 * @param s2
-	 * @return ExperimentSchemaPair containing the golden mapping if exists or null otherwise
+	 * Retrieve the path of a schema pair by it's id
+	 * @param spid schema pair id to be retrieved
+	 * @return path relative to the schema folder if exists, empty string otherwise 
 	 */
-	public ExperimentSchemaPair getPair(ExperimentSchema s1, ExperimentSchema s2) {
-		//TODO
-		ExperimentSchemaPair res = new ExperimentSchemaPair(0, 0); 
-		return null;
+	public String getSPPathBySPID(int spid) {
+		String sql = "SELECT path FROM schemapairs WHERE " +
+			     "SPID = " + spid;
+	ArrayList<String[]> schemaPairurl = OBExperimentRunner.getOER().getDB().runSelectQuery(sql, 1);
+	if (!schemaPairurl.isEmpty())
+		return schemaPairurl.get(0)[0];
+	return "";
 	}
 }
 
