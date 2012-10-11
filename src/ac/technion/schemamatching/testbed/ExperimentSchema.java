@@ -128,7 +128,7 @@ private Ontology loadOntologyFromPath(String schemaFilePath, Importer imp) {
 
   private Ontology o;
   protected int ID;
-  private OREDataSetEnum dsEnum;
+  protected OREDataSetEnum dsEnum;
   
 	public String toString()
 	{

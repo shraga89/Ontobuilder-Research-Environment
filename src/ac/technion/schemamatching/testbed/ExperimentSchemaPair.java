@@ -9,6 +9,7 @@ import technion.iem.schemamatching.dbutils.DBInterface;
 import ac.technion.iem.ontobuilder.core.ontology.Ontology;
 import ac.technion.iem.ontobuilder.io.imports.Importer;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
+import ac.technion.schemamatching.experiments.ExperimentDocumenter;
 import ac.technion.schemamatching.experiments.OBExperimentRunner;
 import ac.technion.schemamatching.matchers.firstline.FirstLineMatcher;
 import ac.technion.schemamatching.util.ConversionUtils;
@@ -27,7 +28,7 @@ public class ExperimentSchemaPair extends ExperimentSchema{
 
 
 	/**
-	 * Class Constructor. Loads schema pairs, ontologies and exact match if exists
+	 * Constructor by pair ID, Loads schema ontologies and exact match if exists
 	 * @param spid
 	 * @param candidateID
 	 * @param targetID
@@ -39,7 +40,29 @@ public class ExperimentSchemaPair extends ExperimentSchema{
 		dsEnum = OREDataSetEnum.getByDbid(dsid);
 		basicMatrices = new HashMap<Integer,MatchInformation>();
 		load();
-	}	
+	}
+	
+	/**
+	 * Constructor by two schemas, Loads exact match if exists. 
+	 * @param candidate
+	 * @param target
+	 * @param allowReverse if true will load an exact match even if the candidate and target are swapped. 
+	 */
+	public ExperimentSchemaPair(ExperimentSchema candidate, ExperimentSchema target, boolean allowReverse)
+	{
+		super();
+		this.candidate = candidate.getTargetOntology();
+		this.target = target.getTargetOntology();
+		this.dsEnum = target.dsEnum;
+		ExperimentDocumenter ed = OBExperimentRunner.getOER().getDoc();
+		int spid = ed.getPairID(candidate.getID(),target.getID(),allowReverse);
+		String exactPath = "";
+		if (spid!=-1)
+		{
+			exactPath = ed.getSPPathBySPID(spid);
+			this.loadExact(exactPath);
+		}
+	}
 
 	public boolean hasExactMatch(){
 		return (exactMapping == null);
@@ -57,6 +80,22 @@ public class ExperimentSchemaPair extends ExperimentSchema{
 		return exactMapping;
 	}
 
+	/**
+	 * Loads exact match from supplied path using DSEnum defined importer
+	 * @param exactMatchPath
+	 */
+	private void loadExact(String exactMatchPath) {
+		try {
+	    	  if (dsEnum.isHasExact())
+	    		  exactMapping = dsEnum.getMatchImp().importMatch(new MatchInformation(candidate,target), new File(OBExperimentRunner.getOER().getDsurl() + exactMatchPath));
+	    	  else
+	    		  exactMapping = null;    	  
+	    	  }
+	    	  catch (Exception e) {
+				e.printStackTrace();
+				OBExperimentRunner.fatalError("XML Load failed on:" + exactMatchPath);}
+	}
+	
   /**
    * Create schemaExp objects and adds them to the dataset. Each object includes
    * A target Schema, Candidate Schema and Exact mapping.
@@ -106,15 +145,7 @@ public class ExperimentSchemaPair extends ExperimentSchema{
       candidate = loadOntologyFromPath(candPath, imp);
       
       //load exact match
-      try {
-    	  if (dsEnum.isHasExact())
-    		  exactMapping = dsEnum.getMatchImp().importMatch(new MatchInformation(candidate,target), new File(OBExperimentRunner.getOER().getDsurl() + exactMatchPath));
-    	  else
-    		  exactMapping = null;    	  
-    	  }
-    	  catch (Exception e) {
-			e.printStackTrace();
-			OBExperimentRunner.fatalError("XML Load failed on:" + exactMatchPath);}
+      loadExact(exactMatchPath);
       }
 
 /**
