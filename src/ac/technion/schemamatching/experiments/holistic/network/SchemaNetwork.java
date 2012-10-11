@@ -53,9 +53,16 @@ public class SchemaNetwork {
 	 */
 	private NetworkMaximalPath<Term> maximumPath;
 	
+	/**
+	 * Gold standard for the network
+	 */
+	private NetworkGoldStandardHandler goldStandardHandler;
+
 	public SchemaNetwork(HashSet<ExperimentSchema> eSet) {
 
 		this.schemas = new HashSet<ExperimentSchema>(eSet);
+		
+		this.goldStandardHandler = new NetworkGoldStandardHandler(this);
 		
 		this.termToIDMap = new HashMap<Term, Integer>();
 		this.schemaToTermMap = new HashMap<ExperimentSchema,Set<Term>>();
@@ -291,6 +298,10 @@ public class SchemaNetwork {
 
 	public void setMatchMatrix(double[][] matchMatrix) {
 		this.matchMatrix = matchMatrix;
+	}
+	
+	public NetworkGoldStandardHandler getGoldStandardHandler() {
+		return goldStandardHandler;
 	}
 
 	@Override

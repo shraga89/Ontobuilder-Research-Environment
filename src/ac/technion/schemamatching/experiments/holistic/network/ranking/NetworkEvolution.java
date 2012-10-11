@@ -4,10 +4,8 @@ import java.util.List;
 import java.util.Set;
 
 import ac.technion.iem.ontobuilder.matching.match.Match;
-import ac.technion.schemamatching.experiments.OBExperimentRunner;
+import ac.technion.schemamatching.experiments.holistic.network.NetworkGoldStandardHandler;
 import ac.technion.schemamatching.experiments.holistic.network.SchemaNetwork;
-import ac.technion.schemamatching.testbed.ExperimentSchema;
-import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
 
 /**
  * Evolves a schema network by simulating user feedback. Matches are ranked according
@@ -19,6 +17,7 @@ import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
 public class NetworkEvolution {
 
 	public static boolean verbose = true;
+	
 	
 	/**
 	 * Update the schema network based on simulated user feedback.
@@ -46,9 +45,24 @@ public class NetworkEvolution {
 			for (int i = 0; i < sorted.size(); i++) {
 				Match m = sorted.get(i);
 				
-				double newQuality = doValidationToGetNewProbability(network, m);
+				NetworkGoldStandardHandler gold = network.getGoldStandardHandler();
 				
-				network.updateNetwork(m.getCandidateTerm(), m.getTargetTerm(), newQuality);
+				if (gold.termsAreMatched(m.getCandidateTerm(),m.getTargetTerm())) {
+					/*
+					 * We have the gold standard, return 1.0 if correct and 0.0 otherwise
+					 */
+					if (gold.isCorrect(m))
+						network.updateNetwork(m.getCandidateTerm(), m.getTargetTerm(), 1.0d);
+					else
+						network.updateNetwork(m.getCandidateTerm(), m.getTargetTerm(), 0.0d);
+				}
+				else {
+					/*
+					 * What to do if we do not know whether the match is correct?
+					 */
+					network.updateNetwork(m.getCandidateTerm(), m.getTargetTerm(), 0.5d);
+				}
+				
 				step++;
 			}
 		}
@@ -57,35 +71,5 @@ public class NetworkEvolution {
 		
 		return network;
 	}
-	
-	private static double doValidationToGetNewProbability(SchemaNetwork network, Match m) {
-		ExperimentSchema s1 = network.getTermToSchemaMap().get(m.getCandidateTerm());
-		ExperimentSchema s2 = network.getTermToSchemaMap().get(m.getTargetTerm());
-		
-		ExperimentSchemaPair pair12 = OBExperimentRunner.getOER().getDoc().getPair(s1,s2);
-		ExperimentSchemaPair pair21 = OBExperimentRunner.getOER().getDoc().getPair(s2,s1);
-		
-		/*
-		 * What to do if we do not know whether the match is correct?
-		 */
-		if ((pair12.getExact() == null) && (pair21.getExact() == null))
-			return 0.5d;
-		
-		/*
-		 * We have the gold standard, return 1.0 if correct
-		 */
-		if (pair12.getExact() != null)
-			if (pair12.getExact().getCopyOfMatches().contains(m))
-				return 1.0d;
-		if (pair21.getExact() != null)
-			if (pair21.getExact().getCopyOfMatches().contains(m))
-				return 1.0d;
-		
-		/*
-		 * We have the gold standard, return 0.0 if not correct
-		 */
-		return 0.0d;
-	}
-	
 	
 }

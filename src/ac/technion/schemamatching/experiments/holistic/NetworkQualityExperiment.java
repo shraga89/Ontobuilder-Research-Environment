@@ -61,8 +61,8 @@ public class NetworkQualityExperiment implements HolisticExperiment{
 		ArrayList<Statistic> res = new ArrayList<Statistic>();
 
 		System.out.println("Do initial measuring...");
-		NBGolden nb =  new NBGolden();
-//		nb.init("Initial network", network1.getMatchResultForSchemas(), network1.getGoldStandard());
+//		NBGolden nb =  new NBGolden();
+//		nb.init("Initial network", network1.getMatchResults(), network1.getGoldStandard());
 //		res.add(nb);
 		
 		
