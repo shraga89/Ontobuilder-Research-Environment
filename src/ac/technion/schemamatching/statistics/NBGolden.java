@@ -32,7 +32,7 @@ public class NBGolden implements K2Statistic {
 
 	public boolean init(String instanceDescription, MatchInformation mi, MatchInformation exactMatch) {
 		data = new ArrayList<String[]>();
-		header = new String[]{"instance","Precision","Recall", "F", "Overall"};
+		header = new String[]{"instance","Precision","Recall", "F", "Overall", "VectorProduct", "MatchVectorLength","ExactVectorLength"};
 		ArrayList<Match> matches = mi.getCopyOfMatches();
 		ArrayList<Match> exact = mi.getCopyOfMatches();
 		double prod = 0.0d;
@@ -52,7 +52,9 @@ public class NBGolden implements K2Statistic {
 		Double overall = recall * (2d - 1d / precision);
 		
 		System.out.println(instanceDescription + "," + precision + ", " + recall + ", " + f + ", " + overall);
-		data.add(new String[] {instanceDescription, precision.toString(),recall.toString(), f.toString(), overall.toString()});
+		data.add(new String[] {instanceDescription, precision.toString(),
+				recall.toString(), f.toString(), overall.toString(), 
+				Double.toString(prod),Double.toString(mLen),Double.toString(exactLen)});
 		return true;
 	}
 }
