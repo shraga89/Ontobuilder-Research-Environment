@@ -8,7 +8,6 @@ import ac.technion.iem.ontobuilder.matching.algorithms.line1.term.TermAlgorithm;
 import ac.technion.iem.ontobuilder.matching.algorithms.line1.term.ValueAlgorithm;
 import ac.technion.iem.ontobuilder.matching.algorithms.line2.topk.wrapper.SchemaMatchingsWrapper;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
-import ac.technion.iem.ontobuilder.matching.utils.SchemaTranslator;
 import ac.technion.iem.ontobuilder.matching.wrapper.OntoBuilderWrapper;
 
 /**
@@ -28,9 +27,9 @@ public class DemoRun {
 			ValueAlgorithm value = (ValueAlgorithm)ob.loadMatchAlgorithm(MatchingAlgorithmsNamesEnum.VALUE);
 			MatchInformation tm = term.match(candidate,target);
 			MatchInformation vm = value.match(candidate,target);
-			SchemaMatchingsWrapper smwt = new SchemaMatchingsWrapper(tm.getMatrix());
-			SchemaMatchingsWrapper smwv = new SchemaMatchingsWrapper(vm.getMatrix());
-			SchemaTranslator stt,stv;
+			SchemaMatchingsWrapper smwt = new SchemaMatchingsWrapper(tm);
+			SchemaMatchingsWrapper smwv = new SchemaMatchingsWrapper(vm);
+			MatchInformation stt,stv;
 			for (int i=1;i<=10;i++){
 				stt = smwt.getNextBestMatching();
 				stv = smwv.getNextBestMatching();

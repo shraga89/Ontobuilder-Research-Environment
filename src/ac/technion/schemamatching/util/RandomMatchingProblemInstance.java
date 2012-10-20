@@ -2,17 +2,19 @@
 
 package ac.technion.schemamatching.util;
 
+import java.util.ArrayList;
+
 import ac.technion.iem.ontobuilder.core.ontology.Ontology;
-import ac.technion.iem.ontobuilder.matching.meta.match.MatchedAttributePair;
-import ac.technion.iem.ontobuilder.matching.utils.SchemaTranslator;
+import ac.technion.iem.ontobuilder.matching.match.Match;
+import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 
 
 public class RandomMatchingProblemInstance {
 
-	private SchemaTranslator exactMatching;
+	private MatchInformation exactMatching;
 	private Ontology candOntology;
 	private Ontology targetOntology;
-	private MatchedAttributePair[] exactPairs;
+	private ArrayList<Match> exactPairs;
 	
 	
 	/**
@@ -20,8 +22,8 @@ public class RandomMatchingProblemInstance {
 	 * @param candOntology
 	 * @param targetOntology
 	 */
-	public RandomMatchingProblemInstance(SchemaTranslator exactMatching,
-			Ontology candOntology, Ontology targetOntology, MatchedAttributePair[] exactPairs) {
+	public RandomMatchingProblemInstance(MatchInformation exactMatching,
+			Ontology candOntology, Ontology targetOntology, ArrayList<Match> exactPairs) {
 		this.exactMatching = exactMatching;
 		this.candOntology = candOntology;
 		this.targetOntology = targetOntology;
@@ -38,7 +40,7 @@ public class RandomMatchingProblemInstance {
 	/**
 	 * @return Returns the exactMatching.
 	 */
-	public SchemaTranslator getExactMatching() {
+	public MatchInformation getExactMatching() {
 		return exactMatching;
 	}
 	/**
@@ -51,7 +53,7 @@ public class RandomMatchingProblemInstance {
 	/**
 	 * @return Returns the exactPairs.
 	 */
-	public MatchedAttributePair[] getExactPairs() {
+	public ArrayList<Match> getExactPairs() {
 		return exactPairs;
 	}
 }
