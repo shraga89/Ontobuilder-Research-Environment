@@ -3,9 +3,9 @@
  */
 package ac.technion.schemamatching.matchers.secondline;
 
-import ac.technion.iem.ontobuilder.matching.algorithms.line2.topk.wrapper.BestMappingsWrapper;
+import ac.technion.iem.ontobuilder.matching.algorithms.line2.topk.wrapper.SchemaMatchingsException;
+import ac.technion.iem.ontobuilder.matching.algorithms.line2.topk.wrapper.SchemaMatchingsWrapper;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
-import ac.technion.iem.ontobuilder.matching.utils.SchemaTranslator;
 import ac.technion.schemamatching.util.ConversionUtils;
 
 /**
@@ -28,12 +28,13 @@ public class OBmwbg implements SecondLineMatcher {
 		MatchInformation mwbg = new MatchInformation(mi.getCandidateOntology(),mi.getTargetOntology());
 		mwbg.setMatrix(mi.getMatrix());
 		ConversionUtils.zeroWeightsByThresholdAndRemoveMatches(mwbg, 0.01);
-		BestMappingsWrapper.matchMatrix = mwbg.getMatrix();	
-		SchemaTranslator st = BestMappingsWrapper.GetBestMapping("Max Weighted Bipartite Graph");
-		assert (st!=null);
-		mwbg.setMatches(st.toOntoBuilderMatchList(mwbg.getMatrix()));
-		ConversionUtils.zeroNonMatched(mwbg);
-		return mwbg;
+	      try {
+	    	  SchemaMatchingsWrapper smw = new SchemaMatchingsWrapper(mwbg);
+			return smw.getBestMatching();
+		} catch (SchemaMatchingsException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	/* (non-Javadoc)

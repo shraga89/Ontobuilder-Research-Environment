@@ -8,12 +8,12 @@ import ac.technion.iem.ontobuilder.matching.algorithms.line2.meta.MetaAlgorithmN
 import ac.technion.iem.ontobuilder.matching.algorithms.line2.meta.MetaAlgorithmsFactory;
 import ac.technion.iem.ontobuilder.matching.algorithms.line2.misc.MatrixDirectAlgorithm;
 import ac.technion.iem.ontobuilder.matching.algorithms.line2.misc.SMThersholdAlgorithm;
+import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 import ac.technion.iem.ontobuilder.matching.meta.aggregators.SumGlobalAggregator;
 import ac.technion.iem.ontobuilder.matching.meta.aggregators.SumLocalAggregator;
 import ac.technion.iem.ontobuilder.matching.meta.match.MatchMatrix;
 import ac.technion.iem.ontobuilder.matching.utils.SchemaMatchingAlgorithmsRunner;
 import ac.technion.iem.ontobuilder.matching.utils.SchemaMatchingsUtilities;
-import ac.technion.iem.ontobuilder.matching.utils.SchemaTranslator;
 import ac.technion.iem.ontobuilder.matching.wrapper.OntoBuilderWrapper;
 
 
@@ -57,10 +57,10 @@ public class MetaTest {
    mda.init(candidate,target,matchAlgorithms.length,matchAlgorithms,new SchemaMatchingAlgorithmsRunner());
    mda.runAlgorithm();
    for (int i=1;i<k+1;i++){
-    SchemaTranslator stTA =  ((SchemaTranslator)ta.getKthBestMapping(i));
+	   MatchInformation stTA =  ta.getKthBestMapping(i);
     //boolean flag = false;
     //for (int j=1;j<k+1;j++){
-      SchemaTranslator stMD =  ((SchemaTranslator)mda.getKthBestMapping(i));
+	   MatchInformation stMD =  mda.getKthBestMapping(i);
       if (SchemaMatchingsUtilities.isSameTotalMappingWeight(stTA,stMD,7)){
         System.out.println("TA Mapping:"+i+" is like MD Mapping:"+i);
 //        flag = true;

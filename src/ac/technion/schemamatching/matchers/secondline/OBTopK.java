@@ -6,7 +6,6 @@ package ac.technion.schemamatching.matchers.secondline;
 import ac.technion.iem.ontobuilder.matching.algorithms.line2.topk.wrapper.SchemaMatchingsWrapper;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 import ac.technion.iem.ontobuilder.matching.utils.SchemaMatchingAlgorithmsRunner;
-import ac.technion.iem.ontobuilder.matching.utils.SchemaTranslator;
 import ac.technion.schemamatching.util.ConversionUtils;
 
 /**
@@ -30,25 +29,20 @@ public class OBTopK implements SecondLineMatcher {
 	public MatchInformation match(MatchInformation mi) {
 		
 
-        SchemaTranslator st = null;
+		MatchInformation res = null;
         UnifiedTopKMatchingCreator uni = new UnifiedTopKMatchingCreator();
         uni.weighting = UnifiedTopKMatchingCreator.WEIGHTING.OCCURRENCE;
         
         try {
 			SchemaMatchingAlgorithmsRunner.setAccumulationMode(true);
-            SchemaMatchingsWrapper smw = new SchemaMatchingsWrapper(mi.getMatrix());
+            SchemaMatchingsWrapper smw = new SchemaMatchingsWrapper(mi);
 
     		System.out.println("Derive top " + k);
         	
     		for (int i = 1; i <= k; i++) {
-        		st = smw.getNextBestMatching();
+        		mi = smw.getNextBestMatching();
         		System.out.print(" " + i);
-//        		System.out.println(st.getMatches());
-        		
-    			MatchInformation res = new MatchInformation(mi.getCandidateOntology(),mi.getTargetOntology());
-    			res.setMatches(st.toOntoBuilderMatchList(res.getMatrix()));
     			ConversionUtils.zeroNonMatched(res);
-    			
     			uni.addMatching(i, res);
         	}
 	      }
