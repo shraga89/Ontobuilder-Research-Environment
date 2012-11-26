@@ -14,7 +14,7 @@ import ac.technion.schemamatching.util.ConversionUtils;
  */
 public class OBTopK implements SecondLineMatcher {
 
-	public static int k = 80;
+	public static int k = 5;
 	
 	/* (non-Javadoc)
 	 * @see ac.technion.schemamatching.matchers.SecondLineMatcher#getName()
@@ -40,7 +40,7 @@ public class OBTopK implements SecondLineMatcher {
     		System.out.println("Derive top " + k);
         	
     		for (int i = 1; i <= k; i++) {
-        		mi = smw.getNextBestMatching();
+        		res = smw.getNextBestMatching();
         		System.out.print(" " + i);
     			ConversionUtils.zeroNonMatched(res);
     			uni.addMatching(i, res);
