@@ -51,7 +51,7 @@ public class NBGolden implements K2Statistic {
 		Double f = 2d * (precision * recall) / (precision + recall);
 		Double overall = recall * (2d - 1d / precision);
 		
-		System.out.println(instanceDescription + "," + precision + ", " + recall + ", " + f + ", " + overall);
+//		System.out.println(instanceDescription + "," + precision + ", " + recall + ", " + f + ", " + overall);
 		data.add(new String[] {instanceDescription, precision.toString(),
 				recall.toString(), f.toString(), overall.toString(), 
 				Double.toString(prod),Double.toString(mLen),Double.toString(exactLen)});
