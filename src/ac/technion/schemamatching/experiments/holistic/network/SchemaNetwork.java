@@ -59,10 +59,16 @@ public class SchemaNetwork {
 	private NetworkGoldStandardHandler goldStandardHandler;
 
 	public SchemaNetwork(Set<ExperimentSchema> eSet) {
+		this(eSet,true);
+	}
+
+	public SchemaNetwork(Set<ExperimentSchema> eSet, boolean loadGoldStandard) {
 
 		this.schemas = eSet;
 		
-		this.goldStandardHandler = new NetworkGoldStandardHandler(this);
+		this.goldStandardHandler = null;
+		if (loadGoldStandard)
+			this.goldStandardHandler = new NetworkGoldStandardHandler(this);
 		
 		this.termToIDMap = new HashMap<Term, Integer>();
 		this.schemaToTermMap = new HashMap<ExperimentSchema,Set<Term>>();
