@@ -5,6 +5,7 @@ package ac.technion.schemamatching.testbed;
 
 import ac.technion.iem.ontobuilder.io.imports.Importer;
 import ac.technion.iem.ontobuilder.io.imports.NativeImporter;
+import ac.technion.iem.ontobuilder.io.imports.PNMLImporter;
 import ac.technion.iem.ontobuilder.io.imports.WSDLImporter;
 import ac.technion.iem.ontobuilder.io.imports.XSDImporter;
 import ac.technion.iem.ontobuilder.io.imports.XSDImporterUsingXSOM;
@@ -13,6 +14,7 @@ import ac.technion.iem.ontobuilder.io.matchimport.CSVMatchImporter;
 import ac.technion.iem.ontobuilder.io.matchimport.MappingMatchImporter;
 import ac.technion.iem.ontobuilder.io.matchimport.MatchImporter;
 import ac.technion.iem.ontobuilder.io.matchimport.NativeMatchImporter;
+import ac.technion.iem.ontobuilder.io.matchimport.PNMLPairMatchImporter;
 
 /**
  * @author Tomer Sagi
@@ -40,7 +42,8 @@ public enum OREDataSetEnum
 	NisBHungSynthetic(19,"Synthetic schemas based on vendor and ubl (NisBRDF)",null,null,true, false, false),
 	University(20,"University Application Forms",new XSDImporterUsingXSOM(),new MappingMatchImporter(),true, false, false),
 	IMAP(21,"Small scale relational schemas with instances", new XSDImporterUsingXSOM(),new CSVMatchImporter(),true,false,true),
-	CRF(22,"Fiat Research Contributed Schemas", new XSDImporterUsingXSOM(),new CRFMatchImporter(),true,false, false);
+	CRF(22,"Fiat Research Contributed Schemas", new XSDImporterUsingXSOM(),new CRFMatchImporter(),true,false, false),
+	PNML(24,"Petri-Net Represented Business Processes", new PNMLImporter(), new PNMLPairMatchImporter(),true, false, false);
 	
 	/**
 	 * Get a OREDataSetEnum by it's dataset id in O(n)
