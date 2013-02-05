@@ -20,14 +20,24 @@ import ac.technion.schemamatching.testbed.OREDataSetEnum;
  * This simple match experiment is intended as a tutorial to display how to use
  * ORE to run 2nd line matchers on 1st line matrices given as .csv files. 
  * The experiment matches a given schema pair and matrix using all 2LM 
- * supplied and returns precision and recall 
+ * supplied and returns precision and recall. 
+ * Experiment assumes a properties file with three properties is supplied:
+ * datasetID = <ID of dataset from which the matrices are derived>
+ * matrixPath = <Path in which the matrices reside>
+ * matrices = <semi-colon delimited pairs where each pair is comma delimited: spid,fileName>
+ * Example:
+ * datasetID = 24
+ * matrixPath = C:\\Temp
+ * matrices = 2806,pair04.txt;2807,pair05.txt  
  * @author Tomer Sagi
  *
  */
 public class SecondLineMatchExample implements PairWiseExperiment {
 	private ArrayList<SecondLineMatcher> slM;
 	private SimMatrixShell sms = new SimMatrixShell();
-	HashMap<Integer,String> pairPaths = new HashMap<Integer,String>();
+	String pairPath = "";
+	HashMap<Integer,String> pairFiles = new HashMap<Integer,String>();
+	
 	private String instructions = "Invalid pair array supplied to shell matcher. \n " +
 			"Please supply a property file with a property named 'matrices'" +
 			"and a value of semi-colon delimited pairs where each pair is " +
@@ -40,7 +50,7 @@ public class SecondLineMatchExample implements PairWiseExperiment {
 	public ArrayList<Statistic> runExperiment(ExperimentSchemaPair esp) {
 		ArrayList<Statistic> evaluations = new ArrayList<Statistic>();
 		MatchInformation mi = null;
-		if (!sms.setPath(pairPaths.get(new Integer(esp.getID()))))
+		if (!sms.setPath(pairPath,pairFiles.get(new Integer(esp.getID()))))
 		{
 			System.err.println("No file path found for pair:" + esp.getID());
 			return evaluations;
@@ -83,6 +93,16 @@ public class SecondLineMatchExample implements PairWiseExperiment {
 			e.printStackTrace();
 			return false;
 		}
+		
+		try {
+			this.pairPath = properties.getProperty("matrixPath");
+		}
+		catch (Exception e)
+		{
+			System.err.println("Matrix path unspecified or in invalid format.");
+			e.printStackTrace();
+			return false;
+		}
 		String matriceFiles = properties.getProperty("matrices");
 		String[] pairArray = matriceFiles.split(";");
 		if (pairArray.length == 0)
@@ -99,7 +119,7 @@ public class SecondLineMatchExample implements PairWiseExperiment {
 				return false;
 			}
 			try{
-				pairPaths.put(Integer.parseInt(singlePair[0]),singlePair[1] );
+				pairFiles.put(Integer.parseInt(singlePair[0]),singlePair[1] );
 			}
 			catch (Exception e)
 			{
