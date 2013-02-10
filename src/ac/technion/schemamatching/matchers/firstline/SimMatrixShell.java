@@ -12,7 +12,7 @@ import ac.technion.schemamatching.matchers.MatcherType;
  * external system using OB built-in match importers. 
  */
 public class SimMatrixShell implements FirstLineMatcher {
-	private String path = "";
+	private File f = null;
 	private MatchImporter importer = null;
 	private MatcherType type = MatcherType.SYNTACTIC;
 
@@ -21,12 +21,12 @@ public class SimMatrixShell implements FirstLineMatcher {
 	 * @param matrixPath
 	 * @return true if path supplied resolves correctly to a file and false otherwise.
 	 */
-	public boolean setPath(String matrixPath)
+	public boolean setPath(String matrixPath, String filename)
 	{
-		File f = new File(matrixPath);
+		File f = new File(matrixPath.trim(),filename.trim());
 		if (f.exists())
 		{
-			path = matrixPath;
+			this.f = f;
 			return true;
 		}
 		return false;
@@ -64,9 +64,6 @@ public class SimMatrixShell implements FirstLineMatcher {
 	public MatchInformation match(Ontology candidate, Ontology target,
 			boolean binary) {
 		MatchInformation res = null;
-		File f = null;
-		if (path.length() > 0)
-			f = new File(path);
 		if (f != null && importer != null)
 			res = importer.importMatch(new MatchInformation(candidate,target), f);
 		return res;
@@ -74,7 +71,7 @@ public class SimMatrixShell implements FirstLineMatcher {
 
 	@Override
 	public String getConfig() {
-		return "path: " + path ;
+		return "path: " + f ;
 	}
 
 	@Override

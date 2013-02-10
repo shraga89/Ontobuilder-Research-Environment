@@ -22,7 +22,8 @@ public enum PairExperimentEnum
 	,ROCCurve(new ROCExperiment())
 	,TopKClustering(new TopKClustering())
 	,VectorPrinting(new VectorPrinting())
-	,MappingPrinting(new MappingPrinting());
+	,MappingPrinting(new MappingPrinting())
+	,SLMExample(new SecondLineMatchExample());
 	
 	private PairExperimentEnum(PairWiseExperiment e)
 	{
