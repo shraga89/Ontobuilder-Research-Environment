@@ -4,6 +4,7 @@
 package ac.technion.schemamatching.statistics;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 
@@ -32,12 +33,12 @@ public class DummyStatistic implements Statistic {
 	/**
 	 * @param data the data to set
 	 */
-	public void setData(ArrayList<String[]> data) {
+	public void setData(List<String[]> data) {
 		this.data = data;
 	}
 
 	String name = "";
-	ArrayList<String[]> data = new ArrayList<String[]>();
+	List<String[]> data = new ArrayList<String[]>();
 	
 	/* (non-Javadoc)
 	 * @see ac.technion.schemamatching.statistics.Statistic#getHeader()
@@ -56,7 +57,7 @@ public class DummyStatistic implements Statistic {
 	/* (non-Javadoc)
 	 * @see ac.technion.schemamatching.statistics.Statistic#getData()
 	 */
-	public ArrayList<String[]> getData() {
+	public List<String[]> getData() {
 		return data;
 	}
 
