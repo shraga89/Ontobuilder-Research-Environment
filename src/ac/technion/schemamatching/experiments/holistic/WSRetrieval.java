@@ -49,6 +49,7 @@ public class WSRetrieval implements HolisticExperiment{
 		 */
 		for (Map<String, String> q : this.queries) {
 			Ontology qOnto = new Ontology(q.get("title"));
+			qOnto.setLight(true);
 			Term qTitleTerm = new Term(q.get("title"));
 			qOnto.addTerm(qTitleTerm);
 
