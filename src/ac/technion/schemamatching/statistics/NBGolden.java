@@ -34,7 +34,7 @@ public class NBGolden implements K2Statistic {
 		data = new ArrayList<String[]>();
 		header = new String[]{"instance","Precision","Recall", "F", "Overall", "VectorProduct", "MatchVectorLength","ExactVectorLength"};
 		ArrayList<Match> matches = mi.getCopyOfMatches();
-		ArrayList<Match> exact = mi.getCopyOfMatches();
+		ArrayList<Match> exact = exactMatch.getCopyOfMatches();
 		double prod = 0.0d;
 		double exactLen = (double)exact.size();
 		double mLen = 0.0d;
