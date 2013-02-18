@@ -7,6 +7,7 @@ import ac.technion.iem.ontobuilder.io.imports.Importer;
 import ac.technion.iem.ontobuilder.io.imports.NativeImporter;
 import ac.technion.iem.ontobuilder.io.imports.PNMLImporter;
 import ac.technion.iem.ontobuilder.io.imports.WSDLImporter;
+import ac.technion.iem.ontobuilder.io.imports.WSDLImporterEasyWSDL;
 import ac.technion.iem.ontobuilder.io.imports.XSDImporter;
 import ac.technion.iem.ontobuilder.io.imports.XSDImporterUsingXSOM;
 import ac.technion.iem.ontobuilder.io.matchimport.CRFMatchImporter;
@@ -24,7 +25,7 @@ public enum OREDataSetEnum
 {
 	OBWebForms(1,"Ontobuilder Web Forms",new NativeImporter(),new NativeMatchImporter(),true,true, false),
 	Tel8(2,"Tel-8",null,null,false,false, false),
-	NisBESW(3,"WSDL supplied by SAP",new WSDLImporter(),null,false, false, false),
+	NisBESW(3,"WSDL supplied by SAP",new WSDLImporterEasyWSDL(),null,false, false, false),
 	NisBSAPTest(4,"SAP simple test schemas in NisbRDF format",null,null,true,false, false), 
 	OBSynthetic(5,"Synthetic concepts designed by Nimrod Busany",null,null,true, true, false),
 	SAPSchemasRDF(6,"SAP software schemas in NisB rdf format",null,null,true, false, false),
