@@ -33,17 +33,17 @@ public class WSRetrieval implements HolisticExperiment{
 	
 	private List<Map<String, String>> queries;
 	
+	private List<FirstLineMatcher> flM;
+	
 	public List<Statistic> runExperiment(Set<ExperimentSchema> eSet) {
 
 		List<Statistic> res = new ArrayList<Statistic>();
 		DummyStatistic stat = new DummyStatistic();
 		stat.setName("WSRetrieval");
-		stat.setHeader(new String[]{"Query","Exp","Service","Sim"});
+		stat.setHeader(new String[]{"Query","Exp","Service","Matcher","Sim"});
 		
 		List<String[]> statData= new ArrayList<>();
 		
-		OBTermMatch m = new OBTermMatch();
-
 		/*
 		 * For each query
 		 */
@@ -60,13 +60,18 @@ public class WSRetrieval implements HolisticExperiment{
 			 * For each schema, using only the title
 			 */
 			for (ExperimentSchema e  : eSet) {
-				MatchInformation mi = m.match(qOnto, e.getTargetOntology(), false);
-				
 				/*
-				 * Get Match for title
+				 * For each selected first line matcher
 				 */
-				double avg = getAvgOfMaxMatchValueForTerms(candidateTerms, mi);
-				statData.add(new String[]{q.get("title"),"Title only",e.getTargetOntology().getName(),String.valueOf(avg)});
+				for (FirstLineMatcher matcher : this.flM) {
+					MatchInformation mi = matcher.match(qOnto, e.getTargetOntology(), false);
+					
+					/*
+					 * Get Match for title
+					 */
+					double avg = getAvgOfMaxMatchValueForTerms(candidateTerms, mi);
+					statData.add(new String[]{q.get("title"),"Title only",e.getTargetOntology().getName(),matcher.getName(),String.valueOf(avg)});
+				}
 			}		
 			
 			/*
@@ -81,13 +86,15 @@ public class WSRetrieval implements HolisticExperiment{
 			candidateTerms.add(qOutputTerm);
 			
 			for (ExperimentSchema e  : eSet) {
-				MatchInformation mi = m.match(qOnto, e.getTargetOntology(), false);
-				
 				/*
-				 * Average match values
+				 * For each selected first line matcher
 				 */
-				double avg = getAvgOfMaxMatchValueForTerms(candidateTerms, mi);
-				statData.add(new String[]{q.get("title"),"Title and Objects",e.getTargetOntology().getName(),String.valueOf(avg)});
+				for (FirstLineMatcher matcher : this.flM) {
+					MatchInformation mi = matcher.match(qOnto, e.getTargetOntology(), false);
+				
+					double avg = getAvgOfMaxMatchValueForTerms(candidateTerms, mi);
+					statData.add(new String[]{q.get("title"),"Title and Objects",e.getTargetOntology().getName(),matcher.getName(),String.valueOf(avg)});
+				}
 			}				
 		}
 		
@@ -116,6 +123,8 @@ public class WSRetrieval implements HolisticExperiment{
 	
 	public boolean init(OBExperimentRunner oer, Properties properties,
 			ArrayList<FirstLineMatcher> flM, ArrayList<SecondLineMatcher> slM) {
+		
+		this.flM = (List<FirstLineMatcher>)flM;
 		
 		this.queries = new ArrayList<>();
 		
