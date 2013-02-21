@@ -64,36 +64,59 @@ public class WSRetrieval implements HolisticExperiment{
 				 * For each selected first line matcher
 				 */
 				for (FirstLineMatcher matcher : this.flM) {
-					MatchInformation mi = matcher.match(qOnto, e.getTargetOntology(), false);
+					MatchInformation mi = null;
+					try {
+						mi = matcher.match(qOnto, e.getTargetOntology(), false);
+					} catch (Exception e2) {
+						System.err.println("Failed at " + e.getID() + ": " + e.getTargetOntology().getName());
+					}
 					
 					/*
 					 * Get Match for title
 					 */
-					double avg = getAvgOfMaxMatchValueForTerms(candidateTerms, mi);
-					statData.add(new String[]{q.get("title"),"Title only",e.getTargetOntology().getName(),matcher.getName(),String.valueOf(avg)});
+					if (mi != null) {
+						double avg = getAvgOfMaxMatchValueForTerms(candidateTerms, mi);
+						statData.add(new String[]{q.get("title"),"Title only",e.getTargetOntology().getName(),matcher.getName(),String.valueOf(avg)});
+					}
+					else
+						statData.add(new String[]{q.get("title"),"Title only",e.getTargetOntology().getName(),matcher.getName(),"-1"});
 				}
 			}		
 			
 			/*
 			 * For each schema, using also the object names title
 			 */
-			Term qInputTerm = new Term(q.get("input"));
-			qOnto.addTerm(qInputTerm);
-			Term qOutputTerm = new Term(q.get("output"));
-			qOnto.addTerm(qOutputTerm);
-			
-			candidateTerms.add(qInputTerm);
-			candidateTerms.add(qOutputTerm);
+			String[] objects = q.get("input").split(",");
+			for (int i = 0; i < objects.length; i++) {
+				Term qTerm = new Term(objects[i]);
+				qOnto.addTerm(qTerm);
+				candidateTerms.add(qTerm);
+			}
+			objects = q.get("output").split(",");
+			for (int i = 0; i < objects.length; i++) {
+				Term qTerm = new Term(objects[i]);
+				qOnto.addTerm(qTerm);
+				candidateTerms.add(qTerm);
+			}
 			
 			for (ExperimentSchema e  : eSet) {
 				/*
 				 * For each selected first line matcher
 				 */
 				for (FirstLineMatcher matcher : this.flM) {
-					MatchInformation mi = matcher.match(qOnto, e.getTargetOntology(), false);
+					MatchInformation mi = null;
+					try {
+						mi = matcher.match(qOnto, e.getTargetOntology(), false);
+					} catch (Exception e2) {
+						System.err.println("Failed at " + e.getID() + ": " + e.getTargetOntology().getName());
+					}
 				
-					double avg = getAvgOfMaxMatchValueForTerms(candidateTerms, mi);
-					statData.add(new String[]{q.get("title"),"Title and Objects",e.getTargetOntology().getName(),matcher.getName(),String.valueOf(avg)});
+					if (mi != null) {
+						double avg = getAvgOfMaxMatchValueForTerms(candidateTerms, mi);
+						statData.add(new String[]{q.get("title"),"Title and Objects",e.getTargetOntology().getName(),matcher.getName(),String.valueOf(avg)});
+					}
+					else
+						statData.add(new String[]{q.get("title"),"Title and Objects",e.getTargetOntology().getName(),matcher.getName(),"-1"});
 				}
 			}				
 		}
@@ -129,29 +152,48 @@ public class WSRetrieval implements HolisticExperiment{
 		this.queries = new ArrayList<>();
 		
 		/*
-		 * First query
+		 * First query: 1Ve_4qka
 		 */
 		Map<String, String> query = new HashMap<>();
-		query.put("title","Check Order");
-		query.put("input","Order");
-		query.put("output","Order");
-
-		query.put("input_states","");
-		query.put("output_states","");
-
+		query.put("title","Credit Debit Memo Request Processing");
+		query.put("input","Complaint,Goods,Debit Reason,Document");
+		query.put("output","Credit Debit Memo Request,Credit Debit Memo");
 		this.queries.add(query);
 
 		/*
-		 * Second query
+		 * Second query: 1An_kynn
 		 */
 		query = new HashMap<>();
-		query.put("title","Create Quote");
-		query.put("input","Request for Quote (RFQ)");
-		query.put("output","Quote");
+		query.put("title","Measure Processing");
+		query.put("input","Internal order");
+		query.put("output","Order,inv. profile,Investment profile");
+		this.queries.add(query);
 
-		query.put("input_states","");
-		query.put("output_states","");
+		/*
+		 * Third query: 1Ex_dwdy
+		 */
+		query = new HashMap<>();
+		query.put("title","Budget Execution");
+		query.put("input","Budget release,budget values");
+		query.put("output","Invoice,expenditure budget");
+		this.queries.add(query);
 
+		/*
+		 * Fourth query: 1Pe_lu4d
+		 */
+		query = new HashMap<>();
+		query.put("title","Processing Offer of Work Contract");
+		query.put("input","applicant,offer of work contract");
+		query.put("output","offer of work contract");
+		this.queries.add(query);
+
+		/*
+		 * Fifth query: 1Qu_bxuo
+		 */
+		query = new HashMap<>();
+		query.put("title","Maintenance Planning");
+		query.put("input","Maintenance plan");
+		query.put("output","Dates due package,Maintenance package,Service order,Maintenance order,Maintenance call, Maintenance plan calls,Inspection lot");
 		this.queries.add(query);
 
 		return true;
