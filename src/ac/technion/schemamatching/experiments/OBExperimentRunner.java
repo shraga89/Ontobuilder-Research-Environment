@@ -123,7 +123,7 @@ public class OBExperimentRunner {
 				String spids = spList.get(0).toString();
 				for (int i=1 ; i<spList.size();i++)
 					spids = spids + "," + spList.get(i).toString();
-				dataset =oer.selectExperiments(0,spids, 0, dc,pairMode );}
+				dataset =oer.selectExperiments(0,spids, Integer.valueOf(args[5]), dc,pairMode );}
 			else if (Integer.valueOf(args[3])<=0){
 				dataset =oer.selectExperiments(Integer.valueOf(args[3]),args[4], 0, dc ,pairMode);}  
 			else{
