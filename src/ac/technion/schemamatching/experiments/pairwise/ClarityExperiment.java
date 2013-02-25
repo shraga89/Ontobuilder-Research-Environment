@@ -228,7 +228,7 @@ public class ClarityExperiment implements PairWiseExperiment {
 	 */
 	private static ArrayList<String[]> readFile(File f)
 	{
-		BufferedReader readbuffer;
+		BufferedReader readbuffer = null;
 		String strRead;
 		String splitArray[];
 		ArrayList<String[]> res = new ArrayList<String[]>();
@@ -241,7 +241,7 @@ public class ClarityExperiment implements PairWiseExperiment {
 	    		strRead=readbuffer.readLine();
 				}
 		
-			
+			if (readbuffer != null) readbuffer.close();
 		} catch (FileNotFoundException e1) {
 			e1.printStackTrace();
 		} catch (IOException e) {
