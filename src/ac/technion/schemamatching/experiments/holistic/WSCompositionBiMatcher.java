@@ -17,9 +17,9 @@ import ac.technion.iem.ontobuilder.matching.match.Match;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 import ac.technion.schemamatching.experiments.OBExperimentRunner;
 import ac.technion.schemamatching.matchers.firstline.FirstLineMatcher;
+import ac.technion.schemamatching.matchers.firstline.OBGraphMatch;
 import ac.technion.schemamatching.matchers.firstline.OBTermMatch;
-import ac.technion.schemamatching.matchers.secondline.OBDominants;
-import ac.technion.schemamatching.matchers.secondline.OBStableMarriage;
+import ac.technion.schemamatching.matchers.secondline.OBMaxSim;
 import ac.technion.schemamatching.matchers.secondline.SecondLineMatcher;
 import ac.technion.schemamatching.statistics.DummyStatistic;
 import ac.technion.schemamatching.statistics.Statistic;
@@ -30,7 +30,7 @@ import ac.technion.schemamatching.testbed.ExperimentSchema;
  * 
  * @author Matthias Weidlich
  */
-public class WSComposition implements HolisticExperiment{
+public class WSCompositionBiMatcher implements HolisticExperiment{
 
 	
 	private Map<Map<String, String>,Map<String, String>> pairs;
@@ -114,13 +114,28 @@ public class WSComposition implements HolisticExperiment{
 		return getTermInDepth(t.getTerms().get(0),i-1);
 	}
 	
+	private int countMatchesForTerm(MatchInformation mi, Term t, boolean isCandidate) {
+		int count = 0;
+		
+		for (Match m : mi.getCopyOfMatches()) {
+			if (isCandidate) {
+				if (m.getCandidateTerm().equals(t)) count++;
+			}
+			else {
+				if (m.getTargetTerm().equals(t)) count++;
+			}
+		}
+		
+		return count;
+	}
+	
 	public List<Statistic> runExperiment(Set<ExperimentSchema> eSet) {
 
 		List<Statistic> res = new ArrayList<Statistic>();
 		DummyStatistic stat = new DummyStatistic();
 		stat.setName("WSComposition");
-		stat.setHeader(new String[]{"Query 1","Query 2","Service 1","Service 2","Numer matches",
-				"Numer terms in Q1","Numer terms in Q2"});
+		stat.setHeader(new String[]{"Matcher","Query 1","Query 2","Service 1","Service 2","Number matches",
+				"Number terms in Q1","Number terms in Q2", "Max Ambiguity in Q1", "Avg Ambiguity in Q1", "Max Ambiguity in Q2", "Avg Ambiguity in Q2"});
 		
 		List<String[]> statData= new ArrayList<>();
 		
@@ -144,26 +159,97 @@ public class WSComposition implements HolisticExperiment{
 			e2InOnto.setLight(true);
 			e2InOnto.addTerm(e2In);
 
-			OBTermMatch matcher = new OBTermMatch();
+			OBTermMatch matcher1 = new OBTermMatch();
+			OBGraphMatch matcher2 = new OBGraphMatch();
 			MatchInformation mi1 = null;
 			MatchInformation mi2 = null;
+			MatchInformation mi12 = null;
+			MatchInformation mi22 = null;
 			try {
-				mi1 = matcher.match(e1OutOnto, e2InOnto, false);
+				mi1 = matcher1.match(e1OutOnto, e2InOnto, false);
 				if (mi1 != null) {
-					OBDominants secondMatcher = new OBDominants();
+					OBMaxSim secondMatcher = new OBMaxSim();
 					mi2 = secondMatcher.match(mi1);
+				}
+				mi12 = matcher2.match(e1OutOnto, e2InOnto, false);
+				if (mi12 != null) {
+					OBMaxSim secondMatcher = new OBMaxSim();
+					mi22 = secondMatcher.match(mi12);
 				}
 			} catch (Exception ex) {
 				ex.printStackTrace();
 			}
 			
 			if (mi2 != null) {
-				statData.add(new String[]{q1.get("title"),q2.get("title"),
+				int maxAmb1 = 0;
+				int maxAmb2 = 0;
+				double avgAmb1 = 0.0;
+				double avgAmb2 = 0.0;
+				
+				Map<Term, Integer> amb1 = new HashMap<>();
+				Map<Term, Integer> amb2 = new HashMap<>();
+				for (Match m : mi2.getCopyOfMatches()) {
+					amb1.put(m.getCandidateTerm(), countMatchesForTerm(mi2,m.getCandidateTerm(), true));
+					amb2.put(m.getTargetTerm(), countMatchesForTerm(mi2,m.getTargetTerm(), false));
+				}
+				for (Term t : amb1.keySet()) {
+					maxAmb1 = Math.max(maxAmb1, amb1.get(t));
+					avgAmb1 += (double) amb1.get(t);
+				}
+				avgAmb1 = avgAmb1 / (double) amb1.keySet().size();
+
+				for (Term t : amb2.keySet()) {
+					maxAmb2 = Math.max(maxAmb2, amb2.get(t));
+					avgAmb2 += (double) amb2.get(t);
+				}
+				avgAmb2 = avgAmb2 / (double) amb2.keySet().size();
+
+				statData.add(new String[]{matcher1.getName(), q1.get("title"),q2.get("title"),
 						e1.getTargetOntology().toString(),
 						e2.getTargetOntology().toString(),
 						String.valueOf(mi2.getCopyOfMatches().size()),
 						String.valueOf(mi2.getOriginalCandidateTerms().size()),
-						String.valueOf(mi2.getOriginalTargetTerms().size())
+						String.valueOf(mi2.getOriginalTargetTerms().size()),
+						String.valueOf(maxAmb1),
+						String.valueOf(avgAmb1),
+						String.valueOf(maxAmb2),
+						String.valueOf(avgAmb2)
+				});
+			}
+			if (mi22 != null) {
+				int maxAmb1 = 0;
+				int maxAmb2 = 0;
+				double avgAmb1 = 0.0;
+				double avgAmb2 = 0.0;
+				
+				Map<Term, Integer> amb1 = new HashMap<>();
+				Map<Term, Integer> amb2 = new HashMap<>();
+				for (Match m : mi22.getCopyOfMatches()) {
+					amb1.put(m.getCandidateTerm(), mi22.getMatchesForTerm(m.getCandidateTerm(), true).size());
+					amb2.put(m.getTargetTerm(), mi22.getMatchesForTerm(m.getTargetTerm(), false).size());
+				}
+				for (Term t : amb1.keySet()) {
+					maxAmb1 = Math.max(maxAmb1, amb1.get(t));
+					avgAmb1 += (double) amb1.get(t);
+				}
+				avgAmb1 = avgAmb1 / (double) amb1.keySet().size();
+
+				for (Term t : amb2.keySet()) {
+					maxAmb2 = Math.max(maxAmb2, amb2.get(t));
+					avgAmb2 += (double) amb2.get(t);
+				}
+				avgAmb2 = avgAmb2 / (double) amb2.keySet().size();
+
+				statData.add(new String[]{matcher2.getName(), q1.get("title"),q2.get("title"),
+						e1.getTargetOntology().toString(),
+						e2.getTargetOntology().toString(),
+						String.valueOf(mi22.getCopyOfMatches().size()),
+						String.valueOf(mi22.getOriginalCandidateTerms().size()),
+						String.valueOf(mi22.getOriginalTargetTerms().size()),
+						String.valueOf(maxAmb1),
+						String.valueOf(avgAmb1),
+						String.valueOf(maxAmb2),
+						String.valueOf(avgAmb2)
 				});
 			}
 			

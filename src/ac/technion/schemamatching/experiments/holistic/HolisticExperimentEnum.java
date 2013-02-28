@@ -16,7 +16,8 @@ public enum HolisticExperimentEnum
 	simpleHMatch(new SimpleMatchNoExact()), 
 	networkQuality(new NetworkQualityExperiment()),
 	wsRetrieval(new WSRetrieval()),
-	wsComposition(new WSComposition())
+	wsComposition(new WSComposition()),
+	wsCompositionBiMatcher(new WSCompositionBiMatcher())
 	;
 	
 	private HolisticExperimentEnum(HolisticExperiment e)
