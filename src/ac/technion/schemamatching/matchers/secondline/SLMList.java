@@ -16,7 +16,7 @@ public enum SLMList {OBMWBG(new OBmwbg()),OBSM(new OBStableMarriage()),
 	OBThreshold025(new OBThreshold(0.25)),
 	OBThreshold050(new OBThreshold(0.50)),OBThreshold075(new OBThreshold(0.75)),
 	OBTopK(new OBTopK()), OBMax(new OBMaxDelta(0.0)),OBMaxDelta005(new OBMaxDelta(0.05)), 
-	OBMaxDelta01(new OBMaxDelta(0.1)), OBMaxDelta02(new OBMaxDelta(0.2));
+	OBMaxDelta01(new OBMaxDelta(0.1)), OBMaxDelta02(new OBMaxDelta(0.2)), OBMaxSim(new OBMaxSim());
 
 private SLMList(SecondLineMatcher slm)
 {
