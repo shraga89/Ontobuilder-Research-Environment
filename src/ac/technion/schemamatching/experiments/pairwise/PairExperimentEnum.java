@@ -23,7 +23,8 @@ public enum PairExperimentEnum
 	,TopKClustering(new TopKClustering())
 	,VectorPrinting(new VectorPrinting())
 	,MappingPrinting(new MappingPrinting())
-	,SLMExample(new SecondLineMatchExample());
+	,SLMExample(new SecondLineMatchExample())
+	,ProcessModelPrediction (new ProcessModelPrediction());
 	
 	private PairExperimentEnum(PairWiseExperiment e)
 	{
