@@ -6,7 +6,6 @@ package ac.technion.schemamatching.testbed;
 import ac.technion.iem.ontobuilder.io.imports.Importer;
 import ac.technion.iem.ontobuilder.io.imports.NativeImporter;
 import ac.technion.iem.ontobuilder.io.imports.PNMLImporter;
-import ac.technion.iem.ontobuilder.io.imports.WSDLImporter;
 import ac.technion.iem.ontobuilder.io.imports.WSDLImporterEasyWSDL;
 import ac.technion.iem.ontobuilder.io.imports.XSDImporter;
 import ac.technion.iem.ontobuilder.io.imports.XSDImporterUsingXSOM;

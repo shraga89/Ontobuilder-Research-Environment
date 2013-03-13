@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
-import ac.technion.iem.ontobuilder.matching.match.Match;
 import ac.technion.schemamatching.experiments.OBExperimentRunner;
 import ac.technion.schemamatching.experiments.holistic.network.NetworkStatisticsHandler;
 import ac.technion.schemamatching.experiments.holistic.network.SchemaNetwork;
@@ -29,8 +28,8 @@ public class NetworkQualityExperiment implements HolisticExperiment{
 	// each schema is mapped to how many other schemas as part of the initialisation?
 	private int density = 3;
 	
-	private int feedbackBudget = 1000;
-	private int validatedPerEval = 10;
+//	private int feedbackBudget = 1000;
+//	private int validatedPerEval = 10;
 	
 	private List<FirstLineMatcher> flM;
 	private HashMap<String,Double> matcherWeights = new HashMap<String,Double>();
@@ -44,13 +43,13 @@ public class NetworkQualityExperiment implements HolisticExperiment{
 		System.out.println("Init network...");
 		network1.initNetwork(this.flM, this.matcherWeights, this.density);
 		
-		SchemaNetwork network2 = (SchemaNetwork) network1.clone();
-		SchemaNetwork network3 = (SchemaNetwork) network1.clone();
-		SchemaNetwork network4 = (SchemaNetwork) network1.clone();
-		SchemaNetwork network5 = (SchemaNetwork) network1.clone();
-		SchemaNetwork network6 = (SchemaNetwork) network1.clone();
-		SchemaNetwork evolvedNetwork; 
-		Set<Match> toExclude;
+//		SchemaNetwork network2 = (SchemaNetwork) network1.clone();
+//		SchemaNetwork network3 = (SchemaNetwork) network1.clone();
+//		SchemaNetwork network4 = (SchemaNetwork) network1.clone();
+//		SchemaNetwork network5 = (SchemaNetwork) network1.clone();
+//		SchemaNetwork network6 = (SchemaNetwork) network1.clone();
+//		SchemaNetwork evolvedNetwork; 
+//		Set<Match> toExclude;
 		
 		NetworkStatisticsHandler networkStatisticsHandler = new NetworkStatisticsHandler();
 		

@@ -3,6 +3,8 @@
  */
 package ac.technion.schemamatching.matchers.secondline;
 
+import java.util.Properties;
+
 import ac.technion.iem.ontobuilder.matching.algorithms.line2.topk.wrapper.SchemaMatchingsException;
 import ac.technion.iem.ontobuilder.matching.algorithms.line2.topk.wrapper.SchemaMatchingsWrapper;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
@@ -49,6 +51,11 @@ public class OBmwbg implements SecondLineMatcher {
 	 */
 	public int getDBid() {
 		return 1;
+	}
+
+	@Override
+	public boolean init(Properties properties) {
+		return true;
 	}
 
 }

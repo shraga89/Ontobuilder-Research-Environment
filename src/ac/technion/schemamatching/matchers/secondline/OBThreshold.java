@@ -15,6 +15,8 @@ import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 public class OBThreshold implements SecondLineMatcher {
 
 	private Threshold2LM my2LM;
+	private double threshold = 0.75;
+	
 	/* (non-Javadoc)
 	 * @see ac.technion.schemamatching.matchers.SecondLineMatcher#getName()
 	 */
@@ -62,5 +64,19 @@ public class OBThreshold implements SecondLineMatcher {
 	public double getThreshold() {
 		return threshold;
 	}
-	private double threshold = 0.25;
+	
+	@Override
+	public boolean init(Properties properties) {
+		if (properties.containsKey("t"))
+		{
+			threshold = Double.parseDouble((String)properties.get("t"));
+			this.my2LM = new Threshold2LM(threshold);
+			my2LM.init(properties);
+			return true;
+		}
+		System.err.println("OBThreshold 2LM could not find the required " +
+				"property 't' in the property file");
+		
+		return false;
+	}
 }

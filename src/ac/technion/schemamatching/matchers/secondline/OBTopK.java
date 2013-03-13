@@ -3,6 +3,8 @@
  */
 package ac.technion.schemamatching.matchers.secondline;
 
+import java.util.Properties;
+
 import ac.technion.iem.ontobuilder.matching.algorithms.line2.topk.wrapper.SchemaMatchingsWrapper;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 import ac.technion.iem.ontobuilder.matching.utils.SchemaMatchingAlgorithmsRunner;
@@ -14,7 +16,7 @@ import ac.technion.schemamatching.util.ConversionUtils;
  */
 public class OBTopK implements SecondLineMatcher {
 
-	public static int k = 5;
+	public int k = 5;
 	
 	/* (non-Javadoc)
 	 * @see ac.technion.schemamatching.matchers.SecondLineMatcher#getName()
@@ -69,6 +71,18 @@ public class OBTopK implements SecondLineMatcher {
 	 */
 	public int getDBid() {
 		return 10;
+	}
+
+	@Override
+	public boolean init(Properties properties) {
+		if (properties.containsKey("topK"))
+		{
+			k = Integer.parseInt((String)properties.get("topK"));
+			return true;
+		}
+		System.err.println("OBTopK 2LM could not find the required " +
+				"property 'topK' in the property file");
+		return false;
 	}
 
 }
