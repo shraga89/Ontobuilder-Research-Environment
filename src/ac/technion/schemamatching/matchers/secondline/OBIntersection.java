@@ -3,6 +3,8 @@
  */
 package ac.technion.schemamatching.matchers.secondline;
 
+import java.util.Properties;
+
 import ac.technion.iem.ontobuilder.matching.algorithms.line2.set.Intersection2LM;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 
@@ -39,6 +41,11 @@ public class OBIntersection implements SecondLineMatcher {
 	 */
 	public int getDBid() {
 		return 4;
+	}
+
+	@Override
+	public boolean init(Properties properties) {
+		return true;
 	}
 
 }

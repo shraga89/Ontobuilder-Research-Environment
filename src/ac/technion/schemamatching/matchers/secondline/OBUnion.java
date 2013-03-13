@@ -3,6 +3,8 @@
  */
 package ac.technion.schemamatching.matchers.secondline;
 
+import java.util.Properties;
+
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 import ac.technion.iem.ontobuilder.matching.algorithms.line2.set.Union2LM;
 /**
@@ -38,6 +40,11 @@ public class OBUnion implements SecondLineMatcher {
 	 */
 	public int getDBid() {
 		return 5;
+	}
+
+	@Override
+	public boolean init(Properties properties) {
+		return true;
 	}
 
 }
