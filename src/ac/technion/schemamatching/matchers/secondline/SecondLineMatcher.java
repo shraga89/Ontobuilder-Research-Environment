@@ -3,6 +3,8 @@
  */
 package ac.technion.schemamatching.matchers.secondline;
 
+import java.util.Properties;
+
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 
 /**
@@ -40,4 +42,15 @@ public interface SecondLineMatcher {
 	 * @return integer corresponding to the SMID field in the SimilarityMeasures table in the schema matching DB
 	 */
 	public int getDBid();
+	
+	/**
+	 * Used to initialize the second line matcher. Should be invoked
+	 * before any other method is invoked. 
+	 * @param properties Properties object with parameters to be used 
+	 * in the initialization. Refer to the individual documentation
+	 * of each second line matcher for the required properties and
+	 * acceptable values. 
+	 * @return true if properties were properly initiated. False otherwise. 
+	 */
+	public boolean init (Properties properties);
 }
