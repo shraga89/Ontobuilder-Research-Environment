@@ -2,6 +2,7 @@ package ac.technion.schemamatching.matchers.secondline;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Random;
 import java.util.Vector;
 
@@ -17,13 +18,13 @@ import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
  * for an attribute (i.e., multiple attributes have the same maximal
  * similarity).
  * 
- * @author matthias weidlich
+ * @author Matthias Weidlich
  */
-public class OBMaxSim implements SecondLineMatcher {
+public class MaxSim implements SecondLineMatcher {
 
 	@Override
 	public String getName() {
-		return "OB Max Sim";
+		return "Max Sim";
 	}
 	
 	public double r(double v){
@@ -90,12 +91,17 @@ public class OBMaxSim implements SecondLineMatcher {
 
 	@Override
 	public String getConfig() {
-		return null;
+		return "default config";
 	}
 
 	@Override
 	public int getDBid() {
 		return 11;
+	}
+
+	@Override
+	public boolean init(Properties properties) {
+		return false;
 	}
 
 }
