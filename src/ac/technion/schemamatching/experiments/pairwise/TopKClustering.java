@@ -11,7 +11,6 @@ import ac.technion.schemamatching.ensembles.SimpleWeightedEnsemble;
 import ac.technion.schemamatching.experiments.OBExperimentRunner;
 import ac.technion.schemamatching.matchers.firstline.FLMList;
 import ac.technion.schemamatching.matchers.firstline.FirstLineMatcher;
-import ac.technion.schemamatching.matchers.secondline.OBTopK;
 import ac.technion.schemamatching.matchers.secondline.SLMList;
 import ac.technion.schemamatching.matchers.secondline.SecondLineMatcher;
 import ac.technion.schemamatching.statistics.ComplexBinaryGolden;
@@ -24,6 +23,7 @@ public class TopKClustering implements PairWiseExperiment {
 
 	private List<FirstLineMatcher> flM;
 	private HashMap<String,Double> matcherWeights = new HashMap<String,Double>();
+	private Properties properties;
 
 	public ArrayList<Statistic> runExperiment(ExperimentSchemaPair esp) {
 		
@@ -62,7 +62,7 @@ public class TopKClustering implements PairWiseExperiment {
 
 				ConversionUtils.zeroWeightsByThresholdAndRemoveMatches(weightedMI, simThreshold);
 				
-				OBTopK.k = k;
+				//OBTopK.k = k;
 				
 				MatchInformation matchesBaseline = SLMList.OBMWBG.getSLM().match(weightedMI);
 				K2Statistic b = new ComplexBinaryGolden();
@@ -77,8 +77,9 @@ public class TopKClustering implements PairWiseExperiment {
 					for (int l = 0; l < s.length; l++)
 						System.out.println(s[l]);
 
-				
-				MatchInformation matchesClustered = SLMList.OBTopK.getSLM().match(weightedMI);
+				SecondLineMatcher slm = SLMList.OBTopK.getSLM();
+				slm.init(properties);
+				MatchInformation matchesClustered = slm.match(weightedMI);
 				b = new ComplexBinaryGolden();
 				id = new String(esp.getID()+",clustered," + simThreshold + "," + k); 
 				b.init(id, matchesClustered,esp.getExact());
@@ -140,11 +141,19 @@ public class TopKClustering implements PairWiseExperiment {
 		for (Object key : properties.keySet())
 		{
 			String strKey =(String)key; 
+			try
+			{
 			Integer mId = Integer.parseInt(strKey.substring(1));
-			
 			Double pWeight = Double.parseDouble((String)properties.get(key));
 			matcherWeights.put(flmHash.get(mId).getName(), pWeight);
+			}
+			catch(NumberFormatException e)
+			{
+				continue; //Not all properties in the file are matcher IDs
+			}
+			this.properties = properties;
 		}
+		
 		return true;
 	}
 

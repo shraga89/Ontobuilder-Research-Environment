@@ -24,6 +24,7 @@ import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
 public class SimpleMatchExperiment implements PairWiseExperiment {
 	private ArrayList<FirstLineMatcher> flM;
 	private ArrayList<SecondLineMatcher> slM;
+	private Properties properties;
 
 	/*
 	 * (non-Javadoc)
@@ -53,6 +54,9 @@ public class SimpleMatchExperiment implements PairWiseExperiment {
 			for (SecondLineMatcher s : slM)
 			{
 				//Second Line Match
+				if (!s.init(properties)) 
+					System.err.println("Initialization of " + s.getName() + 
+							"failed, we hope the author defined default values...");
 				MatchInformation mi1 = s.match(mi);
 				//calculate Precision and Recall
 				K2Statistic b2 = new BinaryGolden();
@@ -74,7 +78,8 @@ public class SimpleMatchExperiment implements PairWiseExperiment {
 		changes to matchers used in the experiment*/
 		this.flM = flM;
 		this.slM = slM;
-		//using property files allows to modify experiment parameters at runtime 
+		//using property files allows to modify experiment parameters at runtime
+		this.properties = properties;
 		return true;
 	}
 

@@ -3,6 +3,8 @@
  */
 package ac.technion.schemamatching.matchers.secondline;
 
+import java.util.Properties;
+
 import ac.technion.iem.ontobuilder.matching.algorithms.line2.stablemarriage.StableMarriageWrapper;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 
@@ -41,6 +43,11 @@ public class OBStableMarriage implements SecondLineMatcher {
 	 */
 	public int getDBid() {
 		return 2;
+	}
+
+	@Override
+	public boolean init(Properties properties) {
+		return true;
 	}
 
 }
