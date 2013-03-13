@@ -19,7 +19,7 @@ import ac.technion.schemamatching.experiments.OBExperimentRunner;
 import ac.technion.schemamatching.matchers.firstline.FirstLineMatcher;
 import ac.technion.schemamatching.matchers.firstline.OBGraphMatch;
 import ac.technion.schemamatching.matchers.firstline.OBTermMatch;
-import ac.technion.schemamatching.matchers.secondline.OBMaxSim;
+import ac.technion.schemamatching.matchers.secondline.MaxSim;
 import ac.technion.schemamatching.matchers.secondline.SecondLineMatcher;
 import ac.technion.schemamatching.statistics.DummyStatistic;
 import ac.technion.schemamatching.statistics.Statistic;
@@ -168,12 +168,12 @@ public class WSCompositionBiMatcher implements HolisticExperiment{
 			try {
 				mi1 = matcher1.match(e1OutOnto, e2InOnto, false);
 				if (mi1 != null) {
-					OBMaxSim secondMatcher = new OBMaxSim();
+					MaxSim secondMatcher = new MaxSim();
 					mi2 = secondMatcher.match(mi1);
 				}
 				mi12 = matcher2.match(e1OutOnto, e2InOnto, false);
 				if (mi12 != null) {
-					OBMaxSim secondMatcher = new OBMaxSim();
+					MaxSim secondMatcher = new MaxSim();
 					mi22 = secondMatcher.match(mi12);
 				}
 			} catch (Exception ex) {
