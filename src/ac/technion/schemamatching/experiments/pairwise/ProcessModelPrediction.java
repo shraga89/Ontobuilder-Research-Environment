@@ -9,8 +9,8 @@ import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 import ac.technion.schemamatching.experiments.OBExperimentRunner;
 import ac.technion.schemamatching.matchers.firstline.FLMList;
 import ac.technion.schemamatching.matchers.firstline.FirstLineMatcher;
-import ac.technion.schemamatching.matchers.firstline.ProcessModelMatcher;
-import ac.technion.schemamatching.matchers.firstline.ProcessModelMatcher.ProcessModelMatchStrategy;
+import ac.technion.schemamatching.matchers.firstline.ProcessModelFLM;
+import ac.technion.schemamatching.matchers.firstline.ProcessModelFLM.ProcessModelMatchStrategy;
 import ac.technion.schemamatching.matchers.secondline.SecondLineMatcher;
 import ac.technion.schemamatching.statistics.Statistic;
 import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
@@ -21,7 +21,7 @@ public class ProcessModelPrediction implements PairWiseExperiment {
 	public List<Statistic> runExperiment(ExperimentSchemaPair esp) {
 		
 		HashMap<String,MatchInformation> flMatches = new HashMap<String,MatchInformation>(); 
-		ProcessModelMatcher flm = new ProcessModelMatcher();
+		ProcessModelFLM flm = new ProcessModelFLM();
 		
 		for (ProcessModelMatchStrategy strategy : ProcessModelMatchStrategy.values()) {
 			System.out.println("Do: " + strategy);
