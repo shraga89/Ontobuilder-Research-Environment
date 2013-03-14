@@ -23,15 +23,16 @@ import org.jbpt.hypergraph.abs.Vertex;
 import org.jbpt.petri.Flow;
 import org.jbpt.petri.NetSystem;
 import org.jbpt.petri.Node;
+import org.jbpt.petri.Place;
 import org.jbpt.petri.Transition;
 import org.jbpt.petri.behavior.ConcurrencyRelation;
 import org.jbpt.petri.io.PNMLSerializer;
 
-import com.mallardsoft.tuple.Pair;
-
 import semanticTools.SemanticUtils;
 import ac.technion.iem.ontobuilder.core.ontology.Ontology;
 import ac.technion.iem.ontobuilder.core.ontology.Term;
+
+import com.mallardsoft.tuple.Pair;
 
 
 public class ProcessModelPropertyPredictor implements Predictor {
@@ -133,7 +134,11 @@ public class ProcessModelPropertyPredictor implements Predictor {
 		double score = 0.0;
 		
 		NetSystem net1 = pnmlSerializer.parse(candidate.getFile().getPath());
+		for (Place p : net1.getSourcePlaces())
+			net1.getMarking().put(p, 1);
 		NetSystem net2 = pnmlSerializer.parse(target.getFile().getPath());
+		for (Place p : net2.getSourcePlaces())
+			net2.getMarking().put(p, 1);
 		
 		DirectedGraphAlgorithms<Flow, Node> dga = new DirectedGraphAlgorithms<>();
 		
@@ -142,7 +147,7 @@ public class ProcessModelPropertyPredictor implements Predictor {
 		
 		DirectedGraph dg1 = graphTransform(sg1);
 		DirectedGraph dg2 = graphTransform(sg2);
-
+		
 		switch (this.currentProperty) {
 		/*
 		 * Text Syntax Properties
@@ -171,8 +176,8 @@ public class ProcessModelPropertyPredictor implements Predictor {
 				lengthSum2 += t.getName().length();
 			avg2 = lengthSum2 / (double) target.getTermsCount();
 			
-			score = (1.0 - (double)Math.max(0,0.001*Math.pow(avg1-40,2)))/2.0 
-					+ (1.0 - (double)Math.max(0,0.001*Math.pow(avg2-40,2)))/2.0;
+			score = (1.0 - (double)Math.max(0,0.001*Math.pow(avg1-20,2)))/2.0 
+					+ (1.0 - (double)Math.max(0,0.001*Math.pow(avg2-20,2)))/2.0;
 					
 			break;
 
@@ -386,7 +391,7 @@ public class ProcessModelPropertyPredictor implements Predictor {
 			}
 			struct2 = ((double)nodesInRigid2.size())/((double)allNodes2);
 			
-			score = struct1/2.0 + struct2/2.0;
+			score = 1.0 - (struct1/2.0 + struct2/2.0);
 			break;
 
 			
