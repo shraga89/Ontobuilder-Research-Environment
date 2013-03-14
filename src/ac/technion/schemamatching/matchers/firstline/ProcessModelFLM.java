@@ -52,7 +52,7 @@ public class ProcessModelFLM implements FirstLineMatcher {
 	
 	@Override
 	public String getName() {
-		return "Process Model Matcher";
+		return this.currentStrategy.toString();
 	}
 
 	@Override
@@ -184,6 +184,8 @@ public class ProcessModelFLM implements FirstLineMatcher {
 	
 	private Graph loadGraphFromPNML(String filename){
 		PTNet ptnet = PTNet.loadPNML(filename);
+		for (nl.tue.tm.is.ptnet.Transition t : ptnet.transitions())
+			t.setName(t.getName().replace('.', ' '));
 		Graph sg = new Graph(ptnet);
 		return sg;
 	}
