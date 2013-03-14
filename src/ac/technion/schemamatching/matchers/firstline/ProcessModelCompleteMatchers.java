@@ -5,29 +5,37 @@ import java.lang.reflect.Method;
 import java.util.Set;
 
 import matching.matchers.Matcher;
+import matching.matchers.predict.BPMatcher;
 import matching.matchers.predict.GEDMatcherWithOptSED;
 import matching.matchers.predict.TextMatcherVirtualDoc;
 import nl.tue.tm.is.graph.Graph;
 import nl.tue.tm.is.graph.TwoVertexSets;
 import nl.tue.tm.is.ptnet.PTNet;
+import nl.tue.tm.is.ptnet.Transition;
+
+import org.jbpt.petri.NetSystem;
+import org.jbpt.petri.io.PNMLSerializer;
+
 import ac.technion.iem.ontobuilder.core.ontology.Ontology;
 import ac.technion.iem.ontobuilder.core.ontology.Term;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 import ac.technion.schemamatching.matchers.MatcherType;
 
 public class ProcessModelCompleteMatchers implements FirstLineMatcher {
-
+	
 	public enum ProcessModelMatcher {
 		PureTextMatcher,
 		GEDMatcher,
 		BPMatcher
 	}
 	
-	private ProcessModelMatcher currentMatcher;
+	private ProcessModelMatcher currentMatcher = ProcessModelMatcher.PureTextMatcher;
+
+	private PNMLSerializer serializer = new PNMLSerializer();
 	
 	@Override
 	public String getName() {
-		return "Process Model Matcher";
+		return currentMatcher.toString();
 	}
 
 	@Override
@@ -35,8 +43,8 @@ public class ProcessModelCompleteMatchers implements FirstLineMatcher {
 		return true;
 	}
 	
-	public void setMatchingStrategy(ProcessModelMatcher currentMatcher) {
-		this.currentMatcher = currentMatcher;
+	public void setMatchingStrategy(ProcessModelMatcher matcher) {
+		this.currentMatcher = matcher;
 	}
 
 	@Override
@@ -52,6 +60,10 @@ public class ProcessModelCompleteMatchers implements FirstLineMatcher {
 			
 		case PureTextMatcher:
 			matcher = new TextMatcherVirtualDoc();
+			break;
+			
+		case BPMatcher:
+			matcher = new BPMatcher();
 			break;
 			
 		default:
@@ -78,8 +90,8 @@ public class ProcessModelCompleteMatchers implements FirstLineMatcher {
 				for (Integer v2 : tvs.s2) {
 					Term candidateTerm = candidate.getTermByProvenance(sg1.getLabel(v1));
 					Term targetTerm = target.getTermByProvenance(sg2.getLabel(v2));
-					assert(candidateTerm != null);
-					assert(targetTerm != null);
+					assert(candidateTerm != null): "Term not found " + sg1.getLabel(v1);
+					assert(targetTerm != null): "Term not found " + sg2.getLabel(v2);;
 					result.updateMatch(targetTerm, candidateTerm, 1.0);
 				}
 			}
@@ -106,7 +118,15 @@ public class ProcessModelCompleteMatchers implements FirstLineMatcher {
 	
 	public Graph loadGraphFromPNML(String filename){
 		PTNet ptnet = PTNet.loadPNML(filename);
+		for (Transition t : ptnet.transitions())
+			t.setName(t.getName().replace('.', ' '));
+		
+		NetSystem system = serializer.parse(filename);
+		for (org.jbpt.petri.Transition t : system.getTransitions())
+			t.setName(t.getName().replace('.', ' '));
+		
 		Graph sg = new Graph(ptnet);
+		sg.setOriginalNetSystem(system);
 		return sg;
 	}
 
