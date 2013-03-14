@@ -14,6 +14,7 @@ import nl.tue.tm.is.ptnet.PTNet;
 import nl.tue.tm.is.ptnet.Transition;
 
 import org.jbpt.petri.NetSystem;
+import org.jbpt.petri.Place;
 import org.jbpt.petri.io.PNMLSerializer;
 
 import ac.technion.iem.ontobuilder.core.ontology.Ontology;
@@ -124,6 +125,11 @@ public class ProcessModelCompleteMatchers implements FirstLineMatcher {
 		NetSystem system = serializer.parse(filename);
 		for (org.jbpt.petri.Transition t : system.getTransitions())
 			t.setName(t.getName().replace('.', ' '));
+		
+		if (system.getMarkedPlaces().isEmpty())
+			for (Place p : system.getSourcePlaces())
+				system.getMarking().put(p, 1);
+
 		
 		Graph sg = new Graph(ptnet);
 		sg.setOriginalNetSystem(system);

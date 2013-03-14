@@ -134,11 +134,13 @@ public class ProcessModelPropertyPredictor implements Predictor {
 		double score = 0.0;
 		
 		NetSystem net1 = pnmlSerializer.parse(candidate.getFile().getPath());
-		for (Place p : net1.getSourcePlaces())
-			net1.getMarking().put(p, 1);
+		if (net1.getMarkedPlaces().isEmpty())
+			for (Place p : net1.getSourcePlaces())
+				net1.getMarking().put(p, 1);
 		NetSystem net2 = pnmlSerializer.parse(target.getFile().getPath());
-		for (Place p : net2.getSourcePlaces())
-			net2.getMarking().put(p, 1);
+		if (net2.getMarkedPlaces().isEmpty())
+			for (Place p : net2.getSourcePlaces())
+				net2.getMarking().put(p, 1);
 		
 		DirectedGraphAlgorithms<Flow, Node> dga = new DirectedGraphAlgorithms<>();
 		
