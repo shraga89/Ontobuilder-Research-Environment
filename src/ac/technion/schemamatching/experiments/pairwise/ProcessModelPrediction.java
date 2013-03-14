@@ -20,6 +20,7 @@ import ac.technion.schemamatching.statistics.DummyStatistic;
 import ac.technion.schemamatching.statistics.K2Statistic;
 import ac.technion.schemamatching.statistics.NBGolden;
 import ac.technion.schemamatching.statistics.Statistic;
+import ac.technion.schemamatching.statistics.predictors.AttributePredictors;
 import ac.technion.schemamatching.statistics.predictors.MatrixPredictors;
 import ac.technion.schemamatching.statistics.predictors.ProcessModelPropertyPredictor;
 import ac.technion.schemamatching.statistics.predictors.ProcessModelPropertyPredictor.ProcessModelProperty;
@@ -37,8 +38,8 @@ public class ProcessModelPrediction implements PairWiseExperiment {
 		/*
 		 * Language configuration
 		 */
-		LanguageCode languageCode = LanguageCode.EN;
-//		LanguageCode languageCode = LanguageCode.NL;
+//		LanguageCode languageCode = LanguageCode.EN;
+		LanguageCode languageCode = LanguageCode.NL;
 
 		SemanticLanguage.setLanguage(languageCode);
 		
@@ -82,7 +83,7 @@ public class ProcessModelPrediction implements PairWiseExperiment {
 			System.out.println("FLM: " + strategy.toString());
 			flm.setMatchingStrategy(strategy);
 			MatchInformation miFirst = flm.match(esp.getCandidateOntology(), esp.getTargetOntology(), false);
-
+			
 			/*
 			 * 2.1 Non-Binary results for the sim measure
 			 */
@@ -92,13 +93,18 @@ public class ProcessModelPrediction implements PairWiseExperiment {
 			results.add(nonBinary);
 			
 			/*
-			 * 2.2 All matrix predictors for the sim measure
+			 * 2.2 All matrix and attribute predictors for the sim measure
 			 */
 			System.out.println("FLM Matrix");
 			Statistic  mPred = new MatrixPredictors();
 			instanceDesc = esp.getID()+","+flm.getName();
 			mPred.init(instanceDesc, miFirst);
 			results.add(mPred);
+			
+			Statistic  aPred = new AttributePredictors();
+			instanceDesc = esp.getID()+","+flm.getName();
+			aPred.init(instanceDesc, miFirst);
+			results.add(aPred);
 
 			/*
 			 * 2.3 Binary result for a selection of SLMs
@@ -114,22 +120,22 @@ public class ProcessModelPrediction implements PairWiseExperiment {
 				results.add(binary);
 			}
 		}
-//		
-//		/*
-//		 * 3. Consider all process model property predictors
-//		 */
-//		DummyStatistic stat = new DummyStatistic();
-//		stat.setName("ProcessModelPropertyPrediction");
-//		stat.setHeader(new String[]{"ID","Predictor","Value"});
-//		List<String[]> statData= new ArrayList<>();
-//
-//		ProcessModelPropertyPredictor predictor = new ProcessModelPropertyPredictor(esp.getCandidateOntology(), esp.getTargetOntology(),languageCode);
-//		for (ProcessModelProperty property : ProcessModelProperty.values()) {
-//			predictor.setProperty(property);
-//			statData.add(new String[]{String.valueOf(esp.getID()), predictor.getName(), String.valueOf(predictor.getRes())});
-//		}
-//		stat.setData(statData);
-//		results.add(stat);
+		
+		/*
+		 * 3. Consider all process model property predictors
+		 */
+		DummyStatistic stat = new DummyStatistic();
+		stat.setName("ProcessModelPropertyPrediction");
+		stat.setHeader(new String[]{"ID","Predictor","Value"});
+		List<String[]> statData= new ArrayList<>();
+
+		ProcessModelPropertyPredictor predictor = new ProcessModelPropertyPredictor(esp.getCandidateOntology(), esp.getTargetOntology(),languageCode);
+		for (ProcessModelProperty property : ProcessModelProperty.values()) {
+			predictor.setProperty(property);
+			statData.add(new String[]{String.valueOf(esp.getID()), predictor.getName(), String.valueOf(predictor.getRes())});
+		}
+		stat.setData(statData);
+		results.add(stat);
 		
 		return results;
 	}
