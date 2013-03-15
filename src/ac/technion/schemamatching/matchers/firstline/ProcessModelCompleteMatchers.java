@@ -13,7 +13,10 @@ import nl.tue.tm.is.graph.TwoVertexSets;
 import nl.tue.tm.is.ptnet.PTNet;
 import nl.tue.tm.is.ptnet.Transition;
 
+import org.jbpt.bp.BehaviouralProfile;
+import org.jbpt.bp.construct.BPCreatorUnfolding;
 import org.jbpt.petri.NetSystem;
+import org.jbpt.petri.Node;
 import org.jbpt.petri.Place;
 import org.jbpt.petri.io.PNMLSerializer;
 
@@ -120,11 +123,11 @@ public class ProcessModelCompleteMatchers implements FirstLineMatcher {
 	public Graph loadGraphFromPNML(String filename){
 		PTNet ptnet = PTNet.loadPNML(filename);
 		for (Transition t : ptnet.transitions())
-			t.setName(t.getName().replace('.', ' '));
+			t.setName(t.getName().replace('.', ' ').trim());
 		
 		NetSystem system = serializer.parse(filename);
 		for (org.jbpt.petri.Transition t : system.getTransitions())
-			t.setName(t.getName().replace('.', ' '));
+			t.setName(t.getName().replace('.', ' ').trim());
 		
 		if (system.getMarkedPlaces().isEmpty())
 			for (Place p : system.getSourcePlaces())
