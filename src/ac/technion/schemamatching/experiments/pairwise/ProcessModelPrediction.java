@@ -43,8 +43,8 @@ public class ProcessModelPrediction implements PairWiseExperiment {
 		/*
 		 * Language configuration
 		 */
-		LanguageCode languageCode = LanguageCode.EN;
-//		LanguageCode languageCode = LanguageCode.NL;
+//		LanguageCode languageCode = LanguageCode.EN;
+		LanguageCode languageCode = LanguageCode.NL;
 
 		SemanticLanguage.setLanguage(languageCode);
 		

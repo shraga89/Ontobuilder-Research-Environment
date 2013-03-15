@@ -76,12 +76,12 @@ public class ProcessModelPropertyPredictor implements Predictor {
 		/*
 		 * Behavioural Properties
 		 */
-		SizeExclusivenessRelationRelative,
-		SizeStrictOrderRelationRelative,
-		SizeConcurrencyRelationRelative,
-		SizeExclusivenessRelationAbsolute,
-		SizeStrictOrderRelationAbsolute,
-		SizeConcurrencyRelationAbsolute,
+//		SizeExclusivenessRelationRelative,
+//		SizeStrictOrderRelationRelative,
+//		SizeConcurrencyRelationRelative,
+//		SizeExclusivenessRelationAbsolute,
+//		SizeStrictOrderRelationAbsolute,
+//		SizeConcurrencyRelationAbsolute,
 		
 	}
 	
@@ -492,99 +492,99 @@ public class ProcessModelPropertyPredictor implements Predictor {
 		/*
 		 * Behavioural Properties
 		 */
-		case SizeExclusivenessRelationRelative:
-			int sizeRelation1 = 0;
-			BehaviouralProfile<NetSystem, Node> bp1 = BPCreatorUnfolding.getInstance().deriveRelationSet(net1, new HashSet<Node>(net1.getTransitions()));
-			for (Node t : bp1.getEntities())
-				sizeRelation1 += bp1.getEntitiesInRelation(t, RelSetType.Exclusive).size();
-			
-			int sizeRelation2 = 0;
-			BehaviouralProfile<NetSystem, Node> bp2 = BPCreatorUnfolding.getInstance().deriveRelationSet(net2, new HashSet<Node>(net2.getTransitions()));
-			for (Node t : bp2.getEntities())
-				sizeRelation2 += bp2.getEntitiesInRelation(t, RelSetType.Exclusive).size();
-			
-			score = 1.0 - (
-					(double)Math.abs(sizeRelation1 - sizeRelation2) / (double)Math.max(sizeRelation1, sizeRelation2));
-			break;
-
-		case SizeStrictOrderRelationRelative:
-			sizeRelation1 = 0;
-			bp1 = BPCreatorUnfolding.getInstance().deriveRelationSet(net1, new HashSet<Node>(net1.getTransitions()));
-			for (Node t : bp1.getEntities())
-				sizeRelation1 += bp1.getEntitiesInRelation(t, RelSetType.Order).size();
-			
-			sizeRelation2 = 0;
-			bp2 = BPCreatorUnfolding.getInstance().deriveRelationSet(net2, new HashSet<Node>(net2.getTransitions()));
-			for (Node t : bp2.getEntities())
-				sizeRelation2 += bp2.getEntitiesInRelation(t, RelSetType.Order).size();
-			
-			score = 1.0 - (
-					(double)Math.abs(sizeRelation1 - sizeRelation2) / (double)Math.max(sizeRelation1, sizeRelation2));
-			break;
-
-		case SizeConcurrencyRelationRelative:
-			sizeRelation1 = 0;
-			ConcurrencyRelation conc1 = new ConcurrencyRelation(net1);
-			for (Transition t1 : net1.getTransitions())
-				for (Transition t2 : net1.getTransitions())
-					sizeRelation1 += (conc1.areConcurrent(t1, t2))?1:0;
-			
-			sizeRelation2 = 0;
-			ConcurrencyRelation conc2 = new ConcurrencyRelation(net2);
-			for (Transition t1 : net2.getTransitions())
-				for (Transition t2 : net2.getTransitions())
-					sizeRelation1 += (conc2.areConcurrent(t1, t2))?1:0;
-			
-			score = 1.0 - (
-					(double)Math.abs(sizeRelation1 - sizeRelation2) / (double)Math.max(sizeRelation1, sizeRelation2));
-			break;
-			
-		case SizeExclusivenessRelationAbsolute:
-			sizeRelation1 = 0;
-			bp1 = BPCreatorUnfolding.getInstance().deriveRelationSet(net1, new HashSet<Node>(net1.getTransitions()));
-			for (Node t : bp1.getEntities())
-				sizeRelation1 += bp1.getEntitiesInRelation(t, RelSetType.Exclusive).size();
-			
-			sizeRelation2 = 0;
-			bp2 = BPCreatorUnfolding.getInstance().deriveRelationSet(net2, new HashSet<Node>(net2.getTransitions()));
-			for (Node t : bp2.getEntities())
-				sizeRelation2 += bp2.getEntitiesInRelation(t, RelSetType.Exclusive).size();
-			
-			score = ((double)sizeRelation1 / (double)(bp1.getEntities().size() * bp1.getEntities().size()))/2.0 
-					+ ((double)sizeRelation2 / (double)(bp2.getEntities().size() * bp2.getEntities().size()))/2.0;
-			break;
-
-		case SizeStrictOrderRelationAbsolute:
-			sizeRelation1 = 0;
-			bp1 = BPCreatorUnfolding.getInstance().deriveRelationSet(net1, new HashSet<Node>(net1.getTransitions()));
-			for (Node t : bp1.getEntities())
-				sizeRelation1 += bp1.getEntitiesInRelation(t, RelSetType.Order).size();
-			
-			sizeRelation2 = 0;
-			bp2 = BPCreatorUnfolding.getInstance().deriveRelationSet(net2, new HashSet<Node>(net2.getTransitions()));
-			for (Node t : bp2.getEntities())
-				sizeRelation2 += bp2.getEntitiesInRelation(t, RelSetType.Order).size();
-			
-			score = ((double)sizeRelation1 / (double)(bp1.getEntities().size() * bp1.getEntities().size()))/2.0 
-					+ ((double)sizeRelation2 / (double)(bp2.getEntities().size() * bp2.getEntities().size()))/2.0;
-			break;
-			
-		case SizeConcurrencyRelationAbsolute:
-			sizeRelation1 = 0;
-			conc1 = new ConcurrencyRelation(net1);
-			for (Transition t1 : net1.getTransitions())
-				for (Transition t2 : net1.getTransitions())
-					sizeRelation1 += (conc1.areConcurrent(t1, t2))?1:0;
-			
-			sizeRelation2 = 0;
-			conc2 = new ConcurrencyRelation(net2);
-			for (Transition t1 : net2.getTransitions())
-				for (Transition t2 : net2.getTransitions())
-					sizeRelation1 += (conc2.areConcurrent(t1, t2))?1:0;
-			
-			score = ((double)sizeRelation1 / (double)(net1.getTransitions().size() * net1.getTransitions().size()))/2.0 
-					+ ((double)sizeRelation2 / (double)(net2.getTransitions().size() * net2.getTransitions().size()))/2.0;
-			break;
+//		case SizeExclusivenessRelationRelative:
+//			int sizeRelation1 = 0;
+//			BehaviouralProfile<NetSystem, Node> bp1 = BPCreatorUnfolding.getInstance().deriveRelationSet(net1, new HashSet<Node>(net1.getTransitions()));
+//			for (Node t : bp1.getEntities())
+//				sizeRelation1 += bp1.getEntitiesInRelation(t, RelSetType.Exclusive).size();
+//			
+//			int sizeRelation2 = 0;
+//			BehaviouralProfile<NetSystem, Node> bp2 = BPCreatorUnfolding.getInstance().deriveRelationSet(net2, new HashSet<Node>(net2.getTransitions()));
+//			for (Node t : bp2.getEntities())
+//				sizeRelation2 += bp2.getEntitiesInRelation(t, RelSetType.Exclusive).size();
+//			
+//			score = 1.0 - (
+//					(double)Math.abs(sizeRelation1 - sizeRelation2) / (double)Math.max(sizeRelation1, sizeRelation2));
+//			break;
+//
+//		case SizeStrictOrderRelationRelative:
+//			sizeRelation1 = 0;
+//			bp1 = BPCreatorUnfolding.getInstance().deriveRelationSet(net1, new HashSet<Node>(net1.getTransitions()));
+//			for (Node t : bp1.getEntities())
+//				sizeRelation1 += bp1.getEntitiesInRelation(t, RelSetType.Order).size();
+//			
+//			sizeRelation2 = 0;
+//			bp2 = BPCreatorUnfolding.getInstance().deriveRelationSet(net2, new HashSet<Node>(net2.getTransitions()));
+//			for (Node t : bp2.getEntities())
+//				sizeRelation2 += bp2.getEntitiesInRelation(t, RelSetType.Order).size();
+//			
+//			score = 1.0 - (
+//					(double)Math.abs(sizeRelation1 - sizeRelation2) / (double)Math.max(sizeRelation1, sizeRelation2));
+//			break;
+//
+//		case SizeConcurrencyRelationRelative:
+//			sizeRelation1 = 0;
+//			ConcurrencyRelation conc1 = new ConcurrencyRelation(net1);
+//			for (Transition t1 : net1.getTransitions())
+//				for (Transition t2 : net1.getTransitions())
+//					sizeRelation1 += (conc1.areConcurrent(t1, t2))?1:0;
+//			
+//			sizeRelation2 = 0;
+//			ConcurrencyRelation conc2 = new ConcurrencyRelation(net2);
+//			for (Transition t1 : net2.getTransitions())
+//				for (Transition t2 : net2.getTransitions())
+//					sizeRelation1 += (conc2.areConcurrent(t1, t2))?1:0;
+//			
+//			score = 1.0 - (
+//					(double)Math.abs(sizeRelation1 - sizeRelation2) / (double)Math.max(sizeRelation1, sizeRelation2));
+//			break;
+//			
+//		case SizeExclusivenessRelationAbsolute:
+//			sizeRelation1 = 0;
+//			bp1 = BPCreatorUnfolding.getInstance().deriveRelationSet(net1, new HashSet<Node>(net1.getTransitions()));
+//			for (Node t : bp1.getEntities())
+//				sizeRelation1 += bp1.getEntitiesInRelation(t, RelSetType.Exclusive).size();
+//			
+//			sizeRelation2 = 0;
+//			bp2 = BPCreatorUnfolding.getInstance().deriveRelationSet(net2, new HashSet<Node>(net2.getTransitions()));
+//			for (Node t : bp2.getEntities())
+//				sizeRelation2 += bp2.getEntitiesInRelation(t, RelSetType.Exclusive).size();
+//			
+//			score = ((double)sizeRelation1 / (double)(bp1.getEntities().size() * bp1.getEntities().size()))/2.0 
+//					+ ((double)sizeRelation2 / (double)(bp2.getEntities().size() * bp2.getEntities().size()))/2.0;
+//			break;
+//
+//		case SizeStrictOrderRelationAbsolute:
+//			sizeRelation1 = 0;
+//			bp1 = BPCreatorUnfolding.getInstance().deriveRelationSet(net1, new HashSet<Node>(net1.getTransitions()));
+//			for (Node t : bp1.getEntities())
+//				sizeRelation1 += bp1.getEntitiesInRelation(t, RelSetType.Order).size();
+//			
+//			sizeRelation2 = 0;
+//			bp2 = BPCreatorUnfolding.getInstance().deriveRelationSet(net2, new HashSet<Node>(net2.getTransitions()));
+//			for (Node t : bp2.getEntities())
+//				sizeRelation2 += bp2.getEntitiesInRelation(t, RelSetType.Order).size();
+//			
+//			score = ((double)sizeRelation1 / (double)(bp1.getEntities().size() * bp1.getEntities().size()))/2.0 
+//					+ ((double)sizeRelation2 / (double)(bp2.getEntities().size() * bp2.getEntities().size()))/2.0;
+//			break;
+//			
+//		case SizeConcurrencyRelationAbsolute:
+//			sizeRelation1 = 0;
+//			conc1 = new ConcurrencyRelation(net1);
+//			for (Transition t1 : net1.getTransitions())
+//				for (Transition t2 : net1.getTransitions())
+//					sizeRelation1 += (conc1.areConcurrent(t1, t2))?1:0;
+//			
+//			sizeRelation2 = 0;
+//			conc2 = new ConcurrencyRelation(net2);
+//			for (Transition t1 : net2.getTransitions())
+//				for (Transition t2 : net2.getTransitions())
+//					sizeRelation1 += (conc2.areConcurrent(t1, t2))?1:0;
+//			
+//			score = ((double)sizeRelation1 / (double)(net1.getTransitions().size() * net1.getTransitions().size()))/2.0 
+//					+ ((double)sizeRelation2 / (double)(net2.getTransitions().size() * net2.getTransitions().size()))/2.0;
+//			break;
 
 		default:
 			break;
