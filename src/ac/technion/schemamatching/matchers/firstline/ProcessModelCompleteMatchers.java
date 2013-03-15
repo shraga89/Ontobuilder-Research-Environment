@@ -30,7 +30,7 @@ public class ProcessModelCompleteMatchers implements FirstLineMatcher {
 	public enum ProcessModelMatcher {
 		PureTextMatcher,
 		GEDMatcher,
-		BPMatcher
+//		BPMatcher
 	}
 	
 	private ProcessModelMatcher currentMatcher = ProcessModelMatcher.PureTextMatcher;
@@ -66,9 +66,9 @@ public class ProcessModelCompleteMatchers implements FirstLineMatcher {
 			matcher = new TextMatcherVirtualDoc();
 			break;
 			
-		case BPMatcher:
-			matcher = new BPMatcher();
-			break;
+//		case BPMatcher:
+//			matcher = new BPMatcher();
+//			break;
 			
 		default:
 			break;
