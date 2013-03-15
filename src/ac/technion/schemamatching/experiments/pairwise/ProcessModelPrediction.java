@@ -4,6 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import org.jbpt.bp.BehaviouralProfile;
+import org.jbpt.bp.construct.BPCreatorUnfolding;
+import org.jbpt.petri.NetSystem;
+import org.jbpt.petri.Node;
+
 import matching.virtualdoc.VirtualDocParams;
 import nl.tue.tm.is.labelAnalyzer.interfaces.SemanticLanguage;
 import nl.tue.tm.is.labelAnalyzer.interfaces.SemanticLanguage.LanguageCode;
@@ -38,8 +43,8 @@ public class ProcessModelPrediction implements PairWiseExperiment {
 		/*
 		 * Language configuration
 		 */
-//		LanguageCode languageCode = LanguageCode.EN;
-		LanguageCode languageCode = LanguageCode.NL;
+		LanguageCode languageCode = LanguageCode.EN;
+//		LanguageCode languageCode = LanguageCode.NL;
 
 		SemanticLanguage.setLanguage(languageCode);
 		
@@ -57,6 +62,7 @@ public class ProcessModelPrediction implements PairWiseExperiment {
 
 		VirtualDocParams.stemmingLanguage = languageString;
 		VirtualDocParams.useStemming = true;
+		
 		
 		/*
 		 * 1. Check the actual results obtained with the complete matchers
@@ -81,7 +87,7 @@ public class ProcessModelPrediction implements PairWiseExperiment {
 		ProcessModelFLM flm = new ProcessModelFLM();
 		for (ProcessModelMatchStrategy strategy : ProcessModelMatchStrategy.values()) {
 			System.out.println("FLM: " + strategy.toString());
-			flm.setMatchingStrategy(strategy);
+			flm.setMatchingStrategy(strategy, languageCode);
 			MatchInformation miFirst = flm.match(esp.getCandidateOntology(), esp.getTargetOntology(), false);
 			
 			/*

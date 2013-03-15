@@ -185,7 +185,7 @@ public class ProcessModelFLM implements FirstLineMatcher {
 	private Graph loadGraphFromPNML(String filename){
 		PTNet ptnet = PTNet.loadPNML(filename);
 		for (nl.tue.tm.is.ptnet.Transition t : ptnet.transitions())
-			t.setName(t.getName().replace('.', ' '));
+			t.setName(t.getName().replace('.', ' ').trim());
 		Graph sg = new Graph(ptnet);
 		return sg;
 	}
