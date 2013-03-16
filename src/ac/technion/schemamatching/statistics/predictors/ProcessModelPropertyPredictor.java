@@ -177,8 +177,8 @@ public class ProcessModelPropertyPredictor implements Predictor {
 				lengthSum2 += t.getName().length();
 			avg2 = lengthSum2 / (double) target.getTermsCount();
 			
-			score = (1.0 - (double)Math.max(0,0.001*Math.pow(avg1-20,2)))/2.0 
-					+ (1.0 - (double)Math.max(0,0.001*Math.pow(avg2-20,2)))/2.0;
+			score = (1.0 - (double)Math.max(0,1.0-0.002*Math.pow(avg1-20,2)))/2.0 
+					+ (1.0 - (double)Math.max(0,1.0-0.002*Math.pow(avg2-20,2)))/2.0;
 					
 			break;
 
@@ -238,8 +238,8 @@ public class ProcessModelPropertyPredictor implements Predictor {
 			}
 			avgSyn2 = synSum2 / (double) target.getTermsCount();
 			
-			score = (1.0 - (double)Math.max(0,0.005*Math.pow(avgSyn1,2)))/2.0 
-					+ (1.0 - (double)Math.max(0,0.005*Math.pow(avgSyn2,2)))/2.0;
+			score = (1.0 - (double)Math.max(0,1.0-0.005*Math.pow(avgSyn1,2)))/2.0 
+					+ (1.0 - (double)Math.max(0,1.0-0.005*Math.pow(avgSyn2,2)))/2.0;
 			break;
 
 		case AvgNumberObjectSynsetsRelative:
@@ -270,8 +270,8 @@ public class ProcessModelPropertyPredictor implements Predictor {
 			}
 			avgSyn2 = synSum2 / (double) target.getTermsCount();
 			
-			score = (1.0 - (double)Math.max(0,0.005*Math.pow(avgSyn1,2)))/2.0 
-					+ (1.0 - (double)Math.max(0,0.005*Math.pow(avgSyn2,2)))/2.0;
+			score = (1.0 - (double)Math.max(0,1.0-0.005*Math.pow(avgSyn1,2)))/2.0 
+					+ (1.0 - (double)Math.max(0,1.0-0.005*Math.pow(avgSyn2,2)))/2.0;
 			break;
 
 			
@@ -316,8 +316,8 @@ public class ProcessModelPropertyPredictor implements Predictor {
 			rpst2 = new RPST<>(dg2);
 			depth2 = getMaxRPSTDepth(rpst2);
 			
-			score = (1.0 - (double)Math.max(0,0.04*Math.pow(depth1-1,2)))/2.0 
-				+ (1.0 - (double)Math.max(0,0.04*Math.pow(depth2-1,2)))/2.0;
+			score = (1.0 - (double)Math.max(0,1.0-0.02*Math.pow(depth1-1,2)))/2.0 
+				+ (1.0 - (double)Math.max(0,1.0-0.02*Math.pow(depth2-1,2)))/2.0;
 			break;
 
 		case RPSTWidthAbsolute:
@@ -327,8 +327,8 @@ public class ProcessModelPropertyPredictor implements Predictor {
 			rpst2 = new RPST<>(dg2);
 			width2 = getMaxRPSTWidth(rpst2);
 			
-			score = (1.0 - (double)Math.max(0,0.012*Math.pow(width1-1,2)))/2.0 
-					+ (1.0 - (double)Math.max(0,0.012*Math.pow(width2-1,2)))/2.0;
+			score = (1.0 - (double)Math.max(0,1.0-0.001*Math.pow(width1-1,2)))/2.0 
+					+ (1.0 - (double)Math.max(0,1.0-0.001*Math.pow(width2-1,2)))/2.0;
 			break;
 
 		case NumberRPSTFragmentTypesRelative:
@@ -389,7 +389,10 @@ public class ProcessModelPropertyPredictor implements Predictor {
 			}
 			double struct2 = ((double)nodesInRigid2.size())/((double)allNodes2);
 			
-			score = 1.0 - (
+			if (Math.max(struct1,struct2) == 0)
+				score = 1.0;
+			else 
+				score = 1.0 - (
 					(double)Math.abs(struct1 - struct2) 
 							/ (double)Math.max(struct1,struct2));
 			break;
@@ -487,8 +490,8 @@ public class ProcessModelPropertyPredictor implements Predictor {
 				degreeSum2 += net2.getPreset(n).size() + net2.getPostset(n).size();
 			avgDegree2 = degreeSum2 / (double)  net2.getNodes().size();
 
-			score = (1.0 - (double)Math.max(0,0.02*Math.pow(avgDegree1-2,2)))/2.0 
-					+ (1.0 - (double)Math.max(0,0.02*Math.pow(avgDegree2-2,2)))/2.0;
+			score = (1.0 - (double)Math.max(0,1.0-0.4*Math.pow(avgDegree1-2,2)))/2.0 
+					+ (1.0 - (double)Math.max(0,1.0-0.4*Math.pow(avgDegree2-2,2)))/2.0;
 			break;
 
 		case MaxNodeDegreeRelative:
@@ -513,8 +516,8 @@ public class ProcessModelPropertyPredictor implements Predictor {
 			for (Node n : net2.getNodes())
 				maxDegree2 = Math.max(maxDegree2, net2.getPreset(n).size() + net2.getPostset(n).size());
 			
-			score = (1.0 - (double)Math.max(0,0.01*Math.pow(maxDegree1-2,2)))/2.0 
-					+ (1.0 - (double)Math.max(0,0.01*Math.pow(maxDegree2-2,2)))/2.0;
+			score = (1.0 - (double)Math.max(0,1.0-0.04*Math.pow(maxDegree1-2,2)))/2.0 
+					+ (1.0 - (double)Math.max(0,1.0-0.04*Math.pow(maxDegree2-2,2)))/2.0;
 			break;
 			
 		/*
@@ -531,7 +534,10 @@ public class ProcessModelPropertyPredictor implements Predictor {
 			for (Node t : bp2.getEntities())
 				sizeRelation2 += bp2.getEntitiesInRelation(t, RelSetType.Exclusive).size();
 			
-			score = 1.0 - (
+			if (Math.max(sizeRelation1,sizeRelation2) == 0)
+				score = 1.0;
+			else 
+				score = 1.0 - (
 					(double)Math.abs(sizeRelation1 - sizeRelation2) / (double)Math.max(sizeRelation1, sizeRelation2));
 			break;
 
@@ -546,7 +552,10 @@ public class ProcessModelPropertyPredictor implements Predictor {
 			for (Node t : bp2.getEntities())
 				sizeRelation2 += bp2.getEntitiesInRelation(t, RelSetType.Order).size();
 			
-			score = 1.0 - (
+			if (Math.max(sizeRelation1,sizeRelation2) == 0)
+				score = 1.0;
+			else 
+				score = 1.0 - (
 					(double)Math.abs(sizeRelation1 - sizeRelation2) / (double)Math.max(sizeRelation1, sizeRelation2));
 			break;
 
@@ -563,7 +572,10 @@ public class ProcessModelPropertyPredictor implements Predictor {
 				for (Transition t2 : net2.getTransitions())
 					sizeRelation2 += (conc2.areConcurrent(t1, t2))?1:0;
 			
-			score = 1.0 - (
+			if (Math.max(sizeRelation1,sizeRelation2) == 0)
+				score = 1.0;
+			else 
+				score = 1.0 - (
 					(double)Math.abs(sizeRelation1 - sizeRelation2) / (double)Math.max(sizeRelation1, sizeRelation2));
 			break;
 			
