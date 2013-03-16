@@ -13,11 +13,11 @@ import nl.tue.tm.is.graph.Graph;
 import nl.tue.tm.is.graph.TwoValuedVertices;
 import nl.tue.tm.is.labelAnalyzer.interfaces.SemanticLanguage;
 import nl.tue.tm.is.labelAnalyzer.interfaces.SemanticLanguage.LanguageCode;
-import nl.tue.tm.is.ptnet.PTNet;
 import ac.technion.iem.ontobuilder.core.ontology.Ontology;
 import ac.technion.iem.ontobuilder.core.ontology.Term;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 import ac.technion.schemamatching.matchers.MatcherType;
+import ac.technion.schemamatching.util.ProcessModelUtils;
 
 public class ProcessModelFLM implements FirstLineMatcher {
 
@@ -142,24 +142,20 @@ public class ProcessModelFLM implements FirstLineMatcher {
 			break;
 		}
 		
-		Graph sg1 = loadGraphFromPNML(candidate.getFile().getPath());
-		Graph sg2 = loadGraphFromPNML(target.getFile().getPath());
+		Graph sg1 = ProcessModelUtils.loadGraphFromPNML(candidate.getFile().getPath());
+		Graph sg2 = ProcessModelUtils.loadGraphFromPNML(target.getFile().getPath());
 
 		MatchInformation result = new MatchInformation(candidate, target);
 		
 		//Initialize solution mappings
 		Set<TwoValuedVertices> solutions = searcher.search(sg1, sg2); 
 		for (TwoValuedVertices tvs: solutions){
+			if (sg1.getLabel(tvs.v1).isEmpty() || sg2.getLabel(tvs.v2).isEmpty())
+				continue;
 			Term candidateTerm = candidate.getTermByProvenance(sg1.getLabel(tvs.v1));
 			Term targetTerm = target.getTermByProvenance(sg2.getLabel(tvs.v2));
-			assert(candidateTerm != null);
-			assert(targetTerm != null);
-//			if (candidateTerm == null || targetTerm == null) {
-//				System.err.println("Term not found...");
-//				candidateTerm = candidate.getTermByProvenance(sg1.getLabel(tvs.v1));
-//				targetTerm = target.getTermByProvenance(sg2.getLabel(tvs.v2));
-//				
-//			}
+			assert(candidateTerm != null) : "Term not found " + sg1.getLabel(tvs.v1).toString();
+			assert(targetTerm != null) : "Term not found " + sg2.getLabel(tvs.v2).toString();
 			result.updateMatch(targetTerm, candidateTerm, tvs.v);
 		}
 
@@ -182,12 +178,4 @@ public class ProcessModelFLM implements FirstLineMatcher {
 		return 17;
 	}
 	
-	private Graph loadGraphFromPNML(String filename){
-		PTNet ptnet = PTNet.loadPNML(filename);
-		for (nl.tue.tm.is.ptnet.Transition t : ptnet.transitions())
-			t.setName(t.getName().replace('.', ' ').trim());
-		Graph sg = new Graph(ptnet);
-		return sg;
-	}
-
 }

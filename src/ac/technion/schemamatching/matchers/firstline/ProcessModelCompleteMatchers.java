@@ -10,33 +10,22 @@ import matching.matchers.predict.GEDMatcherWithOptSED;
 import matching.matchers.predict.TextMatcherVirtualDoc;
 import nl.tue.tm.is.graph.Graph;
 import nl.tue.tm.is.graph.TwoVertexSets;
-import nl.tue.tm.is.ptnet.PTNet;
-import nl.tue.tm.is.ptnet.Transition;
-
-import org.jbpt.bp.BehaviouralProfile;
-import org.jbpt.bp.construct.BPCreatorUnfolding;
-import org.jbpt.petri.NetSystem;
-import org.jbpt.petri.Node;
-import org.jbpt.petri.Place;
-import org.jbpt.petri.io.PNMLSerializer;
-
 import ac.technion.iem.ontobuilder.core.ontology.Ontology;
 import ac.technion.iem.ontobuilder.core.ontology.Term;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 import ac.technion.schemamatching.matchers.MatcherType;
+import ac.technion.schemamatching.util.ProcessModelUtils;
 
 public class ProcessModelCompleteMatchers implements FirstLineMatcher {
 	
 	public enum ProcessModelMatcher {
 		PureTextMatcher,
 		GEDMatcher,
-//		BPMatcher
+		BPMatcher
 	}
 	
 	private ProcessModelMatcher currentMatcher = ProcessModelMatcher.PureTextMatcher;
 
-	private PNMLSerializer serializer = new PNMLSerializer();
-	
 	@Override
 	public String getName() {
 		return currentMatcher.toString();
@@ -66,9 +55,9 @@ public class ProcessModelCompleteMatchers implements FirstLineMatcher {
 			matcher = new TextMatcherVirtualDoc();
 			break;
 			
-//		case BPMatcher:
-//			matcher = new BPMatcher();
-//			break;
+		case BPMatcher:
+			matcher = new BPMatcher();
+			break;
 			
 		default:
 			break;
@@ -82,8 +71,8 @@ public class ProcessModelCompleteMatchers implements FirstLineMatcher {
 			e.printStackTrace();
 		}
 		
-		Graph sg1 = loadGraphFromPNML(candidate.getFile().getPath());
-		Graph sg2 = loadGraphFromPNML(target.getFile().getPath());
+		Graph sg1 = ProcessModelUtils.loadGraphFromPNMLIncludingjBPTNetSystem(candidate.getFile().getPath());
+		Graph sg2 = ProcessModelUtils.loadGraphFromPNMLIncludingjBPTNetSystem(target.getFile().getPath());
 
 		MatchInformation result = new MatchInformation(candidate, target);
 
@@ -92,6 +81,8 @@ public class ProcessModelCompleteMatchers implements FirstLineMatcher {
 		for (TwoVertexSets tvs: solutionMappingSets){
 			for (Integer v1 : tvs.s1) {
 				for (Integer v2 : tvs.s2) {
+					if (sg1.getLabel(v1).isEmpty() || sg2.getLabel(v2).isEmpty())
+						continue;
 					Term candidateTerm = candidate.getTermByProvenance(sg1.getLabel(v1));
 					Term targetTerm = target.getTermByProvenance(sg2.getLabel(v2));
 					assert(candidateTerm != null): "Term not found " + sg1.getLabel(v1);
@@ -120,23 +111,4 @@ public class ProcessModelCompleteMatchers implements FirstLineMatcher {
 		return 18;
 	}
 	
-	public Graph loadGraphFromPNML(String filename){
-		PTNet ptnet = PTNet.loadPNML(filename);
-		for (Transition t : ptnet.transitions())
-			t.setName(t.getName().replace('.', ' ').trim());
-		
-		NetSystem system = serializer.parse(filename);
-		for (org.jbpt.petri.Transition t : system.getTransitions())
-			t.setName(t.getName().replace('.', ' ').trim());
-		
-		if (system.getMarkedPlaces().isEmpty())
-			for (Place p : system.getSourcePlaces())
-				system.getMarking().put(p, 1);
-
-		
-		Graph sg = new Graph(ptnet);
-		sg.setOriginalNetSystem(system);
-		return sg;
-	}
-
 }
