@@ -7,7 +7,6 @@ import java.util.Set;
 
 import nl.tue.tm.is.graph.Graph;
 import nl.tue.tm.is.labelAnalyzer.interfaces.SemanticLanguage.LanguageCode;
-import nl.tue.tm.is.ptnet.PTNet;
 
 import org.jbpt.algo.graph.DirectedGraphAlgorithms;
 import org.jbpt.algo.graph.TransitiveClosure;
@@ -31,8 +30,7 @@ import org.jbpt.petri.io.PNMLSerializer;
 import semanticTools.SemanticUtils;
 import ac.technion.iem.ontobuilder.core.ontology.Ontology;
 import ac.technion.iem.ontobuilder.core.ontology.Term;
-
-import com.mallardsoft.tuple.Pair;
+import ac.technion.schemamatching.util.ProcessModelUtils;
 
 
 public class ProcessModelPropertyPredictor implements Predictor {
@@ -62,7 +60,8 @@ public class ProcessModelPropertyPredictor implements Predictor {
 		RPSTWidthRelative,
 		RPSTDepthAbsolute,
 		RPSTWidthAbsolute,
-		RPSTFragmentTypes,
+		NumberRPSTFragmentTypesRelative,
+		NumberCommonRPSTFragmentTypesRelative,
 		StructurednessRelative,
 		StructurednessAbsolute,
 		NodesInCycle,
@@ -76,12 +75,12 @@ public class ProcessModelPropertyPredictor implements Predictor {
 		/*
 		 * Behavioural Properties
 		 */
-//		SizeExclusivenessRelationRelative,
-//		SizeStrictOrderRelationRelative,
-//		SizeConcurrencyRelationRelative,
-//		SizeExclusivenessRelationAbsolute,
-//		SizeStrictOrderRelationAbsolute,
-//		SizeConcurrencyRelationAbsolute,
+		SizeExclusivenessRelationRelative,
+		SizeStrictOrderRelationRelative,
+		SizeConcurrencyRelationRelative,
+		SizeExclusivenessRelationAbsolute,
+		SizeStrictOrderRelationAbsolute,
+		SizeConcurrencyRelationAbsolute,
 		
 	}
 	
@@ -144,11 +143,11 @@ public class ProcessModelPropertyPredictor implements Predictor {
 		
 		DirectedGraphAlgorithms<Flow, Node> dga = new DirectedGraphAlgorithms<>();
 		
-		Graph sg1 = loadGraphFromPNML(candidate.getFile().getPath());
-		Graph sg2 = loadGraphFromPNML(target.getFile().getPath());
+		Graph sg1 = ProcessModelUtils.loadGraphFromPNML(candidate.getFile().getPath());
+		Graph sg2 = ProcessModelUtils.loadGraphFromPNML(target.getFile().getPath());
 		
-		DirectedGraph dg1 = graphTransform(sg1);
-		DirectedGraph dg2 = graphTransform(sg2);
+		DirectedGraph dg1 = ProcessModelUtils.graphTransform(sg1);
+		DirectedGraph dg2 = ProcessModelUtils.graphTransform(sg2);
 		
 		switch (this.currentProperty) {
 		/*
@@ -213,12 +212,12 @@ public class ProcessModelPropertyPredictor implements Predictor {
 
 		case AvgNumberActionSynsetsRelative:
 			double synSum1 = 0.0;
-			for (Term t : candidate.getTerms(true))
-				synSum1 += SemanticUtils.getNumberOfActionSynsetsInWordNet(languageCode, t.getName(), sg1);
+			for (Term t : candidate.getTerms(true)) 
+				synSum1 += SemanticUtils.getNumberOfObjectSynsetsInWordNet(languageCode, t.getName(), sg1);
 			double avgSyn1 = synSum1 / (double) candidate.getTermsCount();
 			double synSum2 = 0.0;
 			for (Term t : target.getTerms(true))
-				synSum2 += SemanticUtils.getNumberOfActionSynsetsInWordNet(languageCode, t.getName(), sg2);
+				synSum2 += SemanticUtils.getNumberOfObjectSynsetsInWordNet(languageCode, t.getName(), sg2);
 			double avgSyn2 = synSum2 / (double) target.getTermsCount();
 			
 			score = 1.0 - (
@@ -227,12 +226,16 @@ public class ProcessModelPropertyPredictor implements Predictor {
 
 		case AvgNumberActionSynsetsAbsolute:
 			synSum1 = 0.0;
-			for (Term t : candidate.getTerms(true))
-				synSum1 += SemanticUtils.getNumberOfActionSynsetsInWordNet(languageCode, t.getName(), sg1);
+			for (Term t : candidate.getTerms(true)) {
+				int number = SemanticUtils.getNumberOfActionSynsetsInWordNet(languageCode, t.getName(), sg1);
+				synSum1 += (number > 0)? number : 1;
+			}
 			avgSyn1 = synSum1 / (double) candidate.getTermsCount();
 			synSum2 = 0.0;
-			for (Term t : target.getTerms(true))
-				synSum2 += SemanticUtils.getNumberOfActionSynsetsInWordNet(languageCode, t.getName(), sg2);
+			for (Term t : target.getTerms(true)){
+				int number = SemanticUtils.getNumberOfActionSynsetsInWordNet(languageCode, t.getName(), sg2);
+				synSum2 += (number > 0)? number : 1;
+			}
 			avgSyn2 = synSum2 / (double) target.getTermsCount();
 			
 			score = (1.0 - (double)Math.max(0,0.005*Math.pow(avgSyn1,2)))/2.0 
@@ -255,12 +258,16 @@ public class ProcessModelPropertyPredictor implements Predictor {
 
 		case AvgNumberObjectSynsetsAbsolute:
 			synSum1 = 0.0;
-			for (Term t : candidate.getTerms(true))
-				synSum1 += SemanticUtils.getNumberOfObjectSynsetsInWordNet(languageCode, t.getName(), sg1);
+			for (Term t : candidate.getTerms(true)) {
+				int number = SemanticUtils.getNumberOfActionSynsetsInWordNet(languageCode, t.getName(), sg1);
+				synSum1 += (number > 0)? number : 1;
+			}
 			avgSyn1 = synSum1 / (double) candidate.getTermsCount();
 			synSum2 = 0.0;
-			for (Term t : target.getTerms(true))
-				synSum2 += SemanticUtils.getNumberOfObjectSynsetsInWordNet(languageCode, t.getName(), sg2);
+			for (Term t : target.getTerms(true)) {
+				int number = SemanticUtils.getNumberOfActionSynsetsInWordNet(languageCode, t.getName(), sg2);
+				synSum2 += (number > 0)? number : 1;
+			}
 			avgSyn2 = synSum2 / (double) target.getTermsCount();
 			
 			score = (1.0 - (double)Math.max(0,0.005*Math.pow(avgSyn1,2)))/2.0 
@@ -280,10 +287,10 @@ public class ProcessModelPropertyPredictor implements Predictor {
 			
 		case RPSTDepthRelative:
 			RPST<DirectedEdge, Vertex> rpst1 = new RPST<>(dg1);
-			int depth1 = getRPSTDepth(rpst1);
+			int depth1 = getMaxRPSTDepth(rpst1);
 			
 			RPST<DirectedEdge, Vertex> rpst2 = new RPST<>(dg2);
-			int depth2 = getRPSTDepth(rpst2);
+			int depth2 = getMaxRPSTDepth(rpst2);
 			
 			score = 1.0 - (
 					(double)Math.abs(depth1 - depth2) 
@@ -292,10 +299,10 @@ public class ProcessModelPropertyPredictor implements Predictor {
 
 		case RPSTWidthRelative:
 			rpst1 = new RPST<>(dg1);
-			int width1 = getRPSTWidth(rpst1);
+			int width1 = getMaxRPSTWidth(rpst1);
 			
 			rpst2 = new RPST<>(dg2);
-			int width2 = getRPSTWidth(rpst2);
+			int width2 = getMaxRPSTWidth(rpst2);
 			
 			score = 1.0 - (
 					(double)Math.abs(width1 - width2) 
@@ -304,10 +311,10 @@ public class ProcessModelPropertyPredictor implements Predictor {
 
 		case RPSTDepthAbsolute:
 			rpst1 = new RPST<>(dg1);
-			depth1 = getRPSTDepth(rpst1);
+			depth1 = getMaxRPSTDepth(rpst1);
 			
 			rpst2 = new RPST<>(dg2);
-			depth2 = getRPSTDepth(rpst2);
+			depth2 = getMaxRPSTDepth(rpst2);
 			
 			score = (1.0 - (double)Math.max(0,0.04*Math.pow(depth1-1,2)))/2.0 
 				+ (1.0 - (double)Math.max(0,0.04*Math.pow(depth2-1,2)))/2.0;
@@ -315,16 +322,16 @@ public class ProcessModelPropertyPredictor implements Predictor {
 
 		case RPSTWidthAbsolute:
 			rpst1 = new RPST<>(dg1);
-			width1 = getRPSTWidth(rpst1);
+			width1 = getMaxRPSTWidth(rpst1);
 			
 			rpst2 = new RPST<>(dg2);
-			width2 = getRPSTWidth(rpst2);
+			width2 = getMaxRPSTWidth(rpst2);
 			
 			score = (1.0 - (double)Math.max(0,0.012*Math.pow(width1-1,2)))/2.0 
 					+ (1.0 - (double)Math.max(0,0.012*Math.pow(width2-1,2)))/2.0;
 			break;
 
-		case RPSTFragmentTypes:
+		case NumberRPSTFragmentTypesRelative:
 			rpst1 = new RPST<>(dg1);
 			Set<TCType> types1 = new HashSet<>();
 			for (IRPSTNode<DirectedEdge, Vertex> n : rpst1.getVertices())
@@ -338,6 +345,24 @@ public class ProcessModelPropertyPredictor implements Predictor {
 			score = 1.0 - (
 					(double)Math.abs(types1.size() - types2.size()) 
 							/ (double)Math.max(types1.size(),types2.size()));
+			break;
+			
+		case NumberCommonRPSTFragmentTypesRelative:
+			rpst1 = new RPST<>(dg1);
+			types1 = new HashSet<>();
+			for (IRPSTNode<DirectedEdge, Vertex> n : rpst1.getVertices())
+				types1.add(n.getType());
+			
+			rpst2 = new RPST<>(dg2);
+			types2 = new HashSet<>();
+			for (IRPSTNode<DirectedEdge, Vertex> n : rpst2.getVertices())
+				types2.add(n.getType());
+			
+			Set<TCType> all = new HashSet<>(types1);
+			all.addAll(types2);
+			types1.retainAll(types2);
+			
+			score = ((double)types1.size()) / ((double) all.size());
 			break;
 
 		case StructurednessRelative:
@@ -410,7 +435,10 @@ public class ProcessModelPropertyPredictor implements Predictor {
 				if (tc2.isInLoop(n))
 					nodesInCycle2++;
 
-			score = 1.0 - (
+			if (Math.max(nodesInCycle1,nodesInCycle2) == 0)
+				score = 1.0;
+			else 
+				score = 1.0 - (
 					(double)Math.abs(nodesInCycle1 - nodesInCycle2) 
 							/ (double)Math.max(nodesInCycle1,nodesInCycle2));
 			break;
@@ -434,15 +462,15 @@ public class ProcessModelPropertyPredictor implements Predictor {
 			break;
 
 		case AvgNodeDegreeRelative:
-			int degreeSum1 = 0;
-			for (Transition n : net1.getTransitions())
+			double degreeSum1 = 0;
+			for (Node n : net1.getNodes())
 				degreeSum1 += net1.getPreset(n).size() + net1.getPostset(n).size();
-			double avgDegree1 = degreeSum1 / (double)  net1.getTransitions().size();
+			double avgDegree1 = degreeSum1 / (double)  net1.getNodes().size();
 			
-			int degreeSum2 = 0;
-			for (Transition n : net2.getTransitions())
+			double degreeSum2 = 0;
+			for (Node n : net2.getNodes())
 				degreeSum2 += net2.getPreset(n).size() + net2.getPostset(n).size();
-			double avgDegree2 = degreeSum2 / (double)  net2.getTransitions().size();
+			double avgDegree2 = degreeSum2 / (double)  net2.getNodes().size();
 			
 			score = 1.0 - (
 					(double)Math.abs(avgDegree1 - avgDegree2) / (double)Math.max(avgDegree1, avgDegree2));
@@ -450,14 +478,14 @@ public class ProcessModelPropertyPredictor implements Predictor {
 
 		case AvgNodeDegreeAbsolute:
 			degreeSum1 = 0;
-			for (Transition n : net1.getTransitions())
+			for (Node n : net1.getNodes())
 				degreeSum1 += net1.getPreset(n).size() + net1.getPostset(n).size();
-			avgDegree1 = degreeSum1 / (double)  net1.getTransitions().size();
+			avgDegree1 = degreeSum1 / (double)  net1.getNodes().size();
 			
 			degreeSum2 = 0;
-			for (Transition n : net2.getTransitions())
+			for (Node n : net2.getNodes())
 				degreeSum2 += net2.getPreset(n).size() + net2.getPostset(n).size();
-			avgDegree2 = degreeSum2 / (double)  net2.getTransitions().size();
+			avgDegree2 = degreeSum2 / (double)  net2.getNodes().size();
 
 			score = (1.0 - (double)Math.max(0,0.02*Math.pow(avgDegree1-2,2)))/2.0 
 					+ (1.0 - (double)Math.max(0,0.02*Math.pow(avgDegree2-2,2)))/2.0;
@@ -465,11 +493,11 @@ public class ProcessModelPropertyPredictor implements Predictor {
 
 		case MaxNodeDegreeRelative:
 			int maxDegree1 = 0;
-			for (Transition n : net1.getTransitions())
+			for (Node n : net1.getNodes())
 				maxDegree1 = Math.max(maxDegree1, net1.getPreset(n).size() + net1.getPostset(n).size());
 			
 			int maxDegree2 = 0;
-			for (Transition n : net2.getTransitions())
+			for (Node n : net2.getNodes())
 				maxDegree2 = Math.max(maxDegree2, net2.getPreset(n).size() + net2.getPostset(n).size());
 			
 			score = 1.0 - (
@@ -478,11 +506,11 @@ public class ProcessModelPropertyPredictor implements Predictor {
 
 		case MaxNodeDegreeAbsolute:
 			maxDegree1 = 0;
-			for (Transition n : net1.getTransitions())
+			for (Node n : net1.getNodes())
 				maxDegree1 = Math.max(maxDegree1, net1.getPreset(n).size() + net1.getPostset(n).size());
 			
 			maxDegree2 = 0;
-			for (Transition n : net2.getTransitions())
+			for (Node n : net2.getNodes())
 				maxDegree2 = Math.max(maxDegree2, net2.getPreset(n).size() + net2.getPostset(n).size());
 			
 			score = (1.0 - (double)Math.max(0,0.01*Math.pow(maxDegree1-2,2)))/2.0 
@@ -492,99 +520,99 @@ public class ProcessModelPropertyPredictor implements Predictor {
 		/*
 		 * Behavioural Properties
 		 */
-//		case SizeExclusivenessRelationRelative:
-//			int sizeRelation1 = 0;
-//			BehaviouralProfile<NetSystem, Node> bp1 = BPCreatorUnfolding.getInstance().deriveRelationSet(net1, new HashSet<Node>(net1.getTransitions()));
-//			for (Node t : bp1.getEntities())
-//				sizeRelation1 += bp1.getEntitiesInRelation(t, RelSetType.Exclusive).size();
-//			
-//			int sizeRelation2 = 0;
-//			BehaviouralProfile<NetSystem, Node> bp2 = BPCreatorUnfolding.getInstance().deriveRelationSet(net2, new HashSet<Node>(net2.getTransitions()));
-//			for (Node t : bp2.getEntities())
-//				sizeRelation2 += bp2.getEntitiesInRelation(t, RelSetType.Exclusive).size();
-//			
-//			score = 1.0 - (
-//					(double)Math.abs(sizeRelation1 - sizeRelation2) / (double)Math.max(sizeRelation1, sizeRelation2));
-//			break;
-//
-//		case SizeStrictOrderRelationRelative:
-//			sizeRelation1 = 0;
-//			bp1 = BPCreatorUnfolding.getInstance().deriveRelationSet(net1, new HashSet<Node>(net1.getTransitions()));
-//			for (Node t : bp1.getEntities())
-//				sizeRelation1 += bp1.getEntitiesInRelation(t, RelSetType.Order).size();
-//			
-//			sizeRelation2 = 0;
-//			bp2 = BPCreatorUnfolding.getInstance().deriveRelationSet(net2, new HashSet<Node>(net2.getTransitions()));
-//			for (Node t : bp2.getEntities())
-//				sizeRelation2 += bp2.getEntitiesInRelation(t, RelSetType.Order).size();
-//			
-//			score = 1.0 - (
-//					(double)Math.abs(sizeRelation1 - sizeRelation2) / (double)Math.max(sizeRelation1, sizeRelation2));
-//			break;
-//
-//		case SizeConcurrencyRelationRelative:
-//			sizeRelation1 = 0;
-//			ConcurrencyRelation conc1 = new ConcurrencyRelation(net1);
-//			for (Transition t1 : net1.getTransitions())
-//				for (Transition t2 : net1.getTransitions())
-//					sizeRelation1 += (conc1.areConcurrent(t1, t2))?1:0;
-//			
-//			sizeRelation2 = 0;
-//			ConcurrencyRelation conc2 = new ConcurrencyRelation(net2);
-//			for (Transition t1 : net2.getTransitions())
-//				for (Transition t2 : net2.getTransitions())
-//					sizeRelation1 += (conc2.areConcurrent(t1, t2))?1:0;
-//			
-//			score = 1.0 - (
-//					(double)Math.abs(sizeRelation1 - sizeRelation2) / (double)Math.max(sizeRelation1, sizeRelation2));
-//			break;
-//			
-//		case SizeExclusivenessRelationAbsolute:
-//			sizeRelation1 = 0;
-//			bp1 = BPCreatorUnfolding.getInstance().deriveRelationSet(net1, new HashSet<Node>(net1.getTransitions()));
-//			for (Node t : bp1.getEntities())
-//				sizeRelation1 += bp1.getEntitiesInRelation(t, RelSetType.Exclusive).size();
-//			
-//			sizeRelation2 = 0;
-//			bp2 = BPCreatorUnfolding.getInstance().deriveRelationSet(net2, new HashSet<Node>(net2.getTransitions()));
-//			for (Node t : bp2.getEntities())
-//				sizeRelation2 += bp2.getEntitiesInRelation(t, RelSetType.Exclusive).size();
-//			
-//			score = ((double)sizeRelation1 / (double)(bp1.getEntities().size() * bp1.getEntities().size()))/2.0 
-//					+ ((double)sizeRelation2 / (double)(bp2.getEntities().size() * bp2.getEntities().size()))/2.0;
-//			break;
-//
-//		case SizeStrictOrderRelationAbsolute:
-//			sizeRelation1 = 0;
-//			bp1 = BPCreatorUnfolding.getInstance().deriveRelationSet(net1, new HashSet<Node>(net1.getTransitions()));
-//			for (Node t : bp1.getEntities())
-//				sizeRelation1 += bp1.getEntitiesInRelation(t, RelSetType.Order).size();
-//			
-//			sizeRelation2 = 0;
-//			bp2 = BPCreatorUnfolding.getInstance().deriveRelationSet(net2, new HashSet<Node>(net2.getTransitions()));
-//			for (Node t : bp2.getEntities())
-//				sizeRelation2 += bp2.getEntitiesInRelation(t, RelSetType.Order).size();
-//			
-//			score = ((double)sizeRelation1 / (double)(bp1.getEntities().size() * bp1.getEntities().size()))/2.0 
-//					+ ((double)sizeRelation2 / (double)(bp2.getEntities().size() * bp2.getEntities().size()))/2.0;
-//			break;
-//			
-//		case SizeConcurrencyRelationAbsolute:
-//			sizeRelation1 = 0;
-//			conc1 = new ConcurrencyRelation(net1);
-//			for (Transition t1 : net1.getTransitions())
-//				for (Transition t2 : net1.getTransitions())
-//					sizeRelation1 += (conc1.areConcurrent(t1, t2))?1:0;
-//			
-//			sizeRelation2 = 0;
-//			conc2 = new ConcurrencyRelation(net2);
-//			for (Transition t1 : net2.getTransitions())
-//				for (Transition t2 : net2.getTransitions())
-//					sizeRelation1 += (conc2.areConcurrent(t1, t2))?1:0;
-//			
-//			score = ((double)sizeRelation1 / (double)(net1.getTransitions().size() * net1.getTransitions().size()))/2.0 
-//					+ ((double)sizeRelation2 / (double)(net2.getTransitions().size() * net2.getTransitions().size()))/2.0;
-//			break;
+		case SizeExclusivenessRelationRelative:
+			int sizeRelation1 = 0;
+			BehaviouralProfile<NetSystem, Node> bp1 = BPCreatorUnfolding.getInstance().deriveRelationSet(net1, new HashSet<Node>(net1.getTransitions()));
+			for (Node t : bp1.getEntities())
+				sizeRelation1 += bp1.getEntitiesInRelation(t, RelSetType.Exclusive).size();
+			
+			int sizeRelation2 = 0;
+			BehaviouralProfile<NetSystem, Node> bp2 = BPCreatorUnfolding.getInstance().deriveRelationSet(net2, new HashSet<Node>(net2.getTransitions()));
+			for (Node t : bp2.getEntities())
+				sizeRelation2 += bp2.getEntitiesInRelation(t, RelSetType.Exclusive).size();
+			
+			score = 1.0 - (
+					(double)Math.abs(sizeRelation1 - sizeRelation2) / (double)Math.max(sizeRelation1, sizeRelation2));
+			break;
+
+		case SizeStrictOrderRelationRelative:
+			sizeRelation1 = 0;
+			bp1 = BPCreatorUnfolding.getInstance().deriveRelationSet(net1, new HashSet<Node>(net1.getTransitions()));
+			for (Node t : bp1.getEntities())
+				sizeRelation1 += bp1.getEntitiesInRelation(t, RelSetType.Order).size();
+			
+			sizeRelation2 = 0;
+			bp2 = BPCreatorUnfolding.getInstance().deriveRelationSet(net2, new HashSet<Node>(net2.getTransitions()));
+			for (Node t : bp2.getEntities())
+				sizeRelation2 += bp2.getEntitiesInRelation(t, RelSetType.Order).size();
+			
+			score = 1.0 - (
+					(double)Math.abs(sizeRelation1 - sizeRelation2) / (double)Math.max(sizeRelation1, sizeRelation2));
+			break;
+
+		case SizeConcurrencyRelationRelative:
+			sizeRelation1 = 0;
+			ConcurrencyRelation conc1 = new ConcurrencyRelation(net1);
+			for (Transition t1 : net1.getTransitions())
+				for (Transition t2 : net1.getTransitions())
+					sizeRelation1 += (conc1.areConcurrent(t1, t2))?1:0;
+			
+			sizeRelation2 = 0;
+			ConcurrencyRelation conc2 = new ConcurrencyRelation(net2);
+			for (Transition t1 : net2.getTransitions())
+				for (Transition t2 : net2.getTransitions())
+					sizeRelation2 += (conc2.areConcurrent(t1, t2))?1:0;
+			
+			score = 1.0 - (
+					(double)Math.abs(sizeRelation1 - sizeRelation2) / (double)Math.max(sizeRelation1, sizeRelation2));
+			break;
+			
+		case SizeExclusivenessRelationAbsolute:
+			sizeRelation1 = 0;
+			bp1 = BPCreatorUnfolding.getInstance().deriveRelationSet(net1, new HashSet<Node>(net1.getTransitions()));
+			for (Node t : bp1.getEntities())
+				sizeRelation1 += bp1.getEntitiesInRelation(t, RelSetType.Exclusive).size();
+			
+			sizeRelation2 = 0;
+			bp2 = BPCreatorUnfolding.getInstance().deriveRelationSet(net2, new HashSet<Node>(net2.getTransitions()));
+			for (Node t : bp2.getEntities())
+				sizeRelation2 += bp2.getEntitiesInRelation(t, RelSetType.Exclusive).size();
+			
+			score = ((double)sizeRelation1 / (double)(bp1.getEntities().size() * bp1.getEntities().size()))/2.0 
+					+ ((double)sizeRelation2 / (double)(bp2.getEntities().size() * bp2.getEntities().size()))/2.0;
+			break;
+
+		case SizeStrictOrderRelationAbsolute:
+			sizeRelation1 = 0;
+			bp1 = BPCreatorUnfolding.getInstance().deriveRelationSet(net1, new HashSet<Node>(net1.getTransitions()));
+			for (Node t : bp1.getEntities())
+				sizeRelation1 += bp1.getEntitiesInRelation(t, RelSetType.Order).size();
+			
+			sizeRelation2 = 0;
+			bp2 = BPCreatorUnfolding.getInstance().deriveRelationSet(net2, new HashSet<Node>(net2.getTransitions()));
+			for (Node t : bp2.getEntities())
+				sizeRelation2 += bp2.getEntitiesInRelation(t, RelSetType.Order).size();
+			
+			score = ((double)sizeRelation1 / (double)(bp1.getEntities().size() * bp1.getEntities().size()))/2.0 
+					+ ((double)sizeRelation2 / (double)(bp2.getEntities().size() * bp2.getEntities().size()))/2.0;
+			break;
+			
+		case SizeConcurrencyRelationAbsolute:
+			sizeRelation1 = 0;
+			conc1 = new ConcurrencyRelation(net1);
+			for (Transition t1 : net1.getTransitions())
+				for (Transition t2 : net1.getTransitions())
+					sizeRelation1 += (conc1.areConcurrent(t1, t2))?1:0;
+			
+			sizeRelation2 = 0;
+			conc2 = new ConcurrencyRelation(net2);
+			for (Transition t1 : net2.getTransitions())
+				for (Transition t2 : net2.getTransitions())
+					sizeRelation2 += (conc2.areConcurrent(t1, t2))?1:0;
+			
+			score = ((double)sizeRelation1 / (double)(net1.getTransitions().size() * net1.getTransitions().size()))/2.0 
+					+ ((double)sizeRelation2 / (double)(net2.getTransitions().size() * net2.getTransitions().size()))/2.0;
+			break;
 
 		default:
 			break;
@@ -593,46 +621,45 @@ public class ProcessModelPropertyPredictor implements Predictor {
 		return score;
 	}
 	
-	private int getRPSTDepth(RPST<DirectedEdge, Vertex> rpst) {
+	private int getMaxRPSTDepth(RPST<DirectedEdge, Vertex> rpst) {
+		Map<IRPSTNode<DirectedEdge, Vertex>, Integer> depths = getRPSTDepth(rpst);
 		int result = 0;
-		for (IRPSTNode<DirectedEdge, Vertex> n : rpst.getVertices())
-			result = Math.max(result,n.getHeight());
+		for (Integer i : depths.values())
+			result = Math.max(result,i);
 		return result;
 	}
+	
+	private Map<IRPSTNode<DirectedEdge, Vertex>, Integer> getRPSTDepth(RPST<DirectedEdge, Vertex> rpst) {
+		Map<IRPSTNode<DirectedEdge, Vertex>, Integer> depths = new HashMap<>();
+		Set<IRPSTNode<DirectedEdge, Vertex>> open = new HashSet<>();
+		open.addAll(rpst.getChildren(rpst.getRoot()));		
+		depths.put(rpst.getRoot(), 1);
+		while (!open.isEmpty()) {
+			IRPSTNode<DirectedEdge, Vertex> n = open.iterator().next();
+			open.remove(n);
+			open.addAll(rpst.getChildren(n));
+			depths.put(n,depths.get(rpst.getParent(n))+1);
+		}
+		return depths;
+	}
 
-	private int getRPSTWidth(RPST<DirectedEdge, Vertex> rpst) {
+	private Map<Integer, Integer> getRPSTWidth(RPST<DirectedEdge, Vertex> rpst) {
+		Map<IRPSTNode<DirectedEdge, Vertex>, Integer> depths = getRPSTDepth(rpst);
+		Map<Integer, Integer> widths = new HashMap<>();
+		for (IRPSTNode<DirectedEdge, Vertex> n : depths.keySet()) {
+			if (!widths.containsKey(depths.get(n)))
+				widths.put(depths.get(n), 1);
+			else 
+				widths.put(depths.get(n), widths.get(depths.get(n)) + 1);
+		}
+		return widths;
+	}
+
+	private int getMaxRPSTWidth(RPST<DirectedEdge, Vertex> rpst) {
+		Map<Integer, Integer> widths = getRPSTWidth(rpst);
 		int result = 0;
-		for (IRPSTNode<DirectedEdge, Vertex> n : rpst.getVertices())
-			result = Math.max(result,n.getWidth());
-		return result;
-	}
-
-	private Graph loadGraphFromPNML(String filename){
-		PTNet ptnet = PTNet.loadPNML(filename);
-		for (nl.tue.tm.is.ptnet.Transition t : ptnet.transitions())
-			t.setName(t.getName().replace('.', ' ').trim());
-		Graph sg = new Graph(ptnet);
-		return sg;
-	}
-
-	private DirectedGraph graphTransform(Graph g) {
-		DirectedGraph result = new DirectedGraph();
-		result.setId(g.getId());
-		result.setName(g.getId());
-		
-		Map<Integer,Vertex> vertex2vertex = new HashMap<Integer,Vertex>();
-
-		for (Integer n : g.getVertices()) {
-			Vertex v = new Vertex(g.getLabel(n));
-			vertex2vertex.put(n, v);
-			result.addVertex(v);
-		}
-		
-		for (Pair<Integer, Integer> e : g.getEdges()) {
-			Vertex src = vertex2vertex.get(Pair.get1(e));
-			Vertex tar = vertex2vertex.get(Pair.get2(e));
-			result.addEdge(src, tar);
-		}
+		for (Integer i : widths.values())
+			result = Math.max(result,i);
 		return result;
 	}
 	
