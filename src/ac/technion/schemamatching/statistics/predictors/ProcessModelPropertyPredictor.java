@@ -177,8 +177,8 @@ public class ProcessModelPropertyPredictor implements Predictor {
 				lengthSum2 += t.getName().length();
 			avg2 = lengthSum2 / (double) target.getTermsCount();
 			
-			score = (1.0 - (double)Math.max(0,1.0-0.002*Math.pow(avg1-20,2)))/2.0 
-					+ (1.0 - (double)Math.max(0,1.0-0.002*Math.pow(avg2-20,2)))/2.0;
+			score = (1.0 - (double)Math.max(0,1.0-0.004*Math.pow(avg1-20,2)))/2.0 
+					+ (1.0 - (double)Math.max(0,1.0-0.004*Math.pow(avg2-20,2)))/2.0;
 					
 			break;
 
