@@ -34,7 +34,7 @@ public class AttributeNBGolden implements K2Statistic {
 	public boolean init(String instanceDescription, MatchInformation mi, MatchInformation exactMatch) {
 		data = new ArrayList<String[]>();
 		header = new String[]{"instance","Precision","Recall"};
-		if (mi.getMatchMatrix().length<=exactMatch.getMatchMatrix().length)
+		if (mi.getMatchMatrix().length<exactMatch.getMatchMatrix().length)
 			try {
 				mi = ConversionUtils.expandMatrix(mi,exactMatch);
 			} catch (Exception e) {
@@ -72,7 +72,7 @@ public class AttributeNBGolden implements K2Statistic {
 	private double calcSMPrecision(Double[] vRes,Double[] vExact) {
 		double len = SimilarityVectorUtils.calcL1Length(vRes);
 		double res = (len==0.0?0.0:SimilarityVectorUtils.calcDotProduct(vRes, vExact)/Math.pow(SimilarityVectorUtils.calcL1Length(vRes),2));
-		return res;
+		return StatisticsUtils.setDoubleValueInUnitBounds(res);
 	}
 	
 	/**
@@ -84,7 +84,9 @@ public class AttributeNBGolden implements K2Statistic {
 	private double calcSMRecall(Double[] vRes,Double[] vExact) {
 		double len = SimilarityVectorUtils.calcL1Length(vExact);
 		double res = (len==0.0?0.0:SimilarityVectorUtils.calcDotProduct(vRes, vExact)/Math.pow(SimilarityVectorUtils.calcL1Length(vExact),2));
-		return res;
+		return StatisticsUtils.setDoubleValueInUnitBounds(res);
 	}
+	
+	
 
 }
