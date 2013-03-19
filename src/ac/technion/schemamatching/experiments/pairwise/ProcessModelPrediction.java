@@ -132,18 +132,18 @@ public class ProcessModelPrediction implements PairWiseExperiment {
 		/*
 		 * 3. Consider all process model property predictors
 		 */
-		DummyStatistic stat = new DummyStatistic();
-		stat.setName("ProcessModelPropertyPrediction");
-		stat.setHeader(new String[]{"ID","Predictor","Value"});
-		List<String[]> statData= new ArrayList<>();
-
-		ProcessModelPropertyPredictor predictor = new ProcessModelPropertyPredictor(esp.getCandidateOntology(), esp.getTargetOntology(),languageCode);
-		for (ProcessModelProperty property : ProcessModelProperty.values()) {
-			predictor.setProperty(property);
-			statData.add(new String[]{String.valueOf(esp.getID()), predictor.getName(), String.valueOf(predictor.getRes())});
-		}
-		stat.setData(statData);
-		results.add(stat);
+//		DummyStatistic stat = new DummyStatistic();
+//		stat.setName("ProcessModelPropertyPrediction");
+//		stat.setHeader(new String[]{"ID","Predictor","Value"});
+//		List<String[]> statData= new ArrayList<>();
+//
+//		ProcessModelPropertyPredictor predictor = new ProcessModelPropertyPredictor(esp.getCandidateOntology(), esp.getTargetOntology(),languageCode);
+//		for (ProcessModelProperty property : ProcessModelProperty.values()) {
+//			predictor.setProperty(property);
+//			statData.add(new String[]{String.valueOf(esp.getID()), predictor.getName(), String.valueOf(predictor.getRes())});
+//		}
+//		stat.setData(statData);
+//		results.add(stat);
 		
 		return results;
 	}

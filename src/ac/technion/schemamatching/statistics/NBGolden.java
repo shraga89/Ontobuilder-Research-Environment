@@ -46,8 +46,8 @@ public class NBGolden implements K2Statistic {
 			prod+=(tpVal*val);
 			mLen+=val;
 		}
-		Double precision = (mLen==0.0?0.0:prod/mLen);
-		Double recall = (exactLen==0.0?0.0:prod/exactLen);
+		Double precision = StatisticsUtils.setDoubleValueInUnitBounds((mLen==0.0?0.0:prod/mLen));
+		Double recall = StatisticsUtils.setDoubleValueInUnitBounds((exactLen==0.0?0.0:prod/exactLen));
 		Double f = 2d * (precision * recall) / (precision + recall);
 		Double overall = recall * (2d - 1d / precision);
 		

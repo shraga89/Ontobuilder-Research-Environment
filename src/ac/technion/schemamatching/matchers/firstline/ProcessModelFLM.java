@@ -156,6 +156,7 @@ public class ProcessModelFLM implements FirstLineMatcher {
 			Term targetTerm = target.getTermByProvenance(sg2.getLabel(tvs.v2));
 			assert(candidateTerm != null) : "Term not found " + sg1.getLabel(tvs.v1).toString();
 			assert(targetTerm != null) : "Term not found " + sg2.getLabel(tvs.v2).toString();
+			assert(tvs.v <= 1.0) : "Confidence value above one " + tvs.v;
 			result.updateMatch(targetTerm, candidateTerm, tvs.v);
 		}
 
