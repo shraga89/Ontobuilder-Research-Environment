@@ -1,8 +1,10 @@
 package ac.technion.schemamatching.experiments.pairwise;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
+import java.util.Set;
 
 import matching.virtualdoc.VirtualDocParams;
 import nl.tue.tm.is.labelAnalyzer.interfaces.SemanticLanguage;
@@ -31,6 +33,8 @@ public class ProcessModelPrediction implements PairWiseExperiment {
 
 	private List<SecondLineMatcher> slM;
 	
+	public Set<Integer> dutchSPIDs;
+
 	@Override
 	public List<Statistic> runExperiment(ExperimentSchemaPair esp) {
 		
@@ -40,7 +44,8 @@ public class ProcessModelPrediction implements PairWiseExperiment {
 		 * Language configuration
 		 */
 		LanguageCode languageCode = LanguageCode.EN;
-//		LanguageCode languageCode = LanguageCode.NL;
+		if (this.dutchSPIDs.contains(esp.getID()))
+			languageCode = LanguageCode.NL;
 
 		SemanticLanguage.setLanguage(languageCode);
 		
@@ -65,6 +70,9 @@ public class ProcessModelPrediction implements PairWiseExperiment {
 		 */
 		ProcessModelCompleteMatchers completeMatchers = new ProcessModelCompleteMatchers();
 		for(ProcessModelMatcher matcher : ProcessModelMatcher.values()) {
+			if (this.dutchSPIDs.contains(esp.getID()) && matcher.equals(ProcessModelMatcher.BPMatcher))
+				continue;
+			
 			System.out.println("Complete Matcher: " + matcher.toString());
 			
 			completeMatchers.setMatchingStrategy(matcher);
@@ -132,18 +140,25 @@ public class ProcessModelPrediction implements PairWiseExperiment {
 		/*
 		 * 3. Consider all process model property predictors
 		 */
-//		DummyStatistic stat = new DummyStatistic();
-//		stat.setName("ProcessModelPropertyPrediction");
-//		stat.setHeader(new String[]{"ID","Predictor","Value"});
-//		List<String[]> statData= new ArrayList<>();
-//
-//		ProcessModelPropertyPredictor predictor = new ProcessModelPropertyPredictor(esp.getCandidateOntology(), esp.getTargetOntology(),languageCode);
-//		for (ProcessModelProperty property : ProcessModelProperty.values()) {
-//			predictor.setProperty(property);
-//			statData.add(new String[]{String.valueOf(esp.getID()), predictor.getName(), String.valueOf(predictor.getRes())});
-//		}
-//		stat.setData(statData);
-//		results.add(stat);
+		DummyStatistic stat = new DummyStatistic();
+		stat.setName("ProcessModelPropertyPrediction");
+		stat.setHeader(new String[]{"ID","Predictor","Value"});
+		List<String[]> statData= new ArrayList<>();
+
+		ProcessModelPropertyPredictor predictor = new ProcessModelPropertyPredictor(esp.getCandidateOntology(), esp.getTargetOntology(),languageCode);
+		for (ProcessModelProperty property : ProcessModelProperty.values()) {
+			if (this.dutchSPIDs.contains(esp.getID()) && 
+					(property.toString().toLowerCase().contains("exclusiveness") || 
+							property.toString().toLowerCase().contains("strictorder") || 
+							property.toString().toLowerCase().contains("concurrency")))
+				continue;
+
+			
+			predictor.setProperty(property);
+			statData.add(new String[]{String.valueOf(esp.getID()), predictor.getName(), String.valueOf(predictor.getRes())});
+		}
+		stat.setData(statData);
+		results.add(stat);
 		
 		return results;
 	}
@@ -152,6 +167,25 @@ public class ProcessModelPrediction implements PairWiseExperiment {
 	public boolean init(OBExperimentRunner oer, Properties properties,
 			ArrayList<FirstLineMatcher> flM, ArrayList<SecondLineMatcher> slM) {
 		this.slM = slM;
+		
+		dutchSPIDs = new HashSet<>();
+		dutchSPIDs.add(2839);
+		dutchSPIDs.add(2840);
+		dutchSPIDs.add(2841);
+		dutchSPIDs.add(2842);
+		dutchSPIDs.add(2843);
+		dutchSPIDs.add(2844);
+		dutchSPIDs.add(2845);
+		dutchSPIDs.add(2846);
+		dutchSPIDs.add(2847);
+		dutchSPIDs.add(2848);
+		dutchSPIDs.add(2849);
+		dutchSPIDs.add(2850);
+		dutchSPIDs.add(2851);
+		dutchSPIDs.add(2852);
+		dutchSPIDs.add(2853);
+		dutchSPIDs.add(2854);
+		dutchSPIDs.add(2855);
 		
 		return true;
 	}
