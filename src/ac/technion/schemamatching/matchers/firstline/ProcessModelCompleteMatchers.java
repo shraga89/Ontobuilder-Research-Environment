@@ -6,7 +6,7 @@ import java.util.Set;
 
 import matching.matchers.Matcher;
 import matching.matchers.predict.BPMatcher;
-import matching.matchers.predict.GEDMatcherWithOptSED;
+import matching.matchers.predict.GEDMatcher;
 import matching.matchers.predict.TextMatcherVirtualDoc;
 import nl.tue.tm.is.graph.Graph;
 import nl.tue.tm.is.graph.TwoVertexSets;
@@ -24,7 +24,7 @@ public class ProcessModelCompleteMatchers implements FirstLineMatcher {
 		BPMatcher
 	}
 	
-	private ProcessModelMatcher currentMatcher = ProcessModelMatcher.PureTextMatcher;
+	private ProcessModelMatcher currentMatcher = ProcessModelMatcher.GEDMatcher;
 
 	@Override
 	public String getName() {
@@ -48,7 +48,7 @@ public class ProcessModelCompleteMatchers implements FirstLineMatcher {
 		
 		switch (this.currentMatcher) {
 		case GEDMatcher:
-			matcher = new GEDMatcherWithOptSED();
+			matcher = new GEDMatcher();
 			break;
 			
 		case PureTextMatcher:
@@ -108,7 +108,7 @@ public class ProcessModelCompleteMatchers implements FirstLineMatcher {
 
 	@Override
 	public int getDBid() {
-		return 18;
+		return 19;
 	}
 	
 }

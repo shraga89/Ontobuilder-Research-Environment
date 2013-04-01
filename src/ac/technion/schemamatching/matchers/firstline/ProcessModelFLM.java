@@ -24,8 +24,8 @@ public class ProcessModelFLM implements FirstLineMatcher {
 	public enum ProcessModelMatchStrategy {
 		// textual similarities
 		OptSEDOverActivityLabels,
-		OptSEDOverRoles,
-		OptSEDOverData,
+//		OptSEDOverRoles,
+//		OptSEDOverData,
 		LinOverActivities,
 		LinOverActivitiesWithObjects,
 		LinOverActionsOfActivities,
@@ -89,19 +89,19 @@ public class ProcessModelFLM implements FirstLineMatcher {
 		case OptSEDOverActivityLabels:
 			searcher = new OptSEDOverAttributeLabels(Graph.ATTRIBUTE_LABEL, this.languageString);
 			break;
-		case OptSEDOverRoles:
-			attributes.add(Graph.ATTRIBUTE_UITVOERENDE);
-			attributes.add(Graph.ATTRIBUTE_RESPONSIBLE);
-			searcher = new OptSEDOverAttributeLabels(attributes, this.languageString);
-			break;
-
-		case OptSEDOverData:
-			attributes.add(Graph.ATTRIBUTE_DATA);
-			attributes.add(Graph.ATTRIBUTE_DATA_OBJECTEN);
-			attributes.add(Graph.ATTRIBUTE_INPUTS);
-			attributes.add(Graph.ATTRIBUTE_OUTPUTS);
-			searcher = new OptSEDOverAttributeLabels(attributes, this.languageString);
-			break;
+//		case OptSEDOverRoles:
+//			attributes.add(Graph.ATTRIBUTE_UITVOERENDE);
+//			attributes.add(Graph.ATTRIBUTE_RESPONSIBLE);
+//			searcher = new OptSEDOverAttributeLabels(attributes, this.languageString);
+//			break;
+//
+//		case OptSEDOverData:
+//			attributes.add(Graph.ATTRIBUTE_DATA);
+//			attributes.add(Graph.ATTRIBUTE_DATA_OBJECTEN);
+//			attributes.add(Graph.ATTRIBUTE_INPUTS);
+//			attributes.add(Graph.ATTRIBUTE_OUTPUTS);
+//			searcher = new OptSEDOverAttributeLabels(attributes, this.languageString);
+//			break;
 			
 		case VirtualDocs:
 			searcher = new StandardVirtualDocForDistanceSetPredictionSearcher(0);
@@ -176,7 +176,7 @@ public class ProcessModelFLM implements FirstLineMatcher {
 
 	@Override
 	public int getDBid() {
-		return 17;
+		return 18;
 	}
 	
 }
