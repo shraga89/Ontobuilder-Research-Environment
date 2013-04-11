@@ -11,6 +11,7 @@ import ac.technion.schemamatching.experiments.OBExperimentRunner;
 import ac.technion.schemamatching.matchers.firstline.FirstLineMatcher;
 import ac.technion.schemamatching.matchers.secondline.SecondLineMatcher;
 import ac.technion.schemamatching.statistics.K2Statistic;
+import ac.technion.schemamatching.statistics.MappingPrinter;
 import ac.technion.schemamatching.statistics.Statistic;
 import ac.technion.schemamatching.statistics.VectorPrinterUsingExact;
 import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
@@ -35,14 +36,18 @@ public class VectorPrinting implements PairWiseExperiment {
 			//Match
 			MatchInformation mi = m.match(esp.getCandidateOntology(), esp.getTargetOntology(), false);
 			K2Statistic v = new VectorPrinterUsingExact();
+			MappingPrinter mp = new MappingPrinter();
 			v.init(m.getName(), mi,esp.getExact());
 			vectors.add(v);
 			for (SecondLineMatcher slm : slM)
 			{
 				MatchInformation mi1 = slm.match(mi);
 			    K2Statistic v2 = new VectorPrinterUsingExact();
-				v2.init(m.getName() + "," + slm.getName(), mi1,esp.getExact());
+			    String instanceDescription = m.getName() + "," + slm.getName() +"," + esp.getID(); 
+				v2.init(instanceDescription,mi1);
+				mp.init(instanceDescription, mi1);
 				vectors.add(v2);
+				vectors.add(mp);
 			}
 		}
 		return vectors;
