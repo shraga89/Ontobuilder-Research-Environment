@@ -17,7 +17,7 @@ public enum FLMList {AMCDataType(new AMCDataType()),AMCName(new AMCName())
 	OBSimilarityFlooding(new OBSimilarityFlooding()),OBTerm(new OBTermMatch()),
 	OBValue(new OBValueMatch()),OBTermValue(new OBTermValueMatch()),OBCombined(new OBCombined())
 	,Instance(new InstanceMatcher()),OBDomain(new DomainMatch())
-	,TermOrder(new TermOrder()),ProcessModel(new ProcessModelFLM());
+	,TermOrder(new TermOrder()), WordNet(new OBWordNet()),ProcessModel(new ProcessModelFLM());
 
 private FLMList(FirstLineMatcher flm)
 {
