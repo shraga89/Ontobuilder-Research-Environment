@@ -12,10 +12,12 @@ import java.util.HashMap;
  *
  */
 public enum FLMList {AMCDataType(new AMCDataType()),AMCName(new AMCName())
-	,AMCTokenPath(new AMCTokenPath()),AMCPath(new AMCPath()),AMCSibling(new AMCSibling()),OBGraphMatch(new OBGraphMatch())
-	,OBPrecedence(new OBPrecedenceMatch()),OBSimilarityFlooding(new OBSimilarityFlooding())
-	,OBTerm(new OBTermMatch()),OBValue(new OBValueMatch()), Instance(new InstanceMatcher())
-	,OBDomain(new DomainMatch()),TermOrder(new TermOrder()),ProcessModel(new ProcessModelFLM());
+	,AMCTokenPath(new AMCTokenPath()),AMCPath(new AMCPath()),AMCSibling(new AMCSibling())
+	,OBGraphMatch(new OBGraphMatch()),OBPrecedence(new OBPrecedenceMatch()),
+	OBSimilarityFlooding(new OBSimilarityFlooding()),OBTerm(new OBTermMatch()),
+	OBValue(new OBValueMatch()),OBTermValue(new OBTermValueMatch()),OBCombined(new OBCombined())
+	,Instance(new InstanceMatcher()),OBDomain(new DomainMatch())
+	,TermOrder(new TermOrder()),ProcessModel(new ProcessModelFLM());
 
 private FLMList(FirstLineMatcher flm)
 {
