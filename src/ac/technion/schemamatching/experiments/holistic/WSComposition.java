@@ -19,7 +19,6 @@ import ac.technion.schemamatching.experiments.OBExperimentRunner;
 import ac.technion.schemamatching.matchers.firstline.FirstLineMatcher;
 import ac.technion.schemamatching.matchers.firstline.OBTermMatch;
 import ac.technion.schemamatching.matchers.secondline.OBDominants;
-import ac.technion.schemamatching.matchers.secondline.OBStableMarriage;
 import ac.technion.schemamatching.matchers.secondline.SecondLineMatcher;
 import ac.technion.schemamatching.statistics.DummyStatistic;
 import ac.technion.schemamatching.statistics.Statistic;
@@ -34,8 +33,6 @@ public class WSComposition implements HolisticExperiment{
 
 	
 	private Map<Map<String, String>,Map<String, String>> pairs;
-	
-	private List<FirstLineMatcher> flM;
 	
 	private Map<String, String> fixedPairs = new HashMap<>();
 	
@@ -194,8 +191,6 @@ public class WSComposition implements HolisticExperiment{
 	
 	public boolean init(OBExperimentRunner oer, Properties properties,
 			ArrayList<FirstLineMatcher> flM, ArrayList<SecondLineMatcher> slM) {
-		
-		this.flM = (List<FirstLineMatcher>)flM;
 		
 		this.pairs = new HashMap<>();
 		
