@@ -557,7 +557,8 @@ public class OBExperimentRunner {
 			ArrayList<String[]> data = new ArrayList<String[]>();
 			for (Statistic s : collected.get(statName))
 			{
-				data.addAll(s.getData());
+				if (s.getData() != null)
+					data.addAll(s.getData());
 			}
 			outputAsCSV(header,data,f);
 		}
