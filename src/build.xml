@@ -1,52 +1,111 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<project default="create_run_jar" name="Create Runnable Jar for Project OntobuilderResearchEnvironment with libraries in sub-folder">
-    <!--this file was created by Eclipse Runnable JAR Export Wizard-->
-    <!--ANT 1.7 is required                                        -->
-    <target name="create_run_jar">
-    	<property name="srcdir" location=".."/>
-    	<property name="builddir" location="C:\Users\Tomer\Dropbox\Technion\Research\OREStaging"/>
-    	<property name="libdir" location = "${srcdir}/lib"/>
-        <jar destfile="${builddir}/ORE.jar">
-            <manifest>
-                <attribute name="Main-Class" value="ac.technion.schemamatching.experiments.OBExperimentRunner"/>
-                <attribute name="Class-Path" value=". lib/commons-math-2.1.jar 
-                	lib/jsci-core.jar 
-                	lib/datafile.jar 
-                	lib/DBInterface.jar 
-                	lib/DataManagementLayer.jar 
-                	lib/amc_cli.jar lib/guava-r09.jar 
-                	lib/ontobuilder.core.jar 
-                	lib/ontobuilder.extraction.webform.jar 
-                	lib/ontobuilder.io.jar 
-                	lib/ontobuilder.matching.jar 
-                	lib/mysql-connector-java-5.1.10-bin.jar
-                	lib/jdom.jar
-                	lib/cm.jar
-                	lib/jing.jar
-            		lib/Tidy.jar
-                	lib/wsdl4j.jar
-                	lib/SMB.jar
-                	lib/xsom.jar
-                	lib/jbpt-0.2.314.jar
-                	lib/ws4j-1.0.0-SNAPSHOT.jar
-                	lib/easywsdl-schema-2.1.jar
-                	lib/easywsdl-wsdl-2.1.jar"/>
-            </manifest>
-            <fileset dir="${srcdir}/bin"/>
-        </jar>
-        <delete dir="${builddir}/lib"/>
-        <mkdir dir="${builddir}/lib"/>
-    	<copy  todir="${builddir}/lib" overwrite="true">
-    	    		<fileset dir="${libdir}"/>
-    	    	</copy>
-    	<copy  todir="${builddir}/dtds" overwrite="true">
-    		<fileset dir="${srcdir}/dtds"/>
+<project name="ORE" default="Build With libs">
+	
+	<property name="app.name" value="OntoBuilder"/>
+	<property name="app.vendor" value="Technion - Israel Institute of Technology"/>
+	<property name="app.version" value="2.2"/>
+
+	<!-- Directories -->
+	<property name="target.dir" value="C:\Users\Tomer\Dropbox\Technion\Research\OREStaging"/>
+	<property name="bin.dir" value="../bin"/>
+	<property name="dtd.dir" value="../dtds"/>
+	<property name="xsd.dir" value="../xsd"/>
+	<property name="config.dir" value="../config"/>
+	<property name="cornetto.dir" value="../lib/cornetto"/>
+	<property name="wordnet.dir" value="../lib/wordnet"/>
+	<property name="lib.dir" value="${target.dir}/lib"/>
+
+	<!-- JAR File Names and Paths-->
+	<property name="ORE.jar" value="${target.dir}/ORE.jar"/>
+	
+	<path id="libraries.ref" description="Path with all the libraries">
+	    <fileset dir="${lib.dir}" includes="*.jar"/>
+  	</path>
+	
+	<path id="all.jars.ref" description="Path with the application JAR files and all the libraries">
+		<path refid="libraries.ref" />
+	    <fileset dir="${target.dir}" includes="*.jar"/>
+  	</path>
+	
+	
+	
+	<tstamp/> <!-- Initialize the timestamp variables -->
+
+
+	<!-- - - - - - - - - - - - - - - - - - 
+	          target: Clean ORE              
+	          Clean jar
+	         - - - - - - - - - - - - - - - - - -->
+	    <target name="Clean ORE">
+	        <delete file="${ORE.jar}" />
+	    </target>
+	
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: Clean All              
+          Clean all the directories
+         - - - - - - - - - - - - - - - - - -->
+    <target name="Clean All" depends="Clean ORE">
+    	<delete dir="${target.dir}/${dtd.dir}"/>
+    	<delete dir="${target.dir}/${xsd.dir}"/>
+    	<delete dir="${target.dir}/${config.dir}"/>
+    	<delete dir="${target.dir}/${lib.dir}"/>
+    </target>
+
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: Copy All
+          Copy the relevant files from the project                      
+         - - - - - - - - - - - - - - - - - -->
+    <target name="Copy All" depends="Clean All">
+    	<copy todir="${target.dir}/${lib.dir}" description="Copy libraries">
+    		<fileset dir="${lib.dir}" />
     	</copy>
-    	<copy todir="${builddir}/config" overwrite="true">
-    		<fileset dir="${srcdir}/config" />
+    	<copy todir="${target.dir}/${dtd.dir}" description="Copy DTD files">
+    		<fileset dir="${dtd.dir}"></fileset>
     	</copy>
-    	<copy todir="${builddir}/xsd">
-    		<fileset dir="${srcdir}/xsd" />
+    	<copy todir="${target.dir}/${xsd.dir}" description="Copy XSD fiels">
+    		<fileset dir="${xsd.dir}"></fileset>
+    	</copy>
+    	<copy todir="${target.dir}/${config.dir}" description="Copy only common configuration files">
+    		<fileset dir="${config.dir}"></fileset>
     	</copy>
     </target>
+	
+	<!-- - - - - - - - - - - - - - - - - - 
+          target: ORE - Jar              
+          Create the JAR file
+         - - - - - - - - - - - - - - - - - -->
+    <target name="ORE - Jar" depends="Clean ORE">
+    	<manifestclasspath property="manifest_cp" jarfile="${ORE.jar}">
+			<classpath refid="libraries.ref" />
+    	</manifestclasspath>
+    	<jar destfile="${ORE.jar}" basedir="${bin.dir}">
+    		<manifest>
+    			<attribute name="Built-By" value="${user.name}"/>
+    			<attribute name="Build-Date" value="${TODAY}"/>
+    			<attribute name="Specification-Title" value="${app.name} - Core"/>
+    			<attribute name="Specification-Vendor" value="${app.vendor}"/>
+    			<attribute name="Implementation-Title" value="${app.name} - Core"/>
+    			<attribute name="Implementation-Vendor" value="${app.vendor}"/>
+    	    	<attribute name="Main-Class" value="ac/technion/schemamatching/experiments/OBExperimentRunner"/>
+    			<attribute name="Class-Path" value="${manifest_cp}" />
+    		</manifest>
+    	</jar>
+  	
+    </target>
+	
+	<!-- ================================= 
+          target: Build With libs              
+         ================================= -->
+    <target name="Build With libs" depends="Copy All, ORE - Jar" description="Build ORE with libraries">
+    	<delete dir="${src.dir}"/>
+    	<delete dir="${build.dir}"/>
+    </target>
+	
+
+	
+	<!-- ================================= 
+          target: Build Without libs              
+         ================================= -->
+	<target name="Build Without libs" depends="ORE - Jar" description="Build ORE without libraries"/>
+		
+	
 </project>

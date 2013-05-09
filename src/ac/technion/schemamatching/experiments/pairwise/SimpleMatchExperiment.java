@@ -54,7 +54,7 @@ public class SimpleMatchExperiment implements PairWiseExperiment {
 			for (SecondLineMatcher s : slM)
 			{
 				//Second Line Match
-				if (!s.init(properties)) 
+				if (properties == null || !s.init(properties)) 
 					System.err.println("Initialization of " + s.getName() + 
 							"failed, we hope the author defined default values...");
 				MatchInformation mi1 = s.match(mi);

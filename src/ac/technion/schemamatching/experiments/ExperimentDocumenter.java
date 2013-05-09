@@ -78,8 +78,10 @@ public class ExperimentDocumenter
 	 */
 	public long documentExperiment(String experimentDescription)
 	{
-		//set the current EID to be one past the largest EID 
-		long eid = (Integer.parseInt((OBExperimentRunner.getOER().getDB().runSelectQuery("SELECT Max(EID) FROM experiments;",1)).get(0)[0]))+1; //write a query which retrieves the maximal EID in the db
+		//set the current EID to be one past the largest EID
+		String maxIDstr = (OBExperimentRunner.getOER().getDB().runSelectQuery("SELECT Max(EID) FROM experiments;",1)).get(0)[0];
+		long maxID = (maxIDstr == null?0:Long.parseLong(maxIDstr));
+		long eid = maxID+1; //write a query which retrieves the maximal EID in the db
 		HashMap<Field, Object> values = new HashMap<Field, Object>();
 	    values.put(new Field("EID",FieldType.LONG),eid);
 	    values.put(new Field("ExperimentDesc",FieldType.STRING),experimentDescription);
