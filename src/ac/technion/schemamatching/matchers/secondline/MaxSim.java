@@ -1,6 +1,8 @@
 package ac.technion.schemamatching.matchers.secondline;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Random;
@@ -16,7 +18,8 @@ import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
  * selection will always take the attribute with the highest similarity
  * and implements a random choice if there are multiple candidates
  * for an attribute (i.e., multiple attributes have the same maximal
- * similarity).
+ * similarity). Also, a random choice is taken if an attribute is not 
+ * matched to any attribute of the other schema.
  * 
  * @author Matthias Weidlich
  */
@@ -58,32 +61,42 @@ public class MaxSim implements SecondLineMatcher {
 		for (Term t : candidates) {
 			Term match = null;
 			Double eff = 0.0;
+			List<Term> matched = new ArrayList<>();
 			for (Match m : mi.getCopyOfMatches()) {
 				if (m.getCandidateTerm().equals(t) && r(m.getEffectiveness()) == r(maxForCandidates.get(t))) {
-					match = m.getTargetTerm();
+					matched.add(m.getTargetTerm());
 					eff = m.getEffectiveness();
 				}
 			}
-			
-			if (match == null) {
+
+			if (matched.isEmpty()) {
 				match = targets.get(rand.nextInt(targets.size()));
 			}
-			res.updateMatch(t, match, eff);
+			else {
+				match = matched.get(rand.nextInt(matched.size()));
+			}
+			
+			res.updateMatch(match, t, eff);
 		}
 		for (Term t : targets) {
 			Term match = null;
 			Double eff = 0.0;
+			List<Term> matched = new ArrayList<>();
 			for (Match m : mi.getCopyOfMatches()) {
 				if (m.getTargetTerm().equals(t) && r(m.getEffectiveness()) == r(maxForTargets.get(t))) {
-					match = m.getCandidateTerm();
+					matched.add(m.getTargetTerm());
 					eff = m.getEffectiveness();
 				}
 			}
 			
-			if (match == null) {
+			if (matched.isEmpty()) {
 				match = candidates.get(rand.nextInt(candidates.size()));
 			}
-			res.updateMatch(match, t, eff);
+			else {
+				match = matched.get(rand.nextInt(matched.size()));
+			}
+			
+			res.updateMatch(t, match, eff);
 		}
 
 		return res;
