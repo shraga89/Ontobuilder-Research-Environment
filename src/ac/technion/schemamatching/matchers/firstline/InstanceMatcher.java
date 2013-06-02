@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Vector;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -24,6 +25,98 @@ import ac.technion.iem.ontobuilder.core.ontology.Term;
 import ac.technion.iem.ontobuilder.matching.match.Match;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 import ac.technion.schemamatching.matchers.MatcherType;
+/**
+ * @author Anna Margolin
+ * Instance based matcher, based on entity resolution. 
+ */
+public class InstanceMatcher implements FirstLineMatcher {
+	double theta=0.5;
+	
+	/**
+	 * Default constructor sets threshold to 0.5;
+	 */
+	public InstanceMatcher()
+	{}
+	/**
+	 * constructor creates new matcher instance
+	 * @param t threshold
+	 */
+	public InstanceMatcher(double t){
+		theta=t;
+	}
+	
+	/* (non-Javadoc)
+	 * @see ac.technion.schemamatching.matchers.firstline.FirstLineMatcher#getName()
+	 */
+	public String getName() {
+		return "Instance Matcher";
+	}
+
+	/* (non-Javadoc)
+	 * @see ac.technion.schemamatching.matchers.firstline.FirstLineMatcher#hasBinary()
+	 */
+	public boolean hasBinary() {
+		return false;
+	}
+	
+	/* (non-Javadoc)
+	 * @see ac.technion.schemamatching.matchers.firstline.FirstLineMatcher#match(ac.technion.iem.ontobuilder.core.ontology.Ontology, ac.technion.iem.ontobuilder.core.ontology.Ontology, boolean)
+	 */
+	public MatchInformation match(Ontology candidate, Ontology target,
+			boolean binary) {
+		//get candidate and target terms
+		Vector<Term> cTerms = candidate.getTerms(true);
+		Vector<Term> tTerms = target.getTerms(true);
+		
+		//get candidate and target data files
+		File f = candidate.getFile();
+		String fileDir = f.getParent();
+		File candidateInstancefile = 
+			new File(fileDir,candidate.getName().substring(0,candidate.getName().length()+(candidate.getName().contains(".xsd")?-4:0))+".xml");
+		
+		
+		File targetFile=target.getFile();
+		String targetDir=targetFile.getParent();
+		File targetInstanceFile= new File(targetDir,target.getName().substring(0,target.getName().length()+(candidate.getName().contains(".xsd")?-4:0))+".xml");
+		
+		//create and run Instance Matcher
+		IM im=new IM(cTerms,candidateInstancefile,tTerms,targetInstanceFile,theta);
+		ArrayList<Match> algoRes = im.run();
+		
+		//fill result object
+		MatchInformation res = new MatchInformation(candidate,target);
+		for (Match mt : algoRes)
+		{
+			res.updateMatch(mt.getTargetTerm(), mt.getCandidateTerm(), mt.getEffectiveness());
+		}
+		
+		return res;
+	}
+
+	/* (non-Javadoc)
+	 * @see ac.technion.schemamatching.matchers.firstline.FirstLineMatcher#getConfig()
+	 */
+	public String getConfig() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 * @see ac.technion.schemamatching.matchers.firstline.FirstLineMatcher#getType()
+	 */
+	public MatcherType getType() {
+		return MatcherType.INSTANCE;
+	}
+
+	/* (non-Javadoc)
+	 * @see ac.technion.schemamatching.matchers.firstline.FirstLineMatcher#getDBid()
+	 */
+	public int getDBid() {
+		return 13;
+	}
+	
+
+}
 /**
  * 
  * @author Anna Margolin
@@ -470,98 +563,6 @@ class IM{
 double termsim(String ta,String tb){
 	return 1-(double)LevenshteinDistance.computeLevenshteinDistance(ta, tb)/Math.max(ta.length(), tb.length());
 }
-}
-/**
- * @author Anna Margolin
- * WIP: Instance based matcher, based on entity resolution
- */
-public class InstanceMatcher implements FirstLineMatcher {
-	double theta=0.5;
-	
-	/**
-	 * Default constructor sets threshold to 0.5;
-	 */
-	public InstanceMatcher()
-	{}
-	/**
-	 * constructor creates new matcher instance
-	 * @param t threshold
-	 */
-	public InstanceMatcher(double t){
-		theta=t;
-	}
-	
-	/* (non-Javadoc)
-	 * @see ac.technion.schemamatching.matchers.firstline.FirstLineMatcher#getName()
-	 */
-	public String getName() {
-		return "Instance Matcher";
-	}
-
-	/* (non-Javadoc)
-	 * @see ac.technion.schemamatching.matchers.firstline.FirstLineMatcher#hasBinary()
-	 */
-	public boolean hasBinary() {
-		return false;
-	}
-	
-	/* (non-Javadoc)
-	 * @see ac.technion.schemamatching.matchers.firstline.FirstLineMatcher#match(ac.technion.iem.ontobuilder.core.ontology.Ontology, ac.technion.iem.ontobuilder.core.ontology.Ontology, boolean)
-	 */
-	public MatchInformation match(Ontology candidate, Ontology target,
-			boolean binary) {
-		//get candidate and target terms
-		Vector<Term> cTerms = candidate.getTerms(true);
-		Vector<Term> tTerms = target.getTerms(true);
-		
-		//get candidate and target data files
-		File f = candidate.getFile();
-		String fileDir = f.getParent();
-		File candidateInstancefile = 
-			new File(fileDir,candidate.getName().substring(0,candidate.getName().length()+(candidate.getName().contains(".xsd")?-4:0))+".xml");
-		
-		
-		File targetFile=target.getFile();
-		String targetDir=targetFile.getParent();
-		File targetInstanceFile= new File(targetDir,target.getName().substring(0,target.getName().length()+(candidate.getName().contains(".xsd")?-4:0))+".xml");
-		
-		//create and run Instance Matcher
-		IM im=new IM(cTerms,candidateInstancefile,tTerms,targetInstanceFile,theta);
-		ArrayList<Match> algoRes = im.run();
-		
-		//fill result object
-		MatchInformation res = new MatchInformation(candidate,target);
-		for (Match mt : algoRes)
-		{
-			res.updateMatch(mt.getTargetTerm(), mt.getCandidateTerm(), mt.getEffectiveness());
-		}
-		
-		return res;
-	}
-
-	/* (non-Javadoc)
-	 * @see ac.technion.schemamatching.matchers.firstline.FirstLineMatcher#getConfig()
-	 */
-	public String getConfig() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/* (non-Javadoc)
-	 * @see ac.technion.schemamatching.matchers.firstline.FirstLineMatcher#getType()
-	 */
-	public MatcherType getType() {
-		return MatcherType.INSTANCE;
-	}
-
-	/* (non-Javadoc)
-	 * @see ac.technion.schemamatching.matchers.firstline.FirstLineMatcher#getDBid()
-	 */
-	public int getDBid() {
-		return 13;
-	}
-	
-
 }
 class LevenshteinDistance {
 	/**
