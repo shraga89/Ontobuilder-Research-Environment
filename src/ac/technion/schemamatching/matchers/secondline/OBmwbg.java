@@ -13,6 +13,8 @@ import ac.technion.schemamatching.util.ConversionUtils;
 /**
  * @author Tomer Sagi
  * Ontobuilder Research Environment wrapper for MWBG second line matcher
+ * Leaves k matches per term for terms of the smaller ontology to improve speed
+ * Default k = 5
  */
 public class OBmwbg implements SecondLineMatcher {
 
@@ -30,6 +32,7 @@ public class OBmwbg implements SecondLineMatcher {
 		MatchInformation mwbg = new MatchInformation(mi.getCandidateOntology(),mi.getTargetOntology());
 		mwbg.setMatrix(mi.getMatrix());
 		ConversionUtils.zeroWeightsByThresholdAndRemoveMatches(mwbg, 0.01);
+		ConversionUtils.limitToKMatches(mwbg, k);
 	      try {
 	    	  SchemaMatchingsWrapper smw = new SchemaMatchingsWrapper(mwbg);
 			return smw.getBestMatching();
@@ -43,7 +46,7 @@ public class OBmwbg implements SecondLineMatcher {
 	 * @see ac.technion.schemamatching.matchers.SecondLineMatcher#getConfig()
 	 */
 	public String getConfig() {
-		return "default config";
+		return "k=" + k;
 	}
 
 	/* (non-Javadoc)
@@ -55,7 +58,13 @@ public class OBmwbg implements SecondLineMatcher {
 
 	@Override
 	public boolean init(Properties properties) {
+		if (properties.containsKey("k"))
+		{
+			k = (int)properties.get("k");
+		}
 		return true;
 	}
+	
+	int k=5;
 
 }
