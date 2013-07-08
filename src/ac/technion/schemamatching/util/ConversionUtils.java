@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
-
 import smb_service.Schema;
 import smb_service.SimilarityMatrix;
 import ac.technion.iem.ontobuilder.core.ontology.Ontology;
@@ -17,6 +16,8 @@ import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 import ac.technion.iem.ontobuilder.matching.meta.match.MatchMatrix;
 
 import com.google.common.collect.HashBiMap;
+import com.google.common.collect.Ordering;
+import com.google.common.primitives.Doubles;
 
 import eu.nisb.project.graph.NisbGraph;
 import eu.nisb.project.objects.Attribute;
@@ -179,6 +180,32 @@ public class ConversionUtils {
 			if (m.getEffectiveness() < threshold)
 				mi.updateMatch(m.getTargetTerm(), m.getCandidateTerm(), 0.0);
 		
+	}
+	
+	/**
+	 * Limits number of matches to the top K matches for each row / column of the smaller schema
+	 * @param mi MatchInformation object with match results
+	 * @param k maximum number of matches to accept
+	 */
+	public static void limitToKMatches(MatchInformation mi, int k)
+	{
+		Ordering<Match> byEffOrd = new Ordering<Match>() {
+			  public int compare(Match left, Match right) {
+			    return Doubles.compare(left.getEffectiveness(), right.getEffectiveness());
+			  }
+			}; 
+		ArrayList<Match> topMatches = new ArrayList<Match>();
+		boolean isCandLarger = (mi.getCandidateOntology().getAllTermsCount() > mi.getTargetOntology().getAllTermsCount());
+		Ontology o = (isCandLarger ? mi.getCandidateOntology() : mi.getTargetOntology());
+		for (Term t : o.getTerms(true))
+		{
+			ArrayList<Match> tMatches = mi.getMatchesForTerm(t , isCandLarger);
+			if (tMatches != null)
+				topMatches.addAll(byEffOrd.greatestOf(tMatches, k));
+		}
+		
+		mi.clearMatches();
+		mi.setMatches(topMatches);
 	}
 
 	/**
