@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
+
+import org.apache.commons.math3.distribution.BetaDistribution;
+
 import smb_service.Schema;
 import smb_service.SimilarityMatrix;
 import ac.technion.iem.ontobuilder.core.ontology.Ontology;
@@ -267,5 +270,23 @@ public class ConversionUtils {
 		for (Match m: mi.getCopyOfMatches())
 			res.updateMatch(m.getTargetTerm(), m.getCandidateTerm(), m.getEffectiveness());
 		
+	}
+
+	/**
+	 * Alters matches using random noise from a beta distribution
+	 * @param mi containing 1.0 or 0.0 values
+	 * @param a beta distribution lower bound
+	 * @param b beta distribution upper bound
+	 */
+	public static void betaNoise(MatchInformation mi, double a, double b) 
+	{
+		BetaDistribution bd = new BetaDistribution(a,b);
+		for (Term c :mi.getOriginalCandidateTerms())
+			for (Term t : mi.getOriginalTargetTerms())
+			{
+				double n = bd.sample();
+				double v = mi.getMatchConfidence(c, t);
+				mi.updateMatch(t, c, (v>0.0?v-n:v+n));
+			}
 	}
 }

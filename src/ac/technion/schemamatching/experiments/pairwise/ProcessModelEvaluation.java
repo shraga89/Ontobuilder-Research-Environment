@@ -23,7 +23,6 @@ import ac.technion.schemamatching.matchers.firstline.ProcessModelFLM.ProcessMode
 import ac.technion.schemamatching.matchers.secondline.OBDominants;
 import ac.technion.schemamatching.matchers.secondline.OBMaxDelta;
 import ac.technion.schemamatching.matchers.secondline.OBThreshold;
-import ac.technion.schemamatching.matchers.secondline.OBmwbg;
 import ac.technion.schemamatching.matchers.secondline.ProcessModelConfigMatchers;
 import ac.technion.schemamatching.matchers.secondline.SecondLineMatcher;
 import ac.technion.schemamatching.matchers.secondline.ProcessModelConfigMatchers.ProcessModelConfigMatcher;
@@ -32,13 +31,10 @@ import ac.technion.schemamatching.statistics.DummyStatistic;
 import ac.technion.schemamatching.statistics.K2Statistic;
 import ac.technion.schemamatching.statistics.Statistic;
 import ac.technion.schemamatching.statistics.predictors.MatrixPredictors;
-import ac.technion.schemamatching.statistics.predictors.ProcessModelPropertyPredictor;
-import ac.technion.schemamatching.statistics.predictors.ProcessModelPropertyPredictor.ProcessModelProperty;
 import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
 
 public class ProcessModelEvaluation implements PairWiseExperiment {
 
-	private List<SecondLineMatcher> slM;
 	
 	public Set<Integer> dutchSPIDs;
 	
@@ -324,7 +320,6 @@ public class ProcessModelEvaluation implements PairWiseExperiment {
 	@Override
 	public boolean init(OBExperimentRunner oer, Properties properties,
 			ArrayList<FirstLineMatcher> flM, ArrayList<SecondLineMatcher> slM) {
-		this.slM = slM;
 				
 		dutchSPIDs = new HashSet<>();
 		dutchSPIDs.add(2839);

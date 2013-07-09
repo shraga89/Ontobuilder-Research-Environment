@@ -25,8 +25,6 @@ import ac.technion.schemamatching.statistics.predictors.ProcessModelPropertyPred
 import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
 
 public class ProcessModelSeparationEvaluation implements PairWiseExperiment {
-
-	private List<SecondLineMatcher> slM;
 	
 	public Set<Integer> dutchSPIDs;
 	
@@ -171,7 +169,6 @@ public class ProcessModelSeparationEvaluation implements PairWiseExperiment {
 	@Override
 	public boolean init(OBExperimentRunner oer, Properties properties,
 			ArrayList<FirstLineMatcher> flM, ArrayList<SecondLineMatcher> slM) {
-		this.slM = slM;
 				
 		dutchSPIDs = new HashSet<>();
 		dutchSPIDs.add(2839);
