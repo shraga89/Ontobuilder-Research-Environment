@@ -24,6 +24,7 @@ public enum PairExperimentEnum
 	,VectorPrinting(new VectorPrinting())
 	,MappingPrinting(new MappingPrinting())
 	,SLMExample(new SecondLineMatchExample())
+	,BetaNoise(new BetaNoiseExperiment())
 	,ProcessModelPrediction (new ProcessModelPrediction())
 	,ProcessModelSeparation (new ProcessModelSeparationEvaluation())
 	,ProcessModelEvaluation (new ProcessModelEvaluation());

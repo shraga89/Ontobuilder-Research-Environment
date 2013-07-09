@@ -17,7 +17,6 @@ import ac.technion.iem.ontobuilder.matching.match.Match;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 import ac.technion.schemamatching.experiments.OBExperimentRunner;
 import ac.technion.schemamatching.matchers.firstline.FirstLineMatcher;
-import ac.technion.schemamatching.matchers.firstline.OBTermMatch;
 import ac.technion.schemamatching.matchers.secondline.SecondLineMatcher;
 import ac.technion.schemamatching.statistics.DummyStatistic;
 import ac.technion.schemamatching.statistics.Statistic;
