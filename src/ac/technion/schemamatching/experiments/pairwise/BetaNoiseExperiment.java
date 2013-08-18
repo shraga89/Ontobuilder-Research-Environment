@@ -8,6 +8,9 @@ import ac.technion.schemamatching.experiments.OBExperimentRunner;
 import ac.technion.schemamatching.matchers.firstline.FirstLineMatcher;
 import ac.technion.schemamatching.matchers.secondline.SecondLineMatcher;
 import ac.technion.schemamatching.statistics.K2Statistic;
+import ac.technion.schemamatching.statistics.NBGolden;
+import ac.technion.schemamatching.statistics.NBGoldenAtK;
+import ac.technion.schemamatching.statistics.NBGoldenAtR;
 import ac.technion.schemamatching.statistics.Statistic;
 import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
 import ac.technion.schemamatching.util.ConversionUtils;
@@ -20,7 +23,7 @@ import ac.technion.schemamatching.util.ConversionUtils;
  */
 public class BetaNoiseExperiment implements PairWiseExperiment {
 	private Properties properties;
-	private double increment = 0.1;
+	private double increment = 1.0;
 	/*
 	 * (non-Javadoc)
 	 * @see ac.technion.schemamatching.experiments.MatchingExperiment#runExperiment(ac.technion.schemamatching.experiments.ExperimentSchemaPair)
@@ -28,16 +31,22 @@ public class BetaNoiseExperiment implements PairWiseExperiment {
 	public ArrayList<Statistic> runExperiment(ExperimentSchemaPair esp) {
 		// Using all 1st line matchers 
 		ArrayList<Statistic> evaluations = new ArrayList<Statistic>();
-		double a = 0.0;
-		for(double b = 1.0;b>0.0;b+=increment)
+		double a = 1.0;
+		for(double b = 5.0;b>=1.0;b-=increment)
 		{	
 			MatchInformation mi = esp.getExact().clone();
 			ConversionUtils.betaNoise(mi,a,b);
 			//Calculate Non-Binary Measures
-			String instanceDesc =  esp.getID() + "," + increment;
+			String instanceDesc =  esp.getID() + "," + b;
 			K2Statistic nbAtK = new NBGoldenAtK();
 			nbAtK.init(instanceDesc, mi,esp.getExact());
 			evaluations.add(nbAtK);
+			K2Statistic nb = new NBGolden();
+			nb.init(instanceDesc, mi,esp.getExact());
+			evaluations.add(nb);
+			K2Statistic nbAtR = new NBGoldenAtR();
+			nbAtR.init(instanceDesc, mi,esp.getExact());
+			evaluations.add(nbAtR);
 		}
 		return evaluations;
 	}
