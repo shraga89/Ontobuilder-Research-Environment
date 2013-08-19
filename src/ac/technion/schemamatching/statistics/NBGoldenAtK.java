@@ -1,10 +1,8 @@
-package ac.technion.schemamatching.experiments.pairwise;
+package ac.technion.schemamatching.statistics;
 
 import java.util.ArrayList;
 import ac.technion.iem.ontobuilder.matching.match.Match;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
-import ac.technion.schemamatching.statistics.K2Statistic;
-import ac.technion.schemamatching.statistics.StatisticsUtils;
 import ac.technion.schemamatching.util.ConversionUtils;
 
 /**
