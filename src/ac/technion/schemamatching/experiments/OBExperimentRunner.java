@@ -292,7 +292,7 @@ public class OBExperimentRunner {
 	{
 		Properties pMap = new Properties();
 		try {
-			pMap.load(new FileInputStream("ob_interface.properties"));
+			pMap.load(new FileInputStream("C:\\GitHub\\ore\\ore\\oreConfig\\ob_interface.properties"));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
