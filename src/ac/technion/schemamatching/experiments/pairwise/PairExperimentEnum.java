@@ -27,7 +27,8 @@ public enum PairExperimentEnum
 	,BetaNoise(new BetaNoiseExperiment())
 	,ProcessModelPrediction (new ProcessModelPrediction())
 	,ProcessModelSeparation (new ProcessModelSeparationEvaluation())
-	,ProcessModelEvaluation (new ProcessModelEvaluation());
+	,ProcessModelEvaluation (new ProcessModelEvaluation())
+	,SimpleMatchV(new SimpleMatchExperimentDiagnostic());
 	
 	private PairExperimentEnum(PairWiseExperiment e)
 	{
