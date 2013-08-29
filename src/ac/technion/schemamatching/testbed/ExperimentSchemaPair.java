@@ -300,5 +300,9 @@ private Ontology loadOntologyFromPath(String schemaFilePath, Importer imp) {
 	{
 		return Integer.toString(ID);
 	}
+	
+	public OREDataSetEnum getDataSetType(){
+		return dsEnum;
+	}
 }
   

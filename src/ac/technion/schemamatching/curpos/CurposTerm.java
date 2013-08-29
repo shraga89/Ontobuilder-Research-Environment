@@ -2,12 +2,61 @@ package ac.technion.schemamatching.curpos;
 
 import java.io.Serializable;
 
+import ac.technion.iem.ontobuilder.core.ontology.Term;
+
 /*
  * @Author Eyal Heinemann
  * @Author Tom Blinder
- * An Interface to represent the terms in any curpos
- * Any Inheritance should self implement {@link java.lang.object.Equals(Object)}, {@link java.lang.object.HashCode()}, {@link java.lang.object.ToString()}  
+ * A class to represent the terms in any curpos
  */
-public interface CurposTerm extends Serializable {
+public class CurposTerm implements Serializable {
+	/**
+	 * @Generated
+	 */
+	private static final long serialVersionUID = 723831891876813304L;
+
+	public CurposTerm(Term term){
+		this.name = term.getName();
+	}
 	
+	public CurposTerm(String name){
+		this.name = name;
+	}
+	
+	private String name;
+
+	public String getName() {
+		return name;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CurposTerm other = (CurposTerm) obj;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		return true;
+	}
+
+	
+	@Override
+    public String toString() {
+		return "NameCurposTerm [name=" + name + "]";
+	}
 }
