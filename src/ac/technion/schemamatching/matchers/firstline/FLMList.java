@@ -19,8 +19,8 @@ public enum FLMList {AMCDataType(new AMCDataType()),AMCName(new AMCName())
 	,Instance(new InstanceMatcher()),OBDomain(new DomainMatch())
 	,TermOrder(new TermOrder()), 
 	WordNet(new OBWordNet()),
-	ProcessModel(new ProcessModelFLM());
-	//,OBTED(new OBTEDGraphMatch());
+	ProcessModel(new ProcessModelFLM())
+	,OBTED(new OBTEDGraphMatch());
 
 private FLMList(FirstLineMatcher flm)
 {

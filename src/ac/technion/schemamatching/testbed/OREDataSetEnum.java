@@ -5,6 +5,7 @@ package ac.technion.schemamatching.testbed;
 
 import ac.technion.iem.ontobuilder.io.imports.Importer;
 import ac.technion.iem.ontobuilder.io.imports.NativeImporter;
+import ac.technion.iem.ontobuilder.io.imports.OWLImporter;
 import ac.technion.iem.ontobuilder.io.imports.PNMLImporter;
 import ac.technion.iem.ontobuilder.io.imports.WSDLImporterEasyWSDL;
 import ac.technion.iem.ontobuilder.io.imports.XSDImporter;
@@ -15,6 +16,7 @@ import ac.technion.iem.ontobuilder.io.matchimport.MappingMatchImporter;
 import ac.technion.iem.ontobuilder.io.matchimport.MatchImporter;
 import ac.technion.iem.ontobuilder.io.matchimport.NativeMatchImporter;
 import ac.technion.iem.ontobuilder.io.matchimport.PNMLPairMatchImporter;
+import ac.technion.iem.ontobuilder.io.matchimport.RDFMatchImporter;
 
 /**
  * @author Tomer Sagi
@@ -35,7 +37,7 @@ public enum OREDataSetEnum
 	eTuner(12,"Small schemas and instances used to generate eTuner synthetic datasets",null,null,true, false, false),
 	I3Con(13,"Ontology alignment contest ICon3 in owl format",null,null,true, false, false),
 	OAEIConference(14,"Ontology alignment conference OAEI conference track",null,null,true, false, false),
-	OAEIBecnhmark(15,"Ontology alignment conference OAEI benchmark track",null,null,true, false, false),
+	OAEIBecnhmark(15,"Ontology alignment conference OAEI benchmark track",new OWLImporter(),new RDFMatchImporter(),true, false, false),
 	NisBUBL(16,"NisB UBL mega schema vs. vendor",null,null,true, false, false),
 	NisPO(17,"NisB Purchase Order schemas (XSD)",new XSDImporterUsingXSOM(),new MappingMatchImporter(),true, false, false),
 	NisPOBig(18,"NisB Big Purchase Order schemas (XSD)",null,null,true, false, false),

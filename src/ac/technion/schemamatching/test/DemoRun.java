@@ -1,6 +1,11 @@
 
 package ac.technion.schemamatching.test;
 
+import java.util.Comparator;
+import java.util.Map;
+
+import com.google.common.collect.HashBiMap;
+
 import ac.technion.iem.ontobuilder.core.ontology.Ontology;
 import ac.technion.iem.ontobuilder.core.utils.files.XmlFileHandler;
 import ac.technion.iem.ontobuilder.matching.algorithms.line1.common.MatchingAlgorithmsNamesEnum;
@@ -9,6 +14,9 @@ import ac.technion.iem.ontobuilder.matching.algorithms.line1.term.ValueAlgorithm
 import ac.technion.iem.ontobuilder.matching.algorithms.line2.topk.wrapper.SchemaMatchingsWrapper;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 import ac.technion.iem.ontobuilder.matching.wrapper.OntoBuilderWrapper;
+import ac.technion.schemamatching.curpos.CurposTerm;
+import ac.technion.schemamatching.curpos.MatchesCurpos;
+import ac.technion.schemamatching.testbed.OREDataSetEnum;
 
 /**
  * @author haggai
@@ -16,7 +24,49 @@ import ac.technion.iem.ontobuilder.matching.wrapper.OntoBuilderWrapper;
  */
 public class DemoRun {
 
+	public class EntryMaptFitnessComparator implements Comparator<Map.Entry<Double,CurposTerm>>{
+		 
+	    @Override
+	    public int compare(Map.Entry<Double,CurposTerm> o1, Map.Entry<Double,CurposTerm> o2) {
+	        return (o1.getKey()>o2.getKey() ? 1 : (o1.getKey()==o2.getKey() ? 0 : -1));
+	    }
+	} 
+	
+	public void EyalTest(){
+		MatchesCurpos curpos = new MatchesCurpos();
+		CurposTerm t1 = new CurposTerm("hello");
+		CurposTerm t2 = new CurposTerm("world");
+		CurposTerm t3 = new CurposTerm("Die Proud");
+				
+		curpos.add(t1, t2, 0.7);
+		curpos.add(t1, t3, 0.5);
+		
+		HashBiMap<Double,CurposTerm> result =  curpos.SelectTermTable(t1, 2, 0.6);
+		for (CurposTerm t: result.values()){
+			System.out.println(t.toString());
+		}
+		
+		result =  curpos.SelectTermTable(t1, 2, 0.2);
+		for (CurposTerm t: result.values()){
+			System.out.println(t.toString());
+		}
+		/*
+		for (OREDataSetEnum e:OREDataSetEnum.values())
+		{
+			System.out.println(e.name() + "CurposFileName = /corpus/" + e.name() + "Statistical.curpos");
+		}*/
+	}
+	
 	public static void main(String[] args){
+		
+		DemoRun run = new DemoRun();
+		run.EyalTest();
+		return;
+		
+	}
+	
+	public void origTest(){
+		
 		   OntoBuilderWrapper ob = new OntoBuilderWrapper();
 		   XmlFileHandler xfh = new XmlFileHandler();
 		   try {
