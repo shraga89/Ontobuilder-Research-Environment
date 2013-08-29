@@ -96,7 +96,6 @@ public class MatchesCurpos implements Serializable {
 		}
 		return retVal;
 	}
-
 	
 	public class EntryMaptFitnessComparator implements Comparator<Map.Entry<Double,CurposTerm>>{
 		 

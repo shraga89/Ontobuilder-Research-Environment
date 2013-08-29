@@ -1,32 +1,27 @@
 package ac.technion.schemamatching.experiments.pairwise;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 import java.util.Vector;
 
-import com.google.gson.Gson;
-
 import ac.technion.iem.ontobuilder.core.ontology.Ontology;
 import ac.technion.iem.ontobuilder.core.ontology.Term;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
+import ac.technion.schemamatching.curpos.CorpusDataManager;
 import ac.technion.schemamatching.curpos.CurposTerm;
 import ac.technion.schemamatching.curpos.MatchesCurpos;
-import ac.technion.schemamatching.curpos.NameCurposTerm;
 import ac.technion.schemamatching.experiments.OBExperimentRunner;
 import ac.technion.schemamatching.matchers.firstline.FirstLineMatcher;
 import ac.technion.schemamatching.matchers.secondline.SecondLineMatcher;
 import ac.technion.schemamatching.statistics.Statistic;
 import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
+import ac.technion.schemamatching.testbed.OREDataSetEnum;
 
 public class MatchesCurposBuildExperiment implements PairWiseExperiment {
 
-	private MatchesCurpos curpos;
 	private double threshold;
-	private File curposFile;
 	
 	/**
 	 * Runs the experiment to populate the curpos with the data given,     
@@ -35,13 +30,19 @@ public class MatchesCurposBuildExperiment implements PairWiseExperiment {
 	 */
 	@Override
 	public List<Statistic> runExperiment(ExperimentSchemaPair esp) {
+		// get curpos or create new
+		OREDataSetEnum dsType = esp.getDataSetType();
+		MatchesCurpos curpos = CorpusDataManager.LoadMatchesCurpos(dsType);
+		if (curpos == null) curpos = new MatchesCurpos();
+		
+		// prepare to fill curpos
 		Ontology candOntology = esp.getCandidateOntology();
 		Ontology targOntology = esp.getTargetOntology();
 		MatchInformation mi = esp.getExact();
-		
 		Vector<Term> candList = candOntology.getTerms(true);
 		Vector<Term> targList = targOntology.getTerms(true);
 		
+		// fill curpos
 		for (Term candidate:candList)
 			for (Term target:targList){
 				double fitness = mi.getMatchConfidence(candidate, target);
@@ -53,12 +54,16 @@ public class MatchesCurposBuildExperiment implements PairWiseExperiment {
 				}
 			}
 		
+		if (!CorpusDataManager.SaveMatchesCurpos(curpos, dsType))
+			System.err.println("Failed to save curpos! eid:" + esp.getID());
+		
+		// return empty list
 		return new ArrayList<Statistic>();
 	}
 
-	public CurposTerm getCurposTerm(Term t){
-		// TODO : needs better implementation
-		return new NameCurposTerm(t);
+	// here in case it will become more complicated
+	private CurposTerm getCurposTerm(Term t){
+		return new CurposTerm(t);
 	}
 	
 	/**
@@ -73,34 +78,12 @@ public class MatchesCurposBuildExperiment implements PairWiseExperiment {
 			ArrayList<FirstLineMatcher> flM, ArrayList<SecondLineMatcher> slM) {
 		
 		threshold = Double.parseDouble(properties.getProperty("Threshold","0"));
-		String fileName = properties.getProperty("CurposFileName", "Curpos");
-		curposFile = getFile(fileName);
-		if (curposFile.exists())
-		{
-			//	TODO : handle if curpos exists
-		}
-		curpos = new MatchesCurpos();
+		CorpusDataManager.setPropertiesFile(properties);
+		
 		return true;
 	}
 
-	/**
-	 * Checks for existence of filepath supplied and creates the folder tree if needed
-	 * @param resultFolder
-	 * @return
-	 */
-	private File getFile(String filePath) {
-		File entireFile = new File(filePath);
-		File testFolder = entireFile.getParentFile();
-		if (!testFolder.exists()) {
-			boolean success = testFolder.mkdirs();
-			if (!success) {
-				System.err
-						.println("Unable to create folder");
-				return null;
-			}
-		}
-		return entireFile;
-	}
+	
 	
 	/**
 	 * 
@@ -117,17 +100,6 @@ public class MatchesCurposBuildExperiment implements PairWiseExperiment {
 	 */
 	@Override
 	public List<Statistic> summaryStatistics() {
-		com.google.gson.Gson g = new Gson();
-		String curposJson = g.toJson(curpos);
-		
-		try{
-			BufferedWriter output = new BufferedWriter(new FileWriter(curposFile)) ;
-			output.write(curposJson);
-			output.close();
-		}catch (Exception ex){
-			System.err.println("Failed to write curpos to" + curposFile.getPath());
-			ex.printStackTrace();
-		}
 		return new ArrayList<>();
 	}
 
