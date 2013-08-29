@@ -24,10 +24,11 @@ public enum PairExperimentEnum
 	,VectorPrinting(new VectorPrinting())
 	,MappingPrinting(new MappingPrinting())
 	,SLMExample(new SecondLineMatchExample())
-	,BetaNoise(new BetaNoiseExperiment())
+	//,BetaNoise(new BetaNoiseExperiment())
 	,ProcessModelPrediction (new ProcessModelPrediction())
 	,ProcessModelSeparation (new ProcessModelSeparationEvaluation())
-	,ProcessModelEvaluation (new ProcessModelEvaluation());
+	,ProcessModelEvaluation (new ProcessModelEvaluation())
+	, BuildMatchesCurpos(new MatchesCurposBuildExperiment());
 	
 	private PairExperimentEnum(PairWiseExperiment e)
 	{
