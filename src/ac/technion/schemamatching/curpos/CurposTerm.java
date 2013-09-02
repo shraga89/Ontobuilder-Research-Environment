@@ -4,8 +4,6 @@ import java.io.Serializable;
 
 import org.json.simple.JSONObject;
 
-import com.google.gson.JsonObject;
-
 import ac.technion.iem.ontobuilder.core.ontology.Term;
 
 /*
@@ -67,6 +65,7 @@ public class CurposTerm implements Serializable {
 	}
 
 
+	@SuppressWarnings("unchecked")
 	public JSONObject toJSON(){
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("name", getName());		

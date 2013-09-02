@@ -1,27 +1,13 @@
 package ac.technion.schemamatching.curpos;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutput;
-import java.io.ObjectOutputStream;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.Properties;
-
-
-
-
-
-
-
-
-
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -85,6 +71,7 @@ public final class CorpusDataManager {
 		return curpos;
 	}
 	
+	@SuppressWarnings("unchecked")
 	private static JSONArray WriteToJson  (MatchesCurpos curpos){
 		Hashtable<CurposTerm,Hashtable<CurposTerm,TermMatchInfo>> inner =  curpos.getInnerStructure();
 		JSONArray list = new JSONArray();
@@ -112,6 +99,7 @@ public final class CorpusDataManager {
 		return list;
 	}
 	
+	@SuppressWarnings("unchecked")
 	private static MatchesCurpos ReadFromJson  (String curposFile){    /////note the void!!!!//////MatchesCurpos////////
 		JSONParser parser = new JSONParser();
 		MatchesCurpos outerCurpos = new MatchesCurpos();
