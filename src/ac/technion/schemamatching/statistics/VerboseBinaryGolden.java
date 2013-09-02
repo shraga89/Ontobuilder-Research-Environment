@@ -49,33 +49,40 @@ public class VerboseBinaryGolden implements K2Statistic {
 		}
 		
 		data = new ArrayList<String[]>();
-		header = new String[]{"instance","CandidateTerm","TargetTerm", "SetResult"};
+		header = new String[]{"instance","CandidateTermID","CandidateTerm","TargetTermID","TargetTerm","Confidence", "SetResult"};
 		//Prepare sets
 		Set<Match> matches = new HashSet<Match>();
-		matches.addAll(mi.getCopyOfMatches());
+		for (Match m : mi.getCopyOfMatches())
+			if(m.getEffectiveness()>0.0)
+				matches.add(m);
+		
 		Set<Match> exactMatches = new HashSet<Match>();
 		exactMatches.addAll(exactMatch.getCopyOfMatches());
 		
-		//Prepare True Positives
-		Set<Match> tp = new HashSet<Match>();
-		tp.addAll(matches);
-		tp.retainAll(exactMatches);
-		//Prepare False Positives		
-		Set<Match> fp = new HashSet<Match>();
-		fp.addAll(matches);
-		fp.removeAll(exactMatches);
-		//Prepare False Negatives
-		Set<Match> fn = new HashSet<Match>();
-		fn.addAll(exactMatches);
-		fn.removeAll(matches);
-		
 		//Print out:
-		for (Match m : tp)
-			data.add(new String[] {instanceDescription,m.getCandidateTerm().toString(),m.getTargetTerm().toString(),"TP"});
-		for (Match m : fp)
-			data.add(new String[] {instanceDescription,m.getCandidateTerm().toString(),m.getTargetTerm().toString(),"FP"});
-		for (Match m : fn)
-			data.add(new String[] {instanceDescription,m.getCandidateTerm().toString(),m.getTargetTerm().toString(),"FN"});
+		for (Match m : matches)
+		{
+			String cat = (exactMatches.contains(m) ? "TP" : "FP");
+			data.add(new String[] {instanceDescription
+					,Long.toString(m.getCandidateTerm().getId())
+					,m.getCandidateTerm().toString()
+					,Long.toString(m.getTargetTerm().getId())
+					,m.getTargetTerm().toString()
+					,Double.toString(m.getEffectiveness())
+					,cat});
+		}
+		for (Match m : exactMatches)
+		{
+			if (!matches.contains(m))
+				data.add(new String[] 
+						{instanceDescription
+						,Long.toString(m.getCandidateTerm().getId())
+						,m.getCandidateTerm().toString()
+						,Long.toString(m.getTargetTerm().getId())
+						,m.getTargetTerm().toString(),
+						Double.toString(m.getEffectiveness())
+						,"FN"});
+		}
 		
 		return true;
 	}
