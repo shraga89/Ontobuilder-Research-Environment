@@ -24,6 +24,10 @@ public class MatchesCurpos implements Serializable {
 		innerCurpos = new Hashtable<>();
 	}
 
+	Hashtable<CurposTerm,Hashtable<CurposTerm,TermMatchInfo>> getInnerStructure(){
+		return innerCurpos;
+	}
+	
 	/*
 	 * Add the level of fitness between 2 terms, if the terms do not exist yet,
 	 * add them
@@ -136,7 +140,7 @@ public class MatchesCurpos implements Serializable {
 		}
 	}
 
-	public class TermMatchInfo implements Serializable {
+	public static class TermMatchInfo implements Serializable{
 
 		/**
 		 * 
