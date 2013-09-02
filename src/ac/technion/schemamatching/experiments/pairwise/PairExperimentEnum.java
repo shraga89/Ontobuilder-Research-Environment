@@ -29,7 +29,8 @@ public enum PairExperimentEnum
 	,ProcessModelSeparation (new ProcessModelSeparationEvaluation())
 	,ProcessModelEvaluation (new ProcessModelEvaluation())
 	, BuildMatchesCurpos(new MatchesCurposBuildExperiment())
-	,SimpleMatchV(new SimpleMatchExperimentDiagnostic());
+	,SimpleMatchV(new SimpleMatchExperimentDiagnostic())
+	, AguemntCuporsMatch(new MatchesCurposSimpleExperiment());
 	
 	private PairExperimentEnum(PairWiseExperiment e)
 	{

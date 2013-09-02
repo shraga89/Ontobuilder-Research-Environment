@@ -7,6 +7,7 @@ import java.util.Map;
 import com.google.common.collect.HashBiMap;
 
 import ac.technion.iem.ontobuilder.core.ontology.Ontology;
+import ac.technion.iem.ontobuilder.core.ontology.operator.NGramStringOperator;
 import ac.technion.iem.ontobuilder.core.utils.files.XmlFileHandler;
 import ac.technion.iem.ontobuilder.matching.algorithms.line1.common.MatchingAlgorithmsNamesEnum;
 import ac.technion.iem.ontobuilder.matching.algorithms.line1.term.TermAlgorithm;
@@ -33,28 +34,11 @@ public class DemoRun {
 	} 
 	
 	public void EyalTest(){
-		MatchesCurpos curpos = new MatchesCurpos();
-		CurposTerm t1 = new CurposTerm("hello");
-		CurposTerm t2 = new CurposTerm("world");
-		CurposTerm t3 = new CurposTerm("Die Proud");
-				
-		curpos.add(t1, t2, 0.7);
-		curpos.add(t1, t3, 0.5);
-		
-		HashBiMap<Double,CurposTerm> result =  curpos.SelectTermTable(t1, 2, 0.6);
-		for (CurposTerm t: result.values()){
-			System.out.println(t.toString());
-		}
-		
-		result =  curpos.SelectTermTable(t1, 2, 0.2);
-		for (CurposTerm t: result.values()){
-			System.out.println(t.toString());
-		}
-		/*
-		for (OREDataSetEnum e:OREDataSetEnum.values())
-		{
-			System.out.println(e.name() + "CurposFileName = /corpus/" + e.name() + "Statistical.curpos");
-		}*/
+		String str1 = "Test";
+        String str2 = "tssssssssst";
+        int n = 2;
+        double result = new NGramStringOperator().compare(str1, str2, n);
+        System.out.println("The outcome is:" + result);
 	}
 	
 	public static void main(String[] args){
