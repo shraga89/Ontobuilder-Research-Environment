@@ -2,6 +2,10 @@ package ac.technion.schemamatching.curpos;
 
 import java.io.Serializable;
 
+import org.json.simple.JSONObject;
+
+import com.google.gson.JsonObject;
+
 import ac.technion.iem.ontobuilder.core.ontology.Term;
 
 /*
@@ -22,6 +26,8 @@ public class CurposTerm implements Serializable {
 	public CurposTerm(String name){
 		this.name = name;
 	}
+	
+	protected CurposTerm(){}
 	
 	private String name;
 
@@ -59,4 +65,19 @@ public class CurposTerm implements Serializable {
     public String toString() {
 		return "NameCurposTerm [name=" + name + "]";
 	}
+
+
+	public JSONObject toJSON(){
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("name", getName());		
+		return jsonObject;
+	}
+
+	public static CurposTerm fromJSON(JSONObject json){
+		CurposTerm term = new CurposTerm();
+		term.name = (String) json.get(NAME);
+		return term;
+	}
+	
+	private static final String NAME = "name";
 }
