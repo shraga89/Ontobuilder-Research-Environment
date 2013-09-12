@@ -41,7 +41,6 @@ import com.infomata.data.DataRow;
  * The class provides tools for running schema matching experiments.
  * @author Tomer Sagi
  * @author Nimrod Busany 
- * @author Tatiana Sematch
  * @category Singleton
  */
 public class OBExperimentRunner { 
