@@ -20,7 +20,8 @@ public enum FLMList {AMCDataType(new AMCDataType()),AMCName(new AMCName())
 	,TermOrder(new TermOrder()), 
 	WordNet(new OBWordNet()),
 	ProcessModel(new ProcessModelFLM())
-	,OBTED(new OBTEDGraphMatch());
+	,OBTED(new OBTEDGraphMatch())
+	,ContentBasedMatcher(new ContentBasedMatcher());
 
 private FLMList(FirstLineMatcher flm)
 {
