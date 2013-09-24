@@ -14,8 +14,8 @@ import ac.technion.schemamatching.matchers.MatcherType;
 public class ContentBasedMatcher implements FirstLineMatcher{
 	
 	private double weightMaxSubString = 0;
-	private double weightNGram = 1;
-	private double weightJaroWinkler = 0;
+	private double weightNGram = 0.1;
+	private double weightJaroWinkler = 0.9;
 	private double stringNameWeight = 0.5;
 	private double wordNameWeight = 0.5;
 	private double stringLabelWeight = 0;
