@@ -57,7 +57,10 @@ public class SimpleMatchExperiment implements PairWiseExperiment {
 				if (properties == null || !s.init(properties)) 
 					System.err.println("Initialization of " + s.getName() + 
 							"failed, we hope the author defined default values...");
+				double startTime = System.currentTimeMillis();
 				MatchInformation mi1 = s.match(mi);
+				double endTime = System.currentTimeMillis();
+				System.out.println(s.getName() + " Runtime: " + (endTime - startTime));
 				//calculate Precision and Recall
 				K2Statistic b2 = new BinaryGolden();
 				instanceDesc =  esp.getID() + "," + m.getName() + "," + s.getName()+ "," + s.getConfig();
