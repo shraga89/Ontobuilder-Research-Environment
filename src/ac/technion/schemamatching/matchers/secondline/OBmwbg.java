@@ -60,7 +60,7 @@ public class OBmwbg implements SecondLineMatcher {
 	public boolean init(Properties properties) {
 		if (properties.containsKey("k"))
 		{
-			k = (int)properties.get("k");
+			k = Integer.parseInt((String)properties.get("k"));
 		}
 		return true;
 	}
