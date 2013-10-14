@@ -39,7 +39,7 @@ public enum OREDataSetEnum
 	OAEIConference(14,"Ontology alignment conference OAEI conference track",null,null,true, false, false),
 	OAEIBecnhmark(15,"Ontology alignment conference OAEI benchmark track",new OWLImporter(),new RDFMatchImporter(),true, false, false),
 	NisBUBL(16,"NisB UBL mega schema vs. vendor",null,null,true, false, false),
-	NisPO(17,"NisB Purchase Order schemas (XSD)",new XSDImporterUsingXSOM(),new MappingMatchImporter(),true, false, false),
+	NisPO(17,"NisB Purchase Order schemas (XSD)",new XSDImporterUsingXSOM(),new MappingMatchImporter(),true, false, true),
 	NisPOBig(18,"NisB Big Purchase Order schemas (XSD)",null,null,true, false, false),
 	NisBHungSynthetic(19,"Synthetic schemas based on vendor and ubl (NisBRDF)",null,null,true, false, false),
 	University(20,"University Application Forms",new XSDImporterUsingXSOM(),new MappingMatchImporter(),true, false, false),
