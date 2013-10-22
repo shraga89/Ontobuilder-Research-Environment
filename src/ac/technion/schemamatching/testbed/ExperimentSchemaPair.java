@@ -159,6 +159,8 @@ private Ontology loadOntologyFromPath(String schemaFilePath, Importer imp) {
 		  	if (dsEnum.isHasInstances())
 		  	{
 		  		File instanceFile = new File(schemaFilePath.substring(0, schemaFilePath.length()-4) + ".xml");
+		  		if (!instanceFile.exists()) //try folder
+		  			instanceFile = new File(schemaFilePath.substring(0, schemaFilePath.length()-4));
 		  		return imp.importFile(schemaFile,instanceFile);
 		  	}
 		  	else
