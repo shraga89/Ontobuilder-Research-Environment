@@ -181,7 +181,7 @@ public class CurposAugmentFLM implements FirstLineMatcher {
 
 	@Override
 	public int getDBid() {
-		return 18;
+		return 22;
 	}
 	
 	static public class NGramCurposTermNameSimilarity implements CurposTermSimilarityMeausre{
