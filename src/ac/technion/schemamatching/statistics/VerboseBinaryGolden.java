@@ -65,9 +65,9 @@ public class VerboseBinaryGolden implements K2Statistic {
 			String cat = (exactMatches.contains(m) ? "TP" : "FP");
 			data.add(new String[] {instanceDescription
 					,Long.toString(m.getCandidateTerm().getId())
-					,m.getCandidateTerm().toString()
+					,m.getCandidateTerm().getProvenance()
 					,Long.toString(m.getTargetTerm().getId())
-					,m.getTargetTerm().toString()
+					,m.getTargetTerm().getProvenance()
 					,Double.toString(m.getEffectiveness())
 					,cat});
 		}
