@@ -5,14 +5,14 @@
 	<property name="app.version" value="2.2"/>
 
 	<!-- Directories -->
-	<property name="target.dir" value="C:\Users\Tomer\Dropbox\Technion\Research\OREStaging"/>
+	<property name="target.dir" value="C:\jarfiles\sys"/>
 	<property name="bin.dir" value="../bin"/>
 	<property name="dtd.dir" value="../dtds"/>
 	<property name="xsd.dir" value="../xsd"/>
 	<property name="config.dir" value="../config"/>
 	<property name="cornetto.dir" value="../lib/cornetto"/>
 	<property name="wordnet.dir" value="../lib/wordnet"/>
-	<property name="lib.dir" value="${target.dir}/lib"/>
+	<property name="lib.dir" value="../lib"/>
 
 	<!-- JAR File Names and Paths-->
 	<property name="ORE.jar" value="${target.dir}/ORE.jar"/>
@@ -55,7 +55,7 @@
           Copy the relevant files from the project                      
          - - - - - - - - - - - - - - - - - -->
     <target name="Copy All" depends="Clean All">
-    	<copy todir="${target.dir}/${lib.dir}" description="Copy libraries">
+    	<copy todir="${target.dir}\${lib.dir}" description="Copy libraries">
     		<fileset dir="${lib.dir}" />
     	</copy>
     	<copy todir="${target.dir}/${dtd.dir}" description="Copy DTD files">
