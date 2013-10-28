@@ -4,8 +4,6 @@ package ac.technion.schemamatching.test;
 import java.util.Comparator;
 import java.util.Map;
 
-import com.google.common.collect.HashBiMap;
-
 import ac.technion.iem.ontobuilder.core.ontology.Ontology;
 import ac.technion.iem.ontobuilder.core.ontology.operator.NGramStringOperator;
 import ac.technion.iem.ontobuilder.core.utils.files.XmlFileHandler;
@@ -16,8 +14,6 @@ import ac.technion.iem.ontobuilder.matching.algorithms.line2.topk.wrapper.Schema
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 import ac.technion.iem.ontobuilder.matching.wrapper.OntoBuilderWrapper;
 import ac.technion.schemamatching.curpos.CurposTerm;
-import ac.technion.schemamatching.curpos.MatchesCurpos;
-import ac.technion.schemamatching.testbed.OREDataSetEnum;
 
 /**
  * @author haggai
