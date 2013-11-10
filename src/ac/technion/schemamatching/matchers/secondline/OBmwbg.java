@@ -14,7 +14,7 @@ import ac.technion.schemamatching.util.ConversionUtils;
  * @author Tomer Sagi
  * Ontobuilder Research Environment wrapper for MWBG second line matcher
  * Leaves k matches per term for terms of the smaller ontology to improve speed
- * Default k = 5
+ * Default k = 10
  */
 public class OBmwbg implements SecondLineMatcher {
 
@@ -65,6 +65,6 @@ public class OBmwbg implements SecondLineMatcher {
 		return true;
 	}
 	
-	int k=5;
+	int k=10;
 
 }

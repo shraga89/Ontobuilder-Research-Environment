@@ -1,9 +1,14 @@
 package ac.technion.schemamatching.statistics;
 
 import java.util.ArrayList;
+
+import com.google.common.collect.Ordering;
+import com.google.common.primitives.Doubles;
+
+import ac.technion.iem.ontobuilder.core.ontology.Ontology;
+import ac.technion.iem.ontobuilder.core.ontology.Term;
 import ac.technion.iem.ontobuilder.matching.match.Match;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
-import ac.technion.schemamatching.util.ConversionUtils;
 
 /**
  * Expanded version of NBGolden where k is added to the number of expected matches.
@@ -13,7 +18,7 @@ import ac.technion.schemamatching.util.ConversionUtils;
 public class NBGoldenAtDynamicK implements K2Statistic {
 	private ArrayList<String[]> data;
 	private String[] header;
-	private int k=5;
+	private int k=2;
 	
 	public String[] getHeader() {
 		return header;
@@ -33,17 +38,30 @@ public class NBGoldenAtDynamicK implements K2Statistic {
 
 	public boolean init(String instanceDescription, MatchInformation mi, MatchInformation exactMatch) {
 		data = new ArrayList<String[]>();
-		header = new String[]{"instance","P@K","R@K","F@K", "Overall@K", "VectorProduct", "MatchVectorLength","ExactVectorLength"};
+		header = new String[]{"instance","P@KA","R@KA","F@KA", "Overall@KA", "VectorProduct", "MatchVectorLength","ExactVectorLength"};
 		instanceDescription = instanceDescription + ",k=" +k;
-		MatchInformation kMI = mi.clone();
-		ConversionUtils.limitToKMatches(kMI, k);
-		ArrayList<Match> matches = kMI.getCopyOfMatches();
-		ArrayList<Match> exact = exactMatch.getCopyOfMatches();
+		Ordering<Match> byEffOrd = new Ordering<Match>() {
+			  public int compare(Match left, Match right) {
+			    return Doubles.compare(left.getEffectiveness(), right.getEffectiveness());
+			  }
+			}; 
+		ArrayList<Match> topMatches = new ArrayList<Match>();
+		boolean isCandLarger = (mi.getCandidateOntology().getAllTermsCount() > mi.getTargetOntology().getAllTermsCount());
+		Ontology o = (isCandLarger ? mi.getCandidateOntology() : mi.getTargetOntology());
+		for (Term t : o.getTerms(true))
+		{
+			ArrayList<Match> tMatches = mi.getMatchesForTerm(t , isCandLarger);
+			ArrayList<Match> exact = exactMatch.getMatchesForTerm(t, isCandLarger);
+			int expected = (exact==null?0: exact.size());
+			int ka = (expected + k ==0 ? 1 : expected + k); //Even if k=0, we will penalize at least by one match when attributes that shouldn't be matched are matched
+			if (tMatches != null)
+				topMatches.addAll(byEffOrd.greatestOf(tMatches, ka));
+		}
 		double prod = 0.0d;
-		double exactLen = (double)exact.size();
+		double exactLen = (double)exactMatch.getNumMatches();
 		double mLen = 0.0d;
 		
-		for (Match m : matches)
+		for (Match m : topMatches)
 		{
 			double tpVal = exactMatch.getMatchConfidence(m.getCandidateTerm(), m.getTargetTerm());
 			double val = m.getEffectiveness(); 

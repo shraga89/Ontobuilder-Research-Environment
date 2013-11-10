@@ -10,6 +10,7 @@ import ac.technion.schemamatching.matchers.secondline.SecondLineMatcher;
 import ac.technion.schemamatching.statistics.BinaryGolden;
 import ac.technion.schemamatching.statistics.K2Statistic;
 import ac.technion.schemamatching.statistics.NBGolden;
+import ac.technion.schemamatching.statistics.NBGoldenAtDynamicK;
 import ac.technion.schemamatching.statistics.NBGoldenAtK;
 import ac.technion.schemamatching.statistics.NBGoldenAtR;
 import ac.technion.schemamatching.statistics.Statistic;
@@ -58,6 +59,11 @@ public class SimpleMatchExperimentDiagnostic implements PairWiseExperiment {
 			K2Statistic nbk = new NBGoldenAtK();
 			nbk.init(instanceDesc, mi,esp.getExact());
 			evaluations.add(nbk);
+			
+			//Calculate Non-Binary Precision and Recall @ KA
+			K2Statistic nbka = new NBGoldenAtDynamicK();
+			nbka.init(instanceDesc, mi,esp.getExact());
+			evaluations.add(nbka);			
 			
 			//Calculate Non-Binary Precision @ R
 			K2Statistic nbr = new NBGoldenAtR();
