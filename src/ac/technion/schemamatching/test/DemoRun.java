@@ -1,7 +1,11 @@
 
 package ac.technion.schemamatching.test;
 
+import java.util.Comparator;
+import java.util.Map;
+
 import ac.technion.iem.ontobuilder.core.ontology.Ontology;
+import ac.technion.iem.ontobuilder.core.ontology.operator.NGramStringOperator;
 import ac.technion.iem.ontobuilder.core.utils.files.XmlFileHandler;
 import ac.technion.iem.ontobuilder.matching.algorithms.line1.common.MatchingAlgorithmsNamesEnum;
 import ac.technion.iem.ontobuilder.matching.algorithms.line1.term.TermAlgorithm;
@@ -9,6 +13,7 @@ import ac.technion.iem.ontobuilder.matching.algorithms.line1.term.ValueAlgorithm
 import ac.technion.iem.ontobuilder.matching.algorithms.line2.topk.wrapper.SchemaMatchingsWrapper;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 import ac.technion.iem.ontobuilder.matching.wrapper.OntoBuilderWrapper;
+import ac.technion.schemamatching.curpos.CurposTerm;
 
 /**
  * @author haggai
@@ -16,7 +21,32 @@ import ac.technion.iem.ontobuilder.matching.wrapper.OntoBuilderWrapper;
  */
 public class DemoRun {
 
+	public class EntryMaptFitnessComparator implements Comparator<Map.Entry<Double,CurposTerm>>{
+		 
+	    @Override
+	    public int compare(Map.Entry<Double,CurposTerm> o1, Map.Entry<Double,CurposTerm> o2) {
+	        return (o1.getKey()>o2.getKey() ? 1 : (o1.getKey()==o2.getKey() ? 0 : -1));
+	    }
+	} 
+	
+	public void EyalTest(){
+		String str1 = "Test";
+        String str2 = "tssssssssst";
+        int n = 2;
+        double result = new NGramStringOperator().compare(str1, str2, n);
+        System.out.println("The outcome is:" + result);
+	}
+	
 	public static void main(String[] args){
+		
+		DemoRun run = new DemoRun();
+		run.EyalTest();
+		return;
+		
+	}
+	
+	public void origTest(){
+		
 		   OntoBuilderWrapper ob = new OntoBuilderWrapper();
 		   XmlFileHandler xfh = new XmlFileHandler();
 		   try {
