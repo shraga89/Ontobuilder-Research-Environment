@@ -50,6 +50,8 @@ public class NBGoldenAtR implements K2Statistic {
 				tpVal += mVal;
 			}
 			// Sum matches for t which are equal or larger than the minimum matched
+			if (mi.getMatchesForTerm(t, false)==null)
+				continue;
 			for (Match m : mi.getMatchesForTerm(t, false))
 			{
 				double mVal = mi.getMatchConfidence(m.getCandidateTerm(),m.getTargetTerm());

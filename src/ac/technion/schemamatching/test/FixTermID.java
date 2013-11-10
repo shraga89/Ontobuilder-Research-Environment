@@ -19,10 +19,10 @@ public class FixTermID {
 	{
 		OntoBuilderWrapper obw = new OntoBuilderWrapper();
 		XmlFileHandler xhf = new XmlFileHandler();
-		String folder = "C:\\Users\\Tomer\\Dropbox\\workspace\\OntobuilderResearchEnvironment\\schema\\WebForm\\www2.inmail24.com.xml_Gmail.xml_EXACT";
-		Ontology o1 = xhf.readOntologyXMLFile(folder+"\\"+"www2.inmail24.com.xml",true);
-		o1.save(new File(folder+"\\"+"www2.inmail24.com.xml"));
-		Ontology o2 = xhf.readOntologyXMLFile(folder+"\\"+"Gmail.xml",true);
-		o2.save(new File(folder+"\\"+"Gmail.xml"));
+		String folder = "C:\\Users\\Tomer\\Dropbox\\workspace\\OntobuilderResearchEnvironment\\schema\\WebForm\\www2.cityofseattle.net.xml_www.ci.glendale.az.us.xml_EXACT";
+		Ontology o1 = xhf.readOntologyXMLFile(folder+"\\"+"www.ci.glendale.az.us.xml",true);
+		o1.save(new File(folder+"\\"+"www.ci.glendale.az.us.xml"));
+		Ontology o2 = xhf.readOntologyXMLFile(folder+"\\"+"www2.cityofseattle.net.xml",true);
+		o2.save(new File(folder+"\\"+"www2.cityofseattle.net.xml"));
 	}
 }

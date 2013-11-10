@@ -39,6 +39,7 @@ public class ExperimentSchemaPair extends ExperimentSchema{
 		ID = spid;
 		dsEnum = OREDataSetEnum.getByDbid(dsid);
 		basicMatrices = new HashMap<Integer,MatchInformation>();
+		System.err.println("loading" + spid);
 		load();
 	}
 	
@@ -161,6 +162,11 @@ private Ontology loadOntologyFromPath(String schemaFilePath, Importer imp) {
 		  		File instanceFile = new File(schemaFilePath.substring(0, schemaFilePath.length()-4) + ".xml");
 		  		if (!instanceFile.exists()) //try folder
 		  			instanceFile = new File(schemaFilePath.substring(0, schemaFilePath.length()-4));
+		  		if (!instanceFile.exists()) //instances not found
+		  		{
+		  			System.err.println("No instances found for " + schemaFile + " loading schema only");
+		  			return imp.importFile(schemaFile);
+		  		}
 		  		return imp.importFile(schemaFile,instanceFile);
 		  	}
 		  	else
