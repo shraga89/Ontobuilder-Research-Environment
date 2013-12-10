@@ -1,111 +1,60 @@
-<project name="ORE" default="Build With libs">
-	
-	<property name="app.name" value="OntoBuilder"/>
-	<property name="app.vendor" value="Technion - Israel Institute of Technology"/>
-	<property name="app.version" value="2.2"/>
-
-	<!-- Directories -->
-	<property name="target.dir" value="C:\jarfiles\sys"/>
-	<property name="bin.dir" value="../bin"/>
-	<property name="dtd.dir" value="../dtds"/>
-	<property name="xsd.dir" value="../xsd"/>
-	<property name="config.dir" value="../config"/>
-	<property name="cornetto.dir" value="../lib/cornetto"/>
-	<property name="wordnet.dir" value="../lib/wordnet"/>
-	<property name="lib.dir" value="../lib"/>
-
-	<!-- JAR File Names and Paths-->
-	<property name="ORE.jar" value="${target.dir}/ORE.jar"/>
-	
-	<path id="libraries.ref" description="Path with all the libraries">
-	    <fileset dir="${lib.dir}" includes="*.jar"/>
-  	</path>
-	
-	<path id="all.jars.ref" description="Path with the application JAR files and all the libraries">
-		<path refid="libraries.ref" />
-	    <fileset dir="${target.dir}" includes="*.jar"/>
-  	</path>
-	
-	
-	
-	<tstamp/> <!-- Initialize the timestamp variables -->
-
-
-	<!-- - - - - - - - - - - - - - - - - - 
-	          target: Clean ORE              
-	          Clean jar
-	         - - - - - - - - - - - - - - - - - -->
-	    <target name="Clean ORE">
-	        <delete file="${ORE.jar}" />
-	    </target>
-	
-	<!-- - - - - - - - - - - - - - - - - - 
-          target: Clean All              
-          Clean all the directories
-         - - - - - - - - - - - - - - - - - -->
-    <target name="Clean All" depends="Clean ORE">
-    	<delete dir="${target.dir}/${dtd.dir}"/>
-    	<delete dir="${target.dir}/${xsd.dir}"/>
-    	<delete dir="${target.dir}/${config.dir}"/>
-    	<delete dir="${target.dir}/${lib.dir}"/>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="create_run_jar" name="Create Runnable Jar for Project OntobuilderResearchEnvironment with libraries in sub-folder">
+    <!--this file was created by Eclipse Runnable JAR Export Wizard-->
+    <!--ANT 1.7 is required                                        -->
+    <target name="create_run_jar">
+        <jar destfile="C:/Users/Tomer/Dropbox/Technion/Research/OREStaging/ORE.jar">
+            <manifest>
+                <attribute name="Main-Class" value="ac.technion.schemamatching.experiments.OBExperimentRunner"/>
+                <attribute name="Class-Path" value=". lib/amc_cli.jar lib/cm.jar lib/datafile.jar lib/DataManagementLayer.jar lib/guava-r09.jar lib/jdom.jar lib/jing.jar lib/jsci-core.jar lib/Tidy.jar lib/SMB.jar lib/DBInterface.jar lib/xsom.jar lib/jbpt-0.2.314.jar lib/wsdl4j.jar lib/lpsolve55j.jar lib/commons-collections-3.2.1.jar lib/commons-logging-1.1.1.jar lib/jwnl.jar lib/mysql-connector-java-5.1.10-bin.jar lib/log4j-1.2.17.jar lib/edu.mit.jwi_2.1.4.jar lib/edu.sussex.nlp.jws.beta.11.jar lib/stanford-postagger-2011-06-19.jar lib/supportWN.jar lib/ws4j-1.0.0-SNAPSHOT.jar lib/processMatchingTools.jar lib/HermiT.jar lib/httpclient-4.2.3.jar lib/httpcore-4.2.2.jar lib/jena-arq-2.10.1.jar lib/jena-core-2.10.1.jar lib/jena-iri-0.9.6.jar lib/owlapi-distribution-3.4.5.jar lib/slf4j-api-1.6.4.jar lib/slf4j-log4j12-1.6.4.jar lib/xercesImpl-2.11.0.jar lib/xml-apis-1.4.01.jar lib/json-simple-1.1.1.jar lib/commons-math3-3.2.jar lib/ontobuilder.extraction.webform.jar lib/ontobuilder.io.jar lib/ontobuilder.core.jar lib/ontobuilder.matching.jar"/>
+            </manifest>
+            <fileset dir="C:/Users/Tomer/Dropbox/workspace/OntobuilderResearchEnvironment/bin"/>
+            <!-- fileset dir="C:/Users/Tomer/Dropbox/workspace/OntobuilderResearchEnvironment/lib"/  -->
+        </jar>
+        <delete dir="C:/Users/Tomer/Dropbox/Technion/Research/OREStaging/lib"/>
+        <mkdir dir="C:/Users/Tomer/Dropbox/Technion/Research/OREStaging/lib"/>
+        <copy file="C:/Users/Tomer/Dropbox/workspace/OntobuilderResearchEnvironment/lib/amc_cli.jar" todir="C:/Users/Tomer/Dropbox/Technion/Research/OREStaging/lib"/>
+        <copy file="C:/Users/Tomer/Dropbox/workspace/OntobuilderResearchEnvironment/lib/cm.jar" todir="C:/Users/Tomer/Dropbox/Technion/Research/OREStaging/lib"/>
+        <copy file="C:/Users/Tomer/Dropbox/workspace/OntobuilderResearchEnvironment/lib/datafile.jar" todir="C:/Users/Tomer/Dropbox/Technion/Research/OREStaging/lib"/>
+        <copy file="C:/Users/Tomer/Dropbox/workspace/OntobuilderResearchEnvironment/lib/DataManagementLayer.jar" todir="C:/Users/Tomer/Dropbox/Technion/Research/OREStaging/lib"/>
+        <copy file="C:/Users/Tomer/Dropbox/workspace/OntobuilderResearchEnvironment/lib/guava-r09.jar" todir="C:/Users/Tomer/Dropbox/Technion/Research/OREStaging/lib"/>
+        <copy file="C:/Users/Tomer/Dropbox/workspace/OntobuilderResearchEnvironment/lib/jdom.jar" todir="C:/Users/Tomer/Dropbox/Technion/Research/OREStaging/lib"/>
+        <copy file="C:/Users/Tomer/Dropbox/workspace/OntobuilderResearchEnvironment/lib/jing.jar" todir="C:/Users/Tomer/Dropbox/Technion/Research/OREStaging/lib"/>
+        <copy file="C:/Users/Tomer/Dropbox/workspace/OntobuilderResearchEnvironment/lib/jsci-core.jar" todir="C:/Users/Tomer/Dropbox/Technion/Research/OREStaging/lib"/>
+        <copy file="C:/Users/Tomer/Dropbox/workspace/OntobuilderResearchEnvironment/lib/Tidy.jar" todir="C:/Users/Tomer/Dropbox/Technion/Research/OREStaging/lib"/>
+        <copy file="C:/Users/Tomer/Dropbox/workspace/OntobuilderResearchEnvironment/lib/SMB.jar" todir="C:/Users/Tomer/Dropbox/Technion/Research/OREStaging/lib"/>
+        <copy file="C:/Users/Tomer/Dropbox/workspace/OntobuilderResearchEnvironment/lib/DBInterface.jar" todir="C:/Users/Tomer/Dropbox/Technion/Research/OREStaging/lib"/>
+        <copy file="C:/Users/Tomer/Dropbox/workspace/OntobuilderResearchEnvironment/lib/xsom.jar" todir="C:/Users/Tomer/Dropbox/Technion/Research/OREStaging/lib"/>
+        <copy file="C:/Users/Tomer/Dropbox/workspace/OntobuilderResearchEnvironment/lib/jbpt-0.2.314.jar" todir="C:/Users/Tomer/Dropbox/Technion/Research/OREStaging/lib"/>
+        <copy file="C:/Users/Tomer/Dropbox/workspace/OntobuilderResearchEnvironment/lib/wsdl4j.jar" todir="C:/Users/Tomer/Dropbox/Technion/Research/OREStaging/lib"/>
+        <copy file="C:/Users/Tomer/Dropbox/workspace/OntobuilderResearchEnvironment/lib/lpsolve55j.jar" todir="C:/Users/Tomer/Dropbox/Technion/Research/OREStaging/lib"/>
+        <copy file="C:/Users/Tomer/Dropbox/workspace/OntobuilderResearchEnvironment/lib/commons-collections-3.2.1.jar" todir="C:/Users/Tomer/Dropbox/Technion/Research/OREStaging/lib"/>
+        <copy file="C:/Users/Tomer/Dropbox/workspace/OntobuilderResearchEnvironment/lib/commons-logging-1.1.1.jar" todir="C:/Users/Tomer/Dropbox/Technion/Research/OREStaging/lib"/>
+        <copy file="C:/Users/Tomer/Dropbox/workspace/OntobuilderResearchEnvironment/lib/jwnl.jar" todir="C:/Users/Tomer/Dropbox/Technion/Research/OREStaging/lib"/>
+        <copy file="C:/Users/Tomer/Dropbox/workspace/OntobuilderResearchEnvironment/lib/mysql-connector-java-5.1.10-bin.jar" todir="C:/Users/Tomer/Dropbox/Technion/Research/OREStaging/lib"/>
+        <copy file="C:/Users/Tomer/Dropbox/workspace/OntobuilderResearchEnvironment/lib/log4j-1.2.17.jar" todir="C:/Users/Tomer/Dropbox/Technion/Research/OREStaging/lib"/>
+        <copy file="C:/Users/Tomer/Dropbox/workspace/OntobuilderResearchEnvironment/lib/edu.mit.jwi_2.1.4.jar" todir="C:/Users/Tomer/Dropbox/Technion/Research/OREStaging/lib"/>
+        <copy file="C:/Users/Tomer/Dropbox/workspace/OntobuilderResearchEnvironment/lib/edu.sussex.nlp.jws.beta.11.jar" todir="C:/Users/Tomer/Dropbox/Technion/Research/OREStaging/lib"/>
+        <copy file="C:/Users/Tomer/Dropbox/workspace/OntobuilderResearchEnvironment/lib/stanford-postagger-2011-06-19.jar" todir="C:/Users/Tomer/Dropbox/Technion/Research/OREStaging/lib"/>
+        <copy file="C:/Users/Tomer/Dropbox/workspace/OntobuilderResearchEnvironment/lib/supportWN.jar" todir="C:/Users/Tomer/Dropbox/Technion/Research/OREStaging/lib"/>
+        <copy file="C:/Users/Tomer/Dropbox/workspace/OntobuilderResearchEnvironment/lib/ws4j-1.0.0-SNAPSHOT.jar" todir="C:/Users/Tomer/Dropbox/Technion/Research/OREStaging/lib"/>
+        <copy file="C:/Users/Tomer/Dropbox/workspace/OntobuilderResearchEnvironment/lib/processMatchingTools.jar" todir="C:/Users/Tomer/Dropbox/Technion/Research/OREStaging/lib"/>
+        <copy file="C:/Users/Tomer/Dropbox/workspace/OntobuilderResearchEnvironment/lib/HermiT.jar" todir="C:/Users/Tomer/Dropbox/Technion/Research/OREStaging/lib"/>
+        <copy file="C:/Users/Tomer/Dropbox/workspace/OntobuilderResearchEnvironment/lib/httpclient-4.2.3.jar" todir="C:/Users/Tomer/Dropbox/Technion/Research/OREStaging/lib"/>
+        <copy file="C:/Users/Tomer/Dropbox/workspace/OntobuilderResearchEnvironment/lib/httpcore-4.2.2.jar" todir="C:/Users/Tomer/Dropbox/Technion/Research/OREStaging/lib"/>
+        <copy file="C:/Users/Tomer/Dropbox/workspace/OntobuilderResearchEnvironment/lib/jena-arq-2.10.1.jar" todir="C:/Users/Tomer/Dropbox/Technion/Research/OREStaging/lib"/>
+        <copy file="C:/Users/Tomer/Dropbox/workspace/OntobuilderResearchEnvironment/lib/jena-core-2.10.1.jar" todir="C:/Users/Tomer/Dropbox/Technion/Research/OREStaging/lib"/>
+        <copy file="C:/Users/Tomer/Dropbox/workspace/OntobuilderResearchEnvironment/lib/jena-iri-0.9.6.jar" todir="C:/Users/Tomer/Dropbox/Technion/Research/OREStaging/lib"/>
+        <copy file="C:/Users/Tomer/Dropbox/workspace/OntobuilderResearchEnvironment/lib/owlapi-distribution-3.4.5.jar" todir="C:/Users/Tomer/Dropbox/Technion/Research/OREStaging/lib"/>
+        <copy file="C:/Users/Tomer/Dropbox/workspace/OntobuilderResearchEnvironment/lib/slf4j-api-1.6.4.jar" todir="C:/Users/Tomer/Dropbox/Technion/Research/OREStaging/lib"/>
+        <copy file="C:/Users/Tomer/Dropbox/workspace/OntobuilderResearchEnvironment/lib/slf4j-log4j12-1.6.4.jar" todir="C:/Users/Tomer/Dropbox/Technion/Research/OREStaging/lib"/>
+        <copy file="C:/Users/Tomer/Dropbox/workspace/OntobuilderResearchEnvironment/lib/xercesImpl-2.11.0.jar" todir="C:/Users/Tomer/Dropbox/Technion/Research/OREStaging/lib"/>
+        <copy file="C:/Users/Tomer/Dropbox/workspace/OntobuilderResearchEnvironment/lib/xml-apis-1.4.01.jar" todir="C:/Users/Tomer/Dropbox/Technion/Research/OREStaging/lib"/>
+        <copy file="C:/Users/Tomer/Dropbox/workspace/OntobuilderResearchEnvironment/lib/json-simple/json-simple-1.1.1.jar" todir="C:/Users/Tomer/Dropbox/Technion/Research/OREStaging/lib"/>
+        <copy file="C:/Users/Tomer/Dropbox/workspace/OntobuilderResearchEnvironment/lib/commons-math3-3.2.jar" todir="C:/Users/Tomer/Dropbox/Technion/Research/OREStaging/lib"/>
+        <copy file="C:/Users/Tomer/Dropbox/workspace/OntobuilderResearchEnvironment/lib/ontobuilder.extraction.webform.jar" todir="C:/Users/Tomer/Dropbox/Technion/Research/OREStaging/lib"/>
+        <copy file="C:/Users/Tomer/Dropbox/workspace/OntobuilderResearchEnvironment/lib/ontobuilder.io.jar" todir="C:/Users/Tomer/Dropbox/Technion/Research/OREStaging/lib"/>
+        <copy file="C:/Users/Tomer/Dropbox/workspace/OntobuilderResearchEnvironment/lib/ontobuilder.core.jar" todir="C:/Users/Tomer/Dropbox/Technion/Research/OREStaging/lib"/>
+        <copy file="C:/Users/Tomer/Dropbox/workspace/OntobuilderResearchEnvironment/lib/ontobuilder.matching.jar" todir="C:/Users/Tomer/Dropbox/Technion/Research/OREStaging/lib"/>
     </target>
-
-	<!-- - - - - - - - - - - - - - - - - - 
-          target: Copy All
-          Copy the relevant files from the project                      
-         - - - - - - - - - - - - - - - - - -->
-    <target name="Copy All" depends="Clean All">
-    	<copy todir="${target.dir}\${lib.dir}" description="Copy libraries">
-    		<fileset dir="${lib.dir}" />
-    	</copy>
-    	<copy todir="${target.dir}/${dtd.dir}" description="Copy DTD files">
-    		<fileset dir="${dtd.dir}"></fileset>
-    	</copy>
-    	<copy todir="${target.dir}/${xsd.dir}" description="Copy XSD fiels">
-    		<fileset dir="${xsd.dir}"></fileset>
-    	</copy>
-    	<copy todir="${target.dir}/${config.dir}" description="Copy only common configuration files">
-    		<fileset dir="${config.dir}"></fileset>
-    	</copy>
-    </target>
-	
-	<!-- - - - - - - - - - - - - - - - - - 
-          target: ORE - Jar              
-          Create the JAR file
-         - - - - - - - - - - - - - - - - - -->
-    <target name="ORE - Jar" depends="Clean ORE">
-    	<manifestclasspath property="manifest_cp" jarfile="${ORE.jar}">
-			<classpath refid="libraries.ref" />
-    	</manifestclasspath>
-    	<jar destfile="${ORE.jar}" basedir="${bin.dir}">
-    		<manifest>
-    			<attribute name="Built-By" value="${user.name}"/>
-    			<attribute name="Build-Date" value="${TODAY}"/>
-    			<attribute name="Specification-Title" value="${app.name} - Core"/>
-    			<attribute name="Specification-Vendor" value="${app.vendor}"/>
-    			<attribute name="Implementation-Title" value="${app.name} - Core"/>
-    			<attribute name="Implementation-Vendor" value="${app.vendor}"/>
-    	    	<attribute name="Main-Class" value="ac/technion/schemamatching/experiments/OBExperimentRunner"/>
-    			<attribute name="Class-Path" value="${manifest_cp}" />
-    		</manifest>
-    	</jar>
-  	
-    </target>
-	
-	<!-- ================================= 
-          target: Build With libs              
-         ================================= -->
-    <target name="Build With libs" depends="Copy All, ORE - Jar" description="Build ORE with libraries">
-    	<delete dir="${src.dir}"/>
-    	<delete dir="${build.dir}"/>
-    </target>
-	
-
-	
-	<!-- ================================= 
-          target: Build Without libs              
-         ================================= -->
-	<target name="Build Without libs" depends="ORE - Jar" description="Build ORE without libraries"/>
-		
-	
 </project>
