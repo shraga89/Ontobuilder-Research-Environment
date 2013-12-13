@@ -13,6 +13,7 @@ import ac.technion.schemamatching.matchers.secondline.SLMList;
 import ac.technion.schemamatching.matchers.secondline.SecondLineMatcher;
 import ac.technion.schemamatching.statistics.BinaryGolden;
 import ac.technion.schemamatching.statistics.K2Statistic;
+import ac.technion.schemamatching.statistics.MatchDistance;
 import ac.technion.schemamatching.statistics.NBGolden;
 import ac.technion.schemamatching.statistics.Statistic;
 import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
@@ -50,6 +51,11 @@ public class AttributePredictorEnsemble implements PairWiseExperiment {
 		nb.init(id, weightedMI, esp.getExact());
 		res.add(nb);
 		
+		//Calculate MD
+		K2Statistic md = new MatchDistance();
+		md.init(id, weightedMI, esp.getExact());
+		res.add(md);
+		
 		//Match Select and calculate Precision and Recall 
 		//MatchInformation matchSelected = SLMList.OBThreshold025.getSLM().match(weightedMI);
 		//MatchInformation matchSelected = SLMList.OBSM.getSLM().match(weightedMI);
@@ -57,6 +63,10 @@ public class AttributePredictorEnsemble implements PairWiseExperiment {
 		K2Statistic b = new BinaryGolden();
 		b.init(id, matchSelected,esp.getExact());
 		res.add(b);
+		//Calculate MD
+		K2Statistic md2 = new MatchDistance();
+		md2.init(id+"+Filtered", matchSelected, esp.getExact());
+		res.add(md2);
 				
 		return res;
 	}
