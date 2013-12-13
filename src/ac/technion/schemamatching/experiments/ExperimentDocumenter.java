@@ -52,7 +52,8 @@ public class ExperimentDocumenter
 			if (es.getClass().equals(ExperimentSchemaPair.class))
 			{
 				ExperimentSchemaPair esp =  (ExperimentSchemaPair)es;
-				MatchInformation exactMapping = esp.getExact();
+				if (esp.getDataSetType().isSupportsDBLookUp())
+				{MatchInformation exactMapping = esp.getExact();
 				//Document term parameters 
 				if (exactMapping != null){
 					for (Object o : exactMapping.getOriginalCandidateTerms())
@@ -60,9 +61,10 @@ public class ExperimentDocumenter
 					for (Object o : exactMapping.getOriginalTargetTerms())
 						writeTermToDB(esp.getTargetID(), (Term)o);
 					
-					//Document exact match
-			        uploadExactMatch(exactMapping, esp.getID());
-			   
+					//Document exact match if terms are static
+
+						uploadExactMatch(exactMapping, esp.getID());
+				}
 				}
 			}	     
 		   

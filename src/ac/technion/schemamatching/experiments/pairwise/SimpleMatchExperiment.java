@@ -9,6 +9,7 @@ import ac.technion.schemamatching.matchers.firstline.FirstLineMatcher;
 import ac.technion.schemamatching.matchers.secondline.SecondLineMatcher;
 import ac.technion.schemamatching.statistics.BinaryGolden;
 import ac.technion.schemamatching.statistics.K2Statistic;
+import ac.technion.schemamatching.statistics.MatchDistance;
 import ac.technion.schemamatching.statistics.NBGolden;
 import ac.technion.schemamatching.statistics.NBGoldenAtDynamicK;
 import ac.technion.schemamatching.statistics.NBGoldenAtK;
@@ -68,6 +69,11 @@ public class SimpleMatchExperiment implements PairWiseExperiment {
 			nbr.init(instanceDesc, mi,esp.getExact());
 			evaluations.add(nbr);
 			
+			//Calculate MatchDisatance
+			K2Statistic md = new MatchDistance();
+			md.init(instanceDesc, mi,esp.getExact());
+			evaluations.add(md);
+			
 			//Using all second line matchers
 			for (SecondLineMatcher s : slM)
 			{
@@ -84,6 +90,10 @@ public class SimpleMatchExperiment implements PairWiseExperiment {
 				instanceDesc =  esp.getID() + "," + m.getName() + "," + s.getName()+ "," + s.getConfig();
 				b2.init(instanceDesc, mi1,esp.getExact());
 				evaluations.add(b2);
+				//Calculate MatchDistance
+				K2Statistic md2 = new MatchDistance();
+				md2.init(instanceDesc, mi1,esp.getExact());
+				evaluations.add(md2);
 			}
 			
 		}

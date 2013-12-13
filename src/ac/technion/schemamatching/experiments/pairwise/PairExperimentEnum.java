@@ -30,7 +30,9 @@ public enum PairExperimentEnum
 	,ProcessModelEvaluation (new ProcessModelEvaluation())
 	, BuildMatchesCurpos(new MatchesCurposBuildExperiment())
 	,SimpleMatchV(new SimpleMatchExperimentDiagnostic())
-	, AguemntCuporsMatch(new MatchesCurposSimpleExperiment());
+	, AguemntCuporsMatch(new MatchesCurposSimpleExperiment())
+	, Profile(new SchemaPairProfiling());
+	
 	
 	private PairExperimentEnum(PairWiseExperiment e)
 	{

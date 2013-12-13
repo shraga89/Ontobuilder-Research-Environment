@@ -40,7 +40,7 @@ public class K1Informed implements K2Statistic{
 
 	@Override
 	public boolean init(String instanceDescription, MatchInformation mi) {
-		String[] res = new String[10];
+		String[] res = new String[9];
 		res[0] = instanceDescription;
 		res[1] = Integer.toString(mi.getCandidateOntologyTermsTotal());
 		res[2] = Integer.toString(mi.getTargetOntologyTermsTotal());
@@ -64,6 +64,7 @@ public class K1Informed implements K2Statistic{
 				mult++;
 		}
 		res[8] = Integer.toString(mult);
+		data.add(res);
 		return true;
 	}
 
