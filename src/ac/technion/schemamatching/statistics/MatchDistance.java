@@ -84,7 +84,7 @@ public class MatchDistance implements K2Statistic {
 				exact.remove(m);
 			double val = m.getEffectiveness(); 
 			mdDist+=Math.pow(eVal-eVal*val,2.0);
-			nmdDist+=Math.pow((1-eVal)-(1-eVal)*val,2.0);
+			nmdDist+=Math.pow((1-eVal)*eVal-(1-eVal)*val,2.0);
 		}
 		//Add 1 distances for unmatched exact matches
 		mdDist+=(double)exact.size();
