@@ -1,7 +1,7 @@
 /**
  * 
  */
-package ac.technion.schemamatching.statistics.all;
+package ac.technion.schemamatching.statistics;
 
 import java.util.ArrayList;
 import java.util.HashSet;

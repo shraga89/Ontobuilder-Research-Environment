@@ -17,10 +17,10 @@ import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 import ac.technion.schemamatching.experiments.OBExperimentRunner;
 import ac.technion.schemamatching.matchers.firstline.FirstLineMatcher;
 import ac.technion.schemamatching.matchers.secondline.SecondLineMatcher;
-import ac.technion.schemamatching.statistics.all.K2Statistic;
-import ac.technion.schemamatching.statistics.all.MappingPrinter;
-import ac.technion.schemamatching.statistics.all.Statistic;
-import ac.technion.schemamatching.statistics.all.UnconstrainedMatchDistance;
+import ac.technion.schemamatching.statistics.K2Statistic;
+import ac.technion.schemamatching.statistics.MappingPrinter;
+import ac.technion.schemamatching.statistics.Statistic;
+import ac.technion.schemamatching.statistics.UnconstrainedMatchDistance;
 import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
 
 /**
