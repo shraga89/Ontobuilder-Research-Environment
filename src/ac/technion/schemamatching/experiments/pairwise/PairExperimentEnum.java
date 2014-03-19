@@ -13,7 +13,8 @@ package ac.technion.schemamatching.experiments.pairwise;
 public enum PairExperimentEnum 
 {
 	SimpleMatch(new SimpleMatchExperiment())
-	,Clarity(new ClarityExperiment()),MatrixPredictEval(new MatrixPredictorEvaluation()),Boosting(new BoostingExperiment())
+	//,Clarity(new ClarityExperiment()) //Deprecated by Tomer Sagi 29/01/2014
+	,MatrixPredictEval(new MatrixPredictorEvaluation()),Boosting(new BoostingExperiment())
 	,TuneTerm(new TuneTermExperiment()), StaticEnsemble(new StaticEnsemble())
 	,EntryPredictEval(new EntryPredictorEvaluation()), AttributePredictEval(new AttributePredictorEvaluation())
 	,MatrixPredictorEnsemble(new MatrixPredictorEnsemble()),AttributePredictorEnsemble(new AttributePredictorEnsemble())
@@ -31,8 +32,8 @@ public enum PairExperimentEnum
 	, BuildMatchesCurpos(new MatchesCurposBuildExperiment())
 	,SimpleMatchV(new SimpleMatchExperimentDiagnostic())
 	, AguemntCuporsMatch(new MatchesCurposSimpleExperiment())
-	, Profile(new SchemaPairProfiling());
-	
+	, Profile(new SchemaPairProfiling())
+	, NBNB(new NBNBEvaluationExperiment());
 	
 	private PairExperimentEnum(PairWiseExperiment e)
 	{
