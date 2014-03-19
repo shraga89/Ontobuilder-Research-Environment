@@ -1,0 +1,20 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<xsd:element name="DiffMatch" type="DiffMatchInfo"></xsd:element>
+	<xsd:complexType name="DiffMatchInfo">
+		<xsd:sequence>
+			<xsd:element name="MatchedTerms" type="MatchedTermsType" minOccurs="2" maxOccurs="2" />
+		</xsd:sequence>
+		<xsd:attribute name="PreviousMatchIndex" type="xsd:string" />
+		<xsd:attribute name="NextMatchIndex" type="xsd:string" />
+		<xsd:attribute name="CandidateOntology" type="xsd:string" />
+		<xsd:attribute name="TargetOntology" type="xsd:string" />
+		<xsd:attribute name="MatchWeightDiff" type="xsd:string" />
+	</xsd:complexType>
+	<xsd:complexType name="NewMatchedTerms">
+		<xsd:sequence>
+			<xsd:element name="CandidateTerm" type="xsd:string" minOccurs="1" maxOccurs="1" />
+			<xsd:element name="TargetTerm" type="xsd:string" minOccurs="1" maxOccurs="1" />
+		</xsd:sequence>
+		<xsd:attribute name="Weight" type="xsd:string" />
+	</xsd:complexType>
+</xsd:schema>
