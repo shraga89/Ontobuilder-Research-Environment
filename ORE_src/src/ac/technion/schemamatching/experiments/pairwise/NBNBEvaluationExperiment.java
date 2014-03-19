@@ -18,6 +18,7 @@ import ac.technion.schemamatching.experiments.OBExperimentRunner;
 import ac.technion.schemamatching.matchers.firstline.FirstLineMatcher;
 import ac.technion.schemamatching.matchers.secondline.SecondLineMatcher;
 import ac.technion.schemamatching.statistics.all.K2Statistic;
+import ac.technion.schemamatching.statistics.all.MappingPrinter;
 import ac.technion.schemamatching.statistics.all.Statistic;
 import ac.technion.schemamatching.statistics.all.UnconstrainedMatchDistance;
 import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
@@ -38,6 +39,7 @@ public class NBNBEvaluationExperiment implements PairWiseExperiment {
 	ArrayList<FirstLineMatcher> flm = new ArrayList<FirstLineMatcher>();
 	ArrayList<MatchInformation> humanOpinions = new ArrayList<MatchInformation>(); 
 	Properties p = null;
+	private ArrayList<SecondLineMatcher> slm = new ArrayList<SecondLineMatcher>();
 	/* (non-Javadoc)
 	 * @see ac.technion.schemamatching.experiments.pairwise.PairWiseExperiment#runExperiment(ac.technion.schemamatching.testbed.ExperimentSchemaPair)
 	 */
@@ -91,15 +93,23 @@ public class NBNBEvaluationExperiment implements PairWiseExperiment {
 			m.setEffectiveness(aggVec.get(m).doubleValue()/((double)humanOpinions.size()));
 
 		aggMI.setMatches(new ArrayList<Match>(aggVec.keySet()));
-
-		//Match using all FLM and evaluate
-		ArrayList<Statistic> res = new ArrayList<Statistic>(); 
+		Statistic mp = new MappingPrinter();
+		mp.init(esp.getID() + ",ReferenceVec", aggMI);
+		ArrayList<Statistic> res = new ArrayList<Statistic>();
+		res.add(mp);
+		
+		//Match using all FLM and evaluate 
 		for (FirstLineMatcher f : flm)
 		{
 			MatchInformation fMI = f.match(esp.getCandidateOntology(), esp.getTargetOntology(), false);
 			K2Statistic umd = new UnconstrainedMatchDistance();
-			umd.init(esp.getID() + "," + f.getName(), fMI,aggMI);
+			String instance = esp.getID() + "," + f.getName();
+			umd.init(instance, fMI,aggMI);
 			res.add(umd);
+			Statistic mpf = new MappingPrinter();
+			mpf.init(instance,fMI);
+			res.add(mpf);
+			
 			//output major disagreements in UMD
 			for (Term t : esp.getTargetOntology().getTerms(true))
 			{
@@ -116,8 +126,28 @@ public class NBNBEvaluationExperiment implements PairWiseExperiment {
 					aggPMI.setMatches(expectedMatches );
 				
 				K2Statistic partialUmd = new UnconstrainedMatchDistance();
+				((UnconstrainedMatchDistance)partialUmd).setLimit(t);
 				partialUmd.init(esp.getID() + "," + f.getName() + "," + t.getProvenance(), pmi,aggPMI);
 				res.add(partialUmd);
+			}
+			
+			//Using all second line matchers
+			for (SecondLineMatcher s : slm)
+			{
+				//Second Line Match
+				if (p == null || !s.init(p)) 
+					System.err.println("Initialization of " + s.getName() + 
+							"failed, we hope the author defined default values...");
+				double startTime = System.currentTimeMillis();
+				MatchInformation mi1 = s.match(fMI);
+				double endTime = System.currentTimeMillis();
+				System.out.println(s.getName() + " Runtime: " + (endTime - startTime));
+				//calculate Precision and Recall
+				String instanceDesc =  instance + "," + s.getName()+ "," + s.getConfig();
+				//Calculate MatchDistance
+				K2Statistic md2 = new UnconstrainedMatchDistance();
+				md2.init(instanceDesc, mi1,aggMI);
+				res.add(md2);
 			}
 		}
 		
@@ -132,6 +162,7 @@ public class NBNBEvaluationExperiment implements PairWiseExperiment {
 	public boolean init(OBExperimentRunner oer, Properties properties,
 			ArrayList<FirstLineMatcher> flM, ArrayList<SecondLineMatcher> slM) {
 		flm = flM;
+		slm  = slM;
 		p = properties;
 		return true;
 	}
@@ -149,7 +180,6 @@ public class NBNBEvaluationExperiment implements PairWiseExperiment {
 	 */
 	@Override
 	public List<Statistic> summaryStatistics() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

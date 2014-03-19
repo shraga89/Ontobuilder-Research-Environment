@@ -4,11 +4,9 @@
 package ac.technion.schemamatching.statistics.all;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-import ac.technion.iem.ontobuilder.matching.match.Match;
+import ac.technion.iem.ontobuilder.core.ontology.Term;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 
 /**
@@ -34,6 +32,7 @@ public class UnconstrainedMatchDistance implements K2Statistic {
 	String[] header = new String[]{"instance","NED","UMD","UNMD"};
 	private List<String[]> data = new ArrayList<String[]>();
 	private double threshold = 0.5; //Threshold for consideration in "Match" dimensions.  
+	private Term limit=null; //Used to limit evaluation to a single target term
 	/* (non-Javadoc)
 	 * @see ac.technion.schemamatching.statistics.Statistic#getHeader()
 	 */
@@ -74,50 +73,27 @@ public class UnconstrainedMatchDistance implements K2Statistic {
 			MatchInformation exactMatch) {
 		String[] res = new String[4];
 		res[0] = instanceDescription;
-		Set<Match> exact = new HashSet<Match>(exactMatch.getCopyOfMatches());
 		double mdDenom = 0.0;
-		double nmdDenom = (double)((long)exactMatch.getCandidateOntologyTermsTotal() //TODO: fix for partial vectors MD
-				*(long)exactMatch.getTargetOntologyTermsTotal()-mi.getNumMatches());
+		double nmdDenom = 0.0;
 		double mdDist = 0.0;
 		double nmdDist = 0.0;
 		double dist = 0.0;
-		for (Match m : mi.getCopyOfMatches())
-		{
-			double eVal = exactMatch.getMatchConfidence(m.getCandidateTerm(), m.getTargetTerm());
-			if (eVal>0.0) 
-				exact.remove(m);
-			double val = m.getEffectiveness(); 
-			if (eVal>=threshold)
-			{
-				mdDist+=Math.pow(val-eVal,2.0) ;
-				mdDenom+=Math.pow(eVal,2.0);
-				nmdDenom-=1.0;
-			}
-			else
-			{
-				nmdDist+=Math.pow(val-eVal,2.0) ;
-				nmdDenom+=Math.pow(1.0-eVal,2.0);
-			}
-			dist +=Math.pow(val-eVal,2.0) ;
-		}
-		//Add distances for unmatched exact matches
-		for (Match e : exact)
-		{
-			double eVal = e.getEffectiveness(); 
-			if (eVal>=threshold)
-			{
-				mdDist+=Math.pow(eVal,2.0) ;
-				mdDenom+=Math.pow(eVal,2.0);
-				nmdDenom-=1.0;
-			}
-			else
-			{
-				nmdDist+=Math.pow(eVal,2.0) ;
-				nmdDenom+=Math.pow(1-eVal,2.0);
-			}
-			dist +=Math.pow(eVal,2.0) ;
-		}
 		
+		for (Term c : exactMatch.getOriginalCandidateTerms())
+			for (Term t : exactMatch.getOriginalTargetTerms())
+			{
+				if (limit!=null && !t.equals(limit)) //Skip unrelated matches if limited
+					continue;
+				double eVal = exactMatch.getMatchConfidence(c, t);
+				double rVal = mi.getMatchConfidence(c, t);
+				double eBarVal = (eVal>=threshold?0.0:1.0);
+				double eBarBarVal = (1.0-eBarVal);
+				mdDist+=Math.pow(eBarBarVal*rVal-eBarBarVal*eVal,2.0);
+				mdDenom+=Math.pow(eBarBarVal*eVal,2.0);
+				nmdDist+=Math.pow(eBarVal*eVal-eBarVal*rVal,2.0);
+				nmdDenom+=Math.pow(eBarVal-eVal,2.0);
+				dist +=Math.pow(rVal-eVal,2.0) ;
+			}
 		
 		//finish
 		double md = 1.0-(mdDenom ==0 ? 1.0 : Math.sqrt(mdDist)/Math.sqrt(mdDenom)); 
@@ -131,6 +107,20 @@ public class UnconstrainedMatchDistance implements K2Statistic {
 		
 		data.add(res);
 		return true;
+	}
+
+	/**
+	 * @return the limit
+	 */
+	public Term getLimit() {
+		return limit;
+	}
+
+	/**
+	 * @param limit the limit to set
+	 */
+	public void setLimit(Term limit) {
+		this.limit = limit;
 	}
 
 }
