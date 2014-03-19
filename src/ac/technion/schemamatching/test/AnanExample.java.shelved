@@ -1,0 +1,44 @@
+
+
+package ac.technion.schemamatching.test;
+
+import ac.technion.iem.ontobuilder.matching.algorithms.line2.tkm.TKMInitializationException;
+import ac.technion.iem.ontobuilder.matching.algorithms.line2.tkm.TKMRunningException;
+import ac.technion.iem.ontobuilder.matching.utils.SchemaMatchingAlgorithmsRunner;
+import ac.technion.iem.ontobuilder.matching.utils.SchemaTranslator;
+
+/**
+ * @author haggai
+ *
+ * TODO To change the template for this generated type comment go to
+ * Window - Preferences - Java - Code Style - Code Templates
+ */
+public class AnanExample {
+	
+	  public static void main(String args[]) {
+	    try{
+	    	
+	      long[] rightNames = {11,12,13};
+	  	  long[] leftNames = {21,22,23};
+	  	  double[][] adjMatrix = {{0.1,0.3,0.6},
+	  	                          {0.2,0.1,0.5},
+	  	                          {0.4,0.5,0.8}};
+	  	  
+	      SchemaMatchingAlgorithmsRunner smar = new SchemaMatchingAlgorithmsRunner();
+	      smar.setInitialSchema(leftNames);
+	      try{
+	        smar.setMatchedSchema(rightNames,adjMatrix);
+	      }catch(TKMInitializationException e){
+	        e.printStackTrace();
+	        System.exit(1);
+	      }
+	      SchemaTranslator st;
+	      st = smar.getNextBestMatching(true);
+	      st.printTranslations();
+	   
+	    }catch(TKMRunningException e){
+	    	 e.printStackTrace();
+		     System.exit(1);
+	    }
+	  }
+}

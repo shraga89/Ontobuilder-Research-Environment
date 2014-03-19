@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!ELEMENT matchInformation (targetOntology, candidateOntology, algorithm, statistics?, matches, mismatches)>
+<!ELEMENT targetOntology (terms)>
+<!ATTLIST targetOntology
+	name CDATA #REQUIRED
+	totalTerms CDATA #IMPLIED
+>
+<!ELEMENT candidateOntology (terms)>
+<!ATTLIST candidateOntology
+	name CDATA #REQUIRED
+	totalTerms CDATA #IMPLIED
+>
+<!ELEMENT terms (term*)>
+<!ELEMENT term (#PCDATA)>
+<!ATTLIST term
+	page CDATA #REQUIRED
+	form CDATA #REQUIRED
+	name CDATA #REQUIRED
+	type CDATA #IMPLIED
+>
+<!ELEMENT algorithm (#PCDATA)>
+<!ATTLIST algorithm
+	threshold CDATA #REQUIRED
+>
+<!ELEMENT statistics (recall)>
+<!ELEMENT recall (#PCDATA)>
+<!ELEMENT matches (match*)>
+<!ATTLIST matches
+	total CDATA #IMPLIED
+>
+<!ELEMENT match (target, candidate)>
+<!ATTLIST match
+	confidence CDATA #REQUIRED
+>
+<!ELEMENT target (term)>
+<!ELEMENT candidate (term)>
+<!ELEMENT mismatches (targetMismatches, candidateMismatches)>
+<!ELEMENT targetMismatches (term*)>
+<!ELEMENT candidateMismatches (term*)>
