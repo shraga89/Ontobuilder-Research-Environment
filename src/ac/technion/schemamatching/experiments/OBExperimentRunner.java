@@ -29,7 +29,8 @@ import ac.technion.schemamatching.matchers.firstline.FirstLineMatcher;
 import ac.technion.schemamatching.matchers.secondline.SLMList;
 import ac.technion.schemamatching.matchers.secondline.SecondLineMatcher;
 import ac.technion.schemamatching.statistics.Statistic;
-import ac.technion.schemamatching.test.Ontology_Invariance;
+import ac.technion.schemamatching.test.OntologyInvariance;
+import ac.technion.schemamatching.test.OntologyInvariance;
 import ac.technion.schemamatching.testbed.ExperimentSchema;
 import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
 import ac.technion.schemamatching.util.PropertyLoader;
@@ -486,11 +487,6 @@ public class OBExperimentRunner {
 		ArrayList<Statistic> res = new ArrayList<Statistic>();
 		e.init(this, pFile, flm, slm);
 		resultFolder = getFolder(resultFolder);
-		Ontology_Invariance oi = new Ontology_Invariance(dataset.get(0));//new addition by Roee
-		for (FirstLineMatcher f : flm)//new addition by Roee
-		{
-			if (!(oi.test_FLM(f))) return;
-		}
 		int i = 0;
 		for (ExperimentSchemaPair esp : dataset)
 		{
