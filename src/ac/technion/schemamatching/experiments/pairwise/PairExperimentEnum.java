@@ -33,7 +33,9 @@ public enum PairExperimentEnum
 	,SimpleMatchV(new SimpleMatchExperimentDiagnostic())
 	, AguemntCuporsMatch(new MatchesCurposSimpleExperiment())
 	, Profile(new SchemaPairProfiling())
-	, NBNB(new NBNBEvaluationExperiment());
+	, NBNB(new NBNBEvaluationExperiment())
+	, OntologyInvariance(new OntologyInvarianceExperiment());
+	
 	
 	private PairExperimentEnum(PairWiseExperiment e)
 	{
