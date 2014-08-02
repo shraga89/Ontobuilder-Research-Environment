@@ -6,10 +6,12 @@ import java.util.Properties;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 import ac.technion.schemamatching.experiments.OBExperimentRunner;
 import ac.technion.schemamatching.matchers.firstline.FirstLineMatcher;
+import ac.technion.schemamatching.matchers.secondline.OBCrossEntropy;
 import ac.technion.schemamatching.matchers.secondline.SLMList;
 import ac.technion.schemamatching.matchers.secondline.SecondLineMatcher;
 import ac.technion.schemamatching.statistics.BinaryGolden;
 import ac.technion.schemamatching.statistics.K2Statistic;
+import ac.technion.schemamatching.statistics.MCC;
 import ac.technion.schemamatching.statistics.Statistic;
 import ac.technion.schemamatching.statistics.predictors.MatrixPredictors;
 import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
@@ -65,7 +67,23 @@ public class MatrixPredictorEvaluation implements PairWiseExperiment {
 			K2Statistic b3 = new BinaryGolden();
 			b3.init(instanceDesc, mi3,esp.getExact());
 			evaluations.add(b3);
-			
+			//new predictor
+			SecondLineMatcher obce = new OBCrossEntropy();
+			MatchInformation mi4 = obce.match(mi);
+			instanceDesc = esp.getID()+","+m.getName()+","+"OBCrossEntropy";
+			MatchInformation obceMatch = obce.match(mi4);
+	        //Basic quality measures
+			BinaryGolden statistic = new BinaryGolden();
+			statistic.init(instanceDesc, obceMatch, esp.getExact());
+			evaluations.add(statistic);
+			Statistic  p4 = new MatrixPredictors();
+			p4.init(instanceDesc, mi4);
+			predictions.add(p4);
+			//Precision mcc
+			K2Statistic mcc = new MCC();
+			mcc.init(instanceDesc, obceMatch, esp.getExact());
+			predictions.add(mcc);
+			evaluations.add(mcc);
 		}
 		predictions.addAll(evaluations);
 		return predictions;
