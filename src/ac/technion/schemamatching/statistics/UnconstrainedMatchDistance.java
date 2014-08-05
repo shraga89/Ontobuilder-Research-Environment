@@ -79,11 +79,13 @@ public class UnconstrainedMatchDistance implements K2Statistic {
 		double nmdDist = 0.0;
 		double dist = 0.0;
 		
-		for (Term c : exactMatch.getOriginalCandidateTerms())
-			for (Term t : exactMatch.getOriginalTargetTerms())
+		for (Term t : exactMatch.getOriginalTargetTerms())
+		{	
+			if (limit!=null && !t.equals(limit)) //Skip unrelated matches if limited
+				continue;
+			for (Term c : exactMatch.getOriginalCandidateTerms())
 			{
-				if (limit!=null && !t.equals(limit)) //Skip unrelated matches if limited
-					continue;
+				
 				double eVal = exactMatch.getMatchConfidence(c, t);
 				double rVal = mi.getMatchConfidence(c, t);
 				double eBarVal = (eVal>=threshold?0.0:1.0);
@@ -94,11 +96,12 @@ public class UnconstrainedMatchDistance implements K2Statistic {
 				nmdDenom+=Math.pow(eBarVal-eVal,2.0);
 				dist +=Math.pow(rVal-eVal,2.0) ;
 			}
+		}
 		
 		//finish
-		double md = 1.0-(mdDenom ==0 ? 1.0 : Math.sqrt(mdDist)/Math.sqrt(mdDenom)); 
-		double nmd = 1.0-(nmdDenom ==0 ? 1.0 : Math.sqrt(nmdDist)/Math.sqrt(nmdDenom));
-		double d = 1.0 - (mdDenom + nmdDenom==0 ? 1.0 : 
+		double md = 1.0-(mdDenom ==0 ? 0.0 : Math.sqrt(mdDist)/Math.sqrt(mdDenom)); 
+		double nmd = 1.0-(nmdDenom ==0 ? 0.0 : Math.sqrt(nmdDist)/Math.sqrt(nmdDenom));
+		double d = 1.0 - (mdDenom + nmdDenom==0 ? 0.0 : 
 			Math.sqrt(dist)/ 
 			Math.sqrt(mdDenom+nmdDenom));
 		res[1] = Double.toString(d);
