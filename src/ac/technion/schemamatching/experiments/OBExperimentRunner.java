@@ -29,6 +29,7 @@ import ac.technion.schemamatching.matchers.firstline.FirstLineMatcher;
 import ac.technion.schemamatching.matchers.secondline.SLMList;
 import ac.technion.schemamatching.matchers.secondline.SecondLineMatcher;
 import ac.technion.schemamatching.statistics.Statistic;
+import ac.technion.schemamatching.test.OntologyInvariance;
 import ac.technion.schemamatching.testbed.ExperimentSchema;
 import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
 import ac.technion.schemamatching.util.PropertyLoader;
