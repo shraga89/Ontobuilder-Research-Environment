@@ -85,11 +85,11 @@ public class MatrixPredictorEvaluation implements PairWiseExperiment {
 			mcc.init(instanceDesc, obceMatch, esp.getExact());
 			predictions.add(mcc);
 			evaluations.add(mcc);
-			//Precision mcd
+	/*		//Precision mcd
 			K2Statistic mcd = new MatchCompetitorDeviation();
 			mcd.init(instanceDesc, obceMatch, esp.getExact());
 			predictions.add(mcd);
-			evaluations.add(mcd);
+			evaluations.add(mcd);*/
 		}
 		predictions.addAll(evaluations);
 		return predictions;
