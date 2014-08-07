@@ -50,10 +50,8 @@ public class MaxSim implements SecondLineMatcher {
 			maxForTargets.put(t, 0.0);
 		
 		for (Match m : mi.getCopyOfMatches()) {
-			double maxC = (maxForCandidates.containsKey(m.getCandidateTerm()) ? maxForCandidates.get(m.getCandidateTerm()) : 0.0d);
-			double maxT = (maxForTargets.containsKey(m.getTargetTerm()) ? maxForTargets.get(m.getTargetTerm()) : 0.0d);
-			maxForCandidates.put(m.getCandidateTerm(), Math.max(maxC, r(m.getEffectiveness())));
-			maxForTargets.put(m.getTargetTerm(), Math.max(maxT, r(m.getEffectiveness())));
+			maxForCandidates.put(m.getCandidateTerm(), Math.max(maxForCandidates.get(m.getCandidateTerm()), r(m.getEffectiveness())));
+			maxForTargets.put(m.getTargetTerm(), Math.max(maxForTargets.get(m.getTargetTerm()), r(m.getEffectiveness())));
 		}
 		
 		Random rand = new Random();
