@@ -47,6 +47,7 @@ public class TermOrder implements FirstLineMatcher {
 		MatchInformation res = new MatchInformation(candidate,target); 
 		for (int i=0; i<Math.min(cTerms.size(), tTerms.size());i++)
 			res.updateMatch(tTerms.get(i), cTerms.get(i), 1.0);
+		candidate.removeTerm(candidate.getTerm(0));//new addition by Roee
 		return res;
 	}
 

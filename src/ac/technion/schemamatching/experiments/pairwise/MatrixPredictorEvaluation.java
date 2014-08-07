@@ -12,6 +12,7 @@ import ac.technion.schemamatching.matchers.secondline.SecondLineMatcher;
 import ac.technion.schemamatching.statistics.BinaryGolden;
 import ac.technion.schemamatching.statistics.K2Statistic;
 import ac.technion.schemamatching.statistics.MCC;
+import ac.technion.schemamatching.statistics.MatchCompetitorDeviation;
 import ac.technion.schemamatching.statistics.Statistic;
 import ac.technion.schemamatching.statistics.predictors.MatrixPredictors;
 import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
@@ -84,6 +85,11 @@ public class MatrixPredictorEvaluation implements PairWiseExperiment {
 			mcc.init(instanceDesc, obceMatch, esp.getExact());
 			predictions.add(mcc);
 			evaluations.add(mcc);
+			//Precision mcd
+			K2Statistic mcd = new MatchCompetitorDeviation();
+			mcd.init(instanceDesc, obceMatch, esp.getExact());
+			predictions.add(mcd);
+			evaluations.add(mcd);
 		}
 		predictions.addAll(evaluations);
 		return predictions;
