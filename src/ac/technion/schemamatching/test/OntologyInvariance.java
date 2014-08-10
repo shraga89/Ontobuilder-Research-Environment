@@ -7,7 +7,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import ac.technion.iem.ontobuilder.core.ontology.Ontology;
+import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 import ac.technion.schemamatching.matchers.firstline.FirstLineMatcher;
+import ac.technion.schemamatching.matchers.secondline.SecondLineMatcher;
 import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
 
 public class OntologyInvariance {
@@ -33,8 +35,10 @@ public class OntologyInvariance {
 
 
 	}
-
-	public boolean test_FLM(FirstLineMatcher FLM){
+/* returns 1 if the ontologys remained the same
+ * returns 2 if the ontologys didn't remained the same
+ */
+	public int test_FLM(FirstLineMatcher FLM){
         FileInputStream fileIn,fileIn1;
 		try {
 			fileIn = new FileInputStream("c:\\TEMP\\TargetOntology.ser");
@@ -48,14 +52,21 @@ public class OntologyInvariance {
 	        fileIn.close();
 	        fileIn1.close();
 	        FLM.match(ESPair.getCandidateOntology(),ESPair.getTargetOntology(),true);
-			if ((orig_target.equals(ESPair.getTargetOntology())) && 
+	        if ((orig_target.equals(ESPair.getTargetOntology())) && 
 			(orig_candidate.equals(ESPair.getCandidateOntology()))){
-				System.out.println("the Ontologies remained the same");
-				return true;	
+				return 1;	
 			}
 			else{
-				System.out.println("Error! the Ontologies have changed");
-				return false;}
+				if (orig_target.getTerms(false).equals(ESPair.getTargetOntology().getTerms(false))){
+					return 2;
+				}
+				if (orig_candidate.getTerms(false).equals(ESPair.getCandidateOntology().getTerms(false))){
+					return 3;
+				}
+				if (orig_candidate.getRelationships().equals(ESPair.getCandidateOntology().getRelationships())){
+					return 4;
+				}
+				return 5;}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -63,8 +74,39 @@ public class OntologyInvariance {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-		return false;
+		return 5;
 
+	}
+	public int test_SLM(SecondLineMatcher SLM){
+        FileInputStream fileIn,fileIn1;
+		try {
+			fileIn = new FileInputStream("c:\\TEMP\\TargetOntology.ser");
+	        ObjectInputStream In_Target = new ObjectInputStream(fileIn);
+			fileIn1 = new FileInputStream("c:\\TEMP\\CandidateOntology.ser");
+	        ObjectInputStream In_Candidate = new ObjectInputStream(fileIn1);
+	        Ontology orig_target = (Ontology) In_Target.readObject();
+	        Ontology orig_candidate = (Ontology) In_Candidate.readObject();
+	        In_Target.close();
+	        In_Candidate.close();
+	        fileIn.close();
+	        fileIn1.close();
+	        MatchInformation mi=ESPair.getExact();
+	        SLM.match(mi);
+	        if ((orig_target.equals(mi.getTargetOntology())) && 
+			(orig_candidate.equals(mi.getCandidateOntology()))){
+				return 1;	
+			}
+			else{
+				return 2;}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+        
+        return 2;
 	}
 	public static void main(String[] args) {
 		
