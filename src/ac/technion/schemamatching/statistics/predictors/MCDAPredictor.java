@@ -41,30 +41,40 @@ public class MCDAPredictor implements K2Statistic{
 	public boolean init(String instanceDescription, MatchInformation _1LM_MI, MatchInformation _2LM_MI) {
 		MatchMatrix mm = _1LM_MI.getMatrix();
 		double[][] mmat = mm.getMatchMatrix();
-		int rows = mm.getRowCount();
 		int cols = mm.getColCount();
+		int rows = mm.getRowCount();
 		List<Match> match = _2LM_MI.getCopyOfMatches();
-		
+		header = new String[]{"instance","MCDAPredictor"};
+		data = new ArrayList<String[]>();
 		double mcd = 0;
 		for (int i=0;i<match.size();i++){
-			for (int rowindex =0; rowindex < rows; rowindex++)
 				{
+				int rowIndex = mm.getTermIndex(mm.getTargetTerms(),match.get(i).getTargetTerm(), false);
 				int colIndex = mm.getTermIndex(mm.getCandidateTerms(),match.get(i).getCandidateTerm(), true);
+				if (rowIndex == -1 || colIndex == -1) continue;
+				//Row Attribute Predictions
 				double sumPair = 0;
 				int numCompetitors = cols;
-				if (colIndex==-1) continue;
 				for (int j=0;j<cols;j++){
-					sumPair += mmat[rowindex][j];
+					sumPair += mmat[rowIndex][j];
 					}
 				double pivotMean = numCompetitors > 0 ? sumPair/numCompetitors : 0;
-				mcd += Math.pow(mmat[rowindex][colIndex] - pivotMean,2);
+				mcd = Math.pow(mmat[rowIndex][colIndex] - pivotMean,2);
+				data.add(0, new String[] {instanceDescription,Double.toString(Math.sqrt(mcd))});
+				mcd=0;
+				//Col Attribute Predictors
+				sumPair = 0;
+				numCompetitors = rows;
+				for (int j=0;j<rows;j++){
+					sumPair += mmat[j][colIndex];
+					}
+				pivotMean = numCompetitors > 0 ? sumPair/numCompetitors : 0;
+				mcd = Math.pow(mmat[rowIndex][colIndex] - pivotMean,2);
+				data.add(0, new String[] {instanceDescription,Double.toString(Math.sqrt(mcd))});
+				mcd=0;
 				}
 					
 		}
-		
-		header = new String[]{"instance","MCDAPredictor"};
-		data = new ArrayList<String[]>();
-		data.add(0, new String[] {instanceDescription,Double.toString(Math.sqrt(mcd))});
 
 		return true;	
 
