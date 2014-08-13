@@ -14,6 +14,7 @@ import ac.technion.schemamatching.statistics.K2Statistic;
 import ac.technion.schemamatching.statistics.Statistic;
 import ac.technion.schemamatching.statistics.VectorPrinterUsingExact;
 import ac.technion.schemamatching.statistics.predictors.AttributePredictors;
+import ac.technion.schemamatching.statistics.predictors.MCDAPredictor;
 import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
 
 /**
@@ -40,8 +41,11 @@ public class AttributePredictorEvaluation implements PairWiseExperiment {
 			
 			// Calculate predictors
 			Statistic  p = new AttributePredictors();
+			K2Statistic MCDA = new MCDAPredictor();
 			String instanceDesc = esp.getID() + "_"+m.getName()+"_"+m.getConfig();
 			p.init(instanceDesc, mi);
+			MCDA.init(instanceDesc, mi, esp.getExact());
+			predictions.add(MCDA);
 			predictions.add(p);
 			//Calculate NBprecision, NBrecall
 			K2Statistic  nb = new AttributeNBGolden();
