@@ -23,5 +23,6 @@ public enum MatcherType {
 						In Ontobuilder this matcher is called precedence*/ 
 	STRUCTURAL_FD, //Uses functional dependency information
 	INSTANCE, //Uses instance information
-	CORPUS; //Uses a corpus of words to calculate tf / idf and / or to find if a similar pair was matched
+	CORPUS, //Uses a corpus of words to calculate tf / idf and / or to find if a similar pair was matched
+	HUMAN; //Uses human expert sourcing
 }
