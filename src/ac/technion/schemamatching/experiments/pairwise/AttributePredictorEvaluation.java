@@ -38,15 +38,30 @@ public class AttributePredictorEvaluation implements PairWiseExperiment {
 		{
 			//Match
 			MatchInformation mi = esp.getSimilarityMatrix(m);
-			
+			MatchInformation mi1 = SLMList.OBMaxDelta005.getSLM().match(mi);
+			MatchInformation mi2 = SLMList.OBMax.getSLM().match(mi);
+			MatchInformation mi3 = SLMList.OBThreshold050.getSLM().match(mi);
 			// Calculate predictors
 			Statistic  p = new AttributePredictors();
-			K2Statistic MCDA = new MCDAPredictor();
 			String instanceDesc = esp.getID() + "_"+m.getName()+"_"+m.getConfig();
 			p.init(instanceDesc, mi);
-			MCDA.init(instanceDesc, mi, esp.getExact());
-			predictions.add(MCDA);
 			predictions.add(p);
+			//	MCDA predictor
+			K2Statistic MCDA1 = new MCDAPredictor();
+			String instanceDesc_MCDA = esp.getID()+","+m.getName()+","+"MaxDelta005";
+			MCDA1.init(instanceDesc_MCDA, mi, mi1);
+			predictions.add(MCDA1);
+			
+			K2Statistic MCDA2 = new MCDAPredictor();
+			instanceDesc_MCDA = esp.getID()+","+m.getName()+","+"MaxDelta0";
+			MCDA2.init(instanceDesc_MCDA, mi, mi2);
+			predictions.add(MCDA2);
+			
+			K2Statistic MCDA3 = new MCDAPredictor();
+			instanceDesc_MCDA = esp.getID()+","+m.getName()+","+"Threshold050";
+			MCDA3.init(instanceDesc_MCDA, mi, mi3);
+			predictions.add(MCDA3);
+			
 			//Calculate NBprecision, NBrecall
 			K2Statistic  nb = new AttributeNBGolden();
 			nb.init(instanceDesc, mi,esp.getExact());
