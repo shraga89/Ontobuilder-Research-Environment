@@ -35,7 +35,7 @@ public enum PairExperimentEnum
 	, Profile(new SchemaPairProfiling())
 	, NBNB(new NBNBEvaluationExperiment())
 	, OntologyInvariance(new OntologyInvarianceExperiment())
-	, MatrixPredictorEvaluation(new MatrixPredictorEvaluation());
+	, HumanPredictorEval(new HumanPredictorEvaluation());
 	
 	
 	private PairExperimentEnum(PairWiseExperiment e)

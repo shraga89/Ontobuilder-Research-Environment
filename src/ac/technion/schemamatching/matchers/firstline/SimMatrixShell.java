@@ -14,7 +14,7 @@ import ac.technion.schemamatching.matchers.MatcherType;
 public class SimMatrixShell implements FirstLineMatcher {
 	private File f = null;
 	private MatchImporter importer = null;
-	private MatcherType type = MatcherType.SYNTACTIC;
+	private MatcherType type = MatcherType.HUMAN;
 
 	/**
 	 * Sets the match file import path 

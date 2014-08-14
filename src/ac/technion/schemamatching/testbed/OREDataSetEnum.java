@@ -8,7 +8,6 @@ import ac.technion.iem.ontobuilder.io.imports.NativeImporter;
 import ac.technion.iem.ontobuilder.io.imports.OWLImporter;
 import ac.technion.iem.ontobuilder.io.imports.PNMLImporter;
 import ac.technion.iem.ontobuilder.io.imports.WSDLImporterEasyWSDL;
-import ac.technion.iem.ontobuilder.io.imports.XSDImporter;
 import ac.technion.iem.ontobuilder.io.imports.XSDImporterUsingXSOM;
 import ac.technion.iem.ontobuilder.io.matchimport.CRFMatchImporter;
 import ac.technion.iem.ontobuilder.io.matchimport.CSVMatchImporter;
@@ -31,9 +30,9 @@ public enum OREDataSetEnum
 	OBSynthetic(5,"Synthetic concepts designed by Nimrod Busany",null,null,true, true, false),
 	SAPSchemasRDF(6,"SAP software schemas in NisB rdf format",null,null,true, false, false),
 	Thalia(8,"University Course Descriptions in XSD format",new XSDImporterUsingXSOM(),new CSVMatchImporter(),true, false, true),
-	XBenchMatch(9,"",new XSDImporter(),null,true, false, false),
+	XBenchMatch(9,"",new XSDImporterUsingXSOM(),null,true, false, false),
 	NisBSynthetic(10,"Synthetic concepts designed by Nimrod Busany",new NativeImporter(),new NativeMatchImporter(),true, false, false),
-	SAPSchemasXSD(11,"SAP software schemas in XSD format",new XSDImporter(),null,true, false, false),
+	SAPSchemasXSD(11,"SAP software schemas in XSD format",new XSDImporterUsingXSOM(),null,true, false, false),
 	eTuner(12,"Small schemas and instances used to generate eTuner synthetic datasets",null,null,true, false, false),
 	I3Con(13,"Ontology alignment contest ICon3 in owl format",null,null,true, false, false),
 	OAEIConference(14,"Ontology alignment conference OAEI conference track",null,null,true, false, false),
