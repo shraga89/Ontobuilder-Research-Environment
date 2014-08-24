@@ -44,7 +44,7 @@ public class MatrixPredictorEvaluation implements PairWiseExperiment {
 			K2Statistic mcd = new MatchCompetitorDeviation();
 			String instanceDesc = esp.getID()+","+m.getName()+","+"MaxDelta005";
 			p.init(instanceDesc, mi1);
-			mcd.init(instanceDesc, mi1, esp.getExact());
+			mcd.init(instanceDesc, mi, mi1);
 			predictions.add(p);
 			predictions.add(mcd);
 			//Precision Recall
@@ -61,7 +61,7 @@ public class MatrixPredictorEvaluation implements PairWiseExperiment {
 			K2Statistic mcd2 = new MatchCompetitorDeviation();
 			instanceDesc = esp.getID()+","+m.getName()+","+"MaxDelta0";
 			p2.init(instanceDesc, mi2);
-			mcd2.init(instanceDesc, mi2, esp.getExact());
+			mcd2.init(instanceDesc, mi, mi2);
 			predictions.add(p2);
 			predictions.add(mcd2);
 			//Precision Recall
@@ -78,7 +78,7 @@ public class MatrixPredictorEvaluation implements PairWiseExperiment {
 			K2Statistic mcd3 = new MatchCompetitorDeviation();
 			instanceDesc = esp.getID()+","+m.getName()+","+"Threshold050";
 			p3.init(instanceDesc, mi3);
-			mcd3.init(instanceDesc, mi3, esp.getExact());
+			mcd3.init(instanceDesc, mi, mi3);
 			predictions.add(p3);
 			predictions.add(mcd3);
 			//Precision Recall
@@ -90,13 +90,13 @@ public class MatrixPredictorEvaluation implements PairWiseExperiment {
 			mcc3.init(instanceDesc, mi3, esp.getExact());
 			evaluations.add(mcc3);
 			//Hagai's new SLM
-			SecondLineMatcher obce = new OBCrossEntropy();
+			/*SecondLineMatcher obce = new OBCrossEntropy();
 			MatchInformation mi4 = obce.match(mi);
 			Statistic  p4 = new MatrixPredictors();
 			K2Statistic mcd4 = new MatchCompetitorDeviation();
 			instanceDesc = esp.getID()+","+m.getName()+","+"OBCrossEntropy";
 			p4.init(instanceDesc, mi4);
-			mcd4.init(instanceDesc, mi4, esp.getExact());
+			mcd4.init(instanceDesc, mi, mi4);
 			predictions.add(p4);
 			predictions.add(mcd4);
 			//Precision Recall
@@ -107,7 +107,7 @@ public class MatrixPredictorEvaluation implements PairWiseExperiment {
 			K2Statistic mcc4 = new MCC();
 			mcc4.init(instanceDesc, mi4, esp.getExact());
 			evaluations.add(mcc4);
-			
+			*/
 		}
 		predictions.addAll(evaluations);
 		return predictions;
