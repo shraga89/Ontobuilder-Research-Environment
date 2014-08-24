@@ -43,7 +43,6 @@ public class MatchCompetitorDeviation implements K2Statistic{
 		int rows = mm.getRowCount();
 		int cols = mm.getColCount();
 		List<Match> match = _2LM_MI.getCopyOfMatches();
-		
 		double mcd = 0;
 		
 		for (int i=0;i<match.size();i++){
