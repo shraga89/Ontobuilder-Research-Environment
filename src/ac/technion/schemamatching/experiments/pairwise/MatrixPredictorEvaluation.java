@@ -37,12 +37,14 @@ public class MatrixPredictorEvaluation implements PairWiseExperiment {
 		for (FirstLineMatcher m : flM)
 		{
 			//Match
-			MatchInformation mi = m.match(esp.getCandidateOntology(), esp.getTargetOntology(), true);
-			MatchInformation mi1 = SLMList.OBMWBG.getSLM().match(mi);
+			MatchInformation mi = m.match(esp.getCandidateOntology(), esp.getTargetOntology(), false);
+			//MatchInformation mi1 = SLMList.OBMaxDelta005.getSLM().match(mi);
+	/*		MatchInformation mi1 = SLMList.OBMWBG.getSLM().match(mi);
 			// Calculate predictors + Mcd- Hagai's new Predictor
 			Statistic  p = new MatrixPredictors();
 			K2Statistic mcd = new MatchCompetitorDeviation();
-			String instanceDesc = esp.getID()+","+m.getName()+","+"MWBG";
+			//String instanceDesc = esp.getID()+","+m.getName()+","+"MaxDelta005";
+			String instanceDesc = esp.getID()+","+m.getName()+","+"OBMWBG";
 			p.init(instanceDesc, mi1);
 			mcd.init(instanceDesc, mi, mi1);
 			predictions.add(p);
@@ -56,41 +58,64 @@ public class MatrixPredictorEvaluation implements PairWiseExperiment {
 			mcc.init(instanceDesc, mi1, esp.getExact());
 			evaluations.add(mcc);
 			//Additional 2LM
-//			MatchInformation mi2 = SLMList.OBMax.getSLM().match(mi);
-//			Statistic  p2 = new MatrixPredictors();
-//			K2Statistic mcd2 = new MatchCompetitorDeviation();
-//			instanceDesc = esp.getID()+","+m.getName()+","+"MaxDelta0";
-//			p2.init(instanceDesc, mi2);
-//			mcd2.init(instanceDesc, mi, mi2);
-//			predictions.add(p2);
-//			predictions.add(mcd2);
-//			//Precision Recall
-//			K2Statistic b2 = new BinaryGolden();
-//			b2.init(instanceDesc, mi2,esp.getExact());
-//			evaluations.add(b2);
-//			//Mcc
-//			K2Statistic mcc2 = new MCC();
-//			mcc2.init(instanceDesc, mi2, esp.getExact());
-//			evaluations.add(mcc2);
-//			//Additional 2LM
-//			MatchInformation mi3 = SLMList.OBThreshold050.getSLM().match(mi);
-//			Statistic  p3 = new MatrixPredictors();
-//			K2Statistic mcd3 = new MatchCompetitorDeviation();
-//			instanceDesc = esp.getID()+","+m.getName()+","+"Threshold050";
-//			p3.init(instanceDesc, mi3);
-//			mcd3.init(instanceDesc, mi, mi3);
-//			predictions.add(p3);
-//			predictions.add(mcd3);
-//			//Precision Recall
-//			K2Statistic b3 = new BinaryGolden();
-//			b3.init(instanceDesc, mi3,esp.getExact());
-//			evaluations.add(b3);
-//			//Mcc
-//			K2Statistic mcc3 = new MCC();
-//			mcc3.init(instanceDesc, mi3, esp.getExact());
-//			evaluations.add(mcc3);
+			
+			MatchInformation mi2 = SLMList.OBSM.getSLM().match(mi);
+			Statistic  p2 = new MatrixPredictors();
+			K2Statistic mcd2 = new MatchCompetitorDeviation();
+			//instanceDesc = esp.getID()+","+m.getName()+","+"MaxDelta0";
+			instanceDesc = esp.getID()+","+m.getName()+","+"Stable Marriage";
+			p2.init(instanceDesc, mi2);
+			mcd2.init(instanceDesc, mi, mi2);
+			predictions.add(p2);
+			predictions.add(mcd2);
+			//Precision Recall
+			K2Statistic b2 = new BinaryGolden();
+			b2.init(instanceDesc, mi2,esp.getExact());
+			evaluations.add(b2);
+			//Mcc
+			K2Statistic mcc2 = new MCC();
+			mcc2.init(instanceDesc, mi2, esp.getExact());
+			evaluations.add(mcc2);
+			
+			//Additional 2LM
+			MatchInformation mi3 = SLMList.OBMaxDelta01.getSLM().match(mi);
+			Statistic  p3 = new MatrixPredictors();
+			K2Statistic mcd3 = new MatchCompetitorDeviation();
+			instanceDesc = esp.getID()+","+m.getName()+","+"OBMaxDelta01";
+			p3.init(instanceDesc, mi3);
+			mcd3.init(instanceDesc, mi, mi3);
+			predictions.add(p3);
+			predictions.add(mcd3);
+			//Precision Recall
+			K2Statistic b3 = new BinaryGolden();
+			b3.init(instanceDesc, mi3,esp.getExact());
+			evaluations.add(b3);
+			//Mcc
+			K2Statistic mcc3 = new MCC();
+			mcc3.init(instanceDesc, mi3, esp.getExact());
+			evaluations.add(mcc3);
+			*/
+			//Additional 2LM
+			MatchInformation mi4 = SLMList.OBThreshold050.getSLM().match(mi);
+			Statistic  p4 = new MatrixPredictors();
+			K2Statistic mcd4 = new MatchCompetitorDeviation();
+			String instanceDesc = esp.getID()+","+m.getName()+","+"Threshold050";
+			p4.init(instanceDesc, mi4);
+			mcd4.init(instanceDesc, mi, mi4);
+			predictions.add(p4);
+			predictions.add(mcd4);
+			//Precision Recall
+			K2Statistic b4 = new BinaryGolden();
+			b4.init(instanceDesc, mi4,esp.getExact());
+			evaluations.add(b4);
+			//Mcc
+			K2Statistic mcc4 = new MCC();
+			mcc4.init(instanceDesc, mi4, esp.getExact());
+			evaluations.add(mcc4);
+			
+			/*
 			//Hagai's new SLM
-			/*SecondLineMatcher obce = new OBCrossEntropy();
+			SecondLineMatcher obce = new OBCrossEntropy();
 			MatchInformation mi4 = obce.match(mi);
 			Statistic  p4 = new MatrixPredictors();
 			K2Statistic mcd4 = new MatchCompetitorDeviation();
