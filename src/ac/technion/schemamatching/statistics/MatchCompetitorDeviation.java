@@ -70,8 +70,8 @@ public class MatchCompetitorDeviation implements K2Statistic{
 	
 		header = new String[]{"instance","MCD"};
 		data = new ArrayList<String[]>();
-		data.add(0, new String[] {instanceDescription,Double.toString(Math.sqrt(mcd))});
-
+		data.add(0, new String[] {instanceDescription,Double.toString(!match.isEmpty() ? Math.sqrt(mcd/match.size()) : 0)});//Haggai update 25/8/2014
+		//it is critical to normalize in the match size
 		return true;
 	}
 
