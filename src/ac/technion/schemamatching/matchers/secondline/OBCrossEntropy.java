@@ -123,11 +123,12 @@ public class OBCrossEntropy implements SecondLineMatcher{
 			OBSample _sample = (OBSample)sample;
 			MatchInformation cemi = _sample.getMatchInformation();
 			double totalMatchWeight = cemi.getTotalMatchWeight();
-			int numMatchedPairs = cemi.getNumMatches();
+			//int numMatchedPairs = cemi.getNumMatches();
 			MatchCompetitorDeviation mcd = new MatchCompetitorDeviation();
 			mcd.init(null, mi, cemi);
 			double mcdVal = Double.parseDouble(mcd.getData().get(0)[1]);
-			return totalMatchWeight * Math.sqrt(1.0/numMatchedPairs) * mcdVal;
+			return totalMatchWeight * mcdVal;//Math.sqrt(1.0/numMatchedPairs) Haggai change 25/8/2014 --> this
+			//normalization was pushed to be internal in MCD
 		}
 		
 	}

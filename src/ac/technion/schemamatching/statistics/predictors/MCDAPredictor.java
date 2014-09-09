@@ -60,7 +60,8 @@ public class MCDAPredictor implements K2Statistic{
 					}
 				double pivotMean = numCompetitors > 0 ? sumPair/numCompetitors : 0;
 				mcd = Math.pow(mmat[rowIndex][colIndex] - pivotMean,2);
-				data.add(0, new String[] {instanceDescription,Double.toString(Math.sqrt(mcd))});
+				data.add(0, new String[] {instanceDescription + ",Target," + match.get(i).getTargetTerm().getId()
+						,Double.toString(!match.isEmpty() ? Math.sqrt(mcd/match.size()) : 0)});
 				mcd=0;
 				//Col Attribute Predictors
 				sumPair = 0;
@@ -70,7 +71,8 @@ public class MCDAPredictor implements K2Statistic{
 					}
 				pivotMean = numCompetitors > 0 ? sumPair/numCompetitors : 0;
 				mcd = Math.pow(mmat[rowIndex][colIndex] - pivotMean,2);
-				data.add(0, new String[] {instanceDescription,Double.toString(Math.sqrt(mcd))});
+				data.add(0, new String[] {instanceDescription + ",Candidate," + match.get(i).getCandidateTerm().getId()
+						,Double.toString(!match.isEmpty() ? Math.sqrt(mcd/match.size()) : 0)});				
 				mcd=0;
 				}
 					
