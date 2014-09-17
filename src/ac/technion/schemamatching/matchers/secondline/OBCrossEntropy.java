@@ -33,7 +33,7 @@ public class OBCrossEntropy implements SecondLineMatcher{
 
 	@Override
 	public String getName() {
-		return "Ontobuilder CrossEntropy";
+		return "CrossEntropy";
 	}
 
 	@Override
@@ -51,7 +51,7 @@ public class OBCrossEntropy implements SecondLineMatcher{
 
 	@Override
 	public int getDBid() {
-		return 8;
+		return 13;
 	}
 
 	@Override

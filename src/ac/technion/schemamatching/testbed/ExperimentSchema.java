@@ -1,6 +1,7 @@
 package ac.technion.schemamatching.testbed;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 import technion.iem.schemamatching.dbutils.DBInterface;
@@ -22,8 +23,9 @@ public class ExperimentSchema {
 	 * Class Constructor. Loads schema as ontology
 	 * @param schemaID databse id of schema to be loaded
 	 * @param dsid data set ID of schema
+	 * @throws FileNotFoundException when one of the ontologies isn't found
 	 */
-	public ExperimentSchema(int schemaID,int dsid) 
+	public ExperimentSchema(int schemaID,int dsid) throws FileNotFoundException 
 	{
 		ID = schemaID;
 		dsEnum = OREDataSetEnum.getByDbid(dsid);
@@ -46,23 +48,18 @@ public class ExperimentSchema {
 	
   /**
    * Imports schema to ontology object
+ * @throws FileNotFoundException when supplied DSUrl and filepath are not found
    */
-  private void load() 
+  private void load() throws FileNotFoundException 
   {
 	  
 	  //get paths
-	  String targPath;
 	  Importer imp = dsEnum.getImporter();
-	  String sql = "SELECT CandidateSchema, TargetSchema, DSID, path FROM schemapairs WHERE SPID = " + ID + ";";
-	  ArrayList<String[]> res = OBExperimentRunner.getOER().getDB().runSelectQuery(sql, 4);
 	  //get target path from db
-	  sql = "SELECT filePath FROM schemata WHERE SchemaID = " + ID + ";";
-	  res = OBExperimentRunner.getOER().getDB().runSelectQuery(sql, 1);
-	  if (res.isEmpty()) OBExperimentRunner.fatalError("No url recieved from the database for schema no." + Integer.toString(ID));
-	  targPath = OBExperimentRunner.getOER().getDsurl() + res.get(0)[0];
-	  //load schema to ontology
-	  o = loadOntologyFromPath(targPath, imp);
+	  String sql = "SELECT filePath FROM schemata WHERE SchemaID = " + ID + ";";
+	o = loadOntologyFromPath(ExperimentSchemaPair.getSchemaPath(sql), imp);
   }
+
 /**
  * @param schemaFilePath
  * @param imp
