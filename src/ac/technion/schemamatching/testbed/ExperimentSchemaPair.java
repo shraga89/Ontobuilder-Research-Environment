@@ -1,11 +1,12 @@
 package ac.technion.schemamatching.testbed;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import technion.iem.schemamatching.dbutils.DBInterface;
 
+import technion.iem.schemamatching.dbutils.DBInterface;
 import ac.technion.iem.ontobuilder.core.ontology.Ontology;
 import ac.technion.iem.ontobuilder.io.imports.Importer;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
@@ -32,8 +33,9 @@ public class ExperimentSchemaPair extends ExperimentSchema{
 	 * @param spid
 	 * @param candidateID
 	 * @param targetID
+	 * @throws FileNotFoundException is one of the ontologies isn't found
 	 */
-	public ExperimentSchemaPair(int spid,int dsid) 
+	public ExperimentSchemaPair(int spid,int dsid) throws FileNotFoundException 
 	{
 		super();
 		ID = spid;
@@ -102,9 +104,10 @@ public class ExperimentSchemaPair extends ExperimentSchema{
    * A target Schema, Candidate Schema and Exact mapping.
    * Assumes that each sub-directory includes 2 schemas and an exact match with .xml type
    * Assumes exact match ends with the string "xml_EXACT.xml"
+ * @throws FileNotFoundException if an ontology isn't found
    * @override
    */
-  private void load() 
+  private void load() throws FileNotFoundException 
   {
 	  
 	  //get paths
@@ -131,15 +134,9 @@ public class ExperimentSchemaPair extends ExperimentSchema{
 	  {
 		  //get target path from db
 		  sql = "SELECT filePath FROM schemata WHERE SchemaID = " + targetID + ";";
-		  res = OBExperimentRunner.getOER().getDB().runSelectQuery(sql, 1);
-		  if (res.isEmpty()) OBExperimentRunner.fatalError("No url recieved from the database for schema no." + Integer.toString(candidateID));
-		  targPath = OBExperimentRunner.getOER().getDsurl() + res.get(0)[0];
-		  //get candidate path from db
+		  targPath = getSchemaPath(sql);
 		  sql = "SELECT filePath FROM schemata WHERE SchemaID = " + candidateID + ";";
-		  res = OBExperimentRunner.getOER().getDB().runSelectQuery(sql, 1);
-		  if (res.isEmpty()) OBExperimentRunner.fatalError("No url recieved from the database for schema no." 
-				  + Integer.toString(targetID));
-		  candPath = OBExperimentRunner.getOER().getDsurl() + res.get(0)[0];
+		  candPath = getSchemaPath(sql);
 	  }
 	  //load schemas to ontologies
 	  target = loadOntologyFromPath(targPath, imp);
@@ -148,6 +145,22 @@ public class ExperimentSchemaPair extends ExperimentSchema{
       //load exact match
       loadExact(exactMatchPath);
       }
+
+  /**
+   * Given an SQL statement, returns the path
+   * @param sql
+   * @return
+   * @throws FileNotFoundException
+   */
+static String getSchemaPath(String sql) throws FileNotFoundException {
+	ArrayList<String[]> res = OBExperimentRunner.getOER().getDB().runSelectQuery(sql, 1);
+	  if (res.isEmpty()) OBExperimentRunner.fatalError("No url recieved from the database for schema");
+	  File f = new File(OBExperimentRunner.getOER().getDsurl(),res.get(0)[0]);
+	  if (!f.isFile())
+		  throw new FileNotFoundException(f.getAbsolutePath());
+	  else
+		  return f.getAbsolutePath();
+}
 
 /**
  * @param schemaFilePath
