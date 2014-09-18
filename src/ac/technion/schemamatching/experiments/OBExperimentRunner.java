@@ -30,8 +30,6 @@ import ac.technion.schemamatching.matchers.firstline.FirstLineMatcher;
 import ac.technion.schemamatching.matchers.secondline.SLMList;
 import ac.technion.schemamatching.matchers.secondline.SecondLineMatcher;
 import ac.technion.schemamatching.statistics.Statistic;
-import ac.technion.schemamatching.test.OntologyInvariance;
-import ac.technion.schemamatching.test.OntologyInvariance;
 import ac.technion.schemamatching.testbed.ExperimentSchema;
 import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
 import ac.technion.schemamatching.testbed.OREDataSetEnum;
@@ -535,11 +533,19 @@ public class OBExperimentRunner {
 			int id = Integer.parseInt(strRes[0]);
 			int dsid = Integer.parseInt(strRes[1]);
 			ExperimentSchema exp;
+			try {
 			if (pairMode)
-				exp = new ExperimentSchemaPair(id,dsid);
+				
+					exp = new ExperimentSchemaPair(id,dsid);
 			else
 				exp = new ExperimentSchema(id,dsid);
+			
 			ds.add(exp);
+			} catch (FileNotFoundException e) {
+				System.err.println(e.getMessage());
+				System.err.println("Schema pair " + id + "skipped");
+			}
+			
 		}
 
 		return ds;
