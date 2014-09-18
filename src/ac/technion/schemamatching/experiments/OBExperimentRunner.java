@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
+import java.util.Scanner;
 
 import technion.iem.schemamatching.dbutils.DBInterface;
 import ac.technion.iem.ontobuilder.core.utils.files.XmlFileHandler;
@@ -33,6 +34,7 @@ import ac.technion.schemamatching.test.OntologyInvariance;
 import ac.technion.schemamatching.test.OntologyInvariance;
 import ac.technion.schemamatching.testbed.ExperimentSchema;
 import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
+import ac.technion.schemamatching.testbed.OREDataSetEnum;
 import ac.technion.schemamatching.util.PropertyLoader;
 
 import com.infomata.data.CSVFormat;
@@ -148,9 +150,108 @@ public class OBExperimentRunner {
 		}
 		else if (args[0].equalsIgnoreCase("console"))
 		{
+			outputPath = new File(args[1]); // folder in which temporary files will be saved
+			if (!outputPath.exists()) fatalError("Output path not found");
+			@SuppressWarnings("resource")
+			Scanner input = new Scanner(System.in);
+			System.out.println("Welcome to the Ontobuilder Research Environment");
+			System.out.println("Please select one of the following options:");
+			System.out.println("1.Run Experiment");
+			System.out.println("2.Quit");
+			int option=input.nextInt();
+			if (option==2) {
+				System.out.println("Thank you for using the Ontobuilder Research Environment");
+				return;
+			}
+			if (option==1) {
+				System.out.println("Let's start:");
+				System.out.println("Please select The type of Experiment you want to run "
+						+ "from the the following options:");
+				System.out.println("1. PairWiseExperiment");
+				System.out.println("2. HolisticExperiment");
+				option=input.nextInt();
+				if (option==2) {
+					pairMode=false;}
+				if (pairMode) {
+					System.out.println("Please select The Experiment you want to run "
+							+ "from the the following options:");
+					int ExperimentID;
+					for (PairExperimentEnum e : PairExperimentEnum.values()){
+						System.out.println(e.ordinal()+". "+e.name());
+					}
+					ExperimentID=input.nextInt();
+					for (PairExperimentEnum e : PairExperimentEnum.values()){
+						if (ExperimentID==e.ordinal()){
+							pe = e;}
+					} 
+					System.out.println("The Experiment you chose is: "+pe.name());
+					}
+				else{
+					System.out.println("Please select The Experiment you want to run "
+							+ "from the the following options:");
+					int ExperimentID;
+					for (HolisticExperimentEnum e : HolisticExperimentEnum.values()){
+						System.out.println(e.ordinal()+". "+e.name());
+					}
+					ExperimentID=input.nextInt();
+					for (HolisticExperimentEnum e : HolisticExperimentEnum.values()){
+						if (ExperimentID==e.ordinal()){
+							he = e;}
+					} 
+					System.out.println("The Experiment you chose is: "+he.name());
+				}
+					System.out.println("Please select The Dataset you want to work with:");
+					int datasetID;
+					for (OREDataSetEnum d : OREDataSetEnum.values()){
+						System.out.println(d.getDatasetDBid()+". "+d.name());
+					}
+					datasetID=input.nextInt();
+					System.out.println("Please select number of experiments schema pairs "
+							+ "you want to work with:(for specific pairs choose 0)");
+					int K=input.nextInt();
+					String spid = null;
+					if (K==0) {
+						System.out.println("Please select Schema pair ID Set:"); 
+						spid=input.next();
+					}
+					if (K==0) {
+						dataset =oer.selectExperiments(0,spid, 1, dc,pairMode);}
+					else if (datasetID==0) {
+						dataset =oer.selectExperiments(K,"0", 0, dc ,pairMode);}
+					else {
+						dataset = oer.selectExperiments(K,"0", datasetID, dc,pairMode);
+					}
+					String name = null;
+					if (pairMode){
+						name= pe.name(); 
+					}
+					else name= he.name();
+					expDesc =  "Experiment Type: " + name + " k=" + K + " SPID: " + spid + " Dataset: " + datasetID;
+					System.out.println("Please select The First Line Matchers you want to run "
+							+ "from the the following options:");
+					for (FLMList f : FLMList.values()){
+						System.out.println(f.getFLM().getDBid()+ ". "+ f.name());
+					}
+					String FlmWanted = input.next();
+					flm = parseFLMids(FlmWanted);
+					System.out.println("Please select The Second Line Matchers you want to run "
+							+ "from the the following options:");
+					ArrayList<Integer> checkSLM= new ArrayList<Integer>();
+					for (SLMList s : SLMList.values()){
+						if (!checkSLM.contains(s.getSLM().getDBid())) {
+							System.out.println(s.getSLM().getDBid()+ ". "+ s.name());
+							checkSLM.add(s.getSLM().getDBid());
+						}
+					}
+					String SlmWanted = input.next();
+					slm = parseSLMids(SlmWanted);
+			}
+			else {
+				System.err.println(option+ " was not an option");
+				System.exit(0);
+			}
 			printMainMenu();
 			//TODO handle input
-			System.exit(0);
 			
 		}
 		else
@@ -223,11 +324,7 @@ public class OBExperimentRunner {
 	}
 
 	private static void printMainMenu() {
-		System.out.println("Welcome to the Ontobuilder Research Environment");
-		System.out.println("Please select one of the following options:");
-		System.out.println("1.Run Experiment");
-		System.out.println("2.Quit");
-		
+	
 	}
 
 	/**
