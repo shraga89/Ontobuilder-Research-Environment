@@ -12,9 +12,12 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Scanner;
 
@@ -149,9 +152,16 @@ public class OBExperimentRunner {
 	    	
 		}
 		else if (args[0].equalsIgnoreCase("console"))
-		{
+		{	
+		try{
 			outputPath = new File(args[1]); // folder in which temporary files will be saved
-			if (!outputPath.exists()) fatalError("Output path not found");
+		}
+		catch (Exception e){
+			fatalError("Output path not found"); 
+			
+		}
+		
+		//	if (!outputPath.exists()) fatalError("Output path not found"); 
 			@SuppressWarnings("resource")
 			Scanner input = new Scanner(System.in);
 			System.out.println("Welcome to the Ontobuilder Research Environment");
@@ -177,7 +187,8 @@ public class OBExperimentRunner {
 							+ "from the the following options:");
 					int ExperimentID;
 					for (PairExperimentEnum e : PairExperimentEnum.values()){
-						System.out.println(e.ordinal()+". "+e.name());
+						System.out.println(e.ordinal()+". "+e.name()+ " description: ");
+						System.out.println("  -  "+e.getExperiment().getDescription());
 					}
 					ExperimentID=input.nextInt();
 					for (PairExperimentEnum e : PairExperimentEnum.values()){
@@ -191,7 +202,8 @@ public class OBExperimentRunner {
 							+ "from the the following options:");
 					int ExperimentID;
 					for (HolisticExperimentEnum e : HolisticExperimentEnum.values()){
-						System.out.println(e.ordinal()+". "+e.name());
+						System.out.println(e.ordinal()+". "+e.name()+ " description: ");
+						System.out.println("  -  "+e.getExperiment().getDescription());
 					}
 					ExperimentID=input.nextInt();
 					for (HolisticExperimentEnum e : HolisticExperimentEnum.values()){
@@ -228,20 +240,28 @@ public class OBExperimentRunner {
 					else name= he.name();
 					expDesc =  "Experiment Type: " + name + " k=" + K + " SPID: " + spid + " Dataset: " + datasetID;
 					System.out.println("Please select The First Line Matchers you want to run "
-							+ "from the the following options:");
+							+ "from the the following options: ");
+					System.out.println("(for multiple Flm selection write a list "
+							+ "of the Flm you want for example 0,1,2)");
+					HashMap<Integer,String> FLMSorted = new HashMap<Integer,String>(); 
 					for (FLMList f : FLMList.values()){
-						System.out.println(f.getFLM().getDBid()+ ". "+ f.name());
+						FLMSorted.put(f.getFLM().getDBid(),f.getFLM().getDBid()+ ". "+ f.name());
+					}
+					for (String f : FLMSorted.values()){
+						System.out.println(f);
 					}
 					String FlmWanted = input.next();
 					flm = parseFLMids(FlmWanted);
 					System.out.println("Please select The Second Line Matchers you want to run "
-							+ "from the the following options:");
-					ArrayList<Integer> checkSLM= new ArrayList<Integer>();
+							+ "from the the following options: ");
+					System.out.println("(for multiple Slm selection write a list "
+							+ "of the Slm you want for example 0,1,2)");	
+					HashMap<Integer,String> SLMSorted = new HashMap<Integer,String>(); 
 					for (SLMList s : SLMList.values()){
-						if (!checkSLM.contains(s.getSLM().getDBid())) {
-							System.out.println(s.getSLM().getDBid()+ ". "+ s.name());
-							checkSLM.add(s.getSLM().getDBid());
+						SLMSorted.put(s.getSLM().getDBid(),s.getSLM().getDBid()+ ". "+ s.name());
 						}
+					for (String s : SLMSorted.values()){
+						System.out.println(s);
 					}
 					String SlmWanted = input.next();
 					slm = parseSLMids(SlmWanted);
@@ -267,6 +287,11 @@ public class OBExperimentRunner {
 			myExpRunner.runHolisticExperiment(he,eid, outputPath,flm,slm,pFile);
 	 }
 	
+	private static Hashtable<Object, Object> FLMList() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	/**
 	 * Runs the supplied holistic experiment
 	 * @param he
