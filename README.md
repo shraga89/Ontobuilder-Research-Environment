@@ -1,5 +1,10 @@
 ### Welcome to the Ontobuilder Research Environment! ###
 
+
+![websplash.gif](https://bitbucket.org/repo/n9GKe/images/2799589945-websplash.gif)
+
+
+
 The Ontobuilder Research Environment (ORE) is designed to provide students and researchers in schema matching and related fields a jump-start in designing and running experiments. 
 Development of ORE is managed by Tomer Sagi, Phd. student at [Technion IIT](http://www.technion.ac.il) under the academic guidance of [Avigdor Gal](http://ie.technion.ac.il/~avigal), Phd.\\ To report bugs, request assistance or suggest additional features, contact Tomer by email: stomers7@tx.technion. 
 
