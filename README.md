@@ -1,8 +1,7 @@
 ### Welcome to the Ontobuilder Research Environment! ###
 
 
-![websplash.gif](https://bitbucket.org/repo/n9GKe/images/2799589945-websplash.gif)
-
+![about.gif](https://bitbucket.org/repo/n9GKe/images/3183918637-about.gif)
 
 
 The Ontobuilder Research Environment (ORE) is designed to provide students and researchers in schema matching and related fields a jump-start in designing and running experiments. 
