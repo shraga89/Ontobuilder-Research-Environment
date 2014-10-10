@@ -39,7 +39,7 @@ public class AttributePredictorEvaluation implements PairWiseExperiment {
 			//Match
 			MatchInformation mi = esp.getSimilarityMatrix(m);
 			MatchInformation mi1 = SLMList.OBMaxDelta005.getSLM().match(mi);
-			MatchInformation mi2 = SLMList.OBMax.getSLM().match(mi);
+			MatchInformation mi2 = SLMList.OBMWBG.getSLM().match(mi);
 			MatchInformation mi3 = SLMList.OBThreshold050.getSLM().match(mi);
 			// Calculate predictors
 			Statistic  p = new AttributePredictors();
@@ -53,7 +53,7 @@ public class AttributePredictorEvaluation implements PairWiseExperiment {
 			predictions.add(MCDA1);
 			
 			K2Statistic MCDA2 = new MCDAPredictor();
-			instanceDesc_MCDA = esp.getID()+","+m.getName()+","+"MaxDelta0";
+			instanceDesc_MCDA = esp.getID()+","+m.getName()+","+"MWBG";
 			MCDA2.init(instanceDesc_MCDA, mi, mi2);
 			predictions.add(MCDA2);
 			
@@ -67,7 +67,7 @@ public class AttributePredictorEvaluation implements PairWiseExperiment {
 			nb.init(instanceDesc, mi,esp.getExact());
 			evaluations.add(nb);
 			//Precision Recall
-			MatchInformation matchSelected = SLMList.OBSM.getSLM().match(mi);
+			MatchInformation matchSelected = SLMList.OBMWBG.getSLM().match(mi);
 			K2Statistic b = new BinaryGolden();
 			b.init(instanceDesc, matchSelected,esp.getExact());
 			evaluations.add(b);

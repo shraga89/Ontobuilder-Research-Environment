@@ -78,8 +78,8 @@ public class EntryPredictors implements Statistic {
 			{
 				//Init
 				String[] res = new String[header.length];
-				long cID = targetIDs.get(new Integer(row));
-				long tID = candidateIDs.get(new Integer(col));
+				long tID = targetIDs.get(new Integer(row));
+				long cID = candidateIDs.get(new Integer(col));
 				res[0] = instanceDesc + "," + cID + "," + tID;
 				
 				//vector variables: length and dotproduct with entry vector
