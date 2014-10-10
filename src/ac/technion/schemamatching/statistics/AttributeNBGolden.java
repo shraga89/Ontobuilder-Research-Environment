@@ -2,6 +2,7 @@ package ac.technion.schemamatching.statistics;
 
 import java.util.ArrayList;
 
+import ac.technion.iem.ontobuilder.core.ontology.Term;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 import ac.technion.schemamatching.util.ConversionUtils;
 import ac.technion.schemamatching.util.SimilarityVectorUtils;
@@ -45,8 +46,9 @@ public class AttributeNBGolden implements K2Statistic {
 		assert(miRowArrays.size() == exactRowArrays.size());
 		for (int i=0;i<miRowArrays.size();i++)
 		{
+			Term t = exactMatch.getMatrix().getCandidateTerms().get(i);
 			data.add(new String[] 
-			    {instanceDescription + ",Target," + exactMatch.getMatrix().getTargetTerms().get(i).getId()
+			    {instanceDescription + ",Target," + t.getId() + "," + t.getProvenance()
 					, Double.toString(calcSMPrecision(miRowArrays.get(i),exactRowArrays.get(i)))
 					,Double.toString(calcSMRecall(miRowArrays.get(i),exactRowArrays.get(i)))});
 		}
@@ -54,8 +56,9 @@ public class AttributeNBGolden implements K2Statistic {
 		ArrayList<Double[]> exactColArrays = SimilarityVectorUtils.makeColumnArrayList(exactMatch);
 		for (int i=0;i<miColArrays.size();i++)
 		{
+			Term c = exactMatch.getMatrix().getCandidateTerms().get(i);
 			data.add(new String[] 
-			    {instanceDescription + ",Candidate," + exactMatch.getMatrix().getCandidateTerms().get(i).getId()
+			    {instanceDescription + ",Candidate," + c.getId() + "," + c.getProvenance()
 					, Double.toString(calcSMPrecision(miColArrays.get(i),exactColArrays.get(i)))
 					,Double.toString(calcSMRecall(miColArrays.get(i),exactColArrays.get(i)))});
 		}

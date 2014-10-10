@@ -66,6 +66,11 @@ public class AttributePredictors implements Statistic {
 		//Make Reverse Hash to lookup termID by row / col:
 		HashMap<Integer, Long> candidateIDs = makeReverseHash(mi, true);
 		HashMap<Integer, Long> targetIDs = makeReverseHash(mi, false);
+		HashMap<Integer, String> candProv = makeProvenanceHash(mi, true);
+		HashMap<Integer, String> targProv = makeProvenanceHash(mi, false);
+		
+		//Make Reverse Hash to lookup termProvnance by row / col:
+		
 				
 		//Row Attribute Predictions
 		for (int row =0; row < mm.length; row++)
@@ -86,7 +91,7 @@ public class AttributePredictors implements Statistic {
 			double stdevp = predictors.get("STDEVPredictor").getRes();
 			double avg = predictors.get("AvgAPredictor").getRes();
 			res [predictors.size()] = Double.toString((avg==0?0.0:stdevp/avg));
-			res[predictors.size()+1] = instanceDesc + ",Target," + targetIDs.get(row);
+			res[predictors.size()+1] = instanceDesc + ",Target," + targetIDs.get(row) + "," + targProv.get(row);
 			data.add(res);
 		}
 		//Col Attribute Predictors
@@ -108,13 +113,14 @@ public class AttributePredictors implements Statistic {
 			double stdevp = predictors.get("STDEVPredictor").getRes();
 			double avg = predictors.get("AvgAPredictor").getRes();
 			res [predictors.size()] = Double.toString((avg==0?0.0:stdevp/avg));
-			res[predictors.size()+1] = instanceDesc + ",Candidate," + candidateIDs.get(col);
+			res[predictors.size()+1] = instanceDesc + ",Candidate," + candidateIDs.get(col)+ "," + candProv.get(col);
 			data.add(res);
 		}
 		return true;
 	}
 
 	/**
+	 * Creates an index->ID hash
 	 * @param mi
 	 * @param candidateIDs
 	 * @return
@@ -130,6 +136,25 @@ public class AttributePredictors implements Statistic {
 			indexIDs.put(ind, t.getId());
 		}
 		return indexIDs;
+	}
+	
+	/**
+	 * Creates an index->ID hash
+	 * @param mi
+	 * @param candidateIDs
+	 * @return
+	 */
+	private HashMap<Integer, String> makeProvenanceHash(MatchInformation mi,boolean candidate) {
+		HashMap<Integer, String> indexProvenances = new HashMap<>();
+		MatchMatrix m = mi.getMatrix();
+		ArrayList<Term> termList = (candidate?m.getCandidateTerms():m.getTargetTerms()) ;
+		for (Term t : termList)
+		{
+			Integer ind = m.getTermIndex(termList, t,candidate);
+			assert (ind!=null); 
+			indexProvenances.put(ind, t.getProvenance());
+		}
+		return indexProvenances;
 	}
 
 }
