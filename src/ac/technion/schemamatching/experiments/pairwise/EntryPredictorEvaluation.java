@@ -10,6 +10,7 @@ import ac.technion.schemamatching.matchers.secondline.SLMList;
 import ac.technion.schemamatching.matchers.secondline.SecondLineMatcher;
 import ac.technion.schemamatching.statistics.EntryGolden;
 import ac.technion.schemamatching.statistics.K2Statistic;
+import ac.technion.schemamatching.statistics.MatchCompetitorDeviationEntryLevel;
 import ac.technion.schemamatching.statistics.Statistic;
 import ac.technion.schemamatching.statistics.predictors.EntryPredictors;
 import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
@@ -46,7 +47,10 @@ public class EntryPredictorEvaluation implements PairWiseExperiment {
 //			nb.init(instanceDesc, mi,esp.getExact());
 //			evaluations.add(nb);
 			//Precision Recall
-			MatchInformation matchSelected = SLMList.OBSM.getSLM().match(mi);
+			MatchInformation matchSelected = SLMList.OBMWBG.getSLM().match(mi);
+			K2Statistic mcd = new MatchCompetitorDeviationEntryLevel();
+			mcd.init(instanceDesc, mi, matchSelected);
+			evaluations.add(mcd);
 			K2Statistic b = new EntryGolden();
 			b.init(instanceDesc, matchSelected,esp.getExact());
 			evaluations.add(b);
