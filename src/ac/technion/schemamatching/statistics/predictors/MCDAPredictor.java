@@ -3,6 +3,7 @@ package ac.technion.schemamatching.statistics.predictors;
 import java.util.ArrayList;
 import java.util.List;
 
+import ac.technion.iem.ontobuilder.core.ontology.Term;
 import ac.technion.iem.ontobuilder.matching.match.Match;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 import ac.technion.iem.ontobuilder.matching.meta.match.MatchMatrix;
@@ -60,7 +61,8 @@ public class MCDAPredictor implements K2Statistic{
 					}
 				double pivotMean = numCompetitors > 0 ? sumPair/numCompetitors : 0;
 				mcd = Math.pow(mmat[rowIndex][colIndex] - pivotMean,2);
-				data.add(0, new String[] {instanceDescription + ",Target," + match.get(i).getTargetTerm().getId()
+				Term t = match.get(i).getTargetTerm();
+				data.add(0, new String[] {instanceDescription + ",Target," + t.getId()+"," + t.getProvenance()
 						,Double.toString(!match.isEmpty() ? Math.sqrt(mcd/match.size()) : 0)});
 				mcd=0;
 				//Col Attribute Predictors
@@ -71,7 +73,8 @@ public class MCDAPredictor implements K2Statistic{
 					}
 				pivotMean = numCompetitors > 0 ? sumPair/numCompetitors : 0;
 				mcd = Math.pow(mmat[rowIndex][colIndex] - pivotMean,2);
-				data.add(0, new String[] {instanceDescription + ",Candidate," + match.get(i).getCandidateTerm().getId()
+				Term c = match.get(i).getCandidateTerm();
+				data.add(0, new String[] {instanceDescription + ",Candidate," + c.getId(),c.getProvenance()
 						,Double.toString(!match.isEmpty() ? Math.sqrt(mcd/match.size()) : 0)});				
 				mcd=0;
 				}
