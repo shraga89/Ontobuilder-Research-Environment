@@ -46,7 +46,7 @@ public class AttributeNBGolden implements K2Statistic {
 		assert(miRowArrays.size() == exactRowArrays.size());
 		for (int i=0;i<miRowArrays.size();i++)
 		{
-			Term t = exactMatch.getMatrix().getCandidateTerms().get(i);
+			Term t = exactMatch.getMatrix().getTargetTerms().get(i);
 			data.add(new String[] 
 			    {instanceDescription + ",Target," + t.getId() + "," + t.getProvenance()
 					, Double.toString(calcSMPrecision(miRowArrays.get(i),exactRowArrays.get(i)))

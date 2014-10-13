@@ -74,7 +74,7 @@ public class MCDAPredictor implements K2Statistic{
 				pivotMean = numCompetitors > 0 ? sumPair/numCompetitors : 0;
 				mcd = Math.pow(mmat[rowIndex][colIndex] - pivotMean,2);
 				Term c = match.get(i).getCandidateTerm();
-				data.add(0, new String[] {instanceDescription + ",Candidate," + c.getId(),c.getProvenance()
+				data.add(0, new String[] {instanceDescription + ",Candidate," + c.getId()+"," + c.getProvenance()
 						,Double.toString(!match.isEmpty() ? Math.sqrt(mcd/match.size()) : 0)});				
 				mcd=0;
 				}
