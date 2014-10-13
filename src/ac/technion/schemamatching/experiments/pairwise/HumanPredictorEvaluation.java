@@ -9,6 +9,7 @@ import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 import ac.technion.schemamatching.experiments.OBExperimentRunner;
 import ac.technion.schemamatching.matchers.firstline.FirstLineMatcher;
 import ac.technion.schemamatching.matchers.firstline.SimMatrixShell;
+import ac.technion.schemamatching.matchers.secondline.SLMList;
 import ac.technion.schemamatching.matchers.secondline.SecondLineMatcher;
 import ac.technion.schemamatching.statistics.AttributeNBGolden;
 import ac.technion.schemamatching.statistics.BinaryGolden;
@@ -19,6 +20,7 @@ import ac.technion.schemamatching.statistics.NBGolden;
 import ac.technion.schemamatching.statistics.NBGoldenAtR;
 import ac.technion.schemamatching.statistics.Statistic;
 import ac.technion.schemamatching.statistics.predictors.AttributePredictors;
+import ac.technion.schemamatching.statistics.predictors.MCDAPredictor;
 import ac.technion.schemamatching.statistics.predictors.MatrixPredictors;
 import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
 import ac.technion.schemamatching.testbed.OREDataSetEnum;
@@ -55,15 +57,26 @@ public class HumanPredictorEvaluation implements PairWiseExperiment {
 			mi = sms.match(esp.getCandidateOntology(), esp.getTargetOntology(), false);
 			
 			// Calculate predictors
+			//TODO add to HumanCSV generator script + importer here the elapsed and diff information
 			Statistic  p = new MatrixPredictors();
 			String instanceDesc = "" + esp.getID()+" , "+ f.getName().split("\\.")[0].split("_")[0];
 			p.init(instanceDesc, mi);
 			predictions.add(p);
 			//predictions.add(mcd);
-			// Calculate attribute predictors
+			// Calculate attribute structural predictors
 			Statistic  pa = new AttributePredictors();
 			pa.init(instanceDesc, mi);
 			predictions.add(pa);
+			K2Statistic MCDA2 = new MCDAPredictor();
+			String instanceDesc_MCDA = instanceDesc +",MWBG";
+			MCDA2.init(instanceDesc_MCDA, mi, SLMList.OBMWBG.getSLM().match(mi));
+			predictions.add(MCDA2);
+			
+			//Calculate attribute behavioral predictors
+			Statistic bp = new BehavioralPredictors();
+			bp.init(instanceDesc, mi);
+			predictions.add(bp);
+			
 			//Calculate NBprecision, NBrecall
 			K2Statistic  nba = new AttributeNBGolden();
 			nba.init(instanceDesc, mi,esp.getExact());
