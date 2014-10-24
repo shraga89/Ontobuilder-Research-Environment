@@ -51,7 +51,7 @@ public class ClusteringMatches implements PairWiseExperiment {
 	 */
 	public String getDescription() {
 		// TODO Auto-generated method stub
-		return null;
+		return "Prepares matching vectors for clustering by WEKA";
 	}
 
 	public ArrayList<Statistic> summaryStatistics() {
