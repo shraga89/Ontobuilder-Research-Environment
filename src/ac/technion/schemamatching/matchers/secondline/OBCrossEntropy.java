@@ -30,17 +30,20 @@ public class OBCrossEntropy implements SecondLineMatcher{
 	private int stopAfter = 10;
 	private boolean isOne2OneMatch = true;
 	private int numSamplerThreads = 100;
+	private CEOptimizationResult result = null;
 
 	@Override
 	public String getName() {
-		return "CrossEntropy";
+		return "Ontobuilder CrossEntropy";
 	}
 
 	@Override
 	public MatchInformation match(MatchInformation mi) {
 		CrossEntropyOptimizer ceo = new CrossEntropyOptimizer(sampleSize, ro, stopAfter, numSamplerThreads);
 		CEObjective objective = new OBObjective(mi);
-		CEOptimizationResult result = ceo.optimize(objective, new OBModel(mi, smoothAlpha, isOne2OneMatch));
+		synchronized(this){
+		   result = ceo.optimize(objective, new OBModel(mi, smoothAlpha, isOne2OneMatch));
+		}
 		return ((OBSample)result.bestSample).getMatchInformation();
 	}
 
@@ -51,7 +54,7 @@ public class OBCrossEntropy implements SecondLineMatcher{
 
 	@Override
 	public int getDBid() {
-		return 13;
+		return 8;
 	}
 
 	@Override
@@ -65,6 +68,11 @@ public class OBCrossEntropy implements SecondLineMatcher{
 			numSamplerThreads = Integer.parseInt(properties.getProperty("numSamplerThreads", "100"));
 		}
 		return true;
+	}
+	
+	
+	public synchronized CEOptimizationResult getCEOptimizationResult(){
+		return result;
 	}
 	
 	
