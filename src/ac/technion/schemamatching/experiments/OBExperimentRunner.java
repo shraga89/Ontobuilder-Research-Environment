@@ -13,6 +13,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Hashtable;
@@ -20,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Scanner;
+import java.util.TreeMap;
 
 import technion.iem.schemamatching.dbutils.DBInterface;
 import ac.technion.iem.ontobuilder.core.utils.files.XmlFileHandler;
@@ -74,6 +76,7 @@ public class OBExperimentRunner {
 	 * or -l:list of schema pair ids to be used in experiment (file name containing the list)
 	 * 
 	 */
+	@SuppressWarnings("resource")
 	public static void main(String[] args) 
 	{
 		OBExperimentRunner myExpRunner = getOER();
@@ -160,35 +163,53 @@ public class OBExperimentRunner {
 		}
 		
 		//	if (!outputPath.exists()) fatalError("Output path not found"); 
-			@SuppressWarnings("resource")
 			Scanner input = new Scanner(System.in);
+			Scanner enter = new Scanner(System.in);
 			System.out.println("Welcome to the Ontobuilder Research Environment");
 			System.out.println("Please select one of the following options:");
 			System.out.println("1.Run Experiment");
 			System.out.println("2.Quit");
-			int option=input.nextInt();
-			if (option==2) {
+	/*		int option=1;
+			if (enter.nextLine().equals("")){
+				option=1;
+			}
+			option=input.nextInt();*/
+		    String option=input.nextLine();
+		    if (option.equals("")){
+		    	option="1";
+		    }
+			if (option.equals("2")){
 				System.out.println("Thank you for using the Ontobuilder Research Environment");
 				return;
 			}
-			if (option==1) {
+			if (option.equals("1")) {
 				System.out.println("Let's start:");
 				System.out.println("Please select The type of Experiment you want to run "
-						+ "from the the following options:");
+						+ "from the the following options:(default = 1)");
 				System.out.println("1. PairWiseExperiment");
 				System.out.println("2. HolisticExperiment");
-				option=input.nextInt();
-				if (option==2) {
+				option=input.nextLine();
+			    if (option.equals("")){
+			    	option="1";
+			    }
+				if (option.equals("2")) {
 					pairMode=false;}
 				if (pairMode) {
 					System.out.println("Please select The Experiment you want to run "
-							+ "from the the following options:");
+							+ "from the the following options: (default = 0)");
 					int ExperimentID;
 					for (PairExperimentEnum e : PairExperimentEnum.values()){
 						System.out.println(e.ordinal()+". "+e.name()+ " description: ");
 						System.out.println("  -  "+e.getExperiment().getDescription());
+					}		
+					option=input.nextLine();
+					if (option.equals("")){
+						ExperimentID=0;
 					}
-					ExperimentID=input.nextInt();
+					else{
+						ExperimentID=Integer.parseInt(option);
+					}
+					
 					for (PairExperimentEnum e : PairExperimentEnum.values()){
 						if (ExperimentID==e.ordinal()){
 							pe = e;}
@@ -210,15 +231,28 @@ public class OBExperimentRunner {
 					} 
 					System.out.println("The Experiment you chose is: "+he.name());
 				}
-					System.out.println("Please select The Dataset you want to work with:");
+					System.out.println("Please select The Dataset you want to work with: (default = 1)");
 					int datasetID;
 					for (OREDataSetEnum d : OREDataSetEnum.values()){
 						System.out.println(d.getDatasetDBid()+". "+d.name());
 					}
-					datasetID=input.nextInt();
-					System.out.println("Please select number of experiments schema pairs "
+					option=input.nextLine();
+					if (option.equals("")){
+						datasetID=1;
+					}
+					else{
+						datasetID=Integer.parseInt(option);
+					}
+					System.out.println("Please select number (default = 1) of experiments schema pairs "
 							+ "you want to work with:(for specific pairs choose 0)");
-					int K=input.nextInt();
+					int K=0;
+					option=input.nextLine();
+					if (option.equals("")){
+						K=1;
+					}
+					else{
+						K=Integer.parseInt(option);
+					}
 					String spid = null;
 					if (K==0) {
 						System.out.println("Please select Schema pair ID Set:"); 
@@ -237,32 +271,55 @@ public class OBExperimentRunner {
 					}
 					else name= he.name();
 					expDesc =  "Experiment Type: " + name + " k=" + K + " SPID: " + spid + " Dataset: " + datasetID;
-					System.out.println("Please select The First Line Matchers you want to run "
+					System.out.println("Please Select a comma separated set of FLM "
 							+ "from the the following options: ");
-					System.out.println("(for multiple Flm selection write a list "
-							+ "of the Flm you want for example 0,1,2)");
-					HashMap<Integer,String> FLMSorted = new HashMap<Integer,String>(); 
+					System.out.println("(for example: 0,1,5 will run an experiment "
+							+ " using FLM numbers 0, 1 and 5 (default = 0))");	
+					HashMap<Integer,String> FLM1 = new HashMap<Integer,String>(); 
 					for (FLMList f : FLMList.values()){
-						FLMSorted.put(f.getFLM().getDBid(),f.getFLM().getDBid()+ ". "+ f.name());
+						FLM1.put(f.getFLM().getDBid(),f.getFLM().getDBid()+ ". "+ f.name());
 					}
+					Map<Integer, String> FLMSorted = new TreeMap<Integer, String>(FLM1);
 					for (String f : FLMSorted.values()){
 						System.out.println(f);
 					}
-					String FlmWanted = input.next();
+					String FlmWanted=null;
+					FlmWanted = input.nextLine();
+					if (option.equals("")){
+						FlmWanted="0";
+					}
+					
 					flm = parseFLMids(FlmWanted);
-					System.out.println("Please select The Second Line Matchers you want to run "
+					
+					System.out.println("Please Select a comma separated set of SLM "
 							+ "from the the following options: ");
-					System.out.println("(for multiple Slm selection write a list "
-							+ "of the Slm you want for example 0,1,2)");	
+					System.out.println("(for example: 1,2,6 will run an experiment "
+							+ " using SLM numbers 1, 2 and 7 (default = 1))");	
 					HashMap<Integer,String> SLMSorted = new HashMap<Integer,String>(); 
+					Integer MaxKey=0;
 					for (SLMList s : SLMList.values()){
 						SLMSorted.put(s.getSLM().getDBid(),s.getSLM().getDBid()+ ". "+ s.name());
+						if (s.getSLM().getDBid()>MaxKey){ 
+							MaxKey=s.getSLM().getDBid();
 						}
+					}
+					MaxKey++;
+					SLMSorted.put(MaxKey,MaxKey+". I don't want to use any SLM");
 					for (String s : SLMSorted.values()){
 						System.out.println(s);
 					}
-					String SlmWanted = input.next();
-					slm = parseSLMids(SlmWanted);
+					String SlmWanted=null;
+					SlmWanted = input.nextLine();
+					if (option.equals("")){
+						SlmWanted="1";
+					}
+
+					if (SlmWanted.equals(MaxKey.toString())) {
+						System.out.println("Notice: No SLM were selected!");
+					}
+					else{
+						slm = parseSLMids(SlmWanted);
+					}
 			}
 			else {
 				System.err.println(option+ " was not an option");
