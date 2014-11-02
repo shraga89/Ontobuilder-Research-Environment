@@ -164,16 +164,10 @@ public class OBExperimentRunner {
 		
 		//	if (!outputPath.exists()) fatalError("Output path not found"); 
 			Scanner input = new Scanner(System.in);
-			Scanner enter = new Scanner(System.in);
 			System.out.println("Welcome to the Ontobuilder Research Environment");
 			System.out.println("Please select one of the following options:");
 			System.out.println("1.Run Experiment");
 			System.out.println("2.Quit");
-	/*		int option=1;
-			if (enter.nextLine().equals("")){
-				option=1;
-			}
-			option=input.nextInt();*/
 		    String option=input.nextLine();
 		    if (option.equals("")){
 		    	option="1";
