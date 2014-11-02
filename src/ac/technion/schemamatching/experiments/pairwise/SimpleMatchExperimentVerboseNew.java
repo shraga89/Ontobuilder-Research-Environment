@@ -6,17 +6,21 @@ import java.util.Properties;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 import ac.technion.schemamatching.experiments.OBExperimentRunner;
 import ac.technion.schemamatching.matchers.firstline.FirstLineMatcher;
+import ac.technion.schemamatching.matchers.secondline.OBCrossEntropy;
 import ac.technion.schemamatching.matchers.secondline.SLMList;
 import ac.technion.schemamatching.matchers.secondline.SecondLineMatcher;
 import ac.technion.schemamatching.statistics.BinaryGolden;
 import ac.technion.schemamatching.statistics.K2Statistic;
+import ac.technion.schemamatching.statistics.MatchDistance;
 import ac.technion.schemamatching.statistics.NBGolden;
 import ac.technion.schemamatching.statistics.NBGoldenAtDynamicK;
 import ac.technion.schemamatching.statistics.NBGoldenAtK;
 import ac.technion.schemamatching.statistics.NBGoldenAtR;
+import ac.technion.schemamatching.statistics.NumIterations;
 import ac.technion.schemamatching.statistics.Statistic;
 import ac.technion.schemamatching.statistics.VerboseBinaryGolden;
 import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
+import ac.technion.schemamatching.util.ce.CrossEntropyOptimizer.CEOptimizationResult;
 
 /**
  * This simple match experiment is intended as a tutorial for 
@@ -71,12 +75,19 @@ public class SimpleMatchExperimentVerboseNew implements PairWiseExperiment {
 			nbr.init(instanceDesc, mi,esp.getExact());
 			evaluations.add(nbr);
 			
+			//Calculate MatchDisatance
+			K2Statistic md = new MatchDistance();
+			md.init(instanceDesc, mi,esp.getExact());
+			evaluations.add(md);
+			
 			//selecting second line matchers to use
 			ArrayList<SecondLineMatcher> slm_to_use= new ArrayList<SecondLineMatcher>();
-			slm_to_use.add(SLMList.OBMWBG.getSLM());
+		/*	slm_to_use.add(SLMList.OBMWBG.getSLM());
 			slm_to_use.add(SLMList.OBMaxDelta01.getSLM());
-			slm_to_use.add(SLMList.OBThreshold085.getSLM());
-			slm_to_use.add(SLMList.OBCrossEntropy.getSLM());
+			slm_to_use.add(SLMList.OBThreshold085.getSLM());*/
+			OBCrossEntropy obce = new OBCrossEntropy();
+			slm_to_use.add(obce);
+			Boolean Flag=false;
 			for (SecondLineMatcher s : slm_to_use)
 			{
 				//Second Line Match
@@ -84,6 +95,11 @@ public class SimpleMatchExperimentVerboseNew implements PairWiseExperiment {
 					System.err.println("Initialization of " + s.getName() + 
 							"failed, we hope the author defined default values...");
 				MatchInformation mi1 = s.match(mi);
+				if (s.getName().equals("Ontobuilder CrossEntropy"))
+				{
+					Flag=true;
+				}
+				else Flag=false;
 				//calculate Precision and Recall
 				K2Statistic b2 = new BinaryGolden();
 				instanceDesc =  esp.getID() + "," + m.getName() + "," + s.getName()+ "," + s.getConfig();
@@ -94,7 +110,25 @@ public class SimpleMatchExperimentVerboseNew implements PairWiseExperiment {
 				instanceDesc =  esp.getID() + "," + m.getName() + "," + s.getName()+ "," + s.getConfig();
 				b3.init(instanceDesc, mi1,esp.getExact());
 				evaluations.add(b3);
+				//Calculate MatchDisatance
+				K2Statistic md2 = new MatchDistance();
+				md2.init(instanceDesc, mi1,esp.getExact());
+				evaluations.add(md2);
+				//Calculate NumIterations
+				NumIterations ni1 = new NumIterations();
+				if (Flag)
+				{
+					CEOptimizationResult result= obce.getCEOptimizationResult();
+					int numCEIterations = result.numIterations;
+					ni1.addNumOfIter(numCEIterations);
+					
+				}
+				ni1.init(instanceDesc, mi1);
+				evaluations.add(ni1);
 			}
+
+				
+			
 			
 		}
 		return evaluations;
@@ -119,7 +153,7 @@ public class SimpleMatchExperimentVerboseNew implements PairWiseExperiment {
 	 * @see ac.technion.schemamatching.experiments.MatchingExperiment#getDescription()
 	 */
 	public String getDescription() {
-		return "Simple match experiment (Developer Tutorial)";
+		return "Simple match experiment";
 	}
 	
 	public ArrayList<Statistic> summaryStatistics() {
