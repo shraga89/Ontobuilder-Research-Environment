@@ -30,28 +30,32 @@ public class OBCrossEntropy implements SecondLineMatcher{
 	private int stopAfter = 10;
 	private boolean isOne2OneMatch = true;
 	private int numSamplerThreads = 100;
+	private CEOptimizationResult result = null;
+	private double mcdCoff = 0.5;
 
 	@Override
 	public String getName() {
-		return "CrossEntropy";
+		return "Ontobuilder CrossEntropy";
 	}
 
 	@Override
 	public MatchInformation match(MatchInformation mi) {
 		CrossEntropyOptimizer ceo = new CrossEntropyOptimizer(sampleSize, ro, stopAfter, numSamplerThreads);
 		CEObjective objective = new OBObjective(mi);
-		CEOptimizationResult result = ceo.optimize(objective, new OBModel(mi, smoothAlpha, isOne2OneMatch));
+		synchronized(this){
+		   result = ceo.optimize(objective, new OBModel(mi, smoothAlpha, isOne2OneMatch));
+		}
 		return ((OBSample)result.bestSample).getMatchInformation();
 	}
 
 	@Override
 	public String getConfig() {
-		return "sampleSize="+sampleSize+", ro="+ro+", smoothAlpha="+smoothAlpha+", stopAfter="+stopAfter+", isOne2OneMatch="+isOne2OneMatch+", numSamplerThreads="+numSamplerThreads;
+		return "sampleSize="+sampleSize+", ro="+ro+", smoothAlpha="+smoothAlpha+", stopAfter="+stopAfter+", isOne2OneMatch="+isOne2OneMatch+", numSamplerThreads="+numSamplerThreads+", mcdCoff="+mcdCoff;
 	}
 
 	@Override
 	public int getDBid() {
-		return 13;
+		return 8;
 	}
 
 	@Override
@@ -63,8 +67,14 @@ public class OBCrossEntropy implements SecondLineMatcher{
 			stopAfter = Integer.parseInt(properties.getProperty("stopAfter", "10"));
 			isOne2OneMatch = Boolean.parseBoolean(properties.getProperty("isOne2OneMatch", "true"));
 			numSamplerThreads = Integer.parseInt(properties.getProperty("numSamplerThreads", "100"));
+			mcdCoff = Double.parseDouble(properties.getProperty("mcdCoff", "0.5"));
 		}
 		return true;
+	}
+	
+	
+	public synchronized CEOptimizationResult getCEOptimizationResult(){
+		return result;
 	}
 	
 	
@@ -127,7 +137,7 @@ public class OBCrossEntropy implements SecondLineMatcher{
 			MatchCompetitorDeviation mcd = new MatchCompetitorDeviation();
 			mcd.init(null, mi, cemi);
 			double mcdVal = Double.parseDouble(mcd.getData().get(0)[1]);
-			return totalMatchWeight * mcdVal;//Math.sqrt(1.0/numMatchedPairs) Haggai change 25/8/2014 --> this
+			return Math.pow(totalMatchWeight,1 - mcdCoff) * Math.pow(mcdVal,mcdCoff);//Math.sqrt(1.0/numMatchedPairs) Haggai change 25/8/2014 --> this
 			//normalization was pushed to be internal in MCD
 		}
 		
