@@ -67,7 +67,7 @@ public class MCC implements K2Statistic{
 		Double TN = N - TP - FP - FN;
 		Double S = N > 0 ? (TP + FN)/N : 0;
 		Double P = N > 0 ? (TP + FP)/N : 0;
-		Double MCC = (TP/N - S*P)/Math.sqrt(P*S*(1-P)*(1-S));
+		Double MCC = P>0 && S>0 ? (TP/N - S*P)/Math.sqrt(P*S*(1-P)*(1-S)) : 0;
 		data.add(new String[] {instanceDescription,MCC.toString(),TP.toString(),
 				TN.toString(),FP.toString(),FN.toString(),N.toString()});
 		return true;

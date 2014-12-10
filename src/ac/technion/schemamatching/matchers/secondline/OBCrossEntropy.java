@@ -11,6 +11,7 @@ import ac.technion.iem.ontobuilder.matching.match.Match;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 import ac.technion.iem.ontobuilder.matching.meta.match.MatchMatrix;
 import ac.technion.schemamatching.statistics.MatchCompetitorDeviation;
+import ac.technion.schemamatching.util.ConversionUtils;
 import ac.technion.schemamatching.util.ce.CEModel;
 import ac.technion.schemamatching.util.ce.CEObjective;
 import ac.technion.schemamatching.util.ce.CESample;
@@ -24,13 +25,14 @@ import ac.technion.schemamatching.util.ce.CrossEntropyOptimizer.CEOptimizationRe
 public class OBCrossEntropy implements SecondLineMatcher{
 	
 	
-	private int sampleSize = 10000;
+	private int sampleSize = 5000;
 	private double ro = 0.01;
 	private double smoothAlpha = 0.7;
-	private int stopAfter = 10;
+	private int stopAfter = 5;
 	private boolean isOne2OneMatch = true;
 	private int numSamplerThreads = 100;
 	private CEOptimizationResult result = null;
+	private double mcdCoff = 0.5;
 
 	@Override
 	public String getName() {
@@ -39,17 +41,21 @@ public class OBCrossEntropy implements SecondLineMatcher{
 
 	@Override
 	public MatchInformation match(MatchInformation mi) {
+		MatchInformation CleanedMatrix = new MatchInformation(mi.getCandidateOntology(),mi.getTargetOntology());
+		CleanedMatrix.setMatrix(mi.getMatrix());
+		/*ConversionUtils.zeroWeightsByThresholdAndRemoveMatches(CleanedMatrix, 0.01);
+		ConversionUtils.limitToKMatches(CleanedMatrix, 10);*/
 		CrossEntropyOptimizer ceo = new CrossEntropyOptimizer(sampleSize, ro, stopAfter, numSamplerThreads);
-		CEObjective objective = new OBObjective(mi);
+		CEObjective objective = new OBObjective(CleanedMatrix);
 		synchronized(this){
-		   result = ceo.optimize(objective, new OBModel(mi, smoothAlpha, isOne2OneMatch));
+		   result = ceo.optimize(objective, new OBModel(CleanedMatrix, smoothAlpha, isOne2OneMatch));
 		}
 		return ((OBSample)result.bestSample).getMatchInformation();
 	}
 
 	@Override
 	public String getConfig() {
-		return "sampleSize="+sampleSize+", ro="+ro+", smoothAlpha="+smoothAlpha+", stopAfter="+stopAfter+", isOne2OneMatch="+isOne2OneMatch+", numSamplerThreads="+numSamplerThreads;
+		return "sampleSize="+sampleSize+", ro="+ro+", smoothAlpha="+smoothAlpha+", stopAfter="+stopAfter+", isOne2OneMatch="+isOne2OneMatch+", numSamplerThreads="+numSamplerThreads+", mcdCoff="+mcdCoff;
 	}
 
 	@Override
@@ -60,12 +66,13 @@ public class OBCrossEntropy implements SecondLineMatcher{
 	@Override
 	public boolean init(Properties properties) {
 		if (properties != null){
-			sampleSize = Integer.parseInt(properties.getProperty("sampleSize", "10000"));
+			sampleSize = Integer.parseInt(properties.getProperty("sampleSize", "5000"));
 			ro = Double.parseDouble(properties.getProperty("ro", "0.01"));
 			smoothAlpha = Double.parseDouble(properties.getProperty("smoothAlpha", "0.7"));
-			stopAfter = Integer.parseInt(properties.getProperty("stopAfter", "10"));
+			stopAfter = Integer.parseInt(properties.getProperty("stopAfter", "5"));
 			isOne2OneMatch = Boolean.parseBoolean(properties.getProperty("isOne2OneMatch", "true"));
 			numSamplerThreads = Integer.parseInt(properties.getProperty("numSamplerThreads", "100"));
+			mcdCoff = Double.parseDouble(properties.getProperty("mcdCoff", "0.5"));
 		}
 		return true;
 	}
@@ -135,7 +142,7 @@ public class OBCrossEntropy implements SecondLineMatcher{
 			MatchCompetitorDeviation mcd = new MatchCompetitorDeviation();
 			mcd.init(null, mi, cemi);
 			double mcdVal = Double.parseDouble(mcd.getData().get(0)[1]);
-			return totalMatchWeight * mcdVal;//Math.sqrt(1.0/numMatchedPairs) Haggai change 25/8/2014 --> this
+			return Math.pow(totalMatchWeight,1 - mcdCoff) * Math.pow(mcdVal,mcdCoff);//Math.sqrt(1.0/numMatchedPairs) Haggai change 25/8/2014 --> this
 			//normalization was pushed to be internal in MCD
 		}
 		

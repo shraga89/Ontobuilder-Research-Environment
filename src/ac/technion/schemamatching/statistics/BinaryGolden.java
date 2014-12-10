@@ -54,8 +54,8 @@ public class BinaryGolden implements K2Statistic {
 		Double exact = (double) exactMatchListIds.size();
 		Double precision = (matches==0?0:truePositives/matches);
 		Double recall = (exact==0?0:truePositives/exact);
-		Double f = 2d * (precision * recall) / (precision + recall);
-		Double overall = recall * (2 - 1 / precision);
+		Double f = precision > 0 || recall > 0 ? 2 * (precision * recall) / (precision + recall) : 0;
+		Double overall = precision > 0 ? recall * (2 - 1 / precision) : 0;
 		data.add(new String[] {instanceDescription,precision.toString(), recall.toString(), 
 				f.toString(), overall.toString(),truePositives.toString(),
 				matches.toString(),exact.toString()});
