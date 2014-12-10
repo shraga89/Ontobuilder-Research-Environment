@@ -39,10 +39,12 @@ public class CrossEntropyOptimizer{
 
 		public final CESample bestSample;
 		public final int numIterations;
+		public final long time;
 
-		public CEOptimizationResult(CESample bestSample, int numIterations) {
+		public CEOptimizationResult(CESample bestSample, int numIterations, long time) {
 			this.bestSample = bestSample;
 			this.numIterations = numIterations;
+			this.time = time;
 		}
 
 	}
@@ -70,6 +72,7 @@ public class CrossEntropyOptimizer{
 	 * @return optimization result
 	 */
 	public CEOptimizationResult optimize(CEObjective objective, CEModel model) {
+		long time = System.currentTimeMillis();
 		List<CESample> samples;
 		model.maxEntropy();
 		/* Keeps the best sample by far */
@@ -81,7 +84,7 @@ public class CrossEntropyOptimizer{
 
 		while (true) {
 			// draw samples
-			samples = drawRandomSamples(model,N);
+			samples = drawRandomSamples(model,N, objective);
 			//sort samples by objective value
 			sortSamplesByObjective(samples, objective);
 			//keep the best intermediate sample
@@ -103,7 +106,7 @@ public class CrossEntropyOptimizer{
 			t++;
 		}
 
-		return new CEOptimizationResult(bestSample,t);
+		return new CEOptimizationResult(bestSample,t,System.currentTimeMillis() - time);
 	}
 
     /**
@@ -112,12 +115,12 @@ public class CrossEntropyOptimizer{
      * @param size sample size
      * @return sample
      */
-	public List<CESample> drawRandomSamples(CEModel model, int size){
+	public List<CESample> drawRandomSamples(CEModel model, int size, CEObjective objective){
 		ArrayList<CESample> sample = new ArrayList<CESample>();
 		// draw samples
 		SamplerThread[] threads = new SamplerThread[numSamplerThreads];
 		for (int i=0;i<numSamplerThreads;i++){
-			threads[i] = new SamplerThread(model,size/numSamplerThreads);
+			threads[i] = new SamplerThread(model,size/numSamplerThreads,objective);
 			threads[i].start();
 		}
 
@@ -140,11 +143,7 @@ public class CrossEntropyOptimizer{
 	}
 
 	protected void sortSamplesByObjective(List<CESample> sample, CEObjective objective) {
-		for (int i = 0; i < N; i++){
-			CESample s = sample.get(i);
-			s.setValue(objective.evaluate(s));
-		}
-		//Collections.sort(sample, new CESampleComparator(objective.isMaximized()));
+		Collections.sort(sample, new CESampleComparator(objective.isMaximized()));
 	}
 
 
@@ -216,17 +215,24 @@ public class CrossEntropyOptimizer{
 		private ArrayList<CESample> sample;
 		private CEModel model;
 		private int n;
+		private CEObjective objective;
 
-		public SamplerThread(CEModel model, int n) {
+		public SamplerThread(CEModel model, int n, CEObjective objective) {
 			super();
 			this.model = model;
 			this.n = n;
+			this.objective = objective;
 		}
 
 		public void run(){
 			sample = new ArrayList<CESample>();
 			for (int i=0;i<n;i++){
-				sample.add(model.drawRandomSample());
+				CESample s = model.drawRandomSample();
+				s.setValue(objective.evaluate(s));
+				sample.add(s);
+//				if (verbose){
+//					System.out.println("Sample: "+s.getValue()+" (of "+sample.size()+")");
+//				}
 			}
 		}
 

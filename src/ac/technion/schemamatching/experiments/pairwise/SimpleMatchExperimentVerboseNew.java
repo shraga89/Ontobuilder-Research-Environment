@@ -11,6 +11,7 @@ import ac.technion.schemamatching.matchers.secondline.SLMList;
 import ac.technion.schemamatching.matchers.secondline.SecondLineMatcher;
 import ac.technion.schemamatching.statistics.BinaryGolden;
 import ac.technion.schemamatching.statistics.K2Statistic;
+import ac.technion.schemamatching.statistics.MCC;
 import ac.technion.schemamatching.statistics.MatchDistance;
 import ac.technion.schemamatching.statistics.NBGolden;
 import ac.technion.schemamatching.statistics.NBGoldenAtDynamicK;
@@ -41,6 +42,7 @@ public class SimpleMatchExperimentVerboseNew implements PairWiseExperiment {
 	 * @see ac.technion.schemamatching.experiments.MatchingExperiment#runExperiment(ac.technion.schemamatching.experiments.ExperimentSchemaPair)
 	 */
 	public ArrayList<Statistic> runExperiment(ExperimentSchemaPair esp) {
+		
 		// Using 1st line matchers chosen as parameters
 		ArrayList<Statistic> evaluations = new ArrayList<Statistic>();
 		for (FirstLineMatcher m : flM)
@@ -82,9 +84,11 @@ public class SimpleMatchExperimentVerboseNew implements PairWiseExperiment {
 			
 			//selecting second line matchers to use
 			ArrayList<SecondLineMatcher> slm_to_use= new ArrayList<SecondLineMatcher>();
-		/*	slm_to_use.add(SLMList.OBMWBG.getSLM());
+			slm_to_use.add(SLMList.OBMWBG.getSLM());
 			slm_to_use.add(SLMList.OBMaxDelta01.getSLM());
-			slm_to_use.add(SLMList.OBThreshold085.getSLM());*/
+			slm_to_use.add(SLMList.OBThreshold085.getSLM());
+			/*slm_to_use.add(SLMList.OBDom.getSLM());
+			slm_to_use.add(SLMList.OBSM.getSLM());*/
 			OBCrossEntropy obce = new OBCrossEntropy();
 			slm_to_use.add(obce);
 			Boolean Flag=false;
@@ -114,22 +118,22 @@ public class SimpleMatchExperimentVerboseNew implements PairWiseExperiment {
 				K2Statistic md2 = new MatchDistance();
 				md2.init(instanceDesc, mi1,esp.getExact());
 				evaluations.add(md2);
+				//Calculate MCC
+				K2Statistic mcc = new MCC();
+				mcc.init(instanceDesc, mi1,esp.getExact());
+				evaluations.add(mcc);
 				//Calculate NumIterations
-				NumIterations ni1 = new NumIterations();
 				if (Flag)
 				{
+					NumIterations ni1 = new NumIterations();
 					CEOptimizationResult result= obce.getCEOptimizationResult();
 					int numCEIterations = result.numIterations;
-					ni1.addNumOfIter(numCEIterations);
-					
+					long timeCEIterations = result.time;
+					ni1.addNumOfIter(numCEIterations,timeCEIterations);
+					ni1.init(instanceDesc, mi1);
+					evaluations.add(ni1);	
 				}
-				ni1.init(instanceDesc, mi1);
-				evaluations.add(ni1);
 			}
-
-				
-			
-			
 		}
 		return evaluations;
 	}

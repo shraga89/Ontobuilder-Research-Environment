@@ -13,8 +13,10 @@ import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
  */
 public class NumIterations implements K2Statistic {
 
-	String[] header = new String[]{"instance","The number of iterations it took OBCrossEntropy to converge"};
+	String[] header = new String[]{"instance","The number of iterations it took OBCrossEntropy to converge",
+			"The Time it took OBCrossEntropy to converge"};
 	Integer numIterations=0;
+	Integer timeIterations=0;
 	private List<String[]> data = new ArrayList<String[]>();
 	/* (non-Javadoc)
 	 * @see ac.technion.schemamatching.statistics.Statistic#getHeader()
@@ -45,9 +47,10 @@ public class NumIterations implements K2Statistic {
 	 */
 	@Override
 	public boolean init(String instanceDescription, MatchInformation mi) {
-		String[] Iterations=new String[2];
+		String[] Iterations=new String[3];
 		Iterations[0]=instanceDescription;
 		Iterations[1]=numIterations.toString();
+		Iterations[2]=timeIterations.toString();
 		data.add(Iterations);
 		return true;
 	}
@@ -60,8 +63,9 @@ public class NumIterations implements K2Statistic {
 			MatchInformation exactMatch) {
 		return false;
 	}
-	public void addNumOfIter(int num){
+	public void addNumOfIter(int num,long time){
 		numIterations=num;
+	    timeIterations = (int) time;
 	}
 
 }
