@@ -68,6 +68,7 @@ public class OBMaxDelta implements SecondLineMatcher {
 		if (properties.containsKey("delta"))
 		{
 			delta = Double.parseDouble((String)properties.get("delta"));
+			this.my2LM = new Max2LM(delta);
 			return true;
 		}
 		System.err.println("OBMaxDelta 2LM could not find the required " +
