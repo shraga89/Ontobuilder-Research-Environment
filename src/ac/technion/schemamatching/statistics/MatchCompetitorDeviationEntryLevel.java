@@ -14,6 +14,7 @@ import ac.technion.iem.ontobuilder.matching.meta.match.MatchMatrix;
 public class MatchCompetitorDeviationEntryLevel implements K2Statistic{
 	
 	ArrayList<String[]> data = null;
+	MatchInformation valMI; // an alternative MI based on the MCD instead of VAL 
 	String[] header = null;
 
 	@Override
@@ -42,6 +43,8 @@ public class MatchCompetitorDeviationEntryLevel implements K2Statistic{
 		data = new ArrayList<String[]>();
 		MatchMatrix mm = _1LM_MI.getMatrix();
 		double[][] mmat = mm.getMatchMatrix();
+		valMI = new MatchInformation(_1LM_MI.getCandidateOntology(), _1LM_MI.getTargetOntology());
+		
 		int rows = mm.getRowCount();
 		int cols = mm.getColCount();
 		List<Match> match = _2LM_MI.getCopyOfMatches();
@@ -66,14 +69,16 @@ public class MatchCompetitorDeviationEntryLevel implements K2Statistic{
 			}
 			
 			double pivotMean = numCompetitors > 0 ? sumPair/numCompetitors : 0;
-			
+			double mcdVal = Math.pow(mmat[rowIndex][colIndex] - pivotMean,2);
 			String[] res = new String[header.length];
 			long cID = match.get(i).getCandidateTerm().getId();
 			long tID = match.get(i).getTargetTerm().getId();
 			res[0] = instanceDescription + "," + cID + "," + tID;
-			res[1] = Double.toString(Math.pow(mmat[rowIndex][colIndex] - pivotMean,2));
+			res[1] = Double.toString(mcdVal);
 			data.add(res);
 			//TODO consider normalizing by match size
+			
+			valMI.updateMatch(match.get(i).getTargetTerm(),match.get(i).getCandidateTerm(), mcdVal);
 		}
 	
 		
