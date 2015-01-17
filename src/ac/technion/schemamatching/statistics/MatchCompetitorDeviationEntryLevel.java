@@ -87,4 +87,11 @@ public class MatchCompetitorDeviationEntryLevel implements K2Statistic{
 		return true;
 	}
 
+	/**
+	 * @return the valMI
+	 */
+	public MatchInformation getValMI() {
+		return valMI;
+	}
+
 }

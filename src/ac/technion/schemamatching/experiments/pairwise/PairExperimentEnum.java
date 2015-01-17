@@ -36,6 +36,7 @@ public enum PairExperimentEnum
 	, NBNB(new NBNBEvaluationExperiment())
 	, OntologyInvariance(new OntologyInvarianceExperiment())
 	, HumanPredictorEval(new HumanPredictorEvaluation())
+	, MaxDelta(new MaxDeltaOnEntryPredictors())
 	//, NewVerbose(new SimpleMatchExperimentVerboseNew())
 	;
 	
