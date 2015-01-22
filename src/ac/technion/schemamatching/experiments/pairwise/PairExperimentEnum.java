@@ -37,6 +37,7 @@ public enum PairExperimentEnum
 	, OntologyInvariance(new OntologyInvarianceExperiment())
 	, HumanPredictorEval(new HumanPredictorEvaluation())
 	, MaxDelta(new MaxDeltaOnEntryPredictors())
+	, MaxDeltaEnsemble(new MaxDeltaOnEntryPredictorEnsemble())
 	//, NewVerbose(new SimpleMatchExperimentVerboseNew())
 	;
 	

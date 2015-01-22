@@ -11,7 +11,7 @@ import ac.technion.iem.ontobuilder.matching.match.Match;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 import ac.technion.iem.ontobuilder.matching.meta.match.MatchMatrix;
 import ac.technion.schemamatching.statistics.MatchCompetitorDeviation;
-import ac.technion.schemamatching.statistics.predictors.STDEVPredictor;
+import ac.technion.schemamatching.util.ConversionUtils;
 import ac.technion.schemamatching.util.ce.CEModel;
 import ac.technion.schemamatching.util.ce.CEObjective;
 import ac.technion.schemamatching.util.ce.CESample;
@@ -60,7 +60,7 @@ public class OBCrossEntropy implements SecondLineMatcher{
 
 	@Override
 	public int getDBid() {
-		return 13;
+		return 8;
 	}
 
 	@Override
@@ -69,7 +69,7 @@ public class OBCrossEntropy implements SecondLineMatcher{
 			sampleSize = Integer.parseInt(properties.getProperty("sampleSize", "5000"));
 			ro = Double.parseDouble(properties.getProperty("ro", "0.01"));
 			smoothAlpha = Double.parseDouble(properties.getProperty("smoothAlpha", "0.7"));
-			stopAfter = Integer.parseInt(properties.getProperty("stopAfter", "10"));
+			stopAfter = Integer.parseInt(properties.getProperty("stopAfter", "5"));
 			isOne2OneMatch = Boolean.parseBoolean(properties.getProperty("isOne2OneMatch", "true"));
 			numSamplerThreads = Integer.parseInt(properties.getProperty("numSamplerThreads", "100"));
 			mcdCoff = Double.parseDouble(properties.getProperty("mcdCoff", "0.5"));
@@ -138,23 +138,11 @@ public class OBCrossEntropy implements SecondLineMatcher{
 			OBSample _sample = (OBSample)sample;
 			MatchInformation cemi = _sample.getMatchInformation();
 			double totalMatchWeight = cemi.getTotalMatchWeight();
-			STDEVPredictor p = new STDEVPredictor();
-			p.init(cemi.getMatrix().getRowCount(), cemi.getMatrix().getColCount());
-			double[][] mm = cemi.getMatchMatrix();
-			for (Term t : cemi.getTargetOntology().getTerms(true))
-			{
-				int trow = cemi.getMatrix().getTermIndex(cemi.getOriginalTargetTerms(), t, false);
-				int cols =mm[trow].length;
-				p.newRow();
-				for (int col=0;col<cols;col++)
-						p.visitColumn(mm[trow][col]);
-			}
-			double stdevp = p.getRes();
-//			int numMatchedPairs = cemi.getNumMatches();
+			//int numMatchedPairs = cemi.getNumMatches();
 			MatchCompetitorDeviation mcd = new MatchCompetitorDeviation();
 			mcd.init(null, mi, cemi);
 			double mcdVal = Double.parseDouble(mcd.getData().get(0)[1]);
-			return Math.pow(totalMatchWeight,0.4d)*Math.pow(stdevp,0.2d) * Math.pow(mcdVal,0.4d);//Math.sqrt(1.0/numMatchedPairs) Haggai change 25/8/2014 --> this
+			return Math.pow(totalMatchWeight,1 - mcdCoff) * Math.pow(mcdVal,mcdCoff);//Math.sqrt(1.0/numMatchedPairs) Haggai change 25/8/2014 --> this
 			//normalization was pushed to be internal in MCD
 		}
 		
