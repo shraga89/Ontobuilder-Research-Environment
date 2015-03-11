@@ -12,7 +12,7 @@ import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
  * @author Tomer Sagi
  * Ontobuilder Research Environment wrapper for Max2LM second line matcher
  */
-public class OBMaxDelta implements SecondLineMatcher {
+public class OBMaxDelta_on_EntryPrediction implements SecondLineMatcher {
 
 	private Max2LM my2LM;
 	/* (non-Javadoc)
@@ -47,7 +47,7 @@ public class OBMaxDelta implements SecondLineMatcher {
 	 * Sets delta to supplied value
 	 * @param delta
 	 */
-	public OBMaxDelta(double delta)
+	public OBMaxDelta_on_EntryPrediction(double delta)
 	{
 		this.my2LM = new Max2LM(delta);
 //		Properties p = new Properties();
@@ -68,7 +68,6 @@ public class OBMaxDelta implements SecondLineMatcher {
 		if (properties.containsKey("delta"))
 		{
 			delta = Double.parseDouble((String)properties.get("delta"));
-			this.my2LM = new Max2LM(delta);
 			return true;
 		}
 		System.err.println("OBMaxDelta 2LM could not find the required " +

@@ -290,4 +290,39 @@ public class ConversionUtils {
 				mi.updateMatch(t, c, (v>0.0?v-n:v+n));
 			}
 	}
+
+	/**
+	 * combines given matrices. If both contain a match - the 
+	 * new value will be given by m1^beta * m2^(1-beta), otherwise
+	 * the union of matches is performed. 
+	 * @param mi1
+	 * @param mi2
+	 * @param beta
+	 */
+	public static MatchInformation combineMatrices(MatchInformation mi1,
+			MatchInformation mi2, double beta) {
+		MatchInformation res = new MatchInformation(mi1.getCandidateOntology(),mi1.getTargetOntology());
+		for (Term t : mi1.getMatrix().getTargetTerms())
+			for (Term c: mi1.getMatrix().getCandidateTerms())
+			{
+				double v = 0.0d;
+				double v1 = mi1.getMatchConfidence(c, t);
+				double v2 = mi2.getMatchConfidence(c, t);
+				if (v1>0)
+				{
+					if (v2>0)
+					{
+						v = Math.pow(v1, beta)*Math.pow(v2, (1-beta));
+					} else {
+						v = v1;
+					}
+				} else {
+					if (v2>0)
+						v = v2;
+				}
+				if (v!=0.0d)
+					res.updateMatch(t, c, v);
+			}
+		return res;
+	}
 }
