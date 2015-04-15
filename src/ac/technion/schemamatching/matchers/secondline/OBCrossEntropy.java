@@ -25,14 +25,14 @@ import ac.technion.schemamatching.util.ce.CrossEntropyOptimizer.CEOptimizationRe
 public class OBCrossEntropy implements SecondLineMatcher{
 	
 	
-	private int sampleSize = 5000;
+	private int sampleSize = 10000;
 	private double ro = 0.01;
 	private double smoothAlpha = 0.7;
-	private int stopAfter = 5;
+	private int stopAfter = 10;
 	private boolean isOne2OneMatch = true;
 	private int numSamplerThreads = 100;
 	private CEOptimizationResult result = null;
-	private double mcdCoff = 0.5;
+	private double mcdCoff = 0.05;
 
 	@Override
 	public String getName() {
@@ -43,8 +43,8 @@ public class OBCrossEntropy implements SecondLineMatcher{
 	public MatchInformation match(MatchInformation mi) {
 		MatchInformation CleanedMatrix = new MatchInformation(mi.getCandidateOntology(),mi.getTargetOntology());
 		CleanedMatrix.setMatrix(mi.getMatrix());
-		/*ConversionUtils.zeroWeightsByThresholdAndRemoveMatches(CleanedMatrix, 0.01);
-		ConversionUtils.limitToKMatches(CleanedMatrix, 10);*/
+		ConversionUtils.zeroWeightsByThresholdAndRemoveMatches(CleanedMatrix, 0.01);
+		ConversionUtils.limitToKMatches(CleanedMatrix, 10);
 		CrossEntropyOptimizer ceo = new CrossEntropyOptimizer(sampleSize, ro, stopAfter, numSamplerThreads);
 		CEObjective objective = new OBObjective(CleanedMatrix);
 		synchronized(this){
@@ -66,13 +66,13 @@ public class OBCrossEntropy implements SecondLineMatcher{
 	@Override
 	public boolean init(Properties properties) {
 		if (properties != null){
-			sampleSize = Integer.parseInt(properties.getProperty("sampleSize", "5000"));
+			sampleSize = Integer.parseInt(properties.getProperty("sampleSize", "10000"));
 			ro = Double.parseDouble(properties.getProperty("ro", "0.01"));
 			smoothAlpha = Double.parseDouble(properties.getProperty("smoothAlpha", "0.7"));
-			stopAfter = Integer.parseInt(properties.getProperty("stopAfter", "5"));
+			stopAfter = Integer.parseInt(properties.getProperty("stopAfter", "10"));
 			isOne2OneMatch = Boolean.parseBoolean(properties.getProperty("isOne2OneMatch", "true"));
 			numSamplerThreads = Integer.parseInt(properties.getProperty("numSamplerThreads", "100"));
-			mcdCoff = Double.parseDouble(properties.getProperty("mcdCoff", "0.5"));
+			mcdCoff = Double.parseDouble(properties.getProperty("mcdCoff", "0.05"));
 		}
 		return true;
 	}

@@ -19,7 +19,8 @@ public enum SLMList {OBMWBG(new OBmwbg()),OBSM(new OBStableMarriage()),
 	OBTopK(new OBTopK()), OBMax(new OBMaxDelta(0.0)),OBMaxDelta005(new OBMaxDelta(0.05)), 
 	OBMaxDelta01(new OBMaxDelta(0.1)), OBMaxDelta02(new OBMaxDelta(0.2)), MaxSim(new MaxSim()),
 	ProcessModelConfigMatcher(new ProcessModelConfigMatchers())
-	,OBCrossEntropy(new OBCrossEntropy());
+	,OBCrossEntropy(new OBCrossEntropy()),
+	OBFuncDep(new OBFuncDepend());
 
 private SLMList(SecondLineMatcher slm)
 {
