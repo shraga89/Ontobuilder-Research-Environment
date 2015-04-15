@@ -34,12 +34,14 @@ public class MatrixPredictorEvaluation implements PairWiseExperiment {
 		// Using all 1st line matchers 
 		ArrayList<Statistic> predictions = new ArrayList<Statistic>();
 		ArrayList<Statistic> evaluations = new ArrayList<Statistic>();
+
+		
 		for (FirstLineMatcher m : flM)
 		{
 			//Match
 			MatchInformation mi = m.match(esp.getCandidateOntology(), esp.getTargetOntology(), false);
 			//MatchInformation mi1 = SLMList.OBMaxDelta005.getSLM().match(mi);
-	/*		MatchInformation mi1 = SLMList.OBMWBG.getSLM().match(mi);
+			MatchInformation mi1 = SLMList.OBMWBG.getSLM().match(mi);
 			// Calculate predictors + Mcd- Hagai's new Predictor
 			Statistic  p = new MatrixPredictors();
 			K2Statistic mcd = new MatchCompetitorDeviation();
@@ -58,7 +60,7 @@ public class MatrixPredictorEvaluation implements PairWiseExperiment {
 			mcc.init(instanceDesc, mi1, esp.getExact());
 			evaluations.add(mcc);
 			//Additional 2LM
-			
+			/*
 			MatchInformation mi2 = SLMList.OBSM.getSLM().match(mi);
 			Statistic  p2 = new MatrixPredictors();
 			K2Statistic mcd2 = new MatchCompetitorDeviation();
@@ -94,12 +96,12 @@ public class MatrixPredictorEvaluation implements PairWiseExperiment {
 			K2Statistic mcc3 = new MCC();
 			mcc3.init(instanceDesc, mi3, esp.getExact());
 			evaluations.add(mcc3);
-			*/
+			
 			//Additional 2LM
 			MatchInformation mi4 = SLMList.OBThreshold050.getSLM().match(mi);
 			Statistic  p4 = new MatrixPredictors();
 			K2Statistic mcd4 = new MatchCompetitorDeviation();
-			String instanceDesc = esp.getID()+","+m.getName()+","+"Threshold050";
+			instanceDesc = esp.getID()+","+m.getName()+","+"Threshold050";
 			p4.init(instanceDesc, mi4);
 			mcd4.init(instanceDesc, mi, mi4);
 			predictions.add(p4);

@@ -7,6 +7,7 @@ import ac.technion.iem.ontobuilder.io.imports.Importer;
 import ac.technion.iem.ontobuilder.io.imports.NativeImporter;
 import ac.technion.iem.ontobuilder.io.imports.OWLImporter;
 import ac.technion.iem.ontobuilder.io.imports.PNMLImporter;
+import ac.technion.iem.ontobuilder.io.imports.SQLImporter;
 import ac.technion.iem.ontobuilder.io.imports.WSDLImporterEasyWSDL;
 import ac.technion.iem.ontobuilder.io.imports.XSDImporterUsingXSOM;
 import ac.technion.iem.ontobuilder.io.matchimport.CRFMatchImporter;
@@ -16,6 +17,8 @@ import ac.technion.iem.ontobuilder.io.matchimport.MatchImporter;
 import ac.technion.iem.ontobuilder.io.matchimport.NativeMatchImporter;
 import ac.technion.iem.ontobuilder.io.matchimport.PNMLPairMatchImporter;
 import ac.technion.iem.ontobuilder.io.matchimport.RDFMatchImporter;
+import ac.technion.iem.ontobuilder.io.imports.RDFImporter;
+
 
 /**
  * @author Tomer Sagi
@@ -44,8 +47,9 @@ public enum OREDataSetEnum
 	University(20,"University Application Forms",new XSDImporterUsingXSOM(),new MappingMatchImporter(),true, false, false),
 	IMAP(21,"Small scale relational schemas with instances", new XSDImporterUsingXSOM(),new CSVMatchImporter(),true,false,true),
 	CRF(22,"Fiat Research Contributed Schemas", new XSDImporterUsingXSOM(),new CRFMatchImporter(),true,false, false),
-	PNML(24,"Petri-Net Represented Business Processes", new PNMLImporter(), new PNMLPairMatchImporter(),true, false, false);
-	
+	GeoDataSQL(23,"GeoData - sql", new SQLImporter(), new CSVMatchImporter(),true, false, false),
+	PNML(24,"Petri-Net Represented Business Processes", new PNMLImporter(), new PNMLPairMatchImporter(),true, false, false),
+	Lod(25, "Linked open data - rdf", new RDFImporter(),new MappingMatchImporter(),true, false, false);
 	/**
 	 * Get a OREDataSetEnum by it's dataset id in O(n)
 	 * @param dsid
