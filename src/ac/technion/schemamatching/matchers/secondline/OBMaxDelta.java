@@ -5,8 +5,13 @@ package ac.technion.schemamatching.matchers.secondline;
 
 import java.util.Properties;
 
+import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
+
 import ac.technion.iem.ontobuilder.matching.algorithms.line2.simple.Max2LM;
+import ac.technion.iem.ontobuilder.matching.match.Match;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
+import ac.technion.schemamatching.statistics.StatisticsUtils;
+import ac.technion.schemamatching.util.ConversionUtils;
 
 /**
  * @author Tomer Sagi
@@ -26,7 +31,14 @@ public class OBMaxDelta implements SecondLineMatcher {
 	 * @see ac.technion.schemamatching.matchers.SecondLineMatcher#match(ac.technion.iem.ontobuilder.matching.match.MatchInformation)
 	 */
 	public MatchInformation match(MatchInformation mi) {
-		return my2LM.match(mi);
+		MatchInformation res = my2LM.match(mi);
+		DescriptiveStatistics ds = new DescriptiveStatistics(res.getNumMatches());
+		for (Match m : res.getCopyOfMatches())
+			ds.addValue(m.getEffectiveness());
+		
+		double t = (ds.getMean()>ds.getStandardDeviation()  ? (ds.getMean()>2*ds.getStandardDeviation() ? ds.getMean()- 2*ds.getStandardDeviation() : ds.getMean()-ds.getStandardDeviation()) : 0.1);
+		ConversionUtils.zeroWeightsByThresholdAndRemoveMatches(res, t);
+		return res;
 	}
 
 	/* (non-Javadoc)
@@ -50,9 +62,6 @@ public class OBMaxDelta implements SecondLineMatcher {
 	public OBMaxDelta(double delta)
 	{
 		this.my2LM = new Max2LM(delta);
-//		Properties p = new Properties();
-//		p.put("t", threshold);
-//		my2LM.init(p);
 		this.delta = delta;
 	}
 	public void setDelta(double delta) {
