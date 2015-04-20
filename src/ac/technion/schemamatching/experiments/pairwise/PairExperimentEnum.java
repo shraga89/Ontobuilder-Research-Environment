@@ -38,7 +38,7 @@ public enum PairExperimentEnum
 	, HumanPredictorEval(new HumanPredictorEvaluation())
 	, MaxDelta(new MaxDeltaOnEntryPredictors())
 	, MaxDeltaEnsemble(new MaxDeltaOnEntryPredictorEnsemble())
-	//, NewVerbose(new SimpleMatchExperimentVerboseNew())
+	, NewVerbose(new SimpleMatchExperimentVerboseNew())
 	;
 	
 	

@@ -1,6 +1,7 @@
 package ac.technion.schemamatching.util.ce;
 
-import java.util.List;
+import java.util.concurrent.ForkJoinPool;
+
 
 /**
  * Represents a solution space model. Solutions with the CE method are usually modeled by
@@ -17,7 +18,7 @@ public interface CEModel {
 	 * @param sample
 	 * @param objective
 	 */
-	public void update(double gammaT, List<CESample> sample, CEObjective objective);
+	public void update(double gammaT, CESample[] sample, CEObjective objective, ForkJoinPool pool);
 	/**
 	 * Called for generating a random solution sample from the model
 	 * @return random sample

@@ -1,6 +1,8 @@
 package ac.technion.schemamatching.experiments;
+
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 import ac.technion.schemamatching.matchers.secondline.OBCrossEntropy;
+import ac.technion.schemamatching.matchers.secondline.OBCrossEntropy.OBCrossEntropyResult;
 import ac.technion.schemamatching.matchers.secondline.SecondLineMatcher;
 import ac.technion.schemamatching.statistics.BinaryGolden;
 import ac.technion.schemamatching.statistics.MCC;
@@ -43,5 +45,13 @@ public class CE4SMUsage {
 		}
 		System.out.println();
 		
+		//Obtain run statistics
+		OBCrossEntropyResult result = ((OBCrossEntropy)obce).getOBCrossEntropyResult();
+		System.out.println("Num iterations: "+result.numIterations);
+		System.out.println("Time: "+result.time);
+		System.out.println("Objective: "+result.getOptimalObjectiveValue());
+		System.out.println("Num cands: "+result.getNumCands());
+		System.out.println("Num targets: "+result.getNumTargets());
+		System.out.println("Matrix dim: "+result.getMatrixDim());
 	}
 }

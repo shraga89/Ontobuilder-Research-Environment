@@ -1,9 +1,9 @@
 package ac.technion.schemamatching.util.ce;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.Comparator;
-import java.util.List;
+import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.RecursiveTask;
 
 
 /**
@@ -13,12 +13,12 @@ import java.util.List;
 public class CrossEntropyOptimizer{
 
 	/* Sample size */
-	protected int N = 1000;
+	protected int N = 10000;
 	/* ro parameters - controls the "elite" sample size for adaptive learning */
 	protected double ro = 0.01;
-
-	/* Number of sampler threads */
-	protected int numSamplerThreads = 100;
+	/* sampling pool */
+	protected CESample[] samples;
+	protected ForkJoinPool fkPool;
 
 	/* Stopping criterion parameters 
 	 * Counts number of iterations with no change in CE run 
@@ -57,11 +57,14 @@ public class CrossEntropyOptimizer{
 	 * @param stopAfter stopping criterion
 	 * @param numSamplerThreads num sampling threads
 	 */
-	public CrossEntropyOptimizer(int sampleSize, double ro, int stopAfter, int numSamplerThreads) {
+	public CrossEntropyOptimizer(int sampleSize, double ro, int stopAfter) {
 		this.ro = ro;
 		this.N = sampleSize;
 		this.stopParameter = stopAfter;
-		this.numSamplerThreads = numSamplerThreads;
+		this.samples = new CESample[sampleSize];//sample pool
+		int poolSize = 2 * Runtime.getRuntime().availableProcessors();
+		if (verbose) System.out.println("CE Workers pool size: "+poolSize);
+		this.fkPool = new ForkJoinPool(poolSize);
 	}
 	
 
@@ -73,7 +76,6 @@ public class CrossEntropyOptimizer{
 	 */
 	public CEOptimizationResult optimize(CEObjective objective, CEModel model) {
 		long time = System.currentTimeMillis();
-		List<CESample> samples;
 		model.maxEntropy();
 		/* Keeps the best sample by far */
 		CESample bestSample = null;
@@ -84,16 +86,16 @@ public class CrossEntropyOptimizer{
 
 		while (true) {
 			// draw samples
-			samples = drawRandomSamples(model,N, objective);
+			drawRandomSamples(model,N, objective);
 			//sort samples by objective value
-			sortSamplesByObjective(samples, objective);
+			sortSamplesByObjective(objective);
 			//keep the best intermediate sample
-			CESample currentBest = samples.get(samples.size() - 1);
+			CESample currentBest = samples[samples.length - 1];
 			bestSample = updateBestSample(bestSample, currentBest, objective);
 			// calculate gammaT parameter
 			double gammaT = calculateGammaT(samples);
 			// update model
-			model.update(gammaT, samples, objective);
+			model.update(gammaT, samples, objective, fkPool);
 			//check stop criterion
 			StopCriterionResult check = isStopReached(objective, currentBest.getValue(),lastGammaT,t,numOfTheSameOutcome);
 			if (check.canStop){
@@ -105,6 +107,7 @@ public class CrossEntropyOptimizer{
 
 			t++;
 		}
+		
 
 		return new CEOptimizationResult(bestSample,t,System.currentTimeMillis() - time);
 	}
@@ -115,35 +118,29 @@ public class CrossEntropyOptimizer{
      * @param size sample size
      * @return sample
      */
-	public List<CESample> drawRandomSamples(CEModel model, int size, CEObjective objective){
-		ArrayList<CESample> sample = new ArrayList<CESample>();
-		// draw samples
-		SamplerThread[] threads = new SamplerThread[numSamplerThreads];
-		for (int i=0;i<numSamplerThreads;i++){
-			threads[i] = new SamplerThread(model,size/numSamplerThreads,objective);
-			threads[i].start();
+	public void drawRandomSamples(CEModel model, int size, CEObjective objective){
+		// draw samples in parallel
+		int numTasks = samples.length;
+		SamplingTask[] samplers = new SamplingTask[numTasks];
+		for (int i=0;i<numTasks;i++) {
+			samplers[i] = new SamplingTask(model, objective, samples, i);
+			fkPool.execute(samplers[i]);
 		}
-
-		for (int i=0;i<numSamplerThreads;i++){
-			try {
-				threads[i].join();
-			} catch (InterruptedException e) {}
-
-			sample.addAll(threads[i].getSample());
+		
+		for (SamplingTask sampler : samplers) {
+			sampler.join();
 		}
-
-		return sample;
 	}
 
 
 	
-	protected double calculateGammaT(List<CESample> sample){
-		CESample s = sample.get(((int) Math.floor((1 - ro)* N)));
+	protected double calculateGammaT(CESample[] sample){
+		CESample s = sample[((int) Math.floor((1 - ro)* N))];
 		return s.getValue();
 	}
 
-	protected void sortSamplesByObjective(List<CESample> sample, CEObjective objective) {
-		Collections.sort(sample, new CESampleComparator(objective.isMaximized()));
+	protected void sortSamplesByObjective(CEObjective objective) {
+		Arrays.parallelSort(samples, new CESampleComparator(objective.isMaximized()));
 	}
 
 
@@ -210,37 +207,37 @@ public class CrossEntropyOptimizer{
 
 	}
 
-
-	class SamplerThread extends Thread{
-		private ArrayList<CESample> sample;
+	
+	class SamplingTask extends RecursiveTask<CESample[]>{
+		private static final long serialVersionUID = 2214804391417173438L;
+		
 		private CEModel model;
-		private int n;
 		private CEObjective objective;
+		private CESample[] samples;
+		private int inx;
 
-		public SamplerThread(CEModel model, int n, CEObjective objective) {
+		public SamplingTask(CEModel model, CEObjective objective,
+				CESample[] samples, int inx) {
 			super();
 			this.model = model;
-			this.n = n;
 			this.objective = objective;
-		}
-
-		public void run(){
-			sample = new ArrayList<CESample>();
-			for (int i=0;i<n;i++){
-				CESample s = model.drawRandomSample();
-				s.setValue(objective.evaluate(s));
-				sample.add(s);
-//				if (verbose){
-//					System.out.println("Sample: "+s.getValue()+" (of "+sample.size()+")");
-//				}
-			}
-		}
-
-		public ArrayList<CESample> getSample() {
-			return sample;
+			this.samples = samples;
+			this.inx = inx;
 		}
 
 
+		@Override
+		protected CESample[] compute() {
+			CESample s = model.drawRandomSample();
+			s.setValue(objective.evaluate(s));
+			samples[inx] = s;
+			return samples;
+		}
+
+	}
+	
+	public void close() {
+		if (fkPool != null) fkPool.shutdown();
 	}
 
 
