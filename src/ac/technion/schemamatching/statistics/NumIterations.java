@@ -13,10 +13,14 @@ import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
  */
 public class NumIterations implements K2Statistic {
 
-	String[] header = new String[]{"instance","The number of iterations it took OBCrossEntropy to converge",
-			"The Time it took OBCrossEntropy to converge"};
+	String[] header = new String[]{"instance","number of iterations", "Time","Objective","Numcands","Numtargets","Matrixdim"};
 	Integer numIterations=0;
 	Integer timeIterations=0;
+	double objective=0.0;
+	Integer numcands=0;
+	Integer numtargets=0;
+	Integer matrixdim=0;
+	
 	private List<String[]> data = new ArrayList<String[]>();
 	/* (non-Javadoc)
 	 * @see ac.technion.schemamatching.statistics.Statistic#getHeader()
@@ -47,10 +51,14 @@ public class NumIterations implements K2Statistic {
 	 */
 	@Override
 	public boolean init(String instanceDescription, MatchInformation mi) {
-		String[] Iterations=new String[3];
+		String[] Iterations=new String[7];
 		Iterations[0]=instanceDescription;
 		Iterations[1]=numIterations.toString();
 		Iterations[2]=timeIterations.toString();
+		Iterations[3]= Double.toString(objective);
+		Iterations[4]=numcands.toString();
+		Iterations[5]=numtargets.toString();
+		Iterations[6]=matrixdim.toString();
 		data.add(Iterations);
 		return true;
 	}
@@ -63,9 +71,13 @@ public class NumIterations implements K2Statistic {
 			MatchInformation exactMatch) {
 		return false;
 	}
-	public void addNumOfIter(int num,long time){
+	public void addNumOfIter(int num,long time,double Objective,int Numcands,int Numtargets,int Matrixdim){
 		numIterations=num;
 	    timeIterations = (int) time;
+		objective=Objective;
+		numcands=Numcands;
+		numtargets=Numtargets;
+		matrixdim=Matrixdim;
 	}
 
 }
