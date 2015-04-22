@@ -175,6 +175,10 @@ public class OBExperimentRunner {
 			}
 			if (option.equals("1")) {
 				System.out.println("Let's start:");
+		 		for (int i=1;i<153;i++){
+		 			if (i!=85 || i!=135)
+		 				System.out.print(i+",");
+		 		}
 				System.out.println("Please select The type of Experiment you want to run "
 						+ "from the the following options:(default = 1)");
 				System.out.println("1. PairWiseExperiment");
