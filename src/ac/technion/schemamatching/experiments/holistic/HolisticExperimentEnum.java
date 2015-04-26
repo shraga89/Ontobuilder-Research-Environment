@@ -3,6 +3,8 @@
  */
 package ac.technion.schemamatching.experiments.holistic;
 
+import ac.technion.schemamatching.experiments.pairwise.ComaRecallAndP;
+
 
 /**
  * @author Tomer Sagi
@@ -19,6 +21,7 @@ public enum HolisticExperimentEnum
 	wsComposition(new WSComposition()),
 	wsCompositionBiMatcher(new WSCompositionBiMatcher()),
 	FileExtraction(new SchemaFileExtraction())
+	,ComaRecall(new ComaRecallAndP())
 	;
 	
 	private HolisticExperimentEnum(HolisticExperiment e)

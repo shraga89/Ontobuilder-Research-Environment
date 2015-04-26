@@ -1,19 +1,16 @@
 package ac.technion.schemamatching.experiments.pairwise;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Properties;
 
-import technion.iem.schemamatching.dbutils.DBInterface;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 import ac.technion.schemamatching.experiments.OBExperimentRunner;
 import ac.technion.schemamatching.matchers.firstline.FirstLineMatcher;
 import ac.technion.schemamatching.matchers.secondline.OBCrossEntropy;
 import ac.technion.schemamatching.matchers.secondline.OBCrossEntropy.OBCrossEntropyResult;
-import ac.technion.schemamatching.matchers.secondline.SLMList;
 import ac.technion.schemamatching.matchers.secondline.SecondLineMatcher;
 import ac.technion.schemamatching.statistics.BinaryGolden;
 import ac.technion.schemamatching.statistics.K2Statistic;
@@ -27,7 +24,7 @@ import ac.technion.schemamatching.statistics.NumIterations;
 import ac.technion.schemamatching.statistics.Statistic;
 import ac.technion.schemamatching.statistics.VerboseBinaryGolden;
 import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
-import ac.technion.schemamatching.util.ce.CrossEntropyOptimizer.CEOptimizationResult;
+import ac.technion.schemamatching.util.ConversionUtils;
 
 /**
  * This simple match experiment is intended as a tutorial for 
@@ -61,6 +58,9 @@ public class SimpleMatchExperimentVerboseNew implements PairWiseExperiment {
 			 * the similarity matrix in the database if it exists. 
 			*/
 			mi = esp.getSimilarityMatrix(m);
+			
+			ConversionUtils.zeroWeightsByThresholdAndRemoveMatches(mi, 0.01);
+			ConversionUtils.limitToKMatches(mi, 10);
 			
 			//Calculate Non-Binary Precision and Recall
 			K2Statistic nb = new NBGolden();
@@ -109,6 +109,7 @@ public class SimpleMatchExperimentVerboseNew implements PairWiseExperiment {
 			
 			OBCrossEntropy obce = new OBCrossEntropy();
 			obce.init(pMap);
+			System.out.println(obce.getConfig());
 			slm_to_use.add(obce);
 			Boolean Flag=false;
 			for (SecondLineMatcher s : slm_to_use)
