@@ -3,7 +3,6 @@
  */
 package ac.technion.schemamatching.experiments.holistic;
 
-import ac.technion.schemamatching.experiments.pairwise.ComaRecallAndP;
 
 
 /**
