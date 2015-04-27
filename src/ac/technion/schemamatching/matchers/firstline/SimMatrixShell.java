@@ -64,6 +64,10 @@ public class SimMatrixShell implements FirstLineMatcher {
 	public MatchInformation match(Ontology candidate, Ontology target,
 			boolean binary) {
 		MatchInformation res = null;
+		if (f == null)
+			System.err.println("Missing file to import in SimMatrixShell");
+		if (importer == null)
+			System.err.println("Missing importer  in SimMatrixShell");
 		if (f != null && importer != null)
 			res = importer.importMatch(new MatchInformation(candidate,target), f);
 		return res;
