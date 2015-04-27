@@ -4,6 +4,7 @@
 package ac.technion.schemamatching.experiments.holistic;
 
 
+
 /**
  * @author Tomer Sagi
  * Lists holistic schema matching experiment types 
@@ -19,6 +20,7 @@ public enum HolisticExperimentEnum
 	wsComposition(new WSComposition()),
 	wsCompositionBiMatcher(new WSCompositionBiMatcher()),
 	FileExtraction(new SchemaFileExtraction())
+	,ComaRecall(new ComaRecallAndP())
 	;
 	
 	private HolisticExperimentEnum(HolisticExperiment e)
