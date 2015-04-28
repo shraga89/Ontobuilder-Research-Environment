@@ -9,7 +9,7 @@ import java.io.IOException;
 
 import ac.technion.iem.ontobuilder.core.ontology.Ontology;
 import ac.technion.iem.ontobuilder.io.imports.ImportException;
-import ac.technion.iem.ontobuilder.io.imports.XSDImporter;
+import ac.technion.iem.ontobuilder.io.imports.XSDImporterUsingXSOM;
 import ac.technion.iem.ontobuilder.matching.wrapper.OntoBuilderWrapper;
 
 
@@ -46,7 +46,7 @@ public class ImporterTest
 		@SuppressWarnings("unused")
 		OntoBuilderWrapper obw = new OntoBuilderWrapper();
 		Ontology o = null;
-		XSDImporter imp = new XSDImporter();
+		XSDImporterUsingXSOM imp = new XSDImporterUsingXSOM();
 		try {
 			o = imp.importFile(f);
 		} catch (ImportException e) {

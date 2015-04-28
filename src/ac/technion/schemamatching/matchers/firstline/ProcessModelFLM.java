@@ -1,6 +1,5 @@
 package ac.technion.schemamatching.matchers.firstline;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import matching.searchers.predict.OptSEDOverAttributeLabels;
@@ -82,7 +81,6 @@ public class ProcessModelFLM implements FirstLineMatcher {
 			boolean binary) {
 		
 		PredictionSearcher searcher = null;
-		Set<String> attributes = new HashSet<>();
 		SemanticLanguage.setLanguage(this.languageCode);
 		
 		switch (this.currentStrategy) {

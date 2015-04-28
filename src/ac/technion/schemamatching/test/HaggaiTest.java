@@ -5,10 +5,8 @@ import java.io.File;
 import java.util.ArrayList;
 
 import ac.technion.iem.ontobuilder.core.ontology.Ontology;
-import ac.technion.iem.ontobuilder.core.utils.files.XmlFileHandler;
 import ac.technion.iem.ontobuilder.io.imports.XSDImporterUsingXSOM;
 import ac.technion.iem.ontobuilder.io.matchimport.MappingMatchImporter;
-import ac.technion.iem.ontobuilder.io.matchimport.NativeMatchImporter;
 import ac.technion.iem.ontobuilder.matching.algorithms.line1.common.MatchingAlgorithmsNamesEnum;
 import ac.technion.iem.ontobuilder.matching.match.Match;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;

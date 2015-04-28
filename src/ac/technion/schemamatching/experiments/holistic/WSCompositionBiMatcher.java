@@ -35,8 +35,6 @@ public class WSCompositionBiMatcher implements HolisticExperiment{
 	
 	private Map<Map<String, String>,Map<String, String>> pairs;
 	
-	private List<FirstLineMatcher> flM;
-	
 	private Map<String, String> fixedPairs = new HashMap<>();
 	
 	private ExperimentSchema getBestForQuery(Set<ExperimentSchema> eSet, Map<String, String> q, boolean outNeeded, ExperimentSchema ignore) {
@@ -280,8 +278,6 @@ public class WSCompositionBiMatcher implements HolisticExperiment{
 	
 	public boolean init(OBExperimentRunner oer, Properties properties,
 			ArrayList<FirstLineMatcher> flM, ArrayList<SecondLineMatcher> slM) {
-		
-		this.flM = (List<FirstLineMatcher>)flM;
 		
 		this.pairs = new HashMap<>();
 		

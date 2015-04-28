@@ -10,7 +10,6 @@ import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 import ac.technion.iem.ontobuilder.matching.algorithms.line2.simple.Max2LM;
 import ac.technion.iem.ontobuilder.matching.match.Match;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
-import ac.technion.schemamatching.statistics.StatisticsUtils;
 import ac.technion.schemamatching.util.ConversionUtils;
 
 /**

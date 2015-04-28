@@ -21,22 +21,38 @@ import ac.technion.schemamatching.testbed.ExperimentSchema;
 import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
 
 
-
+/**
+ * Loads coma-style mapping files and calculates various statistics over them. 
+ * Requires the following properties to be supplied in a property file:
+ * directory=path\to\mappinFiles
+ * dataset=<dDSID (e.g.17 for purchase order>
+ * Assumes filename is SPID.mapping 
+ * @author Tomer Sagi
+ *
+ */
 public class ComaRecallAndP implements HolisticExperiment {
 	private SimMatrixShell flM;
 	private Properties properties;
-	private OBExperimentRunner myOer;
+
 
 	/*
 	 * (non-Javadoc)
 	 * @see ac.technion.schemamatching.experiments.MatchingExperiment#init(java.util.Properties, java.util.ArrayList)
 	 */
 	public boolean init(OBExperimentRunner oer,Properties properties, ArrayList<FirstLineMatcher> flM, ArrayList<SecondLineMatcher> slM) {
-		/*Using the supplied first line matcher list and second line matcher list allows run-time 
-		changes to matchers used in the experiment*/
 		this.flM = new SimMatrixShell();
 		this.properties = properties;
-		this.myOer = oer;
+		if (!properties.contains("directory"))
+		{
+				System.err.println("Missing property directory in property file.");
+				return false;
+		}
+		if (!properties.contains("dataset"))
+		{
+			System.err.println("Missing property dataset in property file.");
+			return false;
+		}
+		
 		return true;
 	}
 
@@ -45,7 +61,7 @@ public class ComaRecallAndP implements HolisticExperiment {
 	 * @see ac.technion.schemamatching.experiments.MatchingExperiment#getDescription()
 	 */
 	public String getDescription() {
-		return "Calc Statistic to Coma3";
+		return "Calc Statistics for Coma3";
 	}
 	
 	public ArrayList<Statistic> summaryStatistics() {
@@ -56,12 +72,21 @@ public class ComaRecallAndP implements HolisticExperiment {
 	@Override
 	public List<Statistic> runExperiment(Set<ExperimentSchema> hashSet) {
 		ArrayList<Statistic> evaluations = new ArrayList<Statistic>();
-		//TODO extract dir to property file
-		File dir = new File("C:\\Users\\רועי\\Dropbox\\MCD Predictor and 2lm\\Coma vanila version\\results\\PO");
+		File dir = new File(properties.getProperty("directory"));
+		if (!dir.exists() || ! dir.isDirectory())
+		{
+			System.err.println("Supplied directory " + dir.getPath() + " not found or is not a directory.");
+			return evaluations;
+		}
 		for (File f : dir.listFiles())
 		{
-			int spid = Integer.parseInt(f.getName().replace(".mapping", "")); //TODO error checking on filename structure
-			int dsid = 17; 	//TODO extract dsid to property file
+			if (!f.getName().endsWith(".mapping"))
+			{
+				System.err.println("File " + f.getName() + " skipped, expected .mapping extension");
+				continue;
+			}
+			int spid = Integer.parseInt(f.getName().replace(".mapping", "")); 
+			int dsid = (Integer)properties.get("dataset"); 	
 			try {
 				ExperimentSchemaPair esp = new ExperimentSchemaPair(spid, dsid);
 				flM.setPath(dir.getAbsolutePath(),f.getName());
