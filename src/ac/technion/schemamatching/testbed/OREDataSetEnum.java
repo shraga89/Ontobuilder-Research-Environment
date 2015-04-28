@@ -17,7 +17,7 @@ import ac.technion.iem.ontobuilder.io.matchimport.MatchImporter;
 import ac.technion.iem.ontobuilder.io.matchimport.NativeMatchImporter;
 import ac.technion.iem.ontobuilder.io.matchimport.PNMLPairMatchImporter;
 import ac.technion.iem.ontobuilder.io.matchimport.RDFMatchImporter;
-import ac.technion.iem.ontobuilder.io.imports.RDFImporter;
+//import ac.technion.iem.ontobuilder.io.imports.RDFImporter;
 
 
 /**
@@ -49,7 +49,7 @@ public enum OREDataSetEnum
 	CRF(22,"Fiat Research Contributed Schemas", new XSDImporterUsingXSOM(),new CRFMatchImporter(),true,false, false),
 	GeoDataSQL(23,"GeoData - sql", new SQLImporter(), new CSVMatchImporter(),true, false, false),
 	PNML(24,"Petri-Net Represented Business Processes", new PNMLImporter(), new PNMLPairMatchImporter(),true, false, false),
-	Lod(25, "Linked open data - rdf", new RDFImporter(),new MappingMatchImporter(),true, false, false);
+	;//Lod(25, "Linked open data - rdf", new RDFImporter(),new MappingMatchImporter(),true, false, false);
 	/**
 	 * Get a OREDataSetEnum by it's dataset id in O(n)
 	 * @param dsid

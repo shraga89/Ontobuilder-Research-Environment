@@ -42,12 +42,12 @@ public class ComaRecallAndP implements HolisticExperiment {
 	public boolean init(OBExperimentRunner oer,Properties properties, ArrayList<FirstLineMatcher> flM, ArrayList<SecondLineMatcher> slM) {
 		this.flM = new SimMatrixShell();
 		this.properties = properties;
-		if (!properties.contains("directory"))
+		if (!properties.containsKey("directory"))
 		{
 				System.err.println("Missing property directory in property file.");
 				return false;
 		}
-		if (!properties.contains("dataset"))
+		if (!properties.containsKey("dataset"))
 		{
 			System.err.println("Missing property dataset in property file.");
 			return false;
@@ -86,7 +86,7 @@ public class ComaRecallAndP implements HolisticExperiment {
 				continue;
 			}
 			int spid = Integer.parseInt(f.getName().replace(".mapping", "")); 
-			int dsid = (Integer)properties.get("dataset"); 	
+			int dsid = Integer.parseInt((String)properties.get("dataset")); 	
 			try {
 				ExperimentSchemaPair esp = new ExperimentSchemaPair(spid, dsid);
 				flM.setPath(dir.getAbsolutePath(),f.getName());
