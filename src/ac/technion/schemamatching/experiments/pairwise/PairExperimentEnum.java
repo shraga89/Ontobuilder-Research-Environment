@@ -23,7 +23,7 @@ public enum PairExperimentEnum
 	,ROCCurve(new ROCExperiment())
 	,TopKClustering(new TopKClustering())
 	,VectorPrinting(new VectorPrinting())
-	,MappingPrinting(new MappingPrinting_csharp()) //changed for creating c# interface
+	,MappingPrinting(new MappingPrinting()) //changed for creating c# interface
 	,SLMExample(new SecondLineMatchExample())
 	,BetaNoise(new BetaNoiseExperiment())
 	,ProcessModelPrediction (new ProcessModelPrediction())

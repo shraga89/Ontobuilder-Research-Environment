@@ -17,6 +17,7 @@ import ac.technion.iem.ontobuilder.matching.wrapper.OntoBuilderWrapper;
 public class FixTermID {
 	public static void main(String[] args) throws Exception
 	{
+		@SuppressWarnings("unused")
 		OntoBuilderWrapper obw = new OntoBuilderWrapper();
 		XmlFileHandler xhf = new XmlFileHandler();
 		String folder = "C:\\Users\\Tomer\\Dropbox\\workspace\\OntobuilderResearchEnvironment\\schema\\WebForm\\www2.cityofseattle.net.xml_www.ci.glendale.az.us.xml_EXACT";
