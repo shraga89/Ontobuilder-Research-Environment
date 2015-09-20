@@ -53,6 +53,7 @@ public class HumanPredictorEvaluation implements PairWiseExperiment {
 				System.err.println("No file path found for pair:" + esp.getID());
 				return evaluations;
 			}
+			System.out.println("Starting " + f.getName());
 			sms.setImporter(OREDataSetEnum.Thalia.getMatchImp());
 			mi = sms.match(esp.getCandidateOntology(), esp.getTargetOntology(), false);
 			

@@ -35,7 +35,7 @@ public class OBTermValueMatch implements FirstLineMatcher {
 	{
 		this.termWeight = termWeight;
 		this.valueWeight = 1 - termWeight;
-		HashMap<String,Double> parameterValues = new HashMap<String,Double>(); 
+		HashMap<String,Object> parameterValues = new HashMap<>(); 
 		parameterValues.put("termWeight", termWeight);
 		parameterValues.put("valueWeight", valueWeight);
 		try {

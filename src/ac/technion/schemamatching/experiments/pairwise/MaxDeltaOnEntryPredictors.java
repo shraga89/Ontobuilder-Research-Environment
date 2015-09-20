@@ -14,6 +14,7 @@ import ac.technion.schemamatching.statistics.MatchCompetitorDeviationEntryLevel;
 import ac.technion.schemamatching.statistics.MatchDistance;
 import ac.technion.schemamatching.statistics.NBGolden;
 import ac.technion.schemamatching.statistics.Statistic;
+import ac.technion.schemamatching.statistics.VerboseBinaryGolden;
 import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
 
 /**
@@ -82,6 +83,10 @@ public class MaxDeltaOnEntryPredictors implements PairWiseExperiment {
 			K2Statistic md3 = new MatchDistance();
 			md3.init(instanceDesc, mi2,esp.getExact());
 			evaluations.add(md3);
+			//Calculate verbose
+			K2Statistic v1 = new VerboseBinaryGolden();
+			v1.init(instanceDesc, mi2,esp.getExact());
+			evaluations.add(v1);
 			
 			
 		}
