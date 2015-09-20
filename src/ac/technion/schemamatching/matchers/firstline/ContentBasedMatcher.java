@@ -30,7 +30,7 @@ public class ContentBasedMatcher implements FirstLineMatcher{
 		this.stringLabelWeight = stringLabelWeight;
 		this.wordNameWeight = wordNameWeight;
 		this.stringNameWeight = stringNameWeight;
-		HashMap<String,Double> parameterValues = new HashMap<String,Double>(); 
+		HashMap<String,Object> parameterValues = new HashMap<>(); 
 		parameterValues.put("nGramWeight", weightNGram);
 		parameterValues.put("maxCommonSubStringWeight", weightMaxSubString);
 		parameterValues.put("jaroWinklerWeight",weightJaroWinkler);

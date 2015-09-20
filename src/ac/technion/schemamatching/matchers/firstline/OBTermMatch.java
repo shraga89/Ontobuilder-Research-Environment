@@ -3,15 +3,15 @@
  */
 package ac.technion.schemamatching.matchers.firstline;
 
-import java.util.HashMap;
+import java.io.File;
 
 import ac.technion.iem.ontobuilder.core.ontology.Ontology;
+import ac.technion.iem.ontobuilder.core.resources.OntoBuilderResources;
 import ac.technion.iem.ontobuilder.matching.algorithms.line1.common.MatchingAlgorithmsNamesEnum;
+import ac.technion.iem.ontobuilder.matching.algorithms.line1.misc.AlgorithmException;
+import ac.technion.iem.ontobuilder.matching.algorithms.line1.misc.AlgorithmUtilities;
+import ac.technion.iem.ontobuilder.matching.algorithms.line1.term.TermAlgorithm;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
-import ac.technion.iem.ontobuilder.matching.utils.AlgorithmXMLEditor;
-import ac.technion.iem.ontobuilder.matching.wrapper.OntoBuilderWrapper;
-import ac.technion.iem.ontobuilder.matching.wrapper.OntoBuilderWrapperException;
-import ac.technion.schemamatching.experiments.OBExperimentRunner;
 import ac.technion.schemamatching.matchers.MatcherType;
 
 /**
@@ -30,6 +30,10 @@ public class OBTermMatch implements FirstLineMatcher {
 	private double wordNameWeight = 0.25;
 	private double stringLabelWeight = 0.25;
 	private double wordLabelWeight = 0.25;
+	private boolean useSoundex = true;
+	private short useAverage = 1;
+	private short nGram = 2;
+	private TermAlgorithm ta;
 	
 	/**
 	 * Parameterized constructor, edits algorithm.xml file and sets the relevant parameters
@@ -37,8 +41,9 @@ public class OBTermMatch implements FirstLineMatcher {
 	 *  
 	 * @param nGramWeight
 	 */
-	public OBTermMatch(double nGramWeight, double jaroWinklerWeight, double wordNameWeight,double stringNameWeight ,double stringLabelWeight, double wordLabelWeight)
+	public OBTermMatch(double nGramWeight, double jaroWinklerWeight, double wordNameWeight,double stringNameWeight ,double stringLabelWeight, double wordLabelWeight, boolean useSoundex, short useAverage, short nGram)
 	{
+		this();
 		weightMaxSubString = 1-nGramWeight- jaroWinklerWeight;
 		weightNGram = nGramWeight;
 		weightJaroWinkler = jaroWinklerWeight;
@@ -46,22 +51,61 @@ public class OBTermMatch implements FirstLineMatcher {
 		this.stringLabelWeight = stringLabelWeight;
 		this.wordNameWeight = wordNameWeight;
 		this.stringNameWeight = stringNameWeight;
-		HashMap<String,Double> parameterValues = new HashMap<String,Double>(); 
-		parameterValues.put("nGramWeight", weightNGram);
-		parameterValues.put("maxCommonSubStringWeight", weightMaxSubString);
-		parameterValues.put("jaroWinklerWeight",weightJaroWinkler);
-		parameterValues.put("wordLabelWeight",wordLabelWeight);
-		parameterValues.put("stringLabelWeight",stringLabelWeight);
-		parameterValues.put("wordNameWeight",wordNameWeight);
-		parameterValues.put("stringNameWeight",stringNameWeight);
+		this.useSoundex = useSoundex;
+		this.useAverage = useAverage;
+		this.nGram = nGram;
 		try {
-			AlgorithmXMLEditor.updateAlgorithmParams("Term Match",parameterValues);
-		} catch (Exception e) {
+			ta.setLabelWeights(this.stringLabelWeight, this.wordLabelWeight);
+			ta.setMaxCommonSubStringWeight(weightMaxSubString);
+			ta.setNameWeights(this.stringNameWeight, this.wordNameWeight);
+			ta.setNGram(this.nGram);
+			ta.setNGramWeight(this.weightNGram);
+			ta.setuseAverage(this.useAverage);
+			int mode = 0;
+			if (this.useSoundex)
+				mode=4;
+			
+			ta.setMode(mode);
+			
+		} catch (AlgorithmException e) {
 			e.printStackTrace();
 		}
+		
+		
+//		HashMap<String,Object> parameterValues = new HashMap<>(); 
+//		parameterValues.put("nGramWeight", weightNGram);
+//		parameterValues.put("maxCommonSubStringWeight", weightMaxSubString);
+//		parameterValues.put("jaroWinklerWeight",weightJaroWinkler);
+//		parameterValues.put("wordLabelWeight",wordLabelWeight);
+//		parameterValues.put("stringLabelWeight",stringLabelWeight);
+//		parameterValues.put("wordNameWeight",wordNameWeight);
+//		parameterValues.put("stringNameWeight",stringNameWeight);
+//		parameterValues.put("useSoundex",new Boolean(this.useSoundex));
+//		parameterValues.put("useAverage",new Boolean(this.useAverage));
+//		parameterValues.put("nGram",new Short(this.nGram));
+//		
+//		try {
+//			AlgorithmXMLEditor.updateAlgorithmParams("Term Match",parameterValues);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
 	}
 	
-	public OBTermMatch() {}
+	public OBTermMatch() {
+		try {
+			ta = (TermAlgorithm)AlgorithmUtilities.getAlgorithmsInstance(new File(OntoBuilderResources.Config.Matching.ALGORITHMS_XML),MatchingAlgorithmsNamesEnum.TERM.getName());
+		} catch (AlgorithmException e) {
+			e.printStackTrace();
+			ta = new TermAlgorithm();
+		}
+		}
+
+	public OBTermMatch(double weightNGram2, double weightJaro,
+			double wordNameWeight2, double stringNameWeight2,
+			double stringLabelWeight2, double wordLabelWeight2) {
+		this(weightNGram2,weightJaro,wordNameWeight2,stringNameWeight2,stringLabelWeight2,wordLabelWeight2,
+				true,(short) 1,(short) 2);
+	}
 
 	public String getName() {
 		return "Ontobuilder Term Match";
@@ -78,13 +122,10 @@ public class OBTermMatch implements FirstLineMatcher {
 	 * @see ac.technion.schemamatching.matchers.FirstLineMatcher#match(com.modica.ontology.Ontology, com.modica.ontology.Ontology, boolean)
 	 */
 	public MatchInformation match(Ontology candidate, Ontology target, boolean binary) {
-		OntoBuilderWrapper obw = OBExperimentRunner.getOER().getOBW();
 		MatchInformation res = null;
-		try {
-			res = obw.matchOntologies(candidate, target, MatchingAlgorithmsNamesEnum.TERM.getName());
-		} catch (OntoBuilderWrapperException e) {
-			e.printStackTrace();
-		}
+		
+//					res = obw.matchOntologies(candidate, target, MatchingAlgorithmsNamesEnum.TERM.getName());
+		res = ta.match(target, candidate);
 		return res;
 	}
 
@@ -92,7 +133,7 @@ public class OBTermMatch implements FirstLineMatcher {
 	 * @see ac.technion.schemamatching.matchers.FirstLineMatcher#getConfig()
 	 */
 	public String getConfig() { 
-		String config = "NGram=" + Double.toString(weightNGram)
+		String config = "NGramW=" + Double.toString(weightNGram)
 						+ ";MaxSubStr=" + Double.toString(weightMaxSubString)
 						+ ";weightJaroWinkler=" + Double.toString(weightJaroWinkler)
 						+ ";wordLabelWeight=" + Double.toString(wordLabelWeight)
@@ -100,6 +141,7 @@ public class OBTermMatch implements FirstLineMatcher {
 						+ ";wordNameWeight=" + Double.toString(wordNameWeight)
 						+ ";stringNameWeight=" + Double.toString(stringNameWeight)
 						+ ";weightJaroWinkler=" + Double.toString(weightJaroWinkler);
+		
 		return config;
 	}
 

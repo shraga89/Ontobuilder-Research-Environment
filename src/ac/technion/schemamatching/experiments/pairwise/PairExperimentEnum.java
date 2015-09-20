@@ -39,6 +39,7 @@ public enum PairExperimentEnum
 	, MaxDelta(new MaxDeltaOnEntryPredictors())
 	, MaxDeltaEnsemble(new MaxDeltaOnEntryPredictorEnsemble())
 	, NewVerbose(new SimpleMatchExperimentVerboseNew())
+	, Cartesian ( new NBTuningCartesianProduct())
 	;
 	
 	

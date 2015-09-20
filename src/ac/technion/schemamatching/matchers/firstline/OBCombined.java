@@ -41,7 +41,7 @@ public class OBCombined implements FirstLineMatcher {
 		this.valueWeight = valueWeight;
 		this.graphWeight = graphWeight;
 		this.precedenceWeight = 1- (termWeight + valueWeight + graphWeight);
-		HashMap<String,Double> parameterValues = new HashMap<String,Double>(); 
+		HashMap<String,Object> parameterValues = new HashMap<>(); 
 		parameterValues.put("termWeight", termWeight);
 		parameterValues.put("valueWeight", valueWeight);
 		parameterValues.put("graphWeight", graphWeight);
