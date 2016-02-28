@@ -20,7 +20,8 @@ public enum HolisticExperimentEnum
 	wsComposition(new WSComposition()),
 	wsCompositionBiMatcher(new WSCompositionBiMatcher()),
 	FileExtraction(new SchemaFileExtraction())
-	,ComaRecall(new ComaRecallAndP())
+	,ComaRecall(new ComaRecallAndP()),
+	holisticStat(new HolisticStat())
 	;
 	
 	private HolisticExperimentEnum(HolisticExperiment e)

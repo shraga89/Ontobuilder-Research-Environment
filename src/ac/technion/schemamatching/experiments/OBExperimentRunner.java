@@ -215,7 +215,9 @@ public class OBExperimentRunner {
 						System.out.println(e.ordinal()+". "+e.name()+ " description: ");
 						System.out.println("  -  "+e.getExperiment().getDescription());
 					}
-					ExperimentID=input.nextInt();
+					
+					//ExperimentID=input.nextInt();
+					ExperimentID = Integer.parseInt(input.nextLine());
 					for (HolisticExperimentEnum e : HolisticExperimentEnum.values()){
 						if (ExperimentID==e.ordinal()){
 							he = e;}
@@ -247,7 +249,7 @@ public class OBExperimentRunner {
 					String spid = null;
 					if (K==0) {
 						System.out.println("Please select Schema pair ID Set:"); 
-						spid=input.next();
+						spid=input.nextLine();
 					}
 					if (K==0) {
 						dataset =oer.selectExperiments(0,spid, 1, dc,pairMode);}

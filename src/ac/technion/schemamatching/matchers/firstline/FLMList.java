@@ -21,7 +21,8 @@ public enum FLMList {AMCDataType(new AMCDataType()),AMCName(new AMCName())
 	WordNet(new OBWordNet()),
 	ProcessModel(new ProcessModelFLM())
 	,OBTED(new OBTEDGraphMatch())
-	,ContentBasedMatcher(new ContentBasedMatcher());
+	,ContentBasedMatcher(new ContentBasedMatcher())
+	,SemRep(new SemRepMatcher());
 
 private FLMList(FirstLineMatcher flm)
 {

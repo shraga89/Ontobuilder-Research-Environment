@@ -1,10 +1,14 @@
 package ac.technion.schemamatching.Server;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 public class SchemamatchingSerevr implements Runnable
 {
@@ -12,16 +16,19 @@ public class SchemamatchingSerevr implements Runnable
 	private int _port;
 	private int _maxNumberOfClients;
 	private ServerSocket _server;
-	
+	private Map<UUID, Thread> _clientsMapThread;
 	int _numberOfClients;
-	List<Thread> _clientsListThread ;
+	
+	String MainFolder = "D:\\OREOutput\\";
+	
+	int NextPortForClient = 2500;
 	
 	public SchemamatchingSerevr(int port , int maxNumberOfClients)
 	{
 		_port = port;
 		_maxNumberOfClients = maxNumberOfClients;
 		_numberOfClients = 0;
-		_clientsListThread = new ArrayList<Thread>();
+		_clientsMapThread = new HashMap<UUID, Thread>();
 	}
 
 	public SchemamatchingSerevr(int port) 
@@ -60,12 +67,18 @@ public class SchemamatchingSerevr implements Runnable
 					System.out.println("Server Reject the request Because the restriction of numbers of clients" );
 				}
 				
-				System.out.println("Client connected from " + s.getLocalAddress().getHostName());	//	TELL THEM THAT THE CLIENT CONNECTED
-				SchemamatchingClient client = new SchemamatchingClient(s);//CREATE A NEW CLIENT OBJECT
+				UUID clientId = UUID.randomUUID();
+				CreateClientFolder( clientId);
+				SchemamatchingClient client = new SchemamatchingClient( clientId, BuildClientFolderName(clientId),NextPortForClient,s,this);//CREATE A NEW CLIENT OBJECT
 				Thread t = new Thread(client);//MAKE A NEW THREAD
 				t.start();//START THE THREAD
-				_clientsListThread.add(t);
+				
+				_clientsMapThread.put(clientId , t);
 				_numberOfClients++;
+				NextPortForClient++;
+					
+				System.out.println("Client connected from " + s.getLocalAddress().getHostName() + " , Number of current clients is : " + _numberOfClients);	//	TELL THEM THAT THE CLIENT CONNECTED
+				
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -75,4 +88,78 @@ public class SchemamatchingSerevr implements Runnable
 		
 	}
 	
+	
+	public void ClientDisconnected(UUID clientId)
+	{
+		_clientsMapThread.remove(clientId);
+		_numberOfClients--;
+		System.out.println("Client Disconnected , Number of current clients is : " + _numberOfClients);
+		DeleteClientFolder( clientId);
+	}
+	
+	private void CreateClientFolder(UUID clientId)
+	{
+		String dirName = BuildClientFolderName( clientId);
+		File directory = new File(dirName);
+		if(directory.exists())
+		{
+			return;
+		}
+		directory.mkdirs();
+	}
+	private void DeleteClientFolder(UUID clientId)
+	{
+		String dirName = BuildClientFolderName( clientId);
+		File directory = new File(dirName);
+		if(!directory.exists())
+		{
+			return;
+		}
+		delete(directory);
+	}
+	private String BuildClientFolderName(UUID clientId)
+	{
+		return MainFolder + clientId;
+	}
+	
+
+	public static void delete(File file)
+	{
+	 
+	    	if(file.isDirectory()){
+	 
+	    		//directory is empty, then delete it
+	    		if(file.list().length==0){
+	    			
+	    		   file.delete();
+	    		   System.out.println("Directory is deleted : " + file.getAbsolutePath());
+	    			
+	    		}else{
+	    			
+	    		   //list all the directory contents
+	        	   String files[] = file.list();
+	     
+	        	   for (String temp : files) {
+	        	      //construct the file structure
+	        	      File fileDelete = new File(file, temp);
+	        		 
+	        	      //recursive delete
+	        	     delete(fileDelete);
+	        	   }
+	        		
+	        	   //check the directory again, if empty then delete it
+	        	   if(file.list().length==0){
+	           	     file.delete();
+	        	     System.out.println("Directory is deleted : " 
+	                                                  + file.getAbsolutePath());
+	        	   }
+	    		}
+	    		
+	    	}else{
+	    		//if file, then delete it
+	    		file.delete();
+	    		System.out.println("File is deleted : " + file.getAbsolutePath());
+	    	}
+	}
+		
 }
