@@ -49,5 +49,26 @@ public class MappingPrinter implements Statistic{
 		}
 		return true;
 	}
+	
+	public boolean init(String instanceDescription, MatchInformation mi, MatchInformation exactMatch) {
+		
+		//Create Header
+		header = new String[]{"instance","candID","candName","candProv"
+				,"targID","targName","targProv","conf", "realConf"};
+		
+		//Create Data list
+		data = new ArrayList<String[]>();
+		for (Match m : mi.getCopyOfMatches())
+		{
+			Term c = m.getCandidateTerm();
+			Term t = m.getTargetTerm();
+			String realConf = Double.toString(exactMatch.getMatchConfidence(c, t));
+			String[] v = new String[]{instanceDescription, Long.toString(c.getId()), 
+					c.getName(),c.getProvenance(), Long.toString(t.getId()),t.getName(),
+					t.getProvenance(),Double.toString(m.getEffectiveness()),realConf};
+			data.add(v);
+		}
+		return true;
+	}
 
 }

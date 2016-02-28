@@ -14,15 +14,13 @@ import java.util.Vector;
 import java.util.ArrayList;
 
 import javafx.util.Pair;
-import ac.technion.schemamatching.matchers.firstline.MaximalCliquesWithPivot;
-import ac.technion.schemamatching.matchers.firstline.MaximalCliquesWithPivot.Vertex;
-import ac.technion.schemamatching.matchers.firstline.ChiSquareUtils;
 import ac.technion.iem.ontobuilder.core.ontology.Ontology;
 import ac.technion.iem.ontobuilder.core.ontology.Term;
 import ac.technion.iem.ontobuilder.core.ontology.Attribute;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 //import ac.technion.schemamatching.curpos.CurposTerm;
 import ac.technion.schemamatching.matchers.MatcherType;
+import ac.technion.schemamatching.matchers.firstline.MaximalCliquesWithPivot.Vertex;
 
 
 /**
@@ -81,7 +79,9 @@ public class Stat implements FirstLineMatcher {
 	private double alpha = 0.05;
 	private Model chosenModel = new Model();
 	//private MatchInformation res;
-	private Ontology[] ontologiesArray;
+	//private Ontology[] ontologiesArray;
+	
+	private ArrayList<Ontology> ontologiesArray = new ArrayList<>();
 
 	
 	//for multiple ontologies implemntation
@@ -153,8 +153,12 @@ public class Stat implements FirstLineMatcher {
 		Ontology[] ontoArray = new Ontology[2];
 		
 		
-		ontoArray[0]=target;
-		ontoArray[1] = candidate;
+		//ontoArray[0]=target;
+		//ontoArray[1] = candidate;
+		
+		
+		schemaSet.add(target);
+		schemaSet.add(candidate);
 		
 		//schemaSet[0]=candidate;
 		//schemaSet[1]=target;
@@ -162,7 +166,9 @@ public class Stat implements FirstLineMatcher {
 		//schemaSet.add(target);
 		 
 		//MatchInformation result=match(ontoArray, binary);
-		HashMap<Pair<Ontology,Ontology>,MatchInformation> result=match(ontoArray, binary);
+		//HashMap<Pair<Ontology,Ontology>,MatchInformation> result=match(ontoArray, binary);
+		
+		HashMap<Pair<Ontology,Ontology>,MatchInformation> result=match(schemaSet, binary);
 		
 		Pair<Ontology, Ontology> key = new Pair<Ontology, Ontology>(target, candidate);
 		System.out.println(result.get(key).getCopyOfMatches());
@@ -170,7 +176,7 @@ public class Stat implements FirstLineMatcher {
 		
 	}
 
-	public HashMap<Pair<Ontology,Ontology>,MatchInformation> match(Ontology[] schemaSet, boolean binary)
+	public HashMap<Pair<Ontology,Ontology>,MatchInformation> match(ArrayList<Ontology> schemaSet, boolean binary)
 	//public MatchInformation match(Ontology[] schemaSet, boolean binary)
 	{
 
@@ -225,11 +231,12 @@ public class Stat implements FirstLineMatcher {
 	 * then checks for concensus attributes and removes them from the local id's repository
 	 * all concensus attributes receive 1.0 grade in the result matrix
 	 */
-	private void preProcess(Ontology[] schemaSet)
+	//private void preProcess(Ontology[] schemaSet)
+	private void preProcess(ArrayList<Ontology> schemaSet)
 	{
 		//update number of schemas in input
-		numOfSchemas = schemaSet.length;
-		
+		//numOfSchemas = schemaSet.length;
+		numOfSchemas = schemaSet.size();
 		
 		HashMap<String,Integer> stringIDs = new HashMap<String, Integer>();
 		for (Ontology currentOntology : schemaSet) 
@@ -1341,7 +1348,10 @@ private HashSet<Model> setCover(HashSet<Concept> concepts){
 	{
 		//Term currentTerm = new Term(name);
 		//Term otherTerm = new Term(otherName);
-		
+		if (currentSchema == otherSchema)
+		{
+			return;
+		}
 		Ontology currentOntology = schemaToOntologyMap.get(currentSchema);
 		Ontology otherOntology = schemaToOntologyMap.get(otherSchema);
 		

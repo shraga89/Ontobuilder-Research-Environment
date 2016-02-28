@@ -1,83 +1,143 @@
 package ac.technion.schemamatching.Server;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Properties;
 import java.util.Scanner;
-
-import technion.iem.schemamatching.dbutils.DBInterface;
+import java.util.UUID;
 
 public class SchemamatchingClient implements Runnable {
 
 	private Socket _socket;//SOCKET INSTANCE VARIABLE
-	protected DBInterface db;
+	protected OreClientIcd icd;
+	private SchemamatchingSerevr _mainServer;
+	private UUID _clientId;
+	private Scanner in;
 	
-	public SchemamatchingClient(Socket s)
-	{
-		_socket = s;//INSTANTIATE THE SOCKET
+	public String ClientFolder;
+	public int FileTransfrPort;
+	
+	public Socket getSocket() {
+		return _socket;
+	}
+
+
+	private void setSocket(Socket _socket) {
+		this._socket = _socket;
 	}
 	
-	public void init()
+	public SchemamatchingClient(UUID clientId , String clientFolder , int fileTransfrPort, Socket s , SchemamatchingSerevr mainServer)
 	{
-		
-		Properties pMap = new Properties();
-		try {
-			pMap.load(new FileInputStream("oreConfig/ob_interface.properties"));
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		System.out.println((String)pMap.get("dbmstype") + " " + (String)pMap.get("host") + " " + (String)pMap.get("dbname") + " " + (String)pMap.get("username") + " " + (String)pMap.get("pwd"));
-	    db = new DBInterface(Integer.parseInt((String)pMap.get("dbmstype")),(String)pMap.get("host"),(String)pMap.get("dbname"),(String)pMap.get("username"),(String)pMap.get("pwd"));
-		
-		
+		setSocket(s);//INSTANTIATE THE SOCKET
+		icd = new OreClientIcd();
+		_mainServer = mainServer;
+		_clientId = clientId;
+		ClientFolder = clientFolder;
+		FileTransfrPort = fileTransfrPort;
 	}
+	
 	
 	@Override
 	public void run() //(IMPLEMENTED FROM THE RUNNABLE INTERFACE)
 	{
 		try //HAVE TO HAVE THIS FOR THE in AND out VARIABLES
 		{
-			Scanner in = new Scanner(_socket.getInputStream());//GET THE SOCKETS INPUT STREAM (THE STREAM THAT YOU WILL GET WHAT THEY TYPE FROM)
-			PrintWriter out = new PrintWriter(_socket.getOutputStream());//GET THE SOCKETS OUTPUT STREAM (THE STREAM YOU WILL SEND INFORMATION TO THEM FROM)
-			init();
+			InputStream inputStream = getSocket().getInputStream();
+			in = new Scanner(inputStream);
+			PrintWriter out = new PrintWriter(getSocket().getOutputStream());//GET THE SOCKETS OUTPUT STREAM (THE STREAM YOU WILL SEND INFORMATION TO THEM FROM)
+			int readByte;
 			
-			while ( _socket.isConnected() )//WHILE THE PROGRAM IS RUNNING
+			while ( true )//WHILE THE PROGRAM IS RUNNING
 			{		
-				
-				if (in.hasNext())
+				readByte = inputStream.read();
+				if(readByte == -1)
 				{
-					String input = in.nextLine();//IF THERE IS INPUT THEN MAKE A NEW VARIABLE input AND READ WHAT THEY TYPED
-					System.out.println("Client Said: " + input);//PRINT IT OUT TO THE SCREEN
-					
-					System.out.println("Try to read from db");
-					ArrayList<String[]> list =  db.runSelectQuery("SELECT * FROM datasets", 6);
-					System.out.println("finish read from db");
-					System.out.println("list size = " + list.size());
-					String listString = "";
-
-					for (String[] s : list)
-					{
-						listString += s[1] + ",";
-					}
-					
-					out.println("Server  Said : " + listString);//RESEND IT TO THE CLIENT
-					out.flush();//FLUSH THE STREAM
-				}
+					ClientDisconnected();
+					return;
+				}	
+				String input;
+				input = in.nextLine();
+				input = String.valueOf((char) (readByte)) + input;
+				System.out.println("Client Said: " + input);//PRINT IT OUT TO THE SCREEN
+				String listString = icd.HandleRequest(this, input);
+				out.println(listString);//RESEND IT TO THE CLIENT
+				out.flush();//FLUSH THE STREAM
 			}
 		} 
 		catch (Exception e)
 		{
 			e.printStackTrace();//MOST LIKELY THERE WONT BE AN ERROR BUT ITS GOOD TO CATCH
+			_mainServer.ClientDisconnected(_clientId);
+			return;
 		}	
-	
-	       
-     
-        
     }
+	
+	private void ClientDisconnected()
+	{
+		_mainServer.ClientDisconnected(_clientId);
+	}
+	
 
+    
+
+	
+		
+	
 }
+
+/*    
+ * 
+ * 	ServerSocket welcomeSocket = null;
+    Socket connectionSocket = null;
+    BufferedOutputStream outToClient = null;
+    
+    private void SendFile(String fileToSend)
+    {
+    	 if (outToClient != null) 
+         {
+             File myFile = new File( fileToSend );
+             byte[] mybytearray = new byte[(int) myFile.length()];
+
+             FileInputStream fis = null;
+
+             try {
+                 fis = new FileInputStream(myFile);
+             } catch (FileNotFoundException ex) {
+                 // Do exception handling
+             }
+             BufferedInputStream bis = new BufferedInputStream(fis);
+
+             try {
+                 bis.read(mybytearray, 0, mybytearray.length);
+                 outToClient.write(mybytearray, 0, mybytearray.length);
+                 outToClient.flush();
+                 return;
+             } 
+             catch (IOException ex) 
+             {
+                 // Do exception handling
+             }
+         }
+    }
+ * private void SendFiles()
+    {
+       File clientDirectory = new File(ClientFolder);
+ 	   String files[] = clientDirectory.list();
+ 	   for (String fileToSend : files) 
+ 	   {
+ 		  SendFile(fileToSend);
+ 	   }
+    }
+    
+	private void OutputFileServerConnected()
+	{
+		try 
+	    {
+	        welcomeSocket = new ServerSocket(FileTransfrPort);
+	        connectionSocket = welcomeSocket.accept();
+	        outToClient = new BufferedOutputStream(connectionSocket.getOutputStream());
+	    } 
+	    catch (IOException ex) 
+	    {
+	    	// Do exception handling
+	    }
+	}*/

@@ -10,7 +10,7 @@ import java.util.Collections;
 public class MaximalCliquesWithPivot {
 
     int nodesCount;
-    ArrayList<ArrayList<Vertex>> cliques = new ArrayList<ArrayList<Vertex>>(); 
+    public ArrayList<ArrayList<Vertex>> cliques = new ArrayList<ArrayList<Vertex>>(); 
     HashMap<Integer, Vertex> graph = new HashMap<Integer,Vertex>(); 
 
     public class Vertex implements Comparable<Vertex> {
@@ -98,7 +98,7 @@ public class MaximalCliquesWithPivot {
     } 
 
     // Reads Input 
-    void readNextGraph(BufferedReader bufReader, HashSet<Integer> vertexesSet) throws Exception {
+    public void readNextGraph(BufferedReader bufReader, HashSet<Integer> vertexesSet) throws Exception {
         try { 
             nodesCount = Integer.parseInt(bufReader.readLine()); 
             int edgesCount = Integer.parseInt(bufReader.readLine());
@@ -184,7 +184,7 @@ public class MaximalCliquesWithPivot {
         return g.get(g.size() - 1);
     } 
 
-    void Bron_KerboschPivotExecute() { 
+    public void Bron_KerboschPivotExecute() { 
 
         ArrayList<Vertex> X = new ArrayList<Vertex>(); 
         ArrayList<Vertex> R = new ArrayList<Vertex>(); 
