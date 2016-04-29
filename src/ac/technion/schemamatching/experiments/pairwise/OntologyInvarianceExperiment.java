@@ -76,7 +76,7 @@ public class OntologyInvarianceExperiment implements PairWiseExperiment{
 
 	@Override
 	public boolean init(OBExperimentRunner oer, Properties properties,
-			ArrayList<FirstLineMatcher> flM, ArrayList<SecondLineMatcher> slM) {
+						ArrayList<FirstLineMatcher> flM, ArrayList<SecondLineMatcher> slM, boolean isMemory) {
 		this.flM=flM;
 		this.slM=slM;
 		return true;

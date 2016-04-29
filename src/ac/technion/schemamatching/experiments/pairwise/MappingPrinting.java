@@ -27,10 +27,12 @@ public class MappingPrinting implements PairWiseExperiment {
 	/* (non-Javadoc)
 	 * @see ac.technion.schemamatching.experiments.MatchingExperiment#runExperiment(ac.technion.schemamatching.testbed.ExperimentSchemaPair)
 	 */
+	private boolean isMemory;
+
 	public ArrayList<Statistic> runExperiment(ExperimentSchemaPair esp) {
 		MappingPrinter mp = new MappingPrinter();
 		String instanceDescription = esp.getCandidateOntology().getName() + "2" + esp.getTargetOntology().getName();
-		MatchInformation mi = esp.getSimilarityMatrix(new OBTermMatch());
+		MatchInformation mi = esp.getSimilarityMatrix(new OBTermMatch(), isMemory);
 		OBMaxDelta slm = new OBMaxDelta(0);
 		mp.init(instanceDescription,slm.match(mi));
 		ArrayList<Statistic> res = new ArrayList<Statistic>();
@@ -48,7 +50,9 @@ public class MappingPrinting implements PairWiseExperiment {
 	 * @see ac.technion.schemamatching.experiments.MatchingExperiment#init(ac.technion.schemamatching.experiments.OBExperimentRunner, java.util.Properties, java.util.ArrayList, java.util.ArrayList)
 	 */
 	public boolean init(OBExperimentRunner oer, Properties properties,
-			ArrayList<FirstLineMatcher> flM, ArrayList<SecondLineMatcher> slM) {
+						ArrayList<FirstLineMatcher> flM, ArrayList<SecondLineMatcher> slM, boolean isMemory) {
+
+		this.isMemory = isMemory;
 		return true;
 	}
 

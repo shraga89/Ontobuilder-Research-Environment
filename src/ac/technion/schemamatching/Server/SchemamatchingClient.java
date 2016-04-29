@@ -59,10 +59,12 @@ public class SchemamatchingClient implements Runnable {
 				input = String.valueOf((char) (readByte)) + input;
 				System.out.println("Client Said: " + input);//PRINT IT OUT TO THE SCREEN
 				String listString = icd.HandleRequest(this, input);
-				out.println(listString);//RESEND IT TO THE CLIENT
+				String formatted = String.format("%09d", listString.length());
+				System.out.println("formatted : " + formatted);
+				out.print(formatted + listString);//RESEND IT TO THE CLIENT
 				out.flush();//FLUSH THE STREAM
 			}
-		} 
+		} //.replace("\n", "").replace("\r", "")
 		catch (Exception e)
 		{
 			e.printStackTrace();//MOST LIKELY THERE WONT BE AN ERROR BUT ITS GOOD TO CATCH

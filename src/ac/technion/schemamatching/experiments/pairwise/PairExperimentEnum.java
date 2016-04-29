@@ -40,7 +40,8 @@ public enum PairExperimentEnum
 	, MaxDeltaEnsemble(new MaxDeltaOnEntryPredictorEnsemble())
 	, NewVerbose(new SimpleMatchExperimentVerboseNew())
 	, Cartesian ( new NBTuningCartesianProduct())
-	, CsharpExp( new CsharpExp()), PredictorCsharp(new PredictorCsharp())
+	, CsharpExp( new CsharpExp()), PredictorCsharp(new PredictorCsharp()),
+	TopK( new TopKexp())
 	;
 	
 	

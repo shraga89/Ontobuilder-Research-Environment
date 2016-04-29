@@ -96,7 +96,7 @@ public class MatrixPredictorEnsemble implements PairWiseExperiment {
 
 
 	public boolean init(OBExperimentRunner oer, Properties properties,
-			ArrayList<FirstLineMatcher> flM, ArrayList<SecondLineMatcher> slM) {
+						ArrayList<FirstLineMatcher> flM, ArrayList<SecondLineMatcher> slM, boolean isMemory) {
 		this.flM = flM;
 		for (Object key : properties.keySet())
 		{

@@ -23,6 +23,7 @@ import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
  */
 public class MatrixPredictorEvaluation1LM implements PairWiseExperiment {
 	private ArrayList<FirstLineMatcher> flM;
+	private boolean isMemory;
 
 	/*
 	 * (non-Javadoc)
@@ -35,7 +36,7 @@ public class MatrixPredictorEvaluation1LM implements PairWiseExperiment {
 		for (FirstLineMatcher m : flM)
 		{
 			//Match
-			MatchInformation mi = esp.getSimilarityMatrix(m);
+			MatchInformation mi = esp.getSimilarityMatrix(m, isMemory);
 			// Calculate predictors
 			Statistic  p = new MatrixPredictors();
 			String instanceDesc = esp.getID()+"_"+m.getName()+"_"+m.getConfig();
@@ -59,8 +60,9 @@ public class MatrixPredictorEvaluation1LM implements PairWiseExperiment {
 	 * (non-Javadoc)
 	 * @see ac.technion.schemamatching.experiments.MatchingExperiment#init(java.util.Properties, java.util.ArrayList)
 	 */
-	public boolean init(OBExperimentRunner oer,Properties properties, ArrayList<FirstLineMatcher> flM, ArrayList<SecondLineMatcher> slM) {
+	public boolean init(OBExperimentRunner oer, Properties properties, ArrayList<FirstLineMatcher> flM, ArrayList<SecondLineMatcher> slM, boolean isMemory) {
 		this.flM = flM;
+		this.isMemory = isMemory;
 		return true;
 	}
 

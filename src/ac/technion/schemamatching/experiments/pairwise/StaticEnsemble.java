@@ -70,7 +70,7 @@ public class StaticEnsemble implements PairWiseExperiment {
 
 
 	public boolean init(OBExperimentRunner oer, Properties properties,
-			ArrayList<FirstLineMatcher> flM, ArrayList<SecondLineMatcher> slM) {
+						ArrayList<FirstLineMatcher> flM, ArrayList<SecondLineMatcher> slM, boolean isMemory) {
 		this.flM = flM;
 		HashMap<Integer, FirstLineMatcher> flmHash = FLMList.getIdFLMHash();
 		for (Object key : properties.keySet())

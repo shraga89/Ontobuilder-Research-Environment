@@ -22,6 +22,7 @@ import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
 public class ClusteringMatches implements PairWiseExperiment {
 	
 	ArrayList<FirstLineMatcher> flM  = new ArrayList<FirstLineMatcher>();
+	private boolean isMemory;
 
 	/* (non-Javadoc)
 	 * @see ac.technion.schemamatching.experiments.MatchingExperiment#runExperiment(ac.technion.schemamatching.testbed.ExperimentSchemaPair)
@@ -31,7 +32,7 @@ public class ClusteringMatches implements PairWiseExperiment {
 		for (FirstLineMatcher f : flM)
 		{
 			K2Statistic v = new VectorPrinterUsingExact();
-			v.init(f.getName(),esp.getSimilarityMatrix(f) ,esp.getExact());
+			v.init(f.getName(),esp.getSimilarityMatrix(f,isMemory) ,esp.getExact());
 			res.add(v);
 		}
 		return res;
@@ -41,8 +42,9 @@ public class ClusteringMatches implements PairWiseExperiment {
 	 * @see ac.technion.schemamatching.experiments.MatchingExperiment#init(ac.technion.schemamatching.experiments.OBExperimentRunner, java.util.Properties, java.util.ArrayList, java.util.ArrayList)
 	 */
 	public boolean init(OBExperimentRunner oer, Properties properties,
-			ArrayList<FirstLineMatcher> flM, ArrayList<SecondLineMatcher> slM) {
+						ArrayList<FirstLineMatcher> flM, ArrayList<SecondLineMatcher> slM, boolean isMemory) {
 		this.flM = flM;
+		this.isMemory = isMemory;
 		return true;
 	}
 

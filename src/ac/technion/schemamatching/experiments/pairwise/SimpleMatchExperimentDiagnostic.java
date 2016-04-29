@@ -30,6 +30,7 @@ public class SimpleMatchExperimentDiagnostic implements PairWiseExperiment {
 	private ArrayList<FirstLineMatcher> flM;
 	private ArrayList<SecondLineMatcher> slM;
 	private Properties properties;
+	private boolean isMemory;
 
 	/*
 	 * (non-Javadoc)
@@ -47,7 +48,7 @@ public class SimpleMatchExperimentDiagnostic implements PairWiseExperiment {
 			/*Preferred method is to use this method which looks up 
 			 * the similarity matrix in the database if it exists. 
 			*/
-			mi = esp.getSimilarityMatrix(m);
+			mi = esp.getSimilarityMatrix(m, isMemory);
 			
 			//Calculate Non-Binary Precision and Recall
 			K2Statistic nb = new NBGolden();
@@ -98,11 +99,12 @@ public class SimpleMatchExperimentDiagnostic implements PairWiseExperiment {
 	 * (non-Javadoc)
 	 * @see ac.technion.schemamatching.experiments.MatchingExperiment#init(java.util.Properties, java.util.ArrayList)
 	 */
-	public boolean init(OBExperimentRunner oer,Properties properties, ArrayList<FirstLineMatcher> flM, ArrayList<SecondLineMatcher> slM) {
+	public boolean init(OBExperimentRunner oer, Properties properties, ArrayList<FirstLineMatcher> flM, ArrayList<SecondLineMatcher> slM, boolean isMemory) {
 		/*Using the supplied first line matcher list and second line matcher list allows run-time 
 		changes to matchers used in the experiment*/
 		this.flM = flM;
 		this.slM = slM;
+		this.isMemory = isMemory;
 		//using property files allows to modify experiment parameters at runtime
 		this.properties = properties;
 		return true;
