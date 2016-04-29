@@ -69,12 +69,13 @@ public class MatchesCurposBuildExperiment implements PairWiseExperiment {
 	 * Used to initialize a matching experiment. replaces a parameterized constructor
 	 * @param properties configuration parameters for the matching experiment
 	 * @param flm list of @link{FirstLineMatcher} with which the experiment is run
-	 * @param slm list of @link{SecondLineMatcher} with which the experiment is run 
+	 * @param slm list of @link{SecondLineMatcher} with which the experiment is run
+	 * @param isMemory
 	 * @return true if initialization succeeded false otherwise
 	 */
 	@Override
 	public boolean init(OBExperimentRunner oer, Properties properties,
-			ArrayList<FirstLineMatcher> flM, ArrayList<SecondLineMatcher> slM) {
+						ArrayList<FirstLineMatcher> flM, ArrayList<SecondLineMatcher> slM, boolean isMemory) {
 		
 		threshold = Double.parseDouble(properties.getProperty("Threshold","0"));
 		CorpusDataManager.setPropertiesFile(properties);

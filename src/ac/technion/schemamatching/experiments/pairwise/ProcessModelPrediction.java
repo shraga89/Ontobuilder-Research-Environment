@@ -165,7 +165,7 @@ public class ProcessModelPrediction implements PairWiseExperiment {
 
 	@Override
 	public boolean init(OBExperimentRunner oer, Properties properties,
-			ArrayList<FirstLineMatcher> flM, ArrayList<SecondLineMatcher> slM) {
+						ArrayList<FirstLineMatcher> flM, ArrayList<SecondLineMatcher> slM, boolean isMemory) {
 		this.slM = slM;
 		
 		dutchSPIDs = new HashSet<>();

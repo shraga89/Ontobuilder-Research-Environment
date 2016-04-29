@@ -17,7 +17,7 @@ public class EntryPredictorEnsemble implements PairWiseExperiment {
 	}
 
 	public boolean init(OBExperimentRunner oer, Properties properties,
-			ArrayList<FirstLineMatcher> flM, ArrayList<SecondLineMatcher> slM) {
+						ArrayList<FirstLineMatcher> flM, ArrayList<SecondLineMatcher> slM, boolean isMemory) {
 		// TODO Auto-generated method stub
 		return false;
 	}

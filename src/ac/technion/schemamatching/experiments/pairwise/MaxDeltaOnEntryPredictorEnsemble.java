@@ -25,6 +25,7 @@ import ac.technion.schemamatching.util.ConversionUtils;
 public class MaxDeltaOnEntryPredictorEnsemble implements PairWiseExperiment {
 	private ArrayList<FirstLineMatcher> flM;
 	private Properties properties;
+	private boolean isMemory;
 	private double beta = 0.5d;
 
 	/*
@@ -37,7 +38,7 @@ public class MaxDeltaOnEntryPredictorEnsemble implements PairWiseExperiment {
 		for (FirstLineMatcher m : flM)
 		{
 			MatchInformation mi = null;
-			mi = esp.getSimilarityMatrix(m);
+			mi = esp.getSimilarityMatrix(m, isMemory);
 			
 			String instanceDesc =  esp.getID() + "," + m.getName();
 	
@@ -87,9 +88,10 @@ public class MaxDeltaOnEntryPredictorEnsemble implements PairWiseExperiment {
 	 * (non-Javadoc)
 	 * @see ac.technion.schemamatching.experiments.MatchingExperiment#init(java.util.Properties, java.util.ArrayList)
 	 */
-	public boolean init(OBExperimentRunner oer,Properties properties, ArrayList<FirstLineMatcher> flM, ArrayList<SecondLineMatcher> slM) {
+	public boolean init(OBExperimentRunner oer, Properties properties, ArrayList<FirstLineMatcher> flM, ArrayList<SecondLineMatcher> slM, boolean isMemory) {
 		this.flM = flM;
 		this.properties = properties;
+		this.isMemory = isMemory;
 		beta = (this.properties.containsKey("beta") ? (Double)this.properties.get("beta") : beta);
 		return true;
 	}

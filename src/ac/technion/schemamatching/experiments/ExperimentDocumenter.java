@@ -53,18 +53,21 @@ public class ExperimentDocumenter
 			{
 				ExperimentSchemaPair esp =  (ExperimentSchemaPair)es;
 				if (esp.getDataSetType().isSupportsDBLookUp())
-				{MatchInformation exactMapping = esp.getExact();
-				//Document term parameters 
-				if (exactMapping != null){
-					for (Object o : exactMapping.getOriginalCandidateTerms())
-						writeTermToDB(esp.getCandidateID(), (Term)o);
-					for (Object o : exactMapping.getOriginalTargetTerms())
-						writeTermToDB(esp.getTargetID(), (Term)o);
-					
-					//Document exact match if terms are static
+				{
+					MatchInformation exactMapping = esp.getExact();
+					//Document term parameters
+					if (exactMapping != null)
+					{
+						for (Object o : exactMapping.getOriginalCandidateTerms())
+							writeTermToDB(esp.getCandidateID(), (Term)o);
+						for (Object o : exactMapping.getOriginalTargetTerms())
+							writeTermToDB(esp.getTargetID(), (Term)o);
 
-						uploadExactMatch(exactMapping, esp.getID());
-				}
+						//Document exact match if terms are static
+
+							uploadExactMatch(exactMapping, esp.getID());
+
+					}
 				}
 			}	     
 		   
@@ -170,36 +173,58 @@ public class ExperimentDocumenter
 	 * @param ExperimentSchemaPair - holds the 2 ontology we match (used to get their IDs)
 	 * @Remark, when storing an id we since we decide on the id of a term 
 	 * 	 */
-	public void loadSMtoDB(MatchInformation firstLineMI, ExperimentSchemaPair schemasExp,int SerialNumOfMatcher) throws IOException 
+	public void loadSMtoDB(MatchInformation firstLineMI, ExperimentSchemaPair schemasExp,int SerialNumOfMatcher, boolean isXSD) throws IOException
 	{
 		ArrayList<Match> matches = firstLineMI.getCopyOfMatches();
 		HashMap<Field,Object> values = new HashMap<Field,Object>();
 		values.put(new Field ("TargetSchemaID", FieldType.LONG ), (long)schemasExp.getTargetID());
 		values.put(new Field ("CandidateSchemaID", FieldType.LONG ), (long)schemasExp.getCandidateID());
 		values.put(new Field ("SMID", FieldType.LONG ), (long)SerialNumOfMatcher);
-		Field tTermID = new Field ("TargetTermID", FieldType.LONG );
-		Field cTermID = new Field ("CandidateTermID", FieldType.LONG );
-		Field conf = new Field ("confidence", FieldType.DOUBLE );	
+		Field conf = new Field ("confidence", FieldType.DOUBLE );
+
+		Field tTermID = getField("TargetTermID", isXSD);
+		Field cTermID = getField("CandidateTermID", isXSD);
+
 		for (Match match : matches)
 		{
+
 			Term candidateTerm = match.getCandidateTerm();
-			Term targetTerm = 	match.getTargetTerm();
-			
+			Term targetTerm = match.getTargetTerm();
+
 			//write the term to the DB
 			writeTermToDB(schemasExp.getTargetID(),targetTerm);
 			writeTermToDB(schemasExp.getCandidateID(),candidateTerm);
-			
-			values.put(tTermID , targetTerm.getId());
-			values.put(cTermID, candidateTerm.getId());
-			values.put(conf , match.getEffectiveness());
-			if ((Double)values.get(conf)>1)
-			{
-				System.err.println("oops, confidence of " + values.toString() +" is higher than 1");
+
+			values.put(conf, match.getEffectiveness());
+			if ((Double) values.get(conf) > 1) {
+				System.err.println("oops, confidence of " + values.toString() + " is higher than 1");
 			}
-			OBExperimentRunner.getOER().getDB().insertSingleRow(values, "similaritymatrices");
+
+			if(!isXSD) {
+				values.put(tTermID, targetTerm.getId());
+				values.put(cTermID, candidateTerm.getId());
+				OBExperimentRunner.getOER().getDB().insertSingleRow(values, "similaritymatrices");
+			}
+
+			else
+			{
+				values.put(tTermID, schemasExp.getPathToRoot(targetTerm));
+				values.put(cTermID, schemasExp.getPathToRoot(candidateTerm));
+				values.put(conf, match.getEffectiveness());
+				OBExperimentRunner.getOER().getDB().insertSingleRow(values, "similaritymatricesXSD");
+			}
 		}
 	}
-	
+
+
+	public Field getField(String fName, boolean isXSD){
+		if(isXSD)
+			return new Field(fName, FieldType.STRING);
+		else
+			return new Field(fName, FieldType.LONG);
+	}
+
+
 	/**
 	 * Adds an experiment to the experiments table and the schemapairs to the experiment schema pairs table
 	 * Otherwise 
@@ -540,13 +565,25 @@ public class ExperimentDocumenter
 	 * and stored in the DB. if so, returns true
 	 * @param schemaPairId Schema Pair ID
 	 * @param smid Similarity Measure ID
+	 * @param isXSD True/False isXSD domain
 	 * @param db DBInterface to use to check in
 	 * @return boolean 
 	 */
-	public boolean checkIfSchemaPairWasMatched(int schemaPairId,Integer smid) {
-		String sql  = "SELECT `similaritymatrices`.`confidence` FROM `schemamatching`.`schemapairs` INNER JOIN `schemamatching`.`similaritymatrices` " +
-        			  " ON (`schemapairs`.`TargetSchema` = `similaritymatrices`.`TargetSchemaID`) AND (`schemapairs`.`CandidateSchema` = `similaritymatrices`.`CandidateSchemaID`) " +
-        			  " WHERE (`similaritymatrices`.`SMID` = " + smid + " AND `schemapairs`.`SPID` = " + schemaPairId + ");"; 
+	public boolean checkIfSchemaPairWasMatched(int schemaPairId,Integer smid, boolean isXSD) {
+
+		String sql = "";
+
+		if(isXSD) {
+			sql  = "SELECT `similaritymatricesXSD`.`confidence` FROM `schemamatching`.`schemapairs` INNER JOIN `schemamatching`.`similaritymatricesXSD` " +
+					" ON (`schemapairs`.`TargetSchema` = `similaritymatricesXSD`.`TargetSchemaID`) AND (`schemapairs`.`CandidateSchema` = `similaritymatricesXSD`.`CandidateSchemaID`) " +
+					" WHERE (`similaritymatricesXSD`.`SMID` = " + smid + " AND `schemapairs`.`SPID` = " + schemaPairId + ");";
+
+		}else {
+			sql = "SELECT `similaritymatrices`.`confidence` FROM `schemamatching`.`schemapairs` INNER JOIN `schemamatching`.`similaritymatrices` " +
+					" ON (`schemapairs`.`TargetSchema` = `similaritymatrices`.`TargetSchemaID`) AND (`schemapairs`.`CandidateSchema` = `similaritymatrices`.`CandidateSchemaID`) " +
+					" WHERE (`similaritymatrices`.`SMID` = " + smid + " AND `schemapairs`.`SPID` = " + schemaPairId + ");";
+		}
+		
 		ArrayList<String[]> schemaList = OBExperimentRunner.getOER().getDB().runSelectQuery(sql, 1);
 		if (!schemaList.isEmpty())
 				return true;

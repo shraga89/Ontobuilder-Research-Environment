@@ -24,6 +24,8 @@ public class Drift2LM implements PairWiseExperiment
 {
 	ArrayList<FirstLineMatcher> flm;
 	ArrayList<SecondLineMatcher> slm;
+	private boolean isMemory;
+
 	/* (non-Javadoc)
 	 * @see ac.technion.schemamatching.experiments.MatchingExperiment#runExperiment(ac.technion.schemamatching.experiments.ExperimentSchemaPair)
 	 */
@@ -35,7 +37,7 @@ public class Drift2LM implements PairWiseExperiment
 			for (SecondLineMatcher s : slm)
 			{
 				String instanceDescription = esp.getID() + "," + f.getName() + "," + s.getName();
-				MatchInformation fMI = esp.getSimilarityMatrix(f);
+				MatchInformation fMI = esp.getSimilarityMatrix(f, isMemory);
 				K2Statistic d1 = new L2distance();
 				//Distance between flm and reference
 				d1.init(instanceDescription + ",flm-reference", fMI, esp.getExact());
@@ -59,9 +61,10 @@ public class Drift2LM implements PairWiseExperiment
 	 * @see ac.technion.schemamatching.experiments.MatchingExperiment#init(ac.technion.schemamatching.experiments.OBExperimentRunner, java.util.Properties, java.util.ArrayList, java.util.ArrayList)
 	 */
 	public boolean init(OBExperimentRunner oer, Properties properties,
-			ArrayList<FirstLineMatcher> flM, ArrayList<SecondLineMatcher> slM) {
+						ArrayList<FirstLineMatcher> flM, ArrayList<SecondLineMatcher> slM, boolean isMemory) {
 		flm = flM;
 		slm = slM;
+		this.isMemory = isMemory;
 		return true;
 	}
 

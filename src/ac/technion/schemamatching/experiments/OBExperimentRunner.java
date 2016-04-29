@@ -36,10 +36,13 @@ import ac.technion.schemamatching.testbed.ExperimentSchema;
 import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
 import ac.technion.schemamatching.testbed.OREDataSetEnum;
 import ac.technion.schemamatching.util.PropertyLoader;
-
 import com.infomata.data.CSVFormat;
 import com.infomata.data.DataFile;
 import com.infomata.data.DataRow;
+
+
+import java.io.*;
+import java.util.*;
 
 /**
  * The class provides tools for running schema matching experiments.
@@ -71,6 +74,7 @@ public class OBExperimentRunner {
 	 * @param args[6] -d:domainCodes - (optional) string in the following format "2,3,4,2" (without the Quotation mark)
 	 * or -f:First Line Matcher Codes or -p:properties file used to configure the experiment or -s:second line matcher codes (from db or enum)
 	 * or -l:list of schema pair ids to be used in experiment (file name containing the list)
+	 * or -m:0 if user doesn't want to use lookup (default value is true)
 	 * 
 	 */
 	@SuppressWarnings("resource")
@@ -87,7 +91,9 @@ public class OBExperimentRunner {
 		ArrayList<SecondLineMatcher> slm = null; 
 		Properties pFile = null;
 		ArrayList<Long> spList = new ArrayList<Long>();
+		boolean isMemory = true;
 		boolean pairMode = true;
+
 		if (args[0].equalsIgnoreCase("cmd"))
 		{
 			myExpRunner.checkInputParameters(args);
@@ -118,7 +124,8 @@ public class OBExperimentRunner {
 	    				case 'f': flm = parseFLMids(arguments); break;
 	    				case 's': slm = parseSLMids(arguments); break;
 	    				case 'p': pFile = PropertyLoader.loadProperties(arguments); break; 
-	    				case 'l': spList = extractSPList(arguments);
+	    				case 'l': spList = extractSPList(arguments); break;
+						case 'm': isMemory = isUseCache(arguments);				// user control using lookup
 	    			}
 	    		}
 	    		
@@ -215,9 +222,7 @@ public class OBExperimentRunner {
 						System.out.println(e.ordinal()+". "+e.name()+ " description: ");
 						System.out.println("  -  "+e.getExperiment().getDescription());
 					}
-					
-					//ExperimentID=input.nextInt();
-					ExperimentID = Integer.parseInt(input.nextLine());
+					ExperimentID=input.nextInt();
 					for (HolisticExperimentEnum e : HolisticExperimentEnum.values()){
 						if (ExperimentID==e.ordinal()){
 							he = e;}
@@ -249,7 +254,7 @@ public class OBExperimentRunner {
 					String spid = null;
 					if (K==0) {
 						System.out.println("Please select Schema pair ID Set:"); 
-						spid=input.nextLine();
+						spid=input.next();
 					}
 					if (K==0) {
 						dataset =oer.selectExperiments(0,spid, 1, dc,pairMode);}
@@ -313,6 +318,11 @@ public class OBExperimentRunner {
 					else{
 						slm = parseSLMids(SlmWanted);
 					}
+					System.out.println("Please select if you want to use Lookup mechanism (if so choose: '1', otherwise '0'):");
+					option=input.nextLine();
+					if (option.equals("0")) {
+						isMemory = false;
+					}
 			}
 			else {
 				System.err.println(option+ " was not an option");
@@ -329,8 +339,7 @@ public class OBExperimentRunner {
 		}
 		Long eid = myExpRunner.initExperiment(dataset, expDesc);
 		if (pairMode)
-			
-			myExpRunner.runPairWiseExperiment(pe,eid, outputPath,flm,slm,pFile);
+			myExpRunner.runPairWiseExperiment(pe,eid, outputPath,flm,slm,pFile,isMemory);
 		else //holistic mode
 			myExpRunner.runHolisticExperiment(he,eid, outputPath,flm,slm,pFile);
 	 }
@@ -357,6 +366,28 @@ public class OBExperimentRunner {
 		formatStatistics(eRes, outputPath);
 		
 	}
+
+	/**
+	 * Extracts list of schema pairs from supplied file.
+	 * @param arguments file name assumed to be in program root directory
+	 * @return list of schema pair IDs
+	 */
+	private static boolean isUseCache(String arguments) {
+
+		boolean res = true;
+
+		if (arguments.equals(new String("0"))){
+			res = false;
+			System.out.println("User chose not to use the lookup mechanism");
+			return res;
+		}
+
+		System.out.println("User chose to use the lookup mechanism if one exists for this setting");
+		return res;
+	}
+
+
+
 
 	/**
 	 * Extracts list of schema pairs from supplied file. 
@@ -448,6 +479,7 @@ public class OBExperimentRunner {
 		System.out.println("6: -d:domainCodes - (optional) string in the following format \"-d:3,4,2\" (without the Quotation marks)");
 		System.out.println("7: -f:first line matcher ids - (optional) string in the following format \"-f:3,4,2\" (without the Quotation marks)");
 		System.out.println("8: -s:second line matcher ids - (optional) string in the following format \"-s:1,2,4\" (without the Quotation marks)");
+		System.out.println("9: -m:Lookup mechanism - for using or ignoring lookup mechanism (default value is true)");
 	}
 
 
@@ -652,13 +684,13 @@ public class OBExperimentRunner {
 	 * @param slm list of second line matchers to use
 	 * @param properties file for configuring the experiment
 	 */
-	public void runPairWiseExperiment(PairExperimentEnum et, Long eid,File resultFolder, ArrayList<FirstLineMatcher> flm, ArrayList<SecondLineMatcher> slm,Properties pFile)
+	public void runPairWiseExperiment(PairExperimentEnum et, Long eid,File resultFolder, ArrayList<FirstLineMatcher> flm, ArrayList<SecondLineMatcher> slm,Properties pFile, boolean isMemory)
 	{
 		@SuppressWarnings("unchecked")
 		ArrayList<ExperimentSchemaPair> dataset = (ArrayList<ExperimentSchemaPair>) getDS(eid);
 		PairWiseExperiment e = et.getExperiment();
 		ArrayList<Statistic> res = new ArrayList<Statistic>();
-		e.init(this, pFile, flm, slm);
+		e.init(this, pFile, flm, slm, isMemory);
 		resultFolder = getFolder(resultFolder);
 		int i = 0;
 		for (ExperimentSchemaPair esp : dataset)

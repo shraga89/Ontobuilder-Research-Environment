@@ -43,9 +43,10 @@ public class OBTopK implements SecondLineMatcher {
         	
     		for (int i = 1; i <= k; i++) {
         		res = smw.getNextBestMatching();
-        		System.out.print(" " + i);
+        		System.out.println(" " + i);
     			ConversionUtils.zeroNonMatched(res);
     			uni.addMatching(i, res);
+    			System.out.println(uni.matchings);
         	}
 	      }
 	      catch (Exception e) {
@@ -57,6 +58,7 @@ public class OBTopK implements SecondLineMatcher {
         uni.deriveClusters();
         
 		return uni.getResultingMatching();
+		
 	}
 
 	/* (non-Javadoc)

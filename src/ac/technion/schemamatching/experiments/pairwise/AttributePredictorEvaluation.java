@@ -25,6 +25,7 @@ import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
  */
 public class AttributePredictorEvaluation implements PairWiseExperiment {
 	private ArrayList<FirstLineMatcher> flM;
+	private boolean isMemory;
 
 	/*
 	 * (non-Javadoc)
@@ -37,7 +38,7 @@ public class AttributePredictorEvaluation implements PairWiseExperiment {
 		for (FirstLineMatcher m : flM)
 		{
 			//Match
-			MatchInformation mi = esp.getSimilarityMatrix(m);
+			MatchInformation mi = esp.getSimilarityMatrix(m, isMemory);
 			/*MatchInformation mi1 = SLMList.OBMaxDelta005.getSLM().match(mi);
 			MatchInformation mi2 = SLMList.OBMWBG.getSLM().match(mi);
 			MatchInformation mi3 = SLMList.OBThreshold050.getSLM().match(mi);*/
@@ -94,8 +95,9 @@ public class AttributePredictorEvaluation implements PairWiseExperiment {
 	 * (non-Javadoc)
 	 * @see ac.technion.schemamatching.experiments.MatchingExperiment#init(java.util.Properties, java.util.ArrayList)
 	 */
-	public boolean init(OBExperimentRunner oer,Properties properties, ArrayList<FirstLineMatcher> flM, ArrayList<SecondLineMatcher> slM) {
+	public boolean init(OBExperimentRunner oer, Properties properties, ArrayList<FirstLineMatcher> flM, ArrayList<SecondLineMatcher> slM, boolean isMemory) {
 		this.flM = flM;
+		this.isMemory = isMemory;
 		return true;
 	}
 

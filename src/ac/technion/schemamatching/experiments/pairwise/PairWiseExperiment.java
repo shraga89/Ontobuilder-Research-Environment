@@ -33,10 +33,11 @@ public interface PairWiseExperiment
 	 * Used to initialize a matching experiment. replaces a parameterized constructor
 	 * @param properties configuration parameters for the matching experiment
 	 * @param flm list of @link{FirstLineMatcher} with which the experiment is run
-	 * @param slm list of @link{SecondLineMatcher} with which the experiment is run 
+	 * @param slm list of @link{SecondLineMatcher} with which the experiment is run
+	 * @param isMemory boolean if user want to use lookup method if exist
 	 * @return true if initialization succeeded false otherwise
 	 */
-	public boolean init(OBExperimentRunner oer, Properties properties, ArrayList<FirstLineMatcher> flM, ArrayList<SecondLineMatcher> slM);
+	public boolean init(OBExperimentRunner oer, Properties properties, ArrayList<FirstLineMatcher> flM, ArrayList<SecondLineMatcher> slM, boolean isMemory);
 	/**
 	 * 
 	 * @return Experiment Description

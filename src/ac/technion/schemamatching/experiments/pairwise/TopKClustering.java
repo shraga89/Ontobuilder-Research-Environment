@@ -134,7 +134,7 @@ public class TopKClustering implements PairWiseExperiment {
 	}
 
 	public boolean init(OBExperimentRunner oer, Properties properties,
-			ArrayList<FirstLineMatcher> flM, ArrayList<SecondLineMatcher> slM) {
+						ArrayList<FirstLineMatcher> flM, ArrayList<SecondLineMatcher> slM, boolean isMemory) {
 		
 		this.flM = flM;
 		HashMap<Integer, FirstLineMatcher> flmHash = FLMList.getIdFLMHash();
@@ -143,7 +143,7 @@ public class TopKClustering implements PairWiseExperiment {
 			String strKey =(String)key; 
 			try
 			{
-			Integer mId = Integer.parseInt(strKey.substring(1));
+			Integer mId = Integer.parseInt(strKey);
 			Double pWeight = Double.parseDouble((String)properties.get(key));
 			matcherWeights.put(flmHash.get(mId).getName(), pWeight);
 			}

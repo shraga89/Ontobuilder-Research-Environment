@@ -16,11 +16,14 @@ import ac.technion.schemamatching.statistics.NBGolden;
 import ac.technion.schemamatching.statistics.Statistic;
 import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
 
+
+
 public class MatchesCurposSimpleExperiment implements PairWiseExperiment {
 
 	private double threshold;
 	private ArrayList<SecondLineMatcher> slM;
 	private Properties properties;
+	private boolean isMemory;
 	
 	@Override
 	public List<Statistic> runExperiment(ExperimentSchemaPair esp) {
@@ -29,7 +32,7 @@ public class MatchesCurposSimpleExperiment implements PairWiseExperiment {
 		
 		ArrayList<Statistic> evaluations = new ArrayList<Statistic>();
 		
-		MatchInformation mi = esp.getSimilarityMatrix(matcher);
+		MatchInformation mi = esp.getSimilarityMatrix(matcher, isMemory);
 		
 		//Calculate Non-Binary Precision and Recall
 		K2Statistic nb = new NBGolden();
@@ -57,13 +60,14 @@ public class MatchesCurposSimpleExperiment implements PairWiseExperiment {
 
 	@Override
 	public boolean init(OBExperimentRunner oer, Properties properties,
-			ArrayList<FirstLineMatcher> flM, ArrayList<SecondLineMatcher> slM) {
+						ArrayList<FirstLineMatcher> flM, ArrayList<SecondLineMatcher> slM, boolean isMemory) {
 		
 		threshold = Double.parseDouble(properties.getProperty("Threshold","0"));
 		CorpusDataManager.setPropertiesFile(properties);
 		this.properties =properties;
 		
 		this.slM = (slM == null)? new ArrayList<SecondLineMatcher>() : slM;
+		this.isMemory = isMemory;
 		return true;
 	}
 

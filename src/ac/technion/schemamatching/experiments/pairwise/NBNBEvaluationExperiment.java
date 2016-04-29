@@ -160,7 +160,7 @@ public class NBNBEvaluationExperiment implements PairWiseExperiment {
 	 */
 	@Override
 	public boolean init(OBExperimentRunner oer, Properties properties,
-			ArrayList<FirstLineMatcher> flM, ArrayList<SecondLineMatcher> slM) {
+						ArrayList<FirstLineMatcher> flM, ArrayList<SecondLineMatcher> slM, boolean isMemory) {
 		flm = flM;
 		slm  = slM;
 		p = properties;
