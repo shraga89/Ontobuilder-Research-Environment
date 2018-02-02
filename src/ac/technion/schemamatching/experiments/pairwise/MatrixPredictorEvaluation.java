@@ -13,6 +13,7 @@ import ac.technion.schemamatching.statistics.K2Statistic;
 import ac.technion.schemamatching.statistics.MCC;
 import ac.technion.schemamatching.statistics.MatchCompetitorDeviation;
 import ac.technion.schemamatching.statistics.Statistic;
+import ac.technion.schemamatching.statistics.VectorPrinterUsingExact;
 import ac.technion.schemamatching.statistics.predictors.MatrixPredictors;
 import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
 
@@ -33,8 +34,8 @@ public class MatrixPredictorEvaluation implements PairWiseExperiment {
 		// Using all 1st line matchers 
 		ArrayList<Statistic> predictions = new ArrayList<Statistic>();
 		ArrayList<Statistic> evaluations = new ArrayList<Statistic>();
+		long startTime = System.currentTimeMillis();
 
-		
 		for (FirstLineMatcher m : flM)
 		{
 			//Match
@@ -58,8 +59,18 @@ public class MatrixPredictorEvaluation implements PairWiseExperiment {
 			K2Statistic mcc = new MCC();
 			mcc.init(instanceDesc, mi1, esp.getExact());
 			evaluations.add(mcc);
+			
+//			K2Statistic map = new VectorPrinterUsingExact();
+//			map.init(instanceDesc, mi1,esp.getExact());
+//			evaluations.add(map);
+//			instanceDesc = esp.getID()+","+m.getName();
+//			K2Statistic map1 = new VectorPrinterUsingExact();
+//			map1.init(instanceDesc, mi,esp.getExact());
+//			evaluations.add(map1);
+			
+			
+			
 			//Additional 2LM
-			/*
 			MatchInformation mi2 = SLMList.OBSM.getSLM().match(mi);
 			Statistic  p2 = new MatrixPredictors();
 			K2Statistic mcd2 = new MatchCompetitorDeviation();
@@ -114,6 +125,10 @@ public class MatrixPredictorEvaluation implements PairWiseExperiment {
 			mcc4.init(instanceDesc, mi4, esp.getExact());
 			evaluations.add(mcc4);
 			
+//			K2Statistic map = new VectorPrinterUsingExact();
+//			map.init(instanceDesc, mi4,esp.getExact());
+//			evaluations.add(map);
+//			
 			/*
 			//Hagai's new SLM
 			SecondLineMatcher obce = new OBCrossEntropy();
@@ -136,6 +151,8 @@ public class MatrixPredictorEvaluation implements PairWiseExperiment {
 			*/
 		}
 		predictions.addAll(evaluations);
+		long endTime = System.currentTimeMillis();
+		System.out.println((endTime - startTime)/1000 + " Seconds...");
 		return predictions;
 	}
 

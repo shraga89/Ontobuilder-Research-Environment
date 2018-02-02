@@ -22,7 +22,11 @@ public enum FLMList {AMCDataType(new AMCDataType()),AMCName(new AMCName())
 	ProcessModel(new ProcessModelFLM())
 	,OBTED(new OBTEDGraphMatch())
 	,ContentBasedMatcher(new ContentBasedMatcher())
-	,SemRep(new SemRepMatcher())/*30*/, InstanceBayes(new InstanceBasedBayesianMatcher())/*20*/;
+	,SemRep(new SemRepMatcher())/*30*/
+	,InstanceBayes(new InstanceBasedBayesianMatcher())/*20*/
+	,GLUE(new GLUEMapOntologies())/*37*/
+	,InstanceContent(new InstanceBasedContentMatcher())/*28*/
+	,GenericModel(new GenericModel())/*28*/;
 
 private FLMList(FirstLineMatcher flm)
 {

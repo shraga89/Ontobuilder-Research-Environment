@@ -38,7 +38,9 @@ public class MappingPrinter implements Statistic{
 		
 		//Create Data list
 		data = new ArrayList<String[]>();
-		for (Match m : mi.getCopyOfMatches())
+		Double sum = 0.0;
+		ArrayList<Match> matches = mi.getCopyOfMatches();
+		for (Match m : matches)
 		{
 			Term c = m.getCandidateTerm();
 			Term t = m.getTargetTerm();
@@ -46,7 +48,12 @@ public class MappingPrinter implements Statistic{
 					c.getName(),c.getProvenance(), Long.toString(t.getId()),t.getName(),
 					t.getProvenance(),Double.toString(m.getEffectiveness())};
 			data.add(v);
+			sum += m.getEffectiveness();
 		}
+		Double avg = sum/matches.size();
+		String[] v = new String[]{instanceDescription, "Average Similarity Measure", 
+				"","", "","", "",Double.toString(avg)};
+		data.add(v);
 		return true;
 	}
 	
@@ -58,16 +65,23 @@ public class MappingPrinter implements Statistic{
 		
 		//Create Data list
 		data = new ArrayList<String[]>();
-		for (Match m : mi.getCopyOfMatches())
+		Double sum = 0.0;
+		ArrayList<Match> matches = mi.getCopyOfMatches();
+		for (Match m : matches)
 		{
 			Term c = m.getCandidateTerm();
 			Term t = m.getTargetTerm();
 			String realConf = Double.toString(exactMatch.getMatchConfidence(c, t));
 			String[] v = new String[]{instanceDescription, Long.toString(c.getId()), 
 					c.getName(),c.getProvenance(), Long.toString(t.getId()),t.getName(),
-					t.getProvenance(),Double.toString(m.getEffectiveness()),realConf};
+					t.getProvenance(),Double.toString(m.getEffectiveness()), realConf};
 			data.add(v);
+			sum += m.getEffectiveness();
 		}
+		Double avg = sum/matches.size();
+		String[] v = new String[]{instanceDescription, "Average Similarity Measure", 
+				"","", "","", "",Double.toString(avg), ""};
+		data.add(v);
 		return true;
 	}
 
