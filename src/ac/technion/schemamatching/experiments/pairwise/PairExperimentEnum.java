@@ -3,6 +3,8 @@
  */
 package ac.technion.schemamatching.experiments.pairwise;
 
+import ac.technion.schemamatching.experiments.pairwise.topkranking.TopKexpBuild;
+import ac.technion.schemamatching.experiments.pairwise.topkranking.TopKexpBuildBeta;
 
 /**
  * @author Tomer Sagi
@@ -41,7 +43,9 @@ public enum PairExperimentEnum
 	, NewVerbose(new SimpleMatchExperimentVerboseNew())
 	, Cartesian ( new NBTuningCartesianProduct())
 	, CsharpExp( new CsharpExp()), PredictorCsharp(new PredictorCsharp()),
-	TopK( new TopKexp())
+	SSEnsemble(new SSEnsembleExperiment()),
+	TopKBuild( new TopKexpBuild()), TopKBuild1( new TopKexpBuildBeta()),
+	Human2LM (new Behavioral2LMensemble())
 	;
 	
 	

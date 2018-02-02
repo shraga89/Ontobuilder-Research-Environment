@@ -11,9 +11,10 @@ import java.util.LinkedList;
 import java.io.PrintStream;
 import java.io.StringReader;
 import java.util.Vector;
+
+
 import java.util.ArrayList;
 
-import javafx.util.Pair;
 import ac.technion.iem.ontobuilder.core.ontology.Ontology;
 import ac.technion.iem.ontobuilder.core.ontology.Term;
 import ac.technion.iem.ontobuilder.core.ontology.Attribute;
@@ -21,6 +22,7 @@ import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 //import ac.technion.schemamatching.curpos.CurposTerm;
 import ac.technion.schemamatching.matchers.MatcherType;
 import ac.technion.schemamatching.matchers.firstline.MaximalCliquesWithPivot.Vertex;
+import javafx.util.Pair;
 
 
 /**

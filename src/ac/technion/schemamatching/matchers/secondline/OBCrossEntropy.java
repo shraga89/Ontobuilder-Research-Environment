@@ -6,6 +6,9 @@ import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 import ac.technion.schemamatching.util.ce.CEObjective;
 import ac.technion.schemamatching.util.ce.CrossEntropyOptimizer;
 import ac.technion.schemamatching.util.ce.CrossEntropyOptimizer.CEOptimizationResult;
+//import ac.technion.schemamatching.util.ce.CEObjective;
+//import ac.technion.schemamatching.util.ce.CrossEntropyOptimizer;
+//import ac.technion.schemamatching.util.ce.CrossEntropyOptimizer.CEOptimizationResult;
 
 /**
  * A second line matcher that finds a match using cross entropy optimization.
@@ -45,7 +48,7 @@ public class OBCrossEntropy implements SecondLineMatcher{
 
 	@Override
 	public int getDBid() {
-		return 8;
+		return 17;
 	}
 
 	@Override

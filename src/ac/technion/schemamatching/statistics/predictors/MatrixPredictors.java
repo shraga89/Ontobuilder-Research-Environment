@@ -25,6 +25,8 @@ public class MatrixPredictors implements Statistic {
 	private String[] header;
 	private ArrayList<String[]> data = new ArrayList<String[]>();
 	private HashSet<Term> stopTerms  = new HashSet<Term>();
+//	public PCAHandler pca;
+	public PCAHandlerSVD pca;
 	
 	public MatrixPredictors()
 	{
@@ -34,10 +36,6 @@ public class MatrixPredictors implements Statistic {
 		predictors.put("STDEVPredictor", new STDEVPredictor());
 		predictors.put("MaxPredictor", new MaxPredictor());
 		predictors.put("AvgConfPredictor", new AvgPredictor());
-		header = new String[predictors.size()+2];
-		predictors.keySet().toArray(header);
-		header[predictors.size()] = "Dominants";
-		header[predictors.size()+1] = "InstanceDesc";
 	}
 	
 	/* (non-Javadoc)
@@ -63,8 +61,16 @@ public class MatrixPredictors implements Statistic {
 	/* (non-Javadoc)
 	 * @see ac.technion.schemamatching.experiments.Statistic#init(com.modica.ontology.match.MatchInformation)
 	 */
+	
+	public void setHeader(){
+		header = new String[predictors.size()+2];
+		predictors.keySet().toArray(header);
+		header[predictors.size()] = "Dominants";
+		header[predictors.size()+1] = "InstanceDesc";
+	}
 	public boolean init(String instanceDesc, MatchInformation mi) {
 		// TODO Find a way to do this efficiently for sparse matrices
+		
 		HashMap<Term,HashSet<Term>> toVisit = new HashMap<Term,HashSet<Term>>();
 		for (Match m : mi.getCopyOfMatches())
 		{
@@ -77,8 +83,21 @@ public class MatrixPredictors implements Statistic {
 		double[][] mm = mi.getMatchMatrix();
 		if (mm == null || mm.length == 0) return false;
 		
+		pca = new PCAHandlerSVD(mm);
+		predictors.put("PCAPredictor", new PCAPredictor(pca));
+		predictors.put("PCAPredictor1stPC", new PCAPredictor(pca, 1));
+		predictors.put("PCAPredictor2ndPC", new PCAPredictor(pca, 2));
+		predictors.put("VonNeumannEntropyPredictor", new VNEPredictor(pca));
+		predictors.put("MPEPredictor", new MPEPredictor());
+		predictors.put("Norm1Predictor", new NormPredictor(pca, "Norm1"));
+		predictors.put("Norm2Predictor", new NormPredictor(pca, "Norm2"));
+		predictors.put("NormFPredictor", new NormPredictor(pca, "NormF"));
+		predictors.put("NormInfPredictor", new NormPredictor(pca, "NormInf"));
+		setHeader();
+		
 		for (Predictor p : predictors.values())
-			p.init(mm.length,mm[0].length);
+			p.init(mm.length, mm[0].length);
+		
 		for (int row =0; row < mm.length; row++)
 		{
 			for (Predictor p : predictors.values())
