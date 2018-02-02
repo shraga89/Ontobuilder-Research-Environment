@@ -55,6 +55,10 @@ public class ExperimentSchemaPair extends ExperimentSchema {
 	 */
 	public ExperimentSchemaPair(ExperimentSchema candidate, ExperimentSchema target, boolean allowReverse) {
 		super();
+		Ontology o = new Ontology("A", "B");
+		Term t = new Term("c");
+		o.addTerm(t);
+		
 		this.candidate = candidate.getTargetOntology();
 		this.target = target.getTargetOntology();
 		this.dsEnum = target.dsEnum;
@@ -90,8 +94,9 @@ public class ExperimentSchemaPair extends ExperimentSchema {
 	 */
 	private void loadExact(String exactMatchPath) {
 		try {
-			if (dsEnum.isHasExact())
+			if (dsEnum.isHasExact()){
 				exactMapping = dsEnum.getMatchImp().importMatch(new MatchInformation(candidate, target), new File(OBExperimentRunner.getOER().getDsurl() + exactMatchPath));
+			}
 			else
 				exactMapping = null;
 		} catch (Exception e) {
@@ -122,7 +127,6 @@ public class ExperimentSchemaPair extends ExperimentSchema {
 		targetID = Integer.parseInt(res.get(0)[1]);
 		int dsid = Integer.parseInt(res.get(0)[2]);
 		exactMatchPath = res.get(0)[3];
-
 		//For ontobuilder webform dataset (DSID ==1) the path of the schemas is parsed from the path of the exact match
 		if (dsid == 1) {
 			//For example: WebForm/edit.travel.yahoo.com.xml_www.klm.com.xml_EXACT/edit.travel.yahoo.com.xml_www.klm.com.xml_EXACT.xml

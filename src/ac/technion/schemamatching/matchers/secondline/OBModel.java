@@ -249,7 +249,6 @@ public class OBModel implements CEModel{
 				}
 				
 				activeCands.remove(next);
-				
 				if (selected){
 					pairs.add(select);
 					//remove all active competitors
