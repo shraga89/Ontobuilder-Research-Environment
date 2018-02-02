@@ -37,17 +37,20 @@ public class VectorPrinting implements PairWiseExperiment {
 			MatchInformation mi = m.match(esp.getCandidateOntology(), esp.getTargetOntology(), false);
 			K2Statistic v = new VectorPrinterUsingExact();
 			MappingPrinter mp = new MappingPrinter();
+			String instanceDescription =  esp.getID() + "," + m.getName();
 			v.init(m.getName(), mi,esp.getExact());
-			vectors.add(v);
+			mp.init(instanceDescription, mi);
+			vectors.add(mp);
+//			vectors.add(v);
 			for (SecondLineMatcher slm : slM)
 			{
 				MatchInformation mi1 = slm.match(mi);
 			    K2Statistic v2 = new VectorPrinterUsingExact();
-			    String instanceDescription = m.getName() + "," + slm.getName() +"," + esp.getID(); 
-				v2.init(instanceDescription,mi1);
-				mp.init(instanceDescription, mi1);
-				vectors.add(v2);
-				vectors.add(mp);
+			    MappingPrinter mp1 = new MappingPrinter();
+				v2.init(instanceDescription + "," + slm.getName(),mi1);
+				mp1.init(instanceDescription + "," + slm.getName(), mi1);
+//				vectors.add(v2);
+				vectors.add(mp1);
 			}
 		}
 		return vectors;

@@ -19,7 +19,7 @@ public class SchemamatchingSerevr implements Runnable
 	private Map<UUID, Thread> _clientsMapThread;
 	int _numberOfClients;
 	
-	String MainFolder = "D:\\OREOutput\\";
+	String MainFolder = "C:\\ORE\\OREOutput\\";
 	
 	int NextPortForClient = 2500;
 	
