@@ -155,7 +155,7 @@ public class topKRank {
 //		args[28] = "-feature";
 //		args[29] = folder + "\\new_features.txt";
 		ArrayList<String> numOfFolds = new ArrayList<String>();
-		numOfFolds.add("02");
+//		numOfFolds.add("02");
 		numOfFolds.add("05");
 //		numOfFolds.add("10");
 		ArrayList<String> eval = new ArrayList<String>();
@@ -164,13 +164,13 @@ public class topKRank {
 //		eval.add("P");
 		ArrayList<String> ks = new ArrayList<String>();
 //		ks.add("1");
-		ks.add("03");
-		ks.add("04");
-		ks.add("05");
-		ks.add("07");
-		ks.add("09");
+//		ks.add("03");
+//		ks.add("04");
+//		ks.add("05");
+//		ks.add("07");
+//		ks.add("09");
 		ks.add("10");
-		ks.add("11");
+//		ks.add("11");
 		for (String f : numOfFolds){
 			args[5] = f;
 			for (String e1 : eval){
@@ -286,19 +286,19 @@ public class topKRank {
 		FeatureManager.main(args);
 	}
 	
-	public static void re_rank_model(String folder, String model){
+	public static void re_rank_model(String folder, String model, String test){
 		String[] args = new String[6];
 		args[0] = "-load";
 		args[1] = folder + "\\models\\" + model;
 		args[2] = "-rank";
-		args[3] = folder + "\\testSet.txt";
+		args[3] = folder + "\\" +test;
 		args[4] = "-score";
 		args[5] = folder + "\\myscorefile.txt";
 		System.out.println(model);
 		Evaluator.main(args);
 	}
 	
-	public static void rank_score_file(String folder, String model) throws FileNotFoundException{
+	public static void rank_score_file(String folder, String model, String test) throws FileNotFoundException{
 		FileReader input;
 		try {
 			input = new FileReader(folder + "\\myscorefile.txt");
@@ -337,11 +337,11 @@ public class topKRank {
 					count++;
 				}
 			}
-			System.out.println(count);
+//			System.out.println(count);
 			input.close();
 			File file = new File(folder + "\\myscorefile.txt");
-//			file.delete();
-			write2newFile(sortedResults, folder, model);
+			file.delete();
+			write2newFile(sortedResults, folder, model, test);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -351,21 +351,21 @@ public class topKRank {
 	}
 	
 	@SuppressWarnings("resource")
-	public static void write2newFile(HashMap<Integer, TreeMap<String, Double>> sortedResults, String folder, String model) throws IOException{
+	public static void write2newFile(HashMap<Integer, TreeMap<String, Double>> sortedResults, String folder, String model, String test) throws IOException{
 		HashMap<Integer, String> best4pair = new HashMap<Integer, String>();
-		HashMap<Integer, TreeMap<String, Double>> smoothedSortedResults = smoothResults(sortedResults, folder + "\\testSet.txt");
+		HashMap<Integer, TreeMap<String, Double>> smoothedSortedResults = smoothResults(sortedResults, folder + "\\" + test);
 //		System.out.println(smoothedSortedResults);
 		for (Integer key : smoothedSortedResults.keySet()){
 			TreeMap<String, Double> temp = smoothedSortedResults.get(key);
-			System.out.println(key + "\t" + temp);
+//			System.out.println(key + "\t" + temp);
 			String best = temp.firstKey();
 //			Double bestValue = temp.firstEntry().getValue();
 			best4pair.put(key, best);
 		}
-		System.out.println(best4pair);
+//		System.out.println(best4pair);
 //		parse test file (to know which is which)
 		HashMap<String, String> num2mat = new HashMap<String, String>();
-		FileReader input = new FileReader(folder + "\\testSet.txt");
+		FileReader input = new FileReader(folder + "\\" + test);
 		BufferedReader bufRead = new BufferedReader(input);
 		String myLine = null;
 		String lastqid = "";
@@ -373,7 +373,8 @@ public class topKRank {
 		while ( (myLine = bufRead.readLine()) != null){
 			String[] fullLine = myLine.split(" ");
 			String qid = fullLine[1].split(":")[1];
-			int best4qid = Integer.parseInt(best4pair.get(Integer.parseInt(qid)));
+			int best4qid = 0;
+			best4qid = Integer.parseInt(best4pair.get(Integer.parseInt(qid)));
 //			System.out.println(best4qid);
 //			System.out.println(i);
 			if (best4qid == i){
@@ -386,7 +387,7 @@ public class topKRank {
 			lastqid = qid;
 			i++;
 		}
-		System.out.println(num2mat);
+//		System.out.println(num2mat);
 //		parse csv file (to know P,R,F measures)
 		File dir = new File(folder);
 	/////add binary golden file of test set!!!
@@ -425,7 +426,7 @@ public class topKRank {
 		}
 		origWriter.flush();
 		origWriter.close();
-		FileWriter writer = new FileWriter(folder + "\\L2R Binary Golden Statistic CEM"+model+".csv");
+		FileWriter writer = new FileWriter(folder + "\\L2R Binary Golden Statistic"+model+".csv");
 		for (String[] l : res){
 			for (String s : l){
 				writer.write(s.replace(',', ' ') + ",");
@@ -451,13 +452,13 @@ public class topKRank {
 				min = 0.0;
 				max = 1.0;
 			}
-			System.out.println(key);
+//			System.out.println(key);
 			for (Entry<String, Double> entry : temp.entrySet()){
 				Entry<String, Double> tempEntry = entry;
 				String alpha = features.get(key+"-"+entry.getKey());
 //				Normalize by former Ranking
 //				System.out.println("avg:"+"\t"+Double.parseDouble(alpha.split("13:")[1].split(" ")[0]));
-				System.out.println("place:"+"\t"+entry.getKey());
+//				System.out.println("place:"+"\t"+entry.getKey());
 //				System.out.println("lambda:"+"\t"+entry.getValue());
 				Double alphaVal = 0.0;
 //				if (!entry.getKey().equals("0")){
@@ -466,12 +467,12 @@ public class topKRank {
 //					}
 //				}
 				//CESM
-				if (!entry.getKey().equals("0")){
-				alphaVal = 0.5*Double.parseDouble(alpha.split("7:")[1].split(" ")[0]);
-				alphaVal += 0.5*Double.parseDouble(alpha.split("3:")[1].split(" ")[0]);
-				}
+//				if (!entry.getKey().equals("0")){
+//				alphaVal = 0.5*Double.parseDouble(alpha.split("7:")[1].split(" ")[0]);
+//				alphaVal += 0.5*Double.parseDouble(alpha.split("3:")[1].split(" ")[0]);
+//				}
 
-				
+//				
 //				if (!entry.getKey().equals("0")){
 //					alphaVal = Double.parseDouble(alpha.split("13:")[1].split(" ")[0])/*/(Double.parseDouble(entry.getKey()))*/;
 //					if (entry.getKey().equals("1")){
@@ -485,10 +486,10 @@ public class topKRank {
 //				}
 //				alphaVal = Double.parseDouble(alpha.split("13:")[1].split(" ")[0]);///(Double.parseDouble(entry.getKey()));
 				Double lambdaVal = entry.getValue();
-				System.out.println("conf:"+"\t"+alphaVal);
-				System.out.println("lambda:"+"\t"+lambdaVal);
+//				System.out.println("conf:"+"\t"+alphaVal);
+//				System.out.println("lambda:"+"\t"+lambdaVal);
 				lambdaVal = (lambdaVal-min)/(max-min);
-				System.out.println("lambdaNorm:"+"\t"+ lambdaVal);
+//				System.out.println("lambdaNorm:"+"\t"+ lambdaVal);
 				
 				//old preds
 //				if (!alpha.split("Matrix:")[1].contains("Top K Matching")){
@@ -511,7 +512,7 @@ public class topKRank {
 //				alphaVal = -Double.parseDouble(alpha.split("15:")[1].split(" ")[0]);
 				alphaVal = 0.7*lambdaVal + 0.3*alphaVal;
 //				alphaVal = lambdaVal*alphaVal;
-				System.out.println("newValue:"+"\t"+alphaVal);
+//				System.out.println("newValue:"+"\t"+alphaVal);
 //				System.out.println(alphaVal);
 				tempEntry.setValue(alphaVal);
 				tempTree.put(tempEntry.getKey(), tempEntry.getValue());
@@ -553,7 +554,7 @@ public class topKRank {
 
 	public static void main(String[] args) throws IOException {
 //		Kinfluenceresults\\webForms\\
-		File[] files = new File("C:\\ORE\\ontobuilder-research-environment\\topkRanking\\Old predictors\\OAEI\\").listFiles();
+		File[] files = new File("C:\\ORE\\ontobuilder-research-environment\\topkRanking\\New predictors\\OAEI\\new\\").listFiles();
 		PrintStream stdout = System.out;
 		for (File f : files){
 			if (f.isDirectory()) {
@@ -569,32 +570,51 @@ public class topKRank {
 //				build_model_5_fold(f.getAbsolutePath(), relLevels);
 //				System.out.println("Comparing models just started");
 //				System.setOut(new PrintStream(new BufferedOutputStream(new FileOutputStream(f + "/comp.tsv")), true));
-//				deleteSmallModels(f+"\\models");
+////				deleteSmallModels(f+"\\models");
 //				Comparing_models(f.getAbsolutePath());
-//				System.setOut(stdout);
+				System.setOut(stdout);
 				String bestModel = extract_best_model(f.getAbsolutePath(), f + "/comp.tsv");
 //				String bestModel = "f2.err_err_03_02";
-//				System.out.println(bestModel);
-//				obtain_test_data(f.getAbsolutePath(), bestModel, relLevels);
-//				String testFileForThisModel = bestModel.substring(0, 2) + ".test.fullSet.txt.shuffled";
-				File file = new File(f + "\\testSet.txt");
-				file.delete();
-//				Files.copy(new File(f + "\\" + testFileForThisModel). toPath(),new File(f + "\\testSet.txt").toPath());
-				Files.copy(new File(f + "\\fullSet.txt"). toPath(),new File(f + "\\testSet.txt").toPath());
-				System.setOut(new PrintStream(new BufferedOutputStream(new FileOutputStream(f + "/results.tsv")), true));
-				evaluate_model(f.getAbsolutePath(), bestModel, relLevels);
-				System.setOut(new PrintStream(new BufferedOutputStream(new FileOutputStream(f + "/results_orig.tsv")), true));
-				evaluate_given_list(f.getAbsolutePath(), "old_rank_model" , relLevels);
-				evaluate_given_list(f.getAbsolutePath(), "cem_rank_model" , relLevels);
-				re_rank_model(f.getAbsolutePath(), bestModel);
-				try {
-					System.out.println("New Ranking!");
-					rank_score_file(f.getAbsolutePath(), bestModel);
-//					break;
-				} catch (FileNotFoundException e) {
-					 //TODO Auto-generated catch block
-					e.printStackTrace();
+				obtain_test_data(f.getAbsolutePath(), bestModel, relLevels);
+				for (Integer i=1; i<=5; i++){
+					bestModel = bestModel.substring(0, 1)+i.toString()+ bestModel.substring(2, bestModel.length());
+					String testFileForThisModel = bestModel.substring(0, 1)+ i.toString() + ".test.fullSet.txt.shuffled";
+					System.out.println(bestModel);
+					System.out.println(testFileForThisModel);
+//					System.setOut(new PrintStream(new BufferedOutputStream(new FileOutputStream(f + "/results.tsv")), true));
+//					evaluate_model(f.getAbsolutePath(), bestModel, relLevels);
+//					System.setOut(new PrintStream(new BufferedOutputStream(new FileOutputStream(f + "/results_orig.tsv")), true));
+//					evaluate_given_list(f.getAbsolutePath(), "old_rank_model" , relLevels);
+//					evaluate_given_list(f.getAbsolutePath(), "cem_rank_model" , relLevels);
+					re_rank_model(f.getAbsolutePath(), bestModel, testFileForThisModel);
+					try {
+//						System.out.println("New Ranking!");
+						rank_score_file(f.getAbsolutePath(), bestModel, testFileForThisModel);
+//						break;
+					} catch (FileNotFoundException e) {
+						 //TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
+//				String testFileForThisModel = bestModel.substring(0, 2) + ".test.fullSet.txt.shuffled";
+//				File file = new File(f + "\\testSet.txt");
+//				file.delete();
+//				Files.copy(new File(f + "\\" + testFileForThisModel). toPath(),new File(f + "\\testSet.txt").toPath());
+////				Files.copy(new File(f + "\\fullSet.txt").toPath(),new File(f + "\\testSet.txt").toPath());
+//				System.setOut(new PrintStream(new BufferedOutputStream(new FileOutputStream(f + "/results.tsv")), true));
+//				evaluate_model(f.getAbsolutePath(), bestModel, relLevels);
+//				System.setOut(new PrintStream(new BufferedOutputStream(new FileOutputStream(f + "/results_orig.tsv")), true));
+//				evaluate_given_list(f.getAbsolutePath(), "old_rank_model" , relLevels);
+//				evaluate_given_list(f.getAbsolutePath(), "cem_rank_model" , relLevels);
+//				re_rank_model(f.getAbsolutePath(), bestModel);
+//				try {
+////					System.out.println("New Ranking!");
+//					rank_score_file(f.getAbsolutePath(), bestModel);
+////					break;
+//				} catch (FileNotFoundException e) {
+//					 //TODO Auto-generated catch block
+//					e.printStackTrace();
+//				}
 			}
 		}
 //		String f = "C:\\ORE\\ontobuilder-research-environment\\topkRanking\\Old predictors\\webForms\\Ontobuilder Term Match + Ontobuilder MWBG webForms";
@@ -709,7 +729,9 @@ public class topKRank {
 			if (currLevel<minLevel){
 				minLevel = currLevel;
 			}
-			lines.add(myLine);
+			if (currLevel<11){
+				lines.add(myLine);
+			}
 		}
 		bufRead.close();
 		new File(folder + "\\oldfullSet.txt").delete();
