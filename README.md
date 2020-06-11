@@ -6,7 +6,7 @@
 
 The Ontobuilder Research Environment (ORE) is designed to provide students and researchers in schema matching and related fields a jump-start in designing and running experiments. 
 
-Development of ORE is managed by Roee Shraga, Phd. student at [Technion IIT](http://www.technion.ac.il) under the academic guidance of [Avigdor Gal](http://ie.technion.ac.il/~avigal), DSc.
+Development of ORE is managed by [Roee Shraga](https://sites.google.com/view/roee-shraga), PhD. student at [Technion IIT](http://www.technion.ac.il) under the academic guidance of [Avigdor Gal](http://ie.technion.ac.il/~avigal), DSc.
 
  To report bugs, request assistance or suggest additional features, contact Roee by email: shraga89@campus.technion.ac.il
 
