@@ -2,33 +2,33 @@ An experiment is composed of the following Classes:
 * **Experiment Runner**: Contains a collection of Experiment Schema Pairs, a documenter, a Collection of comparison matcher
 * **Experiment Schema Pair**: An atom of an experiment collection. Includes a schema pair in ontobuilder objects, database Information of the schema pair (schema pair ID, ontology IDs) and methods for calculating similarity matrices. 
 * **Experiment Documenter**: In charge of documenting the information created by the experiment for later analysis
-* **Matching Experiment**: This interface should be implemented to perform the experiment taking an experiment schema pair and return in a collection of [[Statistics|Statistics]].
+* **Matching Experiment**: This interface should be implemented to perform the experiment taking an experiment schema pair and return in a collection of [[https://github.com/shraga89/Ontobuilder-Research-Environment/blob/master/wiki/Statistics.md|Statistics]].  
 
 
-\\\\The ORE provides the opportunity to run two kinds of experiments:
+The ORE provides the opportunity to run two kinds of experiments:  
 
-* **Pair Experiment** - the experiment is run over a list of schema pairs.
-* **Holistic Experiment** - the experiment is run over a group of schemas.
+* **Pair Experiment** - the experiment is run over a list of schema pairs.  
+* **Holistic Experiment** - the experiment is run over a group of schemas.  
 
-Note that ORE will check if the experiment, requested by command line, is a Holistic Experiment and if so will load random or named SCHEMA IDs (instead of loading random or named schema-PAIR IDs).
-
-
-
+Note that ORE will check if the experiment, requested by command line, is a Holistic Experiment and if so will load random or named SCHEMA IDs (instead of loading random or named schema-PAIR IDs).  
 
 
 
-\\\\Running an experiment through Eclipse:
 
-click on the "Run" option and choose "Run Configurations".
-Go to the "Arguments" window and enter to the "Program arguments" box your relevant arguments separated by space. Click "Run" and wait for the experiment to finish.
 
-**[[cmd|Run as command line (cmd)]]**
+  
+    Running an experiment through Eclipse:
 
-**[[console|Run as console application (console)]]**
+click on the "Run" option and choose "Run Configurations".  
+Go to the "Arguments" window and enter to the "Program arguments" box your relevant arguments separated by space. Click "Run" and wait for the experiment to finish.  
 
-\\\\Running an experiment through the server:
+**[[cmd|https://github.com/shraga89/Ontobuilder-Research-Environment/blob/master/wiki/cmd.md]]**
 
-Connect to the server and then open the "oer" directory with the commend "cd oer".
-Enter "java -jar ORE.jar" and then the arguments listed above. Insted of an output path enter "./res" and after the running is finished pull the results to your user with the command "scp -r (the path where the results are now) ."
+**[[console|https://github.com/shraga89/Ontobuilder-Research-Environment/blob/master/wiki/console.md]]**
 
+    Running an experiment through the server:
+
+Connect to the server and then open the "oer" directory with the commend "cd oer".  
+Enter "java -jar ORE.jar" and then the arguments listed above. Insted of an output path enter "./res" and after the running is finished pull the results to your user with the command "scp -r (the path where the results are now) ."  
+   
 For example: java -jar ORE.jar cmd ./res SimpleMatch 0 35 0 -f:0,1,2,3 -s:1,3
