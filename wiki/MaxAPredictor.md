@@ -1,0 +1,1 @@
+Attribute version of [MaxPredictor](https://bitbucket.org/tomers77/ontobuilder-research-environment/wiki/MaxPredictor)

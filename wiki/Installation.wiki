@@ -1,0 +1,55 @@
+== Setting up the ORE ==
+
+=== What you need ? ===
+In order to install and work the ORE you need the following components installed at your enviroment :
+* MySQL Server ( for example: [[http://dev.mysql.com/downloads/mysql/|MySQL Community Server]] or [[http://www.wampserver.com/en/|Wamp Server ]]) 
+* MySQL Managment Tool ( for example: [[http://code.google.com/p/sqlyog/|sqlYog community edition]] or [[http://dev.mysql.com/downloads/gui-tools/5.0.html|MySQL GUI Tools ]])
+* Java Development Kit (JDK) available from [[http://www.oracle.com/technetwork/java/javase/downloads/index.html|Oracle]]
+* An Integrated Development Environment for Java (for example [[http://www.eclipse.org/downloads/|Eclipse IDE for Java]])
+* Mercurial (TortoiseHg) from [[http://tortoisehg.bitbucket.org/download/index.html|here]]
+
+=== Installation Steps ===
+# Download the datasets from [[https://bitbucket.org/tomers77/ontobuilder-research-environment/downloads/dataset.zip|here]] (remember where you saved them, you will need it).
+# Download a database named "schemamatching" from this [[https://bitbucket.org/tomers77/ontobuilder-research-environment/downloads/schemamatching_02_04_13.sql|mysql db dump]]. 
+# Clone the source using TortoiseHg Workbench. In order to do that, go to this [[https://bitbucket.org/tomers77/ontobuilder-research-environment/src|repository]], press the clone button on the right and copy the url it shows (you don't need the "hg clone"). Then in the TortoiseHg go to File -> clone repository. Paste the url you've copied where the source is requierd. Fill in the destination you want and press "clone". 
+# Perform post installation configuration:
+
+=== Post Installation Configuration ==
+
+# Create a text file named "ob_interface.properties". Locate the file in the "oreConfig" folder Located in the the Project cloned in step 3. (yes, it should replace the file that is originally there) The file should contain rows as follows:\\
+dbmstype = 1\\
+host = localhost\\
+dbname = schemamatching\\
+username = (a)\\
+pwd = (b)\\
+schemaPath = (c)\\
+tmpPath - ./tmp/ \\
+## (a)- Insert here your database user name. Mostly, the user name is "root", but some people may use a different user name. \\
+Note that the important thing is to name a user that has read/write privileges to the schema matching database.\\
+## (b)- Insert here the password of your user, as you defined in MySQL.\\
+## (c)- Insert the location of the dataset folder you downloaded in step 1.\\ 
+Note that the format for windows based systems is: [["c:\\foldername\\...\\foldername"]]. Linux based systems have a different format.\\
+# Importing the code you downloaded in step 3 to "eclipse".
+(File -> Import… \\
+Choose: General -> Existing project into workspace -> Next.\\
+Choose as root directory: the folder where the files from step 3 were installed.\\
+You then will see an existing project, choose it and press Next).\\
+# Using MySQL to restore the "schemamatching" database:\\
+Go to your MySQL server and create a database named " schemamatching" by using the command "CREATE DATABASE schemamatching;"\\ (before doing it, check that the database does not exist, buy using the command "SHOW DATABASES;").\\
+After creating "schemamatching" database, (if you are working with the "basic" interface, make sure you select the database to use, with "USE schemamatching;")\\ you will have to use the file downloaded at step 2 to restore it, by using the command "SOURCE file_2_url.sql;".\\
+(if you failed to open the file (error2), try to remove the semi-colon in the end of execution line: instead "SOURCE file_2_url.sql;" try running "SOURCE file_2_url.sql")
+\\ 
+(if it still fails try adding a full path to the file, for example: source c:\folder\that\holds\your\backup.sql).\\
+(If you are using wamp: Use the mysql console: wampmanager -> MySQL -> MySQL Console.
+Its a command line execution of the mysql.exe ( if you have not set a password for the 'root' user yet just hit enter when it asks for a password, otherwise use the password you set ) \\
+After running this command you should check all queries have been successfully committed.
+	
+
+==Check the Installation correctness ==
+To check your installation, you can try to run an experiment using the integrated development environment for java, you have already downloaded.\\
+In order to do it correctly, you have to insert the input arguments correctly.\\
+You can see which arguments are needed, and their order, in the java code file named: 
+"OBEExperimentRunner.java", located in the package: "ac.technion.schemamatching.experiments", located in the "src" folder.\\
+An example for arguments line is: "cmd ./ SimpleMatch 0 35 0 -f:0,1,2,3 -s:1,3"
+
+**for more examples and usage instructions go to [[https://bitbucket.org/tomers77/ontobuilder-research-environment/wiki/Usage|here]]**

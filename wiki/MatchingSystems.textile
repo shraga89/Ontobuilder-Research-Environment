@@ -1,0 +1,151 @@
+ORE employs first line matchers created directly in ORE or imported from two existing systems, namely Ontobuilder and SMC. 
+
+h1. FLMs (First Line Matchers):
+
+"How to create a New FLM":NewFLM
+
+h2.  Auto-mapping core matchers (AMC)
+
+AMC[4] is an SAP research prototype that provides a set of algorithms to establish correspondences between
+two business schemas. The algorithms are designed to explore various features and dependencies that exist in
+business schemas. Based on the extracted features the algorithm may suggest correspondences between nodes
+in two di erent schemas. Di erent algorithms may suggest di erent correspondences and the overall result
+may be integrated based on quality measures as reported by the various algorithms. The AMC algorithms
+used in the evaluations are NAME, TOKEN-PATH, DATATYPE, PATH and SIBLING:
+
+*Name (8)*
+takes names of elements and compares them. Notice that it compares the tokens of the name. For
+example, A/B/C/DEF to A/B/C/GHI (A..I tokens) will compare only DEF to GHI, and A/B/C/DEF
+to A/B/C/FDE will compare DEF to FDE. Since the matcher compares tokens and not the name as
+a whole it would treat them the same.
+
+*Path (11)*
+takes the name of each node in the source and target paths and compares each name in the source to
+each name in the target path using the name matcher. Then takes the maximum similarity for each
+pairing and returns the average of the maximums. i.e. when comparing A/B/C/DEF to G/H/I/JKL
+it will compare each name in (A,B,C,DEF) to (G,H,I,JKL).
+
+*TokenPath (7)*
+same as path with the important di erence that it compares the tokens from the paths to each
+other. i.e. when comparing A/B/C/DEF to G/H/I/JKL it will compare each token from (A,B,C,D,E,F)
+to (G,H,I,J,K,L).
+
+*DataType (10)*
+as its name implies, compares the data types of two elements.
+This only works for internal, predefined data types (string, int, bool, id, etc.), and not for complexTypes, user-defined types and such. If both data types are identical, the matcher returns 1; If not, AMC has a predefined matrix with data type similarities. For example: id to number is 0.8; integer to boolean is 0.6; time to varchar is 0.4; etc.
+
+*Sibling (12)*
+is a structural matcher: It returns the similarity of both elements' siblings by following the following
+steps:
+1. Creating a similarity matrix, including the two compared elements, and all their siblings.
+2. Filling the matrix by aggregating all other matchers.
+3. For every sibling, calculates its best match in its row/column.(the original elements cannot be a match).
+4. Calculates the mean best match similarity score for all siblings of the two elements.
+
+
+h2. ==OntoBuilder==
+
+OntoBuilder[1] was developed for the purpose of extracting ontologies from the deep web and performing schema
+matching experiments using the ontologies created. Over the years various importers have been written to
+enable OntoBuilder to apply the same generic algorithms on other datasets rather than the original web-form
+dataset it was designed for. The following OntoBuilder 1st line matchers are used in the evaluation:
+
+*Term: (0)*
+Term matching compares labels and names to identify syntactically similar terms. To achieve better
+performance, terms are preprocessed using several techniques originating in IR research. Term matching
+is based on either complete word or string comparison.
+
+*Value: (1)*
+Value matching utilizes domain constraints (e.g., drop lists, check boxes, and radio buttons).
+It becomes valuable when comparing two terms that do not exactly match through their labels.
+For example, consider attributes _DropoffDate_ and _ReturnDate_.
+These two terms have associated value sets {(Select),1,2,...,31} and {(Day),1,2,...,31}, respectively, and thus their content based similarity is
+31/33=0.94 which improves significantly over their term similarity (4(Date)/11(Dropoff-Date)=0.36).
+Since Value was designed for web-form comparison, its usability over other datasets is currently limited. 
+XSD support was added by naming the term domain according to the xs:datatype of the simple term. Thus Value is able to compare these types for disparate terms. 
+
+*Composition(Graph (5)):*
+A composite term is composed of other terms (either atomic or composite). Composition can be translated into a hierarchy. This schema matcher assigns similarity to terms, based on the similarity of their neighbors. The Cupid matcher, for example, is based on term composition.
+
+*Precedence: (4)*
+The order in which data are provided in an interactive process is important. In particular, data
+given at an earlier stage may restrict the options for a later entry. For example, a hotel chain site may
+determine which room types are available using the information given regarding the check-in location
+and time. Therefore, once those entries are  lled in, the information is sent back to the server and the
+next form is brought up. Such precedence relationships can usually be identi ed by the activation of a
+script, such as the one associated with a SUBMIT button. Precedence relationships can be translated
+into a precedence graph.
+
+*Similarity Flooding: (6)*
+Being a re-implementation of the algorithm presented in [3], this algorithm utilizes structural information to compare the schemas.
+
+*Domain (14)*
+The algorithm compares the schema terms using their domains. Domains are mined from instances and therefore the usage is limited to datasets with intances. Domain similarity is determined according to the type distribution of the domain e.g. number, date and so on and by the average instance's string length. Original version by Itzik Ben-Ezra and Eilon Sheetrit. Improved version by Yulia Azarkh and Victoria Khalifer). 
+
+*WordNet (17)*
+This schema matcher implements measures of similarity and relatedness that are based on the
+structure and content of WordNet, a lexical database for English. Original version by Nidal Hurani and Ghassan Ibrahim. Improved by Tomer sagi. Added Multi-Word expression parsing by Arik Senderovich, John Zenou and Sapir Golan[5] . Added abbreviation expansion[6] by Peter Izsak.
+
+*TED Tree Edit Distance (20)*
+Simplified version of [7] by Sagi Belder and Munir Barakat , uses an existing non-structural algorithm in OntoBuilder (TermAlgorithm is the default) to determine the preliminary semantic similarity of terms and then runs the structural component on the given ontologies and updates the similarity of terms according to a weighting factor (the default is 0.5). 
+
+h2. Algorithms developed directly in ORE
+
+*Content Based Matcher (21)*
+A re-implementation of the instance based content similarity [8] by Meiran Rubinstein and Omer Amram. Usage is limited to datasets with intances
+
+*Term Order (16)*
+A demo matcher for use by students as a template for new matchers.
+
+*Shell (15)* 
+An empty matcher, used to call external programs to perform matching or to load matching results from files. 
+
+*Process Model Matchers (18-19)*
+Shell matchers for process model matchers by Matthias Weidlich. Usage limited to process model datasets. 
+
+*Instance Matcher (13)*
+Re-implementation of [9] by Anna Margolin. Usage is limited to datasets with intances
+
+*Corpus Based Matcher (22)*
+Simplified implementation of [10] by Eyal Heinman and Tom blinder. Requires a corpus to be created before using. 
+
+h1. SLMs (Second Line Matchers):
+
+2nd line matchers receive the result of a 1st line matcher and use various constraints to generate
+a binary similarity vector. The following 2nd line matchers are used in ORE:
+
+*Maximum Weighted Bipartite Graph (MWBG)* 
+algorithm  finds the choice of correspondences under a 1:1 assumption maximizing the bipartite graph induced by the 1st line matcher result.
+
+*Stable Marriage (SM)*
+ algorithm that calculates the top-k matchings between schemas and returns those pairs which remain stable over some sub-set of k.
+
+*Intersection*
+ this heuristic simply computes and outputs the intersection set of MWBG and SM.
+
+*Union*
+ includes in the output mapping any attribute mapping that is in the output of either MWBG or SM.
+
+*Threshold(t)* 
+is a simple threshold rule eliminating all correspondences with confidence < t and setting the remaining values to 1.
+
+*MaxDelta*
+The S1 element with maximal similarity is determined as match candidate plus all S1elements with a similarity differing at most by a tolerance value d, which can be specified either as an absolute or relative value. The idea is to return multiple match candidates when there are several S1 elements with the same or almost the same similarity value.
+
+*CrossEntropy*
+A second line matcher that finds a match using cross entropy optimization.
+Able to produce either a 1:1 or 1:n matching. 
+
+[1] Gal, A., Modica, G., Jamil, H., and Eyal, A. Automatic ontology matching using application semantics.
+ AI magazine 26, 1 (2005), 21.
+[2] Marie, A., and Gal, A. On the stable marriage of maximum weight royal couples. In Proceedings of
+AAAI Workshop on Information Integration on the Web 39 (2007).
+[3] Melnik, S., Garcia-Molina, H., and Rahm, E.Similarity  flooding: A versatile graph matching algorithm and its application to schema matching. In Data Engineering, 2002. Proceedings. 18th
+International Conference on (2002), IEEE, pp. 117 128.
+[4] Peukert, Eric, Julian Eberius, and Erhard Rahm. "Amc-a framework for modelling and comparing matching systems as matching processes." Data Engineering (ICDE), 2011 IEEE 27th International Conference on. IEEE, 2011.
+[5] Gawinecki, M. "Abbreviation Expansion in Lexical Annotation of Schema." Camogli (Genova), Italy June 25th, 2009 Co-located with SEBD (2009): 61.
+[6] Ratinov, L., and Ehud Gudes. "Abbreviation expansion in schema matching and web integration." Proceedings of the 2004 IEEE/WIC/ACM International Conference on Web Intelligence. IEEE Computer Society, 2004.
+[7] Pawlik, M., & Augsten, N. (2011). RTED: a robust algorithm for the tree edit distance. Proceedings of the VLDB Endowment, 5(4), 334-345.
+[8] Engmann, D., & Massmann, S. (2007). Instance Matching with COMA+.
+[9] Bilke, A., & Naumann, F. (2005, April). Schema matching using duplicates. In Data Engineering, 2005. ICDE 2005. Proceedings. 21st International Conference on (pp. 69-80). IEEE.
+[10]Madhavan, J., Bernstein, P. A., Doan, A., & Halevy, A. (2005, April). Corpus-based schema matching. In Data Engineering, 2005. ICDE 2005. Proceedings. 21st International Conference on (pp. 57-68). IEEE.

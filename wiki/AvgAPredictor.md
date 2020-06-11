@@ -1,0 +1,1 @@
+Attribute version of [AvgPredictor](https://bitbucket.org/tomers77/ontobuilder-research-environment/wiki/AvgPredictor)
