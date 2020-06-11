@@ -1,4 +1,4 @@
-==== Datasets ====
+# Dataset
 Ontobuilder currently supports few Datasets.
 In this page you'll be able to find some useful information about these Datasets.
 # Modeling language -  
@@ -7,9 +7,9 @@ In this page you'll be able to find some useful information about these Datasets
 [OWL](http://www.w3schools.com/rdf/rdf_owl.asp)  
 [XML](http://www.w3schools.com/xml/)  
 
-# Has golden mapping? (True / False)\\ A dataset which has a golden mapping has a list of correspondences deemed, correct by some user to which match results can be compared. All schema pairs with golden mapping can be found at the table "schemapairs" of the schemamatching database.
-# Has instances? (True / False) \\ False = schemas only, True = schemas + schema instances
-# Supports DB lookup? (True / False)\\ Match results are saved in a database and can subsequently be efficiently retrieved  instead of performing the match over and over for each experiment. For usage example see simpleMatch experiment.
+* Has golden mapping? (True / False) -  A dataset which has a golden mapping has a list of correspondences deemed, correct by some user to which match results can be compared. All schema pairs with golden mapping can be found at the table "schemapairs" of the schemamatching database.
+* Has instances? (True / False) - False = schemas only, True = schemas + schema instances
+* Supports DB lookup? (True / False)- Match results are saved in a database and can subsequently be efficiently retrieved  instead of performing the match over and over for each experiment. For usage example see simpleMatch experiment.
 
 | Dataset code | Dataset name | Modeling language | Has golden mapping? | Supports database lookup | Has instances? | Downloading link | source | Number of distinct schemas | Number of pairs with golden mappings | Avg. Number of attributes per schema |
 |-|-|-|-|-|-|-|-|-|-|-|
