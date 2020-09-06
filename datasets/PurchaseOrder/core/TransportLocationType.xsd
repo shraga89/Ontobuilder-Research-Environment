@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" targetNamespace="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" elementFormDefault="qualified">
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+            XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.
+            Permission is granted to use, copy, modify and distribute the
+            DTD's, schemas and modules in the Commerce One XML Common Business
+            Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType name="TransportLocationType">
+        <xsd:annotation>
+            <xsd:documentation>provides information about a stop along
+        a transport route.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="Location" type="LocationType">
+                <xsd:annotation>
+                    <xsd:documentation>identifies a specific location of the stop either by an identifier or by an
+        explicit address.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="LocationID" type="xsd:int">
+                <xsd:annotation>
+                    <xsd:documentation>holds the unique number referenced internally from line item
+        package and detail.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Sequence" type="xsd:int">
+                <xsd:annotation>
+                    <xsd:documentation>holds the counter that indicates the sequence of stops within the
+        transport routing. Start transport location always has a sequence of
+        one.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="EstimatedArrivalDate" type="xsd:dateTime">
+                <xsd:annotation>
+                    <xsd:documentation>identifies the estimated date that the transport arrives at the
+        location.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ActualArrivalDate" type="xsd:dateTime">
+                <xsd:annotation>
+                    <xsd:documentation>identifies the actual date that the transport arrives at the
+        location.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="EstimatedDepartureDate" type="xsd:dateTime">
+                <xsd:annotation>
+                    <xsd:documentation>identifies the estimated date that the transport departs from the
+        location .</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ActualDepartureDate" type="xsd:dateTime">
+                <xsd:annotation>
+                    <xsd:documentation>identifies the actual date that the transport departs from the
+        location.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

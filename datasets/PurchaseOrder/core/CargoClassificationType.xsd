@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" targetNamespace="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" elementFormDefault="qualified">
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+            XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.
+            Permission is granted to use, copy, modify and distribute the
+            DTD's, schemas and modules in the Commerce One XML Common Business
+            Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType name="CargoClassificationType">
+        <xsd:annotation>
+            <xsd:documentation>contains different conventions for the classification and
+        description of the goods being transported.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element minOccurs="0" name="NatureOfGoods" type="IdentifierType">
+                <xsd:annotation>
+                    <xsd:documentation>is the high level nature of goods code issued by a specific
+        maintenance agency. It is generally the first two digits of the HS code. This
+        also defines the maintenance agency for the codelist (usually WCO World Customs
+        Organization).</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="OperationalTypeCoded" type="OperationalTypeCodeType">
+                <xsd:annotation>
+                    <xsd:documentation>identifies the classification of the cargo using a standard codelist.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="OperationalTypeCodedOther" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>is used to provide a non-standard <!--code-->OperationalTypeCode<!--/code-->.
+        This element is mandatory if the value of <!--code-->OperationalTypeCoded<!--/code--> is
+        'Other'. These codes should not contain white space unless absolutely
+        necessary.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="TypeOfCargo" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>is the commodity code that identifies at a high level what the
+        items are. Set of understood description of goods. UN/ECE Rec 21 single digit
+        type of cargo coded. Note; UN/ECE rec 21 is under revision and will need to
+        update to recommendation 29</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

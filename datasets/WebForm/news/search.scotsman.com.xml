@@ -1,0 +1,1169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE ontology SYSTEM "dtds/ontology.dtd">
+<ontology name="search.scotsman.com" title="SEARCH.scotsman.com" site="http://search.scotsman.com/scripts/rwisapi.dll/@scotsman.env?CQ_QUERY_STRING=&amp;CQ_USER_NAME=guest&amp;CQ_PASSWORD=guest&amp;CQ_PROCESS_LOGIN=YES&amp;CQ_LOGIN=YES&amp;CQ_SAVE[Refine_the_query]=FALSE&amp;CQ_DTF_SEARCHFORM=YES&amp;CQ_CUR_LIBRARY=Arts_Lib%20Careers_Lib%20Heritage_Lib%20Leisure_Lib%20Motors_Lib%20Property_Lib%20Travel_Lib%20ScottishLocalities_Lib%20Festival_Lib%20Network_lib">
+    <classes>
+        <class name="page">
+            <domain type="" />
+            <attributes />
+            <axioms />
+            <subclasses />
+        </class>
+        <class name="form">
+            <domain type="" />
+            <attributes>
+                <attribute name="method" value="get">
+                    <domain name="Choice" type="choice">
+                        <entry>post</entry>
+                        <entry>get</entry>
+                    </domain>
+                </attribute>
+                <attribute name="action">
+                    <domain name="URL" type="url" />
+                </attribute>
+            </attributes>
+            <axioms />
+            <subclasses />
+        </class>
+        <class name="input">
+            <domain type="" />
+            <attributes>
+                <attribute name="name">
+                    <domain name="Text" type="text" />
+                </attribute>
+                <attribute name="disabled" value="false">
+                    <domain name="Boolean" type="boolean" />
+                </attribute>
+            </attributes>
+            <axioms />
+            <subclasses>
+                <class name="text">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="name">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="disabled">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                        <attribute name="type" value="text">
+                            <domain type="" />
+                        </attribute>
+                        <attribute name="defaultValue">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="value">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="size">
+                            <domain name="Positive Integer" type="pinteger" />
+                        </attribute>
+                        <attribute name="maxLength">
+                            <domain name="Positive Integer" type="pinteger" />
+                        </attribute>
+                        <attribute name="readOnly" value="false">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <subclasses />
+                </class>
+                <class name="password">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="name">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="disabled">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                        <attribute name="type" value="password">
+                            <domain type="" />
+                        </attribute>
+                        <attribute name="defaultValue">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="size">
+                            <domain name="Positive Integer" type="text" />
+                        </attribute>
+                        <attribute name="maxLength">
+                            <domain name="Positive Integer" type="pinteger" />
+                        </attribute>
+                        <attribute name="readOnly" value="false">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <subclasses />
+                </class>
+                <class name="file">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="name">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="disabled">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                        <attribute name="type" value="file">
+                            <domain type="" />
+                        </attribute>
+                        <attribute name="size">
+                            <domain name="Positive Integer" type="pinteger" />
+                        </attribute>
+                        <attribute name="maxLength">
+                            <domain name="Positive Integer" type="pinteger" />
+                        </attribute>
+                        <attribute name="readOnly" value="false">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <subclasses />
+                </class>
+                <class name="hidden">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="name">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="disabled">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                        <attribute name="type" value="hidden">
+                            <domain type="" />
+                        </attribute>
+                        <attribute name="type" value="button">
+                            <domain type="" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <subclasses />
+                </class>
+                <class name="checkbox">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="name">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="disabled">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                        <attribute name="type" value="checkbox">
+                            <domain type="" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <subclasses />
+                </class>
+                <class name="radio">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="name">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="disabled">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                        <attribute name="type" value="radio">
+                            <domain type="" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <subclasses />
+                </class>
+                <class name="select">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="name">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="disabled">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                        <attribute name="type" value="select">
+                            <domain type="" />
+                        </attribute>
+                        <attribute name="size">
+                            <domain name="Positive Integer" type="pinteger" />
+                        </attribute>
+                        <attribute name="multiple" value="false">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <subclasses />
+                </class>
+                <class name="textarea">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="name">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="disabled">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                        <attribute name="type" value="textarea">
+                            <domain type="" />
+                        </attribute>
+                        <attribute name="defaultValue">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="rows">
+                            <domain name="Positive Integer" type="pinteger" />
+                        </attribute>
+                        <attribute name="cols">
+                            <domain name="Positive Integer" type="pinteger" />
+                        </attribute>
+                        <attribute name="readOnly" value="false">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <subclasses />
+                </class>
+                <class name="button">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="name">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="disabled">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <subclasses />
+                </class>
+                <class name="submit">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="name">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="disabled">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                        <attribute name="type" value="submit">
+                            <domain type="" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <subclasses />
+                </class>
+                <class name="reset">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="name">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="disabled">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                        <attribute name="type" value="reset">
+                            <domain type="" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <subclasses />
+                </class>
+                <class name="image">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="name">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="disabled">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                        <attribute name="type" value="image">
+                            <domain type="" />
+                        </attribute>
+                        <attribute name="src">
+                            <domain name="URL" type="url" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <subclasses />
+                </class>
+            </subclasses>
+        </class>
+    </classes>
+    <terms>
+        <term name="http://search.scotsman.com/scripts/rwisapi.dll/@scotsman.env?CQ_QUERY_STRING=&amp;CQ_USER_NAME=guest&amp;CQ_PASSWORD=guest&amp;CQ_PROCESS_LOGIN=YES&amp;CQ_LOGIN=YES&amp;CQ_SAVE[Refine_the_query]=FALSE&amp;CQ_DTF_SEARCHFORM=YES&amp;CQ_CUR_LIBRARY=Arts_Lib%20Careers_Lib%20Heritage_Lib%20Leisure_Lib%20Motors_Lib%20Property_Lib%20Travel_Lib%20ScottishLocalities_Lib%20Festival_Lib%20Network_lib" class="page">
+            <domain type="" />
+            <attributes />
+            <axioms />
+            <relationships>
+                <relationship name="is parent of">
+                    <source>http://search.scotsman.com/scripts/rwisapi.dll/@scotsman.env?CQ_QUERY_STRING=&amp;CQ_USER_NAME=guest&amp;CQ_PASSWORD=guest&amp;CQ_PROCESS_LOGIN=YES&amp;CQ_LOGIN=YES&amp;CQ_SAVE[Refine_the_query]=FALSE&amp;CQ_DTF_SEARCHFORM=YES&amp;CQ_CUR_LIBRARY=Arts_Lib%20Careers_Lib%20Heritage_Lib%20Leisure_Lib%20Motors_Lib%20Property_Lib%20Travel_Lib%20ScottishLocalities_Lib%20Festival_Lib%20Network_lib</source>
+                    <targets />
+                </relationship>
+            </relationships>
+            <subterms>
+                <term name="" class="form">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="method" value="post">
+                            <domain name="Choice" type="choice">
+                                <entry>post</entry>
+                                <entry>get</entry>
+                            </domain>
+                        </attribute>
+                        <attribute name="action" value="http://search.scotsman.com/scripts/rwisapi.dll/@scotsman.env">
+                            <domain name="URL" type="url" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <relationships>
+                        <relationship name="is child of">
+                            <source />
+                            <targets>http://search.scotsman.com/scripts/rwisapi.dll/@scotsman.env?CQ_QUERY_STRING=&amp;CQ_USER_NAME=guest&amp;CQ_PASSWORD=guest&amp;CQ_PROCESS_LOGIN=YES&amp;CQ_LOGIN=YES&amp;CQ_SAVE[Refine_the_query]=FALSE&amp;CQ_DTF_SEARCHFORM=YES&amp;CQ_CUR_LIBRARY=Arts_Lib%20Careers_Lib%20Heritage_Lib%20Leisure_Lib%20Motors_Lib%20Property_Lib%20Travel_Lib%20ScottishLocalities_Lib%20Festival_Lib%20Network_lib</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source />
+                            <targets>CQ_SESSION_KEY</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source />
+                            <targets>CQ_DTF_QUICKSEARCH_RESULTS</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source />
+                            <targets>CQ_SAVE[Start_Row]</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source />
+                            <targets>CQMARK</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source />
+                            <targets>You are currently searching for:</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source />
+                            <targets>CQMARK</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source />
+                            <targets>Change the mode of your search:</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source />
+                            <targets>CQMARK</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source />
+                            <targets>Search Headline on:</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source />
+                            <targets>CQMARK</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source />
+                            <targets>CQMARK</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source />
+                            <targets>Search Byline on:</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source />
+                            <targets>CQMARK</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source />
+                            <targets>Search</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source />
+                            <targets>The site is organised into several different zones . Select the one(s) you want to search from this list. (Ctrl-Click to select multiple categories)</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source />
+                            <targets>Change the style of your search:</targets>
+                        </relationship>
+                    </relationships>
+                    <subterms>
+                        <term name="CQ_SESSION_KEY" value="OCWYPUEEVGOV" class="hidden">
+                            <domain type="" />
+                            <attributes>
+                                <attribute name="name" value="CQ_SESSION_KEY">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>CQ_SESSION_KEY</source>
+                                    <targets />
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term name="CQ_DTF_QUICKSEARCH_RESULTS" value="YES" class="hidden">
+                            <domain type="" />
+                            <attributes>
+                                <attribute name="name" value="CQ_DTF_QUICKSEARCH_RESULTS">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>CQ_DTF_QUICKSEARCH_RESULTS</source>
+                                    <targets />
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term name="CQ_SAVE[Start_Row]" value="1" class="hidden">
+                            <domain type="" />
+                            <attributes>
+                                <attribute name="name" value="CQ_SAVE[Start_Row]">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>CQ_SAVE[Start_Row]</source>
+                                    <targets />
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term name="CQMARK" value="HERE" class="hidden">
+                            <domain type="" />
+                            <attributes>
+                                <attribute name="name" value="CQMARK">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>CQMARK</source>
+                                    <targets />
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term name="You are currently searching for:" value="" class="text">
+                            <domain type="" />
+                            <attributes>
+                                <attribute name="name" value="CQ_QUERY_STRING">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="defaultValue" value="">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="value">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="size" value="23">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="maxLength">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="readOnly" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>You are currently searching for:</source>
+                                    <targets />
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term name="CQMARK" value="HERE" class="hidden">
+                            <domain type="" />
+                            <attributes>
+                                <attribute name="name" value="CQMARK">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>CQMARK</source>
+                                    <targets />
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term name="Change the mode of your search:" value="2" class="radio">
+                            <domain name="Choice" type="choice">
+                                <entry>
+                                    <term name="Concept" value="2">
+                                        <domain type="" />
+                                        <attributes>
+                                            <attribute name="checked" value="true">
+                                                <domain type="" />
+                                            </attribute>
+                                            <attribute name="defaultChecked" value="true">
+                                                <domain type="" />
+                                            </attribute>
+                                        </attributes>
+                                        <axioms />
+                                        <relationships />
+                                        <subterms />
+                                    </term>
+                                </entry>
+                                <entry>
+                                    <term name="Pattern" value="3">
+                                        <domain type="" />
+                                        <attributes>
+                                            <attribute name="checked" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                            <attribute name="defaultChecked" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                        </attributes>
+                                        <axioms />
+                                        <relationships />
+                                        <subterms />
+                                    </term>
+                                </entry>
+                                <entry>
+                                    <term name="Boolean" value="1">
+                                        <domain type="" />
+                                        <attributes>
+                                            <attribute name="checked" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                            <attribute name="defaultChecked" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                        </attributes>
+                                        <axioms />
+                                        <relationships />
+                                        <subterms />
+                                    </term>
+                                </entry>
+                            </domain>
+                            <attributes>
+                                <attribute name="name" value="CQ_QUERY_TYPE">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>Change the mode of your search:</source>
+                                    <targets />
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term name="CQMARK" value="HERE" class="hidden">
+                            <domain type="" />
+                            <attributes>
+                                <attribute name="name" value="CQMARK">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>CQMARK</source>
+                                    <targets />
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term name="Search Headline on:" value="" class="text">
+                            <domain type="" />
+                            <attributes>
+                                <attribute name="name" value="CQ_QUERY_STRING[title]">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="defaultValue" value="">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="value">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="size" value="20">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="maxLength">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="readOnly" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>Search Headline on:</source>
+                                    <targets />
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term name="CQMARK" value="HERE" class="hidden">
+                            <domain type="" />
+                            <attributes>
+                                <attribute name="name" value="CQMARK">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>CQMARK</source>
+                                    <targets />
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term name="CQMARK" value="HERE" class="hidden">
+                            <domain type="" />
+                            <attributes>
+                                <attribute name="name" value="CQMARK">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>CQMARK</source>
+                                    <targets />
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term name="Search Byline on:" value="" class="text">
+                            <domain type="" />
+                            <attributes>
+                                <attribute name="name" value="CQ_QUERY_STRING[Byline]">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="defaultValue" value="">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="value">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="size" value="20">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="maxLength">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="readOnly" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>Search Byline on:</source>
+                                    <targets />
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term name="CQMARK" value="HERE" class="hidden">
+                            <domain type="" />
+                            <attributes>
+                                <attribute name="name" value="CQMARK">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>CQMARK</source>
+                                    <targets />
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term name="Search" class="submit">
+                            <domain type="" />
+                            <attributes>
+                                <attribute name="name" value="">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>Search</source>
+                                    <targets />
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term name="The site is organised into several different zones . Select the one(s) you want to search from this list. (Ctrl-Click to select multiple categories)" value="3,6,7,8,10,11,13,14,16,19" class="select">
+                            <domain name="Choice" type="choice">
+                                <entry>
+                                    <term name="News 2002" value="1">
+                                        <domain type="" />
+                                        <attributes>
+                                            <attribute name="selected" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                            <attribute name="defaultSelected" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                        </attributes>
+                                        <axioms />
+                                        <relationships />
+                                        <subterms />
+                                    </term>
+                                </entry>
+                                <entry>
+                                    <term name="News 2001" value="2">
+                                        <domain type="" />
+                                        <attributes>
+                                            <attribute name="selected" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                            <attribute name="defaultSelected" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                        </attributes>
+                                        <axioms />
+                                        <relationships />
+                                        <subterms />
+                                    </term>
+                                </entry>
+                                <entry>
+                                    <term name="News" value="3">
+                                        <domain type="" />
+                                        <attributes>
+                                            <attribute name="selected" value="true">
+                                                <domain type="" />
+                                            </attribute>
+                                            <attribute name="defaultSelected" value="true">
+                                                <domain type="" />
+                                            </attribute>
+                                        </attributes>
+                                        <axioms />
+                                        <relationships />
+                                        <subterms />
+                                    </term>
+                                </entry>
+                                <entry>
+                                    <term name="News 2000" value="4">
+                                        <domain type="" />
+                                        <attributes>
+                                            <attribute name="selected" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                            <attribute name="defaultSelected" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                        </attributes>
+                                        <axioms />
+                                        <relationships />
+                                        <subterms />
+                                    </term>
+                                </entry>
+                                <entry>
+                                    <term name="Business" value="5">
+                                        <domain type="" />
+                                        <attributes>
+                                            <attribute name="selected" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                            <attribute name="defaultSelected" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                        </attributes>
+                                        <axioms />
+                                        <relationships />
+                                        <subterms />
+                                    </term>
+                                </entry>
+                                <entry>
+                                    <term name="Entertainment" value="6">
+                                        <domain type="" />
+                                        <attributes>
+                                            <attribute name="selected" value="true">
+                                                <domain type="" />
+                                            </attribute>
+                                            <attribute name="defaultSelected" value="true">
+                                                <domain type="" />
+                                            </attribute>
+                                        </attributes>
+                                        <axioms />
+                                        <relationships />
+                                        <subterms />
+                                    </term>
+                                </entry>
+                                <entry>
+                                    <term name="Careers" value="7">
+                                        <domain type="" />
+                                        <attributes>
+                                            <attribute name="selected" value="true">
+                                                <domain type="" />
+                                            </attribute>
+                                            <attribute name="defaultSelected" value="true">
+                                                <domain type="" />
+                                            </attribute>
+                                        </attributes>
+                                        <axioms />
+                                        <relationships />
+                                        <subterms />
+                                    </term>
+                                </entry>
+                                <entry>
+                                    <term name="Heritage" value="8">
+                                        <domain type="" />
+                                        <attributes>
+                                            <attribute name="selected" value="true">
+                                                <domain type="" />
+                                            </attribute>
+                                            <attribute name="defaultSelected" value="true">
+                                                <domain type="" />
+                                            </attribute>
+                                        </attributes>
+                                        <axioms />
+                                        <relationships />
+                                        <subterms />
+                                    </term>
+                                </entry>
+                                <entry>
+                                    <term name="Festival" value="10">
+                                        <domain type="" />
+                                        <attributes>
+                                            <attribute name="selected" value="true">
+                                                <domain type="" />
+                                            </attribute>
+                                            <attribute name="defaultSelected" value="true">
+                                                <domain type="" />
+                                            </attribute>
+                                        </attributes>
+                                        <axioms />
+                                        <relationships />
+                                        <subterms />
+                                    </term>
+                                </entry>
+                                <entry>
+                                    <term name="Lifestyle &amp; Leisure" value="11">
+                                        <domain type="" />
+                                        <attributes>
+                                            <attribute name="selected" value="true">
+                                                <domain type="" />
+                                            </attribute>
+                                            <attribute name="defaultSelected" value="true">
+                                                <domain type="" />
+                                            </attribute>
+                                        </attributes>
+                                        <axioms />
+                                        <relationships />
+                                        <subterms />
+                                    </term>
+                                </entry>
+                                <entry>
+                                    <term name="Motors" value="13">
+                                        <domain type="" />
+                                        <attributes>
+                                            <attribute name="selected" value="true">
+                                                <domain type="" />
+                                            </attribute>
+                                            <attribute name="defaultSelected" value="true">
+                                                <domain type="" />
+                                            </attribute>
+                                        </attributes>
+                                        <axioms />
+                                        <relationships />
+                                        <subterms />
+                                    </term>
+                                </entry>
+                                <entry>
+                                    <term name="Property" value="14">
+                                        <domain type="" />
+                                        <attributes>
+                                            <attribute name="selected" value="true">
+                                                <domain type="" />
+                                            </attribute>
+                                            <attribute name="defaultSelected" value="true">
+                                                <domain type="" />
+                                            </attribute>
+                                        </attributes>
+                                        <axioms />
+                                        <relationships />
+                                        <subterms />
+                                    </term>
+                                </entry>
+                                <entry>
+                                    <term name="Sports" value="15">
+                                        <domain type="" />
+                                        <attributes>
+                                            <attribute name="selected" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                            <attribute name="defaultSelected" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                        </attributes>
+                                        <axioms />
+                                        <relationships />
+                                        <subterms />
+                                    </term>
+                                </entry>
+                                <entry>
+                                    <term name="Travel" value="16">
+                                        <domain type="" />
+                                        <attributes>
+                                            <attribute name="selected" value="true">
+                                                <domain type="" />
+                                            </attribute>
+                                            <attribute name="defaultSelected" value="true">
+                                                <domain type="" />
+                                            </attribute>
+                                        </attributes>
+                                        <axioms />
+                                        <relationships />
+                                        <subterms />
+                                    </term>
+                                </entry>
+                                <entry>
+                                    <term name="Scottish Localities" value="19">
+                                        <domain type="" />
+                                        <attributes>
+                                            <attribute name="selected" value="true">
+                                                <domain type="" />
+                                            </attribute>
+                                            <attribute name="defaultSelected" value="true">
+                                                <domain type="" />
+                                            </attribute>
+                                        </attributes>
+                                        <axioms />
+                                        <relationships />
+                                        <subterms />
+                                    </term>
+                                </entry>
+                            </domain>
+                            <attributes>
+                                <attribute name="name" value="CQ_CUR_LIBRARY">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="size">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="multiple">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>The site is organised into several different zones . Select the one(s) you want to search from this list. (Ctrl-Click to select multiple categories)</source>
+                                    <targets />
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term name="Change the style of your search:" value="2&amp;CQ_MAX_DOCS=100&amp;CQ_MAX_WILDCARD=1000&amp;CQ_MAX_FUZZY_SPELLING=10&amp;CQ_EXPANSION_LEVEL=4" class="select">
+                            <domain name="Choice" type="choice">
+                                <entry>
+                                    <term name="Average" value="2&amp;CQ_MAX_DOCS=100&amp;CQ_MAX_WILDCARD=1000&amp;CQ_MAX_FUZZY_SPELLING=10&amp;CQ_EXPANSION_LEVEL=4">
+                                        <domain type="" />
+                                        <attributes>
+                                            <attribute name="selected" value="true">
+                                                <domain type="" />
+                                            </attribute>
+                                            <attribute name="defaultSelected" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                        </attributes>
+                                        <axioms />
+                                        <relationships />
+                                        <subterms />
+                                    </term>
+                                </entry>
+                                <entry>
+                                    <term name="Narrow" value="1&amp;CQ_MAX_DOCS=100&amp;CQ_MAX_WILDCARD=1000&amp;CQ_MAX_FUZZY_SPELLING=5&amp;CQ_EXPANSION_LEVEL=3">
+                                        <domain type="" />
+                                        <attributes>
+                                            <attribute name="selected" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                            <attribute name="defaultSelected" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                        </attributes>
+                                        <axioms />
+                                        <relationships />
+                                        <subterms />
+                                    </term>
+                                </entry>
+                                <entry>
+                                    <term name="Broad" value="3&amp;CQ_MAX_DOCS=200&amp;CQ_MAX_WILDCARD=1000&amp;CQ_MAX_FUZZY_SPELLING=25&amp;CQ_EXPANSION_LEVEL=7">
+                                        <domain type="" />
+                                        <attributes>
+                                            <attribute name="selected" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                            <attribute name="defaultSelected" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                        </attributes>
+                                        <axioms />
+                                        <relationships />
+                                        <subterms />
+                                    </term>
+                                </entry>
+                            </domain>
+                            <attributes>
+                                <attribute name="name" value="CQ_SAVE[Search_Style]">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="size">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="multiple">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>Change the style of your search:</source>
+                                    <targets />
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                    </subterms>
+                </term>
+            </subterms>
+        </term>
+    </terms>
+</ontology>
+

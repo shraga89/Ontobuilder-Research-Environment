@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" targetNamespace="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" elementFormDefault="qualified">
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+            XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.
+            Permission is granted to use, copy, modify and distribute the
+            DTD's, schemas and modules in the Commerce One XML Common Business
+            Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType name="AccountDetailType">
+        <xsd:annotation>
+            <xsd:documentation>contains information pertinent to identifying an account within a financial institution.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="AccountID" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>specifies the account number or identifier for the
+        account.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="SecondaryAccountID" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>specifies a secondary account number to identify the
+        account.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="IBAN" type="IBANType">
+                <xsd:annotation>
+                    <xsd:documentation>specifies an IBAN number (International Bank Account
+        Number).</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="AccountControlKey" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>specifies the control number to uniquely identify the account at
+        the financial institution.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="AccountTypeCoded" type="AccountTypeCodeType">
+                <xsd:annotation>
+                    <xsd:documentation>contains a code qualifying the type of account.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="AccountTypeCodedOther" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>is used to provide a non-standard <!--code-->AccountTypeCode<!--/code-->. This element
+        is mandatory if the value of <!--code-->AccountTypeCoded<!--/code--> is 'Other'. These codes should
+        not contain white space unless absolutely necessary.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="AccountName1" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>specifies the main account holder of the account.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="AccountName2" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>specifies a secondary name/holder on the account.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Currency" type="CurrencyType">
+                <xsd:annotation>
+                    <xsd:documentation>specifies the currency that applies to the account.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="AccountReferences" type="ListOfReferenceCodedType">
+                <xsd:annotation>
+                    <xsd:documentation>contains a list of coded references to specify an identifier or
+        name associated with the account.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

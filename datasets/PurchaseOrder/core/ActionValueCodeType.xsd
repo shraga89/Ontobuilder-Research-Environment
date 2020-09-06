@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" targetNamespace="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" elementFormDefault="qualified">
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+            XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.
+            Permission is granted to use, copy, modify and distribute the
+            DTD's, schemas and modules in the Commerce One XML Common Business
+            Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleType name="ActionValueCodeType">
+        <xsd:annotation>
+            <xsd:documentation>This code identifies the action taken by the application processing the data.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:NMTOKEN">
+            <xsd:enumeration value="Add">
+                <xsd:annotation>
+                    <xsd:documentation>Add the element given, and specified sub-elements, if there's no existing element that matches on it's key. If there is a matching, existing element, the sub-element values given replace the current sub-element if that sub-element is single-valued. If it's multi-valued, then add another value to the existing set of values for that sub-element. If no value is given for the sub-element of an existing element, the previous value (if any) is left intact.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Update">
+                <xsd:annotation>
+                    <xsd:documentation>Similar to an Add, but with two key differences: there must be an existing element that matches on it's key (otherwise it's an error); and existing values are replaced, regardless of whether they're defined as single-valued or multi-valued sub-elements. Again, if no value is given for the sub-element of an existing element, the previous value (if any) is left intact.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Delete">
+                <xsd:annotation>
+                    <xsd:documentation>If there's an existing element that matches on  it's key values, delete the existing element and all of it's sub-elements from the catalog. References to the deleted item are not removed. The latter is an important distinction - if a Product is removed, it's pricing persists, and if re-introduced it will suddenly have pricing, though none's apparently been specified.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Replace">
+                <xsd:annotation>
+                    <xsd:documentation>If there's an existing element that matches on it's key values, delete it and add the values for the current definition as the new value for the element. If there's no existing definition, just add this new value.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+        </xsd:restriction>
+    </xsd:simpleType>
+</xsd:schema>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" targetNamespace="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" elementFormDefault="qualified">
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+            XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.
+            Permission is granted to use, copy, modify and distribute the
+            DTD's, schemas and modules in the Commerce One XML Common Business
+            Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType name="LocationType">
+        <xsd:annotation>
+            <xsd:documentation>identifies a place by its function and either an identifier,
+            an identification assigned to an address, or an address.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element minOccurs="0" name="LocationQualifierCoded" type="LocationQualifierCodeType">
+                <xsd:annotation>
+                    <xsd:documentation>provides the function of the location using a standard codelist.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="LocationQualifierCodedOther" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>is used to provide a non-standard <!--code-->LocationQualifierCode<!--/code-->. This
+        element is mandatory if the value of <!--code-->LocationQualifierCoded<!--/code--> is 'Other'. These
+        codes should not contain white space unless absolutely necessary.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:choice>
+                <xsd:element name="LocationIdentifier" type="LocationIdentifierType">
+                    <xsd:annotation>
+                        <xsd:documentation>contains the location identifier and the agency responsible for
+        issuing the identifier.</xsd:documentation>
+                    </xsd:annotation>
+                </xsd:element>
+                <xsd:element name="ExternalAddressID" type="xsd:string">
+                    <xsd:annotation>
+                        <xsd:documentation>contains the information to identify the address.</xsd:documentation>
+                    </xsd:annotation>
+                </xsd:element>
+                <xsd:element name="NameAddress" type="NameAddressType">
+                    <xsd:annotation>
+                        <xsd:documentation>identifies the location as a specific name and/or address.</xsd:documentation>
+                    </xsd:annotation>
+                </xsd:element>
+            </xsd:choice>
+            <xsd:element minOccurs="0" name="GPSCoordinates" type="GPSCoordinatesType">
+                <xsd:annotation>
+                    <xsd:documentation>identifies the location by specific co-ordinates.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="ListOfLocationType">
+        <xsd:annotation>
+            <xsd:documentation>contains a list of locations.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element maxOccurs="unbounded" name="Location" type="LocationType">
+                <xsd:annotation>
+                    <xsd:documentation>identifies a place by its function and either an identifier,
+         an identification assigned to an address, or an address.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

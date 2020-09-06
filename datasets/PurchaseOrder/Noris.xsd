@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2010 rel. 3 (http://www.altova.com) by NTT (norg) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns="Noris" targetNamespace="Noris" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="PurchaseOrder">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="shipmentDate" type="xs:date"/>
+				<xs:element name="customerOrderRef" type="xs:string"/>
+				<xs:element name="comments" type="xs:string"/>
+				<xs:element name="InvoiceTo">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Organization" type="ns:Organization"/>
+							<xs:element name="Address" type="ns:Address"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="DeliverTo">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Organization" type="ns:Organization"/>
+							<xs:element name="Address" type="ns:Address"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ContactPerson" type="ns:Contact"/>
+				<xs:element name="orderDate" type="xs:date"/>
+				<xs:element name="Amount" type="ns:Amount"/>
+				<xs:element name="totalAmount" type="xs:float"/>
+				<xs:element name="roundingAmount" type="xs:float"/>
+				<xs:element name="currencyCode" type="xs:string"/>
+				<xs:element name="Line">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="lineNo" type="xs:positiveInteger"/>
+							<xs:element name="productRef" type="xs:string"/>
+							<xs:element name="productName" type="xs:string"/>
+							<xs:element name="quantity" type="xs:float"/>
+							<xs:element name="unitOfMeasureRef" type="xs:string"/>
+							<xs:element name="unitPrice" type="xs:float"/>
+							<xs:element name="Amount" type="ns:Amount"/>
+							<xs:element name="shipmentDate" type="xs:date"/>
+							<xs:element name="priceLevelRef" type="xs:string"/>
+							<xs:element name="projectRef" type="xs:string"/>
+							<xs:element name="projectTaskRef" type="xs:string"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="Address">
+		<xs:sequence>
+			<xs:element name="street" type="xs:string"/>
+			<xs:element name="city" type="xs:string"/>
+			<xs:element name="state" type="xs:string"/>
+			<xs:element name="postalCode" type="xs:string"/>
+			<xs:element name="country" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Amount">
+		<xs:sequence>
+			<xs:element name="VATRate" type="xs:float"/>
+			<xs:element name="amountExclVAT" type="xs:float"/>
+			<xs:element name="VATAmount" type="xs:float"/>
+			<xs:element name="amountInclVAT" type="xs:float"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Organization">
+		<xs:sequence>
+			<xs:element name="referenceNo" type="xs:string"/>
+			<xs:element name="name" type="xs:string"/>
+			<xs:element name="regiatrationNo" type="xs:string"/>
+			<xs:element name="VATRegistrationNo" type="xs:string"/>
+			<xs:element name="url" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Contact">
+		<xs:sequence>
+			<xs:element name="referenceNo" type="xs:string"/>
+			<xs:element name="firstName" type="xs:string"/>
+			<xs:element name="lastName" type="xs:string"/>
+			<xs:element name="title" type="xs:string"/>
+			<xs:element name="suffix" type="xs:string"/>
+			<xs:element name="position" type="xs:string"/>
+			<xs:element name="tel" type="xs:string"/>
+			<xs:element name="fax" type="xs:string"/>
+			<xs:element name="email" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

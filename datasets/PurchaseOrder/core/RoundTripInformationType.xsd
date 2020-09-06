@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" targetNamespace="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" elementFormDefault="qualified">
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+            XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.
+            Permission is granted to use, copy, modify and distribute the
+            DTD's, schemas and modules in the Commerce One XML Common Business
+            Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType name="RoundTripInformationType">
+        <xsd:annotation>
+            <xsd:documentation>contains information specific to the round trip ordering process.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element minOccurs="0" name="Immutable" type="xsd:boolean">
+                <xsd:annotation>
+                    <xsd:documentation>is a boolean, that if true, indicates that order/item should not be changed
+        in any way by the receiving application.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ReLink" type="xsd:anyURI">
+                <xsd:annotation>
+                    <xsd:documentation>is a URL that can be used to link back into the supplier site for viewing and/or
+        editing of the order/item</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ReLinkID" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>is an identifier to the link back to the supplier site for viewing and/or
+		editing of the order/item.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="SellerShoppingCartID" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>is an identifier to be passed through the procurement phase untouched.
+		The supplier can use this to 'validate' the order with their record of the
+		original shopping basket.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="RoundTripOrder" type="xsd:boolean" fixed="true">
+            <xsd:annotation>
+                <xsd:documentation>
+            is a fixed boolean that indicates that this is a round trip ordering process.  The presence of
+        the <!--code-->RoundTripInformation<!--/code--> element essentially implies that this is a round trip ordering process.</xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+    </xsd:complexType>
+</xsd:schema>

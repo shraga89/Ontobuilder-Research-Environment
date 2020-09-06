@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" targetNamespace="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" elementFormDefault="qualified">
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+            XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.
+            Permission is granted to use, copy, modify and distribute the
+            DTD's, schemas and modules in the Commerce One XML Common Business
+            Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType name="PartyTaxInformationType">
+        <xsd:annotation>
+            <xsd:documentation>describes the tax information for a party.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element minOccurs="0" name="TaxIdentifier" type="IdentifierType">
+                <xsd:annotation>
+                    <xsd:documentation>is the tax identifier or registration number of the party. The
+        agency that allocated this identifier is dependent on the tax jurisdiction of
+        the party. Can also be referred to as the tax exemption or certificate
+        number.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="RegisteredName" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>is the name of the party as registered with the tax authority.
+        This must be present if a) the tax regulations require it, and b) it is
+        different from the <!--code-->Name<!--/code--> element in the <!--code-->NameAddress<!--/code-->
+        element of the party.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="RegisteredOffice" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>is the registered office of the party. This must be present if a)
+        the tax regulations require it, and b) it is different from the
+        <!--code-->Address<!--/code--> element in the <!--code-->NameAddress<!--/code--> element of the
+        party.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="TaxLocation" type="LocationType">
+                <xsd:annotation>
+                    <xsd:documentation>holds the tax location.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="CompanyRegistrationNumber" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>is the company registration number of the party. This must be
+        present if tax regulations require it.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

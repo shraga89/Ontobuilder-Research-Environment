@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" targetNamespace="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" elementFormDefault="qualified">
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+            XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.
+            Permission is granted to use, copy, modify and distribute the
+            DTD's, schemas and modules in the Commerce One XML Common Business
+            Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType name="AllowOrChargeType">
+        <xsd:annotation>
+            <xsd:documentation>requests or identifies a service, promotion, allowance, or charge
+        and specifies the amount or percentage for the service, promotion, allowance,
+        or charge.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="IndicatorCoded" type="IndicatorCodeType">
+                <xsd:annotation>
+                    <xsd:documentation>identifies whether an allowance or a charge applies using a
+        standard codelist. Allowances are considered to be discounts.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="IndicatorCodedOther" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>is used to provide a non-standard <!--code-->IndicatorCode<!--/code-->. This element is
+        mandatory if the value of <!--code-->IndicatorCoded<!--/code--> is 'Other'. These codes should not
+        contain white space unless absolutely necessary.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="BasisCoded" type="BasisCodeType">
+                <xsd:annotation>
+                    <xsd:documentation>defines on what basis the allowance or charge is calculated using
+        a standard codelist.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="BasisCodedOther" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>is used to specify a non-standard <!--code-->BasisCode<!--/code-->. This element is
+        mandatory when the value of <!--code-->BasisCoded<!--/code--> is 'Other'. These codes should not
+        contain white space unless absolutely necessary.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="MethodOfHandlingCoded" type="MethodOfHandlingCodeType">
+                <xsd:annotation>
+                    <xsd:documentation>identifies how the allowance or charge will be settled using a
+        standard codelist. </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="MethodOfHandlingCodedOther" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>is used to specify a non-standard <!--code-->MethodOfHandlingCode<!--/code-->. This
+        element is mandatory if the value of <!--code-->MethodOfHandlingCoded<!--/code--> is 'Other'. These
+        codes should not contain white space unless absolutely necessary.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="AllowOrChargeTreatment" type="AllowOrChargeTreatmentType">
+                <xsd:annotation>
+                    <xsd:documentation>contains information relating to the calculation  of the allowance
+					or charges and the calculation of the price. </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="AllowanceOrChargeDescription" type="AllowOrChgDescType">
+                <xsd:annotation>
+                    <xsd:documentation>describes the allowance or charge using references or free
+        text.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ValidityDates" type="ValidityDatesType">
+                <xsd:annotation>
+                    <xsd:documentation>contains the dates between which the allowance or charge takes
+        effect.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:choice minOccurs="0">
+                <xsd:element name="BasisQuantityRange" type="QuantityType">
+                    <xsd:annotation>
+                        <xsd:documentation>is the quantity range over which the allowance or charge
+        applies.</xsd:documentation>
+                    </xsd:annotation>
+                </xsd:element>
+                <xsd:element name="BasisMonetaryRange" type="BasisMonetaryRangeType">
+                    <xsd:annotation>
+                        <xsd:documentation>is the monetary range over which the allowance or charge
+        applies.</xsd:documentation>
+                    </xsd:annotation>
+                </xsd:element>
+            </xsd:choice>
+            <xsd:element name="TypeOfAllowanceOrCharge" type="TypeOfAllowanceOrChargeType">
+                <xsd:annotation>
+                    <xsd:documentation>is a container for the information on the type of allowance or
+        charge. Only one method of calculating the allowance or charge can be
+        specified.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" maxOccurs="unbounded" name="Tax" type="TaxType">
+                <xsd:annotation>
+                    <xsd:documentation>is a container for tax levies on the allowance or charge if
+        applicable.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="SeqNo" type="xsd:int" use="optional" default="1">
+            <xsd:annotation>
+                <xsd:documentation>
+            is the calculations sequence indicator and is used when multiple
+        allowances and/or charges are applicable. If various allowances and/or charges
+        percentages, quantities, monetary amounts or rates are applicable to the same
+        base price, then the calculation sequence indicator will always equal one. If
+        the various allowances and/or charges are applied against a fluctuating price
+        (constantly changing because of the application of other allowances and/or
+        charges) then the sequence of calculation is indicated using this data element.
+        Note that several allowances or charges may have the same sequence number,
+        indicating they are applied to the same quantity.</xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+    </xsd:complexType>
+    <xsd:complexType name="ListOfAllowOrChargeType">
+        <xsd:annotation>
+            <xsd:documentation>contains one or more services, promotions, allowances or charges.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element maxOccurs="unbounded" name="AllowOrCharge" type="AllowOrChargeType">
+                <xsd:annotation>
+                    <xsd:documentation>requests or identifies a service, promotion, allowance, or charge
+        and specifies the amount or percentage for the service, promotion, allowance,
+        or charge.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

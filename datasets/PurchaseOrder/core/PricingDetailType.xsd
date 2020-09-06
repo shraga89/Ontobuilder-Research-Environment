@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" targetNamespace="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" elementFormDefault="qualified">
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+            XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.
+            Permission is granted to use, copy, modify and distribute the
+            DTD's, schemas and modules in the Commerce One XML Common Business
+            Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType name="PricingDetailType">
+        <xsd:annotation>
+            <xsd:documentation>contains all pricing information, including taxes, allowances and
+        charges, and total price for an item.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="ListOfPrice" type="ListOfPriceType">
+                <xsd:annotation>
+                    <xsd:documentation>contains one or more pricing schemes for an item.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" maxOccurs="unbounded" name="Tax" type="TaxType">
+                <xsd:annotation>
+                    <xsd:documentation>contains tax information as it relates to the pricing of an
+        item.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="TotalTaxAmount" type="MonetaryValueType">
+            	<xsd:annotation>
+                	<xsd:documentation>holds the sum of all types of taxes for the line item.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>             
+            <xsd:element minOccurs="0" name="ItemAllowancesOrCharges" type="ListOfAllowOrChargeType">
+                <xsd:annotation>
+                    <xsd:documentation>contains the allowances and/or charges that apply to the pricing
+        of an item.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="LineItemSubTotal" type="MonetaryValueType">
+                <xsd:annotation>
+                    <xsd:documentation>is the sub total of the line item.  This should be equal to the unit price times
+                    the quantity ordered.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="LineItemTotal" type="MonetaryValueType">
+                <xsd:annotation>
+                    <xsd:documentation>is the total of the item, including all taxes, allowances, and charges.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

@@ -1,0 +1,2304 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE ontology SYSTEM "dtds/ontology.dtd">
+<ontology name="www.printsolutionsmag.com" title="Print_Solutions_Magazine" type="full" site="https://www.printsolutionsmag.com/subscribe_form.html">
+    <classes>
+        <class name="page">
+            <domain type="" />
+            <attributes />
+            <axioms />
+            <subclasses />
+        </class>
+        <class name="form">
+            <domain type="" />
+            <attributes>
+                <attribute name="method" value="get">
+                    <domain name="Choice" type="choice">
+                        <entry>post</entry>
+                        <entry>get</entry>
+                    </domain>
+                </attribute>
+                <attribute name="action">
+                    <domain name="URL" type="url" />
+                </attribute>
+            </attributes>
+            <axioms />
+            <subclasses />
+        </class>
+        <class name="input">
+            <domain type="" />
+            <attributes>
+                <attribute name="name">
+                    <domain name="Text" type="text" />
+                </attribute>
+                <attribute name="disabled" value="false">
+                    <domain name="Boolean" type="boolean" />
+                </attribute>
+            </attributes>
+            <axioms />
+            <subclasses>
+                <class name="text">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="name">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="disabled">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                        <attribute name="type" value="text">
+                            <domain type="" />
+                        </attribute>
+                        <attribute name="defaultValue">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="value">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="size">
+                            <domain name="Positive Integer" type="pinteger" />
+                        </attribute>
+                        <attribute name="maxLength">
+                            <domain name="Positive Integer" type="pinteger" />
+                        </attribute>
+                        <attribute name="readOnly" value="false">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <subclasses />
+                </class>
+                <class name="password">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="name">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="disabled">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                        <attribute name="type" value="password">
+                            <domain type="" />
+                        </attribute>
+                        <attribute name="defaultValue">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="size">
+                            <domain name="Positive Integer" type="text" />
+                        </attribute>
+                        <attribute name="maxLength">
+                            <domain name="Positive Integer" type="pinteger" />
+                        </attribute>
+                        <attribute name="readOnly" value="false">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <subclasses />
+                </class>
+                <class name="file">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="name">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="disabled">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                        <attribute name="type" value="file">
+                            <domain type="" />
+                        </attribute>
+                        <attribute name="size">
+                            <domain name="Positive Integer" type="pinteger" />
+                        </attribute>
+                        <attribute name="maxLength">
+                            <domain name="Positive Integer" type="pinteger" />
+                        </attribute>
+                        <attribute name="readOnly" value="false">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <subclasses />
+                </class>
+                <class name="hidden">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="name">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="disabled">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                        <attribute name="type" value="hidden">
+                            <domain type="" />
+                        </attribute>
+                        <attribute name="type" value="button">
+                            <domain type="" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <subclasses />
+                </class>
+                <class name="checkbox">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="name">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="disabled">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                        <attribute name="type" value="checkbox">
+                            <domain type="" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <subclasses />
+                </class>
+                <class name="radio">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="name">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="disabled">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                        <attribute name="type" value="radio">
+                            <domain type="" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <subclasses />
+                </class>
+                <class name="select">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="name">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="disabled">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                        <attribute name="type" value="select">
+                            <domain type="" />
+                        </attribute>
+                        <attribute name="size">
+                            <domain name="Positive Integer" type="pinteger" />
+                        </attribute>
+                        <attribute name="multiple" value="false">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <subclasses />
+                </class>
+                <class name="textarea">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="name">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="disabled">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                        <attribute name="type" value="textarea">
+                            <domain type="" />
+                        </attribute>
+                        <attribute name="defaultValue">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="rows">
+                            <domain name="Positive Integer" type="pinteger" />
+                        </attribute>
+                        <attribute name="cols">
+                            <domain name="Positive Integer" type="pinteger" />
+                        </attribute>
+                        <attribute name="readOnly" value="false">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <subclasses />
+                </class>
+                <class name="button">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="name">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="disabled">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <subclasses />
+                </class>
+                <class name="submit">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="name">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="disabled">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                        <attribute name="type" value="submit">
+                            <domain type="" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <subclasses />
+                </class>
+                <class name="reset">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="name">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="disabled">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                        <attribute name="type" value="reset">
+                            <domain type="" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <subclasses />
+                </class>
+                <class name="image">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="name">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="disabled">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                        <attribute name="type" value="image">
+                            <domain type="" />
+                        </attribute>
+                        <attribute name="src">
+                            <domain name="URL" type="url" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <subclasses />
+                </class>
+            </subclasses>
+        </class>
+        <class name="composition">
+            <domain type="" />
+            <attributes>
+                <attribute name="name" value="">
+                    <domain type="" />
+                </attribute>
+            </attributes>
+            <axioms />
+            <subclasses>
+                <class name="decomposition">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="name">
+                            <domain type="" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <subclasses />
+                </class>
+                <class name="group">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="name">
+                            <domain type="" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <subclasses />
+                </class>
+            </subclasses>
+        </class>
+    </classes>
+    <terms>
+        <term id="83878234328207448" name="https://www.printsolutionsmag.com/subscribe_form.html" class="page">
+            <domain type="" />
+            <attributes />
+            <axioms />
+            <relationships>
+                <relationship name="is parent of">
+                    <source>https://www.printsolutionsmag.com/subscribe_form.html</source>
+                    <targets>regform</targets>
+                </relationship>
+            </relationships>
+            <subterms>
+                <term id="8557054016554112968" name="regform" class="form">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="method" value="POST">
+                            <domain name="Choice" type="choice">
+                                <entry>post</entry>
+                                <entry>get</entry>
+                            </domain>
+                        </attribute>
+                        <attribute name="action" value="https://www.printsolutionsmag.com/form_actionSubscribe.asp">
+                            <domain name="URL" type="url" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <relationships>
+                        <relationship name="is child of">
+                            <source>regform</source>
+                            <targets>https://www.printsolutionsmag.com/subscribe_form.html</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>regform</source>
+                            <targets>First Name:</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>regform</source>
+                            <targets>Last Name:</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>regform</source>
+                            <targets>Title:</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>regform</source>
+                            <targets>Company Name:</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>regform</source>
+                            <targets>Address:</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>regform</source>
+                            <targets>City:</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>regform</source>
+                            <targets>State:</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>regform</source>
+                            <targets>ZIP:</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>regform</source>
+                            <targets>Country:</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>regform</source>
+                            <targets>Phone:</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>regform</source>
+                            <targets>Fax:</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>regform</source>
+                            <targets>Email address:</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>regform</source>
+                            <targets>Company URL:</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>regform</source>
+                            <targets>Company Address: (If different than above)</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>regform</source>
+                            <targets>Company Phone: (If different than above)</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>regform</source>
+                            <targets>Company Fax: (If different than above)</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>regform</source>
+                            <targets>Visa</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>regform</source>
+                            <targets>Cardholder's Name:</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>regform</source>
+                            <targets>Credit Card Number:</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>regform</source>
+                            <targets>Expiration Date:</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>regform</source>
+                            <targets>Annual Sales Volume:</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>regform</source>
+                            <targets>Number of Sales People at this Location:</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>regform</source>
+                            <targets>Number of Years Company Has Been in Business:</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>regform</source>
+                            <targets>MONTH and DAY you were born:</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>regform</source>
+                            <targets>Please send me information about DMIA membership.</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>regform</source>
+                            <targets>Senior Management (president, owner, CEO, chairman)</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>regform</source>
+                            <targets>Management</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>regform</source>
+                            <targets>Sales</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>regform</source>
+                            <targets>Marketing</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>regform</source>
+                            <targets>Customer Service</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>regform</source>
+                            <targets>Production</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>regform</source>
+                            <targets>Warehouse Shipping</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>regform</source>
+                            <targets>Prepress</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>regform</source>
+                            <targets>IT</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>regform</source>
+                            <targets>Accounting</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>regform</source>
+                            <targets>Administrative</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>regform</source>
+                            <targets>My Job Function is: Senior Management (president, owner, CEO, chairman) Management Sales Marketing Customer Service Production Warehouse Shipping Prepress IT Accounting Administrative Other:</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>regform</source>
+                            <targets>Distributor</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>regform</source>
+                            <targets>Stationer</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>regform</source>
+                            <targets>Printer Selling Forms Direct</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>regform</source>
+                            <targets>Manufacturer</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>regform</source>
+                            <targets>Supplier to Trade</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>regform</source>
+                            <targets>Educational</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>regform</source>
+                            <targets>Send</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>regform</source>
+                            <targets>Clear</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>regform</source>
+                            <targets>Click here for definitions of some of these business types .) Distributor Stationer Printer Selling Forms Direct Manufacturer Supplier to Trade Educational Other (provide description):</targets>
+                        </relationship>
+                    </relationships>
+                    <subterms>
+                        <term id="4228834281008946887" name="First Name:" value="Anna" class="text">
+                            <domain name="Text" type="text" />
+                            <attributes>
+                                <attribute name="name" value="First_Name">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="defaultValue" value="">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="value">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="size" value="25">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="maxLength" value="256">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="readOnly" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>First Name:</source>
+                                    <targets>regform</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="3764237122045255790" name="Last Name:" value="Mizrahi" class="text">
+                            <domain name="Text" type="text" />
+                            <attributes>
+                                <attribute name="name" value="Last_Name">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="defaultValue" value="">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="value">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="size" value="25">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="maxLength" value="256">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="readOnly" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>Last Name:</source>
+                                    <targets>regform</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="7283412273761749038" name="Title:" value="Mrs." class="text">
+                            <domain name="Text" type="text" />
+                            <attributes>
+                                <attribute name="name" value="Title">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="defaultValue" value="">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="value">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="size" value="25">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="maxLength" value="256">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="readOnly" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>Title:</source>
+                                    <targets>regform</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="5267628956845854875" name="Company Name:" value="Bitband" class="text">
+                            <domain name="Text" type="text" />
+                            <attributes>
+                                <attribute name="name" value="Company_Name">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="defaultValue" value="">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="value">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="size" value="25">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="maxLength" value="256">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="readOnly" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>Company Name:</source>
+                                    <targets>regform</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="1847216135266393909" name="Address:" value="Hamelaha str." class="text">
+                            <domain name="Text" type="text" />
+                            <attributes>
+                                <attribute name="name" value="Address">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="defaultValue" value="">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="value">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="size" value="25">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="maxLength" value="256">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="readOnly" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>Address:</source>
+                                    <targets>regform</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="7037609005791302005" name="City:" value="Netania" class="text">
+                            <domain name="Text" type="text" />
+                            <attributes>
+                                <attribute name="name" value="City">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="defaultValue" value="">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="value">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="size" value="25">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="maxLength" value="256">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="readOnly" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>City:</source>
+                                    <targets>regform</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="6510255637192999806" name="State:" value="California" class="text">
+                            <domain name="Text" type="text" />
+                            <attributes>
+                                <attribute name="name" value="State">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="defaultValue" value="">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="value">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="size" value="25">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="maxLength" value="256">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="readOnly" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>State:</source>
+                                    <targets>regform</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="8197153358248300128" name="ZIP:" value="111" class="text">
+                            <domain name="Text" type="text" />
+                            <attributes>
+                                <attribute name="name" value="Zip">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="defaultValue" value="">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="value">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="size" value="25">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="maxLength" value="256">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="readOnly" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>ZIP:</source>
+                                    <targets>regform</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="4553805910406983812" name="Country:" value="USA" class="text">
+                            <domain name="Text" type="text" />
+                            <attributes>
+                                <attribute name="name" value="Country">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="defaultValue" value="">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="value">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="size" value="25">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="maxLength" value="256">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="readOnly" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>Country:</source>
+                                    <targets>regform</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="4002330238695149545" name="Phone:" value="0544746020" class="text">
+                            <domain name="Text" type="text" />
+                            <attributes>
+                                <attribute name="name" value="Phone">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="defaultValue" value="">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="value">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="size" value="25">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="maxLength" value="256">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="readOnly" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>Phone:</source>
+                                    <targets>regform</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="4608448996660477299" name="Fax:" value="098845179" class="text">
+                            <domain name="Text" type="text" />
+                            <attributes>
+                                <attribute name="name" value="Fax">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="defaultValue" value="">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="value">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="size" value="25">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="maxLength" value="256">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="readOnly" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>Fax:</source>
+                                    <targets>regform</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="8483016288242520180" name="Email address:" value="san4ik@t2.technion.ac.il" class="text">
+                            <domain name="Text" type="text" />
+                            <attributes>
+                                <attribute name="name" value="Email">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="defaultValue" value="">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="value">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="size" value="25">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="maxLength" value="256">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="readOnly" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>Email address:</source>
+                                    <targets>regform</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="7386427521731174955" name="Company URL:" value="" class="text">
+                            <domain name="Text" type="text" />
+                            <attributes>
+                                <attribute name="name" value="URL">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="defaultValue" value="">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="value">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="size" value="25">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="maxLength" value="256">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="readOnly" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>Company URL:</source>
+                                    <targets>regform</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="7746558349885093354" name="Company Address: (If different than above)" value="" class="textarea">
+                            <domain name="Text" type="text" />
+                            <attributes>
+                                <attribute name="name" value="Company_Address">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="defaultValue" value="">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="rows">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="cols">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="readOnly" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>Company Address: (If different than above)</source>
+                                    <targets>regform</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="5323976681430271714" name="Company Phone: (If different than above)" value="" class="text">
+                            <domain name="Text" type="text" />
+                            <attributes>
+                                <attribute name="name" value="Company_Phone">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="defaultValue" value="">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="value">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="size" value="25">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="maxLength" value="256">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="readOnly" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>Company Phone: (If different than above)</source>
+                                    <targets>regform</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="6893169995697282600" name="Company Fax: (If different than above)" value="" class="text">
+                            <domain name="Text" type="text" />
+                            <attributes>
+                                <attribute name="name" value="Company_Fax">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="defaultValue" value="">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="value">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="size" value="25">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="maxLength" value="256">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="readOnly" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>Company Fax: (If different than above)</source>
+                                    <targets>regform</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="300556897869264002" name="Visa" value="Visa" class="radio">
+                            <domain name="Text" type="text">
+                                <entry>
+                                    <term id="5909390228729405343" name="MasterCard" value="Visa">
+                                        <domain type="" />
+                                        <attributes>
+                                            <attribute name="checked" value="true">
+                                                <domain type="" />
+                                            </attribute>
+                                            <attribute name="defaultChecked" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                        </attributes>
+                                        <axioms />
+                                        <relationships />
+                                        <subterms />
+                                    </term>
+                                </entry>
+                                <entry>
+                                    <term id="4117343633263475293" name="" value="MasterCard">
+                                        <domain type="" />
+                                        <attributes>
+                                            <attribute name="checked" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                            <attribute name="defaultChecked" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                        </attributes>
+                                        <axioms />
+                                        <relationships />
+                                        <subterms />
+                                    </term>
+                                </entry>
+                                <entry>
+                                    <term id="256911427840947548" name="American Express" value="Discover">
+                                        <domain type="" />
+                                        <attributes>
+                                            <attribute name="checked" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                            <attribute name="defaultChecked" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                        </attributes>
+                                        <axioms />
+                                        <relationships />
+                                        <subterms />
+                                    </term>
+                                </entry>
+                                <entry>
+                                    <term id="6318970587794592104" name="" value="AmericanExpress">
+                                        <domain type="" />
+                                        <attributes>
+                                            <attribute name="checked" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                            <attribute name="defaultChecked" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                        </attributes>
+                                        <axioms />
+                                        <relationships />
+                                        <subterms />
+                                    </term>
+                                </entry>
+                            </domain>
+                            <attributes>
+                                <attribute name="name" value="Payment">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>Visa</source>
+                                    <targets>regform</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="3444665946128807183" name="Cardholder's Name:" value="Anna" class="text">
+                            <domain name="Text" type="text" />
+                            <attributes>
+                                <attribute name="name" value="Cardholder_Name">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="defaultValue" value="">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="value">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="size" value="20">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="maxLength" value="40">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="readOnly" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>Cardholder's Name:</source>
+                                    <targets>regform</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="1114018389655209448" name="Credit Card Number:" value="123456" class="text">
+                            <domain name="Text" type="text" />
+                            <attributes>
+                                <attribute name="name" value="Credit_Card_Number">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="defaultValue" value="">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="value">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="size" value="20">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="maxLength" value="40">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="readOnly" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>Credit Card Number:</source>
+                                    <targets>regform</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="8752884029397901655" name="Expiration Date:" value="10/1/2006" class="text">
+                            <domain name="Text" type="text" />
+                            <attributes>
+                                <attribute name="name" value="Expiration_Date">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="defaultValue" value="">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="value">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="size" value="20">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="maxLength" value="20">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="readOnly" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>Expiration Date:</source>
+                                    <targets>regform</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="2241573006067514818" name="Annual Sales Volume:" value="1000" class="text">
+                            <domain name="Text" type="text" />
+                            <attributes>
+                                <attribute name="name" value="Sales_Volume">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="defaultValue" value="">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="value">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="size" value="20">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="maxLength" value="40">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="readOnly" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>Annual Sales Volume:</source>
+                                    <targets>regform</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="8035442609460326740" name="Number of Sales People at this Location:" value="10" class="text">
+                            <domain name="Text" type="text" />
+                            <attributes>
+                                <attribute name="name" value="Number_Salespeople">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="defaultValue" value="">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="value">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="size" value="5">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="maxLength" value="40">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="readOnly" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>Number of Sales People at this Location:</source>
+                                    <targets>regform</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="2598699322222907420" name="Number of Years Company Has Been in Business:" value="4" class="text">
+                            <domain name="Text" type="text" />
+                            <attributes>
+                                <attribute name="name" value="Years_in_Business">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="defaultValue" value="">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="value">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="size" value="5">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="maxLength" value="40">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="readOnly" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>Number of Years Company Has Been in Business:</source>
+                                    <targets>regform</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="5563804156302080008" name="MONTH and DAY you were born:" value="08/21" class="text">
+                            <domain name="Text" type="text" />
+                            <attributes>
+                                <attribute name="name" value="birthdate">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="defaultValue" value="">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="value">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="size" value="5">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="maxLength" value="256">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="readOnly" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>MONTH and DAY you were born:</source>
+                                    <targets>regform</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="8946781152525412448" name="Please send me information about DMIA membership." value="" class="checkbox">
+                            <domain name="Boolean" type="boolean">
+                                <entry>
+                                    <term id="614448496505824228" name="Please send me information about DMIA membership." value="Yes">
+                                        <domain type="" />
+                                        <attributes>
+                                            <attribute name="checked" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                            <attribute name="defaultChecked" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                        </attributes>
+                                        <axioms />
+                                        <relationships />
+                                        <subterms />
+                                    </term>
+                                </entry>
+                            </domain>
+                            <attributes>
+                                <attribute name="name" value="membership">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>Please send me information about DMIA membership.</source>
+                                    <targets>regform</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="3020303247991862399" name="Senior Management (president, owner, CEO, chairman)" value="" class="checkbox">
+                            <domain name="Boolean" type="boolean">
+                                <entry>
+                                    <term id="5936697679264169892" name="Senior Management (president, owner, CEO, chairman)" value="Sr_management">
+                                        <domain type="" />
+                                        <attributes>
+                                            <attribute name="checked" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                            <attribute name="defaultChecked" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                        </attributes>
+                                        <axioms />
+                                        <relationships />
+                                        <subterms />
+                                    </term>
+                                </entry>
+                            </domain>
+                            <attributes>
+                                <attribute name="name" value="jobfunc1">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>Senior Management (president, owner, CEO, chairman)</source>
+                                    <targets>regform</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="4750174591725414387" name="Management" value="" class="checkbox">
+                            <domain name="Boolean" type="boolean">
+                                <entry>
+                                    <term id="238614377279570564" name="Management" value="Management">
+                                        <domain type="" />
+                                        <attributes>
+                                            <attribute name="checked" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                            <attribute name="defaultChecked" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                        </attributes>
+                                        <axioms />
+                                        <relationships />
+                                        <subterms />
+                                    </term>
+                                </entry>
+                            </domain>
+                            <attributes>
+                                <attribute name="name" value="jobfunc2">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>Management</source>
+                                    <targets>regform</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="8866392713199251715" name="Sales" value="Sales" class="checkbox">
+                            <domain name="Boolean" type="boolean">
+                                <entry>
+                                    <term id="2643661952475046245" name="Sales" value="Sales">
+                                        <domain type="" />
+                                        <attributes>
+                                            <attribute name="checked" value="true">
+                                                <domain type="" />
+                                            </attribute>
+                                            <attribute name="defaultChecked" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                        </attributes>
+                                        <axioms />
+                                        <relationships />
+                                        <subterms />
+                                    </term>
+                                </entry>
+                            </domain>
+                            <attributes>
+                                <attribute name="name" value="jobfunc3">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>Sales</source>
+                                    <targets>regform</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="8365558771832768652" name="Marketing" value="" class="checkbox">
+                            <domain name="Boolean" type="boolean">
+                                <entry>
+                                    <term id="2751953444505300915" name="Marketing" value="Marketing">
+                                        <domain type="" />
+                                        <attributes>
+                                            <attribute name="checked" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                            <attribute name="defaultChecked" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                        </attributes>
+                                        <axioms />
+                                        <relationships />
+                                        <subterms />
+                                    </term>
+                                </entry>
+                            </domain>
+                            <attributes>
+                                <attribute name="name" value="jobfunc4">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>Marketing</source>
+                                    <targets>regform</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="9045086741642146165" name="Customer Service" value="" class="checkbox">
+                            <domain name="Boolean" type="boolean">
+                                <entry>
+                                    <term id="3573184270767970442" name="Customer Service" value="Customer_Service">
+                                        <domain type="" />
+                                        <attributes>
+                                            <attribute name="checked" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                            <attribute name="defaultChecked" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                        </attributes>
+                                        <axioms />
+                                        <relationships />
+                                        <subterms />
+                                    </term>
+                                </entry>
+                            </domain>
+                            <attributes>
+                                <attribute name="name" value="jobfunc5">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>Customer Service</source>
+                                    <targets>regform</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="5142917723743502393" name="Production" value="" class="checkbox">
+                            <domain name="Boolean" type="boolean">
+                                <entry>
+                                    <term id="8811035769859305583" name="Production" value="Production">
+                                        <domain type="" />
+                                        <attributes>
+                                            <attribute name="checked" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                            <attribute name="defaultChecked" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                        </attributes>
+                                        <axioms />
+                                        <relationships />
+                                        <subterms />
+                                    </term>
+                                </entry>
+                            </domain>
+                            <attributes>
+                                <attribute name="name" value="jobfunc6">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>Production</source>
+                                    <targets>regform</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="8938269862663319865" name="Warehouse Shipping" value="" class="checkbox">
+                            <domain name="Boolean" type="boolean">
+                                <entry>
+                                    <term id="7243285411743081867" name="Warehouse Shipping" value="Warehouse_Shipping">
+                                        <domain type="" />
+                                        <attributes>
+                                            <attribute name="checked" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                            <attribute name="defaultChecked" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                        </attributes>
+                                        <axioms />
+                                        <relationships />
+                                        <subterms />
+                                    </term>
+                                </entry>
+                            </domain>
+                            <attributes>
+                                <attribute name="name" value="jobfunc7">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>Warehouse Shipping</source>
+                                    <targets>regform</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="4587788638527391485" name="Prepress" value="" class="checkbox">
+                            <domain name="Boolean" type="boolean">
+                                <entry>
+                                    <term id="3053842986844358416" name="Prepress" value="Prepress">
+                                        <domain type="" />
+                                        <attributes>
+                                            <attribute name="checked" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                            <attribute name="defaultChecked" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                        </attributes>
+                                        <axioms />
+                                        <relationships />
+                                        <subterms />
+                                    </term>
+                                </entry>
+                            </domain>
+                            <attributes>
+                                <attribute name="name" value="jobfunc8">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>Prepress</source>
+                                    <targets>regform</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="4738770667733313544" name="IT" value="" class="checkbox">
+                            <domain name="Boolean" type="boolean">
+                                <entry>
+                                    <term id="1796182701205225898" name="IT" value="IT">
+                                        <domain type="" />
+                                        <attributes>
+                                            <attribute name="checked" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                            <attribute name="defaultChecked" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                        </attributes>
+                                        <axioms />
+                                        <relationships />
+                                        <subterms />
+                                    </term>
+                                </entry>
+                            </domain>
+                            <attributes>
+                                <attribute name="name" value="jobfunc9">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>IT</source>
+                                    <targets>regform</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="1376498883730405900" name="Accounting" value="" class="checkbox">
+                            <domain name="Boolean" type="boolean">
+                                <entry>
+                                    <term id="8701518152055204612" name="Accounting" value="Accounting">
+                                        <domain type="" />
+                                        <attributes>
+                                            <attribute name="checked" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                            <attribute name="defaultChecked" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                        </attributes>
+                                        <axioms />
+                                        <relationships />
+                                        <subterms />
+                                    </term>
+                                </entry>
+                            </domain>
+                            <attributes>
+                                <attribute name="name" value="jobfunc10">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>Accounting</source>
+                                    <targets>regform</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="7209132557849991790" name="Administrative" value="" class="checkbox">
+                            <domain name="Boolean" type="boolean">
+                                <entry>
+                                    <term id="94104891145405986" name="Administrative" value="Administrative">
+                                        <domain type="" />
+                                        <attributes>
+                                            <attribute name="checked" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                            <attribute name="defaultChecked" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                        </attributes>
+                                        <axioms />
+                                        <relationships />
+                                        <subterms />
+                                    </term>
+                                </entry>
+                            </domain>
+                            <attributes>
+                                <attribute name="name" value="jobfunc11">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>Administrative</source>
+                                    <targets>regform</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="4879602681701589093" name="My Job Function is: Senior Management (president, owner, CEO, chairman) Management Sales Marketing Customer Service Production Warehouse Shipping Prepress IT Accounting Administrative Other:" value="" class="text">
+                            <domain name="Text" type="text" />
+                            <attributes>
+                                <attribute name="name" value="otherjob">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="defaultValue" value="">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="value">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="size" value="20">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="maxLength" value="256">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="readOnly" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>My Job Function is: Senior Management (president, owner, CEO, chairman) Management Sales Marketing Customer Service Production Warehouse Shipping Prepress IT Accounting Administrative Other:</source>
+                                    <targets>regform</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="7086512790141288776" name="Distributor" value="" class="checkbox">
+                            <domain name="Boolean" type="boolean">
+                                <entry>
+                                    <term id="2662092849438002433" name="Distributor" value="FormsDistributor">
+                                        <domain type="" />
+                                        <attributes>
+                                            <attribute name="checked" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                            <attribute name="defaultChecked" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                        </attributes>
+                                        <axioms />
+                                        <relationships />
+                                        <subterms />
+                                    </term>
+                                </entry>
+                            </domain>
+                            <attributes>
+                                <attribute name="name" value="Primary_Business1">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>Distributor</source>
+                                    <targets>regform</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="2145384641663960898" name="Stationer" value="" class="checkbox">
+                            <domain name="Boolean" type="boolean">
+                                <entry>
+                                    <term id="9077142631862427121" name="Stationer" value="Stationer">
+                                        <domain type="" />
+                                        <attributes>
+                                            <attribute name="checked" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                            <attribute name="defaultChecked" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                        </attributes>
+                                        <axioms />
+                                        <relationships />
+                                        <subterms />
+                                    </term>
+                                </entry>
+                            </domain>
+                            <attributes>
+                                <attribute name="name" value="Primary_Business2">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>Stationer</source>
+                                    <targets>regform</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="5713281088650831365" name="Printer Selling Forms Direct" value="" class="checkbox">
+                            <domain name="Boolean" type="boolean">
+                                <entry>
+                                    <term id="3506086068967858443" name="Printer Selling Forms Direct" value="Printer_Direct">
+                                        <domain type="" />
+                                        <attributes>
+                                            <attribute name="checked" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                            <attribute name="defaultChecked" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                        </attributes>
+                                        <axioms />
+                                        <relationships />
+                                        <subterms />
+                                    </term>
+                                </entry>
+                            </domain>
+                            <attributes>
+                                <attribute name="name" value="Primary_Business3">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>Printer Selling Forms Direct</source>
+                                    <targets>regform</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="9132230198551870089" name="Manufacturer" value="" class="checkbox">
+                            <domain name="Boolean" type="boolean">
+                                <entry>
+                                    <term id="52998805324777867" name="Manufacturer" value="Manufacturer">
+                                        <domain type="" />
+                                        <attributes>
+                                            <attribute name="checked" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                            <attribute name="defaultChecked" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                        </attributes>
+                                        <axioms />
+                                        <relationships />
+                                        <subterms />
+                                    </term>
+                                </entry>
+                            </domain>
+                            <attributes>
+                                <attribute name="name" value="Primary_Business4">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>Manufacturer</source>
+                                    <targets>regform</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="5246952080325976210" name="Supplier to Trade" value="" class="checkbox">
+                            <domain name="Boolean" type="boolean">
+                                <entry>
+                                    <term id="8278573610249138783" name="Supplier to Trade" value="Supplier">
+                                        <domain type="" />
+                                        <attributes>
+                                            <attribute name="checked" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                            <attribute name="defaultChecked" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                        </attributes>
+                                        <axioms />
+                                        <relationships />
+                                        <subterms />
+                                    </term>
+                                </entry>
+                            </domain>
+                            <attributes>
+                                <attribute name="name" value="Primary_Business5">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>Supplier to Trade</source>
+                                    <targets>regform</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="9123328397044522084" name="Educational" value="" class="checkbox">
+                            <domain name="Boolean" type="boolean">
+                                <entry>
+                                    <term id="1192664337402505720" name="Educational" value="Educational">
+                                        <domain type="" />
+                                        <attributes>
+                                            <attribute name="checked" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                            <attribute name="defaultChecked" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                        </attributes>
+                                        <axioms />
+                                        <relationships />
+                                        <subterms />
+                                    </term>
+                                </entry>
+                            </domain>
+                            <attributes>
+                                <attribute name="name" value="Primary_Business6">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>Educational</source>
+                                    <targets>regform</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="2789820742817047005" name="Send" class="submit">
+                            <domain type="" />
+                            <attributes>
+                                <attribute name="name" value="submit">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>Send</source>
+                                    <targets>regform</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="7889112453196701463" name="Clear" class="reset">
+                            <domain type="" />
+                            <attributes>
+                                <attribute name="name" value="reset">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>Clear</source>
+                                    <targets>regform</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="3599289295577841642" name="Click here for definitions of some of these business types .) Distributor Stationer Printer Selling Forms Direct Manufacturer Supplier to Trade Educational Other (provide description):" value="" class="textarea">
+                            <domain name="Text" type="text" />
+                            <attributes>
+                                <attribute name="name" value="otherbiz">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="defaultValue" value="">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="rows" value="4">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="cols" value="25">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="readOnly" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>Click here for definitions of some of these business types .) Distributor Stationer Printer Selling Forms Direct Manufacturer Supplier to Trade Educational Other (provide description):</source>
+                                    <targets>regform</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                    </subterms>
+                </term>
+            </subterms>
+        </term>
+        <term id="3084242559315240548" name="https://www.printsolutionsmag.com/form_actionSubscribe.asp" class="page">
+            <domain type="" />
+            <attributes />
+            <axioms />
+            <relationships />
+            <subterms />
+        </term>
+    </terms>
+</ontology>
+

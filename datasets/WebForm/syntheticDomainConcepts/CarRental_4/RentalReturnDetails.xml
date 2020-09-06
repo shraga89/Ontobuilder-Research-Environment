@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE ontology SYSTEM "dtds/ontology.dtd">
+<ontology name="RentalReturnDetails" title="Car Rental Domain Return Location and Time" type="light">
+    <terms>
+        <term id="3013748481763586923" name="ReturnDate" value="">
+            <domain name="Date" type="date" />
+            <attributes />
+            <axioms />
+            <relationships>
+                <relationship name="is parent of">
+                    <source>ReturnDate</source>
+                    <targets>ReturnDateTime</targets>
+                </relationship>
+                <relationship name="is parent of">
+                    <source>ReturnDate</source>
+                    <targets>ReturnDateYear</targets>
+                </relationship>
+                <relationship name="is parent of">
+                    <source>ReturnDate</source>
+                    <targets>ReturnDateMonth</targets>
+                </relationship>
+            </relationships>
+            <subterms>
+                <term id="7019392572049538981" name="ReturnDateTime" value="">
+                    <domain name="Time" type="time" />
+                    <attributes />
+                    <axioms />
+                    <relationships>
+                        <relationship name="is child of">
+                            <source>ReturnDateTime</source>
+                            <targets>ReturnDate</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>ReturnDateTime</source>
+                            <targets>Hour</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>ReturnDateTime</source>
+                            <targets>Second</targets>
+                        </relationship>
+                    </relationships>
+                    <subterms>
+                        <term id="5713327732470177454" name="Hour" value="9">
+                            <domain name="Positive Integer" type="pinteger" />
+                            <attributes />
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>Hour</source>
+                                    <targets>ReturnDateTime</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="3389471465469665830" name="Second" value="0">
+                            <domain name="Positive Integer" type="pinteger" />
+                            <attributes />
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>Second</source>
+                                    <targets>ReturnDateTime</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                    </subterms>
+                </term>
+                <term id="1941359684398570285" name="ReturnDateYear" value="">
+                    <domain name="Number" type="number" />
+                    <attributes />
+                    <axioms />
+                    <relationships>
+                        <relationship name="is child of">
+                            <source>ReturnDateYear</source>
+                            <targets>ReturnDate</targets>
+                        </relationship>
+                    </relationships>
+                    <subterms />
+                </term>
+                <term id="1510706795756708816" name="ReturnDateMonth" value="">
+                    <domain name="Number" type="number" />
+                    <attributes />
+                    <axioms />
+                    <relationships>
+                        <relationship name="is child of">
+                            <source>ReturnDateMonth</source>
+                            <targets>ReturnDate</targets>
+                        </relationship>
+                    </relationships>
+                    <subterms />
+                </term>
+            </subterms>
+        </term>
+        <term id="2516771643882411656" name="ReturnStationID" value="">
+            <domain name="Number" type="number" />
+            <attributes />
+            <axioms />
+            <relationships />
+            <subterms />
+        </term>
+        <term id="4299427331643200903" name="reservationID" value="">
+            <domain name="Number" type="number" />
+            <attributes />
+            <axioms />
+            <relationships />
+            <subterms />
+        </term>
+    </terms>
+</ontology>
+

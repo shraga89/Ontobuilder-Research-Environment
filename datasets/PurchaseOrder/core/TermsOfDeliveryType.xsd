@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" targetNamespace="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" elementFormDefault="qualified">
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+            XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.
+            Permission is granted to use, copy, modify and distribute the
+            DTD's, schemas and modules in the Commerce One XML Common Business
+            Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType name="TermsOfDeliveryType">
+        <xsd:annotation>
+            <xsd:documentation>includes the information related to delivery including shipment
+        method of payment and transport.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="TermsOfDeliveryFunctionCoded" type="TermsOfDeliveryFunctionCodeType">
+                <xsd:annotation>
+                    <xsd:documentation>indicates whether the terms relate to e.g. price conditions, delivery conditions, transport conditions, or a combination of these.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="TermsOfDeliveryFunctionCodedOther" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>is used to provide a non-standard <!--code-->TermsOfDeliveryFunctionCode<!--/code-->. This element is mandatory if the value of <!--code-->TermsOfDeliveryFunctionCoded<!--/code--> is 'Other'. These codes should not contain white space unless absolutely necessary.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="TransportTermsCoded" type="TransportTermsCodeType">
+                <xsd:annotation>
+                    <xsd:documentation>is the terms of delivery or transport.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="TransportTermsCodedOther" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>is used to provide a non-standard <!--code-->TransportTermsCode<!--/code-->. This element is mandatory if the value of <!--code-->TransportTermsCoded<!--/code--> is 'Other'. These codes should not contain white space unless absolutely necessary.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="ShipmentMethodOfPaymentCoded" type="ShipmentMethodOfPaymentCodeType">
+                <xsd:annotation>
+                    <xsd:documentation>is the method of payment for shipping charges, etc. Coded
+        list.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ShipmentMethodOfPaymentCodedOther" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>is used to provide a non-standard <!--code-->ShipmentMethodOfPaymentCode<!--/code-->. This element is mandatory if the value of <!--code-->ShipmentMethodOfPaymentCoded<!--/code--> is 'Other'. These codes should not contain white space unless absolutely necessary.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Location" type="LocationType">
+                <xsd:annotation>
+                    <xsd:documentation>is the location relevant to the terms of delivery
+        specified.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="TermsOfDeliveryDescription" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>is the text description on special conditions or notes on the
+        delivery.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="TransportDescription" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>is a description of transport.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="RiskOfLossCoded" type="RiskOfLossCodeType">
+                <xsd:annotation>
+                    <xsd:documentation>qualifies the risk of loss.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="RiskOfLossCodedOther" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>is used to provide a non-standard <!--code-->RiskOfLossCode<!--/code-->. This element is mandatory if the value of <!--code-->RiskOfLossCoded<!--/code--> is 'Other'. These codes should not contain white space unless absolutely necessary.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="RiskOfLossDescription" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>is a text description of the risk of loss information.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

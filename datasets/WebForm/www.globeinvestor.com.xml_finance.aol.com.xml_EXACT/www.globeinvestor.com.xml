@@ -1,0 +1,2630 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE ontology SYSTEM "dtds/ontology.dtd">
+<ontology name="www.globeinvestor.com" title="globeandmail.com : globeinvestor.com : Stock Filter" type="full" site="http://www.globeinvestor.com/v5/content/filters">
+    <classes>
+        <class name="page">
+            <domain type="" />
+            <attributes />
+            <axioms />
+            <subclasses />
+        </class>
+        <class name="form">
+            <domain type="" />
+            <attributes>
+                <attribute name="method" value="get">
+                    <domain name="Choice" type="choice">
+                        <entry>post</entry>
+                        <entry>get</entry>
+                    </domain>
+                </attribute>
+                <attribute name="action">
+                    <domain name="URL" type="url" />
+                </attribute>
+            </attributes>
+            <axioms />
+            <subclasses />
+        </class>
+        <class name="input">
+            <domain type="" />
+            <attributes>
+                <attribute name="name">
+                    <domain name="Text" type="text" />
+                </attribute>
+                <attribute name="disabled" value="false">
+                    <domain name="Boolean" type="boolean" />
+                </attribute>
+            </attributes>
+            <axioms />
+            <subclasses>
+                <class name="text">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="name">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="disabled">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                        <attribute name="type" value="text">
+                            <domain type="" />
+                        </attribute>
+                        <attribute name="defaultValue">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="value">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="size">
+                            <domain name="Positive Integer" type="pinteger" />
+                        </attribute>
+                        <attribute name="maxLength">
+                            <domain name="Positive Integer" type="pinteger" />
+                        </attribute>
+                        <attribute name="readOnly" value="false">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <subclasses />
+                </class>
+                <class name="password">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="name">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="disabled">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                        <attribute name="type" value="password">
+                            <domain type="" />
+                        </attribute>
+                        <attribute name="defaultValue">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="size">
+                            <domain name="Positive Integer" type="text" />
+                        </attribute>
+                        <attribute name="maxLength">
+                            <domain name="Positive Integer" type="pinteger" />
+                        </attribute>
+                        <attribute name="readOnly" value="false">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <subclasses />
+                </class>
+                <class name="file">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="name">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="disabled">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                        <attribute name="type" value="file">
+                            <domain type="" />
+                        </attribute>
+                        <attribute name="size">
+                            <domain name="Positive Integer" type="pinteger" />
+                        </attribute>
+                        <attribute name="maxLength">
+                            <domain name="Positive Integer" type="pinteger" />
+                        </attribute>
+                        <attribute name="readOnly" value="false">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <subclasses />
+                </class>
+                <class name="hidden">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="name">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="disabled">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                        <attribute name="type" value="hidden">
+                            <domain type="" />
+                        </attribute>
+                        <attribute name="type" value="button">
+                            <domain type="" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <subclasses />
+                </class>
+                <class name="checkbox">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="name">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="disabled">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                        <attribute name="type" value="checkbox">
+                            <domain type="" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <subclasses />
+                </class>
+                <class name="radio">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="name">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="disabled">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                        <attribute name="type" value="radio">
+                            <domain type="" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <subclasses />
+                </class>
+                <class name="select">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="name">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="disabled">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                        <attribute name="type" value="select">
+                            <domain type="" />
+                        </attribute>
+                        <attribute name="size">
+                            <domain name="Positive Integer" type="pinteger" />
+                        </attribute>
+                        <attribute name="multiple" value="false">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <subclasses />
+                </class>
+                <class name="textarea">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="name">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="disabled">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                        <attribute name="type" value="textarea">
+                            <domain type="" />
+                        </attribute>
+                        <attribute name="defaultValue">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="rows">
+                            <domain name="Positive Integer" type="pinteger" />
+                        </attribute>
+                        <attribute name="cols">
+                            <domain name="Positive Integer" type="pinteger" />
+                        </attribute>
+                        <attribute name="readOnly" value="false">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <subclasses />
+                </class>
+                <class name="button">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="name">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="disabled">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <subclasses />
+                </class>
+                <class name="submit">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="name">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="disabled">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                        <attribute name="type" value="submit">
+                            <domain type="" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <subclasses />
+                </class>
+                <class name="reset">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="name">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="disabled">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                        <attribute name="type" value="reset">
+                            <domain type="" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <subclasses />
+                </class>
+                <class name="image">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="name">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="disabled">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                        <attribute name="type" value="image">
+                            <domain type="" />
+                        </attribute>
+                        <attribute name="src">
+                            <domain name="URL" type="url" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <subclasses />
+                </class>
+            </subclasses>
+        </class>
+        <class name="composition">
+            <domain type="" />
+            <attributes>
+                <attribute name="name" value="">
+                    <domain type="" />
+                </attribute>
+            </attributes>
+            <axioms />
+            <subclasses>
+                <class name="decomposition">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="name">
+                            <domain type="" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <subclasses />
+                </class>
+                <class name="group">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="name">
+                            <domain type="" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <subclasses />
+                </class>
+            </subclasses>
+        </class>
+    </classes>
+    <terms>
+        <term id="5585250948195173241" name="http://www.globeinvestor.com/v5/content/filters" class="page">
+            <domain type="" />
+            <attributes />
+            <axioms />
+            <relationships>
+                <relationship name="is parent of">
+                    <source>http://www.globeinvestor.com/v5/content/filters</source>
+                    <targets>bonk</targets>
+                </relationship>
+                <relationship name="is parent of">
+                    <source>http://www.globeinvestor.com/v5/content/filters</source>
+                    <targets>bonk</targets>
+                </relationship>
+                <relationship name="is parent of">
+                    <source>http://www.globeinvestor.com/v5/content/filters</source>
+                    <targets>bonk</targets>
+                </relationship>
+                <relationship name="is parent of">
+                    <source>http://www.globeinvestor.com/v5/content/filters</source>
+                    <targets>bonk</targets>
+                </relationship>
+                <relationship name="is parent of">
+                    <source>http://www.globeinvestor.com/v5/content/filters</source>
+                    <targets>bonk</targets>
+                </relationship>
+                <relationship name="is parent of">
+                    <source>http://www.globeinvestor.com/v5/content/filters</source>
+                    <targets>bonk</targets>
+                </relationship>
+                <relationship name="is parent of">
+                    <source>http://www.globeinvestor.com/v5/content/filters</source>
+                    <targets>bonk</targets>
+                </relationship>
+                <relationship name="is parent of">
+                    <source>http://www.globeinvestor.com/v5/content/filters</source>
+                    <targets>bonk</targets>
+                </relationship>
+                <relationship name="is parent of">
+                    <source>http://www.globeinvestor.com/v5/content/filters</source>
+                    <targets>bonk</targets>
+                </relationship>
+                <relationship name="is parent of">
+                    <source>http://www.globeinvestor.com/v5/content/filters</source>
+                    <targets>bonk</targets>
+                </relationship>
+            </relationships>
+            <subterms>
+                <term id="7419472969356321815" name="bonk" class="form">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="method" value="">
+                            <domain name="Choice" type="choice">
+                                <entry>post</entry>
+                                <entry>get</entry>
+                            </domain>
+                        </attribute>
+                        <attribute name="action" value="http://investdb.theglobeandmail.com/invest/investSQL/gx.stock_basic_filter">
+                            <domain name="URL" type="url" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <relationships>
+                        <relationship name="is child of">
+                            <source>bonk</source>
+                            <targets>http://www.globeinvestor.com/v5/content/filters</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>bonk</source>
+                            <targets>Latest Closing Price</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>bonk</source>
+                            <targets>Latest Closing Price</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>bonk</source>
+                            <targets>Intraday Volume</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>bonk</source>
+                            <targets>Intraday Volume</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>bonk</source>
+                            <targets>pi_return_period1</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>bonk</source>
+                            <targets>pi_operator1</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>bonk</source>
+                            <targets>pi_percent1</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>bonk</source>
+                            <targets>pi_return_period2</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>bonk</source>
+                            <targets>pi_operator2</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>bonk</source>
+                            <targets>pi_percent2</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>bonk</source>
+                            <targets>pi_200day_avg</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>bonk</source>
+                            <targets>pi_50day_avg</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>bonk</source>
+                            <targets>Intraday Volume</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>bonk</source>
+                            <targets>Intraday Volume</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>bonk</source>
+                            <targets>Intraday Volume</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>bonk</source>
+                            <targets>Intraday Volume</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>bonk</source>
+                            <targets>Price Earnings per Share</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>bonk</source>
+                            <targets>Price Earnings per Share</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>bonk</source>
+                            <targets>Price Book Value per Share</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>bonk</source>
+                            <targets>Price Book Value per Share</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>bonk</source>
+                            <targets>Dividend Yield</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>bonk</source>
+                            <targets>Dividend Yield</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>bonk</source>
+                            <targets>Market Capitalization ($Mil)</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>bonk</source>
+                            <targets>Market Capitalization ($Mil)</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>bonk</source>
+                            <targets>Revenue ($Mil)</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>bonk</source>
+                            <targets>Revenue ($Mil)</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>bonk</source>
+                            <targets>Net Income ($Mil)</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>bonk</source>
+                            <targets>Net Income ($Mil)</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>bonk</source>
+                            <targets>3 Year % Revenue Growth</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>bonk</source>
+                            <targets>3 Year % Revenue Growth</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>bonk</source>
+                            <targets>3 Year % Profit Growth</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>bonk</source>
+                            <targets>3 Year % Profit Growth</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>bonk</source>
+                            <targets />
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>bonk</source>
+                            <targets />
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>bonk</source>
+                            <targets>Revenue ($Mil)</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>bonk</source>
+                            <targets>Price Earnings per Share</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>bonk</source>
+                            <targets>Dividend Yield</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>bonk</source>
+                            <targets>Intraday Volume</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>bonk</source>
+                            <targets>Market Capitalization ($Mil)</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>bonk</source>
+                            <targets>Latest Closing Price</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>bonk</source>
+                            <targets>Price Book Value per Share</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>bonk</source>
+                            <targets>3 Year % Revenue Growth</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>bonk</source>
+                            <targets>3 Year % Profit Growth</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>bonk</source>
+                            <targets>Net Income ($Mil)</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>bonk</source>
+                            <targets />
+                        </relationship>
+                    </relationships>
+                    <subterms>
+                        <term id="8775231594807058645" name="Latest Closing Price" class="group">
+                            <domain type="" />
+                            <attributes>
+                                <attribute name="name" value="LatestClosingPrice__Composition_">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is parent of">
+                                    <source>Latest Closing Price</source>
+                                    <targets>Latest Closing Price</targets>
+                                </relationship>
+                                <relationship name="is parent of">
+                                    <source>Latest Closing Price</source>
+                                    <targets>Latest Closing Price</targets>
+                                </relationship>
+                                <relationship name="is child of">
+                                    <source>Latest Closing Price</source>
+                                    <targets>bonk</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms>
+                                <term id="7687902365372849314" name="Latest Closing Price" value="" class="text">
+                                    <domain name="Text" type="text" />
+                                    <attributes>
+                                        <attribute name="name" value="pi_prev_price_min">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="disabled" value="false">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                        <attribute name="type">
+                                            <domain type="" />
+                                        </attribute>
+                                        <attribute name="defaultValue" value="">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="value">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="size">
+                                            <domain name="Positive Integer" type="pinteger" />
+                                        </attribute>
+                                        <attribute name="maxLength" value="10">
+                                            <domain name="Positive Integer" type="pinteger" />
+                                        </attribute>
+                                        <attribute name="readOnly" value="false">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                    </attributes>
+                                    <axioms />
+                                    <relationships>
+                                        <relationship name="is child of">
+                                            <source>Latest Closing Price</source>
+                                            <targets>bonk</targets>
+                                        </relationship>
+                                        <relationship name="is child of">
+                                            <source>Latest Closing Price</source>
+                                            <targets>Latest Closing Price</targets>
+                                        </relationship>
+                                    </relationships>
+                                    <subterms />
+                                </term>
+                                <term id="7763333434314762430" name="Latest Closing Price" value="" class="text">
+                                    <domain name="Text" type="text" />
+                                    <attributes>
+                                        <attribute name="name" value="pi_prev_price_max">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="disabled" value="false">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                        <attribute name="type">
+                                            <domain type="" />
+                                        </attribute>
+                                        <attribute name="defaultValue" value="">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="value">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="size">
+                                            <domain name="Positive Integer" type="pinteger" />
+                                        </attribute>
+                                        <attribute name="maxLength" value="10">
+                                            <domain name="Positive Integer" type="pinteger" />
+                                        </attribute>
+                                        <attribute name="readOnly" value="false">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                    </attributes>
+                                    <axioms />
+                                    <relationships>
+                                        <relationship name="is child of">
+                                            <source>Latest Closing Price</source>
+                                            <targets>bonk</targets>
+                                        </relationship>
+                                        <relationship name="is child of">
+                                            <source>Latest Closing Price</source>
+                                            <targets>Latest Closing Price</targets>
+                                        </relationship>
+                                    </relationships>
+                                    <subterms />
+                                </term>
+                            </subterms>
+                        </term>
+                        <term id="7767366649345241824" name="Intraday Volume" class="group">
+                            <domain type="" />
+                            <attributes>
+                                <attribute name="name" value="IntradayVolume__Composition_">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is parent of">
+                                    <source>Intraday Volume</source>
+                                    <targets>Intraday Volume</targets>
+                                </relationship>
+                                <relationship name="is parent of">
+                                    <source>Intraday Volume</source>
+                                    <targets>Intraday Volume</targets>
+                                </relationship>
+                                <relationship name="is parent of">
+                                    <source>Intraday Volume</source>
+                                    <targets>Intraday Volume</targets>
+                                </relationship>
+                                <relationship name="is parent of">
+                                    <source>Intraday Volume</source>
+                                    <targets>Intraday Volume</targets>
+                                </relationship>
+                                <relationship name="is parent of">
+                                    <source>Intraday Volume</source>
+                                    <targets>Intraday Volume</targets>
+                                </relationship>
+                                <relationship name="is parent of">
+                                    <source>Intraday Volume</source>
+                                    <targets>Intraday Volume</targets>
+                                </relationship>
+                                <relationship name="is child of">
+                                    <source>Intraday Volume</source>
+                                    <targets>bonk</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms>
+                                <term id="126451210475180641" name="Intraday Volume" value="" class="text">
+                                    <domain name="Text" type="text" />
+                                    <attributes>
+                                        <attribute name="name" value="pi_intra_volume_min">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="disabled" value="false">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                        <attribute name="type">
+                                            <domain type="" />
+                                        </attribute>
+                                        <attribute name="defaultValue" value="">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="value">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="size">
+                                            <domain name="Positive Integer" type="pinteger" />
+                                        </attribute>
+                                        <attribute name="maxLength" value="10">
+                                            <domain name="Positive Integer" type="pinteger" />
+                                        </attribute>
+                                        <attribute name="readOnly" value="false">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                    </attributes>
+                                    <axioms />
+                                    <relationships>
+                                        <relationship name="is child of">
+                                            <source>Intraday Volume</source>
+                                            <targets>bonk</targets>
+                                        </relationship>
+                                        <relationship name="is child of">
+                                            <source>Intraday Volume</source>
+                                            <targets>Intraday Volume</targets>
+                                        </relationship>
+                                    </relationships>
+                                    <subterms />
+                                </term>
+                                <term id="510874714025552191" name="Intraday Volume" value="" class="text">
+                                    <domain name="Text" type="text" />
+                                    <attributes>
+                                        <attribute name="name" value="pi_intra_volume_max">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="disabled" value="false">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                        <attribute name="type">
+                                            <domain type="" />
+                                        </attribute>
+                                        <attribute name="defaultValue" value="">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="value">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="size">
+                                            <domain name="Positive Integer" type="pinteger" />
+                                        </attribute>
+                                        <attribute name="maxLength" value="10">
+                                            <domain name="Positive Integer" type="pinteger" />
+                                        </attribute>
+                                        <attribute name="readOnly" value="false">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                    </attributes>
+                                    <axioms />
+                                    <relationships>
+                                        <relationship name="is child of">
+                                            <source>Intraday Volume</source>
+                                            <targets>bonk</targets>
+                                        </relationship>
+                                        <relationship name="is child of">
+                                            <source>Intraday Volume</source>
+                                            <targets>Intraday Volume</targets>
+                                        </relationship>
+                                    </relationships>
+                                    <subterms />
+                                </term>
+                                <term id="7885950149888578543" name="Intraday Volume" value="" class="text">
+                                    <domain name="Text" type="text" />
+                                    <attributes>
+                                        <attribute name="name" value="min1">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="disabled" value="false">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                        <attribute name="type">
+                                            <domain type="" />
+                                        </attribute>
+                                        <attribute name="defaultValue" value="">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="value">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="size">
+                                            <domain name="Positive Integer" type="pinteger" />
+                                        </attribute>
+                                        <attribute name="maxLength" value="10">
+                                            <domain name="Positive Integer" type="pinteger" />
+                                        </attribute>
+                                        <attribute name="readOnly" value="false">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                    </attributes>
+                                    <axioms />
+                                    <relationships>
+                                        <relationship name="is child of">
+                                            <source>Intraday Volume</source>
+                                            <targets>bonk</targets>
+                                        </relationship>
+                                        <relationship name="is child of">
+                                            <source>Intraday Volume</source>
+                                            <targets>Intraday Volume</targets>
+                                        </relationship>
+                                    </relationships>
+                                    <subterms />
+                                </term>
+                                <term id="2741047555507527433" name="Intraday Volume" value="" class="text">
+                                    <domain name="Text" type="text" />
+                                    <attributes>
+                                        <attribute name="name" value="max1">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="disabled" value="false">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                        <attribute name="type">
+                                            <domain type="" />
+                                        </attribute>
+                                        <attribute name="defaultValue" value="">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="value">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="size">
+                                            <domain name="Positive Integer" type="pinteger" />
+                                        </attribute>
+                                        <attribute name="maxLength" value="10">
+                                            <domain name="Positive Integer" type="pinteger" />
+                                        </attribute>
+                                        <attribute name="readOnly" value="false">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                    </attributes>
+                                    <axioms />
+                                    <relationships>
+                                        <relationship name="is child of">
+                                            <source>Intraday Volume</source>
+                                            <targets>bonk</targets>
+                                        </relationship>
+                                        <relationship name="is child of">
+                                            <source>Intraday Volume</source>
+                                            <targets>Intraday Volume</targets>
+                                        </relationship>
+                                    </relationships>
+                                    <subterms />
+                                </term>
+                                <term id="6457415465106541612" name="Intraday Volume" value="" class="text">
+                                    <domain name="Text" type="text" />
+                                    <attributes>
+                                        <attribute name="name" value="min2">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="disabled" value="false">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                        <attribute name="type">
+                                            <domain type="" />
+                                        </attribute>
+                                        <attribute name="defaultValue" value="">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="value">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="size">
+                                            <domain name="Positive Integer" type="pinteger" />
+                                        </attribute>
+                                        <attribute name="maxLength" value="10">
+                                            <domain name="Positive Integer" type="pinteger" />
+                                        </attribute>
+                                        <attribute name="readOnly" value="false">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                    </attributes>
+                                    <axioms />
+                                    <relationships>
+                                        <relationship name="is child of">
+                                            <source>Intraday Volume</source>
+                                            <targets>bonk</targets>
+                                        </relationship>
+                                        <relationship name="is child of">
+                                            <source>Intraday Volume</source>
+                                            <targets>Intraday Volume</targets>
+                                        </relationship>
+                                    </relationships>
+                                    <subterms />
+                                </term>
+                                <term id="145629177540025052" name="Intraday Volume" value="" class="text">
+                                    <domain name="Text" type="text" />
+                                    <attributes>
+                                        <attribute name="name" value="max2">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="disabled" value="false">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                        <attribute name="type">
+                                            <domain type="" />
+                                        </attribute>
+                                        <attribute name="defaultValue" value="">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="value">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="size">
+                                            <domain name="Positive Integer" type="pinteger" />
+                                        </attribute>
+                                        <attribute name="maxLength" value="10">
+                                            <domain name="Positive Integer" type="pinteger" />
+                                        </attribute>
+                                        <attribute name="readOnly" value="false">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                    </attributes>
+                                    <axioms />
+                                    <relationships>
+                                        <relationship name="is child of">
+                                            <source>Intraday Volume</source>
+                                            <targets>bonk</targets>
+                                        </relationship>
+                                        <relationship name="is child of">
+                                            <source>Intraday Volume</source>
+                                            <targets>Intraday Volume</targets>
+                                        </relationship>
+                                    </relationships>
+                                    <subterms />
+                                </term>
+                            </subterms>
+                        </term>
+                        <term id="3581753619566624248" name="pi_return_period1" value="" class="hidden">
+                            <domain type="" />
+                            <attributes>
+                                <attribute name="name" value="pi_return_period1">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>pi_return_period1</source>
+                                    <targets>bonk</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="1070879283367251670" name="pi_operator1" value="" class="hidden">
+                            <domain type="" />
+                            <attributes>
+                                <attribute name="name" value="pi_operator1">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>pi_operator1</source>
+                                    <targets>bonk</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="514262809922289317" name="pi_percent1" value="" class="hidden">
+                            <domain type="" />
+                            <attributes>
+                                <attribute name="name" value="pi_percent1">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>pi_percent1</source>
+                                    <targets>bonk</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="3460797578993352786" name="pi_return_period2" value="" class="hidden">
+                            <domain type="" />
+                            <attributes>
+                                <attribute name="name" value="pi_return_period2">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>pi_return_period2</source>
+                                    <targets>bonk</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="4258306186251586954" name="pi_operator2" value="" class="hidden">
+                            <domain type="" />
+                            <attributes>
+                                <attribute name="name" value="pi_operator2">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>pi_operator2</source>
+                                    <targets>bonk</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="4766556193703139571" name="pi_percent2" value="" class="hidden">
+                            <domain type="" />
+                            <attributes>
+                                <attribute name="name" value="pi_percent2">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>pi_percent2</source>
+                                    <targets>bonk</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="765718254462606885" name="pi_200day_avg" value="" class="hidden">
+                            <domain type="" />
+                            <attributes>
+                                <attribute name="name" value="pi_200day_avg">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>pi_200day_avg</source>
+                                    <targets>bonk</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="3247287179550900104" name="pi_50day_avg" value="" class="hidden">
+                            <domain type="" />
+                            <attributes>
+                                <attribute name="name" value="pi_50day_avg">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>pi_50day_avg</source>
+                                    <targets>bonk</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="7223491123917924866" name="Price Earnings per Share" class="group">
+                            <domain type="" />
+                            <attributes>
+                                <attribute name="name" value="PriceEarningsPerShare__Composition_">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is parent of">
+                                    <source>Price Earnings per Share</source>
+                                    <targets>Price Earnings per Share</targets>
+                                </relationship>
+                                <relationship name="is parent of">
+                                    <source>Price Earnings per Share</source>
+                                    <targets>Price Earnings per Share</targets>
+                                </relationship>
+                                <relationship name="is child of">
+                                    <source>Price Earnings per Share</source>
+                                    <targets>bonk</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms>
+                                <term id="6054502499952034069" name="Price Earnings per Share" value="" class="text">
+                                    <domain name="Text" type="text" />
+                                    <attributes>
+                                        <attribute name="name" value="pi_peps_min">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="disabled" value="false">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                        <attribute name="type">
+                                            <domain type="" />
+                                        </attribute>
+                                        <attribute name="defaultValue" value="">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="value">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="size">
+                                            <domain name="Positive Integer" type="pinteger" />
+                                        </attribute>
+                                        <attribute name="maxLength" value="10">
+                                            <domain name="Positive Integer" type="pinteger" />
+                                        </attribute>
+                                        <attribute name="readOnly" value="false">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                    </attributes>
+                                    <axioms />
+                                    <relationships>
+                                        <relationship name="is child of">
+                                            <source>Price Earnings per Share</source>
+                                            <targets>bonk</targets>
+                                        </relationship>
+                                        <relationship name="is child of">
+                                            <source>Price Earnings per Share</source>
+                                            <targets>Price Earnings per Share</targets>
+                                        </relationship>
+                                    </relationships>
+                                    <subterms />
+                                </term>
+                                <term id="684463274461025214" name="Price Earnings per Share" value="" class="text">
+                                    <domain name="Text" type="text" />
+                                    <attributes>
+                                        <attribute name="name" value="pi_peps_max">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="disabled" value="false">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                        <attribute name="type">
+                                            <domain type="" />
+                                        </attribute>
+                                        <attribute name="defaultValue" value="">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="value">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="size">
+                                            <domain name="Positive Integer" type="pinteger" />
+                                        </attribute>
+                                        <attribute name="maxLength" value="10">
+                                            <domain name="Positive Integer" type="pinteger" />
+                                        </attribute>
+                                        <attribute name="readOnly" value="false">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                    </attributes>
+                                    <axioms />
+                                    <relationships>
+                                        <relationship name="is child of">
+                                            <source>Price Earnings per Share</source>
+                                            <targets>bonk</targets>
+                                        </relationship>
+                                        <relationship name="is child of">
+                                            <source>Price Earnings per Share</source>
+                                            <targets>Price Earnings per Share</targets>
+                                        </relationship>
+                                    </relationships>
+                                    <subterms />
+                                </term>
+                            </subterms>
+                        </term>
+                        <term id="1043685291167974972" name="Dividend Yield" class="group">
+                            <domain type="" />
+                            <attributes>
+                                <attribute name="name" value="DividendYield__Composition_">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is parent of">
+                                    <source>Dividend Yield</source>
+                                    <targets>Dividend Yield</targets>
+                                </relationship>
+                                <relationship name="is parent of">
+                                    <source>Dividend Yield</source>
+                                    <targets>Dividend Yield</targets>
+                                </relationship>
+                                <relationship name="is child of">
+                                    <source>Dividend Yield</source>
+                                    <targets>bonk</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms>
+                                <term id="5606210206160862332" name="Dividend Yield" value="" class="text">
+                                    <domain name="Text" type="text" />
+                                    <attributes>
+                                        <attribute name="name" value="pi_div_yield_min">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="disabled" value="false">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                        <attribute name="type">
+                                            <domain type="" />
+                                        </attribute>
+                                        <attribute name="defaultValue" value="">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="value">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="size">
+                                            <domain name="Positive Integer" type="pinteger" />
+                                        </attribute>
+                                        <attribute name="maxLength" value="10">
+                                            <domain name="Positive Integer" type="pinteger" />
+                                        </attribute>
+                                        <attribute name="readOnly" value="false">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                    </attributes>
+                                    <axioms />
+                                    <relationships>
+                                        <relationship name="is child of">
+                                            <source>Dividend Yield</source>
+                                            <targets>bonk</targets>
+                                        </relationship>
+                                        <relationship name="is child of">
+                                            <source>Dividend Yield</source>
+                                            <targets>Dividend Yield</targets>
+                                        </relationship>
+                                    </relationships>
+                                    <subterms />
+                                </term>
+                                <term id="7744903800379950616" name="Dividend Yield" value="" class="text">
+                                    <domain name="Text" type="text" />
+                                    <attributes>
+                                        <attribute name="name" value="pi_div_yield_max">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="disabled" value="false">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                        <attribute name="type">
+                                            <domain type="" />
+                                        </attribute>
+                                        <attribute name="defaultValue" value="">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="value">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="size">
+                                            <domain name="Positive Integer" type="pinteger" />
+                                        </attribute>
+                                        <attribute name="maxLength" value="10">
+                                            <domain name="Positive Integer" type="pinteger" />
+                                        </attribute>
+                                        <attribute name="readOnly" value="false">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                    </attributes>
+                                    <axioms />
+                                    <relationships>
+                                        <relationship name="is child of">
+                                            <source>Dividend Yield</source>
+                                            <targets>bonk</targets>
+                                        </relationship>
+                                        <relationship name="is child of">
+                                            <source>Dividend Yield</source>
+                                            <targets>Dividend Yield</targets>
+                                        </relationship>
+                                    </relationships>
+                                    <subterms />
+                                </term>
+                            </subterms>
+                        </term>
+                        <term id="3501151828395454301" name="Revenue ($Mil)" class="group">
+                            <domain type="" />
+                            <attributes>
+                                <attribute name="name" value="RevenueMil__Composition_">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is parent of">
+                                    <source>Revenue ($Mil)</source>
+                                    <targets>Revenue ($Mil)</targets>
+                                </relationship>
+                                <relationship name="is parent of">
+                                    <source>Revenue ($Mil)</source>
+                                    <targets>Revenue ($Mil)</targets>
+                                </relationship>
+                                <relationship name="is child of">
+                                    <source>Revenue ($Mil)</source>
+                                    <targets>bonk</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms>
+                                <term id="6084822900932969075" name="Revenue ($Mil)" value="" class="text">
+                                    <domain name="Text" type="text" />
+                                    <attributes>
+                                        <attribute name="name" value="pi_revenuee_min">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="disabled" value="false">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                        <attribute name="type">
+                                            <domain type="" />
+                                        </attribute>
+                                        <attribute name="defaultValue" value="">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="value">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="size">
+                                            <domain name="Positive Integer" type="pinteger" />
+                                        </attribute>
+                                        <attribute name="maxLength" value="10">
+                                            <domain name="Positive Integer" type="pinteger" />
+                                        </attribute>
+                                        <attribute name="readOnly" value="false">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                    </attributes>
+                                    <axioms />
+                                    <relationships>
+                                        <relationship name="is child of">
+                                            <source>Revenue ($Mil)</source>
+                                            <targets>bonk</targets>
+                                        </relationship>
+                                        <relationship name="is child of">
+                                            <source>Revenue ($Mil)</source>
+                                            <targets>Revenue ($Mil)</targets>
+                                        </relationship>
+                                    </relationships>
+                                    <subterms />
+                                </term>
+                                <term id="1711219116330738631" name="Revenue ($Mil)" value="" class="text">
+                                    <domain name="Text" type="text" />
+                                    <attributes>
+                                        <attribute name="name" value="pi_revenue_max">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="disabled" value="false">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                        <attribute name="type">
+                                            <domain type="" />
+                                        </attribute>
+                                        <attribute name="defaultValue" value="">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="value">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="size">
+                                            <domain name="Positive Integer" type="pinteger" />
+                                        </attribute>
+                                        <attribute name="maxLength" value="10">
+                                            <domain name="Positive Integer" type="pinteger" />
+                                        </attribute>
+                                        <attribute name="readOnly" value="false">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                    </attributes>
+                                    <axioms />
+                                    <relationships>
+                                        <relationship name="is child of">
+                                            <source>Revenue ($Mil)</source>
+                                            <targets>bonk</targets>
+                                        </relationship>
+                                        <relationship name="is child of">
+                                            <source>Revenue ($Mil)</source>
+                                            <targets>Revenue ($Mil)</targets>
+                                        </relationship>
+                                    </relationships>
+                                    <subterms />
+                                </term>
+                            </subterms>
+                        </term>
+                        <term id="4123067432147648028" name="Price Book Value per Share" class="group">
+                            <domain type="" />
+                            <attributes>
+                                <attribute name="name" value="PriceBookValuePerShare__Composition_">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is parent of">
+                                    <source>Price Book Value per Share</source>
+                                    <targets>Price Book Value per Share</targets>
+                                </relationship>
+                                <relationship name="is parent of">
+                                    <source>Price Book Value per Share</source>
+                                    <targets>Price Book Value per Share</targets>
+                                </relationship>
+                                <relationship name="is child of">
+                                    <source>Price Book Value per Share</source>
+                                    <targets>bonk</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms>
+                                <term id="1877822258130109135" name="Price Book Value per Share" value="" class="text">
+                                    <domain name="Text" type="text" />
+                                    <attributes>
+                                        <attribute name="name" value="pi_pbvps_min">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="disabled" value="false">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                        <attribute name="type">
+                                            <domain type="" />
+                                        </attribute>
+                                        <attribute name="defaultValue" value="">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="value">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="size">
+                                            <domain name="Positive Integer" type="pinteger" />
+                                        </attribute>
+                                        <attribute name="maxLength" value="10">
+                                            <domain name="Positive Integer" type="pinteger" />
+                                        </attribute>
+                                        <attribute name="readOnly" value="false">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                    </attributes>
+                                    <axioms />
+                                    <relationships>
+                                        <relationship name="is child of">
+                                            <source>Price Book Value per Share</source>
+                                            <targets>bonk</targets>
+                                        </relationship>
+                                        <relationship name="is child of">
+                                            <source>Price Book Value per Share</source>
+                                            <targets>Price Book Value per Share</targets>
+                                        </relationship>
+                                    </relationships>
+                                    <subterms />
+                                </term>
+                                <term id="2699918496217520751" name="Price Book Value per Share" value="" class="text">
+                                    <domain name="Text" type="text" />
+                                    <attributes>
+                                        <attribute name="name" value="pi_pbvps_max">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="disabled" value="false">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                        <attribute name="type">
+                                            <domain type="" />
+                                        </attribute>
+                                        <attribute name="defaultValue" value="">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="value">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="size">
+                                            <domain name="Positive Integer" type="pinteger" />
+                                        </attribute>
+                                        <attribute name="maxLength" value="10">
+                                            <domain name="Positive Integer" type="pinteger" />
+                                        </attribute>
+                                        <attribute name="readOnly" value="false">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                    </attributes>
+                                    <axioms />
+                                    <relationships>
+                                        <relationship name="is child of">
+                                            <source>Price Book Value per Share</source>
+                                            <targets>bonk</targets>
+                                        </relationship>
+                                        <relationship name="is child of">
+                                            <source>Price Book Value per Share</source>
+                                            <targets>Price Book Value per Share</targets>
+                                        </relationship>
+                                    </relationships>
+                                    <subterms />
+                                </term>
+                            </subterms>
+                        </term>
+                        <term id="5989590662820760400" name="Market Capitalization ($Mil)" class="group">
+                            <domain type="" />
+                            <attributes>
+                                <attribute name="name" value="MarketCapitalizationMil__Composition_">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is parent of">
+                                    <source>Market Capitalization ($Mil)</source>
+                                    <targets>Market Capitalization ($Mil)</targets>
+                                </relationship>
+                                <relationship name="is parent of">
+                                    <source>Market Capitalization ($Mil)</source>
+                                    <targets>Market Capitalization ($Mil)</targets>
+                                </relationship>
+                                <relationship name="is child of">
+                                    <source>Market Capitalization ($Mil)</source>
+                                    <targets>bonk</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms>
+                                <term id="222045238965623466" name="Market Capitalization ($Mil)" value="" class="text">
+                                    <domain name="Text" type="text" />
+                                    <attributes>
+                                        <attribute name="name" value="pi_mkt_cap_min">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="disabled" value="false">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                        <attribute name="type">
+                                            <domain type="" />
+                                        </attribute>
+                                        <attribute name="defaultValue" value="">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="value">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="size">
+                                            <domain name="Positive Integer" type="pinteger" />
+                                        </attribute>
+                                        <attribute name="maxLength" value="10">
+                                            <domain name="Positive Integer" type="pinteger" />
+                                        </attribute>
+                                        <attribute name="readOnly" value="false">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                    </attributes>
+                                    <axioms />
+                                    <relationships>
+                                        <relationship name="is child of">
+                                            <source>Market Capitalization ($Mil)</source>
+                                            <targets>bonk</targets>
+                                        </relationship>
+                                        <relationship name="is child of">
+                                            <source>Market Capitalization ($Mil)</source>
+                                            <targets>Market Capitalization ($Mil)</targets>
+                                        </relationship>
+                                    </relationships>
+                                    <subterms />
+                                </term>
+                                <term id="4577309153772961225" name="Market Capitalization ($Mil)" value="" class="text">
+                                    <domain name="Text" type="text" />
+                                    <attributes>
+                                        <attribute name="name" value="pi_mkt_cap_max">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="disabled" value="false">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                        <attribute name="type">
+                                            <domain type="" />
+                                        </attribute>
+                                        <attribute name="defaultValue" value="">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="value">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="size">
+                                            <domain name="Positive Integer" type="pinteger" />
+                                        </attribute>
+                                        <attribute name="maxLength" value="10">
+                                            <domain name="Positive Integer" type="pinteger" />
+                                        </attribute>
+                                        <attribute name="readOnly" value="false">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                    </attributes>
+                                    <axioms />
+                                    <relationships>
+                                        <relationship name="is child of">
+                                            <source>Market Capitalization ($Mil)</source>
+                                            <targets>bonk</targets>
+                                        </relationship>
+                                        <relationship name="is child of">
+                                            <source>Market Capitalization ($Mil)</source>
+                                            <targets>Market Capitalization ($Mil)</targets>
+                                        </relationship>
+                                    </relationships>
+                                    <subterms />
+                                </term>
+                            </subterms>
+                        </term>
+                        <term id="4417114228195399890" name="3 Year % Revenue Growth" class="group">
+                            <domain type="" />
+                            <attributes>
+                                <attribute name="name" value="_3YearRevenueGrowth__Composition_">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is parent of">
+                                    <source>3 Year % Revenue Growth</source>
+                                    <targets>3 Year % Revenue Growth</targets>
+                                </relationship>
+                                <relationship name="is parent of">
+                                    <source>3 Year % Revenue Growth</source>
+                                    <targets>3 Year % Revenue Growth</targets>
+                                </relationship>
+                                <relationship name="is child of">
+                                    <source>3 Year % Revenue Growth</source>
+                                    <targets>bonk</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms>
+                                <term id="780601007027753724" name="3 Year % Revenue Growth" value="" class="text">
+                                    <domain name="Text" type="text" />
+                                    <attributes>
+                                        <attribute name="name" value="pi_growth_revenue_3yr_min">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="disabled" value="false">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                        <attribute name="type">
+                                            <domain type="" />
+                                        </attribute>
+                                        <attribute name="defaultValue" value="">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="value">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="size">
+                                            <domain name="Positive Integer" type="pinteger" />
+                                        </attribute>
+                                        <attribute name="maxLength" value="10">
+                                            <domain name="Positive Integer" type="pinteger" />
+                                        </attribute>
+                                        <attribute name="readOnly" value="false">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                    </attributes>
+                                    <axioms />
+                                    <relationships>
+                                        <relationship name="is child of">
+                                            <source>3 Year % Revenue Growth</source>
+                                            <targets>bonk</targets>
+                                        </relationship>
+                                        <relationship name="is child of">
+                                            <source>3 Year % Revenue Growth</source>
+                                            <targets>3 Year % Revenue Growth</targets>
+                                        </relationship>
+                                    </relationships>
+                                    <subterms />
+                                </term>
+                                <term id="1980410338468824157" name="3 Year % Revenue Growth" value="" class="text">
+                                    <domain name="Text" type="text" />
+                                    <attributes>
+                                        <attribute name="name" value="pi_growth_revenue_3yr_max">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="disabled" value="false">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                        <attribute name="type">
+                                            <domain type="" />
+                                        </attribute>
+                                        <attribute name="defaultValue" value="">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="value">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="size">
+                                            <domain name="Positive Integer" type="pinteger" />
+                                        </attribute>
+                                        <attribute name="maxLength" value="10">
+                                            <domain name="Positive Integer" type="pinteger" />
+                                        </attribute>
+                                        <attribute name="readOnly" value="false">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                    </attributes>
+                                    <axioms />
+                                    <relationships>
+                                        <relationship name="is child of">
+                                            <source>3 Year % Revenue Growth</source>
+                                            <targets>bonk</targets>
+                                        </relationship>
+                                        <relationship name="is child of">
+                                            <source>3 Year % Revenue Growth</source>
+                                            <targets>3 Year % Revenue Growth</targets>
+                                        </relationship>
+                                    </relationships>
+                                    <subterms />
+                                </term>
+                            </subterms>
+                        </term>
+                        <term id="7947652760347616000" name="3 Year % Profit Growth" class="group">
+                            <domain type="" />
+                            <attributes>
+                                <attribute name="name" value="_3YearProfitGrowth__Composition_">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is parent of">
+                                    <source>3 Year % Profit Growth</source>
+                                    <targets>3 Year % Profit Growth</targets>
+                                </relationship>
+                                <relationship name="is parent of">
+                                    <source>3 Year % Profit Growth</source>
+                                    <targets>3 Year % Profit Growth</targets>
+                                </relationship>
+                                <relationship name="is child of">
+                                    <source>3 Year % Profit Growth</source>
+                                    <targets>bonk</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms>
+                                <term id="4430613646338032251" name="3 Year % Profit Growth" value="" class="text">
+                                    <domain name="Text" type="text" />
+                                    <attributes>
+                                        <attribute name="name" value="pi_growth_profit_3yr_min">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="disabled" value="false">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                        <attribute name="type">
+                                            <domain type="" />
+                                        </attribute>
+                                        <attribute name="defaultValue" value="">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="value">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="size">
+                                            <domain name="Positive Integer" type="pinteger" />
+                                        </attribute>
+                                        <attribute name="maxLength" value="10">
+                                            <domain name="Positive Integer" type="pinteger" />
+                                        </attribute>
+                                        <attribute name="readOnly" value="false">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                    </attributes>
+                                    <axioms />
+                                    <relationships>
+                                        <relationship name="is child of">
+                                            <source>3 Year % Profit Growth</source>
+                                            <targets>bonk</targets>
+                                        </relationship>
+                                        <relationship name="is child of">
+                                            <source>3 Year % Profit Growth</source>
+                                            <targets>3 Year % Profit Growth</targets>
+                                        </relationship>
+                                    </relationships>
+                                    <subterms />
+                                </term>
+                                <term id="1048827083405670959" name="3 Year % Profit Growth" value="" class="text">
+                                    <domain name="Text" type="text" />
+                                    <attributes>
+                                        <attribute name="name" value="pi_growth_profit_3yr_max">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="disabled" value="false">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                        <attribute name="type">
+                                            <domain type="" />
+                                        </attribute>
+                                        <attribute name="defaultValue" value="">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="value">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="size">
+                                            <domain name="Positive Integer" type="pinteger" />
+                                        </attribute>
+                                        <attribute name="maxLength" value="10">
+                                            <domain name="Positive Integer" type="pinteger" />
+                                        </attribute>
+                                        <attribute name="readOnly" value="false">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                    </attributes>
+                                    <axioms />
+                                    <relationships>
+                                        <relationship name="is child of">
+                                            <source>3 Year % Profit Growth</source>
+                                            <targets>bonk</targets>
+                                        </relationship>
+                                        <relationship name="is child of">
+                                            <source>3 Year % Profit Growth</source>
+                                            <targets>3 Year % Profit Growth</targets>
+                                        </relationship>
+                                    </relationships>
+                                    <subterms />
+                                </term>
+                            </subterms>
+                        </term>
+                        <term id="4837684181716038775" name="Net Income ($Mil)" class="group">
+                            <domain type="" />
+                            <attributes>
+                                <attribute name="name" value="NetIncomeMil__Composition_">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is parent of">
+                                    <source>Net Income ($Mil)</source>
+                                    <targets>Net Income ($Mil)</targets>
+                                </relationship>
+                                <relationship name="is parent of">
+                                    <source>Net Income ($Mil)</source>
+                                    <targets>Net Income ($Mil)</targets>
+                                </relationship>
+                                <relationship name="is child of">
+                                    <source>Net Income ($Mil)</source>
+                                    <targets>bonk</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms>
+                                <term id="6447595762227471837" name="Net Income ($Mil)" value="" class="text">
+                                    <domain name="Text" type="text" />
+                                    <attributes>
+                                        <attribute name="name" value="pi_earnings_min">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="disabled" value="false">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                        <attribute name="type">
+                                            <domain type="" />
+                                        </attribute>
+                                        <attribute name="defaultValue" value="">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="value">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="size">
+                                            <domain name="Positive Integer" type="pinteger" />
+                                        </attribute>
+                                        <attribute name="maxLength" value="10">
+                                            <domain name="Positive Integer" type="pinteger" />
+                                        </attribute>
+                                        <attribute name="readOnly" value="false">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                    </attributes>
+                                    <axioms />
+                                    <relationships>
+                                        <relationship name="is child of">
+                                            <source>Net Income ($Mil)</source>
+                                            <targets>bonk</targets>
+                                        </relationship>
+                                        <relationship name="is child of">
+                                            <source>Net Income ($Mil)</source>
+                                            <targets>Net Income ($Mil)</targets>
+                                        </relationship>
+                                    </relationships>
+                                    <subterms />
+                                </term>
+                                <term id="6105244454791450828" name="Net Income ($Mil)" value="" class="text">
+                                    <domain name="Text" type="text" />
+                                    <attributes>
+                                        <attribute name="name" value="pi_earnings_max">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="disabled" value="false">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                        <attribute name="type">
+                                            <domain type="" />
+                                        </attribute>
+                                        <attribute name="defaultValue" value="">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="value">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="size">
+                                            <domain name="Positive Integer" type="pinteger" />
+                                        </attribute>
+                                        <attribute name="maxLength" value="10">
+                                            <domain name="Positive Integer" type="pinteger" />
+                                        </attribute>
+                                        <attribute name="readOnly" value="false">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                    </attributes>
+                                    <axioms />
+                                    <relationships>
+                                        <relationship name="is child of">
+                                            <source>Net Income ($Mil)</source>
+                                            <targets>bonk</targets>
+                                        </relationship>
+                                        <relationship name="is child of">
+                                            <source>Net Income ($Mil)</source>
+                                            <targets>Net Income ($Mil)</targets>
+                                        </relationship>
+                                    </relationships>
+                                    <subterms />
+                                </term>
+                            </subterms>
+                        </term>
+                        <term id="4896524613604051119" name="" class="group">
+                            <domain type="" />
+                            <attributes>
+                                <attribute name="name" value="__Composition_">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is parent of">
+                                    <source />
+                                    <targets />
+                                </relationship>
+                                <relationship name="is parent of">
+                                    <source />
+                                    <targets />
+                                </relationship>
+                                <relationship name="is child of">
+                                    <source />
+                                    <targets>bonk</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms>
+                                <term id="4714508635010220643" name="" value="return_1wk" class="select">
+                                    <domain name="Text" type="text">
+                                        <entry>
+                                            <term id="977821504196793937" name="Intraday % Change" value="return_1day">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="true">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="6659498318738755398" name="1 Week % Change" value="return_1wk">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="true">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="true">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="327474337557781936" name="1 Month % Change" value="return_1mth">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="4131721147049377755" name="3 Month % Change" value="return_1qtr">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="4830784990759724327" name="YTD % Change" value="return_ytd">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="4290955274838758831" name="1 Year % Change" value="return_1yr">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="983962589210002575" name="3 Year % Change" value="return_3yr">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="330912974491120137" name="5 Year % Change" value="return_5yr">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="6770113965735869484" name="Intraday $ Change" value="change_1day">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="214574363605917037" name="1 Week $ Change" value="change_1wk">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="3385554578844751245" name="1 Month $ Change" value="change_1mth">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="5011436577140852509" name="3 Month $ Change" value="change_1qtr">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="1300463758789363337" name="YTD $ Change" value="change_ytd">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="2148839184275654731" name="1 Year $ Change" value="change_1yr">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="3060748522790844337" name="3 Year $ Change" value="change_3yr">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="128002604619601789" name="5 Year $ Change" value="change_5yr">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                    </domain>
+                                    <attributes>
+                                        <attribute name="name" value="dropbox1">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="disabled" value="false">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                        <attribute name="type">
+                                            <domain type="" />
+                                        </attribute>
+                                        <attribute name="size">
+                                            <domain name="Positive Integer" type="pinteger" />
+                                        </attribute>
+                                        <attribute name="multiple">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                    </attributes>
+                                    <axioms />
+                                    <relationships>
+                                        <relationship name="is child of">
+                                            <source />
+                                            <targets>bonk</targets>
+                                        </relationship>
+                                        <relationship name="is child of">
+                                            <source />
+                                            <targets />
+                                        </relationship>
+                                    </relationships>
+                                    <subterms />
+                                </term>
+                                <term id="3667216436749143729" name="" value="return_ytd" class="select">
+                                    <domain name="Text" type="text">
+                                        <entry>
+                                            <term id="4493367775445611986" name="Intraday % Change" value="return_1day">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="true">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="7314627330301038212" name="1 Week % Change" value="return_1wk">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="2325683790915668116" name="1 Month % Change" value="return_1mth">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="5347990956112281242" name="3 Month % Change" value="return_1qtr">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="3318643880689268141" name="YTD % Change" value="return_ytd">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="true">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="true">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="3819089075424199246" name="1 Year % Change" value="return_1yr">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="1359275481817985412" name="3 Year % Change" value="return_3yr">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="7034552990948938026" name="5 Year % Change" value="return_5yr">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="8619273768794474298" name="Intraday $ Change" value="change_1day">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="3675179533138983041" name="1 Week $ Change" value="change_1wk">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="1112374825501666883" name="1 Month $ Change" value="change_1mth">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="5114149971159301657" name="3 Month $ Change" value="change_1qtr">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="8242735648455889806" name="YTD $ Change" value="change_ytd">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="2217502010825594444" name="1 Year $ Change" value="change_1yr">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="530272580725799268" name="3 Year $ Change" value="change_3yr">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="8978881231913674117" name="5 Year $ Change" value="change_5yr">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                    </domain>
+                                    <attributes>
+                                        <attribute name="name" value="dropbox2">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="disabled" value="false">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                        <attribute name="type">
+                                            <domain type="" />
+                                        </attribute>
+                                        <attribute name="size">
+                                            <domain name="Positive Integer" type="pinteger" />
+                                        </attribute>
+                                        <attribute name="multiple">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                    </attributes>
+                                    <axioms />
+                                    <relationships>
+                                        <relationship name="is child of">
+                                            <source />
+                                            <targets>bonk</targets>
+                                        </relationship>
+                                        <relationship name="is child of">
+                                            <source />
+                                            <targets />
+                                        </relationship>
+                                    </relationships>
+                                    <subterms />
+                                </term>
+                            </subterms>
+                        </term>
+                    </subterms>
+                </term>
+            </subterms>
+        </term>
+    </terms>
+</ontology>
+

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" targetNamespace="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" elementFormDefault="qualified">
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+            XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.
+            Permission is granted to use, copy, modify and distribute the
+            DTD's, schemas and modules in the Commerce One XML Common Business
+            Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType name="PartNumbersType">
+        <xsd:annotation>
+            <xsd:documentation>identifies all identification numbers for the item.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element minOccurs="0" name="SellerPartNumber" type="PartNumType">
+                <xsd:annotation>
+                    <xsd:documentation>is the identification of a product or service as assigned by the
+    seller of the product or service.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="BuyerPartNumber" type="PartNumType">
+                <xsd:annotation>
+                    <xsd:documentation>is the identification of a product or service as assigned by the
+    buyer.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ManufacturerPartNumber" type="ManufacturerPartNumberType">
+                <xsd:annotation>
+                    <xsd:documentation>is the identification of a product as assigned by the
+    manufacturer of the product and identification of the manufacturer.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="StandardPartNumber" type="ProductIdentifierCodedType">
+                <xsd:annotation>
+                    <xsd:documentation>is the commonly accepted identification of a product or service that
+    is assigned by a standards agency.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="SubstitutePartNumbers" type="ListOfProductIdentifierCodedType">
+                <xsd:annotation>
+                    <xsd:documentation>is a collection of identifications of products or services that
+    are acceptable substitutions for the product or service identified in the
+    <!--code-->PartNumbers<!--/code--> element.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="OtherItemIdentifiers" type="ListOfProductIdentifierCodedType">
+                <xsd:annotation>
+                    <xsd:documentation>is a collection of any other identifications of the product or
+    service identified by the <!--code-->PartNumbers<!--/code--> element that are not
+    explicitly stated as the content of the other elements contained in the
+    <!--code-->PartNumbers<!--/code--> element.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

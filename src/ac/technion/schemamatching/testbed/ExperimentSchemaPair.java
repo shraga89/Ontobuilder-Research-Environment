@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.*;
-import technion.iem.schemamatching.dbutils.DBInterface;
+import ac.technion.schemamatching.DBInterface.DBInterface;
 import ac.technion.iem.ontobuilder.core.ontology.Ontology;
 import ac.technion.iem.ontobuilder.core.ontology.Term;
 import ac.technion.iem.ontobuilder.io.imports.Importer;

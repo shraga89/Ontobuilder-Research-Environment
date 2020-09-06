@@ -1,0 +1,852 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" targetNamespace="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" elementFormDefault="qualified">
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+            XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.
+            Permission is granted to use, copy, modify and distribute the
+            DTD's, schemas and modules in the Commerce One XML Common Business
+            Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleType name="PriceTypeCodeType">
+        <xsd:restriction base="xsd:NMTOKEN">
+            <xsd:enumeration value="Other">
+                <xsd:annotation>
+                    <xsd:documentation>Custom Code</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CancellationPrice">
+                <xsd:annotation>
+                    <xsd:documentation>Price authorized to be charged in the event of an order being cancelled.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PerTon">
+                <xsd:annotation>
+                    <xsd:documentation>To indicate that the price applies per ton.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="MinimumOrderPrice">
+                <xsd:annotation>
+                    <xsd:documentation>A code to identify the price when the minimum number is purchased</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ExportPrice">
+                <xsd:annotation>
+                    <xsd:documentation> A code to identify a price for the export market.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="RangeDependentPrice">
+                <xsd:annotation>
+                    <xsd:documentation>A code identifying the price for a specific range of  purchase quantities.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ActiveIngredient">
+                <xsd:annotation>
+                    <xsd:documentation>The price is referring to the active ingredient.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="AsIsQuantity">
+                <xsd:annotation>
+                    <xsd:documentation>The price is referring to the measured quantity.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CalculationNet">
+                <xsd:annotation>
+                    <xsd:documentation>The price stated is the net price including allowances/charges. Allowances/charges may be stated for information only.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CalculationGross">
+                <xsd:annotation>
+                    <xsd:documentation>The price stated is the gross price to which allowances/ charges must be applied.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="TaxIncludedAllowancesAndChargesNotIncluded">
+                <xsd:annotation>
+                    <xsd:documentation>The price does not include the allowances and charges, but includes the taxes</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Actual">
+                <xsd:annotation>
+                    <xsd:documentation>Actual</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="AverageSellingPrice">
+                <xsd:annotation>
+                    <xsd:documentation>Average selling price of a product.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="InformationPriceTaxIncludedExcludingAllowancesOrCharges">
+                <xsd:annotation>
+                    <xsd:documentation>The price stated is for information purposes only and excludes all allowances and charges. Taxes however are included in the price</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="InformationPriceExcludingAllowancesOrChargesAndTaxes">
+                <xsd:annotation>
+                    <xsd:documentation>The price stated is for information purposes only and excludes all allowances, charges and taxes.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="AdditiveUnitPriceComponent">
+                <xsd:annotation>
+                    <xsd:documentation>A code to indicate that the price described is an additive component of the total price.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="AverageGenericProductPrice">
+                <xsd:annotation>
+                    <xsd:documentation>Average Generic Product Price</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="AlternatePrice">
+                <xsd:annotation>
+                    <xsd:documentation>Alternate Price</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="AverageWholesalePrice">
+                <xsd:annotation>
+                    <xsd:documentation>Average Wholesale Price</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="BaseCharge">
+                <xsd:annotation>
+                    <xsd:documentation>Base Charge</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ContractTier1">
+                <xsd:annotation>
+                    <xsd:documentation>Contract Tier 1</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ContractTier2">
+                <xsd:annotation>
+                    <xsd:documentation>Contract Tier 2</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ContractTier3">
+                <xsd:annotation>
+                    <xsd:documentation>Contract Tier 3</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ContractTier4">
+                <xsd:annotation>
+                    <xsd:documentation>Contract Tier 4</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ContractTier5">
+                <xsd:annotation>
+                    <xsd:documentation>Contract Tier 5</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ContractTier6">
+                <xsd:annotation>
+                    <xsd:documentation>Contract Tier 6</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ContractTier7">
+                <xsd:annotation>
+                    <xsd:documentation>Contract Tier 7</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ContractTier8">
+                <xsd:annotation>
+                    <xsd:documentation>Contract Tier 8</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ContractTier9">
+                <xsd:annotation>
+                    <xsd:documentation>Contract Tier 9</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ContractTier10">
+                <xsd:annotation>
+                    <xsd:documentation>Contract Tier 10</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ContractTier11">
+                <xsd:annotation>
+                    <xsd:documentation>Contract Tier 11</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ContractTier12">
+                <xsd:annotation>
+                    <xsd:documentation>Contract Tier 12</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ContractTier13">
+                <xsd:annotation>
+                    <xsd:documentation>Contract Tier 13</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ContractTier14">
+                <xsd:annotation>
+                    <xsd:documentation>Contract Tier 14</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ContractTier15">
+                <xsd:annotation>
+                    <xsd:documentation>Contract Tier 15</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ContractTier16">
+                <xsd:annotation>
+                    <xsd:documentation>Contract Tier 16</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ContractTier17">
+                <xsd:annotation>
+                    <xsd:documentation>Contract Tier 17</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ContractTier18">
+                <xsd:annotation>
+                    <xsd:documentation>Contract Tier 18</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ContractTier19">
+                <xsd:annotation>
+                    <xsd:documentation>Contract Tier 19</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ContractTier20">
+                <xsd:annotation>
+                    <xsd:documentation>Contract Tier 20</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ContractTier21">
+                <xsd:annotation>
+                    <xsd:documentation>Contract Tier 21</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ContractTier22">
+                <xsd:annotation>
+                    <xsd:documentation>Contract Tier 22</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ContractTier23">
+                <xsd:annotation>
+                    <xsd:documentation>Contract Tier 23</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ContractTier24">
+                <xsd:annotation>
+                    <xsd:documentation>Contract Tier 24</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ContractTier25">
+                <xsd:annotation>
+                    <xsd:documentation>Contract Tier 25</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ContractTier26">
+                <xsd:annotation>
+                    <xsd:documentation>Contract Tier 26</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ContractTier27">
+                <xsd:annotation>
+                    <xsd:documentation>Contract Tier 27</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ContractTier28">
+                <xsd:annotation>
+                    <xsd:documentation>Contract Tier 28</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ContractTier29">
+                <xsd:annotation>
+                    <xsd:documentation>Contract Tier 29</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ContractTier30">
+                <xsd:annotation>
+                    <xsd:documentation>Contract Tier 30</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CalculationPrice">
+                <xsd:annotation>
+                    <xsd:documentation>Calculation Price</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CatalogPrice">
+                <xsd:annotation>
+                    <xsd:documentation>The price stated is the price for the calculation of the line item amount.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CentralDistributionFacility">
+                <xsd:annotation>
+                    <xsd:documentation>Central Distribution Facility (Warehouse)</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CurrentDomesticValue">
+                <xsd:annotation>
+                    <xsd:documentation>Current Domestic Value</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ChangedPrice">
+                <xsd:annotation>
+                    <xsd:documentation>Changed Price</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ContractPrice">
+                <xsd:annotation>
+                    <xsd:documentation>Contract Price</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ConsumerUnit">
+                <xsd:annotation>
+                    <xsd:documentation>The price is referring to the consumer unit.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ConfirmedUnitPrice">
+                <xsd:annotation>
+                    <xsd:documentation>Confirmed Unit Price</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DeclaredCustomsUnitValue">
+                <xsd:annotation>
+                    <xsd:documentation>Declared Customs Unit Value</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DealerAdjustedPrice">
+                <xsd:annotation>
+                    <xsd:documentation>Dealer Adjusted Price</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DistributorsPrice">
+                <xsd:annotation>
+                    <xsd:documentation>Distributor's Price</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DiscountPrice">
+                <xsd:annotation>
+                    <xsd:documentation>Discount Price</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DiscountAmountAllowed">
+                <xsd:annotation>
+                    <xsd:documentation>Discount Amount Allowed</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DirectStoreDelivery">
+                <xsd:annotation>
+                    <xsd:documentation>Direct Store Delivery</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DirectShipProgramPrice">
+                <xsd:annotation>
+                    <xsd:documentation>Direct Ship Program Price</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="EcscPrice">
+                <xsd:annotation>
+                    <xsd:documentation>Price registered at European Commission Steel and Carbon office (DG III).</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="EmergencyDirectShipPriceOriginalEquipmentManufacturer">
+                <xsd:annotation>
+                    <xsd:documentation>Emergency Direct Ship Price (Original Equipment Manufacturer)</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="EmergencyDirectShipPrice">
+                <xsd:annotation>
+                    <xsd:documentation>Emergency Direct Ship Price</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="EmergencyDirectShipPriceSupplier">
+                <xsd:annotation>
+                    <xsd:documentation>Emergency Direct Ship Price (Supplier)</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="EmergencyDirectShipPriceWarehouse">
+                <xsd:annotation>
+                    <xsd:documentation>Emergency Direct Ship Price (Warehouse)</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="EstimatedPrice">
+                <xsd:annotation>
+                    <xsd:documentation>Estimated Price</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ExpectedUnitPrice">
+                <xsd:annotation>
+                    <xsd:documentation>Expected Unit Price</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="FlatCharge">
+                <xsd:annotation>
+                    <xsd:documentation>Flat Charge</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="FrequentDeliveryService">
+                <xsd:annotation>
+                    <xsd:documentation>Frequent Delivery Service</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="FederalExciseTax">
+                <xsd:annotation>
+                    <xsd:documentation>Federal Excise Tax</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="FreeGoodsPrice">
+                <xsd:annotation>
+                    <xsd:documentation>Free Goods Price</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="FederalUpperLimitPriceMaximumAllowableCostPricingForDrugs">
+                <xsd:annotation>
+                    <xsd:documentation>Federal Upper Limit Price (Maximum Allowable Cost Pricing for Drugs)</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="FirmPriceDoNotAdvise">
+                <xsd:annotation>
+                    <xsd:documentation>Firm Price - Do Not Advise</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="GovernmentPrice">
+                <xsd:annotation>
+                    <xsd:documentation>Government Price</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="UnitPriceThroughQuantity">
+                <xsd:annotation>
+                    <xsd:documentation>Unit Price Through Quantity</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="IndustrialPrice">
+                <xsd:annotation>
+                    <xsd:documentation>Industrial Price</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="InformationPrice">
+                <xsd:annotation>
+                    <xsd:documentation>The price is provided for information.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="InstitutionalPrice">
+                <xsd:annotation>
+                    <xsd:documentation>Institutional Price</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="InvoiceBillingPrice">
+                <xsd:annotation>
+                    <xsd:documentation>Referenced price taken from an invoice.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ListPrice">
+                <xsd:annotation>
+                    <xsd:documentation>List Price</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="MandatoryToAdviseUnitPrice">
+                <xsd:annotation>
+                    <xsd:documentation>Mandatory To Advise Unit Price</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="MinimumActivitySurcharge">
+                <xsd:annotation>
+                    <xsd:documentation>Minimum Activity Surcharge</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="MaximumOrderQuantityPrice">
+                <xsd:annotation>
+                    <xsd:documentation>Maximum Order Quantity Price</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="MinimumOrderQuantityPrice">
+                <xsd:annotation>
+                    <xsd:documentation>Minimum Order Quantity Price</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="MinimumCharge">
+                <xsd:annotation>
+                    <xsd:documentation>Minimum Charge</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="MinimumReleaseQuantityPrice">
+                <xsd:annotation>
+                    <xsd:documentation>Minimum Release Quantity Price</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="MaximumPriceReduction">
+                <xsd:annotation>
+                    <xsd:documentation>Maximum Price Reduction</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ManufacturersSuggestedRetail">
+                <xsd:annotation>
+                    <xsd:documentation>Manufacturer's Suggested Retail</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="MaximumReleaseQuantityPrice">
+                <xsd:annotation>
+                    <xsd:documentation>Maximum Release Quantity Price</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NoncontractTier1">
+                <xsd:annotation>
+                    <xsd:documentation>Noncontract Tier 1</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NoncontractTier2">
+                <xsd:annotation>
+                    <xsd:documentation>Noncontract Tier 2</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NoncontractTier3">
+                <xsd:annotation>
+                    <xsd:documentation>Noncontract Tier 3</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NoncontractTier4">
+                <xsd:annotation>
+                    <xsd:documentation>Noncontract Tier 4</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NoncontractTier5">
+                <xsd:annotation>
+                    <xsd:documentation>Noncontract Tier 5</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NoncontractTier6">
+                <xsd:annotation>
+                    <xsd:documentation>Noncontract Tier 6</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NoncontractTier7">
+                <xsd:annotation>
+                    <xsd:documentation>Noncontract Tier 7</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NoncontractTier8">
+                <xsd:annotation>
+                    <xsd:documentation>Noncontract Tier 8</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NoncontractTier9">
+                <xsd:annotation>
+                    <xsd:documentation>Noncontract Tier 9</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NoncontractTier10">
+                <xsd:annotation>
+                    <xsd:documentation>Noncontract Tier 10</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NoncontractTier11">
+                <xsd:annotation>
+                    <xsd:documentation>Noncontract Tier 11</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NoncontractTier12">
+                <xsd:annotation>
+                    <xsd:documentation>Noncontract Tier 12</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NoncontractTier13">
+                <xsd:annotation>
+                    <xsd:documentation>Noncontract Tier 13</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NoncontractTier14">
+                <xsd:annotation>
+                    <xsd:documentation>Noncontract Tier 14</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NoncontractTier15">
+                <xsd:annotation>
+                    <xsd:documentation>Noncontract Tier 15</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NoncontractTier16">
+                <xsd:annotation>
+                    <xsd:documentation>Noncontract Tier 16</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NoncontractTier17">
+                <xsd:annotation>
+                    <xsd:documentation>Noncontract Tier 17</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NoncontractTier18">
+                <xsd:annotation>
+                    <xsd:documentation>Noncontract Tier 18</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NoncontractTier19">
+                <xsd:annotation>
+                    <xsd:documentation>Noncontract Tier 19</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NoncontractTier20">
+                <xsd:annotation>
+                    <xsd:documentation>Noncontract Tier 20</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NoncontractTier21">
+                <xsd:annotation>
+                    <xsd:documentation>Noncontract Tier 21</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NoncontractTier22">
+                <xsd:annotation>
+                    <xsd:documentation>Noncontract Tier 22</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NoncontractTier23">
+                <xsd:annotation>
+                    <xsd:documentation>Noncontract Tier 23</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NoncontractTier24">
+                <xsd:annotation>
+                    <xsd:documentation>Noncontract Tier 24</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NoncontractTier25">
+                <xsd:annotation>
+                    <xsd:documentation>Noncontract Tier 25</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NoncontractTier26">
+                <xsd:annotation>
+                    <xsd:documentation>Noncontract Tier 26</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NoncontractTier27">
+                <xsd:annotation>
+                    <xsd:documentation>Noncontract Tier 27</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NoncontractTier28">
+                <xsd:annotation>
+                    <xsd:documentation>Noncontract Tier 28</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NoncontractTier29">
+                <xsd:annotation>
+                    <xsd:documentation>Noncontract Tier 29</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NoncontractTier30">
+                <xsd:annotation>
+                    <xsd:documentation>Noncontract Tier 30</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NetItemPrice">
+                <xsd:annotation>
+                    <xsd:documentation>Net Item Price</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NetWeight">
+                <xsd:annotation>
+                    <xsd:documentation>Net Weight</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="OptionalToAdviseUnitPrice">
+                <xsd:annotation>
+                    <xsd:documentation>Optional To Advise Unit Price</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="OriginalPurchaseOrderPrice">
+                <xsd:annotation>
+                    <xsd:documentation>Original Purchase Order Price</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PriceBreakQuantity">
+                <xsd:annotation>
+                    <xsd:documentation>Price Break Quantity</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="UnitPriceBeginningQuantity">
+                <xsd:annotation>
+                    <xsd:documentation>Unit Price Beginning Quantity</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PriceBreakPurchaseOrderCount">
+                <xsd:annotation>
+                    <xsd:documentation>Price Break Purchase Order Count</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PriceCatalogue">
+                <xsd:annotation>
+                    <xsd:documentation>Price Catalogue</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PerEach">
+                <xsd:annotation>
+                    <xsd:documentation>Per Each</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PriceInEffectAtTimeOfShipment">
+                <xsd:annotation>
+                    <xsd:documentation>Price In Effect At Time Of Shipment</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PerKilogram">
+                <xsd:annotation>
+                    <xsd:documentation>Per Kilogram</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PerLiter">
+                <xsd:annotation>
+                    <xsd:documentation>Per Liter</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PrepaidFreightCharges">
+                <xsd:annotation>
+                    <xsd:documentation>Prepaid Freight Charges</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ProfessionalPrice">
+                <xsd:annotation>
+                    <xsd:documentation>Professional Price</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ProducersPrice">
+                <xsd:annotation>
+                    <xsd:documentation>Producer's Price</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PromotionalPrice">
+                <xsd:annotation>
+                    <xsd:documentation>Promotional Price</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PerTonne">
+                <xsd:annotation>
+                    <xsd:documentation>Per Tonne</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SpecifiedUnit">
+                <xsd:annotation>
+                    <xsd:documentation>Specified Unit</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ProvisionalPrice">
+                <xsd:annotation>
+                    <xsd:documentation>Provisional Price</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="GrossWeight">
+                <xsd:annotation>
+                    <xsd:documentation>Gross Weight</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Purchase">
+                <xsd:annotation>
+                    <xsd:documentation>Purchase</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="QuotePrice">
+                <xsd:annotation>
+                    <xsd:documentation>Quote Price</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Resale">
+                <xsd:annotation>
+                    <xsd:documentation>Resale</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Retail">
+                <xsd:annotation>
+                    <xsd:documentation>Retail</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SuggestedDealerNetPrice">
+                <xsd:annotation>
+                    <xsd:documentation>Suggested Dealer Net Price</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SuggestedFleetPrice">
+                <xsd:annotation>
+                    <xsd:documentation>Suggested Fleet Price</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ShipAndDebit">
+                <xsd:annotation>
+                    <xsd:documentation>Ship And Debit</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SuggestedListPrice">
+                <xsd:annotation>
+                    <xsd:documentation>Suggested List Price</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SpecialPrice">
+                <xsd:annotation>
+                    <xsd:documentation>Special Price</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SinglePriceFactorsEqualized">
+                <xsd:annotation>
+                    <xsd:documentation>Single Price (Factors Equalized)</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SuggestedRetail">
+                <xsd:annotation>
+                    <xsd:documentation>Suggested Retail</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="StandardPrice">
+                <xsd:annotation>
+                    <xsd:documentation>Standard Price</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SumOfLineItems">
+                <xsd:annotation>
+                    <xsd:documentation>Sum Of Line Items</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SuggestedWholesalePrice">
+                <xsd:annotation>
+                    <xsd:documentation>Suggested Wholesale Price</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ToBeNegotiated">
+                <xsd:annotation>
+                    <xsd:documentation>To Be Negotiated</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ThresholdPrice">
+                <xsd:annotation>
+                    <xsd:documentation>Threshold Price</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="TotalInvoiceAmountDue">
+                <xsd:annotation>
+                    <xsd:documentation>Total Invoice Amount Due</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Transfer">
+                <xsd:annotation>
+                    <xsd:documentation>Transfer</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="TradedUnit">
+                <xsd:annotation>
+                    <xsd:documentation>The price is referring to the traded unit.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="TheoreticalWeight">
+                <xsd:annotation>
+                    <xsd:documentation>Weight calculated on ordered dimension (length, width,thickness) not on final dimension (e.g. steel products).</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="UnitCostPrice">
+                <xsd:annotation>
+                    <xsd:documentation>Unit Cost Price</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Wholesale">
+                <xsd:annotation>
+                    <xsd:documentation>Wholesale</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ZonePrice">
+                <xsd:annotation>
+                    <xsd:documentation>Zone Price</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+        </xsd:restriction>
+    </xsd:simpleType>
+</xsd:schema>

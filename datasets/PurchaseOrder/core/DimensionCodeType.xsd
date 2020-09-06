@@ -1,0 +1,1175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" targetNamespace="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" elementFormDefault="qualified">
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+            XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.
+            Permission is granted to use, copy, modify and distribute the
+            DTD's, schemas and modules in the Commerce One XML Common Business
+            Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleType name="DimensionCodeType">
+        <xsd:annotation>
+            <xsd:documentation>This code identifies the attribute measured. This code list is derived from EDIFACT 6313 (Measured attribute code)</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:NMTOKEN">
+            <xsd:enumeration value="Other">
+                <xsd:annotation>
+                    <xsd:documentation>Custom Code</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ConsolidatedWeight">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="UnitNetWeight">
+                <xsd:annotation>
+                    <xsd:documentation>[6160] Weight (Mass) Of Goods Including Any Packing Normally Going With Them To A Buyer In A Retail Sale.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="UnitGrossWeight">
+                <xsd:annotation>
+                    <xsd:documentation>[6292] Weight (Mass) Of Goods Including Packing But Excluding The Carrier'S Equipment.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="TotalNetWeight">
+                <xsd:annotation>
+                    <xsd:documentation>Total Weight Of Goods Excluding Packaging.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="TotalGrossWeight">
+                <xsd:annotation>
+                    <xsd:documentation>[6292] Weight (Mass) Of Goods Including Packing But Excluding The Carrier'S Equipment.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ItemGrossWeight">
+                <xsd:annotation>
+                    <xsd:documentation>Gross weight at line item level.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NetNetWeight">
+                <xsd:annotation>
+                    <xsd:documentation>[6048] Weight (mass) of the goods themselves without any packing.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NumberOfUnitsPerPallet">
+                <xsd:annotation>
+                    <xsd:documentation>The number of units contained on a pallet.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="FatContent">
+                <xsd:annotation>
+                    <xsd:documentation>An indication of the fat content of a product.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NetWeight">
+                <xsd:annotation>
+                    <xsd:documentation>[6160] Weight (mass) of goods including any packing normally going with them to a buyer in a retail sale.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="GrossTonnageOfTheVessel">
+                <xsd:annotation>
+                    <xsd:documentation>[6300] The measure of the overall size of a ship determined in accordance with the provisions of the International Convention on Tonnage Measurement of Ships, 1969.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NetTonnageOfTheVessel">
+                <xsd:annotation>
+                    <xsd:documentation>[6302] The measure of the useful capacity of a ship determined in accordance with the provisions of the International Convention on Tonnage Measurement of Ships, 1969.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Humidity">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Voltage">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PowerConsumption">
+                <xsd:annotation>
+                    <xsd:documentation>Value of energy consumption.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="HeatDissipation">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="AirFlow">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ShockImpact">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="OperativeTemperature">
+                <xsd:annotation>
+                    <xsd:documentation>Temperature identified system or process works according to specifications.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NonOperativeTemperature">
+                <xsd:annotation>
+                    <xsd:documentation>Temperature identified system or process does not work according to specifications.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="GrossVolume">
+                <xsd:annotation>
+                    <xsd:documentation>The observed volume unadjusted for factors such as temperature or gravity.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NetVolume">
+                <xsd:annotation>
+                    <xsd:documentation>The observed volume after adjustment for factors such as temperature or gravity.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="WaterContent">
+                <xsd:annotation>
+                    <xsd:documentation>Water content in product.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="TensileStress">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Fibrosity">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="GaugeLength">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Radius">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Straightness">
+                <xsd:annotation>
+                    <xsd:documentation>Straightness of the item.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Strain">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Volume">
+                <xsd:annotation>
+                    <xsd:documentation>The amount of air space taken up by the entity identified in the 6311 qualifier.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ItemWeight">
+                <xsd:annotation>
+                    <xsd:documentation>Weight at line item level.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="WeightOfConveyance">
+                <xsd:annotation>
+                    <xsd:documentation>Tonnage of conveyance.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ConveyanceSummerDeadWeight">
+                <xsd:annotation>
+                    <xsd:documentation>Registered summer dead weight total tonnage of the vessel.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ContainerizedCargoOnVesselsWeight">
+                <xsd:annotation>
+                    <xsd:documentation>Total weight of containerized cargo on vessel.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Non-ContainerizedCargoOnVesselsWeight">
+                <xsd:annotation>
+                    <xsd:documentation>Total weight of non-containerized cargo on vessel.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="WeightAscertained">
+                <xsd:annotation>
+                    <xsd:documentation>[4240] Endorsement of the true weight (mass) as ascertained or verified by the railway (CIM 81).</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ChargeableWeight">
+                <xsd:annotation>
+                    <xsd:documentation>The weight on which charges are based.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="EstimatedGrossWeight">
+                <xsd:annotation>
+                    <xsd:documentation>Estimated weight (mass) of goods, including packing and excluding carrier's.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="EstimatedVolume">
+                <xsd:annotation>
+                    <xsd:documentation>Estimated size or measure of anything in three dimensions.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="VesselOverallLength">
+                <xsd:annotation>
+                    <xsd:documentation>Total overall length of the vessel.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="LoadingMeters">
+                <xsd:annotation>
+                    <xsd:documentation>The length in a vehicle, whereby the complete width and height over that length is needed for the goods.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NumberOfAxles">
+                <xsd:annotation>
+                    <xsd:documentation>Number of axles of movable equipment or means of transport on wheels.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Payload">
+                <xsd:annotation>
+                    <xsd:documentation>The revenue-producing load carried by a means of transport.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="StartPositionInTheLength">
+                <xsd:annotation>
+                    <xsd:documentation>The starting position from the beginning of an item located in the length direction.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="EndPositionInTheLength">
+                <xsd:annotation>
+                    <xsd:documentation>The end position from the beginning of an item located in the length direction.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="StartPositionInTheWidth">
+                <xsd:annotation>
+                    <xsd:documentation>The start position from the beginning of an item located in the width direction.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="EndPositionInTheWidth">
+                <xsd:annotation>
+                    <xsd:documentation>The end position from the beginning of an item located in the width direction.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="StartPositionInTheThickness">
+                <xsd:annotation>
+                    <xsd:documentation>The start position from the beginning of an item located in the thickness direction.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="EndPositionInTheThickness">
+                <xsd:annotation>
+                    <xsd:documentation>The end position from the beginning of an item located in the thickness direction.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="TransportContainerActualFillingWeight">
+                <xsd:annotation>
+                    <xsd:documentation>Actual filling weight of a transport container.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="TransportContainerMaximumCapacity">
+                <xsd:annotation>
+                    <xsd:documentation>Maximum capacity of a transport container.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DeclaredNetWeight">
+                <xsd:annotation>
+                    <xsd:documentation>The declared net weight of a product or products used for invoicing, customs or transport purposes.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="LoadingHeight">
+                <xsd:annotation>
+                    <xsd:documentation>Maximum height of products or packages loaded onto a given transportation device or equipment such as a pallet.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="StackingHeight">
+                <xsd:annotation>
+                    <xsd:documentation>Maximum height up to which the same product or package may be placed one upon the other for storage purposes.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CalculatedWeight">
+                <xsd:annotation>
+                    <xsd:documentation>The calculated weight of the item based on the ordered dimensions.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Ferrite">
+                <xsd:annotation>
+                    <xsd:documentation>The chemical composition ferrite.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Impurity">
+                <xsd:annotation>
+                    <xsd:documentation>The impurity of the product i.e. the measurement of other chemical elements not normally appearing in a product.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="GrainSize">
+                <xsd:annotation>
+                    <xsd:documentation>The grain size.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Lanthanides">
+                <xsd:annotation>
+                    <xsd:documentation>The chemical element Lanthanides.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Elasticity">
+                <xsd:annotation>
+                    <xsd:documentation>The value of the elasticity.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DrainedWeight">
+                <xsd:annotation>
+                    <xsd:documentation>The weight of a product when all liquids used in the packaging of the product have been removed.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Gallium">
+                <xsd:annotation>
+                    <xsd:documentation>Measurement of the gallium component.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Strontium">
+                <xsd:annotation>
+                    <xsd:documentation>Measurement of the strontium component.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="EquipmentStorageLimitation">
+                <xsd:annotation>
+                    <xsd:documentation>Maximum storage limit of the equipment.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="RadioactiveIndexOfTransport">
+                <xsd:annotation>
+                    <xsd:documentation>The index of transport determines the maximum radiation level at a distance of 1m from the external surface.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Radioactivity">
+                <xsd:annotation>
+                    <xsd:documentation>Activity of radioactive material.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="AverageGrossWeight">
+                <xsd:annotation>
+                    <xsd:documentation>Weight which is the outcome of the division of the total gross weight by the number of units.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ForwardDraft">
+                <xsd:annotation>
+                    <xsd:documentation>Depth of water from the surface of water to the bottom of the vessel measured at the draft mark of the bow.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="AfterDraft">
+                <xsd:annotation>
+                    <xsd:documentation>Depth of water from the surface of water to the bottom of the vessel measured at the draft mark of the stern.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="TransportEquipmentGrossWeight">
+                <xsd:annotation>
+                    <xsd:documentation>Weight of a transport equipment including the cargo and carrier's equipment.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="TotalTransportEquipmentGrossWeight">
+                <xsd:annotation>
+                    <xsd:documentation>Total weight of all transport equipment including the cargo and carrier's equipment.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="AcidityOfJuice">
+                <xsd:annotation>
+                    <xsd:documentation>Acid measurement of juice.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Penetrometry">
+                <xsd:annotation>
+                    <xsd:documentation>Measurement of force required to drive a standard penetrating stamp.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Durofel">
+                <xsd:annotation>
+                    <xsd:documentation>Measurement of the elastic force using a standard penetrating stamp.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="JuiceWeightPer100Grams">
+                <xsd:annotation>
+                    <xsd:documentation>Measurement of weight of juice, based on 100 grams of the entire weight.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="FruitSkinColour">
+                <xsd:annotation>
+                    <xsd:documentation>Measurement of the colouring of the epidermis of a fruit.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="AngleOfBend">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="FixedIncrementalMeasurement">
+                <xsd:annotation>
+                    <xsd:documentation>The measurement of the fixed increment.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DurofelD10">
+                <xsd:annotation>
+                    <xsd:documentation>Measure of the elastic force of the pulp of a fruit. It is measured with a penetrating stamp with diameter 10.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DurofelD25">
+                <xsd:annotation>
+                    <xsd:documentation>Measure of the elastic force of the pulp of a fruit. It is measured with a penetrating stamp with diameter 25.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DurofelD50">
+                <xsd:annotation>
+                    <xsd:documentation>Measure of the elastic force of the pulp of a fruit. It is measured with a penetrating stamp with diameter 50.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="MaximumStackingWeight">
+                <xsd:annotation>
+                    <xsd:documentation>The maximum weight which may be stacked upon a product or package without the product or packaging being crushed.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="GrossMeasureCube">
+                <xsd:annotation>
+                    <xsd:documentation>The total cubic space occupied by an item, taking into account any protruding components, arrived at by multiplying the maximum length, width and height.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PercentageFatContentInDryMatter">
+                <xsd:annotation>
+                    <xsd:documentation>The percentage of fat content in dry matter.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SaccharometricContent">
+                <xsd:annotation>
+                    <xsd:documentation>Measurement of the sugar content of a solution.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="HydrateContentOfAnAlcoholicProductAfterBottling">
+                <xsd:annotation>
+                    <xsd:documentation>The hydrate content which occurs in an alcoholic product after bottling.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="AnhydrousContent">
+                <xsd:annotation>
+                    <xsd:documentation>The non-water content.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CertifiedWeight">
+                <xsd:annotation>
+                    <xsd:documentation>Weight which has been certified.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="BilledWeight">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="BreakingLoad">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Platinum">
+                <xsd:annotation>
+                    <xsd:documentation>The measurement of the platinum component.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Silver">
+                <xsd:annotation>
+                    <xsd:documentation>The measurement of the silver component.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="List">
+                <xsd:annotation>
+                    <xsd:documentation>The leaning or inclination of a vessel expressed in degrees port or starboard.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Trim">
+                <xsd:annotation>
+                    <xsd:documentation>The condition of a vessel with reference to its longitudinal axis.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="FreeWater">
+                <xsd:annotation>
+                    <xsd:documentation>The volume of water present in a container that is not in suspension in the contained liquid.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Bands">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="AmericanPetroleumInstituteGravity">
+                <xsd:annotation>
+                    <xsd:documentation>The relative density of petroleum liquids as specified by a standard developed by the API.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PetroleumGrossObservedVolume">
+                <xsd:annotation>
+                    <xsd:documentation>The total volume of all petroleum liquids and sediment and water, excluding free water, at observed temperature and pressure.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PetroleumGrossStandardVolume">
+                <xsd:annotation>
+                    <xsd:documentation>The total volume of all petroleum liquids, sediment, and water excluding free water, corrected by the appropriate volume correction factor for the observed temperature and American Petroleum Institute relative density, or density to a standard temperature.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="VolumeVariance">
+                <xsd:annotation>
+                    <xsd:documentation>The change in the volume measurement.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PetroleumNetStandardVolume">
+                <xsd:annotation>
+                    <xsd:documentation>The total volume of all petroleum liquids, excluding sediment and water and free water, corrected by the appropriate volume correction factor for the observed temperature and American Petroleum Institute gravity relative to density or to a standard temperature.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="MaterialOn-BoardQuantity-AfterDischarge">
+                <xsd:annotation>
+                    <xsd:documentation>The material in vessel tanks, void spaces, and pipelines after discharge.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PetroleumTotalCalculatedVolume">
+                <xsd:annotation>
+                    <xsd:documentation>The total volume of all petroleum liquids, sediment and water corrected by the appropriate volume correction factor for the observed temperature and American Petroleum Institute (API) gravity, relative density, or density to a standard temperature.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PetroleumTotalObservedVolume">
+                <xsd:annotation>
+                    <xsd:documentation>The total volume of all petroleum liquids, sediment and water and free water at observed temperature and pressure.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="InnageGaugeDistance">
+                <xsd:annotation>
+                    <xsd:documentation>The measured distance from the surface of the liquid to a fixed datum plate or to the tank bottom.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PetroleumNetStandardWeight">
+                <xsd:annotation>
+                    <xsd:documentation>The total weight of all petroleum liquids excluding sediments, water and free water.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SedimentAndWaterInPetroleum">
+                <xsd:annotation>
+                    <xsd:documentation>The measurement of non-hydrocarbon solid material and water in suspension in petroleum liquid.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ObservedReferenceHeight-Tank">
+                <xsd:annotation>
+                    <xsd:documentation>The observed distance from the tank bottom or datum plate to the established reference point.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ReferenceHeight-Tank">
+                <xsd:annotation>
+                    <xsd:documentation>The measured distance from the tank bottom or datum plate to the established reference point.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="UllageGaugeDistance">
+                <xsd:annotation>
+                    <xsd:documentation>The measured distance from the cargo liquid surface to the reference point.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="TrimCorrection">
+                <xsd:annotation>
+                    <xsd:documentation>The correction applied to the observed gauge or observed volume when a vessel is not on an even keel.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="BowToBridgeDistance">
+                <xsd:annotation>
+                    <xsd:documentation>The distance between the bow and the bridge of a vessel.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Brightness">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Brakes">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Break">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="BreakingStrength">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="BreakingStrengthWet">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="BasisWeight">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Change">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Colour">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ContentsOfPackage">
+                <xsd:annotation>
+                    <xsd:documentation>In combination with the other data elements of the actual segment this code indicates the measured content of a package.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CommercialWeight">
+                <xsd:annotation>
+                    <xsd:documentation>Item weight considering its maximum possible humidity.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CoreLength">
+                <xsd:annotation>
+                    <xsd:documentation>To specify length of core on which product is to be placed.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DestinationWeightAgreement">
+                <xsd:annotation>
+                    <xsd:documentation>The agreed weight of despatched goods whose weight may change during transport.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Diameter">
+                <xsd:annotation>
+                    <xsd:documentation>Diameter of an article.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DeltaValueL">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Density">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Depth">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Denier">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DistanceBetweenPoints">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Width-BoxcarDoor">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="EstimatedNewWeight">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Elongation">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DeficitWeight">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="FilamentCount">
+                <xsd:annotation>
+                    <xsd:documentation>Used e.g. in textile, print industries.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="LongitudinalFlatness">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Flatness">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="TransverseFlatness">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="GrossWeight">
+                <xsd:annotation>
+                    <xsd:documentation>[6292] Weight (mass) of goods including packing but excluding the carrier's equipment.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Gauge">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="GrossWeight-Maximum">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Hardness">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Height-Maximum">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="HeightDimension">
+                <xsd:annotation>
+                    <xsd:documentation>Numeric value of height.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ImpactEnergy">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="InsideDiameter">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="LegalWeight">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Length-Maximum">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="LengthDimension">
+                <xsd:annotation>
+                    <xsd:documentation>(6168) Length of pieces or packages stated for transport purposes.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="LostEnd">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="MinimumWeight">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Moisture">
+                <xsd:annotation>
+                    <xsd:documentation>Measurement application is the moisture content of the item.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="MaximumWeight">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ActualNetWeight">
+                <xsd:annotation>
+                    <xsd:documentation>The actual weight of the goods excluding packaging.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="OutsideDiameter">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PreStretch">
+                <xsd:annotation>
+                    <xsd:documentation>Measurement identifying the amount an item has been stretched prior to use.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PerTonne">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="RelativeHumidity">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Resistivity">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="RockwellC">
+                <xsd:annotation>
+                    <xsd:documentation>Hardness in the Rockwell C scale.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ReamWeight">
+                <xsd:annotation>
+                    <xsd:documentation>Measurement indication for paper.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ReductionOfArea">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Run-Process">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Ratio">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ShippedQuantity">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="TareWeight">
+                <xsd:annotation>
+                    <xsd:documentation>Weight excluding goods and loose accessories.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Temperature">
+                <xsd:annotation>
+                    <xsd:documentation>A measurement in relation to temperature.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Thickness">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="TimePeriod">
+                <xsd:annotation>
+                    <xsd:documentation>Measurement of a specific length of time.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Time">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="WeightPerUnit">
+                <xsd:annotation>
+                    <xsd:documentation>[6150] Numeric value of weight.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Height-VanDoor">
+                <xsd:annotation>
+                    <xsd:documentation>The height of the door of a van or container.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Width-VanDoor">
+                <xsd:annotation>
+                    <xsd:documentation>The width of the door of a van or container.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="WeightPerUnitOfArea">
+                <xsd:annotation>
+                    <xsd:documentation>The weight per unit of an area.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="WidthDimension">
+                <xsd:annotation>
+                    <xsd:documentation>Numeric value of width.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Width-Maximum">
+                <xsd:annotation>
+                    <xsd:documentation>The maximum distance from side to side.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Weight">
+                <xsd:annotation>
+                    <xsd:documentation>[6150] Numeric value of weight.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="WeightPerUnitOfLength">
+                <xsd:annotation>
+                    <xsd:documentation>The weight per unit of length.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SideHeight-FlatBedWithRemovableSides">
+                <xsd:annotation>
+                    <xsd:documentation>The height of the removable sides of a flat bed truck.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Teir">
+                <xsd:annotation>
+                    <xsd:documentation>Number of layers per pallet (unit of measurement = LR (Layer))</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Block">
+                <xsd:annotation>
+                    <xsd:documentation>Number of packages per layer on a pallet (unit of measurement = PK (Package)</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Squareness">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SpoolSize">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="YieldStress">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Aluminium">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Arsenic">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Boron">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Bismuth">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Carbon">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Calcium">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Columbium">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Cerium">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Chlorine">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Cobalt">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Chromium">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Copper">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Iron">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="IronPlusSilicon">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Germanium">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Hydrogen">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Potassium">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Magnesium">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Manganese">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Molybdenum">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Nitrogen">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Sodium">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Niobium">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Nickel">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Oxygen">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Phosphorus">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Lead">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Sulphur">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Antimony">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Selenium">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Silicon">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SiliciumOxyd">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Tin">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Tantalium">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Tellurium">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Titanium">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Vanadium">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Tungsten">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="WasteContent">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Zinc">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Zirconium">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="StorageTemperature">
+                <xsd:annotation>
+                    <xsd:documentation>The temperature at which the cargo is to be kept while it is in storage.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="TransportTemperature">
+                <xsd:annotation>
+                    <xsd:documentation>The temperature at which cargo is to be kept while it is under transport.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CargoOperatingTemperature">
+                <xsd:annotation>
+                    <xsd:documentation>The temperature at which cargo is to be kept during cargo handling.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="TransportEmergencyTemperature">
+                <xsd:annotation>
+                    <xsd:documentation>The temperature at which emergency procedures apply for the disposal of temperature-controlled goods.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="TransportControlTemperature">
+                <xsd:annotation>
+                    <xsd:documentation>The maximum temperature at which certain products can be safely transported.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+        </xsd:restriction>
+    </xsd:simpleType>
+</xsd:schema>

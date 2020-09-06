@@ -1,0 +1,1643 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE ontology SYSTEM "dtds/ontology.dtd">
+<ontology name="www.thy.com" title="Turkish Airlines" type="full" site="http://www.thy.com/en/index.php">
+    <classes>
+        <class name="page">
+            <domain type="" />
+            <attributes />
+            <axioms />
+            <subclasses />
+        </class>
+        <class name="form">
+            <domain type="" />
+            <attributes>
+                <attribute name="method" value="get">
+                    <domain name="Choice" type="choice">
+                        <entry>post</entry>
+                        <entry>get</entry>
+                    </domain>
+                </attribute>
+                <attribute name="action">
+                    <domain name="URL" type="url" />
+                </attribute>
+            </attributes>
+            <axioms />
+            <subclasses />
+        </class>
+        <class name="input">
+            <domain type="" />
+            <attributes>
+                <attribute name="name">
+                    <domain name="Text" type="text" />
+                </attribute>
+                <attribute name="disabled" value="false">
+                    <domain name="Boolean" type="boolean" />
+                </attribute>
+            </attributes>
+            <axioms />
+            <subclasses>
+                <class name="text">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="name">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="disabled">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                        <attribute name="type" value="text">
+                            <domain type="" />
+                        </attribute>
+                        <attribute name="defaultValue">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="value">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="size">
+                            <domain name="Positive Integer" type="pinteger" />
+                        </attribute>
+                        <attribute name="maxLength">
+                            <domain name="Positive Integer" type="pinteger" />
+                        </attribute>
+                        <attribute name="readOnly" value="false">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <subclasses />
+                </class>
+                <class name="password">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="name">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="disabled">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                        <attribute name="type" value="password">
+                            <domain type="" />
+                        </attribute>
+                        <attribute name="defaultValue">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="size">
+                            <domain name="Positive Integer" type="text" />
+                        </attribute>
+                        <attribute name="maxLength">
+                            <domain name="Positive Integer" type="pinteger" />
+                        </attribute>
+                        <attribute name="readOnly" value="false">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <subclasses />
+                </class>
+                <class name="file">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="name">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="disabled">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                        <attribute name="type" value="file">
+                            <domain type="" />
+                        </attribute>
+                        <attribute name="size">
+                            <domain name="Positive Integer" type="pinteger" />
+                        </attribute>
+                        <attribute name="maxLength">
+                            <domain name="Positive Integer" type="pinteger" />
+                        </attribute>
+                        <attribute name="readOnly" value="false">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <subclasses />
+                </class>
+                <class name="hidden">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="name">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="disabled">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                        <attribute name="type" value="hidden">
+                            <domain type="" />
+                        </attribute>
+                        <attribute name="type" value="button">
+                            <domain type="" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <subclasses />
+                </class>
+                <class name="checkbox">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="name">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="disabled">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                        <attribute name="type" value="checkbox">
+                            <domain type="" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <subclasses />
+                </class>
+                <class name="radio">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="name">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="disabled">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                        <attribute name="type" value="radio">
+                            <domain type="" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <subclasses />
+                </class>
+                <class name="select">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="name">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="disabled">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                        <attribute name="type" value="select">
+                            <domain type="" />
+                        </attribute>
+                        <attribute name="size">
+                            <domain name="Positive Integer" type="pinteger" />
+                        </attribute>
+                        <attribute name="multiple" value="false">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <subclasses />
+                </class>
+                <class name="textarea">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="name">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="disabled">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                        <attribute name="type" value="textarea">
+                            <domain type="" />
+                        </attribute>
+                        <attribute name="defaultValue">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="rows">
+                            <domain name="Positive Integer" type="pinteger" />
+                        </attribute>
+                        <attribute name="cols">
+                            <domain name="Positive Integer" type="pinteger" />
+                        </attribute>
+                        <attribute name="readOnly" value="false">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <subclasses />
+                </class>
+                <class name="button">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="name">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="disabled">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <subclasses />
+                </class>
+                <class name="submit">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="name">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="disabled">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                        <attribute name="type" value="submit">
+                            <domain type="" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <subclasses />
+                </class>
+                <class name="reset">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="name">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="disabled">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                        <attribute name="type" value="reset">
+                            <domain type="" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <subclasses />
+                </class>
+                <class name="image">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="name">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="disabled">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                        <attribute name="type" value="image">
+                            <domain type="" />
+                        </attribute>
+                        <attribute name="src">
+                            <domain name="URL" type="url" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <subclasses />
+                </class>
+            </subclasses>
+        </class>
+        <class name="composition">
+            <domain type="" />
+            <attributes>
+                <attribute name="name" value="">
+                    <domain type="" />
+                </attribute>
+            </attributes>
+            <axioms />
+            <subclasses>
+                <class name="decomposition">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="name">
+                            <domain type="" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <subclasses />
+                </class>
+                <class name="group">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="name">
+                            <domain type="" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <subclasses />
+                </class>
+            </subclasses>
+        </class>
+    </classes>
+    <terms>
+        <term id="5968023826983628291" name="http://www.thy.com/en/index.php" class="page">
+            <domain type="" />
+            <attributes />
+            <axioms />
+            <relationships>
+                <relationship name="is parent of">
+                    <source>http://www.thy.com/en/index.php</source>
+                    <targets>search</targets>
+                </relationship>
+                <relationship name="is parent of">
+                    <source>http://www.thy.com/en/index.php</source>
+                    <targets>lc</targets>
+                </relationship>
+                <relationship name="is parent of">
+                    <source>http://www.thy.com/en/index.php</source>
+                    <targets>miles_miles</targets>
+                </relationship>
+                <relationship name="is parent of">
+                    <source>http://www.thy.com/en/index.php</source>
+                    <targets>online</targets>
+                </relationship>
+            </relationships>
+            <subterms>
+                <term id="1350374640076567057" name="search" class="form">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="method" value="get">
+                            <domain name="Choice" type="choice">
+                                <entry>post</entry>
+                                <entry>get</entry>
+                            </domain>
+                        </attribute>
+                        <attribute name="action" value="http://www.thy.com/cgi-bin/enarama/arama.cgi">
+                            <domain name="URL" type="url" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <relationships>
+                        <relationship name="is child of">
+                            <source>search</source>
+                            <targets>http://www.thy.com/en/index.php</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>search</source>
+                            <targets>display</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>search</source>
+                            <targets>c</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>search</source>
+                            <targets>sort</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>search</source>
+                            <targets>Turkish Airlines</targets>
+                        </relationship>
+                    </relationships>
+                    <subterms>
+                        <term id="3786264122470387964" name="display" value="20" class="hidden">
+                            <domain type="" />
+                            <attributes>
+                                <attribute name="name" value="display">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>display</source>
+                                    <targets>search</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="1213567607741250878" name="c" value="s" class="hidden">
+                            <domain type="" />
+                            <attributes>
+                                <attribute name="name" value="c">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>c</source>
+                                    <targets>search</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="7097168816469874698" name="sort" value="Scores" class="hidden">
+                            <domain type="" />
+                            <attributes>
+                                <attribute name="name" value="sort">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>sort</source>
+                                    <targets>search</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="3884803059596132939" name="Turkish Airlines" value="" class="text">
+                            <domain name="Text" type="text" />
+                            <attributes>
+                                <attribute name="name" value="terms">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="defaultValue" value="">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="value">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="size" value="14">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="maxLength">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="readOnly" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>Turkish Airlines</source>
+                                    <targets>search</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                    </subterms>
+                </term>
+                <term id="2855081146806515437" name="lc" class="form">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="method" value="post">
+                            <domain name="Choice" type="choice">
+                                <entry>post</entry>
+                                <entry>get</entry>
+                            </domain>
+                        </attribute>
+                        <attribute name="action" value="http://www.thy.com/cgi-bin/redirect/local.cgi">
+                            <domain name="URL" type="url" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <relationships>
+                        <relationship name="is child of">
+                            <source>lc</source>
+                            <targets>http://www.thy.com/en/index.php</targets>
+                        </relationship>
+                    </relationships>
+                    <subterms />
+                </term>
+                <term id="7424545679920742201" name="miles_miles" class="form">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="method" value="post">
+                            <domain name="Choice" type="choice">
+                                <entry>post</entry>
+                                <entry>get</entry>
+                            </domain>
+                        </attribute>
+                        <attribute name="action" value="http://www3.thy.com/milesandmiles/xlogin.tk?lang=en">
+                            <domain name="URL" type="url" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <relationships>
+                        <relationship name="is child of">
+                            <source>miles_miles</source>
+                            <targets>http://www.thy.com/en/index.php</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>miles_miles</source>
+                            <targets>Member ID</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>miles_miles</source>
+                            <targets>Member ID</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>miles_miles</source>
+                            <targets>PIN Code</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>miles_miles</source>
+                            <targets />
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>miles_miles</source>
+                            <targets>Turkish Airlines</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>miles_miles</source>
+                            <targets>Member ID</targets>
+                        </relationship>
+                    </relationships>
+                    <subterms>
+                        <term id="4433570060662864601" name="Member ID" class="group">
+                            <domain type="" />
+                            <attributes>
+                                <attribute name="name" value="MemberID__Composition_">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is parent of">
+                                    <source>Member ID</source>
+                                    <targets>Member ID</targets>
+                                </relationship>
+                                <relationship name="is parent of">
+                                    <source>Member ID</source>
+                                    <targets>Member ID</targets>
+                                </relationship>
+                                <relationship name="is child of">
+                                    <source>Member ID</source>
+                                    <targets>miles_miles</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms>
+                                <term id="3523515649150766104" name="Member ID" value="TK" class="text">
+                                    <domain name="Text" type="text" />
+                                    <attributes>
+                                        <attribute name="name" value="textfield222">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="disabled" value="false">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                        <attribute name="type">
+                                            <domain type="" />
+                                        </attribute>
+                                        <attribute name="defaultValue" value="TK">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="value">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="size">
+                                            <domain name="Positive Integer" type="pinteger" />
+                                        </attribute>
+                                        <attribute name="maxLength">
+                                            <domain name="Positive Integer" type="pinteger" />
+                                        </attribute>
+                                        <attribute name="readOnly" value="true">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                    </attributes>
+                                    <axioms />
+                                    <relationships>
+                                        <relationship name="is child of">
+                                            <source>Member ID</source>
+                                            <targets>miles_miles</targets>
+                                        </relationship>
+                                        <relationship name="is child of">
+                                            <source>Member ID</source>
+                                            <targets>Member ID</targets>
+                                        </relationship>
+                                    </relationships>
+                                    <subterms />
+                                </term>
+                                <term id="2559342690913861165" name="Member ID" value="" class="text">
+                                    <domain name="Text" type="text" />
+                                    <attributes>
+                                        <attribute name="name" value="id">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="disabled" value="false">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                        <attribute name="type">
+                                            <domain type="" />
+                                        </attribute>
+                                        <attribute name="defaultValue" value="">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="value">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="size">
+                                            <domain name="Positive Integer" type="pinteger" />
+                                        </attribute>
+                                        <attribute name="maxLength" value="9">
+                                            <domain name="Positive Integer" type="pinteger" />
+                                        </attribute>
+                                        <attribute name="readOnly" value="false">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                    </attributes>
+                                    <axioms />
+                                    <relationships>
+                                        <relationship name="is child of">
+                                            <source>Member ID</source>
+                                            <targets>miles_miles</targets>
+                                        </relationship>
+                                        <relationship name="is child of">
+                                            <source>Member ID</source>
+                                            <targets>Member ID</targets>
+                                        </relationship>
+                                    </relationships>
+                                    <subterms />
+                                </term>
+                            </subterms>
+                        </term>
+                        <term id="5466417428422431495" name="PIN Code" value="" class="password">
+                            <domain name="Text" type="text" />
+                            <attributes>
+                                <attribute name="name" value="pin">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="defaultValue" value="">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="size">
+                                    <domain name="Positive Integer" type="text" />
+                                </attribute>
+                                <attribute name="maxLength" value="4">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="readOnly" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>PIN Code</source>
+                                    <targets>miles_miles</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="7101685147092164533" name="" class="image">
+                            <domain type="" />
+                            <attributes>
+                                <attribute name="name" value="imgesync2">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="src" value="http://www.thy.com/images/lsite_ok.gif">
+                                    <domain name="URL" type="url" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source />
+                                    <targets>miles_miles</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="5791042904881377969" name="Turkish Airlines" value="" class="select">
+                            <domain name="Text" type="text">
+                                <entry>
+                                    <term id="7983671296316114486" name="Select local site" value="">
+                                        <domain type="" />
+                                        <attributes>
+                                            <attribute name="selected" value="true">
+                                                <domain type="" />
+                                            </attribute>
+                                            <attribute name="defaultSelected" value="true">
+                                                <domain type="" />
+                                            </attribute>
+                                        </attributes>
+                                        <axioms />
+                                        <relationships />
+                                        <subterms />
+                                    </term>
+                                </entry>
+                                <entry>
+                                    <term id="3494261597538802243" name="USA" value="www.flyturkish.com">
+                                        <domain type="" />
+                                        <attributes>
+                                            <attribute name="selected" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                            <attribute name="defaultSelected" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                        </attributes>
+                                        <axioms />
+                                        <relationships />
+                                        <subterms />
+                                    </term>
+                                </entry>
+                                <entry>
+                                    <term id="8379364502913098148" name="China" value="www.turkishairlineschina.com">
+                                        <domain type="" />
+                                        <attributes>
+                                            <attribute name="selected" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                            <attribute name="defaultSelected" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                        </attributes>
+                                        <axioms />
+                                        <relationships />
+                                        <subterms />
+                                    </term>
+                                </entry>
+                                <entry>
+                                    <term id="7510653978195746306" name="Germany" value="www.turkishairlines.de">
+                                        <domain type="" />
+                                        <attributes>
+                                            <attribute name="selected" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                            <attribute name="defaultSelected" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                        </attributes>
+                                        <axioms />
+                                        <relationships />
+                                        <subterms />
+                                    </term>
+                                </entry>
+                                <entry>
+                                    <term id="3620238668529590301" name="Hungary" value="www.turkishairlines.hu">
+                                        <domain type="" />
+                                        <attributes>
+                                            <attribute name="selected" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                            <attribute name="defaultSelected" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                        </attributes>
+                                        <axioms />
+                                        <relationships />
+                                        <subterms />
+                                    </term>
+                                </entry>
+                                <entry>
+                                    <term id="7658255791562024616" name="Japan" value="www.turkishairlines.co.jp">
+                                        <domain type="" />
+                                        <attributes>
+                                            <attribute name="selected" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                            <attribute name="defaultSelected" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                        </attributes>
+                                        <axioms />
+                                        <relationships />
+                                        <subterms />
+                                    </term>
+                                </entry>
+                                <entry>
+                                    <term id="820568243508279628" name="Korea" value="www.turkishairlines.co.kr">
+                                        <domain type="" />
+                                        <attributes>
+                                            <attribute name="selected" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                            <attribute name="defaultSelected" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                        </attributes>
+                                        <axioms />
+                                        <relationships />
+                                        <subterms />
+                                    </term>
+                                </entry>
+                                <entry>
+                                    <term id="5143372934524956726" name="Poland" value="www.turkish.pl">
+                                        <domain type="" />
+                                        <attributes>
+                                            <attribute name="selected" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                            <attribute name="defaultSelected" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                        </attributes>
+                                        <axioms />
+                                        <relationships />
+                                        <subterms />
+                                    </term>
+                                </entry>
+                                <entry>
+                                    <term id="5319755161678666979" name="Singapore" value="www.thy.com.sg">
+                                        <domain type="" />
+                                        <attributes>
+                                            <attribute name="selected" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                            <attribute name="defaultSelected" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                        </attributes>
+                                        <axioms />
+                                        <relationships />
+                                        <subterms />
+                                    </term>
+                                </entry>
+                            </domain>
+                            <attributes>
+                                <attribute name="name" value="ls">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="size">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="multiple">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                            </attributes>
+                            <axioms>
+                                <axiom name="onChange">World()</axiom>
+                            </axioms>
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>Turkish Airlines</source>
+                                    <targets>miles_miles</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                    </subterms>
+                </term>
+                <term id="2887277540254644199" name="online" class="form">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="method" value="post">
+                            <domain name="Choice" type="choice">
+                                <entry>post</entry>
+                                <entry>get</entry>
+                            </domain>
+                        </attribute>
+                        <attribute name="action" value="http://www3.thy.com/troyaonline/validateSchedulePage.tk">
+                            <domain name="URL" type="url" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <relationships>
+                        <relationship name="is child of">
+                            <source>online</source>
+                            <targets>http://www.thy.com/en/index.php</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>online</source>
+                            <targets>Departure   date:</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>online</source>
+                            <targets>Return date:</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>online</source>
+                            <targets>lang</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>online</source>
+                            <targets>Class:</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>online</source>
+                            <targets>From</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>online</source>
+                            <targets>To</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>online</source>
+                            <targets>Class:</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>online</source>
+                            <targets>Adult (12 yrs and up)</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>online</source>
+                            <targets>Child (2-12 yrs)</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>online</source>
+                            <targets>Infant (7 Days-2 yrs )</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>online</source>
+                            <targets>Class:</targets>
+                        </relationship>
+                    </relationships>
+                    <subterms>
+                        <term id="4798194857116774483" name="Departure   date:" value="28-10-2003" class="text">
+                            <domain name="Text" type="text" />
+                            <attributes>
+                                <attribute name="name" value="departureDate">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="defaultValue" value="28-10-2003">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="value">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="size" value="10">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="maxLength" value="10">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="readOnly" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>Departure   date:</source>
+                                    <targets>online</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="4494088775402700059" name="Return date:" value="03-11-2003" class="text">
+                            <domain name="Text" type="text" />
+                            <attributes>
+                                <attribute name="name" value="returnDate">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="defaultValue" value="03-11-2003">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="value">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="size" value="10">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="maxLength" value="10">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="readOnly" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>Return date:</source>
+                                    <targets>online</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="7371275263768052945" name="lang" value="en" class="hidden">
+                            <domain type="" />
+                            <attributes>
+                                <attribute name="name" value="lang">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>lang</source>
+                                    <targets>online</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="3472378950089267390" name="Class:" class="group">
+                            <domain type="" />
+                            <attributes>
+                                <attribute name="name" value="Class__Composition_">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is parent of">
+                                    <source>Class:</source>
+                                    <targets>Class:</targets>
+                                </relationship>
+                                <relationship name="is parent of">
+                                    <source>Class:</source>
+                                    <targets>Class:</targets>
+                                </relationship>
+                                <relationship name="is child of">
+                                    <source>Class:</source>
+                                    <targets>online</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms>
+                                <term id="7336174978433550068" name="Class:" value="roundTrip" class="radio">
+                                    <domain name="Choice" type="choice">
+                                        <entry>
+                                            <term id="8976565630797530379" name="" value="roundTrip">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="checked" value="true">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultChecked" value="true">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="792098794132720336" name="" value="complex">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="checked" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultChecked" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="460996266339869510" name="" value="oneway">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="checked" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultChecked" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                    </domain>
+                                    <attributes>
+                                        <attribute name="name" value="tripType">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="disabled" value="false">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                        <attribute name="type">
+                                            <domain type="" />
+                                        </attribute>
+                                    </attributes>
+                                    <axioms />
+                                    <relationships>
+                                        <relationship name="is child of">
+                                            <source>Class:</source>
+                                            <targets>online</targets>
+                                        </relationship>
+                                        <relationship name="is child of">
+                                            <source>Class:</source>
+                                            <targets>Class:</targets>
+                                        </relationship>
+                                    </relationships>
+                                    <subterms />
+                                </term>
+                                <term id="3033907527669573716" name="Class:" value="*" class="select">
+                                    <domain name="Text" type="text">
+                                        <entry>
+                                            <term id="1079476637662716180" name="Economy (Restricted) *" value="*">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="true">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="true">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="6599014498093724746" name="Economy" value="Y">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="330941182918352833" name="Business" value="C">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                    </domain>
+                                    <attributes>
+                                        <attribute name="name" value="typeOfClass">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="disabled" value="false">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                        <attribute name="type">
+                                            <domain type="" />
+                                        </attribute>
+                                        <attribute name="size">
+                                            <domain name="Positive Integer" type="pinteger" />
+                                        </attribute>
+                                        <attribute name="multiple">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                    </attributes>
+                                    <axioms />
+                                    <relationships>
+                                        <relationship name="is child of">
+                                            <source>Class:</source>
+                                            <targets>online</targets>
+                                        </relationship>
+                                        <relationship name="is child of">
+                                            <source>Class:</source>
+                                            <targets>Class:</targets>
+                                        </relationship>
+                                    </relationships>
+                                    <subterms />
+                                </term>
+                            </subterms>
+                        </term>
+                        <term id="4111309930211894862" name="From" value="" class="select">
+                            <domain name="Text" type="text">
+                                <entry>
+                                    <term id="6144861912497763407" name="Please Select..." value="">
+                                        <domain type="" />
+                                        <attributes>
+                                            <attribute name="selected" value="true">
+                                                <domain type="" />
+                                            </attribute>
+                                            <attribute name="defaultSelected" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                        </attributes>
+                                        <axioms />
+                                        <relationships />
+                                        <subterms />
+                                    </term>
+                                </entry>
+                            </domain>
+                            <attributes>
+                                <attribute name="name" value="from">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="size">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="multiple">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>From</source>
+                                    <targets>online</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="5686108940549873010" name="To" value="" class="select">
+                            <domain name="Text" type="text">
+                                <entry>
+                                    <term id="2113658095173820004" name="Please Select..." value="">
+                                        <domain type="" />
+                                        <attributes>
+                                            <attribute name="selected" value="true">
+                                                <domain type="" />
+                                            </attribute>
+                                            <attribute name="defaultSelected" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                        </attributes>
+                                        <axioms />
+                                        <relationships />
+                                        <subterms />
+                                    </term>
+                                </entry>
+                            </domain>
+                            <attributes>
+                                <attribute name="name" value="to">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="size">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="multiple">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>To</source>
+                                    <targets>online</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="3392495513117504628" name="Adult (12 yrs and up)" value="1" class="select">
+                            <domain name="Integer" type="integer">
+                                <entry>
+                                    <term id="6257252961315410023" name="1" value="1">
+                                        <domain type="" />
+                                        <attributes>
+                                            <attribute name="selected" value="true">
+                                                <domain type="" />
+                                            </attribute>
+                                            <attribute name="defaultSelected" value="true">
+                                                <domain type="" />
+                                            </attribute>
+                                        </attributes>
+                                        <axioms />
+                                        <relationships />
+                                        <subterms />
+                                    </term>
+                                </entry>
+                                <entry>
+                                    <term id="8613950768877936200" name="2" value="2">
+                                        <domain type="" />
+                                        <attributes>
+                                            <attribute name="selected" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                            <attribute name="defaultSelected" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                        </attributes>
+                                        <axioms />
+                                        <relationships />
+                                        <subterms />
+                                    </term>
+                                </entry>
+                                <entry>
+                                    <term id="3279275384476764949" name="3" value="3">
+                                        <domain type="" />
+                                        <attributes>
+                                            <attribute name="selected" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                            <attribute name="defaultSelected" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                        </attributes>
+                                        <axioms />
+                                        <relationships />
+                                        <subterms />
+                                    </term>
+                                </entry>
+                                <entry>
+                                    <term id="2510843271972154441" name="4" value="4">
+                                        <domain type="" />
+                                        <attributes>
+                                            <attribute name="selected" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                            <attribute name="defaultSelected" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                        </attributes>
+                                        <axioms />
+                                        <relationships />
+                                        <subterms />
+                                    </term>
+                                </entry>
+                            </domain>
+                            <attributes>
+                                <attribute name="name" value="adult">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="size">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="multiple">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>Adult (12 yrs and up)</source>
+                                    <targets>online</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="7592805313917107079" name="Child (2-12 yrs)" value="0" class="select">
+                            <domain name="Integer" type="integer">
+                                <entry>
+                                    <term id="2615373376889838095" name="0" value="0">
+                                        <domain type="" />
+                                        <attributes>
+                                            <attribute name="selected" value="true">
+                                                <domain type="" />
+                                            </attribute>
+                                            <attribute name="defaultSelected" value="true">
+                                                <domain type="" />
+                                            </attribute>
+                                        </attributes>
+                                        <axioms />
+                                        <relationships />
+                                        <subterms />
+                                    </term>
+                                </entry>
+                                <entry>
+                                    <term id="1109482182733829633" name="1" value="1">
+                                        <domain type="" />
+                                        <attributes>
+                                            <attribute name="selected" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                            <attribute name="defaultSelected" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                        </attributes>
+                                        <axioms />
+                                        <relationships />
+                                        <subterms />
+                                    </term>
+                                </entry>
+                                <entry>
+                                    <term id="8599403234526467586" name="2" value="2">
+                                        <domain type="" />
+                                        <attributes>
+                                            <attribute name="selected" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                            <attribute name="defaultSelected" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                        </attributes>
+                                        <axioms />
+                                        <relationships />
+                                        <subterms />
+                                    </term>
+                                </entry>
+                                <entry>
+                                    <term id="3386942225387239684" name="3" value="3">
+                                        <domain type="" />
+                                        <attributes>
+                                            <attribute name="selected" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                            <attribute name="defaultSelected" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                        </attributes>
+                                        <axioms />
+                                        <relationships />
+                                        <subterms />
+                                    </term>
+                                </entry>
+                            </domain>
+                            <attributes>
+                                <attribute name="name" value="child">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="size">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="multiple">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>Child (2-12 yrs)</source>
+                                    <targets>online</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="1632443521960013882" name="Infant (7 Days-2 yrs )" value="0" class="select">
+                            <domain name="Integer" type="integer">
+                                <entry>
+                                    <term id="4340907144209740780" name="0" value="0">
+                                        <domain type="" />
+                                        <attributes>
+                                            <attribute name="selected" value="true">
+                                                <domain type="" />
+                                            </attribute>
+                                            <attribute name="defaultSelected" value="true">
+                                                <domain type="" />
+                                            </attribute>
+                                        </attributes>
+                                        <axioms />
+                                        <relationships />
+                                        <subterms />
+                                    </term>
+                                </entry>
+                                <entry>
+                                    <term id="7259847821690173876" name="1" value="1">
+                                        <domain type="" />
+                                        <attributes>
+                                            <attribute name="selected" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                            <attribute name="defaultSelected" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                        </attributes>
+                                        <axioms />
+                                        <relationships />
+                                        <subterms />
+                                    </term>
+                                </entry>
+                                <entry>
+                                    <term id="8018648510215214382" name="2" value="2">
+                                        <domain type="" />
+                                        <attributes>
+                                            <attribute name="selected" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                            <attribute name="defaultSelected" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                        </attributes>
+                                        <axioms />
+                                        <relationships />
+                                        <subterms />
+                                    </term>
+                                </entry>
+                                <entry>
+                                    <term id="4027992912151679267" name="3" value="3">
+                                        <domain type="" />
+                                        <attributes>
+                                            <attribute name="selected" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                            <attribute name="defaultSelected" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                        </attributes>
+                                        <axioms />
+                                        <relationships />
+                                        <subterms />
+                                    </term>
+                                </entry>
+                                <entry>
+                                    <term id="8500012893873320436" name="4" value="4">
+                                        <domain type="" />
+                                        <attributes>
+                                            <attribute name="selected" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                            <attribute name="defaultSelected" value="false">
+                                                <domain type="" />
+                                            </attribute>
+                                        </attributes>
+                                        <axioms />
+                                        <relationships />
+                                        <subterms />
+                                    </term>
+                                </entry>
+                            </domain>
+                            <attributes>
+                                <attribute name="name" value="infant">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="size">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="multiple">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>Infant (7 Days-2 yrs )</source>
+                                    <targets>online</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                    </subterms>
+                </term>
+            </subterms>
+        </term>
+    </terms>
+</ontology>
+

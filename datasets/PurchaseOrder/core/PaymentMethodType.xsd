@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" targetNamespace="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" elementFormDefault="qualified">
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+            XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.
+            Permission is granted to use, copy, modify and distribute the
+            DTD's, schemas and modules in the Commerce One XML Common Business
+            Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType name="PaymentMethodType">
+        <xsd:annotation>
+            <xsd:documentation>communicates the specific manner in which a payment is to be
+    made.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="PaymentMeanCoded" type="PaymentMeanCodeType">
+                <xsd:annotation>
+                    <xsd:documentation>contains a valid means of extinguishing the debt to which it
+    relates.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="PaymentMeanCodedOther" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>is used to provide a non-standard <!--code-->PaymentMeanCode<!--/code-->.
+    This element is mandatory if the value of <!--code-->PaymentMeanCoded<!--/code--> is
+    'Other'. These codes should not contain white space unless absolutely
+    necessary.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="PaymentMeanReference" type="ReferenceType">
+                <xsd:annotation>
+                    <xsd:documentation>identifies specific information relating to the specified payment
+    mean. For example, if the selected payment mean were check, then
+    <!--code-->PaymentMeanReference<!--/code--> would be used to communicate the check
+    number.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="PaymentSystemCoded" type="PaymentSystemCodeType">
+                <xsd:annotation>
+                    <xsd:documentation>indicates the system through which the payment is processed using
+    a standard codelist.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="PaymentSystemCodedOther" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>is used to provide a non-standard <!--code-->PaymentSystemCode<!--/code-->.
+    This element is mandatory if the value of <!--code-->PaymentSystemCoded<!--/code--> is
+    'Other'. These codes should not contain white space unless absolutely
+    necessary.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+			<xsd:choice minOccurs="0">
+        	    <xsd:element name="FITransfer" type="FITransferType">
+        	        <xsd:annotation>
+        	            <xsd:documentation>contains information for the financial institution and associated
+						account details for both the recieving and originating account.</xsd:documentation>
+        	        </xsd:annotation>
+        	    </xsd:element>
+        	    <xsd:element name="CardInfo" type="CardInfoType">
+        	        <xsd:annotation>
+                        <xsd:documentation>contains details of the credit or debit card that is being used
+    for the payment.</xsd:documentation>
+                    </xsd:annotation>
+        	    </xsd:element>
+        	</xsd:choice>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

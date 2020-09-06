@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" targetNamespace="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" elementFormDefault="qualified">
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+            XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.
+            Permission is granted to use, copy, modify and distribute the
+            DTD's, schemas and modules in the Commerce One XML Common Business
+            Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType name="FinancialInstitutionType">
+        <xsd:annotation>
+            <xsd:documentation>identifies a financial institution and branch.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="FinancialInstitutionID" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>identifies the financial institution by code.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="FinancialInstitutionName" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>identifies the financial institution by name.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="FIBranchID" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>identifies the branch of the financial institution by the branch
+        code. </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="FIBranchAddress" type="NameAddressType">
+                <xsd:annotation>
+                    <xsd:documentation>holds the name and address information for the 
+                    financial institution branch.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE ontology SYSTEM "dtds/ontology.dtd">
+<ontology name="AviationAirports" title="Airports Details" type="full">
+    <classes />
+    <terms>
+        <term name="AirportCode" value="">
+            <domain name="Number" type="number" />
+            <attributes />
+            <axioms />
+            <relationships />
+            <subterms />
+        </term>
+        <term name="AirportName" value="">
+            <domain name="Text" type="text" />
+            <attributes />
+            <axioms />
+            <relationships />
+            <subterms />
+        </term>
+        <term name="AirportAddress" value="">
+            <domain type="" />
+            <attributes />
+            <axioms />
+            <relationships>
+                <relationship name="is parent of">
+                    <source>AirportAddress</source>
+                    <targets>AirportCountry</targets>
+                </relationship>
+                <relationship name="is parent of">
+                    <source>AirportAddress</source>
+                    <targets>AirportCity</targets>
+                </relationship>
+            </relationships>
+            <subterms>
+                <term name="AirportCountry" value="">
+                    <domain name="Text" type="text" />
+                    <attributes />
+                    <axioms />
+                    <relationships>
+                        <relationship name="is child of">
+                            <source>AirportCountry</source>
+                            <targets>AirportAddress</targets>
+                        </relationship>
+                    </relationships>
+                    <subterms />
+                </term>
+                <term name="AirportCity" value="">
+                    <domain name="Text" type="text" />
+                    <attributes />
+                    <axioms />
+                    <relationships>
+                        <relationship name="is child of">
+                            <source>AirportCity</source>
+                            <targets>AirportAddress</targets>
+                        </relationship>
+                    </relationships>
+                    <subterms />
+                </term>
+            </subterms>
+        </term>
+    </terms>
+</ontology>
+

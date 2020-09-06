@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" targetNamespace="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" elementFormDefault="qualified">
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+            XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.
+            Permission is granted to use, copy, modify and distribute the
+            DTD's, schemas and modules in the Commerce One XML Common Business
+            Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType name="HazardousTemperaturesType">
+        <xsd:annotation>
+            <xsd:documentation>contains the various temperatures that relate to the item or
+        package, such as flashpoint, control, and emergency.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element minOccurs="0" name="Flashpoint" type="MeasurementType">
+                <xsd:annotation>
+                    <xsd:documentation>is the lowest temperature at which the vapor of a combustible
+        liquid can be made to ignite momentarily in air.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Emergency" type="MeasurementType">
+                <xsd:annotation>
+                    <xsd:documentation>is the temperature at which emergency procedures apply for the
+        disposal of temperature-controlled goods.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Control" type="MeasurementType">
+                <xsd:annotation>
+                    <xsd:documentation>is the maximum temperature at which certain products can be
+        safely transported.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ListOfTemperatureCoded" type="ListOfDimensionType">
+                <xsd:annotation>
+                    <xsd:documentation>holds a list of one or more temperatures.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

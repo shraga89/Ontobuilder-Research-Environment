@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" targetNamespace="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" elementFormDefault="qualified">
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+            XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.
+            Permission is granted to use, copy, modify and distribute the
+            DTD's, schemas and modules in the Commerce One XML Common Business
+            Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType name="ShipToSubInformationType">
+        <xsd:annotation>
+            <xsd:documentation>contains the information for the locations and quantities of the
+        goods for the schedule lines. </xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="ShipToSubLocation" type="LocationType">
+                <xsd:annotation>
+                    <xsd:documentation>identifies places inside the ship to location where specific sub
+        deliveries will be made. This is also called a mail stop.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="ShipToSubQuantity" type="QuantityType">
+                <xsd:annotation>
+                    <xsd:documentation>identifies the quantity associated with the ship to sub location.
+        </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="SubLocationItemPackagingReference" type="ItemPackagingReferenceType">
+                <xsd:annotation>
+                    <xsd:documentation>is to be used when specifying packaging details related to each
+        shipment to a sub location. The quantity fields should match the values in
+        shipto sub quantity. These values override packaging references supplied at the
+        delivery detail level. </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="ListOfShipToSubInformationType">
+        <xsd:annotation>
+            <xsd:documentation>details place and quantity information regarding the shipto
+        sub-location.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element maxOccurs="unbounded" name="ShipToSubInformation" type="ShipToSubInformationType">
+                <xsd:annotation>
+                    <xsd:documentation>contains the information for the locations and quantities of the
+        goods for the schedule lines. </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

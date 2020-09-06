@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="Order">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Sales">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="PO_Number_Sold" type="xs:ID"/>
+							<xs:element name="PO_Date_Sold" type="xs:dateTime"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ChangedAt" type="xs:dateTime"/>
+				<xs:element name="Description" type="xs:string"/>
+				<xs:element name="Partner">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Partner_Pft"/>
+							<xs:element name="Ident_Numbers">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="IdentificationNumber" type="xs:ID"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Shipping">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Dlv_Prio"/>
+							<xs:element name="Incoterms1"/>
+							<xs:element name="Incoterms2"/>
+							<xs:element name="Ship_Cond"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Text">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Text_Lines">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Text_Line"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="Langu_Iso"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Payplan">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="PayplanDate">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Card_No" type="xs:ID"/>
+										<xs:element name="Card_Ref_No" type="xs:ID"/>
+										<xs:element name="Card_Holder"/>
+										<xs:element name="Card_Exp_Date" type="xs:date"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Item">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Item_Number_Ext" type="xs:ID"/>
+							<xs:element name="Object_Task"/>
+							<xs:element name="Product_Prod" type="xs:ID"/>
+							<xs:element name="Product_Description" type="xs:string"/>
+							<xs:element name="Pricing_Result">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Net_Price"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="Pricing_Params">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Currency_ISO"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="Partner">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Partner_Pft"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="Text">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Text_Lines">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="Text_Line"/>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="Langu_Iso"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="Schedule_Lines">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="From_Time" type="xs:dateTime"/>
+										<xs:element name="To_Time" type="xs:dateTime"/>
+										<xs:element name="Quantity"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Item_Doc_Flow">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Relobj_Type"/>
+							<xs:element name="Relobj_Object_ID" type="xs:ID"/>
+							<xs:element name="Relobj_Item_Number" type="xs:ID"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Item_Sales">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Pcat_Hdr_Id"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

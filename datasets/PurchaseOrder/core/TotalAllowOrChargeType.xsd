@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" targetNamespace="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" elementFormDefault="qualified">
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+            XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.
+            Permission is granted to use, copy, modify and distribute the
+            DTD's, schemas and modules in the Commerce One XML Common Business
+            Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType name="TotalAllowOrChargeType">
+        <xsd:annotation>
+            <xsd:documentation>contain the details of the summerized totals of the allowance
+          or charge categorized by the <!--code-->AllowOrChargeDesc<!--/code-->.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="AllowOrChargeIndicatorCoded" type="AllowOrChargeIndicatorCodeType">
+                <xsd:annotation>
+                    <xsd:documentation>identifies whether the allowance or charge applies.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="AllowOrChargeIndicatorCodedOther" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>is used to provide a non-standard
+          <!--code-->AllowanceOrChargeIndicatorCode<!--/code-->. This element is mandatory if the
+          value of <!--code-->AllowanceOrChargeIndicatorCoded<!--/code--> is 'Other'. These codes
+          should not contain white space unless absolutely
+          necessary.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="AllowanceOrChargeDescription" type="AllowOrChgDescType">
+                <xsd:annotation>
+                    <xsd:documentation>describes the allowance or charge using references or free text.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="SummaryAllowOrCharge" type="MonetaryValueType">
+                <xsd:annotation>
+                    <xsd:documentation>contains the summarized totals of the allowance or charge.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

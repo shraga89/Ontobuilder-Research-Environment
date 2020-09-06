@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" targetNamespace="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" elementFormDefault="qualified">
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+            XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.
+            Permission is granted to use, copy, modify and distribute the
+            DTD's, schemas and modules in the Commerce One XML Common Business
+            Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType name="PackageTypeType">
+        <xsd:annotation>
+            <xsd:documentation>contains information about the specifics of the collection of
+        packages being described by the <!--code-->PackageDetail<!--/code--> element.  If the collection of
+        packages all contain the same things, and there is no need to identify specifically
+        which packages are contained in which, then only one <!--code-->Package<!--/code--> element should be used.  If the
+        contents of the package differ or if there needs to be a distinction between which package a sub
+        package is contained in, then multiple <!--code-->Package<!--/code--> elements should be used.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="PackageTypeCoded" type="PackageTypeCodeType">
+                <xsd:annotation>
+                    <xsd:documentation>identifies the kind of packaging using a standard codelist.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="PackageTypeCodedOther" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>is used to provide a non-standard <!--code-->PackageTypeCode<!--/code-->. This element
+		is mandatory if the value of <!--code-->PackageTypeCoded<!--/code--> is 'Other'.
+		These codes should not contain white space unless absolutely necessary.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="PackageTypeDescription" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>describes the material used for packaging using free form text.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="ListOfPackageTypeType">
+        <xsd:annotation>
+            <xsd:documentation>is used to describe one or more <!--code-->Package<!--/code--> element
+            as necessary by the complexity of the use of <!--code-->PackageDetail<!--/code--> element.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element maxOccurs="unbounded" name="PackageType" type="PackageTypeType">
+                <xsd:annotation>
+                    <xsd:documentation>identifies and describes the material used for packaging.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

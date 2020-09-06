@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" targetNamespace="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" elementFormDefault="qualified">
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+            XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.
+            Permission is granted to use, copy, modify and distribute the
+            DTD's, schemas and modules in the Commerce One XML Common Business
+            Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType name="MonetaryLimitType">
+        <xsd:annotation>
+            <xsd:documentation>is used to specify either a lower or upper bound, beyond which an
+        allowance or charge will apply.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="MonetaryLimitValue" type="Decimal21_6Type">
+                <xsd:annotation>
+                    <xsd:documentation>is a number representing the monetary limit.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Currency" type="CurrencyType">
+                <xsd:annotation>
+                    <xsd:documentation>specifies the currency that <!--code-->MonetaryLimitValue<!--/code--> is expressed.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="SignificanceCoded" type="SignificanceCodeType" use="optional">
+            <xsd:annotation>
+                <xsd:documentation>
+            is used to specify whether the <!--code-->MonetaryLimitValue<!--/code--> is a lower or upper limit.</xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="SignificanceCodedOther" type="xsd:string" use="optional">
+            <xsd:annotation>
+                <xsd:documentation>
+            is used to provide a non-standard <!--code-->SignificanceCode<!--/code-->.
+        This element is mandatory if the value of <!--code-->SignificanceCoded<!--/code--> is
+        'Other'. These codes should not contain white space unless absolutely
+        necessary.</xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+    </xsd:complexType>
+</xsd:schema>

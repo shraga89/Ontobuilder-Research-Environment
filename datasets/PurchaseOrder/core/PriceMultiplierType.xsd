@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" targetNamespace="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" elementFormDefault="qualified">
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+            XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.
+            Permission is granted to use, copy, modify and distribute the
+            DTD's, schemas and modules in the Commerce One XML Common Business
+            Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType name="PriceMultiplierType">
+        <xsd:annotation>
+            <xsd:documentation>contains a reason and value by which the unit price is multiplied
+        by to arrive at the final price for an item. This can be used to apply a
+        discount to a basic unit price.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="PriceMultiplierCoded" type="PriceMultiplierCodeType">
+                <xsd:annotation>
+                    <xsd:documentation>specifies the function of the multiplier using a standard
+        codelist.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="PriceMultiplierCodedOther" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>is used to provide a non-standard <!--code-->PriceMultiplerCode<!--/code-->. This
+        element is only used if the value of <!--code-->PriceMultiplierCoded<!--/code--> is 'Other.' These codes should not contain white space unless absolutely necessary.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="Multiplier" type="xsd:decimal">
+                <xsd:annotation>
+                    <xsd:documentation>contains a value by which the unit price is multiplied by to
+        arrive at the final price for an item. For example, if the unit price is to be
+        discounted by 10%, the value of <!--code-->PriceMultiplier<!--/code--> would be 0.9
+        </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2010 rel. 3 (http://www.altova.com) by NTT (norg) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns="Excel" targetNamespace="Excel" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="PurchaseOrder">
+		<xs:annotation>
+			<xs:documentation>Comment describing your root element</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Items">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="itemCount" type="xs:int"/>
+							<xs:element name="Item" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="yourPartnerNumber" type="xs:string"/>
+										<xs:element name="unitPrice" type="xs:decimal"/>
+										<xs:element name="unitOfMeasure" type="xs:string"/>
+										<xs:element name="salesValue" type="xs:decimal"/>
+										<xs:element name="quantity" type="xs:decimal"/>
+										<xs:element name="partNumber" type="xs:string"/>
+										<xs:element name="partDescription" type="xs:string"/>
+										<xs:element name="itemNumber" type="xs:int"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="DeliverTo">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Contact" type="ns:Contact"/>
+							<xs:element name="Address" type="ns:Address"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="InvoiceTo">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Contact" type="ns:Contact"/>
+							<xs:element name="Address" type="ns:Address"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Header">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="orderNum" type="xs:string"/>
+							<xs:element name="orderDate" type="xs:date"/>
+							<xs:element name="ourAccountCode" type="xs:string"/>
+							<xs:element name="yourAccountCode" type="xs:string"/>
+							<xs:element name="Contact" type="ns:Contact"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Footer">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="totalValue" type="xs:decimal"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="Address">
+		<xs:sequence>
+			<xs:element name="street1" type="xs:string"/>
+			<xs:element name="street2" type="xs:string"/>
+			<xs:element name="street3" type="xs:string"/>
+			<xs:element name="street4" type="xs:string"/>
+			<xs:element name="stateProvince" type="xs:string"/>
+			<xs:element name="postalCode" type="xs:string"/>
+			<xs:element name="country" type="xs:string"/>
+			<xs:element name="city" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Contact">
+		<xs:sequence>
+			<xs:element name="contactName" type="xs:string"/>
+			<xs:element name="companyName" type="xs:string"/>
+			<xs:element name="e-mail" type="xs:string"/>
+			<xs:element name="telephone" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

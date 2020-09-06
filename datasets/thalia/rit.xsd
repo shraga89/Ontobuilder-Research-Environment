@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="rit">
+		<xs:annotation>
+			<xs:documentation>Rochester Institute of Technology</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="Course" minOccurs="0" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:sequence minOccurs="0" maxOccurs="unbounded">
+							<xs:element name="CourseNo" type="xs:string" minOccurs="0"/>
+							<xs:element name="Title" type="xs:string" minOccurs="0"/>
+							<xs:element name="Section" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence minOccurs="0" maxOccurs="unbounded">
+											<xs:element name="Link" type="xs:string" minOccurs="0"/>
+											<xs:element name="Credits" type="xs:string" minOccurs="0"/>
+											<xs:element name="Instructor" type="xs:string" minOccurs="0"/>
+											<xs:element name="Days" type="xs:string" minOccurs="0"/>
+											<xs:element name="Time" type="xs:string" minOccurs="0"/>
+											<xs:element name="Building" type="xs:string" minOccurs="0"/>
+											<xs:element name="Room" type="xs:string" minOccurs="0"/>
+									</xs:sequence>
+									<xs:attribute name="SectionNo" type="xs:string" use="optional"/>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

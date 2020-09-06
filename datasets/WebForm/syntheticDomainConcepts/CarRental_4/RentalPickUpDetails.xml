@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE ontology SYSTEM "dtds/ontology.dtd">
+<ontology name="RentalPickUpDetails" title="Car Rental Domain PickUp location and time" type="light">
+    <terms>
+        <term id="4859437933316226690" name="pickUpStationID" value="">
+            <domain name="Positive Integer" type="pinteger" />
+            <attributes />
+            <axioms />
+            <relationships />
+            <subterms />
+        </term>
+        <term id="905566341828805402" name="PickUpDateTime" value="">
+            <domain name="Date" type="date" />
+            <attributes />
+            <axioms />
+            <relationships>
+                <relationship name="is parent of">
+                    <source>PickUpDateTime</source>
+                    <targets>PickUpDateYear</targets>
+                </relationship>
+                <relationship name="is parent of">
+                    <source>PickUpDateTime</source>
+                    <targets>PickUpDateMonth</targets>
+                </relationship>
+                <relationship name="is parent of">
+                    <source>PickUpDateTime</source>
+                    <targets>PickUpTime</targets>
+                </relationship>
+            </relationships>
+            <subterms>
+                <term id="4571529825357847134" name="PickUpDateYear" value="">
+                    <domain name="Number" type="number" />
+                    <attributes />
+                    <axioms />
+                    <relationships>
+                        <relationship name="is child of">
+                            <source>PickUpDateYear</source>
+                            <targets>PickUpDateTime</targets>
+                        </relationship>
+                    </relationships>
+                    <subterms />
+                </term>
+                <term id="5321170356184975423" name="PickUpDateMonth" value="">
+                    <domain name="Number" type="number" />
+                    <attributes />
+                    <axioms />
+                    <relationships>
+                        <relationship name="is child of">
+                            <source>PickUpDateMonth</source>
+                            <targets>PickUpDateTime</targets>
+                        </relationship>
+                    </relationships>
+                    <subterms />
+                </term>
+                <term id="5404526807092510634" name="PickUpTime" value="">
+                    <domain name="Time" type="time" />
+                    <attributes />
+                    <axioms />
+                    <relationships>
+                        <relationship name="is child of">
+                            <source>PickUpTime</source>
+                            <targets>PickUpDateTime</targets>
+                        </relationship>
+                    </relationships>
+                    <subterms>
+                        <term id="5595642259405739761" name="Hour" value="">
+                            <domain name="Positive Integer" type="pinteger" />
+                            <attributes />
+                            <axioms />
+                            <relationships />
+                            <subterms />
+                        </term>
+                        <term id="8975746914502435815" name="Seconds" value="0">
+                            <domain name="Positive Integer" type="pinteger" />
+                            <attributes />
+                            <axioms />
+                            <relationships />
+                            <subterms />
+                        </term>
+                    </subterms>
+                </term>
+            </subterms>
+        </term>
+        <term id="2581569743985402257" name="reservationID" value="">
+            <domain name="Number" type="number" />
+            <attributes />
+            <axioms />
+            <relationships />
+            <subterms />
+        </term>
+    </terms>
+</ontology>
+

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="unsw">
+		<xs:annotation>
+			<xs:documentation>University of New South Wales-Sydney,Australia</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="Course" minOccurs="0" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:sequence minOccurs="0" maxOccurs="unbounded">
+							<xs:element name="Title" type="xs:string" minOccurs="0"/>
+							<xs:element name="Day" type="xs:string" minOccurs="0"/>
+							<xs:element name="Time" type="xs:string" minOccurs="0"/>
+							<xs:element name="Room" type="xs:string" minOccurs="0"/>
+							<xs:element name="Instructor" type="xs:string" minOccurs="0"/>
+						</xs:sequence>
+						<xs:attribute name="CourseID" type="xs:string" use="optional"/>
+						<xs:attribute name="Section" type="xs:string" use="optional"/>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

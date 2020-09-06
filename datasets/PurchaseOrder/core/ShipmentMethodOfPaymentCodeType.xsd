@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" targetNamespace="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" elementFormDefault="qualified">
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+            XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.
+            Permission is granted to use, copy, modify and distribute the
+            DTD's, schemas and modules in the Commerce One XML Common Business
+            Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleType name="ShipmentMethodOfPaymentCodeType">
+        <xsd:annotation>
+            <xsd:documentation>This code identifies payment terms for transportation charges. This code list is derived from EDIFACT 4215 (Transport charges payment method code) and X12 146 (Shipment method of payment)</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:NMTOKEN">
+            <xsd:enumeration value="Other">
+                <xsd:annotation>
+                    <xsd:documentation>Custom Code</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Account">
+                <xsd:annotation>
+                    <xsd:documentation> The charges are to be charged to an account. </xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="AdvanceCollect">
+                <xsd:annotation>
+                    <xsd:documentation> The amount of freight or other charge on a shipment advanced by one transportation line to another or to the shipper, to be collected from consignee. </xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="AdvancePrepaid">
+                <xsd:annotation>
+                    <xsd:documentation> Costs have been paid in advance. </xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CashOnDeliveryServiceChargePaidByConsignee">
+                <xsd:annotation>
+                    <xsd:documentation> An indication that the consignee is responsible for the payment of the cash on delivery service charge. </xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CashOnDeliveryServiceChargePaidByConsignor">
+                <xsd:annotation>
+                    <xsd:documentation> An indication that the consignor is responsible for the payment of the cash on delivery service charge. </xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Collect">
+                <xsd:annotation>
+                    <xsd:documentation> A shipment on which freight charges will be paid by consignee. </xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CollectFreightCreditedToPaymentCustomer">
+                <xsd:annotation>
+                    <xsd:documentation> The freight is collect but has been paid by the shipper and will be credited to that party. </xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CollectOnDelivery">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CustomerPick-UpOrBackhaul">
+                <xsd:annotation>
+                    <xsd:documentation> Buyer's private carriage picks up the goods as a return load to the buyer's facility. </xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DefinedByBuyerAndSeller">
+                <xsd:annotation>
+                    <xsd:documentation>  </xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="FobPortOfCall">
+                <xsd:annotation>
+                    <xsd:documentation> Title and control of goods pass to the buyer at port of call. Responsibility for export taxes and cost of documents for overseas shipments have not been specified. </xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="HalfPrepaid">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="InformationCopy-NoPaymentDue">
+                <xsd:annotation>
+                    <xsd:documentation> Transaction set has been provided for information only. </xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="InsuranceCostsPaidByConsignee">
+                <xsd:annotation>
+                    <xsd:documentation> An indication that the consignee is responsible for the payment of the insurance costs. </xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="InsuranceCostsPaidByConsignor">
+                <xsd:annotation>
+                    <xsd:documentation> An indication that the consignor is responsible for the payment of the insurance costs. </xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Mixed">
+                <xsd:annotation>
+                    <xsd:documentation> The consignment is partially collect and partially prepaid. </xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NonRevenue">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NotSpecified">
+                <xsd:annotation>
+                    <xsd:documentation>  </xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PaidByBuyer">
+                <xsd:annotation>
+                    <xsd:documentation> Transport charges will be paid by the buyer. </xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PaidBySupplierOrSeller">
+                <xsd:annotation>
+                    <xsd:documentation> Transport charges will be paid by the supplier. </xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PayableElsewhere">
+                <xsd:annotation>
+                    <xsd:documentation> Place of payment not known at the begin of conveyance. </xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PerContract">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Pickup">
+                <xsd:annotation>
+                    <xsd:documentation> Customer is responsible for payment of pickup charges at shipping point. </xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PrepaidAndSummaryBill">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PrepaidButChargedToCustomer">
+                <xsd:annotation>
+                    <xsd:documentation> shipping charges have been paid in advance of shipment but are charged back to consignee usually as line item on invoice for the purchased goods. </xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PrepaidByProcessor">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Prepaid-BySeller">
+                <xsd:annotation>
+                    <xsd:documentation> Seller of goods makes payment to carrier for freight charges prior to shipment. </xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PrepaidLocalCollectOutstate">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PrepaidOnly">
+                <xsd:annotation>
+                    <xsd:documentation> Payment in advance of freight and/or other charges prior to delivery of shipment at destination, usually by shipper at point of origin. </xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ReturnContainerFreightFree">
+                <xsd:annotation>
+                    <xsd:documentation> There is no freight charge for returning the container. </xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ReturnContainerFreightPaidByCustomer">
+                <xsd:annotation>
+                    <xsd:documentation> The freight for returning the container is paid by the customer. </xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ReturnContainerFreightPaidBySupplier">
+                <xsd:annotation>
+                    <xsd:documentation> The freight charge for returning the container is paid by the supplier. </xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Rule11Shipment">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ServiceFreight-NoCharge">
+                <xsd:annotation>
+                    <xsd:documentation> The consignment is shipped on a service basis and there is no freight charge. </xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ThirdPartyPay">
+                <xsd:annotation>
+                    <xsd:documentation> A third party, someone other than buyer or seller, is identified as responsible for payment of shipping charges. </xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="WeightCondition">
+                <xsd:annotation>
+                    <xsd:documentation> Description to be provided. </xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+        </xsd:restriction>
+    </xsd:simpleType>
+</xsd:schema>

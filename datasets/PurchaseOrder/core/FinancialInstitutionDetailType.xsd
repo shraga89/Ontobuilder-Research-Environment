@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" targetNamespace="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" elementFormDefault="qualified">
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+            XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.
+            Permission is granted to use, copy, modify and distribute the
+            DTD's, schemas and modules in the Commerce One XML Common Business
+            Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType name="FinancialInstitutionDetailType">
+        <xsd:annotation>
+            <xsd:documentation>contains specifications for the financial institution information
+        which includes both account specific detail (i.e., account ID, account type,
+        account holder) and financial institution specific detail (i.e., bank ID,
+        branch ID). Financial institution information must be provided for the
+        originating bank and associated account detail and the receiving bank and
+        associated account detail.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="OriginatingFinancialInstitution" type="FIAccountDetailType">
+                <xsd:annotation>
+                    <xsd:documentation>contains the financial institution account information of the
+        originating bank. The account detail and financial institution detail are
+        required.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="ReceivingFinancialInstitution" type="FIAccountDetailType">
+                <xsd:annotation>
+                    <xsd:documentation>contains the financial institution account information for the
+        receiving bank. The account detail and financial institution detail are
+        required.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ListOfFinancialInstitution" type="FinancialInstitutionType">
+                <xsd:annotation>
+                    <xsd:documentation>contains a list of other financial institutions or intermediary
+			        banks associated with the payment request. The financial institution detail is
+			        required; the account detail is optional.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

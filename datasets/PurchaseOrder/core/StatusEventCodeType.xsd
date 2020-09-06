@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" targetNamespace="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" elementFormDefault="qualified">
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+            XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.
+            Permission is granted to use, copy, modify and distribute the
+            DTD's, schemas and modules in the Commerce One XML Common Business
+            Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleType name="StatusEventCodeType">
+        <xsd:annotation>
+            <xsd:documentation>This code identifies the status of the event.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:NMTOKEN">
+            <xsd:enumeration value="Pending">
+                <xsd:annotation>
+                    <xsd:documentation>Pending</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Accepted">
+                <xsd:annotation>
+                    <xsd:documentation>Accepted</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="AcceptedWithChanges">
+                <xsd:annotation>
+                    <xsd:documentation>Accepted with changes</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NotAccepted">
+                <xsd:annotation>
+                    <xsd:documentation>Notaccepted</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Despatched">
+                <xsd:annotation>
+                    <xsd:documentation>Despatched</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NotApplicable">
+                <xsd:annotation>
+                    <xsd:documentation>A status does not apply</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CreditReviewInProcess">
+                <xsd:annotation>
+                    <xsd:documentation>Payment status - credit review in progress</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CreditApproved">
+                <xsd:annotation>
+                    <xsd:documentation>Payment status - credit approved</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PrepaymentRequired">
+                <xsd:annotation>
+                    <xsd:documentation>Payment status - prepayment is required</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CardCharged">
+                <xsd:annotation>
+                    <xsd:documentation>Payment status - card has been charged</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Invoiced">
+                <xsd:annotation>
+                    <xsd:documentation>Payment status - customer has been invoiced</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PaymentReceived">
+                <xsd:annotation>
+                    <xsd:documentation>Payment status - payment has been received</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="AutomatedPaymentInitiated">
+                <xsd:annotation>
+                    <xsd:documentation>Payment status - an automated payment has been initiated</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PaidInFull">
+                <xsd:annotation>
+                    <xsd:documentation>Payment status - paid in full</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PartiallyCharged">
+                <xsd:annotation>
+                    <xsd:documentation>Payment status - only part of the items have been charged.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NotYetShipped">
+                <xsd:annotation>
+                    <xsd:documentation>Shipment status - order or item has not been shipped</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="BackOrdered">
+                <xsd:annotation>
+                    <xsd:documentation>Shipment status - item has been back ordered</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="BackOrderShipped">
+                <xsd:annotation>
+                    <xsd:documentation>Shipment status - back ordered goods have been shipped</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ReadyForPickup">
+                <xsd:annotation>
+                    <xsd:documentation>Shipment status - order or item is ready for pick up</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="InTransit">
+                <xsd:annotation>
+                    <xsd:documentation>Shipment status - order or item is in transit</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PartiallyShipped">
+                <xsd:annotation>
+                    <xsd:documentation>Shipment status - order or item has been partially shipped</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PartiallyDelivered">
+                <xsd:annotation>
+                    <xsd:documentation>Shipment status - part of the order or item has been delivered</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ShipmentComplete">
+                <xsd:annotation>
+                    <xsd:documentation>Shipment status - all order or all item has been shipped</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Delivered">
+                <xsd:annotation>
+                    <xsd:documentation>Shipment status - order of item has been delivered</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NoInfo">
+                <xsd:annotation>
+                    <xsd:documentation>No info</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NewOrder">
+                <xsd:annotation>
+                    <xsd:documentation>New order</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ChangeOrder">
+                <xsd:annotation>
+                    <xsd:documentation>Change order</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Processing">
+                <xsd:annotation>
+                    <xsd:documentation>Processing</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Cancelled">
+                <xsd:annotation>
+                    <xsd:documentation>Cancelled</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Completed">
+                <xsd:annotation>
+                    <xsd:documentation>Completed</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ItemOnHold">
+                <xsd:annotation>
+                    <xsd:documentation>Item on hold</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Other">
+                <xsd:annotation>
+                    <xsd:documentation>Custom code</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+        </xsd:restriction>
+    </xsd:simpleType>
+</xsd:schema>

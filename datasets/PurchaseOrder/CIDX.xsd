@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2010 rel. 3 (http://www.altova.com) by NTT (norg) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns="CIDX" targetNamespace="CIDX" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="PO">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="POHeader">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="poDate" type="xs:dateTime"/>
+							<xs:element name="poNumber" type="xs:string"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Contact">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="contactName" type="xs:string"/>
+							<xs:element name="contactFunctionCode" type="xs:string"/>
+							<xs:element name="contactEmail" type="xs:string"/>
+							<xs:element name="contactPhone" type="xs:string"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="POShipTo" type="ns:Address"/>
+				<xs:element name="POBillTo" type="ns:Address"/>
+				<xs:element name="POLines">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="startAt" type="xs:int"/>
+							<xs:element name="count" type="xs:int"/>
+							<xs:element name="Item" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="uom" type="xs:string"/>
+										<xs:element name="unitPrice" type="xs:float"/>
+										<xs:element name="qty" type="xs:positiveInteger"/>
+										<xs:element name="partNo" type="xs:ID"/>
+										<xs:element name="line" type="xs:int"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="Address">
+		<xs:sequence>
+			<xs:element name="city" type="xs:string"/>
+			<xs:element name="attn" type="xs:string"/>
+			<xs:element name="country" type="xs:string"/>
+			<xs:element name="stateProvince" type="xs:string"/>
+			<xs:element name="street1" type="xs:string"/>
+			<xs:element name="street2" type="xs:string"/>
+			<xs:element name="street3" type="xs:string"/>
+			<xs:element name="street4" type="xs:string"/>
+			<xs:element name="postalCode" type="xs:string"/>
+			<xs:element name="entityidentifider" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

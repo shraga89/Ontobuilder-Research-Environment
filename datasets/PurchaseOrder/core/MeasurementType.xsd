@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" targetNamespace="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" elementFormDefault="qualified">
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+            XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.
+            Permission is granted to use, copy, modify and distribute the
+            DTD's, schemas and modules in the Commerce One XML Common Business
+            Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType name="MeasurementType">
+        <xsd:annotation>
+            <xsd:documentation>is the quantitative value expressed as either
+        a value or a range and unit of measure.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:choice>
+                <xsd:element name="MeasurementValue" type="MeasurementValueType">
+                    <xsd:annotation>
+                        <xsd:documentation>contains the value of the measurement.</xsd:documentation>
+                    </xsd:annotation>
+                </xsd:element>
+                <xsd:element name="MeasurementRange" type="MeasurementRangeType">
+                    <xsd:annotation>
+                        <xsd:documentation>defines the minimum and maximum value of a measurement.</xsd:documentation>
+                    </xsd:annotation>
+                </xsd:element>
+            </xsd:choice>
+            <xsd:element name="UnitOfMeasurement" type="UnitOfMeasurementType">
+                <xsd:annotation>
+                    <xsd:documentation>contains the unit of measure for the measurement.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="ListOfMeasurementType">
+        <xsd:annotation>
+            <xsd:documentation>lists one or more measurements.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element maxOccurs="unbounded" name="Measurement" type="MeasurementType">
+                <xsd:annotation>
+                    <xsd:documentation>is the quantitative value expressed as either
+        a value or a range and unit of measure.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

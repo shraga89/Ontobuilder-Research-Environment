@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" targetNamespace="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" elementFormDefault="qualified">
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+            XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.
+            Permission is granted to use, copy, modify and distribute the
+            DTD's, schemas and modules in the Commerce One XML Common Business
+            Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType name="PackageType">
+        <xsd:annotation>
+            <xsd:documentation>contains information about the specifics of the collection of
+        packages being described by the <!--code-->PackageDetail<!--/code--> element.  If the collection of
+        packages all contain the same things, and there is no need to identify specifically
+        which packages are contained in which, then only one <!--code-->Package<!--/code--> element should be used.  If the
+        contents of the package differ or if there needs to be a distinction between which package a sub
+        package is contained in, then multiple <!--code-->Package<!--/code--> elements should be used.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="PackageID" type="xsd:int">
+                <xsd:annotation>
+                    <xsd:documentation>is used to identify a particular container within the document
+        domain for references from line item detail. (package detail is a recursive
+        element-packages contain other packages- consequently within each package the
+        sub packages is determined by being nested inside its parent.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ListOfItemReference" type="ListOfPackageItemReferenceType">
+                <xsd:annotation>
+                    <xsd:documentation>lists all of the line items that are contained in the package.  Only the <!--code-->ListOfReferenceCoded<!--/code--> element in the
+    <!--code-->ListOfOrderReferences<!--/code--> element
+    should be used to identify the line item with in the particualr doucment.  This is not meant to reference, an <!--code-->Order<!--/code--> document.
+    To reference a line item, <!--code-->ReferenceTypeCoded<!--/code--> should be set to "LineItemIdentifier" and <!--code-->PrimaryReference.Reference.RefNum<!--/code-->
+    set to the line item number of the item within the document.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ListOfPackageMark" type="ListOfPackageMarkType">
+                <xsd:annotation>
+                    <xsd:documentation>indicates how the package should be marked.  This could be used to identify common markings
+        on a collection of packages.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ListOfPackageCharacteristic" type="ListOfPackageCharacteristicType">
+                <xsd:annotation>
+                    <xsd:documentation>describes the characteristics of a packages.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ListOfDimension" type="ListOfDimensionType">
+                <xsd:annotation>
+                    <xsd:documentation>describes the physical dimensions of the package.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ListOfPackageDescription" type="ListOfPackageDescriptionType">
+                <xsd:annotation>
+                    <xsd:documentation>is a list of package descriptions used to identify
+        individual packages. If only one package is being described by the <!--code-->Package<!--/code--> element,
+        then only one PackageDescription is used.  If a collection of packages is being described, then
+        multiple descriptions can be used to uniquely identify the packages within the collection.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ListOfDestinationReference" type="ListOfDestinationRefType">
+                <xsd:annotation>
+                    <xsd:documentation>references the transport routing element to identify which
+        transport legs the package is travelling on.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="SpecialHandling" type="SpecialHandlingType">
+                <xsd:annotation>
+                    <xsd:documentation>describes any special handling relating to the
+        package.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="HazardousPackaging" type="HazardousType">
+                <xsd:annotation>
+                    <xsd:documentation>includes all hazardous regulations regarding to the package.
+        Identification of the instructions on how specified goods, packages or
+        containers should be handled.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="AssociatedDocuments" type="AssociatedDocumentsType">
+                <xsd:annotation>
+                    <xsd:documentation>identifies documents with information related to the hazardous
+        packaging of this order.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ShippingInstructions" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>is free form text for special shipping instructions.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ReturnableContainerInfo" type="ReturnableContainerInfoType">
+                <xsd:annotation>
+                    <xsd:documentation>describes shipping, payment and miscellaneous information
+        regarding containers that are returned after they have been used in
+        shipment.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" maxOccurs="unbounded" name="PackageDetail" type="PackageDetailType">
+                <xsd:annotation>
+                    <xsd:documentation>is recursive, to indicate sub-package relationships.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="ListOfPackageType">
+        <xsd:annotation>
+            <xsd:documentation>is used to describe one or more <!--code-->Package<!--/code--> element
+            as necessary by the complexity of the use of <!--code-->PackageDetail<!--/code--> element.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element maxOccurs="unbounded" name="Package" type="PackageType">
+                <xsd:annotation>
+                    <xsd:documentation>contains information about the specifics of the collection of
+        packages being described by the <!--code-->PackageDetail<!--/code--> element.  If the collection of
+        packages all contain the same things, and there is no need to identify specifically
+        which packages are contained in which, the only one <!--code-->Package<!--/code--> element should be use.  If the
+        contents of the package differ or if there needs to be a distinction between which package a sub
+        package is contained in, then multiple <!--code-->Package<!--/code--> elements should be used.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

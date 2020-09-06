@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" targetNamespace="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" elementFormDefault="qualified">
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+            XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.
+            Permission is granted to use, copy, modify and distribute the
+            DTD's, schemas and modules in the Commerce One XML Common Business
+            Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType name="NameAddressType">
+        <xsd:annotation>
+            <xsd:documentation>contains the name and the address information for an entity.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element minOccurs="0" name="ExternalAddressID" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>contains a GUID that is used for referencing the address when
+        specifying specific user information (unique within partner
+        organization).</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="Name1" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>contains the name of an entity.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Name2" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>contains additional name information.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Name3" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>contains further additional name information.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Identifier" type="IdentifierType">
+                <xsd:annotation>
+                    <xsd:documentation>contains a specific identifier for the name.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="POBox" type="POBoxType">
+                <xsd:annotation>
+                    <xsd:documentation>contains a post office box number.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Street" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>contains the name of the street.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="HouseNumber" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>contains the house number.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="StreetSupplement1" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>contains any additional information to identify the
+        street.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="StreetSupplement2" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>contains any further additional information to identify the
+        street.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Building" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>contains the name of the building.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Floor" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>contains the number of the floor.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="RoomNumber" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>contains the room identifier.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="InhouseMail" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>contains the inhouse mail identifier.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Department" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>contains the department number or name.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="PostalCode" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>contains the identifier for one or more properties according to the postal service of that country (Zip-Code in US)</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="City" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>contains the name of the city.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="County" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>contains the name of the county.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Region" type="RegionType">
+                <xsd:annotation>
+                    <xsd:documentation>contains the name of the region within a country specific to this
+        address. Used to hold the state in US addresses.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="District" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>contains the name of the district.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Country" type="CountryType">
+                <xsd:annotation>
+                    <xsd:documentation>identifies the country.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Timezone" type="TimezoneType">
+                <xsd:annotation>
+                    <xsd:documentation>identifies the time zone that the location operates
+        to.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="ListOfNameAddressType">
+        <xsd:annotation>
+            <xsd:documentation>contains one or more addresses for an entity.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element maxOccurs="unbounded" name="NameAddress" type="NameAddressType">
+                <xsd:annotation>
+                    <xsd:documentation>contains the name and the address information for an entity.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" targetNamespace="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" elementFormDefault="qualified">
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+            XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.
+            Permission is granted to use, copy, modify and distribute the
+            DTD's, schemas and modules in the Commerce One XML Common Business
+            Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType name="TransportEquipmentType">
+        <xsd:annotation>
+            <xsd:documentation>identifies the vessel/vehicle or package serving as the
+          equipment for this leg of transport.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element minOccurs="0" name="EquipmentProviderCoded" type="EquipmentProviderCodeType">
+                <xsd:annotation>
+                    <xsd:documentation>identifies the provider of the transport equipment.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="EquipmentProviderCodedOther" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>is used to provide a non-standard <!--code-->EquipmentProviderCode<!--/code-->.
+          This element is mandatory if the value of <!--code-->EquipmentProviderCoded<!--/code-->
+          is 'Other'. These codes should not contain white space unless absolutely
+          necessary.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="EquipmentOwnerCoded" type="EquipmentOwnerCodeType">
+                <xsd:annotation>
+                    <xsd:documentation>lists the code indicating the relationship of equipment to carrier or
+          ownership of equipment.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="EquipmentOwnerCodedOther" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>is used to provide a non-standard <!--code-->EquipmentOwnerCode<!--/code-->.
+          This element is mandatory if the value of <!--code-->EquipmentOwnerCoded<!--/code--> is
+          'Other'. These codes should not contain white space unless absolutely
+          necessary.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="EquipmentID" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>holds the identification number for the equipment for the purposes of
+          referencing within the document domain.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="EquipmentSizeTypeCoded" type="EquipmentSizeTypeCodeType">
+                <xsd:annotation>
+                    <xsd:documentation>lists the size and type codes for the equipment.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="EquipementSizeTypeCodedOther" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="EquipmentStatusCoded" type="EquipmentStatusCodeType">
+                <xsd:annotation>
+                    <xsd:documentation>describes the status of the equipment.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="EquipmentStatusCodedOther" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>is used to provide a non-standard <!--code-->EquipmentStatusCode<!--/code-->.
+          This element is mandatory if the value of <!--code-->EquipmentStatusCoded<!--/code--> is
+          'Other'. These codes should not contain white space unless absolutely
+          necessary.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="FullIndicatorCoded" type="FullIndicatorCodeType">
+                <xsd:annotation>
+                    <xsd:documentation>describes the fill status of the equipment.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="FullIndicatorCodedOther" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>is used to provide a non-standard <!--code-->FullIndicatorCode<!--/code-->.
+          This element is mandatory if the value of <!--code-->FullIndicatorCoded<!--/code--> is
+          'Other'. These codes should not contain white space unless absolutely
+          necessary.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Conditions" type="ConditionsType">
+                <xsd:annotation>
+                    <xsd:documentation>describes the special conditions regarding the equipment.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="EquipmentNote" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>holds free text information for the equipment</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ListOfSealInfo" type="ListOfSealInfoType">
+                <xsd:annotation>
+                    <xsd:documentation>provides the information regarding the seals affixed to the
+          equipment.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ListOfEquipmentMeasurements" type="ListOfDimensionType">
+                <xsd:annotation>
+                    <xsd:documentation>lists measurement information on the piece of equipment.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="ListOfTransportEquipmentType">
+        <xsd:annotation>
+            <xsd:documentation>contains a list of one or more vessel/vehicle or package serving as the
+          equipment for this leg of transport.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element maxOccurs="unbounded" name="TransportEquipment" type="TransportEquipmentType">
+                <xsd:annotation>
+                    <xsd:documentation>identifies the vessel/vehicle or package serving as the equipment for
+          this leg of transport.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

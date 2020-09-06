@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" targetNamespace="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" elementFormDefault="qualified">
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+            XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.
+            Permission is granted to use, copy, modify and distribute the
+            DTD's, schemas and modules in the Commerce One XML Common Business
+            Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType name="CardInfoType">
+        <xsd:annotation>
+            <xsd:documentation>contains details of the credit or debit card that is being used
+        for the payment.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="CardNum" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>contains the identifying number of the credit or debit card.    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="CardAuthCode" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>contains the authorization number of the card.  </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="CardRefNum" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>contains the customer reference number. This is used to enable transmission of customer specific information with the card. </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="CardExpirationDate" type="xsd:dateTime">
+                <xsd:annotation>
+                    <xsd:documentation>contains the date up to which the card is valid .   </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="CardType" type="CardTypeCodeType">
+                <xsd:annotation>
+                    <xsd:documentation>holds information on the issuer of the credit or debit card.    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="CardTypeOther" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>is used to provide a non-standard <!--code-->CardTypeCode<!--/code-->.
+ This element is mandatory if the value of <!--code-->CardType<!--/code--> is 'Other'. These codes should not contain white space
+ unless absolutely necessary.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="CardHolderName" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>contains the name of the holder of the card.    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

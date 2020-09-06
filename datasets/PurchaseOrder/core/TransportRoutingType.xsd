@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" targetNamespace="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" elementFormDefault="qualified">
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+            XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.
+            Permission is granted to use, copy, modify and distribute the
+            DTD's, schemas and modules in the Commerce One XML Common Business
+            Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType name="TransportRoutingType">
+        <xsd:annotation>
+            <xsd:documentation>holds the definition of the transport routing. A single
+    <!--code-->TransportRouting<!--/code--> is defined by one carrier (that is, one organization operating
+    equipment) moving between two or more locations with a single mode of
+    transport. You may have more than one vehicle acting as part of the transport,
+    but all must use the same route, be of the same mode, and be operated by the
+    same carrier.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element minOccurs="0" name="TransportRouteID" type="xsd:int">
+                <xsd:annotation>
+                    <xsd:documentation>holds a unique identifier for this route of transport to be
+    referenced. Intended to be used as an internal reference for the
+    document.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="TransportMode" type="TransportModeType">
+                <xsd:annotation>
+                    <xsd:documentation>is a container for the <!--code-->TransportModeCode<!--/code-->.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="TransportMeans" type="TransportMeansType">
+                <xsd:annotation>
+                    <xsd:documentation>contains the information on the means of transport for the route.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="TransportMeansIdentifier" type="IdentifierType">
+                <xsd:annotation>
+                    <xsd:documentation>holds a name or number appearing visibly on the outside of the
+    transport means. Transport mean values include the vehicle registration number,
+    flight number or vessel name.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="TransportMeansReference" type="IdentifierType">
+                <xsd:annotation>
+                    <xsd:documentation>references a means of transport. Typically, this is an identifier
+    assigned by some organization that is not obvious or apparent on the outside of
+    the vessel. Possible transport means reference values include (eg Lloyds number
+    or call sign for maritime vessels).</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="TransportRequirementCoded" type="TransportRequirementCodeType">
+                <xsd:annotation>
+                    <xsd:documentation>is used to specify options for satisfying vessel or transport
+    requirements.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="TransportRequirementCodedOther" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>is used to provide a non-standard <!--code-->TransportRequirementCode<!--/code-->. This element is mandatory if the value of <!--code-->TransportRequirementCoded<!--/code--> is 'Other'. These codes should not contain white space unless absolutely necessary.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="CarrierName" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>is a free form text field used to hold the name of the carrier.  For example,
+    Federal Express may be used here.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="CarrierID" type="IdentifierType">
+                <xsd:annotation>
+                    <xsd:documentation>is the ID assigned by an agency to the carrier.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="TransportQuantities" type="TransportQuantitiesType">
+                <xsd:annotation>
+                    <xsd:documentation>is used to identify quantities relative to the shipment such as
+    lading and hazardous reportable, and radioactive quantities.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="CustShippingContractNum" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>provides a shipping contract number to allow supplier to ship
+    goods under specific freight conditions or the carrier to bill against a
+    specific contract number.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ServiceLevel" type="ServiceLevelType">
+                <xsd:annotation>
+                    <xsd:documentation>is used to hold information about the level of service associated
+    with the transportation.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ShippingInstructions" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>holds any notes specific to shipping.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="TransportLegCoded" type="TransportLegCodeType">
+                <xsd:annotation>
+                    <xsd:documentation>lists the stages of the transport.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="TransportLegCodedOther" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>is used to provide a non-standard <!--code-->TransportLegCode<!--/code-->.
+    This element is mandatory if the value of <!--code-->TransportLegCoded<!--/code--> is
+    'Other'. These codes should not contain white space unless absolutely
+    necessary.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ListOfTransportEquipment" type="ListOfTransportEquipmentType">
+                <xsd:annotation>
+                    <xsd:documentation>provides details about the equipment used for transportation.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="TransitDirection" type="TransitDirectionType">
+                <xsd:annotation>
+                    <xsd:documentation>details the direction of transportation.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="TransportLocationList" type="TransportLocationListType">
+                <xsd:annotation>
+                    <xsd:documentation>lists the locations through which the transportation
+    goes.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="ListOfTransportRoutingType">
+        <xsd:annotation>
+            <xsd:documentation>defines the information on the movement of the goods, including
+        the carrier, equipment, locations and dates.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element maxOccurs="unbounded" name="TransportRouting" type="TransportRoutingType">
+                <xsd:annotation>
+                    <xsd:documentation>holds the definition of the transport routing. A single
+        TransportRouting is defined by one carrier (that is, one organization operating
+        equipment) moving between two or more locations with a single mode of
+        transport. You may have more than one vehicle acting as part of the transport,
+        but all must use the same route, be of the same mode, and be operated by the
+        same carrier.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

@@ -1,0 +1,786 @@
+<html xmlns:bib="http://www.inrialpes.fr/exmo/papers" xmlns:datext="http://www.jclark.com/xt/java/java.util.Date" xmlns:datexa="xalan://java.util.Date" xmlns:units="http://visus.mit.edu/fontomri/0.01/units.owl#" xmlns:foaf="http://xmlns.com/foaf/0.1/#" xmlns:ical="http://www.w3.org/2002/12/cal/#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xsd="http://www.w3.org/2001/XMLSchema#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:owl="http://www.w3.org/2002/07/owl#" xmlns:wot="http://xmlns.com/wot/0.1/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dctype="http://purl.org/dc/dcmitype/" xmlns:bibtex="http://purl.org/net/nknouf/ns/bibtex#">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Bibliographic references</title>
+</head>
+<body bgcolor="ffffff">
+<h1>Bibliographic references</h1>
+<p>Bibliographic references in OWL</p>
+<p><i>Possible ontology to describe bibTeX entries.</i><br>
+Author: Nick Knouf &lt;nknouf@mit.edu&gt;<br>
+Contributor: Antoine Zimmermann &lt;antoine.zimmermann@inrialpes.fr&gt;, Jérôme Euzenat, <br>
+Date: 08/06/2005<br>
+Version: $Id: onto.rdf,v 1.30 2008/05/27 14:41:13 euzenat Exp $</p>
+<h2>Classes</h2>
+<dl>
+<dt>
+<b><a name="http://www.w3.org/1999/02/22-rdf-syntax-ns#List">http://www.w3.org/1999/02/22-rdf-syntax-ns#List</a></b> (, <i>)</i>
+</dt>
+<dd>
+<ul></ul>
+<dl></dl>
+</dd>
+<dt>
+<b><a name="http://xmlns.com/foaf/0.1/Person">http://xmlns.com/foaf/0.1/Person</a></b> (, <i>)</i>
+</dt>
+<dd>
+<ul></ul>
+<dl></dl>
+</dd>
+<dt>
+<b><a name="http://xmlns.com/foaf/0.1/Organization">http://xmlns.com/foaf/0.1/Organization</a></b> (, <i>)</i>
+</dt>
+<dd>
+<ul></ul>
+<dl></dl>
+</dd>
+<dt>
+<b><a name="Reference">Reference</a></b> (Reference, <i>Base class for all entries)</i>
+</dt>
+<dd>
+<ul>
+<li>
+<a href="#date">#date</a> [0 1]</li>
+<li>
+<a href="#title">#title</a> [0 1]</li>
+<li>
+<a href="#humanCreator">#humanCreator</a> [0 1]</li>
+</ul>
+<dl></dl>
+</dd>
+<dt>
+<b><a name="Article">Article</a></b> (Article, <i>An article from a journal or magazine.)</i>
+</dt>
+<dd>
+<ul>
+<li>
+<a href="#author">#author</a> [1 1]</li>
+<li>
+<a href="#pages">#pages</a> [1 1]</li>
+<li>
+<a href="#journal">#journal</a> [1 1]</li>
+<li>
+<a href="#date">#date</a> [1 1] <i><a href="#Date">#Date</a></i><br>
+</li>
+<li>
+<a href="#number">#number</a> [0 1]</li>
+<li>
+<a href="#volume">#volume</a> [0 1]</li>
+</ul>
+<dl></dl>
+</dd>
+<dt>
+<b><a name="Book">Book</a></b> (Book, <i>A book that may be a monograph or a collection of written texts.)</i>
+</dt>
+<dd>
+<ul>
+<li>
+<a href="#title">#title</a> [1 1]</li>
+<li>
+<a href="#volume">#volume</a> [0 1]</li>
+<li>
+<a href="#publisher">#publisher</a> [0 1]</li>
+<li>
+<a href="#series">#series</a> [0 1]</li>
+<li>
+<a href="#date">#date</a> [1 1] <i><a href="#Date">#Date</a></i><br>
+</li>
+<li>
+<a href="#author">#author</a> [1 1]</li>
+<li>
+<a href="#edition">#edition</a> [0 1]</li>
+</ul>
+<dl></dl>
+</dd>
+<dt>
+<b><a name="Monograph">Monograph</a></b> (Monograph, <i>A book that is a single entity, as opposed to a collection.)</i>
+</dt>
+<dd>
+<ul><li>
+<a href="#chapters">#chapters</a> <i><a href="#Chapter">#Chapter</a></i><br>
+</li></ul>
+<dl></dl>
+</dd>
+<dt>
+<b><a name="Collection">Collection</a></b> (Collection, <i>A book that is collection of texts or articles.)</i>
+</dt>
+<dd>
+<ul>
+<li>
+<a href="#chapters">#chapters</a> <i><a href="#Chapter">#Chapter</a></i><br>
+</li>
+<li>
+<a href="#parts">#parts</a> <i><a href="#InCollection">#InCollection</a></i><br>
+</li>
+</ul>
+<dl></dl>
+</dd>
+<dt>
+<b><a name="Informal">Informal</a></b> (Informal, <i>A document that was informally published or not published.)</i>
+</dt>
+<dd>
+<ul><li>
+<a href="#title">#title</a> [1 1]</li></ul>
+<dl></dl>
+</dd>
+<dt>
+<b><a name="Booklet">Booklet</a></b> (Booklet, <i>A work that is printed and bound, but without a named publisher or sponsoring institution.)</i>
+</dt>
+<dd>
+<ul></ul>
+<dl></dl>
+</dd>
+<dt>
+<b><a name="Part">Part</a></b> (Part, <i>A part of something (either Book or Proceedings).)</i>
+</dt>
+<dd>
+<ul>
+<li>
+<a href="#pages">#pages</a> [0 1]</li>
+<li>
+<a href="#title">#title</a> [1 1]</li>
+</ul>
+<dl></dl>
+</dd>
+<dt>
+<b><a name="Chapter">Chapter</a></b> (BookPart, <i>A chapter (or section or whatever) of a book having its own title.)</i>
+</dt>
+<dd>
+<ul><li>
+<a href="#chapter">#chapter</a> [0 1] [0 1]</li></ul>
+<dl></dl>
+</dd>
+<dt>
+<b><a name="InBook">InBook</a></b> (InBook, <i>A subpart of a book given by a range of pages.)</i>
+</dt>
+<dd>
+<ul>
+<li>
+<a href="#author">#author</a> [1 1]</li>
+<li>
+<a href="#pages">#pages</a> [1 +oo]</li>
+<li>
+<a href="#book">#book</a> [1 1]</li>
+</ul>
+<dl></dl>
+</dd>
+<dt>
+<b><a name="InCollection">InCollection</a></b> (Incollection, <i>A part of a book having its own title.)</i>
+</dt>
+<dd>
+<ul>
+<li>
+<a href="#author">#author</a> [1 1]</li>
+<li>
+<a href="#collection">#collection</a> [1 1]</li>
+</ul>
+<dl></dl>
+</dd>
+<dt>
+<b><a name="InProceedings">InProceedings</a></b> (InProceedings, <i>An article in a conference proceedings.)</i>
+</dt>
+<dd>
+<ul>
+<li>
+<a href="#author">#author</a> [1 1]</li>
+<li>
+<a href="#proceedings">#proceedings</a> [1 1]</li>
+</ul>
+<dl></dl>
+</dd>
+<dt>
+<b><a name="LectureNotes">LectureNotes</a></b> (LectureNotes, <i>Lecture notes.)</i>
+</dt>
+<dd>
+<ul></ul>
+<dl></dl>
+</dd>
+<dt>
+<b><a name="Manual">Manual</a></b> (Manual, <i>Technical documentation.)</i>
+</dt>
+<dd>
+<ul>
+<li>
+<a href="#organization">#organization</a> [0 1]</li>
+<li>
+<a href="#edition">#edition</a> [0 1]</li>
+<li>
+<a href="#title">#title</a> [1 1]</li>
+</ul>
+<dl></dl>
+</dd>
+<dt>
+<b><a name="Academic">Academic</a></b> (Academic, <i>A Master's or PhD thesis.)</i>
+</dt>
+<dd>
+<ul>
+<li>
+<a href="#author">#author</a> [1 1]</li>
+<li>
+<a href="#title">#title</a> [1 1]</li>
+<li>
+<a href="#school">#school</a> [1 1]</li>
+<li>
+<a href="#date">#date</a> [1 1]</li>
+</ul>
+<dl></dl>
+</dd>
+<dt>
+<b><a name="MastersThesis">MastersThesis</a></b> (MastersThesis, <i>A Master's thesis.)</i>
+</dt>
+<dd>
+<ul></ul>
+<dl></dl>
+</dd>
+<dt>
+<b><a name="PhdThesis">PhdThesis</a></b> (PhdThesis, <i>A PhD thesis.)</i>
+</dt>
+<dd>
+<ul></ul>
+<dl></dl>
+</dd>
+<dt>
+<b><a name="Misc">Misc</a></b> (Misc, <i>Use this type when nothing else fits.)</i>
+</dt>
+<dd>
+<ul></ul>
+<dl></dl>
+</dd>
+<dt>
+<b><a name="Proceedings">Proceedings</a></b> (Proceedings, <i>The proceedings of a conference.)</i>
+</dt>
+<dd>
+<ul>
+<li>
+<a href="#communications">#communications</a> <i><a href="#InProceedings">#InProceedings</a></i><br>
+</li>
+<li>
+<a href="#event">#event</a> [0 1] <i><a href="#Conference">#Conference</a></i><br>
+</li>
+<li>
+<a href="#editor">#editor</a> [0 1]</li>
+<li>
+<a href="#organization">#organization</a> [0 1]</li>
+</ul>
+<dl></dl>
+</dd>
+<dt>
+<b><a name="Report">Report</a></b> (Report, <i>A report published by an institution with some explicit policy.)</i>
+</dt>
+<dd>
+<ul>
+<li>
+<a href="#author">#author</a> [1 1]</li>
+<li>
+<a href="#title">#title</a> [1 1]</li>
+<li>
+<a href="#institution">#institution</a> [1 1]</li>
+<li>
+<a href="#date">#date</a> [1 1] <i><a href="#Date">#Date</a></i><br>
+</li>
+<li>
+<a href="#number">#number</a> [0 1]</li>
+</ul>
+<dl></dl>
+</dd>
+<dt>
+<b><a name="TechReport">TechReport</a></b> (TechReport, <i>A report published by a school or other institution, usually numbered within a series.)</i>
+</dt>
+<dd>
+<ul></ul>
+<dl></dl>
+</dd>
+<dt>
+<b><a name="Deliverable">Deliverable</a></b> (Deliverable report, <i>A report delivered for accomplishing a contract.)</i>
+</dt>
+<dd>
+<ul><li>
+<a href="#contract">#contract</a> [0 1]</li></ul>
+<dl></dl>
+</dd>
+<dt>
+<b><a name="Unpublished">Unpublished</a></b> (Unpublished, <i>A document having an author and title, but not formally published.)</i>
+</dt>
+<dd>
+<ul>
+<li>
+<a href="#author">#author</a> [1 1]</li>
+<li>
+<a href="#title">#title</a> [1 1]</li>
+<li>
+<a href="#note">#note</a> [1 +oo]</li>
+</ul>
+<dl></dl>
+</dd>
+<dt>
+<b><a name="MotionPicture">MotionPicture</a></b> (MotionPicture, <i>A film/movie/motion picture.)</i>
+</dt>
+<dd>
+<ul></ul>
+<dl></dl>
+</dd>
+<dt>
+<b><a name="Journal">Journal</a></b> (Journal or magazine, <i>A periodical publication collecting works from different authors.)</i>
+</dt>
+<dd>
+<ul>
+<li>
+<a href="#name">#name</a> [1 1] <i><a href="http://www.w3.org/2001/XMLSchema#string">http://www.w3.org/2001/XMLSchema#string</a></i><br>
+</li>
+<li>
+<a href="#shortName">#shortName</a> <i><a href="http://www.w3.org/2001/XMLSchema#string">http://www.w3.org/2001/XMLSchema#string</a></i><br>
+</li>
+<li>
+<a href="#periodicity">#periodicity</a> <i><a href="http://www.w3.org/2001/XMLSchema#string">http://www.w3.org/2001/XMLSchema#string</a></i><br>
+</li>
+<li>
+<a href="#publisher">#publisher</a> [0 1]</li>
+<li>
+<a href="#series">#series</a> [0 1]</li>
+<li>
+<a href="#firstPublished">#firstPublished</a> [0 1]</li>
+<li>
+<a href="#articles">#articles</a> <i><a href="#Article">#Article</a></i><br>
+</li>
+</ul>
+<dl></dl>
+</dd>
+<dt>
+<b><a name="Conference">Conference</a></b> (The location of an event, <i>An event presenting work.)</i>
+</dt>
+<dd>
+<ul>
+<li>
+<a href="#name">#name</a> [1 1]</li>
+<li>
+<a href="#organizer">#organizer</a> <i><a href="#Institution">#Institution</a></i><br>
+</li>
+<li>
+<a href="#shortName">#shortName</a> [0 1]</li>
+<li>
+<a href="#issue">#issue</a> [0 1]</li>
+<li>
+<a href="#location">#location</a> [0 1]</li>
+</ul>
+<dl></dl>
+</dd>
+<dt>
+<b><a name="Address">Address</a></b> (Address, <i>The street address of the location of some organization or event.)</i>
+</dt>
+<dd>
+<ul>
+<li>
+<a href="#country">#country</a> [0 1] <i><a href="http://www.w3.org/2001/XMLSchema#string">http://www.w3.org/2001/XMLSchema#string</a></i><br>
+</li>
+<li>
+<a href="#state">#state</a> [0 1] <i><a href="http://www.w3.org/2001/XMLSchema#string">http://www.w3.org/2001/XMLSchema#string</a></i><br>
+</li>
+<li>
+<a href="#city">#city</a> [0 1] <i><a href="http://www.w3.org/2001/XMLSchema#string">http://www.w3.org/2001/XMLSchema#string</a></i><br>
+</li>
+</ul>
+<dl></dl>
+</dd>
+<dt>
+<b><a name="Institution">Institution</a></b> (Institution, <i>An institution.)</i>
+</dt>
+<dd>
+<ul>
+<li>
+<a href="#name">#name</a> [1 1]</li>
+<li>
+<a href="#shortName">#shortName</a> [1 1]</li>
+<li>
+<a href="#address">#address</a> [0 1]</li>
+</ul>
+<dl></dl>
+</dd>
+<dt>
+<b><a name="Publisher">Publisher</a></b> (Publisher, <i>The publisher of books or journals.)</i>
+</dt>
+<dd>
+<ul></ul>
+<dl></dl>
+</dd>
+<dt>
+<b><a name="School">School</a></b> (School, <i>A school or university.)</i>
+</dt>
+<dd>
+<ul></ul>
+<dl></dl>
+</dd>
+<dt>
+<b><a name="PersonList">PersonList</a></b> (Person list, <i>A list of persons.)</i>
+</dt>
+<dd>
+<ul>
+<li>
+<a href="http://www.w3.org/1999/02/22-rdf-syntax-ns#first">http://www.w3.org/1999/02/22-rdf-syntax-ns#first</a> [1 1] <i><a href="http://xmlns.com/foaf/0.1/Person">http://xmlns.com/foaf/0.1/Person</a></i><br>
+</li>
+<li>
+<a href="http://www.w3.org/1999/02/22-rdf-syntax-ns#rest">http://www.w3.org/1999/02/22-rdf-syntax-ns#rest</a> [1 1] (<i><a href="#PersonList">#PersonList</a></i> | )<br>
+</li>
+</ul>
+<dl></dl>
+</dd>
+<dt>
+<b><a name="PageRange">PageRange</a></b> (PageRange, <i>A range of pages.)</i>
+</dt>
+<dd>
+<ul>
+<li>
+<a href="#startPage">#startPage</a> [1 1]</li>
+<li>
+<a href="#endPage">#endPage</a> [1 1]</li>
+</ul>
+<dl></dl>
+</dd>
+<dt>
+<b><a name="Date">Date</a></b> (Date, <i>Date of a day which can be unknown (i.e., only the year is known or only the year and month). This is for overcoming the limits of XML-Schema for wich a date is not separable.)</i>
+</dt>
+<dd>
+<ul>
+<li>
+<a href="#year">#year</a> [1 1] <i><a href="http://www.w3.org/2001/XMLSchema#gYear">http://www.w3.org/2001/XMLSchema#gYear</a></i><br>
+</li>
+<li>
+<a href="#month">#month</a> [0 1] <i><a href="http://www.w3.org/2001/XMLSchema#gMonth">http://www.w3.org/2001/XMLSchema#gMonth</a></i><br>
+</li>
+<li>
+<a href="#day">#day</a> [0 1] <i><a href="http://www.w3.org/2001/XMLSchema#gDay">http://www.w3.org/2001/XMLSchema#gDay</a></i><br>
+</li>
+</ul>
+<dl></dl>
+</dd>
+</dl>
+<h2>Properties</h2>
+<dl>
+<dt>
+<b><a name="http://www.w3.org/1999/02/22-rdf-syntax-ns#first">http://www.w3.org/1999/02/22-rdf-syntax-ns#first</a></b>:
+     <a href="http://www.w3.org/1999/02/22-rdf-syntax-ns#List">http://www.w3.org/1999/02/22-rdf-syntax-ns#List</a> -&gt; _<i> ()</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="http://www.w3.org/1999/02/22-rdf-syntax-ns#rest">http://www.w3.org/1999/02/22-rdf-syntax-ns#rest</a></b>:
+     <a href="http://www.w3.org/1999/02/22-rdf-syntax-ns#List">http://www.w3.org/1999/02/22-rdf-syntax-ns#List</a> -&gt;  <a href="http://www.w3.org/1999/02/22-rdf-syntax-ns#List">http://www.w3.org/1999/02/22-rdf-syntax-ns#List</a><i> ()</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="chapters">chapters</a></b>:
+     <a href="#Reference">#Reference</a> -&gt;  <a href="#Chapter">#Chapter</a><i> (The chapters of a book (monograph or collection).)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="parts">parts</a></b>:
+     <a href="#Reference">#Reference</a> -&gt;  <a href="#Part">#Part</a><i> (The parts of some reference (chapters, sections).)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="communications">communications</a></b>:
+     <a href="#Proceedings">#Proceedings</a> -&gt;  <a href="#InProceedings">#InProceedings</a><i> (The communications to a conference as collected in proceedings.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="articles">articles</a></b>:
+     <a href="#Journal">#Journal</a> -&gt;  <a href="#Article">#Article</a><i> (The papers published by a journal.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="address">address</a></b>:
+     <a href="http://www.w3.org/2002/07/owl#Thing">http://www.w3.org/2002/07/owl#Thing</a> -&gt;  <a href="#Address">#Address</a><i> (The address of an institution or the place of a conference.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="event">event</a></b>:
+     <a href="#Proceedings">#Proceedings</a> -&gt;  <a href="#Conference">#Conference</a><i> (The event concerned with the proceedings.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="organizer">organizer</a></b>:
+     <a href="#Conference">#Conference</a> -&gt;  <a href="http://xmlns.com/foaf/0.1/Organization">http://xmlns.com/foaf/0.1/Organization</a><i> (The organization taking in charge a conference.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="contract">contract</a></b>:
+     <a href="#Reference">#Reference</a> -&gt;  <a href="http://www.w3.org/2002/07/owl#Thing">http://www.w3.org/2002/07/owl#Thing</a><i> (The contract in relation of which a particular reference has been made.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="humanCreator">humanCreator</a></b>:
+     <a href="#Reference">#Reference</a> -&gt;  <a href="#PersonList">#PersonList</a><i> (The list of the human creators of a work.)</i>
+</dt>
+<dd><dl>
+<dt>
+<b><a name="author">author</a></b>:
+    _ -&gt; _<i> (The list of the author(s) of a work.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="editor">editor</a></b>:
+    _ -&gt; _<i> (The list of persons who edited or coordinated a work.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="directors">directors</a></b>:
+     <a href="#MotionPicture">#MotionPicture</a> -&gt; _<i> (The list of directors of a motion picture or theater play.)</i>
+</dt>
+<dd><dl></dl></dd>
+</dl></dd>
+<dt>
+<b><a name="institution">institution</a></b>:
+     <a href="#Report">#Report</a> -&gt;  <a href="#Institution">#Institution</a><i> (The sponsoring institution of a technical report.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="isPartOf">isPartOf</a></b>:
+     <a href="#Part">#Part</a> -&gt; _<i> (The document that contains a text or article.)</i>
+</dt>
+<dd><dl>
+<dt>
+<b><a name="journal">journal</a></b>:
+     <a href="#Article">#Article</a> -&gt;  <a href="#Journal">#Journal</a><i> (The journal in which an article is published.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="book">book</a></b>:
+     <a href="#InBook">#InBook</a> -&gt;  <a href="#Monograph">#Monograph</a><i> (A reference to the book that contains the entry.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="collection">collection</a></b>:
+     <a href="#InCollection">#InCollection</a> -&gt;  <a href="#Collection">#Collection</a><i> (A reference to the book that contains the entry.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="proceedings">proceedings</a></b>:
+     <a href="#InProceedings">#InProceedings</a> -&gt;  <a href="#Proceedings">#Proceedings</a><i> (A reference to the proceedings in which the entry appears.)</i>
+</dt>
+<dd><dl></dl></dd>
+</dl></dd>
+<dt>
+<b><a name="date">date</a></b>:
+    (<i><a href="#Reference">#Reference</a></i> | <i><a href="#Conference">#Conference</a></i>) -&gt;  <a href="#Date">#Date</a><i> (The date when the work was published or, for an unpublished work, in which it was written. This date can be incomplete (i.e., no known day or month) but must contain a year.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="organization">organization</a></b>:
+    (<i><a href="#Proceedings">#Proceedings</a></i> | <i><a href="#Manual">#Manual</a></i>) -&gt;  <a href="http://xmlns.com/foaf/0.1/Organization">http://xmlns.com/foaf/0.1/Organization</a><i> (The organization that sponsors a conference or that publishes a manual.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="publisher">publisher</a></b>:
+    (<i><a href="#Reference">#Reference</a></i> | <i><a href="#Journal">#Journal</a></i>) -&gt;  <a href="#Publisher">#Publisher</a><i> (The publisher of a work.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="school">school</a></b>:
+    (<i><a href="#Academic">#Academic</a></i> | <i><a href="#LectureNotes">#LectureNotes</a></i>) -&gt;  <a href="#School">#School</a><i> (The name of the school where a thesis was written.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="location">location</a></b>:
+    (<i><a href="#Reference">#Reference</a></i> | <i><a href="#Conference">#Conference</a></i>) -&gt;  <a href="#Address">#Address</a><i> (A location associated with the entry, such as the city in which a conference took place (this is now obsolete).)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="pages">pages</a></b>:
+     <a href="#Part">#Part</a> -&gt;  <a href="#PageRange">#PageRange</a><i> (A range of page, with an upper and lower limit.)</i>
+</dt>
+<dd><dl></dl></dd>
+</dl>
+<dl>
+<dt>
+<b><a name="http://purl.org/dc/elements/1.1/creator">http://purl.org/dc/elements/1.1/creator</a></b>_ -&gt; _<i> ()</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="http://purl.org/dc/elements/1.1/contributor">http://purl.org/dc/elements/1.1/contributor</a></b>_ -&gt; _<i> ()</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="http://purl.org/dc/elements/1.1/description">http://purl.org/dc/elements/1.1/description</a></b>_ -&gt; _<i> ()</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="http://purl.org/dc/elements/1.1/date">http://purl.org/dc/elements/1.1/date</a></b>_ -&gt; _<i> ()</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="http://xmlns.com/foaf/0.1/firstName">http://xmlns.com/foaf/0.1/firstName</a></b>_ -&gt; _<i> ()</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="lastName">lastName</a></b>_ -&gt; _<i> ()</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="http://xmlns.com/foaf/0.1/name">http://xmlns.com/foaf/0.1/name</a></b>_ -&gt; _<i> ()</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="key">key</a></b> <a href="#Reference">#Reference</a> -&gt;  <a href="http://www.w3.org/2001/XMLSchema#string">http://www.w3.org/2001/XMLSchema#string</a><i> (The key for a particular entry. Note that the rdf:ID for each Reference instance could be the key as well, possibly making this property redundant.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="reviewed">reviewed</a></b> <a href="#Reference">#Reference</a> -&gt;  <a href="http://www.w3.org/2001/XMLSchema#string">http://www.w3.org/2001/XMLSchema#string</a><i> (The selection process overcome by the publication (full, none, poster, invited are possible values).)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="annote">annote</a></b> <a href="#Reference">#Reference</a> -&gt;  <a href="http://www.w3.org/2001/XMLSchema#string">http://www.w3.org/2001/XMLSchema#string</a><i> (An annotation. It is not used by the standard bibliography styles, but may be used by others that produce an annotated bibliography.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="periodicity">periodicity</a></b> <a href="#Journal">#Journal</a> -&gt;  <a href="http://www.w3.org/2001/XMLSchema#string">http://www.w3.org/2001/XMLSchema#string</a><i> (The periodicity of a serial publication (yearly, biannual, quarterly, monthly, bimonthly, weekly, biweekly, dayly).)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="firstPublished">firstPublished</a></b> <a href="#Chapter">#Chapter</a> -&gt;  <a href="http://www.w3.org/2001/XMLSchema#string">http://www.w3.org/2001/XMLSchema#string</a><i> (When the reference was first published.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="edition">edition</a></b>(<i><a href="#Book">#Book</a></i> | <i><a href="#Manual">#Manual</a></i>) -&gt;  <a href="http://www.w3.org/2001/XMLSchema#string">http://www.w3.org/2001/XMLSchema#string</a><i> (The edition of a book (for example, "Second"). This should be an ordinal.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="howPublished">howPublished</a></b>(<i><a href="#Misc">#Misc</a></i> | <i><a href="#Booklet">#Booklet</a></i>) -&gt;  <a href="http://www.w3.org/2001/XMLSchema#string">http://www.w3.org/2001/XMLSchema#string</a><i> (How something strange has been published.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="note">note</a></b> <a href="#Reference">#Reference</a> -&gt;  <a href="http://www.w3.org/2001/XMLSchema#string">http://www.w3.org/2001/XMLSchema#string</a><i> (Any additional information that can help the reader.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="series">series</a></b> <a href="#Reference">#Reference</a> -&gt;  <a href="http://www.w3.org/2001/XMLSchema#string">http://www.w3.org/2001/XMLSchema#string</a><i> (The name of a series or set of books. When citing an entire book, the the title field gives its title and an optional series field gives the name of a series or multi-volume set in which the book is published.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="title">title</a></b> <a href="#Reference">#Reference</a> -&gt;  <a href="http://www.w3.org/2001/XMLSchema#string">http://www.w3.org/2001/XMLSchema#string</a><i> (The title of the work.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="type">type</a></b>(<i><a href="#Chapter">#Chapter</a></i> | <i><a href="#TechReport">#TechReport</a></i> | <i><a href="#Academic">#Academic</a></i>) -&gt;  <a href="http://www.w3.org/2001/XMLSchema#string">http://www.w3.org/2001/XMLSchema#string</a><i> (The type of a technical report (for example, "Research Note").)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="affiliation">affiliation</a></b> <a href="#Reference">#Reference</a> -&gt;  <a href="http://www.w3.org/2001/XMLSchema#string">http://www.w3.org/2001/XMLSchema#string</a><i> (The authors affiliation.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="abstract">abstract</a></b> <a href="#Reference">#Reference</a> -&gt;  <a href="http://www.w3.org/2001/XMLSchema#string">http://www.w3.org/2001/XMLSchema#string</a><i> (The abstract of the work.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="contents">contents</a></b> <a href="#Reference">#Reference</a> -&gt;  <a href="http://www.w3.org/2001/XMLSchema#string">http://www.w3.org/2001/XMLSchema#string</a><i> (The Table of Contents.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="copyright">copyright</a></b> <a href="#Reference">#Reference</a> -&gt;  <a href="http://www.w3.org/2001/XMLSchema#string">http://www.w3.org/2001/XMLSchema#string</a><i> (The Copyright information.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="isbn">isbn</a></b> <a href="#Reference">#Reference</a> -&gt;  <a href="http://www.w3.org/2001/XMLSchema#string">http://www.w3.org/2001/XMLSchema#string</a><i> (The International Standard Book Number.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="issn">issn</a></b> <a href="#Reference">#Reference</a> -&gt;  <a href="http://www.w3.org/2001/XMLSchema#string">http://www.w3.org/2001/XMLSchema#string</a><i> (The International Standard Serial Number. Used to identify a journal.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="keywords">keywords</a></b> <a href="#Reference">#Reference</a> -&gt;  <a href="http://www.w3.org/2001/XMLSchema#string">http://www.w3.org/2001/XMLSchema#string</a><i> (Key words used for searching or possibly for annotation (as given by the author or publisher).)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="language">language</a></b> <a href="#Reference">#Reference</a> -&gt;  <a href="http://www.w3.org/2001/XMLSchema#language">http://www.w3.org/2001/XMLSchema#language</a><i> (The language in which the referenced publication is written or performed (use ISO two-letter codes).)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="lccn">lccn</a></b> <a href="#Reference">#Reference</a> -&gt;  <a href="http://www.w3.org/2001/XMLSchema#string">http://www.w3.org/2001/XMLSchema#string</a><i> (The Library of Congress Call Number (this the Congress of the United State of America).)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="mrNumber">mrNumber</a></b> <a href="#Reference">#Reference</a> -&gt;  <a href="http://www.w3.org/2001/XMLSchema#string">http://www.w3.org/2001/XMLSchema#string</a><i> (The Mathematical Reviews number.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="price">price</a></b> <a href="#Reference">#Reference</a> -&gt;  <a href="http://www.w3.org/2001/XMLSchema#string">http://www.w3.org/2001/XMLSchema#string</a><i> (The price of the document.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="size">size</a></b> <a href="#Reference">#Reference</a> -&gt;  <a href="http://www.w3.org/2001/XMLSchema#string">http://www.w3.org/2001/XMLSchema#string</a><i> (The physical dimensions of a document.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="url">url</a></b> <a href="#Reference">#Reference</a> -&gt;  <a href="http://www.w3.org/2001/XMLSchema#string">http://www.w3.org/2001/XMLSchema#string</a><i> (The Universal Resource Locator that points to the item being referenced.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="name">name</a></b>_ -&gt;  <a href="http://www.w3.org/2001/XMLSchema#string">http://www.w3.org/2001/XMLSchema#string</a><i> ()</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="shortName">shortName</a></b>_ -&gt;  <a href="http://www.w3.org/2001/XMLSchema#string">http://www.w3.org/2001/XMLSchema#string</a><i> ()</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="chapter">chapter</a></b> <a href="#Part">#Part</a> -&gt;  <a href="http://www.w3.org/2001/XMLSchema#string">http://www.w3.org/2001/XMLSchema#string</a><i> (The chapter (or section or whatever) number in which the entry is found.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="numberOrVolume">numberOrVolume</a></b>(<i><a href="#Reference">#Reference</a></i> | <i><a href="#Conference">#Conference</a></i>) -&gt; _<i> (The number of a journal, magazine, technical report, or of a work in a series. An issue of a journal or magazine is usually identified by its volume and number; the organization that issues a technical report usually gives it a number; and sometimes books are given numbers in a named series.)</i>
+</dt>
+<dd><dl>
+<dt>
+<b><a name="number">number</a></b> <a href="#Reference">#Reference</a> -&gt;  <a href="http://www.w3.org/2001/XMLSchema#string">http://www.w3.org/2001/XMLSchema#string</a><i> (The number of a journal, magazine, technical report, or of a work in a series. An issue of a journal or magazine is usually identified by its volume and number; the organization that issues a technical report usually gives it a number; and sometimes books are given numbers in a named series.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="issue">issue</a></b>(<i><a href="#Reference">#Reference</a></i> | <i><a href="#Conference">#Conference</a></i>) -&gt;  <a href="http://www.w3.org/2001/XMLSchema#string">http://www.w3.org/2001/XMLSchema#string</a><i> (The issue of a conference.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="volume">volume</a></b> <a href="#Reference">#Reference</a> -&gt;  <a href="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">http://www.w3.org/2001/XMLSchema#nonNegativeInteger</a><i> (The volume of a journal or multivolume book.)</i>
+</dt>
+<dd><dl></dl></dd>
+</dl></dd>
+<dt>
+<b><a name="year">year</a></b> <a href="#Date">#Date</a> -&gt;  <a href="http://www.w3.org/2001/XMLSchema#gYear">http://www.w3.org/2001/XMLSchema#gYear</a><i> ()</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="month">month</a></b> <a href="#Date">#Date</a> -&gt;  <a href="http://www.w3.org/2001/XMLSchema#gMonth">http://www.w3.org/2001/XMLSchema#gMonth</a><i> ()</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="day">day</a></b> <a href="#Date">#Date</a> -&gt;  <a href="http://www.w3.org/2001/XMLSchema#gDay">http://www.w3.org/2001/XMLSchema#gDay</a><i> ()</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="city">city</a></b> <a href="#Address">#Address</a> -&gt;  <a href="http://www.w3.org/2001/XMLSchema#string">http://www.w3.org/2001/XMLSchema#string</a><i> ()</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="state">state</a></b> <a href="#Address">#Address</a> -&gt;  <a href="http://www.w3.org/2001/XMLSchema#string">http://www.w3.org/2001/XMLSchema#string</a><i> ()</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="country">country</a></b> <a href="#Address">#Address</a> -&gt;  <a href="http://www.w3.org/2001/XMLSchema#string">http://www.w3.org/2001/XMLSchema#string</a><i> (Usually in ISO format)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="startPage">startPage</a></b> <a href="#PageRange">#PageRange</a> -&gt;  <a href="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">http://www.w3.org/2001/XMLSchema#nonNegativeInteger</a><i> (The beginning of a range of pages.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="endPage">endPage</a></b> <a href="#PageRange">#PageRange</a> -&gt;  <a href="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">http://www.w3.org/2001/XMLSchema#nonNegativeInteger</a><i> (The end of a range of pages.)</i>
+</dt>
+<dd><dl></dl></dd>
+</dl>
+<h2>Individuals</h2>
+<dl>
+<dt>&lt;rdf:List@<a name="ttp://www.w3.org/1999/02/22-rdf-syntax-ns#nil">ttp://www.w3.org/1999/02/22-rdf-syntax-ns#nil</a>&gt;</dt>
+<dd><ul compact></ul></dd>
+</dl>
+<hr>
+<address>Generated by OWL2HTML</address>
+</body>
+</html>

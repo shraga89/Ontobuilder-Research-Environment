@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE ontology SYSTEM "dtds/ontology.dtd">
+<ontology name="AviationFlight" title="Flight Details" type="full">
+    <classes />
+    <terms>
+        <term name="FlightNum" value="">
+            <domain name="Number" type="number" />
+            <attributes />
+            <axioms />
+            <relationships />
+            <subterms />
+        </term>
+        <term name="AirlineCode" value="">
+            <domain name="Number" type="number" />
+            <attributes />
+            <axioms />
+            <relationships />
+            <subterms />
+        </term>
+        <term name="DepartsFrom" value="">
+            <domain name="Text" type="text" />
+            <attributes />
+            <axioms />
+            <relationships>
+                <relationship name="is parent of">
+                    <source>DepartsFrom</source>
+                    <targets>DepartsFromCountry</targets>
+                </relationship>
+            </relationships>
+            <subterms>
+                <term name="DepartsFromCountry" value="">
+                    <domain name="Text" type="text" />
+                    <attributes />
+                    <axioms />
+                    <relationships>
+                        <relationship name="is child of">
+                            <source>DepartsFromCountry</source>
+                            <targets>DepartsFrom</targets>
+                        </relationship>
+                    </relationships>
+                    <subterms />
+                </term>
+            </subterms>
+        </term>
+        <term name="Destination" value="">
+            <domain name="Text" type="text" />
+            <attributes />
+            <axioms />
+            <relationships>
+                <relationship name="is parent of">
+                    <source>Destination</source>
+                    <targets>DestinationCountry</targets>
+                </relationship>
+            </relationships>
+            <subterms>
+                <term name="DestinationCountry" value="">
+                    <domain name="Text" type="text" />
+                    <attributes />
+                    <axioms />
+                    <relationships>
+                        <relationship name="is child of">
+                            <source>DestinationCountry</source>
+                            <targets>Destination</targets>
+                        </relationship>
+                    </relationships>
+                    <subterms />
+                </term>
+            </subterms>
+        </term>
+        <term name="AirlineName" value="">
+            <domain name="Text" type="text" />
+            <attributes />
+            <axioms />
+            <relationships />
+            <subterms />
+        </term>
+    </terms>
+</ontology>
+

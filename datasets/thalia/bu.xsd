@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="bu">
+		<xs:annotation>
+			<xs:documentation>Boston University</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="course" minOccurs="0" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:sequence minOccurs="0" maxOccurs="unbounded">
+							<xs:element name="college" type="xs:string" minOccurs="0"/>
+							<xs:element name="courseInfo" minOccurs="0">
+								<xs:complexType>
+									<xs:sequence minOccurs="0" maxOccurs="unbounded">
+											<xs:element name="title" type="xs:string" minOccurs="0"/>
+											<xs:element name="instructor" type="xs:string" minOccurs="0"/>
+											<xs:element name="schedule" minOccurs="0">
+												<xs:complexType>
+														<xs:sequence minOccurs="0" maxOccurs="unbounded">
+															<xs:element name="days" type="xs:string" minOccurs="0"/>
+															<xs:element name="time" type="xs:string" minOccurs="0"/>
+															<xs:element name="room" type="xs:string" minOccurs="0"/>
+														</xs:sequence>
+												</xs:complexType>
+											</xs:element>
+									</xs:sequence>
+									<xs:attribute name="code" type="xs:string" use="optional"/>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

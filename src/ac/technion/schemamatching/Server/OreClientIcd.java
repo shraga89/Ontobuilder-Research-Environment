@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 import ac.technion.schemamatching.experiments.OBExperimentRunner;
-import technion.iem.schemamatching.dbutils.DBInterface;
+import ac.technion.schemamatching.DBInterface.DBInterface;
 
 public class OreClientIcd 
 {

@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2010 rel. 3 (http://www.altova.com) by NTT (norg) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="AdditionalInformation">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="InfluenceFactorsOfApplyDecision"/>
+				<xs:element name="OtherUniversities"/>
+				<xs:element name="DisciplinaryViolation"/>
+				<xs:element name="CrimeConviction"/>
+				<xs:element name="Explanation"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="BackgroundInformation">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="ProfessionalPlans"/>
+				<xs:element name="HonorsAchievement"/>
+				<xs:element name="Award"/>
+				<xs:element name="Fellowship"/>
+				<xs:element name="Languages" type="Language"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="Language">
+		<xs:sequence>
+			<xs:element name="Fluency">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="Reading"/>
+						<xs:element name="Writing"/>
+						<xs:element name="Speaking"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Name"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="DiversityStatement">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="UploadAttachment"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="EducationalBackground">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="UndergraduateInstitution" type="Institution"/>
+				<xs:element name="AdditionalInstitution" type="Institution"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="Institution">
+		<xs:sequence>
+			<xs:element name="Degree"/>
+			<xs:element name="AttendanceLevel"/>
+			<xs:element name="InstitutionCode"/>
+			<xs:element name="OfficialName"/>
+			<xs:element name="FromToDate"/>
+			<xs:element name="DegreeDate"/>
+			<xs:element name="MajorField"/>
+			<xs:element name="Transcript"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="GradePointAverage">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Undergraduate">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="CumulativeGPA"/>
+							<xs:element name="MaximumGPA"/>
+							<xs:element name="Scale"/>
+							<xs:element name="JuniorGPA"/>
+							<xs:element name="SeniorGPA"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="PersonalInformation">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Name">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="FirstName"/>
+							<xs:element name="MiddleName"/>
+							<xs:element name="LastName"/>
+							<xs:element name="USSocialSecurityNumber"/>
+							<xs:element name="DateofBirth"/>
+							<xs:element name="CitizenStatus"/>
+							<xs:element name="CountryofCitizenship"/>
+							<xs:element name="CountryofBirth"/>
+							<xs:element name="CurrentAddress" type="Address"/>
+							<xs:element name="PermanentAddress" type="Address"/>
+							<xs:element name="CurrentTelephoneNumber" type="TelephoneNumber"/>
+							<xs:element name="PermanentTelephoneNumber" type="TelephoneNumber"/>
+							<xs:element name="Email">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Name"/>
+										<xs:element name="ValidUntil"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="Gender"/>
+							<xs:element name="RaceEthnicity"/>
+							<xs:element name="FirstRaisingIndividual">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="HighestLevelOfEducation"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="SecondRaisingIndividual">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="HighestLevelOfEducation"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="Address">
+		<xs:sequence>
+			<xs:element name="StreetAddress"/>
+			<xs:element name="City"/>
+			<xs:element name="State"/>
+			<xs:element name="Zip"/>
+			<xs:element name="Country"/>
+			<xs:element name="ValidUntil"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="TelephoneNumber">
+		<xs:sequence>
+			<xs:element name="USandCanadaTelephoneNumber"/>
+			<xs:element name="Cellphonenumber"/>
+			<xs:element name="Non-USandNon-Canadiantelephonenumber"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:element name="ProgramInformation">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="AcademicProgram"/>
+				<xs:element name="AreaofSpecialization"/>
+				<xs:element name="AffiliatewithInterdisciplinaryCluster"/>
+				<xs:element name="FacultyMembers">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="FirstName"/>
+							<xs:element name="LastName"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="JD-PhD">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="LawDegree"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="DPT-PhD">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="PhysicalTherapyDegree"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="CICScholar">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="CICCode"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="VEFFellowship">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="VEFCode"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="EntryQuarter"/>
+				<xs:element name="AttendanceStatus"/>
+				<xs:element name="PreviouslyApplication">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Date"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Publications">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="MLAFormat"/>
+				<xs:element name="Attachment"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="Resume">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Attachment"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="StatementofPurpose">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Attachment"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="TestScores">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="GraduateRecordExaminationGeneralTest">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="VerbalScore"/>
+							<xs:element name="QuantitativeScore"/>
+							<xs:element name="AnalyticalWritingScore"/>
+							<xs:element name="Date"/>
+							<xs:element name="Attachment"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="GraduateRecordExaminationSubjectTest">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Subject"/>
+							<xs:element name="Score"/>
+							<xs:element name="Date"/>
+							<xs:element name="Attachment"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="TOEFL">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Type"/>
+							<xs:element name="Score"/>
+							<xs:element name="Date"/>
+							<xs:element name="Attachment"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="IELTS">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="WritingBandScore"/>
+							<xs:element name="ReadingBandScore"/>
+							<xs:element name="SpeakingBandScore"/>
+							<xs:element name="ListeningBandScore"/>
+							<xs:element name="OverallBandScore"/>
+							<xs:element name="TestingDate"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="GMAT">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="TotalScore"/>
+							<xs:element name="QuantitativeScore"/>
+							<xs:element name="VerbalScore"/>
+							<xs:element name="AnalyticalScore"/>
+							<xs:element name="Date"/>
+							<xs:element name="Attachment"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="MCAT">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="BioscienceScore"/>
+							<xs:element name="PhysicalScienceScore"/>
+							<xs:element name="VerbalScore"/>
+							<xs:element name="Date"/>
+							<xs:element name="Attachment"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="LSAT">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="CompositeScore"/>
+							<xs:element name="Date"/>
+							<xs:element name="Attachment"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="WritingSample">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Title"/>
+				<xs:element name="Attachment"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

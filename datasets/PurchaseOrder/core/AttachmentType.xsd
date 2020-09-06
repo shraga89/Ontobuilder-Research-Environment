@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" targetNamespace="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" elementFormDefault="qualified">
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+            XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.
+            Permission is granted to use, copy, modify and distribute the
+            DTD's, schemas and modules in the Commerce One XML Common Business
+            Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType name="AttachmentType">
+        <xsd:annotation>
+            <xsd:documentation>is a container for specifying the attachments to a document.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element minOccurs="0" name="AttachmentActionCoded" type="AttachmentActionCodeType">
+                <xsd:annotation>
+                    <xsd:documentation>identifies the action to be taken on this attachment.  This should only be used in response and change documents.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="AttachmentActionCodedOther" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>is used to provide a non-standard
+    <!--code-->AttachmentActionCoded<!--/code-->. This element is mandatory if the value
+    of <!--code-->AttachmentActionCoded<!--/code--> is 'Other'. These codes should not
+    contain white space unless absolutely necessary.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="AttachmentPurpose" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>explains the reason or purpose for attaching the message to the
+        document or its intended use.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="FileName" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>provides name of the attached file.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="AttachmentTitle" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>displays the title of the attached document.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="AttachmentDescription" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>describes the attachment.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Language" type="LanguageType">
+                <xsd:annotation>
+                    <xsd:documentation>denotes the language the attachment is written in.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="MIMEType" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>describes the format of the attachment.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="AttachmentLocation" type="xsd:anyURI">
+                <xsd:annotation>
+                    <xsd:documentation>identifies the location of the attachment to the
+        document.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="ListOfAttachmentType">
+        <xsd:annotation>
+            <xsd:documentation>is container that holds one or more <!--code-->Attachment<!--/code--> elements.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element maxOccurs="unbounded" name="Attachment" type="AttachmentType">
+                <xsd:annotation>
+                    <xsd:documentation>is a container for specifying the attachments to a document.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

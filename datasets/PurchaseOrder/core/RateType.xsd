@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" targetNamespace="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" elementFormDefault="qualified">
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+            XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.
+            Permission is granted to use, copy, modify and distribute the
+            DTD's, schemas and modules in the Commerce One XML Common Business
+            Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType name="RateType">
+        <xsd:annotation>
+            <xsd:documentation>specifies the rate that the allowance or charge is calculated on.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="RatePerUnit" type="UnitPriceType">
+                <xsd:annotation>
+                    <xsd:documentation>identifies the monetary value of the rate.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="UnitPriceBasis" type="Decimal18_3Type">
+                <xsd:annotation>
+                    <xsd:documentation>identifies the basis on which the price/rate applies.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="UnitOfMeasurement" type="UnitOfMeasurementType">
+                <xsd:annotation>
+                    <xsd:documentation>specifies the unit of measure of the rate.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

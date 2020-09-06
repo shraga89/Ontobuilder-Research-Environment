@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" targetNamespace="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" elementFormDefault="qualified">
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+            XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.
+            Permission is granted to use, copy, modify and distribute the
+            DTD's, schemas and modules in the Commerce One XML Common Business
+            Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType name="ErrorInfoType">
+        <xsd:annotation>
+            <xsd:documentation>is used by the receiving application to return complete information
+            about errors encountered during processing of a message.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="CompletionText" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>is the error code produced. A complete list of error codes is available elsewhere, specific to the message that uses this module.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="CompletionMsg" type="LanguageStringType">
+                <xsd:annotation>
+                    <xsd:documentation>is the error message</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="Severity" type="SeverityType">
+                <xsd:annotation>
+                    <xsd:documentation>states the severity of the error encountered.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ListOfParameter" type="ListOfParameterType">
+                <xsd:annotation>
+                    <xsd:documentation>is an optional field that can be
+            used to pass extra information to the caller about an error.  In
+            a way, the motivation of this field is similar to the IOTP's
+            <!--code-->PackagedContent<!--/code--> concept.  For example, a buyer
+            and a supplier can agree that under the situation where the
+            supplier does not have enough stock, it will pass these three
+            parameters:  Param1  SKU#, Param2  Buyer Requested Delivery Date,
+            Param3  The date when supplier will be able to fulfil the order</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="MinRetrySecs" type="xsd:int">
+                <xsd:annotation>
+                    <xsd:documentation>is an optional field used to
+            specify the number of seconds that a caller has to wait before
+            sending the retry request. This field is usually used by an
+            error that has <!--code-->severity=Transient<!--/code-->
+        </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="SwVendorErrorRef" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>is the optional software vendor error reference and is used to specify the exact location
+            where the error occurs. It should contain information that
+            enable software vendor to trace back the exact location of
+            the code that generate this code.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="ListOfErrorInfoType">
+        <xsd:annotation>
+            <xsd:documentation>is a collection of
+            one or more <!--code-->ErrorInfo<!--/code--> elements.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element maxOccurs="unbounded" name="ErrorInfo" type="ErrorInfoType">
+                <xsd:annotation>
+                    <xsd:documentation>is used by the receiving application to return complete information
+            about errors encountered during processing of a message.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

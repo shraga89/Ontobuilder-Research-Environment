@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" targetNamespace="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" elementFormDefault="qualified">
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+            XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.
+            Permission is granted to use, copy, modify and distribute the
+            DTD's, schemas and modules in the Commerce One XML Common Business
+            Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType name="HazardousShipmentInformationType">
+        <xsd:annotation>
+            <xsd:documentation>holds information related to the shipping and packaging of
+        hazardous goods.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element minOccurs="0" name="HazardPackingCoded" type="HazardPackingCodeType">
+                <xsd:annotation>
+                    <xsd:documentation>identifies the hazardous packaging information.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="HazardPackingCodedOther" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>is used to provide a non-standard <!--code-->HazardPackingCode<!--/code-->. This element
+        is mandatory if the value of <!--code-->HazardPackingCoded<!--/code--> is 'Other'. These codes should
+        not contain white space unless absolutely necessary.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="HazardousShipmentCoded" type="HazardousShipmentCodeType">
+                <xsd:annotation>
+                    <xsd:documentation>indicates the type of information being passed so that a receiver
+        may format a description of hazardous commodity movements that meets regulatory
+        requirements</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="HazardousShipmentCodedOther" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>is used to provide a non-standard <!--code-->HazardousShipmentCode<!--/code-->. This element is
+        mandatory if the value of <!--code-->HazardousShipmentCoded<!--/code--> is 'Other'. These codes should not
+        contain white space unless absolutely necessary.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="HazardousShipmentNote" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>is used to provide specific information required by law for
+        hazardous material shipments or any free form text relating to hazardous
+        shipments.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="HazardousZoneCoded" type="HazardousZoneCodeType">
+                <xsd:annotation>
+                    <xsd:documentation>is used to specify the Department of Transportation assigned zone
+        designating the Inhalation Toxicity Hazard Zone</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="HazardousZoneCodedOther" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>is used to provide a non-standard <!--code-->HazardousZoneCode<!--/code-->. This element
+        is mandatory if the value of <!--code-->HazardousZoneCoded<!--/code--> is 'Other'. These codes should
+        not contain white space unless absolutely necessary.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

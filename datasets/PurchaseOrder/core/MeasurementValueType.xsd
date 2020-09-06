@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" targetNamespace="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" elementFormDefault="qualified">
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+            XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.
+            Permission is granted to use, copy, modify and distribute the
+            DTD's, schemas and modules in the Commerce One XML Common Business
+            Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType name="MeasurementValueType">
+        <xsd:annotation>
+            <xsd:documentation>contains the value of the measurement.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:decimal">
+                <xsd:attribute name="SignificanceCoded" type="SignificanceCodeType" use="optional">
+                    <xsd:annotation>
+                        <xsd:documentation>
+            describes the significance of the a quantity using a standard
+        codelist.</xsd:documentation>
+                    </xsd:annotation>
+                </xsd:attribute>
+                <xsd:attribute name="SignificanceCodedOther" type="xsd:string" use="optional">
+                    <xsd:annotation>
+                        <xsd:documentation>
+            is used to provide a non-standard <!--code-->SignificanceCode<!--/code-->.
+        This element is mandatory if the value of <!--code-->SignificanceCoded<!--/code--> is
+        'Other'. These codes should not contain white space unless absolutely
+        necessary.</xsd:documentation>
+                    </xsd:annotation>
+                </xsd:attribute>
+                <xsd:attribute name="ConditionsCoded" type="ConditionsCodeType" use="optional">
+                    <xsd:annotation>
+                        <xsd:documentation>
+            describes the conditions that apply to the quantity.</xsd:documentation>
+                    </xsd:annotation>
+                </xsd:attribute>
+                <xsd:attribute name="ConditionsCodedOther" type="xsd:string" use="optional">
+                    <xsd:annotation>
+                        <xsd:documentation>
+            is used to provide a non-standard <!--code-->ConditionsCode<!--/code-->.
+        This element is mandatory if the value of <!--code-->ConditionsCoded<!--/code--> is
+        'Other'. These codes should not contain white space unless absolutely
+        necessary.</xsd:documentation>
+                    </xsd:annotation>
+                </xsd:attribute>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+</xsd:schema>

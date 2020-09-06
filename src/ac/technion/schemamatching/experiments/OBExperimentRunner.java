@@ -839,7 +839,7 @@ import java.util.Properties;
 import java.util.Scanner;
 import java.util.TreeMap;
 
-import technion.iem.schemamatching.dbutils.DBInterface;
+import ac.technion.schemamatching.DBInterface.DBInterface;
 import ac.technion.iem.ontobuilder.core.utils.files.XmlFileHandler;
 import ac.technion.iem.ontobuilder.matching.wrapper.OntoBuilderWrapper;
 import ac.technion.schemamatching.experiments.holistic.HolisticExperiment;

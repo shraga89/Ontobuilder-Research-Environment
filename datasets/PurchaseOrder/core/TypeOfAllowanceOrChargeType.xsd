@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" targetNamespace="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" elementFormDefault="qualified">
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+            XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.
+            Permission is granted to use, copy, modify and distribute the
+            DTD's, schemas and modules in the Commerce One XML Common Business
+            Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType name="TypeOfAllowanceOrChargeType">
+        <xsd:annotation>
+            <xsd:documentation>is a container for the information on the type of allowance or
+		charge. Only one method of calculating the allowance or charge can be
+		specified.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:choice>
+            <xsd:element name="QuantityAllowanceOrCharge" type="QuantityAllowanceOrChargeType">
+                <xsd:annotation>
+                    <xsd:documentation>specifies the allowance or charge where the calculation is based
+		on quantity.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="PercentageAllowanceOrCharge" type="PercentageAllowanceOrChargeType">
+                <xsd:annotation>
+                    <xsd:documentation>specifies the allowance or charge based on a
+		percentage.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="MonetaryValue" type="MonetaryValueType">
+                <xsd:annotation>
+                    <xsd:documentation>is the monetary amount of the allowance or charge when charged as
+		a lump sum.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:choice>
+    </xsd:complexType>
+</xsd:schema>

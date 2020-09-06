@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" targetNamespace="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" elementFormDefault="qualified">
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+            XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.
+            Permission is granted to use, copy, modify and distribute the
+            DTD's, schemas and modules in the Commerce One XML Common Business
+            Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType name="TransportPackagingTotalsType">
+        <xsd:annotation>
+            <xsd:documentation>summarizes the transport and packaging information if included in
+        a document.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element minOccurs="0" name="TotalPackages" type="xsd:int">
+                <xsd:annotation>
+                    <xsd:documentation>is the summation of total packages contained in the document.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="TotalPackageDepth" type="xsd:int">
+                <xsd:annotation>
+                    <xsd:documentation>describes the nesting level of the package count in the preceding
+        element, if that number counts other than top-level packages. </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="TotalTransport" type="xsd:int">
+                <xsd:annotation>
+                    <xsd:documentation>is the summation of the total top level packages contained in the document, unless otherwise described. Total transport is the number of top-level packages, unless described otherwise in <!--code-->TotalPackageDepth<!--/code-->.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="TotalGrossWeight" type="MeasurementType">
+                <xsd:annotation>
+                    <xsd:documentation>is the total gross weight of the shipment.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="TotalNetWeight" type="MeasurementType">
+                <xsd:annotation>
+                    <xsd:documentation>is the total net weight of the shipment.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="TotalNetNetWeight" type="MeasurementType">
+                <xsd:annotation>
+                    <xsd:documentation>is the weight (mass) of the goods themselves without any packing.
+        This is particularly important for the industries like tobacco where tax is
+        calculated on the weight of the cigarettes rather than on the retail
+        item.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="TotalTareWeight" type="MeasurementType">
+                <xsd:annotation>
+                    <xsd:documentation>is the weight of the goods minus the transport
+        equipment.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="GrossVolume" type="MeasurementType">
+                <xsd:annotation>
+                    <xsd:documentation>is the total volume of the shipment</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

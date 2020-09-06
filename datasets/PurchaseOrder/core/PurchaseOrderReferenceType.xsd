@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" targetNamespace="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" elementFormDefault="qualified">
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+            XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.
+            Permission is granted to use, copy, modify and distribute the
+            DTD's, schemas and modules in the Commerce One XML Common Business
+            Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType name="PurchaseOrderReferenceType">
+        <xsd:annotation>
+            <xsd:documentation>contains information relevant to the purchase order the invoice
+        is issued against. </xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="BuyerOrderNumber" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>holds the buyer's identification of the order.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="SellerOrderNumber" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>holds the seller's identification of the order.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="AccountCode" type="ReferenceType">
+                <xsd:annotation>
+                    <xsd:documentation>holds the seller's account number for the buyer.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="PurchaseOrderDate" type="xsd:dateTime">
+                <xsd:annotation>
+                    <xsd:documentation>holds the date of issue of the purchase order.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="PurchaseOrderLineItemNumber" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>holds the line item number of the referenced purchase order.
+        </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="PartialOrderCoded" type="PartialOrderCodeType">
+                <xsd:annotation>
+                    <xsd:documentation>is a code specifying the status of the order. </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="PartialOrderCodedOther" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>is used to provide a non-standard
+        <!--code-->ASNPartialOrderCode<!--/code-->. This element is mandatory if the value of
+        <!--code-->PartialOrderCoded<!--/code--> is 'Other'. These codes should not contain white
+        space unless absolutely necessary.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="OrderType" type="OrderTypeType">
+                <xsd:annotation>
+                    <xsd:documentation>identifies the type of order being
+					referenced.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ReleaseNumber" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>identifies the specific iteration of the release against a given contract, purchase order, etc.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ChangeOrderSequenceNumber" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>number assigned by the initiator of the order identifying a specific change or revision to a previously transmitted transaction set.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="ListOfPurchaseOrderReferenceType">
+        <xsd:annotation>
+            <xsd:documentation>contains references to multiple orders.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element maxOccurs="unbounded" name="PurchaseOrderReference" type="PurchaseOrderReferenceType">
+                <xsd:annotation>
+                    <xsd:documentation>contains references to a purchase order.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

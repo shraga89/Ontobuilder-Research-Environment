@@ -10,8 +10,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Vector;
 
-import technion.iem.schemamatching.dbutils.Field;
-import technion.iem.schemamatching.dbutils.Field.FieldType;
+import ac.technion.schemamatching.DBInterface.Field;
+import ac.technion.schemamatching.DBInterface.Field.FieldType;
 
 import ac.technion.iem.ontobuilder.core.ontology.Ontology;
 import ac.technion.iem.ontobuilder.core.ontology.OntologyClass;

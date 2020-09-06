@@ -1,0 +1,723 @@
+<html xmlns:bib="http://www.inrialpes.fr/exmo/papers" xmlns:datext="http://www.jclark.com/xt/java/java.util.Date" xmlns:datexa="xalan://java.util.Date" xmlns:units="http://visus.mit.edu/fontomri/0.01/units.owl#" xmlns:foaf="http://xmlns.com/foaf/0.1/#" xmlns:ical="http://www.w3.org/2002/12/cal/#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xsd="http://www.w3.org/2001/XMLSchema#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:owl="http://www.w3.org/2002/07/owl#" xmlns:wot="http://xmlns.com/wot/0.1/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dctype="http://purl.org/dc/dcmitype/" xmlns:bibtex="http://purl.org/net/nknouf/ns/bibtex#">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>bibtex ontology</title>
+</head>
+<body bgcolor="ffffff">
+<h1>bibtex ontology</h1>
+<p>Transformation of bibTeX into an OWL ontology</p>
+<p><i>Possible ontology to describe bibTeX entries.</i><br>
+Author: Nick Knouf &lt;nknouf@mit.edu&gt;<br>
+Contributor: Antoine Zimmermann &lt;antoine.zimmermann@inrialpes.fr&gt;, <br>
+Date: 2004-01-10<br>
+Version: 0.01</p>
+<h2>Classes</h2>
+<dl>
+<dt>
+<b><a name="Entry">Entry</a></b> (Entry, <i>Base class for all entries)</i>
+</dt>
+<dd>
+<ul>
+<li>
+<a href="#date">#date</a> [0 1]</li>
+<li>
+<a href="#title">#title</a> [0 1]</li>
+<li>
+<a href="#author">#author</a> [0 1]</li>
+</ul>
+<dl>
+<dt>
+<b><a name="Published">Published</a></b> (Published, <i>.)</i>
+</dt>
+<dd>
+<ul></ul>
+<dl>
+<dt>
+<b><a name="Article">Article</a></b> (Article, <i>An article from a journal or magazine.)</i>
+</dt>
+<dd>super: <i><a href="#Part">#Part</a></i><br><ul>
+<li>
+<a href="#author">#author</a> [1 1]</li>
+<li>
+<a href="#title">#title</a> [1 1]</li>
+<li>
+<a href="#inJournal">#inJournal</a> [1 1]</li>
+<li>
+<a href="#date">#date</a> [1 1] <i><a href="#DateWithMonth">#DateWithMonth</a></i><br>
+</li>
+<li>
+<a href="#number">#number</a> [0 1]</li>
+<li>
+<a href="#volume">#volume</a> [0 1]</li>
+</ul>
+<dl></dl>
+</dd>
+<dt>
+<b><a name="Book">Book</a></b> (Book, <i>A single book that may be a monography or a collection of written texts.)</i>
+</dt>
+<dd>super: <i><a href="#Composite">#Composite</a></i><br><ul>
+<li>
+<a href="#humanCreator">#humanCreator</a> [1 1]</li>
+<li>
+<a href="#edition">#edition</a> [0 1]</li>
+</ul>
+<dl>
+<dt>
+<b><a name="Monography">Monography</a></b> (Monography, <i>A book that is a single entity, as opposed to a collection.)</i>
+</dt>
+<dd>
+<ul></ul>
+<dl></dl>
+</dd>
+<dt>
+<b><a name="Collection">Collection</a></b> (Collection, <i>A book that is collection of texts or articles.)</i>
+</dt>
+<dd>
+<ul></ul>
+<dl></dl>
+</dd>
+</dl>
+</dd>
+<dt>
+<b><a name="BookPart">BookPart</a></b> (BookPart, <i>May be a chapter (or section or whatever), a range of pages or a part of a book having its own title.)</i>
+</dt>
+<dd>super: <i><a href="#Part">#Part</a></i><br><ul>
+<li>
+<a href="#chapter">#chapter</a> [0 1]</li>
+<li>
+<a href="#pagesOrChapter">#pagesOrChapter</a> [0 2]</li>
+</ul>
+<dl></dl>
+</dd>
+</dl>
+</dd>
+<dt>
+<b><a name="Composite">Composite</a></b> (Book, <i>A work that may be composed of several parts or chapter. May be a monography, a collection or a proceedings.)</i>
+</dt>
+<dd>
+<ul>
+<li>
+<a href="#numberOrVolume">#numberOrVolume</a> [0 1]</li>
+<li>
+<a href="#publisher">#publisher</a> [0 1]</li>
+<li>
+<a href="#series">#series</a> [0 1]</li>
+<li>
+<a href="#title">#title</a> [1 1] [1 1]</li>
+<li>
+<a href="#date">#date</a> [1 1] <i><a href="#DateWithMonth">#DateWithMonth</a></i><br>
+</li>
+</ul>
+<dl>
+<dt>
+<b><a name="Book">Book</a></b> (Book, <i>A single book that may be a monography or a collection of written texts.)</i>
+</dt>
+<dd>super: <i><a href="#Published">#Published</a></i><br><ul>
+<li>
+<a href="#humanCreator">#humanCreator</a> [1 1]</li>
+<li>
+<a href="#edition">#edition</a> [0 1]</li>
+</ul>
+<dl>
+<dt>
+<b><a name="Monography">Monography</a></b> (Monography, <i>A book that is a single entity, as opposed to a collection.)</i>
+</dt>
+<dd>
+<ul></ul>
+<dl></dl>
+</dd>
+<dt>
+<b><a name="Collection">Collection</a></b> (Collection, <i>A book that is collection of texts or articles.)</i>
+</dt>
+<dd>
+<ul></ul>
+<dl></dl>
+</dd>
+</dl>
+</dd>
+<dt>
+<b><a name="Proceedings">Proceedings</a></b> (Proceedings, <i>The proceedings of a conference.)</i>
+</dt>
+<dd>
+<ul>
+<li>
+<a href="#publisher">#publisher</a> [0 1]</li>
+<li>
+<a href="#editor">#editor</a> [0 1]</li>
+<li>
+<a href="#organization">#organization</a> [0 1]</li>
+</ul>
+<dl></dl>
+</dd>
+</dl>
+</dd>
+<dt>
+<b><a name="Informal">Informal</a></b> (Informal, <i>A document that that was informally published or not published.)</i>
+</dt>
+<dd>
+<ul></ul>
+<dl>
+<dt>
+<b><a name="Booklet">Booklet</a></b> (Booklet, <i>A work that is printed and bound, but without a named publisher or sponsoring institution.)</i>
+</dt>
+<dd>
+<ul><li>
+<a href="#title">#title</a> [1 1]</li></ul>
+<dl></dl>
+</dd>
+<dt>
+<b><a name="Deliverable">Deliverable</a></b> (Conference, <i>TROUVER UNE DESCRIPTION POUR CA.)</i>
+</dt>
+<dd>
+<ul></ul>
+<dl></dl>
+</dd>
+<dt>
+<b><a name="LectureNotes">LectureNotes</a></b> (LectureNotes, <i>Lecture notes.)</i>
+</dt>
+<dd>super: <i><a href="#Academic">#Academic</a></i><br><ul></ul>
+<dl></dl>
+</dd>
+<dt>
+<b><a name="Manual">Manual</a></b> (Manual, <i>Technical documentation.)</i>
+</dt>
+<dd>
+<ul>
+<li>
+<a href="#organization">#organization</a> [0 1]</li>
+<li>
+<a href="#edition">#edition</a> [0 1]</li>
+<li>
+<a href="#title">#title</a> [1 1]</li>
+</ul>
+<dl></dl>
+</dd>
+<dt>
+<b><a name="Misc">Misc</a></b> (Misc, <i>Use this type when nothing else fits.)</i>
+</dt>
+<dd>
+<ul></ul>
+<dl></dl>
+</dd>
+<dt>
+<b><a name="TechReport">TechReport</a></b> (TechReport, <i>A report published by a school or other institution, usually numbered within a series.)</i>
+</dt>
+<dd>
+<ul>
+<li>
+<a href="#author">#author</a> [1 1]</li>
+<li>
+<a href="#title">#title</a> [1 1]</li>
+<li>
+<a href="#institution">#institution</a> [1 1]</li>
+<li>
+<a href="#date">#date</a> [1 1] <i><a href="#DateWithMonth">#DateWithMonth</a></i><br>
+</li>
+<li>
+<a href="#number">#number</a> [0 1]</li>
+</ul>
+<dl></dl>
+</dd>
+<dt>
+<b><a name="Unpublished">Unpublished</a></b> (Unpublished, <i>A document having an author and title, but not formally published.)</i>
+</dt>
+<dd>
+<ul>
+<li>
+<a href="#author">#author</a> [1 1]</li>
+<li>
+<a href="#title">#title</a> [1 1]</li>
+<li>
+<a href="#note">#note</a> [1 +oo]</li>
+</ul>
+<dl></dl>
+</dd>
+</dl>
+</dd>
+<dt>
+<b><a name="Part">Part</a></b> (Part, <i>A part of something (either Book or Proceedings).)</i>
+</dt>
+<dd>
+<ul>
+<li>
+<a href="#pages">#pages</a> [0 1]</li>
+<li>
+<a href="#title">#title</a> [1 1]</li>
+<li>
+<a href="#isPartOf">#isPartOf</a> [1 1]</li>
+</ul>
+<dl>
+<dt>
+<b><a name="Article">Article</a></b> (Article, <i>An article from a journal or magazine.)</i>
+</dt>
+<dd>super: <i><a href="#Published">#Published</a></i><br><ul>
+<li>
+<a href="#author">#author</a> [1 1]</li>
+<li>
+<a href="#title">#title</a> [1 1]</li>
+<li>
+<a href="#inJournal">#inJournal</a> [1 1]</li>
+<li>
+<a href="#date">#date</a> [1 1] <i><a href="#DateWithMonth">#DateWithMonth</a></i><br>
+</li>
+<li>
+<a href="#number">#number</a> [0 1]</li>
+<li>
+<a href="#volume">#volume</a> [0 1]</li>
+</ul>
+<dl></dl>
+</dd>
+<dt>
+<b><a name="BookPart">BookPart</a></b> (BookPart, <i>May be a chapter (or section or whatever), a range of pages or a part of a book having its own title.)</i>
+</dt>
+<dd>super: <i><a href="#Published">#Published</a></i><br><ul>
+<li>
+<a href="#chapter">#chapter</a> [0 1]</li>
+<li>
+<a href="#pagesOrChapter">#pagesOrChapter</a> [0 2]</li>
+</ul>
+<dl></dl>
+</dd>
+<dt>
+<b><a name="InProceedings">InProceedings</a></b> (InProceedings, <i>An article in a conference proceedings.)</i>
+</dt>
+<dd>
+<ul>
+<li>
+<a href="#author">#author</a> [1 1]</li>
+<li>
+<a href="#inProceedings">#inProceedings</a> [1 1]</li>
+</ul>
+<dl></dl>
+</dd>
+</dl>
+</dd>
+<dt>
+<b><a name="Academic">Academic</a></b> (Academic, <i>A Master's or PhD thesis.)</i>
+</dt>
+<dd>
+<ul>
+<li>
+<a href="#author">#author</a> [1 1]</li>
+<li>
+<a href="#title">#title</a> [1 1]</li>
+<li>
+<a href="#school">#school</a> [1 1]</li>
+</ul>
+<dl>
+<dt>
+<b><a name="LectureNotes">LectureNotes</a></b> (LectureNotes, <i>Lecture notes.)</i>
+</dt>
+<dd>super: <i><a href="#Informal">#Informal</a></i><br><ul></ul>
+<dl></dl>
+</dd>
+<dt>
+<b><a name="Thesis">Thesis</a></b> (Thesis, <i>A thesis (either Master or PhD).)</i>
+</dt>
+<dd>
+<ul><li>
+<a href="#date">#date</a> [1 1] <i><a href="#DateWithMonth">#DateWithMonth</a></i><br>
+</li></ul>
+<dl>
+<dt>
+<b><a name="MastersThesis">MastersThesis</a></b> (MastersThesis, <i>A Master's thesis.)</i>
+</dt>
+<dd>
+<ul></ul>
+<dl></dl>
+</dd>
+<dt>
+<b><a name="PhdThesis">PhdThesis</a></b> (PhdThesis, <i>A PhD thesis.)</i>
+</dt>
+<dd>
+<ul></ul>
+<dl></dl>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd>
+<dt>
+<b><a name="MotionPicture">MotionPicture</a></b> (MotionPicture, <i>A film/movie/motion picture.)</i>
+</dt>
+<dd>
+<ul></ul>
+<dl></dl>
+</dd>
+</dl>
+</dd>
+<dt>
+<b><a name="Institution">Institution</a></b> (Institution, <i>An institution.)</i>
+</dt>
+<dd>
+<ul></ul>
+<dl></dl>
+</dd>
+<dt>
+<b><a name="School">School</a></b> (School, <i>A school or university.)</i>
+</dt>
+<dd>
+<ul></ul>
+<dl></dl>
+</dd>
+<dt>
+<b><a name="Journal">Journal</a></b> (Journal, <i>A journal.)</i>
+</dt>
+<dd>
+<ul></ul>
+<dl></dl>
+</dd>
+<dt>
+<b><a name="Organization">Organization</a></b> (Organization, <i>An organization.)</i>
+</dt>
+<dd>
+<ul></ul>
+<dl></dl>
+</dd>
+<dt>
+<b><a name="Publisher">Publisher</a></b> (Publisher, <i>A publisher.)</i>
+</dt>
+<dd>
+<ul></ul>
+<dl></dl>
+</dd>
+<dt>
+<b><a name="Person">Person</a></b> (Person, <i>A person.)</i>
+</dt>
+<dd>
+<ul></ul>
+<dl></dl>
+</dd>
+<dt>
+<b><a name="PersonList">PersonList</a></b> (Person list, <i>A list of persons.)</i>
+</dt>
+<dd>super: <i><a href="http://www.w3.org/1999/02/22-rdf-syntax-ns#List">http://www.w3.org/1999/02/22-rdf-syntax-ns#List</a></i><br><ul>
+<li>
+<a href="http://www.w3.org/1999/02/22-rdf-syntax-ns#first">http://www.w3.org/1999/02/22-rdf-syntax-ns#first</a> [1 1] <i><a href="#Person">#Person</a></i><br>
+</li>
+<li>
+<a href="http://www.w3.org/1999/02/22-rdf-syntax-ns#rest">http://www.w3.org/1999/02/22-rdf-syntax-ns#rest</a> [1 1] (<i><a href="#PersonList">#PersonList</a></i> |  { <dt>&lt;rdf:List@<a name="ttp://www.w3.org/1999/02/22-rdf-syntax-ns#nil">ttp://www.w3.org/1999/02/22-rdf-syntax-ns#nil</a>&gt;</dt>
+<dd><ul compact></ul></dd> } )<br>
+</li>
+</ul>
+<dl></dl>
+</dd>
+<dt>
+<b><a name="http://www.w3.org/1999/02/22-rdf-syntax-ns#List">http://www.w3.org/1999/02/22-rdf-syntax-ns#List</a></b> (, <i>)</i>
+</dt>
+<dd>
+<ul></ul>
+<dl></dl>
+</dd>
+<dt>
+<b><a name="PageRange">PageRange</a></b> (PageRange, <i>A range of pages.)</i>
+</dt>
+<dd>
+<ul>
+<li>
+<a href="#startPage">#startPage</a> [1 1]</li>
+<li>
+<a href="#endPage">#endPage</a> [1 1]</li>
+</ul>
+<dl></dl>
+</dd>
+<dt>
+<b><a name="Date">Date</a></b> (Date, <i>Date of a day, month or year.)</i>
+</dt>
+<dd>
+<ul>
+<li>
+<a href="#year">#year</a> [1 1]</li>
+<li>
+<a href="#month">#month</a> [0 1]</li>
+</ul>
+<dl>
+<dt>
+<b><a name="DateWithMonth">DateWithMonth</a></b> (Date, <i>Date of a day, month or year.)</i>
+</dt>
+<dd>
+<ul>
+<li>
+<a href="#month">#month</a> [1 1]</li>
+<li>
+<a href="#day">#day</a> [0 1]</li>
+</ul>
+<dl></dl>
+</dd>
+</dl>
+</dd>
+<dt>
+<b><a name="Text">Text</a></b> (Text, <i>A simple text with possibly other information such as language, etc.)</i>
+</dt>
+<dd>
+<ul></ul>
+<dl>
+<dt>
+<b><a name="Title">Title</a></b> (Title, <i>A title.)</i>
+</dt>
+<dd>
+<ul></ul>
+<dl></dl>
+</dd>
+</dl>
+</dd>
+</dl>
+<h2>Properties</h2>
+<dl>
+<dt>
+<b><a name="annote">annote</a></b>:
+     <a href="#Entry">#Entry</a> -&gt;  <a href="#Text">#Text</a><i> (An annotation. It is not used by the standard bibliography styles, but may be used by others that produce an annotated bibliography.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="edition">edition</a></b>:
+    (<i><a href="#Book">#Book</a></i> | <i><a href="#Manual">#Manual</a></i>) -&gt;  <a href="#Text">#Text</a><i> (The edition of a book--for example, "Second". This should be an ordinal, and should have the first letter capitalized, as shown here; the standard styles convert to lower case when necessary.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="howPublished">howPublished</a></b>:
+    (<i><a href="#Misc">#Misc</a></i> | <i><a href="#Booklet">#Booklet</a></i>) -&gt;  <a href="#Text">#Text</a><i> (How something strange has been published. The first word should be capitalized.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="isPartOf">isPartOf</a></b>:
+     <a href="#Part">#Part</a> -&gt; _<i> (The document that contains a text or article.)</i>
+</dt>
+<dd><dl>
+<dt>
+<b><a name="inJournal">inJournal</a></b>:
+     <a href="#Article">#Article</a> -&gt;  <a href="#Journal">#Journal</a><i> (A journal name. Abbreviations are provided for many journals; see the Local Guide)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="inMonography">inMonography</a></b>:
+     <a href="#InBook">#InBook</a> -&gt;  <a href="#Monography">#Monography</a><i> (A reference to the book that contains the entry. The entry must be an InBook end the book a Monography.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="inCollection">inCollection</a></b>:
+     <a href="#InCollection">#InCollection</a> -&gt;  <a href="#Collection">#Collection</a><i> (A reference to the book that contains the entry. The entry must be an Inbook or Incollection.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="inProceedings">inProceedings</a></b>:
+     <a href="#InProceedings">#InProceedings</a> -&gt;  <a href="#Proceedings">#Proceedings</a><i> (A reference to the proceedings in which the entry appears. The entry must be an InProceedings.)</i>
+</dt>
+<dd><dl></dl></dd>
+</dl></dd>
+<dt>
+<b><a name="institution">institution</a></b>:
+     <a href="#TechReport">#TechReport</a> -&gt;  <a href="#Institution">#Institution</a><i> (The sponsoring institution of a technical report.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="date">date</a></b>:
+     <a href="#Entry">#Entry</a> -&gt;  <a href="#Date">#Date</a><i> (The date when the work was published or, for an unpublished work, in which it was written.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="note">note</a></b>:
+     <a href="#Entry">#Entry</a> -&gt;  <a href="#Text">#Text</a><i> (Any additional information that can help the reader. The first word should be capitalized.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="organization">organization</a></b>:
+    (<i><a href="#Proceedings">#Proceedings</a></i> | <i><a href="#Manual">#Manual</a></i>) -&gt;  <a href="#Organization">#Organization</a><i> (The organization that sponsors a conference or that publishes a manual.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="publisher">publisher</a></b>:
+     <a href="#Composite">#Composite</a> -&gt;  <a href="#Publisher">#Publisher</a><i> (The publisher's name.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="school">school</a></b>:
+    (<i><a href="#Thesis">#Thesis</a></i> | <i><a href="#LectureNotes">#LectureNotes</a></i>) -&gt;  <a href="#School">#School</a><i> (The name of the school where a thesis was written.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="series">series</a></b>:
+     <a href="#Composite">#Composite</a> -&gt;  <a href="#Title">#Title</a><i> (The name of a series or set of books. When citing an entire book, the the title field gives its title and an optional series field gives the name of a series or multi-volume set in which the book is published.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="title">title</a></b>:
+     <a href="#Entry">#Entry</a> -&gt;  <a href="#Title">#Title</a><i> (The work's title, typed as explained in the LaTeX book.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="type">type</a></b>:
+    (<i><a href="#Chapter">#Chapter</a></i> | <i><a href="#TechReport">#TechReport</a></i> | <i><a href="#Thesis">#Thesis</a></i>) -&gt;  <a href="#Text">#Text</a><i> (The type of a technical report--for example, "Research Note".)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="affiliation">affiliation</a></b>:
+     <a href="#Entry">#Entry</a> -&gt;  <a href="#Text">#Text</a><i> (The authors affiliation.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="abstract">abstract</a></b>:
+     <a href="#Entry">#Entry</a> -&gt;  <a href="#Text">#Text</a><i> (An abstract of the work.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="contents">contents</a></b>:
+     <a href="#Entry">#Entry</a> -&gt;  <a href="#Text">#Text</a><i> (A Table of Contents.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="copyright">copyright</a></b>:
+     <a href="#Entry">#Entry</a> -&gt;  <a href="#Text">#Text</a><i> (Copyright information.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="isbn">isbn</a></b>:
+     <a href="#Entry">#Entry</a> -&gt;  <a href="#Text">#Text</a><i> (The International Standard Book Number.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="issn">issn</a></b>:
+     <a href="#Entry">#Entry</a> -&gt;  <a href="#Text">#Text</a><i> (The International Standard Serial Number. Used to identify a journal.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="keywords">keywords</a></b>:
+     <a href="#Entry">#Entry</a> -&gt;  <a href="#Text">#Text</a><i> (Key words used for searching or possibly for annotation.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="language">language</a></b>:
+     <a href="#Entry">#Entry</a> -&gt;  <a href="#Text">#Text</a><i> (The language the document is in.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="location">location</a></b>:
+     <a href="#Entry">#Entry</a> -&gt;  <a href="#Text">#Text</a><i> (A location associated with the entry, such as the city in which a conference took place.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="lccn">lccn</a></b>:
+     <a href="#Entry">#Entry</a> -&gt;  <a href="#Text">#Text</a><i> (The Library of Congress Call Number.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="mrNumber">mrNumber</a></b>:
+     <a href="#Entry">#Entry</a> -&gt;  <a href="#Text">#Text</a><i> (The Mathematical Reviews number.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="price">price</a></b>:
+     <a href="#Entry">#Entry</a> -&gt;  <a href="#Text">#Text</a><i> (The price of the document.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="size">size</a></b>:
+     <a href="#Entry">#Entry</a> -&gt;  <a href="#Text">#Text</a><i> (The physical dimensions of a work.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="url">url</a></b>:
+     <a href="#Entry">#Entry</a> -&gt;  <a href="#Text">#Text</a><i> (The WWW Universal Resource Locator that points to the item being referenced. This often is used for technical reports to point to the ftp or web site where the postscript source of the report is located.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="humanCreator">humanCreator</a></b>:
+     <a href="#Entry">#Entry</a> -&gt;  <a href="#PersonList">#PersonList</a><i> (A generic human creator category, necessary in order to contain both author and editor.)</i>
+</dt>
+<dd><dl>
+<dt>
+<b><a name="author">author</a></b>:
+     <a href="#Entry">#Entry</a> -&gt;  <a href="#PersonList">#PersonList</a><i> (The name(s) of the author(s), in the format described in the LaTeX book.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="editor">editor</a></b>:
+     <a href="#Composite">#Composite</a> -&gt;  <a href="#PersonList">#PersonList</a><i> (Name(s) of editor(s), typed as indicated in the LaTeX book. If there is also an author field, then the editor field gives the editor of the book or collection in which the reference appears.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="directors">directors</a></b>:
+     <a href="#MotionPicture">#MotionPicture</a> -&gt;  <a href="#PersonList">#PersonList</a><i> (The list of persons who directed the motion picture.)</i>
+</dt>
+<dd><dl></dl></dd>
+</dl></dd>
+<dt>
+<b><a name="pagesOrChapter">pagesOrChapter</a></b>:
+    (<i><a href="#Part">#Part</a></i>) -&gt; _<i> (A generic property to hold page and/or chapter data.)</i>
+</dt>
+<dd><dl>
+<dt>
+<b><a name="chapter">chapter</a></b>:
+     <a href="#Chapter">#Chapter</a> -&gt;  <a href="#Text">#Text</a><i> (A chapter (or section or whatever) number.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="pages">pages</a></b>:
+    (<i><a href="#Part">#Part</a></i>) -&gt;  <a href="#PageRange">#PageRange</a><i> (A range of page, with an upper and lower limit.)</i>
+</dt>
+<dd><dl></dl></dd>
+</dl></dd>
+<dt>
+<b><a name="http://www.w3.org/1999/02/22-rdf-syntax-ns#first">http://www.w3.org/1999/02/22-rdf-syntax-ns#first</a></b>:
+     <a href="http://www.w3.org/1999/02/22-rdf-syntax-ns#List">http://www.w3.org/1999/02/22-rdf-syntax-ns#List</a> -&gt; _<i> ()</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="http://www.w3.org/1999/02/22-rdf-syntax-ns#rest">http://www.w3.org/1999/02/22-rdf-syntax-ns#rest</a></b>:
+     <a href="http://www.w3.org/1999/02/22-rdf-syntax-ns#List">http://www.w3.org/1999/02/22-rdf-syntax-ns#List</a> -&gt; _<i> ()</i>
+</dt>
+<dd><dl></dl></dd>
+</dl>
+<dl>
+<dt>
+<b><a name="key">key</a></b> <a href="#Entry">#Entry</a> -&gt;  <a href="http://www.w3.org/2001/XMLSchema#string">http://www.w3.org/2001/XMLSchema#string</a><i> (The key for a particular bibTeX entry. Note that the rdf:ID for each Entry instance could be the bibTeX key as well, possibly making this property redundant.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="numberOrVolume">numberOrVolume</a></b>(<i><a href="#Article">#Article</a></i> | <i><a href="#Composite">#Composite</a></i>) -&gt; _<i> (The number of a journal, magazine, technical report, or of a work in a series. An issue of a journal or magazine is usually identified by its volume and number; the organization that issues a technical report usually gives it a number; and sometimes books are given numbers in a named series.)</i>
+</dt>
+<dd><dl>
+<dt>
+<b><a name="number">number</a></b>(<i><a href="#Article">#Article</a></i> | <i><a href="#Composite">#Composite</a></i>) -&gt;  <a href="http://www.w3.org/2001/XMLSchema#string">http://www.w3.org/2001/XMLSchema#string</a><i> (The number of a journal, magazine, technical report, or of a work in a series. An issue of a journal or magazine is usually identified by its volume and number; the organization that issues a technical report usually gives it a number; and sometimes books are given numbers in a named series.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="volume">volume</a></b>(<i><a href="#Article">#Article</a></i> | <i><a href="#Composite">#Composite</a></i>) -&gt;  <a href="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">http://www.w3.org/2001/XMLSchema#nonNegativeInteger</a><i> (The volume of a journal or multivolume book.)</i>
+</dt>
+<dd><dl></dl></dd>
+</dl></dd>
+<dt>
+<b><a name="startPage">startPage</a></b> <a href="#PageRange">#PageRange</a> -&gt;  <a href="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">http://www.w3.org/2001/XMLSchema#nonNegativeInteger</a><i> (The beginning of a range of pages.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="endPage">endPage</a></b> <a href="#PageRange">#PageRange</a> -&gt;  <a href="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">http://www.w3.org/2001/XMLSchema#nonNegativeInteger</a><i> (The end of a range of pages.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="year">year</a></b> <a href="#Date">#Date</a> -&gt;  <a href="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">http://www.w3.org/2001/XMLSchema#nonNegativeInteger</a><i> ()</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="month">month</a></b> <a href="#Date">#Date</a> -&gt;  <a href="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">http://www.w3.org/2001/XMLSchema#nonNegativeInteger</a><i> ()</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="day">day</a></b> <a href="#DateWithMonth">#DateWithMonth</a> -&gt;  <a href="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">http://www.w3.org/2001/XMLSchema#nonNegativeInteger</a><i> ()</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="lang">lang</a></b> <a href="#Text">#Text</a> -&gt;  <a href="http://www.w3.org/2001/XMLSchema#string">http://www.w3.org/2001/XMLSchema#string</a><i> (The language in which the words are written.)</i>
+</dt>
+<dd><dl></dl></dd>
+<dt>
+<b><a name="short">short</a></b> <a href="#Title">#Title</a> -&gt;  <a href="http://www.w3.org/2001/XMLSchema#string">http://www.w3.org/2001/XMLSchema#string</a><i> (A shorten version of the title.)</i>
+</dt>
+<dd><dl></dl></dd>
+</dl>
+<h2>Individuals</h2>
+<dl></dl>
+<hr>
+<address>Generated by OWL2HTML</address>
+</body>
+</html>

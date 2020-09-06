@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" targetNamespace="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" elementFormDefault="qualified">
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+            XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.
+            Permission is granted to use, copy, modify and distribute the
+            DTD's, schemas and modules in the Commerce One XML Common Business
+            Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType name="ItemIdentifiersType">
+        <xsd:annotation>
+            <xsd:documentation>details all of the part numbers, descriptions, and characteristics of an item.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element minOccurs="0" name="PartNumbers" type="PartNumbersType">
+                <xsd:annotation>
+                    <xsd:documentation>identifies all identification numbers for the item.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Service" type="xsd:boolean">
+                <xsd:annotation>
+                    <xsd:documentation>identifies the item as a service.  A value of true will identify the line item
+    as a service.  If this elment does not exist, or is set to false, the item is assumed to be
+    goods.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ItemDescription" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>is a free form field that can be used to give a text description
+    of the item.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ListOfItemCharacteristic" type="ListOfItemCharacteristicType">
+                <xsd:annotation>
+                    <xsd:documentation>is a collection of physical attributes
+    other than dimensions of an item.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="CommodityCode" type="IdentifierType">
+                <xsd:annotation>
+                    <xsd:documentation>contains the harmonized (HS) system code. This is the international notation
+    to categorize individual commodities. These are also known as customs
+    codes.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Category" type="CategoryType">
+                <xsd:annotation>
+                    <xsd:documentation>identifies the product category</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

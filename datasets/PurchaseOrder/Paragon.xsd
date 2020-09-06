@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2010 rel. 3 (http://www.altova.com) by NTT (norg) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns="Paragon" targetNamespace="Paragon" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="Order">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="OrderHeader">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ComputerID" type="xs:string"/>
+							<xs:element name="OrderNo" type="xs:string"/>
+							<xs:element name="OrderDesc" type="xs:string"/>
+							<xs:element name="DateCreated" type="xs:date"/>
+							<xs:element name="OrderInq" type="xs:ID"/>
+							<xs:element name="Comment"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="OrdModels">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ModLines" type="xs:string"/>
+							<xs:element name="StartAt" type="xs:int"/>
+							<xs:element name="TotalOrderLines"/>
+							<xs:element name="Model">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="ModNo" type="xs:string"/>
+										<xs:element name="LotSize" type="xs:string"/>
+										<xs:element name="ModType" type="xs:string"/>
+										<xs:element name="OrdLineTyp" type="xs:string"/>
+										<xs:element name="CatalogNo" type="xs:string"/>
+										<xs:element name="TotalPrchPrice" type="xs:string"/>
+										<xs:element name="EarlDelDate" type="xs:date"/>
+										<xs:element name="LatDelDate" type="xs:date"/>
+										<xs:element name="LineNo" type="xs:string"/>
+										<xs:element name="ModQty" type="xs:string"/>
+										<xs:element name="BrandNo" type="xs:string"/>
+										<xs:element name="ColSizes">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="ColModLines"/>
+													<xs:element name="StartAt"/>
+													<xs:element name="ColSize">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="LotSize" type="xs:string"/>
+																<xs:element name="ColNo" type="xs:string"/>
+																<xs:element name="SizeIdx" type="xs:string"/>
+																<xs:element name="Qty" type="xs:string"/>
+																<xs:element name="EAN" type="xs:string"/>
+																<xs:element name="UPC" type="xs:string"/>
+																<xs:element name="ItemNo" type="xs:string"/>
+																<xs:element name="SizeDesc" type="xs:string"/>
+																<xs:element name="NetPrchPrice" type="xs:string"/>
+																<xs:element name="PosNo" type="xs:string"/>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Supplier">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="SupID" type="xs:string"/>
+							<xs:element name="SupName" type="xs:string"/>
+							<xs:element name="City" type="xs:string"/>
+							<xs:element name="Address" type="xs:string"/>
+							<xs:element name="PostalCode" type="xs:string"/>
+							<xs:element name="Country" type="xs:string"/>
+							<xs:element name="County" type="xs:string"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="BillTo">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="CustomerID" type="xs:string"/>
+							<xs:element name="CompanyName" type="xs:string"/>
+							<xs:element name="City" type="xs:string"/>
+							<xs:element name="Address" type="xs:string"/>
+							<xs:element name="PostalCode" type="xs:string"/>
+							<xs:element name="Country" type="xs:string"/>
+							<xs:element name="County" type="xs:string"/>
+							<xs:element name="Contact" type="ns:Contact"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="ShipTo">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="BranchID" type="xs:string"/>
+							<xs:element name="CompanyName" type="xs:string"/>
+							<xs:element name="City" type="xs:string"/>
+							<xs:element name="Address" type="xs:string"/>
+							<xs:element name="PostalCode" type="xs:string"/>
+							<xs:element name="Country" type="xs:string"/>
+							<xs:element name="County" type="xs:string"/>
+							<xs:element name="Contact" type="ns:Contact"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="CurrencyInfo">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="CurrencyID" type="xs:string"/>
+							<xs:element name="ExchangeRate" type="xs:string"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="Contact">
+		<xs:sequence>
+			<xs:element name="Department" type="xs:string"/>
+			<xs:element name="Name" type="xs:string"/>
+			<xs:element name="Phone" type="xs:string"/>
+			<xs:element name="Fax" type="xs:string"/>
+			<xs:element name="Email" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

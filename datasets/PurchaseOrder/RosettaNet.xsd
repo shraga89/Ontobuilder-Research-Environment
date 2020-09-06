@@ -1,0 +1,590 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2010 rel. 3 (http://www.altova.com) by NTT (norg) -->
+<xs:schema xmlns:dgpr="urn:rosettanet:specification:domain:Procurement:GovernmentPriorityRating:xsd:codelist:01.03" xmlns:dp="urn:rosettanet:specification:domain:Procurement:xsd:schema:02.27" xmlns:dpofp="urn:rosettanet:specification:domain:Procurement:PurchaseOrderFillPriority:xsd:codelist:01.03" xmlns:dpot="urn:rosettanet:specification:domain:Procurement:PurchaseOrderType:xsd:codelist:01.05" xmlns:dro="urn:rosettanet:specification:domain:Procurement:RequestOption:xsd:codelist:01.01" xmlns:sha="urn:rosettanet:specification:domain:Shared:xsd:schema:01.17" xmlns:ssdh="urn:rosettanet:specification:system:StandardDocumentHeader:xsd:schema:01.23" xmlns:st="http://www.ascc.net/xml/schematron" xmlns:tns="urn:rosettanet:specification:interchange:PurchaseOrderRequest:xsd:schema:02.05" xmlns:uc="urn:rosettanet:specification:universal:Country:xsd:codelist:01.02" xmlns:udc="urn:rosettanet:specification:universal:Document:xsd:schema:01.12" xmlns:ulc="urn:rosettanet:specification:universal:Locations:xsd:schema:01.04" xmlns:updi="urn:rosettanet:specification:universal:ProductIdentification:xsd:schema:01.04" xmlns:upi="urn:rosettanet:specification:universal:PartnerIdentification:xsd:schema:01.16" xmlns:urss="urn:rosettanet:specification:system:xml:1.0" xmlns:uuom="urn:rosettanet:specification:universal:UnitOfMeasure:xsd:codelist:01.04" xmlns:xs="http://www.w3.org/2001/XMLSchema" targetNamespace="urn:rosettanet:specification:interchange:PurchaseOrderRequest:xsd:schema:02.05" elementFormDefault="qualified" attributeFormDefault="unqualified" version="02.05">
+	<xs:annotation>
+		<xs:documentation>
+			<urss:Copyright>© 2009 RosettaNet. All rights reserved. No part of this
+                publication may be reproduced, stored in a retrieval system, or transmitted, in any
+                form or by any means, electronic, mechanical, photocopying, recording, or otherwise,
+                without the inclusion of this copyright notice. Any derivative works must cite the
+                copyright notice. Any public redistribution or sale of this publication or
+                derivative works requires prior written permission of the
+                publisher.</urss:Copyright>
+			<urss:Disclaimer>RosettaNet makes no representation about                 the
+                suitability of this work for any purpose or regarding any claims made by
+                products which use it. It is provided as is without expressed or implied
+                warranty.</urss:Disclaimer>
+			<urss:Program>MCC Foundational                 Program</urss:Program>
+			<urss:Purpose>Collection of all Purchase Order Request
+                structures.</urss:Purpose>
+		</xs:documentation>
+		<xs:appinfo>
+			<urss:CreationDate>2005-04-05</urss:CreationDate>
+			<urss:LastUpdatedDate>2010-02-01</urss:LastUpdatedDate>
+		</xs:appinfo>
+	</xs:annotation>
+	<xs:element name="PurchaseOrderRequest" type="tns:PurchaseOrderRequestType"/>
+	<xs:complexType name="OrderLineItemType">
+		<xs:annotation>
+			<xs:appinfo>
+				<urss:Definition>The collection of business properties that describe a entry
+                    in a purchase order business                     document.</urss:Definition>
+				<urss:CreationDate>2005-09-14</urss:CreationDate>
+				<urss:LastUpdatedDate>2007-07-30</urss:LastUpdatedDate>
+				<urss:TypeVersion>02.02</urss:TypeVersion>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:choice>
+				<xs:element name="ProductLineItem" type="tns:ProductLineItemType"/>
+				<xs:element name="ServiceLineItem" type="tns:ServiceLineItemType"/>
+				<xs:element name="ServiceLineItemByOption" type="tns:ServiceLineItemByOptionType"/>
+			</xs:choice>
+		</xs:sequence>
+		<xs:attribute name="schemaVersion" type="xs:token"/>
+	</xs:complexType>
+	<xs:complexType name="ProductLineItemType">
+		<xs:annotation>
+			<xs:appinfo>
+				<urss:Definition>The collection of business properties that describe a
+                    business document entry for a product in a purchase order business documents.
+                    The Recommended ProcessRoleIdentifier for PartnerDescription is CLF - Collect
+                    From.</urss:Definition>
+				<urss:CreationDate>2005-04-05</urss:CreationDate>
+				<urss:LastUpdatedDate>2007-07-30</urss:LastUpdatedDate>
+				<urss:TypeVersion>02.02</urss:TypeVersion>
+				<urss:Constraint>
+					<st:ns prefix="dp" uri="urn:rosettanet:specification:domain:Procurement:xsd:schema:02.27"/>
+					<st:ns prefix="dsh" uri="urn:rosettanet:specification:domain:Procurement:SpecialHandling:xsd:codelist:01.04"/>
+					<st:pattern name="specialHandling">
+						<st:rule context="tns:ProductLineItem">
+							<st:assert test="(count(dp:OrderShippingInformation/dp:SpecialHandlingInstruction/dp:Text) + count(dp:OrderShippingInformation/dp:SpecialHandlingInstruction/dsh:SpecialHandling)) >= 1">In ProductLineItem, at least one occurrence of
+                                OrderShippingInformation/SpecialHandlingInstruction/Text or
+                                OrderShippingInformation/SpecialHandlingInstruction/SpecialHandling.</st:assert>
+						</st:rule>
+					</st:pattern>
+				</urss:Constraint>
+			</xs:appinfo>
+			<xs:documentation>
+				<urss:Constraint>In ProductLineItem, at least one occurrence of
+                    OrderShippingInformation/SpecialHandlingInstruction/Text or
+                    OrderShippingInformation/SpecialHandlingInstruction/SpecialHandling.</urss:Constraint>
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Comments" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:appinfo>
+						<urss:Definition>Free form textual description of a general
+                            nature.</urss:Definition>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ExpediteReferenceIdentifier" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:appinfo>
+						<urss:Definition>The unique identification number for the expediting
+                            of a product.</urss:Definition>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Information" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:appinfo>
+						<urss:Definition>A free form textual description of information,
+                            relating to a product.</urss:Definition>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="IsDropShip" type="xs:boolean">
+				<xs:annotation>
+					<xs:appinfo>
+						<urss:Definition>Indicates whether the order is a drop
+                            shipment.</urss:Definition>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="IsRequiredToRespondAtDetailLevel" type="xs:boolean" minOccurs="0">
+				<xs:annotation>
+					<xs:appinfo>
+						<urss:Definition>This object representing the option for the
+                            response. If the value equals to true, the receiver is required to
+                            response to detail level. If the value equals to false, the receiver is
+                            only required to reply at summary level.</urss:Definition>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LineNumber" type="xs:string">
+				<xs:annotation>
+					<xs:appinfo>
+						<urss:Definition>Number of the line in the
+                            document.</urss:Definition>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ProductIdentification">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="GlobalProductIdentifier"/>
+						<xs:element name="PartnerProductIdentification">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="ProprietaryProductIdentifier" type="xs:ID"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="requestedUnitPriceFinancialAmount">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="MonetaryAmount"/>
+						<xs:element name="GlobalCurrencyCode"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="shipToPartnerDescription" type="tns:PartnerRoleDescription"/>
+			<xs:element name="requestedShipFromPhysicalAddress"/>
+			<xs:element name="OrderShippingInformation" type="tns:OrderShippingInformation"/>
+			<xs:element name="DocumentReference">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="ProprietaryDocumentIdentifier" type="xs:ID"/>
+						<xs:element name="LineNumber" type="xs:ID"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="ContractInformation">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="contractIdentifierProprietaryDocumentIdentifier" type="xs:ID"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="proprietaryInformationFreeFormText" type="xs:string"/>
+			<xs:element name="commentsFreeFormText" type="xs:string"/>
+			<xs:element name="ProductSubLineItem" type="tns:ProductSubLineItemType"/>
+			<xs:element name="GlobalProductUnitOfMeasureCode"/>
+		</xs:sequence>
+		<xs:attribute name="schemaVersion" type="xs:token"/>
+	</xs:complexType>
+	<xs:complexType name="ProductSubLineItemType">
+		<xs:annotation>
+			<xs:appinfo>
+				<urss:Definition>The collection of business properties that describe a part
+                    of a product line item. The Recommended ProcessRoleIdentifier for
+                    PartnerDescription is CLF - Collect                     From.</urss:Definition>
+				<urss:CreationDate>2005-04-05</urss:CreationDate>
+				<urss:LastUpdatedDate>2007-07-30</urss:LastUpdatedDate>
+				<urss:TypeVersion>02.02</urss:TypeVersion>
+				<urss:Constraint>
+					<st:ns prefix="dp" uri="urn:rosettanet:specification:domain:Procurement:xsd:schema:02.27"/>
+					<st:ns prefix="dsh" uri="urn:rosettanet:specification:domain:Procurement:SpecialHandling:xsd:codelist:01.04"/>
+					<st:pattern name="specialHandling">
+						<st:rule context="tns:ProductSubLineItem">
+							<st:assert test="(count(dp:OrderShippingInformation/dp:SpecialHandlingInstruction/dp:Text) + count(dp:OrderShippingInformation/dp:SpecialHandlingInstruction/dsh:SpecialHandling)) >= 1">In ProductSubLineItem, at least one occurrence of
+                                OrderShippingInformation/SpecialHandlingInstruction/Text or
+                                OrderShippingInformation/SpecialHandlingInstruction/SpecialHandling.</st:assert>
+						</st:rule>
+					</st:pattern>
+				</urss:Constraint>
+			</xs:appinfo>
+			<xs:documentation>
+				<urss:Constraint>In ProductSubLineItem, at least one occurrence of
+                    OrderShippingInformation/SpecialHandlingInstruction/Text or
+                    OrderShippingInformation/SpecialHandlingInstruction/SpecialHandling.</urss:Constraint>
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Comments" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:appinfo>
+						<urss:Definition>Free form textual description of a general
+                            nature.</urss:Definition>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ExpediteReferenceIdentifier" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:appinfo>
+						<urss:Definition>The unique identification number for the expediting
+                            of a product.</urss:Definition>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Information" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:appinfo>
+						<urss:Definition>A free form textual description of information,
+                            relating to a product.</urss:Definition>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="IsDropShip" type="xs:boolean">
+				<xs:annotation>
+					<xs:appinfo>
+						<urss:Definition>Indicates whether the order is a drop
+                            shipment.</urss:Definition>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="SubLineItem" type="xs:string">
+				<xs:annotation>
+					<xs:appinfo>
+						<urss:Definition>Information contained within a
+                            subline.</urss:Definition>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="requestedEventTransportationEvent">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="DateStamp" type="xs:dateTime"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="OrderQuantity">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="requestedQuantityProductQuantity"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="schemaVersion" type="xs:token"/>
+	</xs:complexType>
+	<xs:complexType name="PurchaseOrderType">
+		<xs:annotation>
+			<xs:appinfo>
+				<urss:Definition>The collection of business properties that describe a
+                    buyer's offer to purchase a quantity of products at an agreed price and
+                    schedule. The Recommended ProcessRoleIdentifier for PartnerDescription are ITL -
+                    Install At, BIT - Bill To, CWN - Contract Owner, SHT - Ship To, RES - Respond To
+                    and CLF -Collect                     From.</urss:Definition>
+				<urss:CreationDate>2005-04-05</urss:CreationDate>
+				<urss:LastUpdatedDate>2009-07-23</urss:LastUpdatedDate>
+				<urss:TypeVersion>02.03</urss:TypeVersion>
+				<urss:Constraint>
+					<st:ns prefix="dp" uri="urn:rosettanet:specification:domain:Procurement:xsd:schema:02.27"/>
+					<st:pattern name="netPayment">
+						<st:rule context="tns:PurchaseOrder">
+							<st:assert test="(count(dp:FinancingTerms/dp:PaymentTerms/dp:NetTerms/dp:Day) + count(dp:FinancingTerms/dp:PaymentTerms/dp:NetTerms/dp:Days)) >= 1">In PurchaseOrder, at least one occurrence of
+                                FinancingTerms/PaymentTerms/NetTerms/Day or
+                                FinancingTerms/PaymentTerms/NetTerms/Days.</st:assert>
+						</st:rule>
+					</st:pattern>
+				</urss:Constraint>
+				<urss:Constraint>
+					<st:ns prefix="dp" uri="urn:rosettanet:specification:domain:Procurement:xsd:schema:02.27"/>
+					<st:ns prefix="dsh" uri="urn:rosettanet:specification:domain:Procurement:SpecialHandling:xsd:codelist:01.04"/>
+					<st:pattern name="specialHandling">
+						<st:rule context="tns:PurchaseOrder">
+							<st:assert test="(count(dp:OrderShippingInformation/dp:SpecialHandlingInstruction/dp:Text) + count(dp:OrderShippingInformation/dp:SpecialHandlingInstruction/dsh:SpecialHandling)) >= 1">In PurchaseOrder, at least one occurrence of
+                                OrderShippingInformation/SpecialHandlingInstruction/Text or
+                                OrderShippingInformation/SpecialHandlingInstruction/SpecialHandling.</st:assert>
+						</st:rule>
+					</st:pattern>
+				</urss:Constraint>
+			</xs:appinfo>
+			<xs:documentation>
+				<urss:Constraint>In PurchaseOrder, at least one occurrence of
+                    FinancingTerms/PaymentTerms/NetTerms/Day or
+                    FinancingTerms/PaymentTerms/NetTerms/Days.</urss:Constraint>
+				<urss:Constraint>In                     PurchaseOrder, at least one occurrence of
+                    OrderShippingInformation/SpecialHandlingInstruction/Text or
+                    OrderShippingInformation/SpecialHandlingInstruction/SpecialHandling.</urss:Constraint>
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="BuildingSecurityAccessCode" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:appinfo>
+						<urss:Definition>Access code which may be used to gain entry through
+                            an automated security system to an unmanned
+                            site.</urss:Definition>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Comments" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:appinfo>
+						<urss:Definition>Free form textual description of a general
+                            nature.</urss:Definition>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="Information" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:appinfo>
+						<urss:Definition>A free form textual description of information,
+                            relating to a product.</urss:Definition>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="IsDropShip" type="xs:boolean">
+				<xs:annotation>
+					<xs:appinfo>
+						<urss:Definition>Indicates whether the order is a drop
+                            shipment.</urss:Definition>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="IsRequiredToRespondAtDetailLevel" type="xs:boolean" minOccurs="0">
+				<xs:annotation>
+					<xs:appinfo>
+						<urss:Definition>This object representing the option for the
+                            response. If the value equals to true, the receiver is required to
+                            response to detail level. If the value equals to false, the receiver is
+                            only required to reply at summary level.</urss:Definition>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="OrderLineItem" type="tns:OrderLineItemType" maxOccurs="unbounded"/>
+			<xs:element name="shipToPartnerDescription" type="tns:PartnerRoleDescription"/>
+			<xs:element name="AccountDescription">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="billToPartnerRoleDescription" type="tns:PartnerRoleDescription"/>
+						<xs:element name="financedByPartnerDescription" type="tns:PartnerRoleDescription"/>
+						<xs:element name="CreditCard">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="creditCardIdentifierProprietaryReferenceIdentifier"/>
+									<xs:element name="cardHolderNameFreeFormText"/>
+									<xs:element name="expiryDateDateStamp"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="requestedShipFromPhysicalAddress"/>
+			<xs:element name="OrderShippingInformation" type="tns:OrderShippingInformation"/>
+			<xs:element name="GlobalPurchaseOrderFillPriorityCode"/>
+			<xs:element name="FinancingTerms">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="PaymentTerms">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="Discounts"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="commentsFreeFormText" type="xs:string"/>
+			<xs:element name="proprietaryInformationFreeFormText" type="xs:string"/>
+		</xs:sequence>
+		<xs:attribute name="schemaVersion" type="xs:token"/>
+	</xs:complexType>
+	<xs:complexType name="PurchaseOrderRequestType">
+		<xs:annotation>
+			<xs:appinfo>
+				<urss:Definition>Top level object for a Purchase Order business
+                    document.</urss:Definition>
+				<urss:CreationDate>2005-04-05</urss:CreationDate>
+				<urss:LastUpdatedDate>2009-07-23</urss:LastUpdatedDate>
+				<urss:TypeVersion>02.04</urss:TypeVersion>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="PurchaseOrder" type="tns:PurchaseOrderType"/>
+			<xs:element name="thisDocumentIdentifierProprietaryDocumentIdentifier" type="xs:ID"/>
+			<xs:element name="thisDocumentGenerationDateTimeDateTimeStamp" type="xs:dateTime"/>
+			<xs:element name="fromRolePartnerRoleDescription" type="tns:PartnerRoleDescription"/>
+			<xs:element name="toRolePartnerRoleDescription" type="tns:PartnerRoleDescription"/>
+		</xs:sequence>
+		<xs:attribute name="schemaVersion" type="xs:token"/>
+	</xs:complexType>
+	<xs:complexType name="ServiceLineItemType">
+		<xs:annotation>
+			<xs:appinfo>
+				<urss:Definition>The collection of business properties that describe a
+                    service entry in a purchase order business documents. The Recommended
+                    ProcessRoleIdentifier for PartnerDescription is CLF - Collect
+                    From.</urss:Definition>
+				<urss:CreationDate>2005-09-14</urss:CreationDate>
+				<urss:LastUpdatedDate>2009-07-23</urss:LastUpdatedDate>
+				<urss:TypeVersion>02.02</urss:TypeVersion>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="HandlingInstruction" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:appinfo>
+						<urss:Definition>Free form textual description of
+                            instructions.</urss:Definition>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="IsRequiredToRespondAtDetailLevel" type="xs:boolean" minOccurs="0">
+				<xs:annotation>
+					<xs:appinfo>
+						<urss:Definition>This object representing the option for the
+                            response. If the value equals to true, the receiver is required to
+                            response to detail level. If the value equals to false, the receiver is
+                            only required to reply at summary level.</urss:Definition>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LineNumber" type="xs:string">
+				<xs:annotation>
+					<xs:appinfo>
+						<urss:Definition>Number of the line in the
+                            document.</urss:Definition>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ProductLineNumber" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:appinfo>
+						<urss:Definition>The object that representing the line number of the
+                            referenced product line item.</urss:Definition>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ProductSerialIdentifier" type="xs:string" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:appinfo>
+						<urss:Definition>A unique serial identifier assigned to a
+                            product.</urss:Definition>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ServiceIdentification" type="xs:string" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:appinfo>
+						<urss:Definition>A unique serial identifier assigned to a
+                            service.</urss:Definition>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ServiceLevel" type="xs:string">
+				<xs:annotation>
+					<xs:appinfo>
+						<urss:Definition>The object that representing the type of service or
+                            service name.</urss:Definition>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="schemaVersion" type="xs:token"/>
+	</xs:complexType>
+	<xs:complexType name="ServiceLineItemByOptionType">
+		<xs:annotation>
+			<xs:appinfo>
+				<urss:Definition>The collection of business properties that describe a
+                    service entry by option (eg. by Contract, by Product or by Site) in a purchase
+                    order business documents. The Recommended ProcessRoleIdentifier for
+                    PartnerDescription are CLF - Collect From and ITL - Install
+                    At.</urss:Definition>
+				<urss:CreationDate>2005-09-28</urss:CreationDate>
+				<urss:LastUpdatedDate>2009-07-23</urss:LastUpdatedDate>
+				<urss:TypeVersion>02.02</urss:TypeVersion>
+			</xs:appinfo>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="HandlingInstruction" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:appinfo>
+						<urss:Definition>Free form textual description of
+                            instructions.</urss:Definition>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="IsRequiredToRespondAtDetailLevel" type="xs:boolean" minOccurs="0">
+				<xs:annotation>
+					<xs:appinfo>
+						<urss:Definition>This object representing the option for the
+                            response. If the value equals to true, the receiver is required to
+                            response to detail level. If the value equals to false, the receiver is
+                            only required to reply at summary level.</urss:Definition>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="LineNumber" type="xs:string">
+				<xs:annotation>
+					<xs:appinfo>
+						<urss:Definition>Number of the line in the
+                            document.</urss:Definition>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ProductLineNumber" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:appinfo>
+						<urss:Definition>The object that representing the line number of the
+                            referenced product line item.</urss:Definition>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ProductSerialIdentifier" type="xs:string" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:appinfo>
+						<urss:Definition>A unique serial identifier assigned to a
+                            product.</urss:Definition>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ServiceIdentification" type="xs:string" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:appinfo>
+						<urss:Definition>A unique serial identifier assigned to a
+                            service.</urss:Definition>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+			<xs:element name="ServiceLevel" type="xs:string" minOccurs="0">
+				<xs:annotation>
+					<xs:appinfo>
+						<urss:Definition>The object that representing the type of service or
+                            service name.</urss:Definition>
+					</xs:appinfo>
+				</xs:annotation>
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute name="schemaVersion" type="xs:token"/>
+	</xs:complexType>
+	<xs:complexType name="PartnerRoleDescription">
+		<xs:sequence>
+			<xs:element name="PartnerDescription">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="BusinessDescription">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="GlobalBusinessIdentifier" type="xs:ID"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="PhysicalLocation">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="GlobalLocationIdentifier" type="xs:ID"/>
+						<xs:element name="PartnerLocationIdentification">
+							<xs:complexType>
+								<xs:sequence>
+									<xs:element name="PartnerLocationIdentification" type="xs:ID"/>
+								</xs:sequence>
+							</xs:complexType>
+						</xs:element>
+						<xs:element name="PhysicalAddress"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="OrderShippingInformation">
+		<xs:sequence>
+			<xs:element name="GlobalShipmentTermsCode"/>
+			<xs:element name="GlobalSpecialFulfillmentRequestCode"/>
+			<xs:element name="GlobalShippingServiceLevelCode"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

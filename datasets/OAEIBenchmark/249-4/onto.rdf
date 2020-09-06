@@ -1,0 +1,1435 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<rdf:RDF xmlns="http://oaei.ontologymatching.org/2011/benchmarks/249-4/onto.rdf#" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:ical="http://www.w3.org/2002/12/cal/ical#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xsd="http://www.w3.org/2001/XMLSchema#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:owl="http://www.w3.org/2002/07/owl#" xmlns:dc="http://purl.org/dc/elements/1.1/" xml:base="http://oaei.ontologymatching.org/2011/benchmarks/249-4/onto.rdf#">
+
+<!-- This ontology describes bibliographic references. -->
+  
+  <owl:Ontology rdf:about="">
+    <dc:creator>Nick Knouf &lt;nknouf@mit.edu&gt;</dc:creator>
+    <dc:contributor>Antoine Zimmermann &lt;antoine.zimmermann@inrialpes.fr&gt;</dc:contributor>
+    <dc:contributor>Jérôme Euzenat</dc:contributor>
+    
+    <dc:date>08/06/2005</dc:date>
+    
+    
+    <owl:versionInfo>$Id: onto.rdf,v 1.30 2008/05/27 14:41:13 euzenat Exp $</owl:versionInfo>
+  </owl:Ontology>
+
+  <!-- Every entity (even external) must be typed in OWL-DL. -->
+
+  <!-- this is for satisfying the OWL Species validator
+       (which is not satisfied anyway) -->
+  <owl:Class rdf:about="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+  <rdf:List rdf:about="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+  <owl:ObjectProperty rdf:about="http://www.w3.org/1999/02/22-rdf-syntax-ns#first">
+      <rdfs:domain rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://www.w3.org/1999/02/22-rdf-syntax-ns#rest">
+      <rdfs:domain rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+      <rdfs:range rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+  </owl:ObjectProperty>
+
+  <owl:DatatypeProperty rdf:about="http://purl.org/dc/elements/1.1/creator"/>
+  <owl:DatatypeProperty rdf:about="http://purl.org/dc/elements/1.1/contributor"/>
+  <owl:DatatypeProperty rdf:about="http://purl.org/dc/elements/1.1/description"/>
+  <owl:DatatypeProperty rdf:about="http://purl.org/dc/elements/1.1/date"/>
+
+  <!-- foaf extensions -->
+  <owl:Class rdf:about="http://xmlns.com/foaf/0.1/Person"/>
+  <owl:Class rdf:about="http://xmlns.com/foaf/0.1/Organization"/>
+  <owl:DatatypeProperty rdf:about="http://xmlns.com/foaf/0.1/firstName"/>
+  <owl:DatatypeProperty rdf:ID="lastName"/>
+  <owl:DatatypeProperty rdf:about="http://xmlns.com/foaf/0.1/name"/>
+
+  <!--
+    ********  ENTRIES  ********
+    
+    Entries form the basis of a bibTeX database and are categorized by their type, such as a book, journal article, conference proceedings, etc.  Each entry type has a specific set of fields that are required in bibTeX; as a first pass, these fields will also be required in the OWL ontology.
+    Note: all rdfs:comment values for the entries come from http://newton.ex.ac.uk/tex/pack/bibtex/btxdoc/node6.html.
+  -->
+
+  <owl:Class rdf:ID="sqdsq">
+    
+    
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#sqndsqgy"/>
+	<owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxCardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#dznbaln"/>
+	<owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxCardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#humanCreator"/>
+	<owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxCardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+  </owl:Class>
+
+  <owl:Class rdf:ID="Article">
+    <rdfs:subClassOf rdf:resource="#Part"/>
+    
+    
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#zand"/>
+	<owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:cardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#pages"/>
+	<owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:cardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#sxqsnbvsq"/>
+	<owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:cardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#sqndsqgy"/>
+	<owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:cardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#sqndsqgy"/>
+	<owl:allValuesFrom rdf:resource="#Date"/>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#number"/>
+	<owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxCardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#zsbdgz"/>
+	<owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxCardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+  </owl:Class>
+
+  <owl:Class rdf:ID="Book">
+    <rdfs:subClassOf rdf:resource="#sqdsq"/>
+    
+    
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#dznbaln"/>
+	<owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:cardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#zsbdgz"/>
+	<owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxCardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#publisher"/>
+	<owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxCardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#dszbnz"/>
+	<owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxCardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#sqndsqgy"/>
+	<owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:cardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#sqndsqgy"/>
+	<owl:allValuesFrom rdf:resource="#Date"/>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+     <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#zand"/>
+	<owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:cardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#edition"/>
+	<owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxCardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+  </owl:Class>
+
+  <owl:Class rdf:ID="Monograph">
+    <rdfs:subClassOf rdf:resource="#Book"/>
+    
+    
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#chapters"/>
+	<owl:allValuesFrom rdf:resource="#Chapter"/>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+  </owl:Class>
+
+  <owl:Class rdf:ID="sqxsqkd">
+    <rdfs:subClassOf rdf:resource="#Book"/>
+    
+    
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#chapters"/>
+	<owl:allValuesFrom rdf:resource="#Chapter"/>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#parts"/>
+	<owl:allValuesFrom rdf:resource="#dcsqdcsqd"/>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+  </owl:Class>
+
+  <owl:Class rdf:ID="qsdsnbsqd">
+    <rdfs:subClassOf rdf:resource="#sqdsq"/>
+    
+    
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#dznbaln"/>
+	<owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:cardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+  </owl:Class>
+
+  <owl:Class rdf:ID="Booklet">
+    <rdfs:subClassOf rdf:resource="#qsdsnbsqd"/>
+    
+    
+  </owl:Class>
+
+  <owl:Class rdf:ID="Part">
+    <rdfs:subClassOf rdf:resource="#sqdsq"/>
+    
+    
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#pages"/>
+	<owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxCardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#dznbaln"/>
+	<owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:cardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <!-- This is forbiden for transitive properties in OWL-DL -->
+    <!--rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#isPartOf" />
+	<owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:cardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf-->
+  </owl:Class>
+
+  <owl:Class rdf:ID="Chapter">
+    <rdfs:subClassOf rdf:resource="#Part"/>
+    
+    
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#dsazdjz"/>
+	<owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxCardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#dsazdjz"/>
+	<owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxCardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+  </owl:Class>
+
+  <owl:Class rdf:ID="vccfsq">
+    <rdfs:subClassOf rdf:resource="#Part"/>
+    
+    
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<!-- author OR editor (given in the Book description) ??? -->
+	<owl:onProperty rdf:resource="#zand"/>
+	<owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:cardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#pages"/>
+	<owl:minCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:minCardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#book"/>
+	<owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:cardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+  </owl:Class>
+
+  <owl:Class rdf:ID="dcsqdcsqd">
+    <rdfs:subClassOf rdf:resource="#Part"/>
+    
+    
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#zand"/>
+	<owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:cardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#collection"/>
+	<owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:cardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+  </owl:Class>
+
+  <owl:Class rdf:ID="InProceedings"> <!-- Communication -->
+    <rdfs:subClassOf rdf:resource="#Part"/>
+    
+    
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#zand"/>
+	<owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:cardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#proceedings"/>
+	<owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:cardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+  </owl:Class>
+
+  <owl:Class rdf:ID="LectureNotes">
+    <rdfs:subClassOf rdf:resource="#qsdsnbsqd"/>
+    
+    
+  </owl:Class>
+
+  <owl:Class rdf:ID="Manual">
+    <rdfs:subClassOf rdf:resource="#qsdsnbsqd"/>
+    
+    
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#organization"/>
+	<owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxCardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#edition"/>
+	<owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxCardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#dznbaln"/>
+	<owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:cardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+  </owl:Class>
+
+  <owl:Class rdf:ID="zdazsx">
+    <rdfs:subClassOf rdf:resource="#sqdsq"/>
+    
+    
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#zand"/>
+	<owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:cardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#dznbaln"/>
+	<owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:cardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#school"/>
+	<owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:cardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#sqndsqgy"/>
+	<owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:cardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+  </owl:Class>
+
+  <owl:Class rdf:ID="xsqlknk">
+    <rdfs:subClassOf rdf:resource="#zdazsx"/>
+    
+    
+  </owl:Class>
+
+  <owl:Class rdf:ID="PhdThesis">
+    <rdfs:subClassOf rdf:resource="#zdazsx"/>
+    
+    
+  </owl:Class>
+
+  <owl:Class rdf:ID="Misc">
+    <rdfs:subClassOf rdf:resource="#sqdsq"/>
+    
+    
+  </owl:Class>
+
+  <owl:Class rdf:ID="Proceedings">
+    <rdfs:subClassOf rdf:resource="#Book"/>
+    
+    
+    
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#PrSGUs"/>
+	<owl:allValuesFrom rdf:resource="#InProceedings"/>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#event"/>
+	<owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxCardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#event"/>
+	<owl:allValuesFrom rdf:resource="#zqedzbx"/>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#dzajj"/>
+	<owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxCardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#organization"/>
+	<owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxCardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+  </owl:Class>
+
+  <owl:Class rdf:ID="dqzdxdcsqj">
+    <rdfs:subClassOf rdf:resource="#sqdsq"/>
+    
+    
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#zand"/>
+	<owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:cardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#dznbaln"/>
+	<owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:cardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#institution"/>
+	<owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:cardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#sqndsqgy"/>
+	<owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:cardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#sqndsqgy"/>
+	<owl:allValuesFrom rdf:resource="#Date"/>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#number"/>
+	<owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxCardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+  </owl:Class>
+
+  <owl:Class rdf:ID="sdcsqhyz">
+    <rdfs:subClassOf rdf:resource="#dqzdxdcsqj"/>
+    
+    
+  </owl:Class>
+
+  <owl:Class rdf:ID="Deliverable">
+    <rdfs:subClassOf rdf:resource="#dqzdxdcsqj"/>
+    
+    
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#zandsbh"/>
+	<owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxCardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+  </owl:Class>
+
+  <owl:Class rdf:ID="Unpublished">
+    <rdfs:subClassOf rdf:resource="#qsdsnbsqd"/>
+    
+    
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#zand"/>
+	<owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:cardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#dznbaln"/>
+	<owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:cardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#zdsnsqdv"/>
+	<owl:minCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:minCardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+  </owl:Class>
+
+  <owl:Class rdf:ID="MotionPicture">
+    <rdfs:subClassOf rdf:resource="#sqdsq"/>
+    
+    
+  </owl:Class>
+
+  <!-- SPECIAL CLASSES -->
+
+  <owl:Class rdf:ID="qsdsquj">
+    
+    
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#name"/>
+	<owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:cardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+   <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#name"/>
+	<owl:allValuesFrom rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+   <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#dsza"/>
+	<owl:allValuesFrom rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+   <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#sdxsndxsqg"/>
+	<owl:allValuesFrom rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#publisher"/>
+	<owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxCardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#dszbnz"/>
+	<owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxCardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#firstPublished"/>
+	<owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxCardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#YuEma"/>
+	<owl:allValuesFrom rdf:resource="#Article"/>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+  </owl:Class>
+
+  <owl:Class rdf:ID="zqedzbx">
+    
+    
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#name"/>
+	<owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:cardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#organizer"/>
+	<owl:allValuesFrom rdf:resource="#Institution"/>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#dsza"/>
+	<owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxCardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#sqnzkzn"/>
+	<owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxCardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#location"/>
+	<owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxCardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+  </owl:Class>
+
+  <owl:Class rdf:ID="Address">
+    
+    
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#country"/>
+	<owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxCardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#country"/>
+	<owl:allValuesFrom rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#zdnzadh"/>
+	<owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxCardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#zdnzadh"/>
+	<owl:allValuesFrom rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#zdzndh"/>
+	<owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxCardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#zdzndh"/>
+	<owl:allValuesFrom rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+  </owl:Class>
+
+  <owl:Class rdf:ID="Institution">
+    <rdfs:subClassOf rdf:resource="http://xmlns.com/foaf/0.1/Organization"/>
+    
+    
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#name"/>
+	<owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:cardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#dsza"/>
+	<owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:cardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#qzd"/>
+	<owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxCardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+  </owl:Class>
+
+  <owl:Class rdf:ID="Publisher">
+    <rdfs:subClassOf rdf:resource="#Institution"/>
+    
+    
+  </owl:Class>
+
+  <!-- trouver une ontologie pour ca -->
+  <owl:Class rdf:ID="zadazxn">
+    <rdfs:subClassOf rdf:resource="#Institution"/>
+    
+    
+  </owl:Class>
+
+  <owl:Class rdf:ID="dsqdbz">
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+    
+    
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#first"/>        
+	<owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:cardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#first"/>
+	<owl:allValuesFrom rdf:resource="http://xmlns.com/foaf/0.1/Person"/>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#rest"/>
+	<owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:cardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#rest"/>
+	<owl:allValuesFrom>
+	  <owl:Class>
+	    <owl:unionOf rdf:parseType="Collection">
+	      <owl:Class rdf:about="#dsqdbz"/>
+	      <owl:Class>
+		
+	      </owl:Class>
+	    </owl:unionOf>
+	  </owl:Class>
+	</owl:allValuesFrom>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+  </owl:Class>
+
+  <owl:Class rdf:ID="PageRange">
+    
+    
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#startPage"/>
+	<owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:cardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#endPage"/>
+	<owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:cardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+  </owl:Class>
+
+  <owl:Class rdf:ID="Date">
+    
+    
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#year"/>
+	<owl:cardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:cardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#year"/>
+	<owl:allValuesFrom rdf:resource="http://www.w3.org/2001/XMLSchema#gYear"/>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#month"/>
+	<owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxCardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#month"/>
+	<owl:allValuesFrom rdf:resource="http://www.w3.org/2001/XMLSchema#gMonth"/>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#day"/>
+	<owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">1</owl:maxCardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+    <rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#day"/>
+	<owl:allValuesFrom rdf:resource="http://www.w3.org/2001/XMLSchema#gDay"/>
+      </owl:Restriction>
+    </rdfs:subClassOf>
+  </owl:Class>
+    
+  <!--
+    ********  FIELDS  ********
+
+    Note: all rdfs:comment values for the entries come from http://newton.ex.ac.uk/tex/pack/bibtex/btxdoc/node7.html
+  -->
+
+  <owl:DatatypeProperty rdf:ID="key">
+    <rdfs:domain rdf:resource="#sqdsq"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    
+    
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:ID="dsqndbsqx">
+    <rdfs:domain rdf:resource="#sqdsq"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    
+    
+  </owl:DatatypeProperty>
+
+  <owl:ObjectProperty rdf:ID="chapters">
+    <rdfs:domain rdf:resource="#sqdsq"/>
+    <rdfs:range rdf:resource="#Chapter"/>
+    
+    
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:ID="parts">
+    <rdfs:domain rdf:resource="#sqdsq"/>
+    <rdfs:range rdf:resource="#Part"/>
+    
+    
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:ID="PrSGUs">
+    <rdfs:domain rdf:resource="#Proceedings"/>
+    <rdfs:range rdf:resource="#InProceedings"/>
+    
+    
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:ID="YuEma">
+    <rdfs:domain rdf:resource="#qsdsquj"/>
+    <rdfs:range rdf:resource="#Article"/>
+    
+    
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:ID="qzd">
+    <rdfs:domain rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdfs:range rdf:resource="#Address"/>
+    
+    
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:ID="event">
+    <rdfs:domain rdf:resource="#Proceedings"/>
+    <rdfs:range rdf:resource="#zqedzbx"/>
+    
+    
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:ID="organizer">
+    <rdfs:domain rdf:resource="#zqedzbx"/>
+    <rdfs:range rdf:resource="http://xmlns.com/foaf/0.1/Organization"/>
+    
+    
+  </owl:ObjectProperty>
+
+  <owl:DatatypeProperty rdf:ID="annote">
+    <rdfs:domain rdf:resource="#sqdsq"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    
+    
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:ID="sdxsndxsqg">
+    <rdfs:domain rdf:resource="#qsdsquj"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    
+    
+  </owl:DatatypeProperty>
+
+  <owl:ObjectProperty rdf:ID="zandsbh">
+    <rdfs:domain rdf:resource="#sqdsq"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    
+    
+  </owl:ObjectProperty>
+
+  <owl:DatatypeProperty rdf:ID="firstPublished">
+    <rdfs:domain rdf:resource="#Chapter"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    
+    
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:ID="edition">
+    <rdfs:domain>
+      <owl:Class>
+	<owl:unionOf rdf:parseType="Collection">
+	  <owl:Class rdf:about="#Book"/>
+	  <owl:Class rdf:about="#Manual"/>
+	</owl:unionOf>
+      </owl:Class>
+    </rdfs:domain>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    
+    
+  </owl:DatatypeProperty>
+
+  <owl:ObjectProperty rdf:ID="humanCreator">
+    <rdfs:domain rdf:resource="#sqdsq"/>
+    <rdfs:range rdf:resource="#dsqdbz"/>
+    
+    
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:ID="zand">
+    <rdfs:subPropertyOf rdf:resource="#humanCreator"/>
+    
+    
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:ID="dzajj">
+    <rdfs:subPropertyOf rdf:resource="#humanCreator"/>
+    
+    
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:ID="directors">
+    <rdfs:subPropertyOf rdf:resource="#humanCreator"/>
+    <rdfs:domain rdf:resource="#MotionPicture"/>
+    
+    
+  </owl:ObjectProperty>
+
+  <owl:DatatypeProperty rdf:ID="howPublished">
+    <rdfs:domain>
+      <owl:Class>
+	<owl:unionOf rdf:parseType="Collection">
+	  <owl:Class rdf:about="#Misc"/>
+	  <owl:Class rdf:about="#Booklet"/>
+	</owl:unionOf>
+      </owl:Class>
+    </rdfs:domain>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    
+    
+  </owl:DatatypeProperty>
+
+  <owl:ObjectProperty rdf:ID="institution">
+    <rdfs:domain rdf:resource="#dqzdxdcsqj"/>
+    <rdfs:range rdf:resource="#Institution"/>
+    
+    
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:ID="zansbzh">
+    <rdfs:domain rdf:resource="#Part"/>
+    
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#TransitiveProperty"/>
+    
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:ID="sxqsnbvsq">
+    <rdfs:domain rdf:resource="#Article"/>
+    <rdfs:range rdf:resource="#qsdsquj"/>
+    <rdfs:subPropertyOf rdf:resource="#zansbzh"/>
+    
+    
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:ID="book">
+    <rdfs:domain rdf:resource="#vccfsq"/>
+    <rdfs:range rdf:resource="#Monograph"/>
+    <rdfs:subPropertyOf rdf:resource="#zansbzh"/>
+    
+    
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:ID="collection">
+    <rdfs:domain rdf:resource="#dcsqdcsqd"/>
+    <rdfs:range rdf:resource="#sqxsqkd"/>
+    <rdfs:subPropertyOf rdf:resource="#zansbzh"/>
+    
+    
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:ID="proceedings">
+    <rdfs:domain rdf:resource="#InProceedings"/>
+    <rdfs:range rdf:resource="#Proceedings"/>
+    <rdfs:subPropertyOf rdf:resource="#zansbzh"/>
+    
+    
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:ID="sqndsqgy">
+    <rdfs:domain>
+      <owl:Class>
+	<owl:unionOf rdf:parseType="Collection">
+	  <owl:Class rdf:about="#sqdsq"/>
+	  <owl:Class rdf:about="#zqedzbx"/>
+	</owl:unionOf>
+      </owl:Class>
+    </rdfs:domain>
+    <rdfs:range rdf:resource="#Date"/>
+    
+    
+  </owl:ObjectProperty>
+
+  <owl:DatatypeProperty rdf:ID="zdsnsqdv">
+    <rdfs:domain rdf:resource="#sqdsq"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    
+    
+  </owl:DatatypeProperty>
+
+  <owl:ObjectProperty rdf:ID="organization">
+    <rdfs:domain>
+      <owl:Class>
+	<owl:unionOf rdf:parseType="Collection">
+	  <owl:Class rdf:about="#Proceedings"/>
+	  <owl:Class rdf:about="#Manual"/>
+	</owl:unionOf>
+      </owl:Class>
+    </rdfs:domain>
+    <rdfs:range rdf:resource="http://xmlns.com/foaf/0.1/Organization"/>
+    
+    
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:ID="publisher">
+    <rdfs:domain>
+      <owl:Class>
+	<owl:unionOf rdf:parseType="Collection">
+	  <owl:Class rdf:about="#sqdsq"/>
+	  <owl:Class rdf:about="#qsdsquj"/>
+	</owl:unionOf>
+      </owl:Class>
+      </rdfs:domain>
+    <rdfs:range rdf:resource="#Publisher"/>
+    
+    
+  </owl:ObjectProperty>
+
+  <owl:ObjectProperty rdf:ID="school">
+    <rdfs:domain>
+      <owl:Class>
+	<owl:unionOf rdf:parseType="Collection">
+	  <owl:Class rdf:about="#zdazsx"/>
+	  <owl:Class rdf:about="#LectureNotes"/>
+	</owl:unionOf>
+      </owl:Class>
+    </rdfs:domain>
+    <rdfs:range rdf:resource="#zadazxn"/>
+    
+    
+  </owl:ObjectProperty>
+
+  <owl:DatatypeProperty rdf:ID="dszbnz">
+    <rdfs:domain rdf:resource="#sqdsq"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    
+    
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:ID="dznbaln">
+    <rdfs:domain rdf:resource="#sqdsq"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    
+    
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:ID="type">
+    <rdfs:domain>
+      <owl:Class>
+	<owl:unionOf rdf:parseType="Collection">
+	  <owl:Class rdf:about="#Chapter"/>
+	  <owl:Class rdf:about="#sdcsqhyz"/>
+	  <owl:Class rdf:about="#zdazsx"/>
+	</owl:unionOf>
+      </owl:Class>
+    </rdfs:domain>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    
+    
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:ID="zadzqbsdg">
+    <rdfs:domain rdf:resource="#sqdsq"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    
+    
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:ID="dsqndsz">
+    <rdfs:domain rdf:resource="#sqdsq"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    
+    
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:ID="contents">
+    <rdfs:domain rdf:resource="#sqdsq"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    
+    
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:ID="copyright">
+    <rdfs:domain rdf:resource="#sqdsq"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    
+    
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:ID="isbn">
+    <rdfs:domain rdf:resource="#sqdsq"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    
+    
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:ID="zadsznad">
+    <rdfs:domain rdf:resource="#sqdsq"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    
+    
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:ID="zqdszh">
+    <rdfs:domain rdf:resource="#sqdsq"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    
+    
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:ID="language">
+    <rdfs:domain rdf:resource="#sqdsq"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#language"/>
+    
+    
+  </owl:DatatypeProperty>
+
+  <owl:ObjectProperty rdf:ID="location">
+    <rdfs:domain>
+      <owl:Class>
+	<owl:unionOf rdf:parseType="Collection">
+	  <owl:Class rdf:about="#sqdsq"/>
+	  <owl:Class rdf:about="#zqedzbx"/>
+	</owl:unionOf>
+      </owl:Class>
+    </rdfs:domain>
+    <rdfs:range rdf:resource="#Address"/>
+    
+    
+  </owl:ObjectProperty>
+
+  <owl:DatatypeProperty rdf:ID="lccn">
+    <rdfs:domain rdf:resource="#sqdsq"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    
+    
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:ID="dszbgz">
+    <rdfs:domain rdf:resource="#sqdsq"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    
+    
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:ID="dsq">
+    <rdfs:domain rdf:resource="#sqdsq"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    
+    
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:ID="size">
+    <rdfs:domain rdf:resource="#sqdsq"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    
+    
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:ID="url">
+    <rdfs:domain rdf:resource="#sqdsq"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    
+    
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:ID="name">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:ID="dsza">
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    
+  </owl:DatatypeProperty>
+
+  <!--
+    ********  "META" PROPERTIES  ********
+  -->
+
+  <owl:DatatypeProperty rdf:ID="dsazdjz">
+    <rdfs:domain rdf:resource="#Part"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    
+    
+  </owl:DatatypeProperty>
+
+  <owl:ObjectProperty rdf:ID="pages">
+    <rdfs:domain rdf:resource="#Part"/>
+    <rdfs:range rdf:resource="#PageRange"/>
+    
+    
+  </owl:ObjectProperty>
+
+  <owl:DatatypeProperty rdf:ID="numberOrVolume">
+    <rdfs:domain>
+      <owl:Class>
+        <owl:unionOf rdf:parseType="Collection">
+          <owl:Class rdf:about="#sqdsq"/>
+          <owl:Class rdf:about="#zqedzbx"/>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:domain>
+    
+    
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:ID="number">
+    <rdfs:domain rdf:resource="#sqdsq"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:subPropertyOf rdf:resource="#numberOrVolume"/>
+    
+    
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:ID="sqnzkzn">
+    <rdfs:domain>
+      <owl:Class>
+        <owl:unionOf rdf:parseType="Collection">
+          <owl:Class rdf:about="#sqdsq"/>
+          <owl:Class rdf:about="#zqedzbx"/>
+        </owl:unionOf>
+      </owl:Class>
+    </rdfs:domain>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <rdfs:subPropertyOf rdf:resource="#numberOrVolume"/>
+    
+    
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:ID="zsbdgz">
+    <rdfs:subPropertyOf rdf:resource="#numberOrVolume"/>
+    <rdfs:domain rdf:resource="#sqdsq"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#nonNegativeInteger"/>
+    
+    
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:ID="year">
+    <rdfs:domain rdf:resource="#Date"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#gYear"/>
+    
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:ID="month">
+    <rdfs:domain rdf:resource="#Date"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#gMonth"/>
+    
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:ID="day">
+    <rdfs:domain rdf:resource="#Date"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#gDay"/>
+    
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:ID="zdzndh">
+    <rdfs:domain rdf:resource="#Address"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:ID="zdnzadh">
+    <rdfs:domain rdf:resource="#Address"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:ID="country">
+    <rdfs:domain rdf:resource="#Address"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    
+    
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:ID="startPage">
+    <rdfs:domain rdf:resource="#PageRange"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#nonNegativeInteger"/>
+    
+    
+  </owl:DatatypeProperty>
+
+  <owl:DatatypeProperty rdf:ID="endPage">
+    <rdfs:domain rdf:resource="#PageRange"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#nonNegativeInteger"/>
+    
+    
+  </owl:DatatypeProperty>
+
+<!-- PEOPLE -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- INSTITUTIONS -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- EVENTS -->
+
+
+
+
+
+
+
+<!-- REFERENCES -->
+
+
+
+
+
+<!-- HERE -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</rdf:RDF>

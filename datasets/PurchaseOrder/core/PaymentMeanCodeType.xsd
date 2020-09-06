@@ -1,0 +1,715 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" targetNamespace="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" elementFormDefault="qualified">
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+            XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.
+            Permission is granted to use, copy, modify and distribute the
+            DTD's, schemas and modules in the Commerce One XML Common Business
+            Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleType name="PaymentMeanCodeType">
+        <xsd:annotation>
+            <xsd:documentation>This code identifies the type of payment to be made for the package. This code list is derived from EDIFACT 4461 (payment means code) and X12 107 (payment method code) and 591 (payment method code).</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:NMTOKEN">
+            <xsd:enumeration value="Other">
+                <xsd:annotation>
+                    <xsd:documentation>Custom Code</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="1035Exchange">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="AcceptedBillOfExchange">
+                <xsd:annotation>
+                    <xsd:documentation>Bill drawn by the creditor on the debtor and accepted by the debtor.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ACHDemandCashConcentrationOrDisbursementCredit">
+                <xsd:annotation>
+                    <xsd:documentation>A credit transaction made through the ACH system to a demand deposit account using the CCD payment format.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ACHDemandCashConcentrationOrDisbursementDebit">
+                <xsd:annotation>
+                    <xsd:documentation>A debit transaction made through the ACH system to a demand deposit account using the CCD payment format.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ACHDemandCashConcentrationOrDisbursementPlusCredit">
+                <xsd:annotation>
+                    <xsd:documentation>A credit transaction made through the ACH system to a demand deposit account using the CCD+ payment format.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ACHDemandCashConcentrationOrDisbursementPlusDebit">
+                <xsd:annotation>
+                    <xsd:documentation>A debit transaction made through the ACH system to a demand deposit account using the CCD+ payment format.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ACHDemandCorporateTradeExchangeCredit">
+                <xsd:annotation>
+                    <xsd:documentation>A credit transaction made through the ACH system to a demand deposit account using the CTX payment format.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ACHDemandCorporateTradeExchangeDebit">
+                <xsd:annotation>
+                    <xsd:documentation>A debit transaction made through the ACH system to a demand account using the CTX payment format.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ACHDemandCorporateTradePaymentCredit">
+                <xsd:annotation>
+                    <xsd:documentation>A credit transaction made through the ACH system to a demand deposit account using the CTP payment format.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ACHDemandCorporateTradePaymentDebit">
+                <xsd:annotation>
+                    <xsd:documentation>A debit transaction made through the ACH system to a demand deposit account using the CTP payment format.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ACHDemandCredit">
+                <xsd:annotation>
+                    <xsd:documentation>A credit transaction made through the ACH system to a demand deposit account.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ACHDemandCreditReversal">
+                <xsd:annotation>
+                    <xsd:documentation>A request to reverse a credit transaction to a demand deposit account.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ACHDemandDebit">
+                <xsd:annotation>
+                    <xsd:documentation>A debit transaction made through the ACH system to a demand deposit account.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ACHDemandDebitReversal">
+                <xsd:annotation>
+                    <xsd:documentation>A request to reverse an ACH debit transaction to a demand deposit account.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ACHPreArrangedPaymentAndDeposit">
+                <xsd:annotation>
+                    <xsd:documentation>A consumer credit transaction made through the ACH system to a demand deposit or savings account.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ACHReversal">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ACHSavingsCashConcentrationOrDisbursementCredit">
+                <xsd:annotation>
+                    <xsd:documentation>A credit transaction made through the ACH system to a demand deposit or savings account using the CCD payment format.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ACHSavingsCashConcentrationOrDisbursementDebit">
+                <xsd:annotation>
+                    <xsd:documentation>A debit transaction made through the ACH system to a savings account using the CCD payment format.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ACHSavingsCashConcentrationOrDisbursementPPDCredit">
+                <xsd:annotation>
+                    <xsd:documentation>A credit transaction made through the ACH system to a demand deposit or savings account using the PPD payment format.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ACHSavingsCashConcentrationOrDisbursementPPDDebit">
+                <xsd:annotation>
+                    <xsd:documentation>A debit transaction made through the ACH system to a savings account using the PPD payment format.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ACHSavingsCashConcentrationOrDisbursementPPDPlusCredit">
+                <xsd:annotation>
+                    <xsd:documentation>A credit transaction made through the ACH system to a demand deposit or savings account using the PPD+ payment format.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ACHSavingsCashConcentrationOrDisbursementPPDPlusDebit">
+                <xsd:annotation>
+                    <xsd:documentation>A debit transaction made through the ACH system to a savings account using the PPD+ payment format.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ACHSavingsCashConcentrationOrDisbursementPlusCredit">
+                <xsd:annotation>
+                    <xsd:documentation>A credit transaction made through the ACH system to a savings account using the CCD+ payment format.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ACHSavingsCashConcentrationOrDisbursementPlusDebit">
+                <xsd:annotation>
+                    <xsd:documentation>A debit transaction made through the ACH system to a savings account using the CCD+ payment format.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ACHSavingsCorporateTradeExchangeCredit">
+                <xsd:annotation>
+                    <xsd:documentation>A credit transaction made through the ACH system to a savings account using the CTX payment format.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ACHSavingsCorporateTradeExchangeDebit">
+                <xsd:annotation>
+                    <xsd:documentation>A debit transaction made through the ACH system to a savings account using the CTX payment format.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ACHSavingsCorporateTradePaymentCredit">
+                <xsd:annotation>
+                    <xsd:documentation>A credit transaction made through the ACH system to a savings account using the CTP payment format.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ACHSavingsCorporateTradePaymentDebit">
+                <xsd:annotation>
+                    <xsd:documentation>A debit transaction made through the ACH system to a savings account using the CTP payment format.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ACHSavingsCredit">
+                <xsd:annotation>
+                    <xsd:documentation>A credit transaction made through the ACH system to a savings account.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ACHSavingsCreditReversal">
+                <xsd:annotation>
+                    <xsd:documentation>A request to reverse an ACH credit transaction to a savings account.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ACHSavingsDebit">
+                <xsd:annotation>
+                    <xsd:documentation>A debit transaction made through the ACH system to a savings account.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ACHSavingsDebitReversal">
+                <xsd:annotation>
+                    <xsd:documentation>A request to reverse an ACH debit transaction to a savings account.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="AutomatedClearingHouse">
+                <xsd:annotation>
+                    <xsd:documentation>Payment instructions made through the automated clearing house system.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="AutomatedClearingHouseCredit">
+                <xsd:annotation>
+                    <xsd:documentation>A credit transaction made through the automated clearing house system.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="AutomatedClearingHouseDebit">
+                <xsd:annotation>
+                    <xsd:documentation>A debit transaction made through the automated clearing house system.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="BankCard">
+                <xsd:annotation>
+                    <xsd:documentation>Payment by means of a card issued by a bank or other financial institution.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Bankcheque-IssuedByABankingOrSimilarEstablishment">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="BankDraft">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="BankersDraft">
+                <xsd:annotation>
+                    <xsd:documentation>Issue of a banker's draft in payment of the funds.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="BillDrawnByCreditorOnThirdPartyAndAcceptedAndEndorsedByABank">
+                <xsd:annotation>
+                    <xsd:documentation>Description to be provided.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="BillDrawnByTheCreditorAndEndorsedByAnotherBank">
+                <xsd:annotation>
+                    <xsd:documentation>Description to be provided.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="BillDrawnByTheCreditorOnABank">
+                <xsd:annotation>
+                    <xsd:documentation>Description to be provided.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="BillDrawnByTheCreditorOnABankAndEndorsedByAThirdParty">
+                <xsd:annotation>
+                    <xsd:documentation>Description to be provided.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="BillDrawnByTheCreditorOnAThirdParty">
+                <xsd:annotation>
+                    <xsd:documentation>Description to be provided.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="BillDrawnByTheCreditorOnTheDebtor">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="BillingAccount">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="BookEntry">
+                <xsd:annotation>
+                    <xsd:documentation>Payment Instructions, initiated from the buyer's account to the seller's account at the save financial institution.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="BookEntryCredit">
+                <xsd:annotation>
+                    <xsd:documentation>A credit transaction, initiated from the buyer's account to the seller's account at the save financial institution.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="BookEntryDebit">
+                <xsd:annotation>
+                    <xsd:documentation>A debit transaction initiated from the seller's account to the seller's account at the same financial institution.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Cash">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CashiersCheck">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Ccd">
+                <xsd:annotation>
+                    <xsd:documentation>Nacha Cash Concentration Or Disbursement-Funds Transacted Without Remittance Information</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CcdPlus">
+                <xsd:annotation>
+                    <xsd:documentation>Nacha Cash Concentration/Disbursement- Funds Transacted Plus An 80 Record Remittance Detail</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CertifiedBankersDraft">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CertifiedCheque">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Cheque">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ClearingBetweenPartners">
+                <xsd:annotation>
+                    <xsd:documentation>Amounts which two partners owe to each other to be compensated in order to avoid useless payments.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ClearingHouse">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ClearingHouseInterbankPaymentSystem">
+                <xsd:annotation>
+                    <xsd:documentation>(CHIPs) Clearing House Interbank Payment System Funds/Wire Transfer</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CollectPaymentByCertifiedFunds">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CollectPaymentByCompanyCheck">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CompensationByBalance">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Credit">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CreditAccount">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CreditDebitAccount">
+                <xsd:annotation>
+                    <xsd:documentation>Credit / Debit Account</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CreditCard">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CreditTransfer">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Ctp">
+                <xsd:annotation>
+                    <xsd:documentation>(NachaCorporateTradePayment-TransactionPlusRemittanceDetailInFixedFormat)</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Ctx">
+                <xsd:annotation>
+                    <xsd:documentation>NachaCorporateTradeExchange-TransactionPlusRemittanceDetailInAnsiStandardFlexibleFormat</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Debited">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DebitCard">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DebitTransfer">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DeductionFromFilmRental">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DirectDebit">
+                <xsd:annotation>
+                    <xsd:documentation>The amount is to be, or has been, directly debited to the customer's bank account.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DirectDeposit">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DirectPayToOthers">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Draft">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="EBINAXClearingNetwork">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ElectronicPaymentSystem">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="FederalReserveFundsOrWireTransferRepetitive">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="FederalReserveFundsOrWireTransferNonRepetitive">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="FinancialInstitutionOption">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="FreeFormatGiro">
+                <xsd:annotation>
+                    <xsd:documentation>Ordering customer tells the ordering bank to use the bank service 'Free Format Giro' when transferring the payment. Used in Finnish national banking system.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="FreightPaymentBank">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Graduated">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Hold">
+                <xsd:annotation>
+                    <xsd:documentation>Indicates that the bank should hold the payment for collection by the beneficiary or other instructions.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Home-BankingDebitTransfer">
+                <xsd:annotation>
+                    <xsd:documentation>A debit transfer initiated through home-banking.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="InCash">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="IncomeContingent">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="IncomeSensitive">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="InKindPayment">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="InstrumentNotDefined">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="InterBankDebitTransfer">
+                <xsd:annotation>
+                    <xsd:documentation>A debit transfer via interbank means.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="InvoicedSeparately">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="LetterOfCredit">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Level-SumConstant">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="LocalCheque">
+                <xsd:annotation>
+                    <xsd:documentation>Indicates that the cheque is given local to the recipient.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="LockBox">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="MoneyOrder">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NationalOrRegionalClearing">
+                <xsd:annotation>
+                    <xsd:documentation>Indicates that the payment should be made using the national or regional clearing.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NonPaymentData">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NotTransferableBankersDraft">
+                <xsd:annotation>
+                    <xsd:documentation>Issue a bankers draft not endorsable.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NotTransferableLocalCheque">
+                <xsd:annotation>
+                    <xsd:documentation>Issue a cheque not endorsable in payment of the funds.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PayByCheck">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PaymentByPostGiro">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PaymentToBankAccount">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PayrollDeduction">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PetroleumClearinghouseBank">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PPDCreditToDemandDepositAccount">
+                <xsd:annotation>
+                    <xsd:documentation>Pre-Arranged Payment or Deposit (PPD) Credit to a Demand Deposit Account</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PPDDebitToDemandDepositAccount">
+                <xsd:annotation>
+                    <xsd:documentation>Pre-Arranged Payment or Deposit (PPD) Debit to a Demand Deposit Account</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PPDPlusAddendumCreditToDemandDepositAccount">
+                <xsd:annotation>
+                    <xsd:documentation>Pre-Arranged Payment or Deposit Plus Addendum (PPD+) Credit to a Demand Deposit Account</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PPDPlusAddendumDebitToDemandDepositAccount">
+                <xsd:annotation>
+                    <xsd:documentation>Pre-Arranged Payment or Deposit Plus Addendum (PPD+) Debit to a Demand Deposit Account</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PreauthroizedCheck">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PreviouslyCharged">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PrivateNettingAgreementPayByWireTransfer">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PrivateNettingPayByCheck">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PromissoryNote">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PromissoryNoteSignedByABank">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PromissoryNoteSignedByABankAndEndorsedByAnotherBank">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PromissoryNoteSignedByAThirdParty">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PromissoryNoteSignedByAThirdPartyAndEndorsedByABank">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PromissoryNoteSignedByTheDebtor">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PromissoryNoteSignedByTheDebtorAndEndorsedByAThirdParty">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PromissoryNoteSignedByTheDebtorAndEndorsedByBank">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ProprietaryNetwork">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ReferencedHome-BankingCreditTransfer">
+                <xsd:annotation>
+                    <xsd:documentation>A referenced credit transfer initiated through home-banking.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ReferenceGiro">
+                <xsd:annotation>
+                    <xsd:documentation>Ordering customer tells the bank to use the payment system 'Reference giro'. Used in the Finnish national banking system.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="RelatedDetailAccount">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="RequestedMethodForPaymentWasNotUsed">
+                <xsd:annotation>
+                    <xsd:documentation>If the requested method for payment was or could not be used, this code indicates that.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SpecialAccount">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SummaryAccount">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SWIFT">
+                <xsd:annotation>
+                    <xsd:documentation>Society for Worldwide Interbank Financial Telecommunications</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="TravelersCheck">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="UrgentGiro">
+                <xsd:annotation>
+                    <xsd:documentation>Ordering customer tells the bank to use the bank service 'Urgent Giro' when transferring the payment. Used in Finnish national banking system.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="VISASpecialElectronicFundsTransferNetwork">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Waived">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="WireTransfer">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="X12">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+        </xsd:restriction>
+    </xsd:simpleType>
+</xsd:schema>

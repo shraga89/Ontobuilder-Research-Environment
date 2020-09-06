@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" targetNamespace="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" elementFormDefault="qualified">
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+            XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.
+            Permission is granted to use, copy, modify and distribute the
+            DTD's, schemas and modules in the Commerce One XML Common Business
+            Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType name="HazardousIdentifiersType">
+        <xsd:annotation>
+            <xsd:documentation>are identifiers that describe specifics of the hazardous codes
+        associated with an item or packaging.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="HazardousRegulationsCoded" type="AgencyCodeType">
+                <xsd:annotation>
+                    <xsd:documentation>is the agency that assigns the hazard code.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="HazardousRegulationsCodedOther" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>is used to provide a non-standard <!--code-->HazardousRegulationsCode<!--/code-->. This
+        element is mandatory if the value of <!--code-->HazardousRegulationsCoded<!--/code--> is 'Other'.
+        These codes should not contain white space unless absolutely
+        necessary.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="HazardCode" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>is the value of the hazard code.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="CodeExtension" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>is an extension to the hazardous packaging code above. Can also
+        be used to hold additional code values such as a Waste Characteristics Code in
+        conjunction with an EPA Waste Stream code.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="CodeVersion" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>is the version of the hazardous code.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="HazardOfficialText" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>is the official name of the hazardous substance.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="TremCardNum" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>is the identification of a transport emergency card, giving
+        advice for emergency actions. Can be used for the identity number of a specific
+        hazardous emergency response plan that is assigned by the Director General of
+        Canada.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="ListOfHazardousIdentifiersType">
+        <xsd:annotation>
+            <xsd:documentation>is a list of identifiers that are in reference to the hazardous
+        material being described.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element maxOccurs="unbounded" name="HazardousIdentifiers" type="HazardousIdentifiersType">
+                <xsd:annotation>
+                    <xsd:documentation>are identifiers that describe specifics of the hazardous codes
+        associated with an item or packaging.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

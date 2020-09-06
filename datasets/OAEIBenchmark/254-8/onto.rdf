@@ -1,0 +1,886 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<rdf:RDF xmlns="http://oaei.ontologymatching.org/2011/benchmarks/254-8/onto.rdf#" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:ical="http://www.w3.org/2002/12/cal/ical#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xsd="http://www.w3.org/2001/XMLSchema#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:owl="http://www.w3.org/2002/07/owl#" xmlns:dc="http://purl.org/dc/elements/1.1/" xml:base="http://oaei.ontologymatching.org/2011/benchmarks/254-8/onto.rdf#">
+
+<!-- This ontology describes bibliographic references. -->
+  
+  <owl:Ontology rdf:about="">
+    <dc:creator>Nick Knouf &lt;nknouf@mit.edu&gt;</dc:creator>
+    <dc:contributor>Antoine Zimmermann &lt;antoine.zimmermann@inrialpes.fr&gt;</dc:contributor>
+    <dc:contributor>Jérôme Euzenat</dc:contributor>
+    
+    <dc:date>08/06/2005</dc:date>
+    
+    
+    <owl:versionInfo>$Id: onto.rdf,v 1.30 2008/05/27 14:41:13 euzenat Exp $</owl:versionInfo>
+  </owl:Ontology>
+
+  <!-- Every entity (even external) must be typed in OWL-DL. -->
+
+  <!-- this is for satisfying the OWL Species validator
+       (which is not satisfied anyway) -->
+  <owl:Class rdf:about="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+  <rdf:List rdf:about="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+  <owl:ObjectProperty rdf:about="http://www.w3.org/1999/02/22-rdf-syntax-ns#first">
+      <rdfs:domain rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://www.w3.org/1999/02/22-rdf-syntax-ns#rest">
+      <rdfs:domain rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+      <rdfs:range rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+  </owl:ObjectProperty>
+
+  <owl:DatatypeProperty rdf:about="http://purl.org/dc/elements/1.1/creator"/>
+  <owl:DatatypeProperty rdf:about="http://purl.org/dc/elements/1.1/contributor"/>
+  <owl:DatatypeProperty rdf:about="http://purl.org/dc/elements/1.1/description"/>
+  <owl:DatatypeProperty rdf:about="http://purl.org/dc/elements/1.1/date"/>
+
+  <!-- foaf extensions -->
+  <owl:Class rdf:about="http://xmlns.com/foaf/0.1/Person"/>
+  <owl:Class rdf:about="http://xmlns.com/foaf/0.1/Organization"/>
+  <owl:DatatypeProperty rdf:about="http://xmlns.com/foaf/0.1/firstName"/>
+  
+  <owl:DatatypeProperty rdf:about="http://xmlns.com/foaf/0.1/name"/>
+
+  <!--
+    ********  ENTRIES  ********
+    
+    Entries form the basis of a bibTeX database and are categorized by their type, such as a book, journal article, conference proceedings, etc.  Each entry type has a specific set of fields that are required in bibTeX; as a first pass, these fields will also be required in the OWL ontology.
+    Note: all rdfs:comment values for the entries come from http://newton.ex.ac.uk/tex/pack/bibtex/btxdoc/node6.html.
+  -->
+
+  <owl:Class rdf:ID="sqdsq">
+    
+    
+    
+    
+    
+  </owl:Class>
+
+  <owl:Class rdf:ID="Article">
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+  </owl:Class>
+
+  <owl:Class rdf:ID="zajdhqs">
+    
+    
+    
+    
+    
+    
+    
+    
+    
+     
+    
+  </owl:Class>
+
+  <owl:Class rdf:ID="dzajndsq">
+    
+    
+    
+    
+  </owl:Class>
+
+  <owl:Class rdf:ID="sqxsqkd">
+    
+    
+    
+    
+    
+  </owl:Class>
+
+  <owl:Class rdf:ID="qsdsnbsqd">
+    
+    
+    
+    
+  </owl:Class>
+
+  <owl:Class rdf:ID="Booklet">
+    
+    
+    
+  </owl:Class>
+
+  <owl:Class rdf:ID="sqdsopq">
+    
+    
+    
+    
+    
+    <!-- This is forbiden for transitive properties in OWL-DL -->
+    <!--rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#isPartOf" />
+	<owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:cardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf-->
+  </owl:Class>
+
+  <owl:Class rdf:ID="dzqndbzq">
+    
+    
+    
+    
+    
+  </owl:Class>
+
+  <owl:Class rdf:ID="vccfsq">
+    
+    
+    
+    
+    
+    
+  </owl:Class>
+
+  <owl:Class rdf:ID="dcsqdcsqd">
+    
+    
+    
+    
+    
+  </owl:Class>
+
+  <owl:Class rdf:ID="InProceedings"> <!-- Communication -->
+    
+    
+    
+    
+    
+  </owl:Class>
+
+  <owl:Class rdf:ID="scds">
+    
+    
+    
+  </owl:Class>
+
+  <owl:Class rdf:ID="dcsqdsq">
+    
+    
+    
+    
+    
+    
+  </owl:Class>
+
+  <owl:Class rdf:ID="zdazsx">
+    
+    
+    
+    
+    
+    
+    
+  </owl:Class>
+
+  <owl:Class rdf:ID="xsqlknk">
+    
+    
+    
+  </owl:Class>
+
+  <owl:Class rdf:ID="PhdThesis">
+    
+    
+    
+  </owl:Class>
+
+  <owl:Class rdf:ID="wxsdxqsdh">
+    
+    
+    
+  </owl:Class>
+
+  <owl:Class rdf:ID="zdqssqdb">
+    
+    
+    
+    
+    
+    
+    
+    
+    
+  </owl:Class>
+
+  <owl:Class rdf:ID="dqzdxdcsqj">
+    
+    
+    
+    
+    
+    
+    
+    
+    
+  </owl:Class>
+
+  <owl:Class rdf:ID="sdcsqhyz">
+    
+    
+    
+  </owl:Class>
+
+  <owl:Class rdf:ID="Deliverable">
+    
+    
+    
+    
+  </owl:Class>
+
+  <owl:Class rdf:ID="zeadza">
+    
+    
+    
+    
+    
+    
+  </owl:Class>
+
+  <owl:Class rdf:ID="dscdscg">
+    
+    
+    
+  </owl:Class>
+
+  <!-- SPECIAL CLASSES -->
+
+  <owl:Class rdf:ID="qsdsquj">
+    
+    
+    
+   
+   
+   
+    
+    
+    
+    
+  </owl:Class>
+
+  <owl:Class rdf:ID="zqedzbx">
+    
+    
+    
+    
+    
+    
+    
+  </owl:Class>
+
+  <owl:Class rdf:ID="Address">
+    
+    
+    
+    
+    
+    
+    
+    
+  </owl:Class>
+
+  <owl:Class rdf:ID="izxnquo">
+    
+    
+    
+    
+    
+    
+  </owl:Class>
+
+  <owl:Class rdf:ID="zauio">
+    
+    
+    
+  </owl:Class>
+
+  <!-- trouver une ontologie pour ca -->
+  <owl:Class rdf:ID="zadazxn">
+    
+    
+    
+  </owl:Class>
+
+  <owl:Class rdf:ID="dsqdbz">
+    
+    
+    
+    
+    
+    
+    
+  </owl:Class>
+
+  <owl:Class rdf:ID="PageRange">
+    
+    
+    
+    
+  </owl:Class>
+
+  <owl:Class rdf:ID="dzshyuua">
+    
+    
+    
+    
+    
+    
+    
+    
+  </owl:Class>
+    
+  <!--
+    ********  FIELDS  ********
+
+    Note: all rdfs:comment values for the entries come from http://newton.ex.ac.uk/tex/pack/bibtex/btxdoc/node7.html
+  -->
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  <!--
+    ********  "META" PROPERTIES  ********
+  -->
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+<!-- PEOPLE -->
+
+<foaf:Person rdf:about="#a04570373">
+	
+	<foaf:name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">John-Jules Meyer</foaf:name>
+	<foaf:firstName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">John-Jules</foaf:firstName>
+	
+</foaf:Person>
+
+<foaf:Person rdf:about="#a43836633">
+	
+	<foaf:name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Jeen Broekstra</foaf:name>
+	<foaf:firstName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Jeen</foaf:firstName>
+	
+</foaf:Person>
+
+<foaf:Person rdf:about="#a85228505">
+	
+	<foaf:name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Alexander Mädche</foaf:name>
+	<foaf:firstName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Alexander</foaf:firstName>
+	
+</foaf:Person>
+
+<foaf:Person rdf:about="#a48552212">
+	
+	<foaf:name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Björn Schnizler</foaf:name>
+	<foaf:firstName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Björn</foaf:firstName>
+	
+</foaf:Person>
+
+<foaf:Person rdf:about="#a971541439">
+	
+	<foaf:name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Alberto Trombetta</foaf:name>
+	<foaf:firstName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Alberto</foaf:firstName>
+	
+</foaf:Person>
+
+<foaf:Person rdf:about="#a11090777">
+	
+	<foaf:name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Christine Parent</foaf:name>
+	<foaf:firstName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Christine</foaf:firstName>
+	
+</foaf:Person>
+
+<foaf:Person rdf:about="#a250331360">
+	
+	<foaf:name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">R. Schmidt</foaf:name>
+	<foaf:firstName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">R.</foaf:firstName>
+	
+</foaf:Person>
+
+<foaf:Person rdf:about="#a79573306">
+	
+	<foaf:name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">York Sure</foaf:name>
+	<foaf:firstName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">York</foaf:firstName>
+	
+</foaf:Person>
+
+<foaf:Person rdf:about="#a885257047">
+	
+	<foaf:name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">M. Punceva</foaf:name>
+	<foaf:firstName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">M.</foaf:firstName>
+	
+</foaf:Person>
+
+<foaf:Person rdf:about="#a74993404">
+	
+	<foaf:name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">I. V. Levenshtein</foaf:name>
+	<foaf:firstName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">I. V.</foaf:firstName>
+	
+</foaf:Person>
+
+<foaf:Person rdf:about="#a71003986">
+	
+	<foaf:name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Steffen Staab</foaf:name>
+	<foaf:firstName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Steffen</foaf:firstName>
+	
+</foaf:Person>
+
+<foaf:Person rdf:about="#a572406328">
+	
+	<foaf:name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Frank Boer</foaf:name>
+	<foaf:firstName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Frank</foaf:firstName>
+	
+</foaf:Person>
+
+<foaf:Person rdf:about="#a139477786">
+	
+	<foaf:name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Maarten Menken</foaf:name>
+	<foaf:firstName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Maarten</foaf:firstName>
+	
+</foaf:Person>
+
+<foaf:Person rdf:about="#a337716610">
+	
+	<foaf:name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Manfred Hauswirth</foaf:name>
+	<foaf:firstName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Manfred</foaf:firstName>
+	
+</foaf:Person>
+
+<foaf:Person rdf:about="#a086379337">
+	
+	<foaf:name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Wiebe Hoek</foaf:name>
+	<foaf:firstName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Wiebe</foaf:firstName>
+	
+</foaf:Person>
+
+<foaf:Person rdf:about="#a712561038">
+	
+	<foaf:name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Marc Ehrig</foaf:name>
+	<foaf:firstName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Marc</foaf:firstName>
+	
+</foaf:Person>
+
+<foaf:Person rdf:about="#a066600210">
+	
+	<foaf:name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Danilo Montesi</foaf:name>
+	<foaf:firstName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Danilo</foaf:firstName>
+	
+</foaf:Person>
+
+<foaf:Person rdf:about="#a093016135">
+	
+	<foaf:name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Rogier Eijk</foaf:name>
+	<foaf:firstName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Rogier</foaf:firstName>
+	
+</foaf:Person>
+
+<foaf:Person rdf:about="#a944339054">
+	
+	<foaf:name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Frank van Harmelen</foaf:name>
+	<foaf:firstName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Frank</foaf:firstName>
+	
+</foaf:Person>
+
+<foaf:Person rdf:about="#a98078619">
+	
+	<foaf:name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Philippe Cudré-Mauroux</foaf:name>
+	<foaf:firstName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Philippe</foaf:firstName>
+	
+</foaf:Person>
+
+<foaf:Person rdf:about="#a39510672">
+	
+	<foaf:name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Z. Despotovic</foaf:name>
+	<foaf:firstName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Z.</foaf:firstName>
+	
+</foaf:Person>
+
+<foaf:Person rdf:about="#a431956276">
+	
+	<foaf:name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Stefano Spaccapietra</foaf:name>
+	<foaf:firstName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Stefano</foaf:firstName>
+	
+</foaf:Person>
+
+<foaf:Person rdf:about="#a431956276b">
+	
+	<foaf:name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Mike Papazoglou</foaf:name>
+	<foaf:firstName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Mike</foaf:firstName>
+	
+</foaf:Person>
+
+<foaf:Person rdf:about="#a431956276c">
+	
+	<foaf:name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Zahir Tari</foaf:name>
+	<foaf:firstName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Zahir</foaf:firstName>
+	
+</foaf:Person>
+
+<foaf:Person rdf:about="#a70955601">
+	
+	<foaf:name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A. Datta</foaf:name>
+	<foaf:firstName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">A.</foaf:firstName>
+	
+</foaf:Person>
+
+<foaf:Person rdf:about="#a467748807">
+	
+	<foaf:name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Ateret Anaby-Tavor</foaf:name>
+	<foaf:firstName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Ateret</foaf:firstName>
+	
+</foaf:Person>
+
+<foaf:Person rdf:about="#a3105947">
+	
+	<foaf:name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Ronny Siebes</foaf:name>
+	<foaf:firstName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Ronny</foaf:firstName>
+	
+</foaf:Person>
+
+<foaf:Person rdf:about="#a29105611">
+	
+	<foaf:name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Karl Aberer</foaf:name>
+	<foaf:firstName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Karl</foaf:firstName>
+	
+</foaf:Person>
+
+<foaf:Person rdf:about="#a958684218">
+	
+	<foaf:name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Peter Mika</foaf:name>
+	<foaf:firstName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Peter</foaf:firstName>
+	
+</foaf:Person>
+
+<foaf:Person rdf:about="#a94533498">
+	
+	<foaf:name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Peter Haase</foaf:name>
+	<foaf:firstName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Peter</foaf:firstName>
+	
+</foaf:Person>
+
+<foaf:Person rdf:about="#a900366022">
+	
+	<foaf:name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Avigdor Gal</foaf:name>
+	<foaf:firstName rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Avigdor</foaf:firstName>
+	
+</foaf:Person>
+
+<!-- INSTITUTIONS -->
+
+<qsdsquj rdf:about="#a246119474">
+	
+	<foaf:name rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Journal of Web Semantics</foaf:name>
+	
+</qsdsquj>
+
+<zauio rdf:about="#a131020767">
+	
+	
+	
+</zauio>
+
+<qsdsquj rdf:about="#a70981683">
+	
+	
+</qsdsquj>
+
+<zauio rdf:about="#a85849488">
+	
+	
+	
+</zauio>
+
+<qsdsquj rdf:about="#a362042121">
+	
+	
+	
+</qsdsquj>
+
+<qsdsquj rdf:about="#a674639524">
+	
+	
+</qsdsquj>
+
+<qsdsquj rdf:about="#a906774044">
+	
+	
+</qsdsquj>
+
+
+<!-- EVENTS -->
+
+<zqedzbx rdf:about="#spg04">
+	
+	
+	
+	
+</zqedzbx>
+
+<zqedzbx rdf:about="#a72192307c">
+	
+	
+	
+	
+	<!--location>
+		<Address>
+			<city></city>
+			<state></state>
+			<country></country>
+		</Address>
+	</location-->
+	
+</zqedzbx>
+
+<zqedzbx rdf:about="#a32071928c">
+	
+	
+	
+	
+	
+	
+</zqedzbx>
+
+<!-- REFERENCES -->
+
+<zdqssqdb rdf:about="#a060097576">
+	
+	
+	
+	
+</zdqssqdb>
+
+<InProceedings rdf:about="#a64263824">
+	
+	
+	
+	
+</InProceedings>
+
+<!-- HERE -->
+
+<InProceedings rdf:about="#a439508789">
+	
+	
+	
+	
+</InProceedings>
+
+<Article rdf:about="#a492378321">
+	
+	
+	
+	
+	
+</Article>
+
+<Article rdf:about="#a475526642">
+	
+	
+	
+	
+	
+</Article>
+
+<vccfsq rdf:about="#a71568377">
+	
+	
+	
+	
+	
+</vccfsq>
+
+<zdqssqdb rdf:about="#a72192307">
+	
+	
+	
+	
+	
+</zdqssqdb>
+
+<zdqssqdb rdf:about="#a32071928">
+	
+	
+	
+	
+	
+</zdqssqdb>
+
+<wxsdxqsdh rdf:about="#a140583454">
+	
+	
+	
+	
+	
+</wxsdxqsdh>
+
+<InProceedings rdf:about="#a11065952">
+	
+	
+	
+	
+	
+</InProceedings>
+
+<Article rdf:about="#a80299267">
+	
+	
+	
+	
+	
+</Article>
+
+<dzajndsq rdf:about="#a108048723">
+	
+	
+	
+	
+</dzajndsq>
+
+<Article rdf:about="#a456080390">
+	
+	
+	
+	
+	
+	
+</Article>
+
+<Article rdf:about="#a846015923">
+	
+	
+	
+	
+	
+	
+</Article>
+
+</rdf:RDF>

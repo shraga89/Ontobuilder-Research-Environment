@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" targetNamespace="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" elementFormDefault="qualified">
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+            XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.
+            Permission is granted to use, copy, modify and distribute the
+            DTD's, schemas and modules in the Commerce One XML Common Business
+            Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleType name="IndicatorCodeType">
+        <xsd:annotation>
+            <xsd:documentation>This code identifies whether an allowance or charge applies. This code list is derived from EDIFACT 5463 (Allowance) and X12 248 (Allowance Or Charge Indicator)</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:NMTOKEN">
+            <xsd:enumeration value="Other">
+                <xsd:annotation>
+                    <xsd:documentation>Custom Code</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="About">
+                <xsd:annotation>
+                    <xsd:documentation>To be construed as allowing a difference not exceeding 10 % more or 10 % less than the amount which it refers.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Adjustment">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Allowance">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="AllowanceLineItems">
+                <xsd:annotation>
+                    <xsd:documentation>Allowance is related to all line items in a message as a default allowance. It may be overridden per line item.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="AllowanceMessage">
+                <xsd:annotation>
+                    <xsd:documentation>Allowance is related to the entire message.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="AllowancePerCallOf">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="AllowanceRequest">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Charge">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ChargeLineItems">
+                <xsd:annotation>
+                    <xsd:documentation>Charge is related to all line items in a message as a default charge. It may be overridden per line item.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ChargeMessage">
+                <xsd:annotation>
+                    <xsd:documentation>Charge is related to the entire message.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ChargePerCallOf">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ChargeRequest">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Exact">
+                <xsd:annotation>
+                    <xsd:documentation>Indicates that this is the exact amount.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="LineItemAllowance">
+                <xsd:annotation>
+                    <xsd:documentation>Allowance is related to a line item. It can override a default allowance.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="LineItemCharge">
+                <xsd:annotation>
+                    <xsd:documentation>Charge is related to a line item. It can override a default charge.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Maximum">
+                <xsd:annotation>
+                    <xsd:documentation>Highest possible value; maximum; not exceeding; up to.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Minus-Amount">
+                <xsd:annotation>
+                    <xsd:documentation>The lesser value expressed in amount.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Minus-Percentage">
+                <xsd:annotation>
+                    <xsd:documentation>The lesser value expressed in percentage.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NoAllowance">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NoAllowanceOrCharge">
+                <xsd:annotation>
+                    <xsd:documentation>No increases or reduction in price (list or stated) are included.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NoCharge">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Plus-Amount">
+                <xsd:annotation>
+                    <xsd:documentation>The greater value expressed in amount.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Plus-Percentage">
+                <xsd:annotation>
+                    <xsd:documentation>The greater value expressed in percentage.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PlusOrMinusOrAmount">
+                <xsd:annotation>
+                    <xsd:documentation>The greater/lesser value expressed in amount.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PlusOrMinus-Percentage">
+                <xsd:annotation>
+                    <xsd:documentation>The greater/lesser value expressed in percentage.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Promotion">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Service">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="TotalOther">
+                <xsd:annotation>
+                    <xsd:documentation>The total for items other than those primarily reported upon in the message.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+        </xsd:restriction>
+    </xsd:simpleType>
+</xsd:schema>

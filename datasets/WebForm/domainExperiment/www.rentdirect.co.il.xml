@@ -1,0 +1,2915 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE ontology SYSTEM "dtds/ontology.dtd">
+<ontology name="www.rentdirect.co.il" title="Rent Direct" type="full" site="http://www.rentdirect.co.il/reservationsENG/RentalDetail.asp">
+    <classes>
+        <class name="page">
+            <domain type="" />
+            <attributes />
+            <axioms />
+            <subclasses />
+        </class>
+        <class name="form">
+            <domain type="" />
+            <attributes>
+                <attribute name="method" value="get">
+                    <domain name="Choice" type="choice">
+                        <entry>post</entry>
+                        <entry>get</entry>
+                    </domain>
+                </attribute>
+                <attribute name="action">
+                    <domain name="URL" type="url" />
+                </attribute>
+            </attributes>
+            <axioms />
+            <subclasses />
+        </class>
+        <class name="input">
+            <domain type="" />
+            <attributes>
+                <attribute name="name">
+                    <domain name="Text" type="text" />
+                </attribute>
+                <attribute name="disabled" value="false">
+                    <domain name="Boolean" type="boolean" />
+                </attribute>
+            </attributes>
+            <axioms />
+            <subclasses>
+                <class name="text">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="name">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="disabled">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                        <attribute name="type" value="text">
+                            <domain type="" />
+                        </attribute>
+                        <attribute name="defaultValue">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="value">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="size">
+                            <domain name="Positive Integer" type="pinteger" />
+                        </attribute>
+                        <attribute name="maxLength">
+                            <domain name="Positive Integer" type="pinteger" />
+                        </attribute>
+                        <attribute name="readOnly" value="false">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <subclasses />
+                </class>
+                <class name="password">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="name">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="disabled">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                        <attribute name="type" value="password">
+                            <domain type="" />
+                        </attribute>
+                        <attribute name="defaultValue">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="size">
+                            <domain name="Positive Integer" type="text" />
+                        </attribute>
+                        <attribute name="maxLength">
+                            <domain name="Positive Integer" type="pinteger" />
+                        </attribute>
+                        <attribute name="readOnly" value="false">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <subclasses />
+                </class>
+                <class name="file">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="name">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="disabled">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                        <attribute name="type" value="file">
+                            <domain type="" />
+                        </attribute>
+                        <attribute name="size">
+                            <domain name="Positive Integer" type="pinteger" />
+                        </attribute>
+                        <attribute name="maxLength">
+                            <domain name="Positive Integer" type="pinteger" />
+                        </attribute>
+                        <attribute name="readOnly" value="false">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <subclasses />
+                </class>
+                <class name="hidden">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="name">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="disabled">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                        <attribute name="type" value="hidden">
+                            <domain type="" />
+                        </attribute>
+                        <attribute name="type" value="button">
+                            <domain type="" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <subclasses />
+                </class>
+                <class name="checkbox">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="name">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="disabled">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                        <attribute name="type" value="checkbox">
+                            <domain type="" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <subclasses />
+                </class>
+                <class name="radio">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="name">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="disabled">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                        <attribute name="type" value="radio">
+                            <domain type="" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <subclasses />
+                </class>
+                <class name="select">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="name">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="disabled">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                        <attribute name="type" value="select">
+                            <domain type="" />
+                        </attribute>
+                        <attribute name="size">
+                            <domain name="Positive Integer" type="pinteger" />
+                        </attribute>
+                        <attribute name="multiple" value="false">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <subclasses />
+                </class>
+                <class name="textarea">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="name">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="disabled">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                        <attribute name="type" value="textarea">
+                            <domain type="" />
+                        </attribute>
+                        <attribute name="defaultValue">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="rows">
+                            <domain name="Positive Integer" type="pinteger" />
+                        </attribute>
+                        <attribute name="cols">
+                            <domain name="Positive Integer" type="pinteger" />
+                        </attribute>
+                        <attribute name="readOnly" value="false">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <subclasses />
+                </class>
+                <class name="button">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="name">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="disabled">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <subclasses />
+                </class>
+                <class name="submit">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="name">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="disabled">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                        <attribute name="type" value="submit">
+                            <domain type="" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <subclasses />
+                </class>
+                <class name="reset">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="name">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="disabled">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                        <attribute name="type" value="reset">
+                            <domain type="" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <subclasses />
+                </class>
+                <class name="image">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="name">
+                            <domain name="Text" type="text" />
+                        </attribute>
+                        <attribute name="disabled">
+                            <domain name="Boolean" type="boolean" />
+                        </attribute>
+                        <attribute name="type" value="image">
+                            <domain type="" />
+                        </attribute>
+                        <attribute name="src">
+                            <domain name="URL" type="url" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <subclasses />
+                </class>
+            </subclasses>
+        </class>
+        <class name="composition">
+            <domain type="" />
+            <attributes>
+                <attribute name="name" value="">
+                    <domain type="" />
+                </attribute>
+            </attributes>
+            <axioms />
+            <subclasses>
+                <class name="decomposition">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="name">
+                            <domain type="" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <subclasses />
+                </class>
+                <class name="group">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="name">
+                            <domain type="" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <subclasses />
+                </class>
+            </subclasses>
+        </class>
+    </classes>
+    <terms>
+        <term id="7582444542526817888" name="http://www.rentdirect.co.il/reservationsENG/RentalDetail.asp" class="page">
+            <domain type="" />
+            <attributes />
+            <axioms />
+            <relationships>
+                <relationship name="is parent of">
+                    <source>http://www.rentdirect.co.il/reservationsENG/RentalDetail.asp</source>
+                    <targets>RentalDetail</targets>
+                </relationship>
+            </relationships>
+            <subterms>
+                <term id="2773044711352452250" name="RentalDetail" class="form">
+                    <domain type="" />
+                    <attributes>
+                        <attribute name="method" value="post">
+                            <domain name="Choice" type="choice">
+                                <entry>post</entry>
+                                <entry>get</entry>
+                            </domain>
+                        </attribute>
+                        <attribute name="action" value="http://www.rentdirect.co.il/reservationsENG/WriteRentalDetail.asp">
+                            <domain name="URL" type="url" />
+                        </attribute>
+                    </attributes>
+                    <axioms />
+                    <relationships>
+                        <relationship name="is child of">
+                            <source>RentalDetail</source>
+                            <targets>http://www.rentdirect.co.il/reservationsENG/RentalDetail.asp</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>RentalDetail</source>
+                            <targets>WhichComboPress</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>RentalDetail</source>
+                            <targets>EngHeb1</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>RentalDetail</source>
+                            <targets>EngHeb2</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>RentalDetail</source>
+                            <targets>PicUpRCompany</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>RentalDetail</source>
+                            <targets>ReturnRCompany</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>RentalDetail</source>
+                            <targets />
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>RentalDetail</source>
+                            <targets>PBranchAddr</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>RentalDetail</source>
+                            <targets>* Date:</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>RentalDetail</source>
+                            <targets />
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>RentalDetail</source>
+                            <targets>SavePicUpTime</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>RentalDetail</source>
+                            <targets />
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>RentalDetail</source>
+                            <targets>RBranchAddr</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>RentalDetail</source>
+                            <targets>* Date:</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>RentalDetail</source>
+                            <targets />
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>RentalDetail</source>
+                            <targets>SaveReturnTime</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>RentalDetail</source>
+                            <targets>No. of days:</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>RentalDetail</source>
+                            <targets>Driver's age</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>RentalDetail</source>
+                            <targets>Code of airline:</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>RentalDetail</source>
+                            <targets>Flight No.:</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>RentalDetail</source>
+                            <targets>SaveHOUR1</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>RentalDetail</source>
+                            <targets>Remarks</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>RentalDetail</source>
+                            <targets>* Country:</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>RentalDetail</source>
+                            <targets>* Location:</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>RentalDetail</source>
+                            <targets>* Date:</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>RentalDetail</source>
+                            <targets>* Country:</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>RentalDetail</source>
+                            <targets>* Location:</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>RentalDetail</source>
+                            <targets>* Date:</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>RentalDetail</source>
+                            <targets>Landing time:</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>RentalDetail</source>
+                            <targets>* Location:</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>RentalDetail</source>
+                            <targets>* Date:</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>RentalDetail</source>
+                            <targets>* Country:</targets>
+                        </relationship>
+                        <relationship name="is parent of">
+                            <source>RentalDetail</source>
+                            <targets />
+                        </relationship>
+                    </relationships>
+                    <subterms>
+                        <term id="3455541505907971496" name="WhichComboPress" value="" class="hidden">
+                            <domain type="" />
+                            <attributes>
+                                <attribute name="name" value="WhichComboPress">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>WhichComboPress</source>
+                                    <targets>RentalDetail</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="19588207150053401" name="EngHeb1" value="" class="hidden">
+                            <domain type="" />
+                            <attributes>
+                                <attribute name="name" value="EngHeb1">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>EngHeb1</source>
+                                    <targets>RentalDetail</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="5356275732837061297" name="EngHeb2" value="" class="hidden">
+                            <domain type="" />
+                            <attributes>
+                                <attribute name="name" value="EngHeb2">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>EngHeb2</source>
+                                    <targets>RentalDetail</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="7589805437523112500" name="PicUpRCompany" value="NoRent" class="hidden">
+                            <domain type="" />
+                            <attributes>
+                                <attribute name="name" value="PicUpRCompany">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>PicUpRCompany</source>
+                                    <targets>RentalDetail</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="7728503428588328445" name="ReturnRCompany" value="NoRent" class="hidden">
+                            <domain type="" />
+                            <attributes>
+                                <attribute name="name" value="ReturnRCompany">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>ReturnRCompany</source>
+                                    <targets>RentalDetail</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="6074768672082054140" name="" class="group">
+                            <domain type="" />
+                            <attributes>
+                                <attribute name="name" value="__Composition_">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is parent of">
+                                    <source />
+                                    <targets />
+                                </relationship>
+                                <relationship name="is parent of">
+                                    <source />
+                                    <targets />
+                                </relationship>
+                                <relationship name="is parent of">
+                                    <source />
+                                    <targets />
+                                </relationship>
+                                <relationship name="is parent of">
+                                    <source />
+                                    <targets />
+                                </relationship>
+                                <relationship name="is child of">
+                                    <source />
+                                    <targets>RentalDetail</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms>
+                                <term id="6608461180064260841" name="" class="button">
+                                    <domain type="" />
+                                    <attributes>
+                                        <attribute name="name" value="aaa">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="disabled" value="false">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                    </attributes>
+                                    <axioms />
+                                    <relationships>
+                                        <relationship name="is child of">
+                                            <source />
+                                            <targets>RentalDetail</targets>
+                                        </relationship>
+                                        <relationship name="is child of">
+                                            <source />
+                                            <targets />
+                                        </relationship>
+                                    </relationships>
+                                    <subterms />
+                                </term>
+                                <term id="8309088332331695841" name="" class="button">
+                                    <domain type="" />
+                                    <attributes>
+                                        <attribute name="name" value="PDateBtn">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="disabled" value="false">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                    </attributes>
+                                    <axioms />
+                                    <relationships>
+                                        <relationship name="is child of">
+                                            <source />
+                                            <targets>RentalDetail</targets>
+                                        </relationship>
+                                        <relationship name="is child of">
+                                            <source />
+                                            <targets />
+                                        </relationship>
+                                    </relationships>
+                                    <subterms />
+                                </term>
+                                <term id="4003389872003183335" name="" class="button">
+                                    <domain type="" />
+                                    <attributes>
+                                        <attribute name="name" value="button2">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="disabled" value="false">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                    </attributes>
+                                    <axioms />
+                                    <relationships>
+                                        <relationship name="is child of">
+                                            <source />
+                                            <targets>RentalDetail</targets>
+                                        </relationship>
+                                        <relationship name="is child of">
+                                            <source />
+                                            <targets />
+                                        </relationship>
+                                    </relationships>
+                                    <subterms />
+                                </term>
+                                <term id="554960911864718381" name="" class="button">
+                                    <domain type="" />
+                                    <attributes>
+                                        <attribute name="name" value="RDateBtn">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="disabled" value="false">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                    </attributes>
+                                    <axioms />
+                                    <relationships>
+                                        <relationship name="is child of">
+                                            <source />
+                                            <targets>RentalDetail</targets>
+                                        </relationship>
+                                        <relationship name="is child of">
+                                            <source />
+                                            <targets />
+                                        </relationship>
+                                    </relationships>
+                                    <subterms />
+                                </term>
+                            </subterms>
+                        </term>
+                        <term id="8582127051169489089" name="PBranchAddr" value="" class="hidden">
+                            <domain type="" />
+                            <attributes>
+                                <attribute name="name" value="PBranchAddr">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>PBranchAddr</source>
+                                    <targets>RentalDetail</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="3906098805949570626" name="* Date:" class="group">
+                            <domain type="" />
+                            <attributes>
+                                <attribute name="name" value="_Date__Composition_">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is parent of">
+                                    <source>* Date:</source>
+                                    <targets>* Date:</targets>
+                                </relationship>
+                                <relationship name="is parent of">
+                                    <source>* Date:</source>
+                                    <targets>* Date:</targets>
+                                </relationship>
+                                <relationship name="is parent of">
+                                    <source>* Date:</source>
+                                    <targets>* Date:</targets>
+                                </relationship>
+                                <relationship name="is parent of">
+                                    <source>* Date:</source>
+                                    <targets>* Date:</targets>
+                                </relationship>
+                                <relationship name="is child of">
+                                    <source>* Date:</source>
+                                    <targets>RentalDetail</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms>
+                                <term id="3629015488623178390" name="* Date:" value="19/06/2006" class="text">
+                                    <domain name="Text" type="text" />
+                                    <attributes>
+                                        <attribute name="name" value="PicUpFullDate">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="disabled" value="false">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                        <attribute name="type">
+                                            <domain type="" />
+                                        </attribute>
+                                        <attribute name="defaultValue" value="19/06/2006">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="value">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="size" value="9">
+                                            <domain name="Positive Integer" type="pinteger" />
+                                        </attribute>
+                                        <attribute name="maxLength">
+                                            <domain name="Positive Integer" type="pinteger" />
+                                        </attribute>
+                                        <attribute name="readOnly" value="true">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                    </attributes>
+                                    <axioms />
+                                    <relationships>
+                                        <relationship name="is child of">
+                                            <source>* Date:</source>
+                                            <targets>RentalDetail</targets>
+                                        </relationship>
+                                        <relationship name="is child of">
+                                            <source>* Date:</source>
+                                            <targets>* Date:</targets>
+                                        </relationship>
+                                    </relationships>
+                                    <subterms />
+                                </term>
+                                <term id="6126072271222861543" name="* Date:" value="22/06/2006" class="text">
+                                    <domain name="Text" type="text" />
+                                    <attributes>
+                                        <attribute name="name" value="ReturnFullDate">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="disabled" value="false">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                        <attribute name="type">
+                                            <domain type="" />
+                                        </attribute>
+                                        <attribute name="defaultValue" value="22/06/2006">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="value">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="size" value="9">
+                                            <domain name="Positive Integer" type="pinteger" />
+                                        </attribute>
+                                        <attribute name="maxLength">
+                                            <domain name="Positive Integer" type="pinteger" />
+                                        </attribute>
+                                        <attribute name="readOnly" value="true">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                    </attributes>
+                                    <axioms />
+                                    <relationships>
+                                        <relationship name="is child of">
+                                            <source>* Date:</source>
+                                            <targets>RentalDetail</targets>
+                                        </relationship>
+                                        <relationship name="is child of">
+                                            <source>* Date:</source>
+                                            <targets>* Date:</targets>
+                                        </relationship>
+                                    </relationships>
+                                    <subterms />
+                                </term>
+                                <term id="3487415796647541282" name="* Date:" value="" class="select">
+                                    <domain name="Choice" type="choice" />
+                                    <attributes>
+                                        <attribute name="name" value="PicUpTime">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="disabled" value="false">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                        <attribute name="type">
+                                            <domain type="" />
+                                        </attribute>
+                                        <attribute name="size">
+                                            <domain name="Positive Integer" type="pinteger" />
+                                        </attribute>
+                                        <attribute name="multiple">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                    </attributes>
+                                    <axioms>
+                                        <axiom name="onChange">CalcDateDiff(1)</axiom>
+                                    </axioms>
+                                    <relationships>
+                                        <relationship name="is child of">
+                                            <source>* Date:</source>
+                                            <targets>RentalDetail</targets>
+                                        </relationship>
+                                        <relationship name="is child of">
+                                            <source>* Date:</source>
+                                            <targets>* Date:</targets>
+                                        </relationship>
+                                    </relationships>
+                                    <subterms />
+                                </term>
+                                <term id="2113521006114086217" name="* Date:" value="" class="select">
+                                    <domain name="Choice" type="choice" />
+                                    <attributes>
+                                        <attribute name="name" value="ReturnTime">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="disabled" value="false">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                        <attribute name="type">
+                                            <domain type="" />
+                                        </attribute>
+                                        <attribute name="size">
+                                            <domain name="Positive Integer" type="pinteger" />
+                                        </attribute>
+                                        <attribute name="multiple">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                    </attributes>
+                                    <axioms>
+                                        <axiom name="onChange">CalcDateDiff(2)</axiom>
+                                    </axioms>
+                                    <relationships>
+                                        <relationship name="is child of">
+                                            <source>* Date:</source>
+                                            <targets>RentalDetail</targets>
+                                        </relationship>
+                                        <relationship name="is child of">
+                                            <source>* Date:</source>
+                                            <targets>* Date:</targets>
+                                        </relationship>
+                                    </relationships>
+                                    <subterms />
+                                </term>
+                            </subterms>
+                        </term>
+                        <term id="9109755950834058927" name="SavePicUpTime" value="" class="hidden">
+                            <domain type="" />
+                            <attributes>
+                                <attribute name="name" value="SavePicUpTime">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>SavePicUpTime</source>
+                                    <targets>RentalDetail</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="5405808535508259580" name="RBranchAddr" value="" class="hidden">
+                            <domain type="" />
+                            <attributes>
+                                <attribute name="name" value="RBranchAddr">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>RBranchAddr</source>
+                                    <targets>RentalDetail</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="8443898486956337471" name="SaveReturnTime" value="" class="hidden">
+                            <domain type="" />
+                            <attributes>
+                                <attribute name="name" value="SaveReturnTime">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>SaveReturnTime</source>
+                                    <targets>RentalDetail</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="6958836124372428248" name="No. of days:" value="3" class="text">
+                            <domain name="Text" type="text" />
+                            <attributes>
+                                <attribute name="name" value="TotalDays">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="defaultValue" value="3">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="value">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="size" value="8">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="maxLength">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="readOnly" value="true">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>No. of days:</source>
+                                    <targets>RentalDetail</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="1525519024535923010" name="Driver's age" value="" class="text">
+                            <domain name="Text" type="text" />
+                            <attributes>
+                                <attribute name="name" value="ChooseAge">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="defaultValue" value="">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="value">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="size" value="8">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="maxLength">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="readOnly" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>Driver's age</source>
+                                    <targets>RentalDetail</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="5704759132937559709" name="Code of airline:" value="" class="text">
+                            <domain name="Text" type="text" />
+                            <attributes>
+                                <attribute name="name" value="FlightCo">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="defaultValue" value="">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="value">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="size" value="27">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="maxLength" value="19">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="readOnly" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>Code of airline:</source>
+                                    <targets>RentalDetail</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="3526567825637335774" name="Flight No.:" value="" class="text">
+                            <domain name="Text" type="text" />
+                            <attributes>
+                                <attribute name="name" value="FlightNo">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="defaultValue" value="">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="value">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="size" value="27">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="maxLength" value="7">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="readOnly" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>Flight No.:</source>
+                                    <targets>RentalDetail</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="9170242441772917671" name="SaveHOUR1" value="" class="hidden">
+                            <domain type="" />
+                            <attributes>
+                                <attribute name="name" value="SaveHOUR1">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>SaveHOUR1</source>
+                                    <targets>RentalDetail</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="7217413290489231458" name="Remarks" value="" class="textarea">
+                            <domain name="Text" type="text" />
+                            <attributes>
+                                <attribute name="name" value="Note">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="defaultValue" value="">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="rows">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="cols">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="readOnly" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>Remarks</source>
+                                    <targets>RentalDetail</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                        <term id="2173880860303088892" name="* Location:" class="group">
+                            <domain type="" />
+                            <attributes>
+                                <attribute name="name" value="_Location__Composition_">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is parent of">
+                                    <source>* Location:</source>
+                                    <targets>* Location:</targets>
+                                </relationship>
+                                <relationship name="is parent of">
+                                    <source>* Location:</source>
+                                    <targets>* Location:</targets>
+                                </relationship>
+                                <relationship name="is child of">
+                                    <source>* Location:</source>
+                                    <targets>RentalDetail</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms>
+                                <term id="2751393463169869917" name="* Location:" value="NoBranch" class="select">
+                                    <domain name="Text" type="text">
+                                        <entry>
+                                            <term id="636978455939751799" name="Select Pick Up Location" value="NoBranch">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="true">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="true">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                    </domain>
+                                    <attributes>
+                                        <attribute name="name" value="PicUpBranch">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="disabled" value="false">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                        <attribute name="type">
+                                            <domain type="" />
+                                        </attribute>
+                                        <attribute name="size">
+                                            <domain name="Positive Integer" type="pinteger" />
+                                        </attribute>
+                                        <attribute name="multiple">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                    </attributes>
+                                    <axioms />
+                                    <relationships>
+                                        <relationship name="is child of">
+                                            <source>* Location:</source>
+                                            <targets>RentalDetail</targets>
+                                        </relationship>
+                                        <relationship name="is child of">
+                                            <source>* Location:</source>
+                                            <targets>* Location:</targets>
+                                        </relationship>
+                                    </relationships>
+                                    <subterms />
+                                </term>
+                                <term id="4381784096840114010" name="* Location:" value="NoBranch" class="select">
+                                    <domain name="Text" type="text">
+                                        <entry>
+                                            <term id="7590851650840419728" name="Select Drop Off Location" value="NoBranch">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="true">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="true">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                    </domain>
+                                    <attributes>
+                                        <attribute name="name" value="ReturnBranch">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="disabled" value="false">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                        <attribute name="type">
+                                            <domain type="" />
+                                        </attribute>
+                                        <attribute name="size">
+                                            <domain name="Positive Integer" type="pinteger" />
+                                        </attribute>
+                                        <attribute name="multiple">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                    </attributes>
+                                    <axioms />
+                                    <relationships>
+                                        <relationship name="is child of">
+                                            <source>* Location:</source>
+                                            <targets>RentalDetail</targets>
+                                        </relationship>
+                                        <relationship name="is child of">
+                                            <source>* Location:</source>
+                                            <targets>* Location:</targets>
+                                        </relationship>
+                                    </relationships>
+                                    <subterms />
+                                </term>
+                            </subterms>
+                        </term>
+                        <term id="1937768719527538307" name="* Country:" class="group">
+                            <domain type="" />
+                            <attributes>
+                                <attribute name="name" value="_Country__Composition_">
+                                    <domain type="" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is parent of">
+                                    <source>* Country:</source>
+                                    <targets>* Country:</targets>
+                                </relationship>
+                                <relationship name="is parent of">
+                                    <source>* Country:</source>
+                                    <targets>* Country:</targets>
+                                </relationship>
+                                <relationship name="is child of">
+                                    <source>* Country:</source>
+                                    <targets>RentalDetail</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms>
+                                <term id="9149546432175901676" name="* Country:" value="NoState" class="select">
+                                    <domain name="Text" type="text">
+                                        <entry>
+                                            <term id="2191028715694829893" name="Select Country" value="NoState">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="true">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="true">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="4198800529572624979" name="ARGENTINA" value="52@0@ARGENTINA      ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="5697209293998100871" name="AUSTRALIA-METRO" value="49@0@AUSTRALIA-METRO">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="4927486613664322726" name="AUSTRALIA-REMOT" value="14@0@AUSTRALIA-REMOT">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="4383156255298098816" name="AUSTRIA" value="1@20@AUSTRIA        ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="6314611613093795509" name="BELGIUM" value="29@21@BELGIUM        ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="5389484073963764265" name="BRAZIL" value="53@0@BRAZIL         ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="3177354961565569222" name="BULGARIA" value="31@20@BULGARIA       ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="2072383642410772168" name="CANADA" value="22@20@CANADA         ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="1682530174156648712" name="CANARIES" value="36@13@CANARIES       ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="1418337599665238831" name="CHILE" value="55@0@CHILE          ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="6172213370085066754" name="COSTA RICA" value="54@0@COSTA RICA     ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="8986306182473694676" name="CROATIA" value="23@22@CROATIA        ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="3050522538848426430" name="CYPRUS" value="13@15@CYPRUS         ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="1418804118459901704" name="CZECH" value="8@19@CZECH          ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="7372407708151585468" name="DENMARK" value="33@25@DENMARK        ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="4523143559090104072" name="FINLAND" value="51@0@FINLAND        ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="7097145650150852712" name="FRANCE" value="15@19.6@FRANCE         ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="8879614811399001363" name="GERMANY" value="16@16@GERMANY        ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="2488039384195041081" name="GREECE" value="12@18@GREECE         ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="4599045463841923190" name="HOLLAND" value="18@19@HOLLAND        ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="3803667660377414270" name="HUNGARY" value="24@25@HUNGARY        ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="3959031093389718565" name="IRELAND" value="4@21@IRELAND        ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="245505842768187317" name="ITALY" value="17@17.5@ITALY          ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="7242435475275549010" name="MEXICO" value="50@15@MEXICO         ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="7663163729650415446" name="NEW ZEALAND" value="38@0@NEW ZEALAND    ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="2591065203116785292" name="NORWAY" value="39@0@NORWAY         ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="4990585992607561380" name="POLAND" value="40@19@POLAND         ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="6669181375846663114" name="PORTUGAL" value="26@19@PORTUGAL       ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="987120750586777617" name="ROMANIA" value="35@19@ROMANIA        ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="3246581349124116347" name="SLOVENIA" value="28@20@SLOVENIA       ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="2256011708635329584" name="SOUTH AFRICA" value="48@0@SOUTH AFRICA   ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="8376260928192643967" name="SPAIN-IBIZA" value="30@0@SPAIN-IBIZA    ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="8944299732621255399" name="SPAIN" value="10@16@SPAIN          ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="5490763317146070301" name="SWEDEN" value="25@25@SWEDEN         ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="6047178413191116442" name="SWISS" value="9@7.6@SWISS          ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="8343449901630174907" name="TURKEY" value="27@18@TURKEY         ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="7483593592822032290" name="UK" value="19@17.5@UK             ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="8430297528323418945" name="USA-ALASKA" value="46@0@USA-ALASKA     ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="5130824652643381069" name="USA-EAST" value="42@0@USA-EAST       ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="4152149484628605082" name="USA-FLORIDA" value="47@0@USA-FLORIDA    ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="1830972716887848714" name="USA-NEWARK" value="45@0@USA-NEWARK     ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="8296402297456986314" name="USA-NY CITY" value="44@0@USA-NY CITY    ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="6393263211520318604" name="USA-REST" value="43@0@USA-REST       ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="3617190237841197189" name="USA-WEST" value="41@0@USA-WEST       ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                    </domain>
+                                    <attributes>
+                                        <attribute name="name" value="PicUpCountry">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="disabled" value="false">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                        <attribute name="type">
+                                            <domain type="" />
+                                        </attribute>
+                                        <attribute name="size">
+                                            <domain name="Positive Integer" type="pinteger" />
+                                        </attribute>
+                                        <attribute name="multiple">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                    </attributes>
+                                    <axioms>
+                                        <axiom name="onChange">FillRecord(1)</axiom>
+                                    </axioms>
+                                    <relationships>
+                                        <relationship name="is child of">
+                                            <source>* Country:</source>
+                                            <targets>RentalDetail</targets>
+                                        </relationship>
+                                        <relationship name="is child of">
+                                            <source>* Country:</source>
+                                            <targets>* Country:</targets>
+                                        </relationship>
+                                    </relationships>
+                                    <subterms />
+                                </term>
+                                <term id="5257737664716543505" name="* Country:" value="NoState" class="select">
+                                    <domain name="Text" type="text">
+                                        <entry>
+                                            <term id="1919090716194183526" name="Select Country" value="NoState">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="true">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="true">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="2133370491549946385" name="ARGENTINA" value="52@0@ARGENTINA      ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="4552958109923608108" name="AUSTRALIA-METRO" value="49@0@AUSTRALIA-METRO">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="148430575228778309" name="AUSTRALIA-REMOT" value="14@0@AUSTRALIA-REMOT">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="5143484261048073773" name="AUSTRIA" value="1@20@AUSTRIA        ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="7087135355824287277" name="BELGIUM" value="29@21@BELGIUM        ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="6273676476749783159" name="BRAZIL" value="53@0@BRAZIL         ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="8996681707341355530" name="BULGARIA" value="31@20@BULGARIA       ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="7401437263788044136" name="CANADA" value="22@20@CANADA         ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="5065569963404779438" name="CANARIES" value="36@13@CANARIES       ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="6074803007168676766" name="CHILE" value="55@0@CHILE          ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="4494900828841816235" name="COSTA RICA" value="54@0@COSTA RICA     ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="6391585332691036594" name="CROATIA" value="23@22@CROATIA        ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="2240177513786784006" name="CYPRUS" value="13@15@CYPRUS         ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="5478128534746499093" name="CZECH" value="8@19@CZECH          ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="7330617453264185882" name="DENMARK" value="33@25@DENMARK        ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="7134219673992111909" name="FINLAND" value="51@0@FINLAND        ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="5094575363525763831" name="FRANCE" value="15@19.6@FRANCE         ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="1670230235413548558" name="GERMANY" value="16@16@GERMANY        ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="8283847106098247992" name="GREECE" value="12@18@GREECE         ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="5902742006104801678" name="HOLLAND" value="18@19@HOLLAND        ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="4113830115011914446" name="HUNGARY" value="24@25@HUNGARY        ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="2706863108461000864" name="IRELAND" value="4@21@IRELAND        ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="7488541306865571527" name="ITALY" value="17@17.5@ITALY          ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="1242834069975240454" name="MEXICO" value="50@15@MEXICO         ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="975619863344139689" name="NEW ZEALAND" value="38@0@NEW ZEALAND    ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="6416246120415607555" name="NORWAY" value="39@0@NORWAY         ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="847862884747409811" name="POLAND" value="40@19@POLAND         ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="3383507664697418814" name="PORTUGAL" value="26@19@PORTUGAL       ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="1470494206095428911" name="ROMANIA" value="35@19@ROMANIA        ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="1827124848546838463" name="SLOVENIA" value="28@20@SLOVENIA       ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="3083024886004166139" name="SOUTH AFRICA" value="48@0@SOUTH AFRICA   ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="6904309342884279311" name="SPAIN-IBIZA" value="30@0@SPAIN-IBIZA    ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="8691818075054449354" name="SPAIN" value="10@16@SPAIN          ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="7396171903271817282" name="SWEDEN" value="25@25@SWEDEN         ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="6393165316986691995" name="SWISS" value="9@7.6@SWISS          ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="5474924307591567206" name="TURKEY" value="27@18@TURKEY         ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="8377815880278037039" name="UK" value="19@17.5@UK             ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="6234212702479232736" name="USA-ALASKA" value="46@0@USA-ALASKA     ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="4544154401863943943" name="USA-EAST" value="42@0@USA-EAST       ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="6129965250169447541" name="USA-FLORIDA" value="47@0@USA-FLORIDA    ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="9043730779006794583" name="USA-NEWARK" value="45@0@USA-NEWARK     ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="6199142425509080139" name="USA-NY CITY" value="44@0@USA-NY CITY    ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="5629034471933339563" name="USA-REST" value="43@0@USA-REST       ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                        <entry>
+                                            <term id="5391456331735458171" name="USA-WEST" value="41@0@USA-WEST       ">
+                                                <domain type="" />
+                                                <attributes>
+                                                    <attribute name="selected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                    <attribute name="defaultSelected" value="false">
+                                                        <domain type="" />
+                                                    </attribute>
+                                                </attributes>
+                                                <axioms />
+                                                <relationships />
+                                                <subterms />
+                                            </term>
+                                        </entry>
+                                    </domain>
+                                    <attributes>
+                                        <attribute name="name" value="ReturnCountry">
+                                            <domain name="Text" type="text" />
+                                        </attribute>
+                                        <attribute name="disabled" value="false">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                        <attribute name="type">
+                                            <domain type="" />
+                                        </attribute>
+                                        <attribute name="size">
+                                            <domain name="Positive Integer" type="pinteger" />
+                                        </attribute>
+                                        <attribute name="multiple">
+                                            <domain name="Boolean" type="boolean" />
+                                        </attribute>
+                                    </attributes>
+                                    <axioms>
+                                        <axiom name="onChange">FillRecord1(2)</axiom>
+                                    </axioms>
+                                    <relationships>
+                                        <relationship name="is child of">
+                                            <source>* Country:</source>
+                                            <targets>RentalDetail</targets>
+                                        </relationship>
+                                        <relationship name="is child of">
+                                            <source>* Country:</source>
+                                            <targets>* Country:</targets>
+                                        </relationship>
+                                    </relationships>
+                                    <subterms />
+                                </term>
+                            </subterms>
+                        </term>
+                        <term id="1941409783026644601" name="Landing time:" value="" class="select">
+                            <domain name="Choice" type="choice" />
+                            <attributes>
+                                <attribute name="name" value="HOUR1">
+                                    <domain name="Text" type="text" />
+                                </attribute>
+                                <attribute name="disabled" value="false">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                                <attribute name="type">
+                                    <domain type="" />
+                                </attribute>
+                                <attribute name="size">
+                                    <domain name="Positive Integer" type="pinteger" />
+                                </attribute>
+                                <attribute name="multiple">
+                                    <domain name="Boolean" type="boolean" />
+                                </attribute>
+                            </attributes>
+                            <axioms />
+                            <relationships>
+                                <relationship name="is child of">
+                                    <source>Landing time:</source>
+                                    <targets>RentalDetail</targets>
+                                </relationship>
+                            </relationships>
+                            <subterms />
+                        </term>
+                    </subterms>
+                </term>
+            </subterms>
+        </term>
+    </terms>
+</ontology>
+

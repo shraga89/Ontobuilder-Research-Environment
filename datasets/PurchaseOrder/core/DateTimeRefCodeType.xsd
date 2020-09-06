@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" targetNamespace="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" elementFormDefault="qualified">
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+            XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.
+            Permission is granted to use, copy, modify and distribute the
+            DTD's, schemas and modules in the Commerce One XML Common Business
+            Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleType name="DateTimeRefCodeType">
+        <xsd:annotation>
+            <xsd:documentation>This code references to a point in time. This code list is derived from EDIFACT 2475 (Payment time reference code) and X12 333 (Term basis date code)</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:NMTOKEN">
+            <xsd:enumeration value="Other">
+                <xsd:annotation>
+                    <xsd:documentation>Custom Code</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="AnticipatedDeliveryDate">
+                <xsd:annotation>
+                    <xsd:documentation>The date on which delivery is anticipated to take place.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ApprovalOfGageDate">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ApprovalOfSampleDate">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CompletionAndAcceptanceDate">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CustomsClearanceDateExport">
+                <xsd:annotation>
+                    <xsd:documentation>Date when goods clear Customs in the exporting country.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CustomsClearanceDateImport">
+                <xsd:annotation>
+                    <xsd:documentation>Date when goods clear Customs in the importing country.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DateCreditNoteReceived">
+                <xsd:annotation>
+                    <xsd:documentation>Payment time reference is date of credit note received.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DateExWorks">
+                <xsd:annotation>
+                    <xsd:documentation>Payment time reference is date when goods are leaving the sellers factory.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DateGoodsHandedOverForShipmentBySellerOrAgent">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DateGoodsReceivedByBuyer">
+                <xsd:annotation>
+                    <xsd:documentation>Payment time reference is date when goods are received by buyer.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DateGoodsReceivedByBuyersAgent">
+                <xsd:annotation>
+                    <xsd:documentation>Payment time reference is date when goods are received by buyer's agent.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DateGoodsReceivedByCarrier">
+                <xsd:annotation>
+                    <xsd:documentation>Payment time reference is date when goods are received by carrier.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DateInvoiceReceived">
+                <xsd:annotation>
+                    <xsd:documentation>Payment time reference is date of invoice received.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DateOfAcceptanceOfFirstSamplesProducedUnderProductionConditions">
+                <xsd:annotation>
+                    <xsd:documentation>Payment time reference is date of acceptance of first samples produced under production conditions.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DateOfAcceptanceOfNegotiableInstrument">
+                <xsd:annotation>
+                    <xsd:documentation>Date when the negotiable instrument is accepted or will be accepted by drawee.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DateOfAcceptanceOfTooling">
+                <xsd:annotation>
+                    <xsd:documentation>Payment time reference is date of acceptance of tooling or set of tooling.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DateOfArrivalOfTransport">
+                <xsd:annotation>
+                    <xsd:documentation>Date the transport arrived at the agreed destination.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DateOfBillOfLadingConsignmentNoteOrOtherTransportDocument">
+                <xsd:annotation>
+                    <xsd:documentation>The date of issuance of a bill of lading, consignment note or similar transport document.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DateOfCertificateOfFinalAcceptance">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DateOfCertificateOfPreliminaryAcceptance">
+                <xsd:annotation>
+                    <xsd:documentation>Date of certificate of temporary acceptance of work until final reception will take place.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DateOfConfirmation">
+                <xsd:annotation>
+                    <xsd:documentation>Payment time reference is date of confirmation.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DateOfConfirmationOfOrderReceived">
+                <xsd:annotation>
+                    <xsd:documentation>Payment time reference is date of confirmation received.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DateOfContract">
+                <xsd:annotation>
+                    <xsd:documentation>Payment time reference is date of contract.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DateOfCreditNote">
+                <xsd:annotation>
+                    <xsd:documentation>Payment time reference is date of credit note.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DeliveryDate">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DateOfDeliveryOfGoodsToEstablishmentsDomicileSite">
+                <xsd:annotation>
+                    <xsd:documentation>Date the goods are delivered at agreed place of destination.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DateOfDeliveryToBuyerOfDocumentsRepresentingGoods">
+                <xsd:annotation>
+                    <xsd:documentation>Date when documents representing goods are received by buyer .</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DateOfDeliveryToBuyersAgentOfDocumentsRepresentingGoods">
+                <xsd:annotation>
+                    <xsd:documentation>Date when documents representing goods are received by buyer's agent.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DateOfDeliveryToCarrierOfDocumentsRepresentingGoods">
+                <xsd:annotation>
+                    <xsd:documentation>Date when documents representing goods are received by carrier.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DateOfDeliveryToIntermediaryBankOfDocumentsRepresentingGood">
+                <xsd:annotation>
+                    <xsd:documentation>Date when documents representing goods are received by intermediary bank.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DateOfEndOfWork">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DateOfFinalAcceptanceOfWork">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DateOfInvoice">
+                <xsd:annotation>
+                    <xsd:documentation>Payment time reference is date of invoice.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DateOfInwardFrontierCrossing">
+                <xsd:annotation>
+                    <xsd:documentation>Date the goods are crossing the border of the importers country.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DateOfIssueOfTransportDocument">
+                <xsd:annotation>
+                    <xsd:documentation>The date on which a transport document(s) is issued.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DateOfNegotiableInstrumentDraftPromissoryNoteBank">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DateOfOrder">
+                <xsd:annotation>
+                    <xsd:documentation>Payment time reference is date of order.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DateOfOutwardFrontierCrossing">
+                <xsd:annotation>
+                    <xsd:documentation>Date the goods are crossing the border of the exporters country.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DateOfPresentationOfDocuments">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DateOfPresentationOfNegotiableInstrument">
+                <xsd:annotation>
+                    <xsd:documentation>Date when the negotiable instrument is presented or will be presented to will be presented to drawee.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DateOfPresentDocument">
+                <xsd:annotation>
+                    <xsd:documentation>Payment time reference is date of present document.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DateOfProvisionalReceptionOfWork">
+                <xsd:annotation>
+                    <xsd:documentation>Date of temporary acceptance of work until final reception will take place.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DateOfReceiptForLoadingMatesReceipt">
+                <xsd:annotation>
+                    <xsd:documentation>Date when goods are expedited to a ship confirmed by mate's received.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DateOfReceiptOfToolDependentInitialSamplesPlusUnlimitedAbsoluteBankGuaranteePlusValueAddedTax">
+                <xsd:annotation>
+                    <xsd:documentation>Payment time reference is date of receipt of tool dependent initial samples and unlimited absolute bank guarantee of a third party, who is liable to the full amount of the tooling (which is owned by the customer).</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DateOfReceiptOfTooling">
+                <xsd:annotation>
+                    <xsd:documentation>Payment time reference is date of receipt of tooling or set of tooling.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DateOfResaleByBuyer">
+                <xsd:annotation>
+                    <xsd:documentation>Payment time reference is date of resale by the buyer.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DateOfSalaryPayment">
+                <xsd:annotation>
+                    <xsd:documentation>Date when a salary payment was made.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ShipDate">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DateOfShipmentAsEvidencedByTheTransportDocument">
+                <xsd:annotation>
+                    <xsd:documentation>Date of shipment as evidenced by the transport document(s).</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DateOfSignatureOfContract">
+                <xsd:annotation>
+                    <xsd:documentation>Payment time reference is date of signature of contract.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DateOfStartOfWork">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DatePresentDocumentReceived">
+                <xsd:annotation>
+                    <xsd:documentation>Payment time reference is date of present document received.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DateProceedsOfResaleCollectedByBuyer">
+                <xsd:annotation>
+                    <xsd:documentation>Payment time reference is date of resale proceeds are collected by buyer. "buyer" is a retailer. Retailer will pay his supplier when having sold goods and money received.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DraftAtDaysAfterDateOfIssuanceOfTransportDocument">
+                <xsd:annotation>
+                    <xsd:documentation>Draft(s) is/are due after a specific number of days after date of issuance of transport document(s).</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DraftAtDaysAfterDateOfPresentationOfDocuments">
+                <xsd:annotation>
+                    <xsd:documentation>Draft(s) is/are due after a specific number of days after date of presentation of documents.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DraftAtDaysDate">
+                <xsd:annotation>
+                    <xsd:documentation>Draft(s) is/are due after a specific number of days after date.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DraftAtDaysSight">
+                <xsd:annotation>
+                    <xsd:documentation>Draft(s) is/are due after a specific number of days after sight.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DueDateOfNegotiableInstrument">
+                <xsd:annotation>
+                    <xsd:documentation>Date when the negotiable instrument is due for payment.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="EffectiveDate">
+                <xsd:annotation>
+                    <xsd:documentation>The date on which an action or event becomes effective.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="InvoiceDate">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="InvoiceReceiptDate">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="InvoiceTransmissionDate">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="InvoiceVerificationDate">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="OtherReferenceDateAgreedUponBetweenTheParties">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PaymentDate">
+                <xsd:annotation>
+                    <xsd:documentation>Date when a payment was made.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PaymentDueDate">
+                <xsd:annotation>
+                    <xsd:documentation>Date on which a payment is due.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PurchaseOrderDate">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="QualityApprovalDate">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="QuarterStartDate">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ReceiptOfGoods">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="RequestedDateOfDelivery">
+                <xsd:annotation>
+                    <xsd:documentation>Payment terms apply from the requested date of delivery.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SpecifiedDate">
+                <xsd:annotation>
+                    <xsd:documentation>Date specified elsewhere.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SpecifiedDraftDate">
+                <xsd:annotation>
+                    <xsd:documentation>Draft at specified date.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="StipulatedDateForAcceptanceOfDocumentaryCredit">
+                <xsd:annotation>
+                    <xsd:documentation>Date as per agreement when documentary credit is accepted.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="StipulatedDateForNegotiationOfDocumentaryCredit">
+                <xsd:annotation>
+                    <xsd:documentation>Date as per agreement when documentary credit is negotiated.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="StipulatedDateForPaymentOfDocumentaryCredit">
+                <xsd:annotation>
+                    <xsd:documentation>Date as per agreement when documentary credit is due for payment.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+        </xsd:restriction>
+    </xsd:simpleType>
+</xsd:schema>

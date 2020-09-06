@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE ontology SYSTEM "dtds/ontology.dtd">
+<ontology name="RentalOrderDetails" title="Car Rental Order Details" type="light">
+    <terms>
+        <term id="2207267853611311772" name="OrderID" value="">
+            <domain name="Number" type="number" />
+            <attributes />
+            <axioms />
+            <relationships />
+            <subterms />
+        </term>
+        <term id="2879884614967354324" name="OrderCustomerID" value="">
+            <domain name="Number" type="number" />
+            <attributes />
+            <axioms />
+            <relationships />
+            <subterms />
+        </term>
+        <term id="4611097510577056331" name="OrderShipping" value="">
+            <domain name="Text" type="text" />
+            <attributes />
+            <axioms />
+            <relationships>
+                <relationship name="is parent of">
+                    <source>OrderShipping</source>
+                    <targets>OrderShippingAddress</targets>
+                </relationship>
+                <relationship name="is parent of">
+                    <source>OrderShipping</source>
+                    <targets>OrderShippingCountry</targets>
+                </relationship>
+                <relationship name="is parent of">
+                    <source>OrderShipping</source>
+                    <targets>OrderShippingState</targets>
+                </relationship>
+                <relationship name="is parent of">
+                    <source>OrderShipping</source>
+                    <targets>OrderShippingZip</targets>
+                </relationship>
+            </relationships>
+            <subterms>
+                <term id="5669169744782143835" name="OrderShippingAddress" value="">
+                    <domain name="Text" type="text" />
+                    <attributes />
+                    <axioms />
+                    <relationships>
+                        <relationship name="is child of">
+                            <source>OrderShippingAddress</source>
+                            <targets>OrderShipping</targets>
+                        </relationship>
+                    </relationships>
+                    <subterms />
+                </term>
+                <term id="6906527792179772268" name="OrderShippingCountry" value="">
+                    <domain name="Text" type="text" />
+                    <attributes />
+                    <axioms />
+                    <relationships>
+                        <relationship name="is child of">
+                            <source>OrderShippingCountry</source>
+                            <targets>OrderShipping</targets>
+                        </relationship>
+                    </relationships>
+                    <subterms />
+                </term>
+                <term id="966694478018935354" name="OrderShippingState" value="">
+                    <domain name="Text" type="text" />
+                    <attributes />
+                    <axioms />
+                    <relationships>
+                        <relationship name="is child of">
+                            <source>OrderShippingState</source>
+                            <targets>OrderShipping</targets>
+                        </relationship>
+                    </relationships>
+                    <subterms />
+                </term>
+                <term id="2388349933109100195" name="OrderShippingZip" value="">
+                    <domain name="Number" type="number" />
+                    <attributes />
+                    <axioms />
+                    <relationships>
+                        <relationship name="is child of">
+                            <source>OrderShippingZip</source>
+                            <targets>OrderShipping</targets>
+                        </relationship>
+                    </relationships>
+                    <subterms />
+                </term>
+            </subterms>
+        </term>
+        <term id="6741494363866132032" name="OrderDeliveryCommitDate" value="">
+            <domain name="Date" type="date" />
+            <attributes />
+            <axioms />
+            <relationships />
+            <subterms />
+        </term>
+        <term id="696893214557186179" name="OrderNotifyEmail" value="">
+            <domain name="Email" type="email" />
+            <attributes />
+            <axioms />
+            <relationships />
+            <subterms />
+        </term>
+    </terms>
+</ontology>
+

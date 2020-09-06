@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2010 rel. 3 (http://www.altova.com) by NTT (norg) -->
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:ns="Apertum" targetNamespace="Apertum" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="Order">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="POHead">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="OrderDetails">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="SupplierOrderReference" type="xs:string"/>
+										<xs:element name="BuyerOrderReference" type="xs:string"/>
+										<xs:element name="TextHeader" type="xs:string"/>
+										<xs:element name="TextFooter" type="xs:string"/>
+										<xs:element name="SupplierOrderDate" type="xs:date"/>
+										<xs:element name="BuyerOrderDate" type="xs:date"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="Currency">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="CurrencyCode" type="xs:string"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="TermsOfPayment">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Description" type="xs:string"/>
+										<xs:element name="NetDays" type="xs:int"/>
+										<xs:element name="Discount1" type="ns:Discount"/>
+										<xs:element name="Discount2" type="ns:Discount"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="TermsOfDelivery">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="DelivType" type="xs:string"/>
+										<xs:element name="TransportType" type="xs:string"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Buyer" type="ns:Partner"/>
+				<xs:element name="Supplier" type="ns:Partner"/>
+				<xs:element name="DeliverTo" type="ns:Partner"/>
+				<xs:element name="InvoiceTo" type="ns:Partner"/>
+				<xs:element name="POLine">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="LineNo" type="xs:string"/>
+							<xs:element name="Product" type="ns:Product"/>
+							<xs:element name="Price" type="ns:Price"/>
+							<xs:element name="Quantity" type="ns:Quantity"/>
+							<xs:element name="RequestedDeliveryDate">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="DateYear" type="xs:int"/>
+										<xs:element name="DateWeek" type="xs:int"/>
+										<xs:element name="Date" type="xs:date"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="Discount" type="ns:Discount"/>
+							<xs:element name="Amount" type="ns:Amount"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="OrderTotal">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="NumberOfLines" type="xs:positiveInteger"/>
+							<xs:element name="TotalAmount">
+								<xs:complexType>
+									<xs:complexContent>
+										<xs:extension base="ns:Amount">
+											<xs:sequence>
+												<xs:element name="VAT_AmountTotal" type="xs:int"/>
+											</xs:sequence>
+										</xs:extension>
+									</xs:complexContent>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:complexType name="Address">
+		<xs:sequence>
+			<xs:element name="Name1" type="xs:string"/>
+			<xs:element name="Name2" type="xs:string"/>
+			<xs:element name="Street" type="xs:string"/>
+			<xs:element name="City" type="xs:string"/>
+			<xs:element name="State" type="xs:string"/>
+			<xs:element name="PostalCode" type="xs:string"/>
+			<xs:element name="Country" type="xs:string"/>
+			<xs:element name="CountryCode" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Contact">
+		<xs:sequence>
+			<xs:element name="FirstName" type="xs:string"/>
+			<xs:element name="LastName" type="xs:string"/>
+			<xs:element name="Title" type="xs:string"/>
+			<xs:element name="JobTItle" type="xs:string"/>
+			<xs:element name="Phone" type="xs:string"/>
+			<xs:element name="Fax" type="xs:string"/>
+			<xs:element name="Email" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Discount">
+		<xs:sequence>
+			<xs:element name="Percentage" type="xs:positiveInteger"/>
+			<xs:element name="DaysDue" type="xs:date"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Price">
+		<xs:sequence>
+			<xs:element name="UnitPrice" type="xs:float"/>
+			<xs:element name="PricePerUnitOfMeasure" type="xs:float"/>
+			<xs:element name="PriceQuotient" type="xs:float"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Quantity">
+		<xs:sequence>
+			<xs:element name="QuantityAmount" type="xs:float"/>
+			<xs:element name="PackCode" type="xs:string"/>
+			<xs:element name="PackSize" type="xs:int"/>
+			<xs:element name="UnitOfMeasure" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Amount">
+		<xs:sequence>
+			<xs:element name="VAT_Rate" type="xs:float"/>
+			<xs:element name="VAT_Amount" type="xs:float"/>
+			<xs:element name="Amount_ExclVAT" type="xs:float"/>
+			<xs:element name="Amount_InclVAT" type="xs:float"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Partner">
+		<xs:sequence>
+			<xs:element name="SupplierReferenceNo" type="xs:string"/>
+			<xs:element name="BuyerReferenceNo" type="xs:string"/>
+			<xs:element name="VAT_RegistrationNo" type="xs:string"/>
+			<xs:element name="Address" type="ns:Address"/>
+			<xs:element name="Contact" type="ns:Contact"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Product">
+		<xs:sequence>
+			<xs:element name="SupplierPartID" type="xs:string"/>
+			<xs:element name="SupplierPartDesc" type="xs:string"/>
+			<xs:element name="BuyerPartID" type="xs:string"/>
+			<xs:element name="BuyerPartDesc" type="xs:string"/>
+			<xs:element name="EAN" type="xs:string"/>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

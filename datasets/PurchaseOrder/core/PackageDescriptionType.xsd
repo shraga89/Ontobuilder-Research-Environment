@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" targetNamespace="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" elementFormDefault="qualified">
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+            XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.
+            Permission is granted to use, copy, modify and distribute the
+            DTD's, schemas and modules in the Commerce One XML Common Business
+            Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType name="PackageDescriptionType">
+        <xsd:annotation>
+            <xsd:documentation>identifies specific information relating to an individual
+        package. Includes the package identifier, the container counter, and the load
+        order counter.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element minOccurs="0" name="ListOfPackageIdentifier" type="ListOfPackageIdentifierType">
+                <xsd:annotation>
+                    <xsd:documentation>is a list of the identifiers for the individual
+        package.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ContainerCounter" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>identifies the order in which this package was placed inside it's
+    container. Can also be used to identify locations in a compartmentalized tank
+    car or a pallet, such 3p or 2nd from brake.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="LoadOrderCounter" type="xsd:int">
+                <xsd:annotation>
+                    <xsd:documentation>identifies the package sequence with respect to its location to
+    the inner and outer packages.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="ListOfPackageDescriptionType">
+        <xsd:annotation>
+            <xsd:documentation>is a list of package descriptions. To be used to identify
+        individual packages.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element maxOccurs="unbounded" name="PackageDescription" type="PackageDescriptionType">
+                <xsd:annotation>
+                    <xsd:documentation>identifies specific information relating to an individual
+        package. Includes the package identifier, the container counter, and the load
+        order counter.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

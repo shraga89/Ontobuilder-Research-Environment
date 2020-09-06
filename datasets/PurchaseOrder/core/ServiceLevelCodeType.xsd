@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" targetNamespace="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" elementFormDefault="qualified">
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+            XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.
+            Permission is granted to use, copy, modify and distribute the
+            DTD's, schemas and modules in the Commerce One XML Common Business
+            Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleType name="ServiceLevelCodeType">
+        <xsd:annotation>
+            <xsd:documentation>This code indicates the level of service required. This code list is derived from EDIFACT 4183 (Special condition code), 4219 (Transport priority coded), and 8335 (Movement type description code) and X12 284 (Service level code)</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:NMTOKEN">
+            <xsd:enumeration value="Other">
+                <xsd:annotation>
+                    <xsd:documentation>Custom code</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="BulkCommodityTrain">
+                <xsd:annotation>
+                    <xsd:documentation>Bulk commodity train</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PremiumSurface">
+                <xsd:annotation>
+                    <xsd:documentation>Premium surface</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ThreeDayService">
+                <xsd:annotation>
+                    <xsd:documentation>Three day service</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="9AM">
+                <xsd:annotation>
+                    <xsd:documentation>9 a.m.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="AirCargo">
+                <xsd:annotation>
+                    <xsd:documentation>Air cargo</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="AirEconomy">
+                <xsd:annotation>
+                    <xsd:documentation>Air economy</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="AM">
+                <xsd:annotation>
+                    <xsd:documentation>A.m.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="BusinessClass">
+                <xsd:annotation>
+                    <xsd:documentation>Business class</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ConsigneeBillingService">
+                <xsd:annotation>
+                    <xsd:documentation>Consignee billing service</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CourierExpress">
+                <xsd:annotation>
+                    <xsd:documentation>Courier express</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Ground">
+                <xsd:annotation>
+                    <xsd:documentation>Ground</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ExpressService">
+                <xsd:annotation>
+                    <xsd:documentation>Express service</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DeliveryScheduledNextDayByCartageAgent">
+                <xsd:annotation>
+                    <xsd:documentation>Delivery scheduled next day by cartage agent</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DeliveryScheduledSecondDayByCartageAgent">
+                <xsd:annotation>
+                    <xsd:documentation>Delivery scheduled second day by cartage agent</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DeliveryScheduledThirdDayByCartageAgent">
+                <xsd:annotation>
+                    <xsd:documentation>Delivery scheduled third day by cartage agent</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DeliveryConfirmation">
+                <xsd:annotation>
+                    <xsd:documentation>Delivery confirmation</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DeferredService">
+                <xsd:annotation>
+                    <xsd:documentation>Deferred service</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DeliveryConfirmationReturn">
+                <xsd:annotation>
+                    <xsd:documentation>Delivery confirmation return</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DoorService">
+                <xsd:annotation>
+                    <xsd:documentation>Door service</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DeliveryNotificationOnly">
+                <xsd:annotation>
+                    <xsd:documentation>Delivery notification only</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ExpeditedService">
+                <xsd:annotation>
+                    <xsd:documentation>Expedited service</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ProofOfDeliveryWithSignature">
+                <xsd:annotation>
+                    <xsd:documentation>Proof of delivery (POD) with signature</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="FirstClass">
+                <xsd:annotation>
+                    <xsd:documentation>First class</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="StandardService">
+                <xsd:annotation>
+                    <xsd:documentation>Standard service</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ExpressServicePlus">
+                <xsd:annotation>
+                    <xsd:documentation>Express service plus</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="TrackingGround">
+                <xsd:annotation>
+                    <xsd:documentation>Tracking - ground</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Iata">
+                <xsd:annotation>
+                    <xsd:documentation>Iata</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ExpeditedServiceWorldwide">
+                <xsd:annotation>
+                    <xsd:documentation>Expedited service - worldwide</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ExpressServiceWorldwide">
+                <xsd:annotation>
+                    <xsd:documentation>Express service - worldwide</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Metro">
+                <xsd:annotation>
+                    <xsd:documentation>Metro</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Multiweight">
+                <xsd:annotation>
+                    <xsd:documentation>Multiweight</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NextDayAir">
+                <xsd:annotation>
+                    <xsd:documentation>Next day air</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NextFlightOut">
+                <xsd:annotation>
+                    <xsd:documentation>Next flight out</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NextDayHundredWeight">
+                <xsd:annotation>
+                    <xsd:documentation>Next day hundred weight</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NextMorning">
+                <xsd:annotation>
+                    <xsd:documentation>Next morning</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NotServed">
+                <xsd:annotation>
+                    <xsd:documentation>Not served</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Overnight">
+                <xsd:annotation>
+                    <xsd:documentation>Overnight</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PrimaryServiceAreaNextDayBy1030AM">
+                <xsd:annotation>
+                    <xsd:documentation>Primary service area - next day by 10:30 a.m.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PriorityMail">
+                <xsd:annotation>
+                    <xsd:documentation>Priority mail</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PrimaryServiceAreaNextDayBy930AM">
+                <xsd:annotation>
+                    <xsd:documentation>Primary service area - next day by 9:30 am</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PriorityMailInsured">
+                <xsd:annotation>
+                    <xsd:documentation>Priority mail insured</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PM">
+                <xsd:annotation>
+                    <xsd:documentation>Pm</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PrimaryServiceAreaNextDayByNoon">
+                <xsd:annotation>
+                    <xsd:documentation>Primary service area - next day by noon</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="POBoxZipCode">
+                <xsd:annotation>
+                    <xsd:documentation>P.O. box/zip code</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PrimaryServiceAreaNextDayBy500PM">
+                <xsd:annotation>
+                    <xsd:documentation>Primary service area - next day by 5:00 p.m.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PrimaryServiceAreaSecondDayByNoon">
+                <xsd:annotation>
+                    <xsd:documentation>Primary service area - second day by noon</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PassengerService">
+                <xsd:annotation>
+                    <xsd:documentation>Passenger service</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="QualityIntermodalHighSpeed70MilesPerHour">
+                <xsd:annotation>
+                    <xsd:documentation>Quality intermodal high speed 70 miles per hour (mph)</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="OtherIntermodalAndStackService">
+                <xsd:annotation>
+                    <xsd:documentation>Other Intermodal and stack service</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="60MilesPerHourService">
+                <xsd:annotation>
+                    <xsd:documentation>60 miles per hour (mph) service</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ManifestFreight">
+                <xsd:annotation>
+                    <xsd:documentation>Manifest freight</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CircusTrain">
+                <xsd:annotation>
+                    <xsd:documentation>Circus train</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="WorkTrain">
+                <xsd:annotation>
+                    <xsd:documentation>Work train</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CommuterService">
+                <xsd:annotation>
+                    <xsd:documentation>Commuter service</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="AuthorizedReturnService">
+                <xsd:annotation>
+                    <xsd:documentation>Authorized return service</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SameDay">
+                <xsd:annotation>
+                    <xsd:documentation>Same day</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SecondDayAir">
+                <xsd:annotation>
+                    <xsd:documentation>Second day air</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Saturday">
+                <xsd:annotation>
+                    <xsd:documentation>Saturday</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SecondDay">
+                <xsd:annotation>
+                    <xsd:documentation>Second day</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="StandardGround">
+                <xsd:annotation>
+                    <xsd:documentation>Standard ground</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SecondDayHundredWeight">
+                <xsd:annotation>
+                    <xsd:documentation>Second day hundred weight</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="StandardGroundHundredWeight">
+                <xsd:annotation>
+                    <xsd:documentation>Standard ground hundred weight</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SecondMorning">
+                <xsd:annotation>
+                    <xsd:documentation>Second morning</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SaturdayPickup">
+                <xsd:annotation>
+                    <xsd:documentation>Saturday pickup</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="StandardClass">
+                <xsd:annotation>
+                    <xsd:documentation>Standard class</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Express">
+                <xsd:annotation>
+                    <xsd:documentation>Express treatment (if by rail, legal express regime for parcels transport).</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="HighSpeed">
+                <xsd:annotation>
+                    <xsd:documentation>Transport under legal international rail convention (CIM) concluded between rail organizations and based on fast routing and specified timetables.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NormalSpeed">
+                <xsd:annotation>
+                    <xsd:documentation>Transport under legal international rail convention (CIM) concluded between rail organizations.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PostService">
+                <xsd:annotation>
+                    <xsd:documentation>Transport under conditions specified by UPU (Universal Postal Union) and rail organizations (parcels transport only).</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+        </xsd:restriction>
+    </xsd:simpleType>
+</xsd:schema>

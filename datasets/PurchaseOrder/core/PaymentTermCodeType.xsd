@@ -1,0 +1,510 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" targetNamespace="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" elementFormDefault="qualified">
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+            XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.
+            Permission is granted to use, copy, modify and distribute the
+            DTD's, schemas and modules in the Commerce One XML Common Business
+            Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleType name="PaymentTermCodeType">
+        <xsd:annotation>
+            <xsd:documentation>This code identifies the payment term.  This code list is derived from EDIFACT 4279 (Payment terms type code qualifier) and X12 336 (Terms type code)</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:NMTOKEN">
+            <xsd:enumeration value="Other">
+                <xsd:annotation>
+                    <xsd:documentation>Custom Code</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="10DaysAfterEndOfMonth">
+                <xsd:annotation>
+                    <xsd:documentation>Payment due ten days after end of a calendar month.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="AdjustmentPayment">
+                <xsd:annotation>
+                    <xsd:documentation>Payment adjusted for outstanding credits or debits.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="AdvancedPayment">
+                <xsd:annotation>
+                    <xsd:documentation>Payment in advance of due date.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Anticipation">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="AvailableByAcceptance">
+                <xsd:annotation>
+                    <xsd:documentation>Payment on acceptance.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="AvailableByDeferredPayment">
+                <xsd:annotation>
+                    <xsd:documentation>Payment made at deferred date.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="AvailableByNegotiation">
+                <xsd:annotation>
+                    <xsd:documentation>Payment made by negotiation.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="AvailableByNegotiationByNamedBank">
+                <xsd:annotation>
+                    <xsd:documentation>Payment made by negotiation with a specified financial institution.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="AvailableByNegotiationWithAnyBank">
+                <xsd:annotation>
+                    <xsd:documentation>Payment made by negotiation with any bank.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="AvailableByNegotiationWithAnyBankin">
+                <xsd:annotation>
+                    <xsd:documentation>Payment made by negotiation with any bank in a specified location.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="AvailableBySightPayment">
+                <xsd:annotation>
+                    <xsd:documentation>Payment made at sight.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="BankTransfer">
+                <xsd:annotation>
+                    <xsd:documentation>The payment terms require the use of bank transfer.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Basic">
+                <xsd:annotation>
+                    <xsd:documentation>Payment conditions normally applied.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="BasicCommissionTerms">
+                <xsd:annotation>
+                    <xsd:documentation>The payment terms call for the use of basic commission terms. </xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="BasicDiscountOffered">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="BillOfExchange">
+                <xsd:annotation>
+                    <xsd:documentation>The payment terms require the use of bill of exchange.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="BillToBill">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CancellationOption">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Cash">
+                <xsd:annotation>
+                    <xsd:documentation>The payment terms are that payments are made in cash.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CashAccount">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CashAgainstDocuments">
+                <xsd:annotation>
+                    <xsd:documentation>The payment terms require cash payment before document transfer.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CashByStateLaw">
+                <xsd:annotation>
+                    <xsd:documentation>The payment terms are dictated by state law requiring payment of cash.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CashDiscountTermsApply">
+                <xsd:annotation>
+                    <xsd:documentation>The payment terms are that a discount is applicable if the payment is made in cash.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CashonAdvance">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CashonArrival">
+                <xsd:annotation>
+                    <xsd:documentation>The payment terms require payment by cash on arrival of the goods or services.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CashOnDelivery">
+                <xsd:annotation>
+                    <xsd:documentation>The payment terms are cash is due on delivery of merchandise.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CashPerVendorRequest">
+                <xsd:annotation>
+                    <xsd:documentation>The payment terms involve a vendor request for payment by cash.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CashWithOrder">
+                <xsd:annotation>
+                    <xsd:documentation>The payment terms require the payment in cash with placement of the order.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CertifiedCheck">
+                <xsd:annotation>
+                    <xsd:documentation>The payment terms require the use of a certified cheque.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ChargeCard">
+                <xsd:annotation>
+                    <xsd:documentation>The payment terms permit the use of a charge card to effect payment.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CompletePayment">
+                <xsd:annotation>
+                    <xsd:documentation>Payment must be made for complete value and may not be paid in instalments.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Consignment">
+                <xsd:annotation>
+                    <xsd:documentation>The payment terms are that the goods will be paid for when they are sold or consumed.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ContractBasis">
+                <xsd:annotation>
+                    <xsd:documentation>The payment terms are based on a contract with a vendor.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CostPlus">
+                <xsd:annotation>
+                    <xsd:documentation>The payment terms permit reimbursement of costs plus other authorised changes.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CreditControlled">
+                <xsd:annotation>
+                    <xsd:documentation>The payment terms involve the monitoring of credit by the grantor.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DatingGiven">
+                <xsd:annotation>
+                    <xsd:documentation>The payment terms in which suppliers may extend seasonal dating.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DeferredOrInstallment">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DepositRequired">
+                <xsd:annotation>
+                    <xsd:documentation>The payment terms require a deposit be provided.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Discount">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DiscountNotApplicable">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DiscountWithAdvancePayment">
+                <xsd:annotation>
+                    <xsd:documentation>The payment terms include a discount when payment is made in advance.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DiscountWithPromptPay">
+                <xsd:annotation>
+                    <xsd:documentation>The payment terms include a discount when payment is made within a time frame designated as prompt pay.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DocumentsAgainstAcceptance">
+                <xsd:annotation>
+                    <xsd:documentation>The payment terms require acceptance of liability before document of transfer.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DocumentsAgainstPayment">
+                <xsd:annotation>
+                    <xsd:documentation>The payment terms require payment before document transfer.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Elective">
+                <xsd:annotation>
+                    <xsd:documentation>Payment terms to be chosen by buyer (from options separately advised)</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="EndOfMonth">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Extended">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="FastPay">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="FixedDate">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="FixedDateLatePaymentPenaltyApplies">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="FixedFee">
+                <xsd:annotation>
+                    <xsd:documentation>The payment term requires a fixed fee payment.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="InstallmentPaymentsAreDueAnnually">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="InstallmentPaymentsAreDueMonthly">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="InstallmentPaymentsAreDueQuarterly">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="InstallmentPaymentsAreDueSemiAnnually">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Instant">
+                <xsd:annotation>
+                    <xsd:documentation>Payment is due on receipt of invoice.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="InterCompanyAccount">
+                <xsd:annotation>
+                    <xsd:documentation>The payment terms involve the use of an inter-company account.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="IrrevocableLetterOfCredit">
+                <xsd:annotation>
+                    <xsd:documentation>The payment terms require the use of an irrevocable letter of credit.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="LatePayment">
+                <xsd:annotation>
+                    <xsd:documentation>Payment after due date.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="LeaseAgreement">
+                <xsd:annotation>
+                    <xsd:documentation>The payment terms are included in the lease agreement.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="LetterOfCredit">
+                <xsd:annotation>
+                    <xsd:documentation>The payment terms require the use of a letter of credit.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="LetterOfCreditAtSight">
+                <xsd:annotation>
+                    <xsd:documentation>The payment terms require the presentation of a letter of credit.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Liquidation">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="LumpSum">
+                <xsd:annotation>
+                    <xsd:documentation>The payment term requires a lump sum payment.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Mixed">
+                <xsd:annotation>
+                    <xsd:documentation>Different payment terms negotiated under a documentary credit.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NetMonthFollowingInvoice">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NoCharge">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NonStandard">
+                <xsd:annotation>
+                    <xsd:documentation>Terms of payment differ from the normal terms.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NotYetDefined">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PaidAgainstStatement">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PartialAdvance">
+                <xsd:annotation>
+                    <xsd:documentation>The payment terms require a partial payment in advance of completion.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PaymentByInstalment">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PaymentByinstalmentsAccordingToProgressAA">
+                <xsd:annotation>
+                    <xsd:documentation>Payment by instalments according to progress (as agreed)</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PaymentByInstalmentsAccordingToProgressTBA">
+                <xsd:annotation>
+                    <xsd:documentation>Payment by instalments according to progress (to be agreed)</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PaymentDueUponReceiptOfInvoice">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PaymentOrderThroughBank">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PaymentTermsDefinedInConsolidatedInvoice">
+                <xsd:annotation>
+                    <xsd:documentation>Payment terms are specified in a consolidated invoice.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PaymentUponCompletion">
+                <xsd:annotation>
+                    <xsd:documentation>The payment terms require payment upon completion.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PenaltyTerms">
+                <xsd:annotation>
+                    <xsd:documentation>Penalty terms. </xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Prepayment">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PreviouslyAgreedUpon">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ProgressPayment">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PromissoryNotes">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PromptPaymentAct">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Proximo">
+                <xsd:annotation>
+                    <xsd:documentation>Occurring in the next month after present.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SecuredAccount">
+                <xsd:annotation>
+                    <xsd:documentation>The payment terms call for the use of a secured account.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SellByNote">
+                <xsd:annotation>
+                    <xsd:documentation>The payment terms involve a debtor who promises to pay a definite sum of money on demand or at a definite time in the future.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SellerToAdviseBuyer">
+                <xsd:annotation>
+                    <xsd:documentation>Seller will advise buyer of payment terms by separate transaction.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SpecialProximo">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SupplierFloorPlan">
+                <xsd:annotation>
+                    <xsd:documentation>The payment terms involve payment for merchandise owned as a third party.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="TenorPaymentTerms">
+                <xsd:annotation>
+                    <xsd:documentation>Payment to be made according to bilaterally agreed conditions between buyer and seller.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="TermsNotApplicable">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="TradeAcceptance">
+                <xsd:annotation>
+                    <xsd:documentation>A trade acceptance is a written acknowledgement of the sale of goods and promise to pay at a definite date and place.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Ultimo">
+                <xsd:annotation>
+                    <xsd:documentation>Payment is due the end of the current or specified month.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="UnitedStatesFundsRequired">
+                <xsd:annotation>
+                    <xsd:documentation>The payment terms require the use of United States funds.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Unknown">
+                <xsd:annotation>
+                    <xsd:documentation/>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="UsanceBill">
+                <xsd:annotation>
+                    <xsd:documentation>The payment terms are based on the time allowed by commercial usage for the payment of foreign bills of exchange.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+        </xsd:restriction>
+    </xsd:simpleType>
+</xsd:schema>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" targetNamespace="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" elementFormDefault="qualified">
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+            XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.
+            Permission is granted to use, copy, modify and distribute the
+            DTD's, schemas and modules in the Commerce One XML Common Business
+            Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType name="PartyType">
+        <xsd:annotation>
+            <xsd:documentation>identifies an entity doing business and the relevant information
+        pertaining to it.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="PartyID" type="IdentifierType">
+                <xsd:annotation>
+                    <xsd:documentation>is a standard identification of an entity doing business as
+        assigned by a standards agency.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ListOfIdentifier" type="ListOfIdentifierType">
+                <xsd:annotation>
+                    <xsd:documentation>is a collection of all other identifications of the party being
+        described by the <!--code-->Party<!--/code--> element.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="MDFBusiness" type="xsd:boolean">
+                <xsd:annotation>
+                    <xsd:documentation>is an indicator of whether the party is a minority,
+        disadvantaged, or female owned business.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="NameAddress" type="NameAddressType">
+                <xsd:annotation>
+                    <xsd:documentation>contains the name and address information for the entity being
+        described by the <!--code-->Party<!--/code--> element.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="PrimaryContact" type="ContactType">
+                <xsd:annotation>
+                    <xsd:documentation>identifies the main contact and contact information for this party.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="OtherContacts" type="ListOfContactType">
+                <xsd:annotation>
+                    <xsd:documentation>is a collection of name and contact information for any other
+        communication purposes not explicitly stated in the <!--code-->Party<!--/code-->
+        element.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="PartyTaxInformation" type="PartyTaxInformationType">
+                <xsd:annotation>
+                    <xsd:documentation>describes the taxing information for the party.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+    	</xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="ListOfPartyType">
+        <xsd:annotation>
+            <xsd:documentation>is a collection of entities doing business and the relevant
+        information pertaining to them.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element maxOccurs="unbounded" name="Party" type="PartyType">
+                <xsd:annotation>
+                    <xsd:documentation>identifies an entity doing business and the relevant information
+        pertaining to it.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

@@ -1,0 +1,599 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<rdf:RDF xmlns="http://oaei.ontologymatching.org/2011/benchmarks/241/onto.rdf#" xmlns:foaf="http://xmlns.com/foaf/0.1/" xmlns:ical="http://www.w3.org/2002/12/cal/ical#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:xsd="http://www.w3.org/2001/XMLSchema#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns:owl="http://www.w3.org/2002/07/owl#" xmlns:dc="http://purl.org/dc/elements/1.1/" xml:base="http://oaei.ontologymatching.org/2011/benchmarks/241/onto.rdf#">
+
+<!-- This ontology describes bibliographic references. -->
+  
+  <owl:Ontology rdf:about="">
+    <dc:creator>Nick Knouf &lt;nknouf@mit.edu&gt;</dc:creator>
+    <dc:contributor>Antoine Zimmermann &lt;antoine.zimmermann@inrialpes.fr&gt;</dc:contributor>
+    <dc:contributor>Jérôme Euzenat</dc:contributor>
+    <dc:description>Bibliographic references in OWL</dc:description>
+    <dc:date>08/06/2005</dc:date>
+    <rdfs:label>Bibliographic references</rdfs:label>
+    <rdfs:comment>Possible ontology to describe bibTeX entries.</rdfs:comment>
+    <owl:versionInfo>$Id: onto.rdf,v 1.30 2008/05/27 14:41:13 euzenat Exp $</owl:versionInfo>
+  </owl:Ontology>
+
+  <!-- Every entity (even external) must be typed in OWL-DL. -->
+
+  <!-- this is for satisfying the OWL Species validator
+       (which is not satisfied anyway) -->
+  <owl:Class rdf:about="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+  <rdf:List rdf:about="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+  <owl:ObjectProperty rdf:about="http://www.w3.org/1999/02/22-rdf-syntax-ns#first">
+      <rdfs:domain rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+  </owl:ObjectProperty>
+  <owl:ObjectProperty rdf:about="http://www.w3.org/1999/02/22-rdf-syntax-ns#rest">
+      <rdfs:domain rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+      <rdfs:range rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#List"/>
+  </owl:ObjectProperty>
+
+  <owl:DatatypeProperty rdf:about="http://purl.org/dc/elements/1.1/creator"/>
+  <owl:DatatypeProperty rdf:about="http://purl.org/dc/elements/1.1/contributor"/>
+  <owl:DatatypeProperty rdf:about="http://purl.org/dc/elements/1.1/description"/>
+  <owl:DatatypeProperty rdf:about="http://purl.org/dc/elements/1.1/date"/>
+
+  <!-- foaf extensions -->
+  <owl:Class rdf:about="http://xmlns.com/foaf/0.1/Person"/>
+  <owl:Class rdf:about="http://xmlns.com/foaf/0.1/Organization"/>
+  <owl:DatatypeProperty rdf:about="http://xmlns.com/foaf/0.1/firstName"/>
+  
+  <owl:DatatypeProperty rdf:about="http://xmlns.com/foaf/0.1/name"/>
+
+  <!--
+    ********  ENTRIES  ********
+    
+    Entries form the basis of a bibTeX database and are categorized by their type, such as a book, journal article, conference proceedings, etc.  Each entry type has a specific set of fields that are required in bibTeX; as a first pass, these fields will also be required in the OWL ontology.
+    Note: all rdfs:comment values for the entries come from http://newton.ex.ac.uk/tex/pack/bibtex/btxdoc/node6.html.
+  -->
+
+  <owl:Class rdf:ID="Reference">
+    <rdfs:label xml:lang="en">Reference</rdfs:label>
+    <rdfs:comment xml:lang="en">Base class for all entries</rdfs:comment>
+    
+    
+    
+  </owl:Class>
+
+  <owl:Class rdf:ID="Article">
+    
+    <rdfs:label xml:lang="en">Article</rdfs:label>
+    <rdfs:comment xml:lang="en">An article from a journal or magazine.</rdfs:comment>
+    
+    
+    
+    
+    
+    
+    
+  </owl:Class>
+
+  <owl:Class rdf:ID="Book">
+    
+    <rdfs:label xml:lang="en">Book</rdfs:label>
+    <rdfs:comment xml:lang="en">A book that may be a monograph or a collection of written texts.</rdfs:comment>
+    
+    
+    
+    
+    
+    
+     
+    
+  </owl:Class>
+
+  <owl:Class rdf:ID="Monograph">
+    
+    <rdfs:label xml:lang="en">Monograph</rdfs:label>
+    <rdfs:comment xml:lang="en">A book that is a single entity, as opposed to a collection.</rdfs:comment>
+    
+  </owl:Class>
+
+  <owl:Class rdf:ID="Collection">
+    
+    <rdfs:label xml:lang="en">Collection</rdfs:label>
+    <rdfs:comment xml:lang="en">A book that is collection of texts or articles.</rdfs:comment>
+    
+    
+  </owl:Class>
+
+  <owl:Class rdf:ID="Informal">
+    
+    <rdfs:label xml:lang="en">Informal</rdfs:label>
+    <rdfs:comment xml:lang="en">A document that was informally published or not published.</rdfs:comment>
+    
+  </owl:Class>
+
+  <owl:Class rdf:ID="Booklet">
+    
+    <rdfs:label xml:lang="en">Booklet</rdfs:label>
+    <rdfs:comment xml:lang="en">A work that is printed and bound, but without a named publisher or sponsoring institution.</rdfs:comment>
+  </owl:Class>
+
+  <owl:Class rdf:ID="Part">
+    
+    <rdfs:label xml:lang="en">Part</rdfs:label>
+    <rdfs:comment xml:lang="en">A part of something (either Book or Proceedings).</rdfs:comment>
+    
+    
+    <!-- This is forbiden for transitive properties in OWL-DL -->
+    <!--rdfs:subClassOf>
+      <owl:Restriction>
+	<owl:onProperty rdf:resource="#isPartOf" />
+	<owl:cardinality rdf:datatype="&xsd;nonNegativeInteger">1</owl:cardinality>
+      </owl:Restriction>
+    </rdfs:subClassOf-->
+  </owl:Class>
+
+  <owl:Class rdf:ID="Chapter">
+    
+    <rdfs:label xml:lang="en">BookPart</rdfs:label>
+    <rdfs:comment xml:lang="en">A chapter (or section or whatever) of a book having its own title.</rdfs:comment>
+    
+    
+  </owl:Class>
+
+  <owl:Class rdf:ID="InBook">
+    
+    <rdfs:label xml:lang="en">InBook</rdfs:label>
+    <rdfs:comment xml:lang="en">A subpart of a book given by a range of pages.</rdfs:comment>
+    
+    
+    
+  </owl:Class>
+
+  <owl:Class rdf:ID="InCollection">
+    
+    <rdfs:label xml:lang="en">Incollection</rdfs:label>
+    <rdfs:comment xml:lang="en">A part of a book having its own title.</rdfs:comment>
+    
+    
+  </owl:Class>
+
+  <owl:Class rdf:ID="InProceedings"> <!-- Communication -->
+    
+    <rdfs:label xml:lang="en">InProceedings</rdfs:label>
+    <rdfs:comment xml:lang="en">An article in a conference proceedings.</rdfs:comment>
+    
+    
+  </owl:Class>
+
+  <owl:Class rdf:ID="LectureNotes">
+    
+    <rdfs:label xml:lang="en">LectureNotes</rdfs:label>
+    <rdfs:comment xml:lang="en">Lecture notes.</rdfs:comment>
+  </owl:Class>
+
+  <owl:Class rdf:ID="Manual">
+    
+    <rdfs:label xml:lang="en">Manual</rdfs:label>
+    <rdfs:comment xml:lang="en">Technical documentation.</rdfs:comment>
+    
+    
+    
+  </owl:Class>
+
+  <owl:Class rdf:ID="Academic">
+    
+    <rdfs:label xml:lang="en">Academic</rdfs:label>
+    <rdfs:comment xml:lang="en">A Master's or PhD thesis.</rdfs:comment>
+    
+    
+    
+    
+  </owl:Class>
+
+  <owl:Class rdf:ID="MastersThesis">
+    
+    <rdfs:label xml:lang="en">MastersThesis</rdfs:label>
+    <rdfs:comment xml:lang="en">A Master's thesis.</rdfs:comment>
+  </owl:Class>
+
+  <owl:Class rdf:ID="PhdThesis">
+    
+    <rdfs:label xml:lang="en">PhdThesis</rdfs:label>
+    <rdfs:comment xml:lang="en">A PhD thesis.</rdfs:comment>
+  </owl:Class>
+
+  <owl:Class rdf:ID="Misc">
+    
+    <rdfs:label xml:lang="en">Misc</rdfs:label>
+    <rdfs:comment xml:lang="en">Use this type when nothing else fits.</rdfs:comment>
+  </owl:Class>
+
+  <owl:Class rdf:ID="Proceedings">
+    
+    <rdfs:label xml:lang="en">Proceedings</rdfs:label>
+    <rdfs:comment xml:lang="en">The proceedings of a conference.</rdfs:comment>
+    <rdfs:comment xml:lang="en">A proceedings may be implicitly defined with an inproceedings.</rdfs:comment>
+    
+    
+    
+    
+    
+  </owl:Class>
+
+  <owl:Class rdf:ID="Report">
+    
+    <rdfs:label xml:lang="en">Report</rdfs:label>
+    <rdfs:comment xml:lang="en">A report published by an institution with some explicit policy.</rdfs:comment>
+    
+    
+    
+    
+    
+    
+  </owl:Class>
+
+  <owl:Class rdf:ID="TechReport">
+    
+    <rdfs:label xml:lang="en">TechReport</rdfs:label>
+    <rdfs:comment xml:lang="en">A report published by a school or other institution, usually numbered within a series.</rdfs:comment>
+  </owl:Class>
+
+  <owl:Class rdf:ID="Deliverable">
+    
+    <rdfs:label xml:lang="en">Deliverable report</rdfs:label>
+    <rdfs:comment xml:lang="en">A report delivered for accomplishing a contract.</rdfs:comment>
+    
+  </owl:Class>
+
+  <owl:Class rdf:ID="Unpublished">
+    
+    <rdfs:label xml:lang="en">Unpublished</rdfs:label>
+    <rdfs:comment xml:lang="en">A document having an author and title, but not formally published.</rdfs:comment>
+    
+    
+    
+  </owl:Class>
+
+  <owl:Class rdf:ID="MotionPicture">
+    
+    <rdfs:label xml:lang="en">MotionPicture</rdfs:label>
+    <rdfs:comment xml:lang="en">A film/movie/motion picture.</rdfs:comment>
+  </owl:Class>
+
+  <!-- SPECIAL CLASSES -->
+
+  <owl:Class rdf:ID="Journal">
+    <rdfs:label xml:lang="en">Journal or magazine</rdfs:label>
+    <rdfs:comment xml:lang="en">A periodical publication collecting works from different authors.</rdfs:comment>
+    
+   
+   
+   
+    
+    
+    
+    
+  </owl:Class>
+
+  <owl:Class rdf:ID="Conference">
+    <rdfs:label xml:lang="en">The location of an event</rdfs:label>
+    <rdfs:comment xml:lang="en">An event presenting work.</rdfs:comment>
+    
+    
+    
+    
+    
+  </owl:Class>
+
+  <owl:Class rdf:ID="Address">
+    <rdfs:label xml:lang="en">Address</rdfs:label>
+    <rdfs:comment xml:lang="en">The street address of the location of some organization or event.</rdfs:comment>
+    
+    
+    
+    
+    
+    
+  </owl:Class>
+
+  <owl:Class rdf:ID="Institution">
+    
+    <rdfs:label xml:lang="en">Institution</rdfs:label>
+    <rdfs:comment xml:lang="en">An institution.</rdfs:comment>
+    
+    
+    
+  </owl:Class>
+
+  <owl:Class rdf:ID="Publisher">
+    
+    <rdfs:label xml:lang="en">Publisher</rdfs:label>
+    <rdfs:comment xml:lang="en">The publisher of books or journals.</rdfs:comment>
+  </owl:Class>
+
+  <!-- trouver une ontologie pour ca -->
+  <owl:Class rdf:ID="School">
+    
+    <rdfs:label xml:lang="en">School</rdfs:label>
+    <rdfs:comment xml:lang="en">A school or university.</rdfs:comment>
+  </owl:Class>
+
+  <owl:Class rdf:ID="PersonList">
+    
+    <rdfs:label xml:lang="en">Person list</rdfs:label>
+    <rdfs:comment xml:lang="en">A list of persons.</rdfs:comment>
+    
+    
+    
+    
+  </owl:Class>
+
+  <owl:Class rdf:ID="PageRange">
+    <rdfs:label xml:lang="en">PageRange</rdfs:label>
+    <rdfs:comment xml:lang="en">A range of pages.</rdfs:comment>
+    
+    
+  </owl:Class>
+
+  <owl:Class rdf:ID="Date">
+    <rdfs:label xml:lang="en">Date</rdfs:label>
+    <rdfs:comment xml:lang="en">Date of a day which can be unknown (i.e., only the year is known or only the year and month). This is for overcoming the limits of XML-Schema for wich a date is not separable.</rdfs:comment>
+    
+    
+    
+    
+    
+    
+  </owl:Class>
+    
+  <!--
+    ********  FIELDS  ********
+
+    Note: all rdfs:comment values for the entries come from http://newton.ex.ac.uk/tex/pack/bibtex/btxdoc/node7.html
+  -->
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  <!--
+    ********  "META" PROPERTIES  ********
+  -->
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+<!-- PEOPLE -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- INSTITUTIONS -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- EVENTS -->
+
+
+
+
+
+
+
+<!-- REFERENCES -->
+
+
+
+
+
+<!-- HERE -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</rdf:RDF>

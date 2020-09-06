@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE ontology SYSTEM "dtds/ontology.dtd">
+<ontology name="RentalMachineDetails" title="Car Rental Machine Details" type="light">
+    <terms>
+        <term id="723485708639021185" name="MachineID" value="">
+            <domain name="Number" type="number" />
+            <attributes />
+            <axioms />
+            <relationships />
+            <subterms />
+        </term>
+        <term id="6235071302084122401" name="MachineCharacteristics" value="">
+            <domain name="Text" type="text" />
+            <attributes />
+            <axioms />
+            <relationships>
+                <relationship name="is parent of">
+                    <source>MachineCharacteristics</source>
+                    <targets>MachineManufacturerID</targets>
+                </relationship>
+                <relationship name="is parent of">
+                    <source>MachineCharacteristics</source>
+                    <targets>MachineSerialNum</targets>
+                </relationship>
+                <relationship name="is parent of">
+                    <source>MachineCharacteristics</source>
+                    <targets>MachineInstallDate</targets>
+                </relationship>
+            </relationships>
+            <subterms>
+                <term id="6575577731950755106" name="MachineManufacturerID" value="">
+                    <domain name="Number" type="number" />
+                    <attributes />
+                    <axioms />
+                    <relationships>
+                        <relationship name="is child of">
+                            <source>MachineManufacturerID</source>
+                            <targets>MachineCharacteristics</targets>
+                        </relationship>
+                    </relationships>
+                    <subterms />
+                </term>
+                <term id="7377042037877453215" name="MachineSerialNum" value="">
+                    <domain name="Number" type="number" />
+                    <attributes />
+                    <axioms />
+                    <relationships>
+                        <relationship name="is child of">
+                            <source>MachineSerialNum</source>
+                            <targets>MachineCharacteristics</targets>
+                        </relationship>
+                    </relationships>
+                    <subterms />
+                </term>
+                <term id="3625212282648916185" name="MachineInstallDate" value="">
+                    <domain name="Date" type="date" />
+                    <attributes />
+                    <axioms />
+                    <relationships>
+                        <relationship name="is child of">
+                            <source>MachineInstallDate</source>
+                            <targets>MachineCharacteristics</targets>
+                        </relationship>
+                    </relationships>
+                    <subterms />
+                </term>
+            </subterms>
+        </term>
+        <term id="3425198704963627995" name="MachineWarrantyExpirationDate" value="">
+            <domain name="Date" type="date" />
+            <attributes />
+            <axioms />
+            <relationships />
+            <subterms />
+        </term>
+    </terms>
+</ontology>
+

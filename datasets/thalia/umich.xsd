@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="umich">
+		<xs:annotation>
+			<xs:documentation>University of Michigan</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="course" minOccurs="0" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="name" type="xs:string"/>
+							<xs:element name="prerequisite" type="xs:string" minOccurs="0"/>
+							<xs:element name="field" type="xs:string" minOccurs="0"/>
+							<xs:element name="credits" type="xs:string" minOccurs="0"/>
+							<xs:element name="description" type="xs:string" minOccurs="0"/>
+						</xs:sequence>
+						<xs:attribute name="subject" type="xs:string" use="optional"/>
+						<xs:attribute name="catalognumber" type="xs:string" use="optional"/>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>
+
+<!--
+Changes:
+========
+
+2005-03-30 SH:
+* outer choice: sequence, minOccurs=maxOccurs=1 (default)
+* inner sequence: minOccurs=maxOccurs=1 (default)
+* name: minOccurs=1 (default)
+* subject, catalognumber: required
+-->

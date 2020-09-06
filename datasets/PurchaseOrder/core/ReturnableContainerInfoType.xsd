@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" targetNamespace="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" elementFormDefault="qualified">
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+            XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.
+            Permission is granted to use, copy, modify and distribute the
+            DTD's, schemas and modules in the Commerce One XML Common Business
+            Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType name="ReturnableContainerInfoType">
+        <xsd:annotation>
+            <xsd:documentation>describes shipping, payment and miscellaneous information
+        regarding containers that are returned after they have been used in
+        shipment.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element minOccurs="0" name="ReturnableContainerPartNumber" type="PartNumType">
+                <xsd:annotation>
+                    <xsd:documentation>is the part number of the returnable container.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="PaymentResponsibilityCoded" type="PaymentResponsibilityCodeType">
+                <xsd:annotation>
+                    <xsd:documentation>designates which party is responsible for payment of the
+        returnable containers.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="PaymentResponsibilityCodedOther" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>is used to provide a non-standard <!--code-->PaymentResponsibilityCode<!--/code-->. This element is mandatory if the value of <!--code-->PaymentResponsibilityCoded<!--/code--> is 'Other'. These codes should not contain white space unless absolutely necessary.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ReturnLoadCoded" type="ReturnLoadCodeType">
+                <xsd:annotation>
+                    <xsd:documentation>describes the contents or state of contents of the returnable
+        container.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ReturnLoadCodedOther" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>is used to provide a non-standard <!--code-->ReturnLoadCode<!--/code-->. This element is mandatory if the value of <!--code-->ReturnLoadCoded<!--/code--> is 'Other'. These codes should not contain white space unless absolutely necessary.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ReturnNote" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>contains text notes and instructions relating to the returnable
+        container.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

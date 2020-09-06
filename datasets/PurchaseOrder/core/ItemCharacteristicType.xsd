@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" targetNamespace="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" elementFormDefault="qualified">
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+            XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.
+            Permission is granted to use, copy, modify and distribute the
+            DTD's, schemas and modules in the Commerce One XML Common Business
+            Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType name="ItemCharacteristicType">
+        <xsd:annotation>
+            <xsd:documentation>is a container element that contains the physical attributes
+        other than dimensions of an item.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element minOccurs="0" name="ItemCharacteristicCoded" type="ItemCharacteristicCodeType">
+                <xsd:annotation>
+                    <xsd:documentation>identifies the characteristic being described by the <!--code-->ItemCharacteristic<!--/code--> element using a standard codelist.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ItemCharacteristicCodedOther" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>is used to provide a non-standard <!--code-->ItemCharacteristicCode<!--/code-->. This
+        element is mandatory if the value of <!--code-->ItemCharacteristicCoded<!--/code--> is 'Other'. These
+        codes should not contain white space unless absolutely necessary.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="SurfaceLayerPositionCoded" type="SurfaceLayerPositionCodeType">
+                <xsd:annotation>
+                    <xsd:documentation>identifies the surface layer or the position of the
+        item being described by the <!--code-->ItemCharacteristic<!--/code--> element using a standard codelist.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="SurfaceLayerPositionCodedOther" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>is used to provide a non-standard <!--code-->SurfaceLayerPositionCode<!--/code--> This
+        element is mandatory if the value of <!--code-->SurfaceLayerPositionCoded<!--/code--> is 'Other'.
+        These codes should not contain white space unless absolutely
+        necessary.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        	<xsd:choice>
+        	    <xsd:element name="ItemCharacteristicValue" type="xsd:string">
+        	        <xsd:annotation>
+                        <xsd:documentation>is the value of the characteristic being described by the
+        <!--code-->ItemCharacteristic<!--/code--> element.</xsd:documentation>
+                    </xsd:annotation>
+            	</xsd:element>
+            	<xsd:element name="Identifier" type="IdentifierType">
+             	   <xsd:annotation>
+                        <xsd:documentation>is used to provide a structured description of the characteristic being described.
+        If this element is used, <!--code-->ItemCharacteristicValue<!--/code--> should be an empty string.</xsd:documentation>
+                    </xsd:annotation>
+            	</xsd:element>
+            </xsd:choice>
+            <xsd:element minOccurs="0" name="UnitOfMeasurement" type="UnitOfMeasurementType">
+                <xsd:annotation>
+                    <xsd:documentation>is the unit of measure for the value of the
+        characteristic.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ListOfDimension" type="ListOfDimensionType">
+                <xsd:annotation>
+                    <xsd:documentation>contains any other measurements associated with the item characteristic being described.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="ListOfItemCharacteristicType">
+        <xsd:annotation>
+            <xsd:documentation>is a collection of one or more characteristics that describe the item such as
+        surface finishes.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element maxOccurs="unbounded" name="ItemCharacteristic" type="ItemCharacteristicType">
+                <xsd:annotation>
+                    <xsd:documentation>is a container element that contains the characteristics of an item.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

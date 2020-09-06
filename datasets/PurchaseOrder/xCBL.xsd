@@ -1,0 +1,1533 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2010 rel. 3 (http://www.altova.com) by NTT (norg) -->
+<xsd:schema xmlns="rrn:org.xcbl:schemas/xcbl/v4_0/ordermanagement/v1_0/ordermanagement.xsd"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="rrn:org.xcbl:schemas/xcbl/v4_0/ordermanagement/v1_0/ordermanagement.xsd"
+	elementFormDefault="qualified">
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">             XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.             Permission is granted to use, copy, modify
+            and distribute the             DTD's, schemas and modules in the Commerce One XML Common
+            Business             Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html         </xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">             XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.             Permission is granted to use, copy, modify
+            and distribute the             DTD's, schemas and modules in the Commerce One XML Common
+            Business             Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html         </xsd:documentation>
+	</xsd:annotation>
+	<xsd:complexType name="BaseItemDetailType">
+		<xsd:annotation>
+			<xsd:documentation>identifies the line item for the document. This contains the
+                description, specific identifiers, weights, measures and other information
+                associated with the product.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="LineItemNum" form="qualified">
+				<xsd:annotation>
+					<xsd:documentation>is a set of numbers uniquely identifying the line item for
+                        the         number. In the case where the seller's system splits a line item
+                        number into 2         line items, the buyer item number will remain the same
+                        for both line items, but         the seller item number will be
+                        different.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="LineItemType" form="qualified" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>identifies whether the line item is a component group
+                        (consists of other line items),         a typical line item, or a textual
+                        line item.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="ParentItemNumber" form="qualified" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>identifies the line item that groups this and other line
+                        items.         This is done using
+                        <!--code-->LineItemNumberReference<!--/code-->, which specifies the number
+                        of the         parent line item and whether this reference is the Buyer or
+                        Seller's number.         <!--code-->LineItemNumberReference<!--/code--> is a
+                        string content model of datatype integer that         contains an attribute
+                        to specify whether the <!--code-->ParentItemNumber<!--/code--> is a Seller
+                        or Buyer         number, with the default being Buyer. This value references
+                        the parent item         represented a group.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="ItemIdentifiers" form="qualified" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>details all of the part numbers assigned to the
+                        item.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="PartNumbers">
+							<xsd:complexType>
+								<xsd:sequence>
+									<xsd:element name="StandardPartNumber">
+										<xsd:complexType>
+											<xsd:sequence>
+												<xsd:element name="ProductIdentifierCoded">
+												<xsd:complexType>
+												<xsd:sequence>
+												<xsd:element name="ProductIdentifier"/>
+												</xsd:sequence>
+												</xsd:complexType>
+												</xsd:element>
+											</xsd:sequence>
+										</xsd:complexType>
+									</xsd:element>
+								</xsd:sequence>
+							</xsd:complexType>
+						</xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="ListOfDimension" form="qualified" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>lists one or more quantitative measurements of the
+                        item.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="TotalQuantity" form="qualified">
+				<xsd:annotation>
+					<xsd:documentation>contains the total amount of the line item pertaining to the
+                        document.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="MaxBackOrderQuantity" form="qualified" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>specifies the maximum quantity of an item that a customer
+                        will         allow to be back ordered.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="ListOfQuantityCoded" form="qualified" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>specifies any other quantities not explicitly
+                        stated.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="BaseItemReferences" form="qualified" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>contains all reference information for the
+                        item.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="CountryOfOrigin" form="qualified" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>specifies the country code for the country in which the line
+                        item         was manufactured.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="CountryOfDestination" form="qualified" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>specifies the country code for the country in which the
+                        delivery         is finally received.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="FinalRecipient" form="qualified" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>identifies the person or organization who will ultimately
+                        receive         the item or items.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="ListOfPartyCoded" form="qualified" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>specifies any other parties associated with the line item
+                        that are         not already explicitly stated.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="ConditionsOfSale" form="qualified" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>details the conditions of sale for the
+                        item.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="HazardousMaterials" form="qualified" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>contains the hazardous information for the line
+                        item.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="ListOfItemReferences">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="ListOfItemReferenceCoded">
+							<xsd:complexType>
+								<xsd:sequence>
+									<xsd:element name="ReferenceCoded">
+										<xsd:complexType>
+											<xsd:sequence>
+												<xsd:element name="ReferenceTypeCoded"/>
+												<xsd:element name="PrimaryReference">
+												<xsd:complexType>
+												<xsd:sequence>
+												<xsd:element name="Reference">
+												<xsd:complexType>
+												<xsd:sequence>
+												<xsd:element name="RefNum"/>
+												</xsd:sequence>
+												</xsd:complexType>
+												</xsd:element>
+												</xsd:sequence>
+												</xsd:complexType>
+												</xsd:element>
+												<xsd:element name="SupportingReference">
+												<xsd:complexType>
+												<xsd:sequence>
+												<xsd:element name="Reference">
+												<xsd:complexType>
+												<xsd:sequence>
+												<xsd:element name="RefNum"/>
+												</xsd:sequence>
+												</xsd:complexType>
+												</xsd:element>
+												</xsd:sequence>
+												</xsd:complexType>
+												</xsd:element>
+											</xsd:sequence>
+										</xsd:complexType>
+									</xsd:element>
+								</xsd:sequence>
+							</xsd:complexType>
+						</xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">             XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.             Permission is granted to use, copy, modify
+            and distribute the             DTD's, schemas and modules in the Commerce One XML Common
+            Business             Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html         </xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">             XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.             Permission is granted to use, copy, modify
+            and distribute the             DTD's, schemas and modules in the Commerce One XML Common
+            Business             Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html         </xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">             XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.             Permission is granted to use, copy, modify
+            and distribute the             DTD's, schemas and modules in the Commerce One XML Common
+            Business             Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html         </xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">             XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.             Permission is granted to use, copy, modify
+            and distribute the             DTD's, schemas and modules in the Commerce One XML Common
+            Business             Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html         </xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">             XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.             Permission is granted to use, copy, modify
+            and distribute the             DTD's, schemas and modules in the Commerce One XML Common
+            Business             Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html         </xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">             XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.             Permission is granted to use, copy, modify
+            and distribute the             DTD's, schemas and modules in the Commerce One XML Common
+            Business             Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html         </xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">             XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.             Permission is granted to use, copy, modify
+            and distribute the             DTD's, schemas and modules in the Commerce One XML Common
+            Business             Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html         </xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">             XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.             Permission is granted to use, copy, modify
+            and distribute the             DTD's, schemas and modules in the Commerce One XML Common
+            Business             Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html         </xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">             XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.             Permission is granted to use, copy, modify
+            and distribute the             DTD's, schemas and modules in the Commerce One XML Common
+            Business             Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html         </xsd:documentation>
+	</xsd:annotation>
+	<xsd:complexType name="ItemDetailType">
+		<xsd:annotation>
+			<xsd:documentation>contains information to describe and identify an item         along
+                with all pricing and delivery information for that item.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="BaseItemDetail" type="BaseItemDetailType" form="qualified">
+				<xsd:annotation>
+					<xsd:documentation>identifies the line item for the document. This contains the
+                        description, specific identifiers, weights, measures and other information
+                        associated with the product.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="PricingDetail" form="qualified" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>contains all pricing information, including taxes, allowances
+                        and         charges, and total price for an item.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="ListOfPrice">
+							<xsd:complexType>
+								<xsd:sequence>
+									<xsd:element name="Price">
+										<xsd:complexType>
+											<xsd:sequence>
+												<xsd:element name="UnitPrice">
+												<xsd:complexType>
+												<xsd:sequence>
+												<xsd:element name="UnitPriceValue"/>
+												</xsd:sequence>
+												</xsd:complexType>
+												</xsd:element>
+											</xsd:sequence>
+										</xsd:complexType>
+									</xsd:element>
+								</xsd:sequence>
+							</xsd:complexType>
+						</xsd:element>
+						<xsd:element name="TotalValue">
+							<xsd:complexType>
+								<xsd:sequence>
+									<xsd:element name="MonetaryValue">
+										<xsd:complexType>
+											<xsd:sequence>
+												<xsd:element name="RateOfExchangeDetail">
+												<xsd:complexType>
+												<xsd:sequence>
+												<xsd:element name="TargetCurrency">
+												<xsd:complexType>
+												<xsd:sequence>
+												<xsd:element name="Currency">
+												<xsd:complexType>
+												<xsd:sequence>
+												<xsd:element name="CurrencyCoded"/>
+												</xsd:sequence>
+												</xsd:complexType>
+												</xsd:element>
+												</xsd:sequence>
+												</xsd:complexType>
+												</xsd:element>
+												</xsd:sequence>
+												</xsd:complexType>
+												</xsd:element>
+											</xsd:sequence>
+										</xsd:complexType>
+									</xsd:element>
+								</xsd:sequence>
+							</xsd:complexType>
+						</xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="DeliveryDetail" form="qualified" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>is used to specify the scheduling information for a distinct
+                        set         of ship from party, ship to party, and transport information for
+                        the line         item.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="ListOfScheduleLine">
+							<xsd:complexType>
+								<xsd:sequence>
+									<xsd:element name="ScheduleLine">
+										<xsd:complexType>
+											<xsd:sequence>
+												<xsd:element name="RequestedDeliveryDate"/>
+												<xsd:element name="Quantity">
+												<xsd:complexType>
+												<xsd:sequence>
+												<xsd:element name="QuantityValue"/>
+												</xsd:sequence>
+												</xsd:complexType>
+												</xsd:element>
+											</xsd:sequence>
+										</xsd:complexType>
+									</xsd:element>
+								</xsd:sequence>
+							</xsd:complexType>
+						</xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="RoundTripInformation" form="qualified" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>identifies information specific to the round trip order
+                        process for the item.         This element should only be used if the
+                        ordering process for this item is round trip.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="LineItemNote" type="xsd:string" form="qualified" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>describes any free form text pertinent to the line item. This
+                        element may contain notes or any other similar information that is not
+                        contained explicitly in another structure. You should not assume that the
+                        receiving application is capable of doing more than storing and/or
+                        displaying         this information.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="SpecialHandling" form="qualified" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>descibes any special handling conditions that apply to the
+                        item.               </xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="ListOfStructuredNote" form="qualified" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>contains one or more structured notes that allow you to
+                        provide         notes that are more than a simple free-text field. Such
+                        notes may include the         message text, or this text may be referenced
+                        with an external identifier or a         URL. An agency may be specified,
+                        and is needed in the case where an ID has been         provided for a note
+                        that is either included in-line or referenced. This field         is often
+                        used to include references to centrally stored clauses in contracts
+                        that are required to appear within business documents.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="StructuredNote">
+							<xsd:complexType>
+								<xsd:sequence>
+									<xsd:element name="GeneralNote"/>
+								</xsd:sequence>
+							</xsd:complexType>
+						</xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="ListOfNameValueSet" form="qualified" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>is used to hold sets of name value pairs.  The use of this
+                        element should         be limited to the support of previous versions of
+                        xCBL.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="LineItemAttachments" form="qualified" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>contains attachments for the line item.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ListOfItemDetailType">
+		<xsd:annotation>
+			<xsd:documentation>holds one or more items for the document. </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="ItemDetail" type="ItemDetailType" form="qualified"
+				maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation>contains the item detail information.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">             XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.             Permission is granted to use, copy, modify
+            and distribute the             DTD's, schemas and modules in the Commerce One XML Common
+            Business             Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html         </xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">             XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.             Permission is granted to use, copy, modify
+            and distribute the             DTD's, schemas and modules in the Commerce One XML Common
+            Business             Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html         </xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">             XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.             Permission is granted to use, copy, modify
+            and distribute the             DTD's, schemas and modules in the Commerce One XML Common
+            Business             Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html         </xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">             XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.             Permission is granted to use, copy, modify
+            and distribute the             DTD's, schemas and modules in the Commerce One XML Common
+            Business             Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html         </xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">             XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.             Permission is granted to use, copy, modify
+            and distribute the             DTD's, schemas and modules in the Commerce One XML Common
+            Business             Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html         </xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">             XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.             Permission is granted to use, copy, modify
+            and distribute the             DTD's, schemas and modules in the Commerce One XML Common
+            Business             Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html         </xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">             XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.             Permission is granted to use, copy, modify
+            and distribute the             DTD's, schemas and modules in the Commerce One XML Common
+            Business             Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html         </xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">             XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.             Permission is granted to use, copy, modify
+            and distribute the             DTD's, schemas and modules in the Commerce One XML Common
+            Business             Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html         </xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">             XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.             Permission is granted to use, copy, modify
+            and distribute the             DTD's, schemas and modules in the Commerce One XML Common
+            Business             Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html         </xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">             XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.             Permission is granted to use, copy, modify
+            and distribute the             DTD's, schemas and modules in the Commerce One XML Common
+            Business             Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html         </xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">             XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.             Permission is granted to use, copy, modify
+            and distribute the             DTD's, schemas and modules in the Commerce One XML Common
+            Business             Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html         </xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">             XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.             Permission is granted to use, copy, modify
+            and distribute the             DTD's, schemas and modules in the Commerce One XML Common
+            Business             Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html         </xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">             XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.             Permission is granted to use, copy, modify
+            and distribute the             DTD's, schemas and modules in the Commerce One XML Common
+            Business             Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html         </xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">             XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.             Permission is granted to use, copy, modify
+            and distribute the             DTD's, schemas and modules in the Commerce One XML Common
+            Business             Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html         </xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">             XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.             Permission is granted to use, copy, modify
+            and distribute the             DTD's, schemas and modules in the Commerce One XML Common
+            Business             Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html         </xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">             XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.             Permission is granted to use, copy, modify
+            and distribute the             DTD's, schemas and modules in the Commerce One XML Common
+            Business             Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html         </xsd:documentation>
+	</xsd:annotation>
+	<xsd:complexType name="OrderDatesType">
+		<xsd:annotation>
+			<xsd:documentation>is used to hold a list of the pertinent dates for the purchase
+                order dates will include validity dates, <!--code-->RequestedShipDate<!--/code-->,
+                <!--code-->CancelByDates<!--/code-->,         among others. These dates act as
+                defaults that may be overwritten at the item level or package level in the body of
+                the message.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="RequestedShipByDate" type="xsd:dateTime" form="qualified"
+				minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>is the date items in  the purchase order must be shipped from
+                        the         seller.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="RequestedDeliverByDate" type="xsd:dateTime" form="qualified"
+				minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>is the date items in  the purchase order must be received by
+                        the buyer.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="PromiseDate" type="xsd:dateTime" form="qualified" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>is used mainly for confirming orders when a date was promised
+                        by         the supplier over the phone. </xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="ValidityDates" form="qualified" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>contains the dates between which the
+                        <!--code-->Order<!--/code--> is effective.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="CancelByDate" type="xsd:dateTime" form="qualified" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>is the date after which <!--code-->Order<!--/code--> should
+                        be cancelled.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="ListOfDateCoded" form="qualified" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>contains all other dates not for the
+                        <!--code-->Order<!--/code--> not  explicitly stated as the content of other
+                        elements. </xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">             XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.             Permission is granted to use, copy, modify
+            and distribute the             DTD's, schemas and modules in the Commerce One XML Common
+            Business             Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html         </xsd:documentation>
+	</xsd:annotation>
+	<xsd:complexType name="OrderDetailType">
+		<xsd:annotation>
+			<xsd:documentation>contains the line item and package details of the
+                <!--code-->Order<!--/code-->.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="ListOfItemDetail" type="ListOfItemDetailType" form="qualified">
+				<xsd:annotation>
+					<xsd:documentation>contains a list of line items for the
+                        <!--code-->Order<!--/code-->. </xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="ListOfPackageDetail" form="qualified" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>contains a list of package details for the
+                        <!--code-->Order<!--/code-->.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">             XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.             Permission is granted to use, copy, modify
+            and distribute the             DTD's, schemas and modules in the Commerce One XML Common
+            Business             Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html         </xsd:documentation>
+	</xsd:annotation>
+	<xsd:complexType name="OrderHeaderType">
+		<xsd:annotation>
+			<xsd:documentation>contains the header information of the order.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="ListOfItemDetail" type="ListOfItemDetailType"/>
+			<xsd:element name="OrderNumber" type="OrderNumberType" form="qualified">
+				<xsd:annotation>
+					<xsd:documentation>is the unique number assigned to the
+                        <!--code-->Order<!--/code-->, typically according to the system that
+                        generated the <!--code-->Order<!--/code-->.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="OrderIssueDate" type="xsd:dateTime" form="qualified">
+				<xsd:annotation>
+					<xsd:documentation>holds a time stamp provided by the application that created
+                        the                     <!--code-->Order<!--/code-->
+                        document.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="OrderReferences" type="OrderReferencesType" form="qualified"
+				minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>contains external references to the
+                        <!--code-->Order<!--/code--> that are important to the processing and use of
+                        the <!--code-->Order<!--/code-->.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="ReleaseNumber" type="xsd:string" form="qualified" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>is the element used if the purchase order is a release
+                        against                     the document specified in the
+                        <!--code-->ContractReference<!--/code--> under the order
+                        reference.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Purpose" form="qualified" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>is used to communicate the purpose of the
+                        <!--code-->Order<!--/code-->.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="RequestedResponse" form="qualified" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>specifies the type of acknowledgment requested by the buyer
+                        from                     the seller.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="OrderType" form="qualified" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>identifies the type of <!--code-->Order<!--/code--> being
+                        transmitted.                     </xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="OrderCurrency" form="qualified">
+				<xsd:annotation>
+					<xsd:documentation>identifies the default currency of the
+                        <!--code-->Order<!--/code-->, which when used at                     the
+                        header level may be overwritten at the lower level within the
+                        structure.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="TaxAccountingCurrency" form="qualified" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>identifies the tax accounting currency for the
+                        <!--code-->Order<!--/code--> if different                     than the
+                        <!--code-->OrderCurrency<!--/code--> .</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="OrderLanguage" form="qualified">
+				<xsd:annotation>
+					<xsd:documentation>identifies the language of the <!--code-->Order<!--/code-->.
+                    </xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="Language">
+							<xsd:complexType>
+								<xsd:sequence>
+									<xsd:element name="LanguageCoded"/>
+								</xsd:sequence>
+							</xsd:complexType>
+						</xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="OrderTaxReference" form="qualified" minOccurs="0"
+				maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation>identifies the default tax information for the
+                        <!--code-->Order<!--/code-->
+					</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="OrderInvoiceMediumTypeCoded" type="OrderInvoiceMediumTypeCodeType"
+				form="qualified" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>is used to describe the type of invoice required for this
+                        <!--code-->Order<!--/code-->. </xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="OrderInvoiceMediumTypeCodedOther" type="xsd:string" form="qualified"
+				minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>is used to provide a non-standard
+                        <!--code-->OrderInvoiceMediumTypeCode<!--/code-->. This element is mandatory
+                        if the value                     of
+                        <!--code-->OrderInvoiceMediumTypeCoded<!--/code--> is 'Other'. These codes
+                        should not                     contain white space unless absolutely
+                        necessary.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="OrderDates" type="OrderDatesType" form="qualified" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>is used to hold a list of the pertinent dates for the
+                        <!--code-->Order<!--/code--> - dates include validity dates,
+                        <!--code-->RequestedShipDate<!--/code-->,
+                        <!--code-->CancelByDates<!--/code-->, among others. These dates apply to the
+                        entire                     order, acting as defaults and that may be
+                        overwritten at the item level or                     package level in the
+                        body of the message.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="PartialShipmentAllowed" type="xsd:boolean" form="qualified"
+				minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>is a flag that indicates whether less than the entirety of
+                        the order can be shipped.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="OrderParty" type="OrderPartyType" form="qualified">
+				<xsd:annotation>
+					<xsd:documentation>holds information on the parties for the
+                        <!--code-->Order<!--/code-->, including unique                     ID's and
+                        address information.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="PartLocation" type="xsd:string" form="qualified" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>is used when a supplier has multiple
+                        warehouses.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="ListOfTransportRouting" form="qualified" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>provides information on the movement of the goods including
+                        carrier, equipment and service level instructions. </xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="OrderTermsOfDelivery" form="qualified" minOccurs="0"
+				maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation>defines the terms of delivery for the
+                        <!--code-->Order<!--/code-->. </xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="OrderHeaderPrice" form="qualified" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>is the pricing information for the
+                        <!--code-->Order<!--/code-->. This is the default price and can be
+                        overwritten                     at the item level.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="OrderPaymentInstructions" form="qualified" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>holds the payment instructions for the
+                        <!--code-->Order<!--/code-->.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="OrderAllowancesOrCharges" form="qualified" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>contains the allowances and/or charges for the whole
+                        <!--code-->Order<!--/code-->. These may include goods and shipping charges.
+                        Additional                     allowance or charges may be present at lower
+                        levels of the <!--code-->Order<!--/code-->.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="RoundTripInformation" form="qualified" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>identifies information specific to the round trip order
+                        process for the entire order.                     This element should only
+                        be used if the ordering process for this entire order is round
+                        trip.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="OrderHeaderNote" type="xsd:string" form="qualified" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>describes any free form text pertinent to the entire document
+                        described by the <!--code-->Order<!--/code--> or to the
+                        <!--code-->Order<!--/code--> message                     itself. This
+                        element may contain notes or any other similar information that is
+                        not contained explicitly in another structure. You should not assume that
+                        the                     receiving application is capable of doing more than
+                        storing and/or displaying                     this information.
+                    </xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="SpecialHandling" form="qualified" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>descibes any special handling conditions that apply to the
+                        enitre order.                     </xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="ListOfStructuredNote" form="qualified" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>contains one or more structured notes that allow you to
+                        provide                     notes that are more than a simple free-text
+                        field. such notes may include the                     message text, or this
+                        text may be referenced with an external identifier or a
+                        URL. An agency may be specified, and is needed in the case where an ID has
+                        been                     provided for a note that is either included in-line
+                        or referenced. This field                     is often used to include
+                        references to centrally stored clauses in contracts                     that
+                        are required to appear within business documents.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="ListOfNameValueSet" form="qualified" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>is used to hold sets of name value pairs.  The use of this
+                        element should                     be limited to the support of previous
+                        versions of xCBL.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="OrderHeaderAttachments" form="qualified" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>holds a list of attachments applicable to the entire
+                        <!--code-->Order<!--/code-->, or a large part of the consignment it
+                        describes. This                     information is not specific to a
+                        particular line item or package unless                     specifically
+                        noted.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">             XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.             Permission is granted to use, copy, modify
+            and distribute the             DTD's, schemas and modules in the Commerce One XML Common
+            Business             Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html         </xsd:documentation>
+	</xsd:annotation>
+	<xsd:simpleType name="OrderInvoiceMediumTypeCodeType">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:enumeration value="Other">
+				<xsd:annotation>
+					<xsd:documentation>Custom Code</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Circuitswitching">
+				<xsd:annotation>
+					<xsd:documentation>A process that, on demand, connects two or more data terminal
+                        equipment and permits the exclusive use of a data circuit between them until
+                        the connection is released (ISO).</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="SITA">
+				<xsd:annotation>
+					<xsd:documentation>Communications number assigned by Societe Internationale de
+                        Telecommunications Aeronautiques (SITA).</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="ARINC">
+				<xsd:annotation>
+					<xsd:documentation>Communications number assigned by Aeronautical Radio
+                        Inc.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Courier">
+				<xsd:annotation>
+					<xsd:documentation>A communication channel identifying a
+                        courier.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="CableAddress">
+				<xsd:annotation>
+					<xsd:documentation/>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="EDITransmission">
+				<xsd:annotation>
+					<xsd:documentation>Number identifying the service and service
+                        user.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="ElectronicMail">
+				<xsd:annotation>
+					<xsd:documentation>Exchange of mail by electronic means.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Extension">
+				<xsd:annotation>
+					<xsd:documentation>Telephone extension.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="FileTransferAccessMethod">
+				<xsd:annotation>
+					<xsd:documentation>According to ISO.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="TeleFax">
+				<xsd:annotation>
+					<xsd:documentation>Device used for transmitting and reproducing fixed graphic
+                        material (as printing) by means of signals over telephone lines or other
+                        electronic transmission media.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="GEISMailbox">
+				<xsd:annotation>
+					<xsd:documentation>General Electric Information Service</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="IBMInformationExchange">
+				<xsd:annotation>
+					<xsd:documentation/>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="InternalMail">
+				<xsd:annotation>
+					<xsd:documentation>Internal mail address/number.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Mail">
+				<xsd:annotation>
+					<xsd:documentation>Postal service document delivery.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="PostBoxNo">
+				<xsd:annotation>
+					<xsd:documentation/>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="PacketSwitching">
+				<xsd:annotation>
+					<xsd:documentation>The process of routing and transferring data by means of
+                        addressed packets so that a channel is occupied only during the
+                        transmission; upon completion of the transmission the channel is made
+                        available for the transfer of other packets (ISO).</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="SWIFT">
+				<xsd:annotation>
+					<xsd:documentation>Communications address assigned by Society for Worldwide
+                        Interbank Financial Telecommunications s.c.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Telephone">
+				<xsd:annotation>
+					<xsd:documentation>Voice/data transmission by telephone.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Telegraph">
+				<xsd:annotation>
+					<xsd:documentation>Text transmission via telegraph.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Telex">
+				<xsd:annotation>
+					<xsd:documentation>Transmission of text/data via telex.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="TeleMail">
+				<xsd:annotation>
+					<xsd:documentation>Transmission of text/data via telemail.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="TeleText">
+				<xsd:annotation>
+					<xsd:documentation>Transmission of text/data via teletext.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="TWX">
+				<xsd:annotation>
+					<xsd:documentation>Communication service involving Teletypewriter machines
+                        connected by wire or electronic transmission media. Teletypewriter machines
+                        are the devices used to send and receive signals and produce hardcopy from
+                        them.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="X.400">
+				<xsd:annotation>
+					<xsd:documentation>CCITT Message handling system.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="NotRequired">
+				<xsd:annotation>
+					<xsd:documentation/>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">             XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.             Permission is granted to use, copy, modify
+            and distribute the             DTD's, schemas and modules in the Commerce One XML Common
+            Business             Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html         </xsd:documentation>
+	</xsd:annotation>
+	<xsd:complexType name="OrderNumberType">
+		<xsd:annotation>
+			<xsd:documentation>is a unique number assigned to the <!--code-->Order<!--/code--> in
+                respect         to the parties assigning the number.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="BuyerOrderNumber" type="xsd:string" form="qualified">
+				<xsd:annotation>
+					<xsd:documentation>is the unique number assigned by the buyer to the
+                        <!--code-->Order<!--/code-->. </xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="SellerOrderNumber" type="xsd:string" form="qualified" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>is the unique number assigned by the seller to the
+                        <!--code-->Order<!--/code-->.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">             XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.             Permission is granted to use, copy, modify
+            and distribute the             DTD's, schemas and modules in the Commerce One XML Common
+            Business             Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html         </xsd:documentation>
+	</xsd:annotation>
+	<xsd:complexType name="OrderPartyType">
+		<xsd:annotation>
+			<xsd:documentation>holds all party information related to ordering
+                goods.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="BuyerParty" form="qualified">
+				<xsd:annotation>
+					<xsd:documentation>contains the information for the party purchasing the
+                        goods.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="SellerParty" form="qualified">
+				<xsd:annotation>
+					<xsd:documentation>identifies the party selling the goods.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="ShipToParty" form="qualified" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>contains the information for the party which the items are to
+                        be shipped.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="BillToParty" form="qualified" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>contains the information for the party that will receive the
+                        bill for the goods..</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="RemitToParty" form="qualified" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>contains the information for the party to be
+                        paid.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="ShipFromParty" form="qualified" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>contains party information identifying the location from
+                        which         the items are to be shipped.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="WarehouseParty" form="qualified" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>contains party information identifying the warehouse from
+                        which         the items are to be shipped.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="SoldToParty" form="qualified" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>contains party information identifying the location where the
+                        items were sold.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="ManufacturingParty" form="qualified" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>contains the party information identifying the location where
+                        the         item is to be or is being manufactured.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="MaterialIssuer" form="qualified" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>contains the information identifying the location that is
+                        issuing         the request for the material.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="ListOfPartyCoded" form="qualified" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>is a collection of all other party information not explicitly
+                        stated as the content of another element.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">             XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.             Permission is granted to use, copy, modify
+            and distribute the             DTD's, schemas and modules in the Commerce One XML Common
+            Business             Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html         </xsd:documentation>
+	</xsd:annotation>
+	<xsd:complexType name="OrderReferencesType">
+		<xsd:annotation>
+			<xsd:documentation>defines the references for the
+                <!--code-->Order<!--/code-->.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="AccountCode" form="qualified" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>is the unique identification assigned to the buyer by the
+                        seller.         This is used for reference purposes in the transaction. For
+                        example, Buyer         Company A has a standing account with Seller Company
+                        B, which is assigned the         identification of A-127654, therefore
+                        A-127654 would be the         AccountCode.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="ContractReferences" form="qualified" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>is an element that holds the contract number and contract
+                        type         for referencing a contract. This element can also be used to
+                        hold a reference to a standing order.         In this case do not use the
+                        <!--code-->ContractType<!--/code--> field.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="QuoteReference" form="qualified" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>refers to a Quote ID or Shopping Cart ID.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="RequisitionReference" form="qualified" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>references a requisition in an ERP system which created this
+                        order.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="ListOfCostCenter" form="qualified" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>identifies all cost center information, and if applicable,
+                        the split to                     each different cost center for the entire
+                        order.  If a quantity is used to show the split, it is assumed to be the
+                        default                     quantity for each item on the order, and can be
+                        overwritten.  If a a percent or monetary amount is used, it is assumed to
+                        be in relation to the entire amount of the order, included any taxes,
+                        allowances, or charges.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="OtherOrderReferences" form="qualified" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>is all other references to the <!--code-->Order<!--/code-->
+                        not explicitly         stated as the content of other elements.
+                    </xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="ListOfItemReferenceCoded">
+							<xsd:complexType>
+								<xsd:sequence>
+									<xsd:element name="ReferenceCoded">
+										<xsd:complexType>
+											<xsd:sequence>
+												<xsd:element name="ReferenceTypeCoded"/>
+												<xsd:element name="PrimaryReference">
+												<xsd:complexType>
+												<xsd:sequence>
+												<xsd:element name="Reference">
+												<xsd:complexType>
+												<xsd:sequence>
+												<xsd:element name="RefNum"/>
+												</xsd:sequence>
+												</xsd:complexType>
+												</xsd:element>
+												</xsd:sequence>
+												</xsd:complexType>
+												</xsd:element>
+												<xsd:element name="SupportingReference">
+												<xsd:complexType>
+												<xsd:sequence>
+												<xsd:element name="Reference">
+												<xsd:complexType>
+												<xsd:sequence>
+												<xsd:element name="RefNum"/>
+												</xsd:sequence>
+												</xsd:complexType>
+												</xsd:element>
+												</xsd:sequence>
+												</xsd:complexType>
+												</xsd:element>
+											</xsd:sequence>
+										</xsd:complexType>
+									</xsd:element>
+								</xsd:sequence>
+							</xsd:complexType>
+						</xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">             XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.             Permission is granted to use, copy, modify
+            and distribute the             DTD's, schemas and modules in the Commerce One XML Common
+            Business             Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html         </xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">             XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.             Permission is granted to use, copy, modify
+            and distribute the             DTD's, schemas and modules in the Commerce One XML Common
+            Business             Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html         </xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">             XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.             Permission is granted to use, copy, modify
+            and distribute the             DTD's, schemas and modules in the Commerce One XML Common
+            Business             Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html         </xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">             XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.             Permission is granted to use, copy, modify
+            and distribute the             DTD's, schemas and modules in the Commerce One XML Common
+            Business             Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html         </xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">             XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.             Permission is granted to use, copy, modify
+            and distribute the             DTD's, schemas and modules in the Commerce One XML Common
+            Business             Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html         </xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">             XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.             Permission is granted to use, copy, modify
+            and distribute the             DTD's, schemas and modules in the Commerce One XML Common
+            Business             Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html         </xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">             XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.             Permission is granted to use, copy, modify
+            and distribute the             DTD's, schemas and modules in the Commerce One XML Common
+            Business             Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html         </xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">             XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.             Permission is granted to use, copy, modify
+            and distribute the             DTD's, schemas and modules in the Commerce One XML Common
+            Business             Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html         </xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">             XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.             Permission is granted to use, copy, modify
+            and distribute the             DTD's, schemas and modules in the Commerce One XML Common
+            Business             Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html         </xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">             XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.             Permission is granted to use, copy, modify
+            and distribute the             DTD's, schemas and modules in the Commerce One XML Common
+            Business             Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html         </xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">             XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.             Permission is granted to use, copy, modify
+            and distribute the             DTD's, schemas and modules in the Commerce One XML Common
+            Business             Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html         </xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">             XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.             Permission is granted to use, copy, modify
+            and distribute the             DTD's, schemas and modules in the Commerce One XML Common
+            Business             Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html         </xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">             XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.             Permission is granted to use, copy, modify
+            and distribute the             DTD's, schemas and modules in the Commerce One XML Common
+            Business             Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html         </xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">             XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.             Permission is granted to use, copy, modify
+            and distribute the             DTD's, schemas and modules in the Commerce One XML Common
+            Business             Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html         </xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">             XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.             Permission is granted to use, copy, modify
+            and distribute the             DTD's, schemas and modules in the Commerce One XML Common
+            Business             Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html         </xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">             XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.             Permission is granted to use, copy, modify
+            and distribute the             DTD's, schemas and modules in the Commerce One XML Common
+            Business             Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html         </xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">             XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.             Permission is granted to use, copy, modify
+            and distribute the             DTD's, schemas and modules in the Commerce One XML Common
+            Business             Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html         </xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">             XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.             Permission is granted to use, copy, modify
+            and distribute the             DTD's, schemas and modules in the Commerce One XML Common
+            Business             Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html         </xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">             XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.             Permission is granted to use, copy, modify
+            and distribute the             DTD's, schemas and modules in the Commerce One XML Common
+            Business             Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html         </xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">             XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.             Permission is granted to use, copy, modify
+            and distribute the             DTD's, schemas and modules in the Commerce One XML Common
+            Business             Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html         </xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">             XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.             Permission is granted to use, copy, modify
+            and distribute the             DTD's, schemas and modules in the Commerce One XML Common
+            Business             Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html         </xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">             XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.             Permission is granted to use, copy, modify
+            and distribute the             DTD's, schemas and modules in the Commerce One XML Common
+            Business             Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html         </xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">             XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.             Permission is granted to use, copy, modify
+            and distribute the             DTD's, schemas and modules in the Commerce One XML Common
+            Business             Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html         </xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">             XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.             Permission is granted to use, copy, modify
+            and distribute the             DTD's, schemas and modules in the Commerce One XML Common
+            Business             Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html         </xsd:documentation>
+	</xsd:annotation>
+	<xsd:complexType name="OrderSummaryType">
+		<xsd:annotation>
+			<xsd:documentation>contains the summary information of the <!--code-->Order<!--/code-->,
+                typically totals         of numerical fields.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="NumberOfLines" type="xsd:int" form="qualified" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>identifies the number of line items.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="ListOfTaxSummary" form="qualified" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>contains the summary of the tax information specified within
+                        the              <!--code-->Invoice<!--/code-->. This element is mandatory
+                        if tax elements occur in either              the invoice header or any
+                        invoice detail item line. </xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="AllowOrChargeSummary" form="qualified" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>contains the summary amounts, for each category of the
+                        allowance or              charge. </xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="OrderSubTotal" form="qualified" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>contains the sub total for all items on the order.
+                        This should be the sum of the sub totals of all items, not including taxes,
+                        allowances, or charges.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="OrderTotal" form="qualified" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>contains the total price for the entire order, including
+                        all taxes, allowances, and charges.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="TransportPackagingTotals" form="qualified" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>is a summary of transport and packaging information if
+                        included         in the <!--code-->Order<!--/code-->. </xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="SummaryNote" type="xsd:string" form="qualified" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>contains any free form text for the
+                        <!--code-->OrderSummary<!--/code-->. This element         may contain notes
+                        or any other similar information that is not contained         explicitly in
+                        another structure. You should not assume that the receiving
+                        application is capable of doing more than storing and/or displaying this
+                        information.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">             XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.             Permission is granted to use, copy, modify
+            and distribute the             DTD's, schemas and modules in the Commerce One XML Common
+            Business             Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html         </xsd:documentation>
+	</xsd:annotation>
+	<xsd:complexType name="OrderType">
+		<xsd:annotation>
+			<xsd:documentation> comprises the creation of a purchase order that is sent for
+                acceptance or rejection by a seller. A requisitioner, buyer, or buying
+                organization can initiate an Order in response to a variety of factors in the
+                electronic business arena, contracts, auctions, order requests, etc. A
+                requisitioner, or buyer, can initiate a change to an already existing order. A
+                seller uses the OrderResponse document to accept or reject an Order or a
+                changed order.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="OrderHeader" type="OrderHeaderType" form="qualified">
+				<xsd:annotation>
+					<xsd:documentation>contains the header information of the
+                        <!--code-->Order<!--/code-->.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="OrderDetail" type="OrderDetailType" form="qualified" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>contains the line item and package details of the
+                        <!--code-->Order<!--/code-->.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="OrderSummary" type="OrderSummaryType" form="qualified" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>contains the summary information of the
+                        <!--code-->Order<!--/code-->, typically totals         of numerical
+                        fields.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="DigitalSignature" form="qualified" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>contains a digital signature for the document.
+                    </xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">             XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.             Permission is granted to use, copy, modify
+            and distribute the             DTD's, schemas and modules in the Commerce One XML Common
+            Business             Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html         </xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">             XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.             Permission is granted to use, copy, modify
+            and distribute the             DTD's, schemas and modules in the Commerce One XML Common
+            Business             Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html         </xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">             XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.             Permission is granted to use, copy, modify
+            and distribute the             DTD's, schemas and modules in the Commerce One XML Common
+            Business             Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html         </xsd:documentation>
+	</xsd:annotation>
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">             XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.             Permission is granted to use, copy, modify
+            and distribute the             DTD's, schemas and modules in the Commerce One XML Common
+            Business             Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html         </xsd:documentation>
+	</xsd:annotation>
+	<xsd:element name="Order" type="OrderType"/>
+</xsd:schema>

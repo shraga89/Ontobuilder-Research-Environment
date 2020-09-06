@@ -19,8 +19,7 @@ import ac.technion.schemamatching.statistics.predictors.EntryPredictorsSelect;
 import ac.technion.schemamatching.statistics.predictors.MatrixPredictors;
 import ac.technion.schemamatching.statistics.predictors.MatrixPredictorsSelect;
 import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
-import technion.iem.schemamatching.dbutils.DBInterface;
-
+import ac.technion.schemamatching.DBInterface.DBInterface;
 /**
  * Evaluates matrix predictors by returning the predictor value next to
  * precision, recall and L2 similarity measures 

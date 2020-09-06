@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" targetNamespace="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" elementFormDefault="qualified">
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+            XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.
+            Permission is granted to use, copy, modify and distribute the
+            DTD's, schemas and modules in the Commerce One XML Common Business
+            Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType name="StructuredNoteType">
+        <xsd:annotation>
+            <xsd:documentation>is a note that allows for an ID, URL, and a free form note
+        field.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element minOccurs="0" name="GeneralNote" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>is used to provide a note in text form if desired.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="NoteID" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>is an ID assigned to this note. This element is an implied
+        attribute.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Agency" type="AgencyType">
+                <xsd:annotation>
+                    <xsd:documentation>is used to identify the agency that assigned the
+        NoteID.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="NoteURL" type="xsd:anyURI">
+                <xsd:annotation>
+                    <xsd:documentation>is the URL that this note is referencing. This is an implied
+        attribute.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="TextTypeCoded" type="TextTypeCodeType">
+                <xsd:annotation>
+                    <xsd:documentation>identifies the type of text contained in the structured note.  This should only
+        be used if the identification of the type of note is necessary.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="TextTypeCodedOther" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>is used to provide a non-standard <!--code-->TextTypeCode<!--/code-->. This element
+        is mandatory if the value of <!--code-->TextTypeCoded<!--/code--> is 'Other'. These codes should
+        not contain white space unless absolutely necessary.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="ListOfStructuredNoteType">
+        <xsd:annotation>
+            <xsd:documentation>contains one or more structured notes that allow you to provide
+        notes that are more than a simple free-text field. Such notes may include the
+        message text, or this text may be referenced with an external identifier or a
+        URL. An agency may be specified, and is needed in the case where an ID has been
+        provided for a note that is either included in-line or referenced. This field
+        is often used to include references to centrally stored clauses in contracts
+        that are required to appear within business documents.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element maxOccurs="unbounded" name="StructuredNote" type="StructuredNoteType">
+                <xsd:annotation>
+                    <xsd:documentation>is a note that allows for an ID, URL, and a free form note
+        field.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

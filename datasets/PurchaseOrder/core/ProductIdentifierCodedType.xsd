@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" targetNamespace="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" elementFormDefault="qualified">
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+            XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.
+            Permission is granted to use, copy, modify and distribute the
+            DTD's, schemas and modules in the Commerce One XML Common Business
+            Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType name="ProductIdentifierCodedType">
+        <xsd:annotation>
+            <xsd:documentation>is an identification of a product or service where the source or
+    function of the identification is not explicitly stated by another
+    element.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="ProductIdentifierQualifierCoded" type="ProductIdentifierQualifierCodeType">
+                <xsd:annotation>
+                    <xsd:documentation>qualifies a product or service identification using a standard
+    codelist.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ProductIdentifierQualifierCodedOther" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>is used to provide a non-standard
+    <!--code-->ProductIdentifierQualifierCode<!--/code-->. This element is mandatory if the
+    value of <!--code-->ProductIdentifierQualifierCoded<!--/code--> is 'Other'. These codes
+    should not contain white space unless absolutely necessary.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="ProductIdentifier" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>contains a basic identification for a product or service in text
+    format.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ProductIdentifierExt" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>contains an extension to the basic identification for a product
+    or service. This can be used to supply a color code for a specific
+    product.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="ListOfProductIdentifierCodedType">
+        <xsd:annotation>
+            <xsd:documentation>contains one or more identifications of a product or service
+    where the source or function of the identification is not explicitly stated in
+    another element.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element maxOccurs="unbounded" name="ProductIdentifierCoded" type="ProductIdentifierCodedType">
+                <xsd:annotation>
+                    <xsd:documentation>is an identification of a product or service where the source or
+    function of the identification is not explicitly stated by another
+    element.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

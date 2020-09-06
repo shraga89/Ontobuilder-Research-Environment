@@ -1,0 +1,2695 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" targetNamespace="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" elementFormDefault="qualified">
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+            XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.
+            Permission is granted to use, copy, modify and distribute the
+            DTD's, schemas and modules in the Commerce One XML Common Business
+            Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleType name="SpecialHandlingCodeType">
+        <xsd:annotation>
+            <xsd:documentation>This code identifies any special transportation handling instructions. This code list is derived from X12 152 (Special handling code)</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:NMTOKEN">
+            <xsd:enumeration value="SpeedRestrictedTo15MilesPerHour">
+                <xsd:annotation>
+                    <xsd:documentation>Speed restricted to 15 miles per hour</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SpeedRestrictedTo25MilesPerHour">
+                <xsd:annotation>
+                    <xsd:documentation>Speed restricted to 25 miles per hour</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SpeedRestrictedTo35MilesPerHour">
+                <xsd:annotation>
+                    <xsd:documentation>Speed restricted to 35 miles per hour</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SpeedRestrictedTo45MilesPerHour">
+                <xsd:annotation>
+                    <xsd:documentation>Speed restricted to 45 miles per hour</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NoFacialHair">
+                <xsd:annotation>
+                    <xsd:documentation>No facial hair</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CarIsAirBrakeControlled">
+                <xsd:annotation>
+                    <xsd:documentation>Car is air brake controlled</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CustomerRequiredPackingList">
+                <xsd:annotation>
+                    <xsd:documentation>Customer required packing list</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CustomerRequiredPRONumber">
+                <xsd:annotation>
+                    <xsd:documentation>Customer required pro number</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CustomerRequiredAppointmentNumber">
+                <xsd:annotation>
+                    <xsd:documentation>Customer required appointment number</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="LoadOnTopOfResidue">
+                <xsd:annotation>
+                    <xsd:documentation>Load on top of residue heel</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DisposeOfResidue">
+                <xsd:annotation>
+                    <xsd:documentation>Dispose of residue heel</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Attachment-AutoKeys">
+                <xsd:annotation>
+                    <xsd:documentation>Attachment - auto keys</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="AttachmentToMoveWithCar">
+                <xsd:annotation>
+                    <xsd:documentation>Attachment to move with car</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="AnnualVolume">
+                <xsd:annotation>
+                    <xsd:documentation>Annual volume</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Attachments-AdvanceOnlyWaybill">
+                <xsd:annotation>
+                    <xsd:documentation>Attachments - advance only waybill</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ClearinghouseBalance">
+                <xsd:annotation>
+                    <xsd:documentation>Clearinghouse balance</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="BlowableLoad">
+                <xsd:annotation>
+                    <xsd:documentation>Blowable load</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="IfBadOrderedNotifyShipper">
+                <xsd:annotation>
+                    <xsd:documentation>If bad ordered notify shipper</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="BillShipperForWeighCharge">
+                <xsd:annotation>
+                    <xsd:documentation>Bill shipper for weigh charge</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ContainerConsolidatorLoad">
+                <xsd:annotation>
+                    <xsd:documentation>Container consolidator load</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Attachment-CustomersDocument">
+                <xsd:annotation>
+                    <xsd:documentation>Attachment - customers document</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ClearedForExport">
+                <xsd:annotation>
+                    <xsd:documentation>Cleared for export</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ContainerFactoryLoad">
+                <xsd:annotation>
+                    <xsd:documentation>Container factory load</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Carrier">
+                <xsd:annotation>
+                    <xsd:documentation>Carrier</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CustomsInspection">
+                <xsd:annotation>
+                    <xsd:documentation>Customs inspection</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Attachment-CottonManifest">
+                <xsd:annotation>
+                    <xsd:documentation>Attachment - cotton manifest</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NoMarshallingRequiredForHazardousMaterials">
+                <xsd:annotation>
+                    <xsd:documentation>No marshalling required for hazardous materials</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CircusRampOnlyTOFCVan">
+                <xsd:annotation>
+                    <xsd:documentation>Circus ramp only TOFC van</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="BillConsigneeForWeighCharges">
+                <xsd:annotation>
+                    <xsd:documentation>Bill consignee for weigh charges</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="TopLoadOnly">
+                <xsd:annotation>
+                    <xsd:documentation>Top load only</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CertificationThatThisShipmentIsForRecyclingAsDefinedInApplicableTariffsContainingSuchProvisions">
+                <xsd:annotation>
+                    <xsd:documentation>Certification that this shipment is for recycling as defined in applicable tariffs containing such provisions</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Dangerous">
+                <xsd:annotation>
+                    <xsd:documentation>Dangerous</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Demurrage">
+                <xsd:annotation>
+                    <xsd:documentation>Demurrage</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Domestic">
+                <xsd:annotation>
+                    <xsd:documentation>Domestic</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ShipperAuthorizationRequiredForDiversionOrConsignment">
+                <xsd:annotation>
+                    <xsd:documentation>Shipper authorization required for diversion or consignment</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DropYard">
+                <xsd:annotation>
+                    <xsd:documentation>Drop yard</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DeliveryOnlyOnSurrenderOfWrittenOrder">
+                <xsd:annotation>
+                    <xsd:documentation>Delivery only on surrender of written order</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DeadInTow">
+                <xsd:annotation>
+                    <xsd:documentation>Dead in tow</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DoNotUncouple">
+                <xsd:annotation>
+                    <xsd:documentation>Do not uncouple</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Equipment">
+                <xsd:annotation>
+                    <xsd:documentation>Equipment</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DestinationWeightsApply">
+                <xsd:annotation>
+                    <xsd:documentation>Destination weights apply</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ExcessiveDimensions">
+                <xsd:annotation>
+                    <xsd:documentation>Excessive dimensions</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ElectronicEquipmentTransfer">
+                <xsd:annotation>
+                    <xsd:documentation>Electronic equipment transfer</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="EnvironmentalControlLimits">
+                <xsd:annotation>
+                    <xsd:documentation>Environmental control limits</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Expedite">
+                <xsd:annotation>
+                    <xsd:documentation>Expedite</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ReturnEmptyViaReverseRoute">
+                <xsd:annotation>
+                    <xsd:documentation>Return empty via reverse route</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DamagesIncurredIfShipmentFailsToMeetVesselLoading">
+                <xsd:annotation>
+                    <xsd:documentation>Damages incurred if shipment fails to meet vessel loading</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ExcessiveWeight">
+                <xsd:annotation>
+                    <xsd:documentation>Excessive weight</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ExplosiveFlammableGas">
+                <xsd:annotation>
+                    <xsd:documentation>Explosive flammable gas</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="FaceA-EndToHeadOfTrain">
+                <xsd:annotation>
+                    <xsd:documentation>Face "A-end" to head of train</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="FaceB-EndToHeadOfTrain">
+                <xsd:annotation>
+                    <xsd:documentation>Face "B-end" to head of train</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="MovingUnderForFurtheranceInstructionsAndMayBeDelivered">
+                <xsd:annotation>
+                    <xsd:documentation>Moving under "for furtherance instructions" and may be delivered</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="FullService">
+                <xsd:annotation>
+                    <xsd:documentation>Full service</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="FlammableGas">
+                <xsd:annotation>
+                    <xsd:documentation>Flammable gas</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Flammable">
+                <xsd:annotation>
+                    <xsd:documentation>Flammable</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="FlammablePoisonGas">
+                <xsd:annotation>
+                    <xsd:documentation>Flammable poison gas</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Fragile-HandleWithCare">
+                <xsd:annotation>
+                    <xsd:documentation>Fragile - handle with care</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NontransitFlatShipment">
+                <xsd:annotation>
+                    <xsd:documentation>Nontransit flat shipment</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="GrainInspection">
+                <xsd:annotation>
+                    <xsd:documentation>Grain inspection</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="HeadEndCar">
+                <xsd:annotation>
+                    <xsd:documentation>Head end car</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Household">
+                <xsd:annotation>
+                    <xsd:documentation>Household</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="EndorsedAsHazardousMaterial">
+                <xsd:annotation>
+                    <xsd:documentation>Endorsed as hazardous material</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="HoldForOrders">
+                <xsd:annotation>
+                    <xsd:documentation>Hold for orders</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="HeatedPriorToLoading">
+                <xsd:annotation>
+                    <xsd:documentation>Heated prior to loading</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="HomeForRepair">
+                <xsd:annotation>
+                    <xsd:documentation>Home for repair</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Heat">
+                <xsd:annotation>
+                    <xsd:documentation>Heat</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="HighValueLoad">
+                <xsd:annotation>
+                    <xsd:documentation>High value load</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="HighWideLoad">
+                <xsd:annotation>
+                    <xsd:documentation>High wide load</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="In-Bond">
+                <xsd:annotation>
+                    <xsd:documentation>In-bond</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Ice">
+                <xsd:annotation>
+                    <xsd:documentation>Ice</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ShipmentToBeInspectedAtDestinationAndDispositionInstructionsWillBeFurnished">
+                <xsd:annotation>
+                    <xsd:documentation>Shipment to be inspected at destination and disposition instructions will be furnished</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="InterofficeMove">
+                <xsd:annotation>
+                    <xsd:documentation>Interoffice move</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ImportShipment">
+                <xsd:annotation>
+                    <xsd:documentation>Import shipment</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="RailIncentiveRate">
+                <xsd:annotation>
+                    <xsd:documentation>Rail incentive rate</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SurveillanceService">
+                <xsd:annotation>
+                    <xsd:documentation>Surveillance service</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="JunctionSettlementAccount">
+                <xsd:annotation>
+                    <xsd:documentation>Junction settlement account</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="LandBridgeImportOrExport">
+                <xsd:annotation>
+                    <xsd:documentation>Land bridge import/export</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CarTripLeasedToConsignee">
+                <xsd:annotation>
+                    <xsd:documentation>Car trip leased to consignee</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="LoadingDevices">
+                <xsd:annotation>
+                    <xsd:documentation>Loading devices</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="LoadedToFullVisibleCapacity">
+                <xsd:annotation>
+                    <xsd:documentation>Loaded to full visible capacity</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="LessThanContainerConsolidatorLoad">
+                <xsd:annotation>
+                    <xsd:documentation>Less than container consolidator load</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ProtectLowestThroughRate">
+                <xsd:annotation>
+                    <xsd:documentation>Protect lowest through rate</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="LessThanContainerFactoryLoad">
+                <xsd:annotation>
+                    <xsd:documentation>Less than container factory load</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="LocalServiceOnly">
+                <xsd:annotation>
+                    <xsd:documentation>Local service only</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="LessThanFullCarload">
+                <xsd:annotation>
+                    <xsd:documentation>Less than full carload</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PersonInChargeOfCar">
+                <xsd:annotation>
+                    <xsd:documentation>Person in charge of car</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ClearedForBorderCrossing">
+                <xsd:annotation>
+                    <xsd:documentation>Cleared for border crossing</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="MultiplePickup">
+                <xsd:annotation>
+                    <xsd:documentation>Multiple pickup</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="MechanicalRefrigeration">
+                <xsd:annotation>
+                    <xsd:documentation>Mechanical refrigeration</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NotifyConsigneeBeforeDelivery">
+                <xsd:annotation>
+                    <xsd:documentation>Notify consignee before delivery</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DoNotDivert">
+                <xsd:annotation>
+                    <xsd:documentation>Do not divert</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NoSpecialEntrainmentRequired">
+                <xsd:annotation>
+                    <xsd:documentation>No special entrainment required</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DoNotHump">
+                <xsd:annotation>
+                    <xsd:documentation>Do not hump</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NewEquipmentFirstTransborderMovement">
+                <xsd:annotation>
+                    <xsd:documentation>New equipment first transborder movement</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DoNotPool">
+                <xsd:annotation>
+                    <xsd:documentation>Do not pool</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NotifyShipperBeforeReconsignment">
+                <xsd:annotation>
+                    <xsd:documentation>Notify shipper before reconsignment</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DoNotTransferContents">
+                <xsd:annotation>
+                    <xsd:documentation>Do not transfer contents</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="InCaseOfFireDoNotUseWater">
+                <xsd:annotation>
+                    <xsd:documentation>In case of fire do not use water</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NotForExport">
+                <xsd:annotation>
+                    <xsd:documentation>Not for export</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CommodityLoadedLessThanOrEqualToTheCarOrdered">
+                <xsd:annotation>
+                    <xsd:documentation>Commodity loaded less than or equal to the car ordered</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Overweight">
+                <xsd:annotation>
+                    <xsd:documentation>Overweight</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PerishableInBoxCar">
+                <xsd:annotation>
+                    <xsd:documentation>Perishable in box car</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PrivatelyControlledPrivateEquipmentSubjectToDemurrage">
+                <xsd:annotation>
+                    <xsd:documentation>Privately controlled private equipment subject to demurrage</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PoisonousGas">
+                <xsd:annotation>
+                    <xsd:documentation>Poisonous gas</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="IcedPriorToLoading">
+                <xsd:annotation>
+                    <xsd:documentation>Iced prior to loading</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ProductProtectionService">
+                <xsd:annotation>
+                    <xsd:documentation>Product protection service</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Attachment-PrepaidWaybill">
+                <xsd:annotation>
+                    <xsd:documentation>Attachment - prepaid waybill</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ReturnAuthorization">
+                <xsd:annotation>
+                    <xsd:documentation>Return authorization</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="RenderBillForCharges">
+                <xsd:annotation>
+                    <xsd:documentation>Render bill for charges</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="RailroadControlledPrivateEquipmentSubjectToDemurrage">
+                <xsd:annotation>
+                    <xsd:documentation>Railroad controlled private equipment subject to demurrage</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="RadioactiveMaterial">
+                <xsd:annotation>
+                    <xsd:documentation>Radioactive material</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="RushOrder">
+                <xsd:annotation>
+                    <xsd:documentation>Rush order</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="RearRider">
+                <xsd:annotation>
+                    <xsd:documentation>Rear rider</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="InspectHourlyIfCarStopped">
+                <xsd:annotation>
+                    <xsd:documentation>Inspect hourly if car stopped</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="RecordForTransit">
+                <xsd:annotation>
+                    <xsd:documentation>Record for transit</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ShipperLoadOrCarrierCount">
+                <xsd:annotation>
+                    <xsd:documentation>Shipper load/carrier count</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ShoveToRestAndCover">
+                <xsd:annotation>
+                    <xsd:documentation>Shove to rest and cover</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SubjectToSpecialDetentionRulesOrCharges">
+                <xsd:annotation>
+                    <xsd:documentation>Subject to special detention rules/charges</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Attachment-ShippersExportDocument">
+                <xsd:annotation>
+                    <xsd:documentation>Attachment - shippers export document</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ShiftableLoad">
+                <xsd:annotation>
+                    <xsd:documentation>Shiftable load</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ShipToCrossDockOrPool">
+                <xsd:annotation>
+                    <xsd:documentation>Ship to cross dock or pool</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="RequiresShelfCouplers">
+                <xsd:annotation>
+                    <xsd:documentation>Requires shelf couplers</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Attachment-ShippersManifest">
+                <xsd:annotation>
+                    <xsd:documentation>Attachment - shippers manifest</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Attachment-ShippersPackingInstructions">
+                <xsd:annotation>
+                    <xsd:documentation>Attachment - shippers packing instructions</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SpeedRestricted">
+                <xsd:annotation>
+                    <xsd:documentation>Speed restricted</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="StackTrain">
+                <xsd:annotation>
+                    <xsd:documentation>Stack train</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="StretchWrap">
+                <xsd:annotation>
+                    <xsd:documentation>Stretch wrap</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CarsTemporarilyArticulated">
+                <xsd:annotation>
+                    <xsd:documentation>Cars temporarily articulated</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="TrailerConsolidatorLoad">
+                <xsd:annotation>
+                    <xsd:documentation>Trailer consolidator load</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="TrailerFactoryLoad">
+                <xsd:annotation>
+                    <xsd:documentation>Trailer factory load</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="TurnCar">
+                <xsd:annotation>
+                    <xsd:documentation>Turn car</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="TransitShipment">
+                <xsd:annotation>
+                    <xsd:documentation>Transit shipment</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="TeamTrackDelivery">
+                <xsd:annotation>
+                    <xsd:documentation>Team track delivery</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="TimeVolumeRatesOnly">
+                <xsd:annotation>
+                    <xsd:documentation>Time volume rates only</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="UnloadAtBumperCircusRamp">
+                <xsd:annotation>
+                    <xsd:documentation>Unload at bumper circus ramp</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Unitized">
+                <xsd:annotation>
+                    <xsd:documentation>Unitized</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="UnloadFromLeftSideOfCar">
+                <xsd:annotation>
+                    <xsd:documentation>Unload from left side of car</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="UnloadAsPlacarded">
+                <xsd:annotation>
+                    <xsd:documentation>Unload as placarded</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="UnprotectedPerishable">
+                <xsd:annotation>
+                    <xsd:documentation>Unprotected perishable</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="UnloadFromRightSideOfCar">
+                <xsd:annotation>
+                    <xsd:documentation>Unload from right side of car</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ShipperCertifiesGrossWeightUnder240000Pounds">
+                <xsd:annotation>
+                    <xsd:documentation>Shipper certifies gross weight under 240000 pounds</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="VerificationWeigh">
+                <xsd:annotation>
+                    <xsd:documentation>Verification weigh</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="VentilationInstructions">
+                <xsd:annotation>
+                    <xsd:documentation>Ventilation instructions</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Wide-BodyPickupTruckAppliesToFinishedVehicleLoading">
+                <xsd:annotation>
+                    <xsd:documentation>Wide-body pickup truck applies to finished vehicle loading</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="WaivedInspection-SetDirect">
+                <xsd:annotation>
+                    <xsd:documentation>Waived inspection - set direct</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="WeighEmpty">
+                <xsd:annotation>
+                    <xsd:documentation>Weigh empty</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Attachments-HighWideNotice">
+                <xsd:annotation>
+                    <xsd:documentation>Attachments - high wide notice</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="WaiveInspection">
+                <xsd:annotation>
+                    <xsd:documentation>Waive inspection</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ManifestMustAccompanyWaybill">
+                <xsd:annotation>
+                    <xsd:documentation>Manifest must accompany waybill</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="WeighToCheckForOverload">
+                <xsd:annotation>
+                    <xsd:documentation>Weigh to check for overload</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="WasteWater">
+                <xsd:annotation>
+                    <xsd:documentation>Waste water</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Export">
+                <xsd:annotation>
+                    <xsd:documentation>Export</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CrossTown">
+                <xsd:annotation>
+                    <xsd:documentation>Cross town</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="AdvancedFee">
+                <xsd:annotation>
+                    <xsd:documentation>Advanced fee</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CertificateOfOrigin">
+                <xsd:annotation>
+                    <xsd:documentation>Certificate of origin</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="FuelSurchargeAuthorized">
+                <xsd:annotation>
+                    <xsd:documentation>Fuel surcharge authorized</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Offshore-AlaskaOrHawaiiService">
+                <xsd:annotation>
+                    <xsd:documentation>Offshore - Alaska/Hawaii service</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="OversizedPremium">
+                <xsd:annotation>
+                    <xsd:documentation>Oversized premium</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PreparationOfAirWaybill-Origin">
+                <xsd:annotation>
+                    <xsd:documentation>Preparation of air waybill - origin</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PreparationOfCanadianCustomsInvoice">
+                <xsd:annotation>
+                    <xsd:documentation>Preparation of Canadian customs invoice</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PreparationOfExportEntry">
+                <xsd:annotation>
+                    <xsd:documentation>Preparation of export entry</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PreparationOfInsuranceCertificate">
+                <xsd:annotation>
+                    <xsd:documentation>Preparation of insurance certificate</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PreparationOfU.S.ExportDocumentation">
+                <xsd:annotation>
+                    <xsd:documentation>Preparation of U.S. export documentation</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SaturdayDelivery">
+                <xsd:annotation>
+                    <xsd:documentation>Saturday delivery</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SaturdayPick-Up">
+                <xsd:annotation>
+                    <xsd:documentation>Saturday pick-up</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SecuritySignatureService">
+                <xsd:annotation>
+                    <xsd:documentation>Security signature service</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="WrittenProofOfDelivery">
+                <xsd:annotation>
+                    <xsd:documentation>Written proof of delivery</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Aggregate1000">
+                <xsd:annotation>
+                    <xsd:documentation>Aggregate 1000</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Aggregate3000">
+                <xsd:annotation>
+                    <xsd:documentation>Aggregate 3000</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Aggregate5000">
+                <xsd:annotation>
+                    <xsd:documentation>Aggregate 5000</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="AttendantsAccompanying">
+                <xsd:annotation>
+                    <xsd:documentation>Attendants accompanying</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="AdvanceLoading">
+                <xsd:annotation>
+                    <xsd:documentation>Advance loading</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="AirCraftFurnishedAndNotUsed">
+                <xsd:annotation>
+                    <xsd:documentation>Air craft furnished and not used</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="AggregateTenderDiscount">
+                <xsd:annotation>
+                    <xsd:documentation>Aggregate tender discount</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ArmedGuardService">
+                <xsd:annotation>
+                    <xsd:documentation>Armed guard service</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="AdditionalInjectionOrBlendingService">
+                <xsd:annotation>
+                    <xsd:documentation>Additional injection/blending service</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PortChanges">
+                <xsd:annotation>
+                    <xsd:documentation>Port changes</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="UseOfAlternateTerminal">
+                <xsd:annotation>
+                    <xsd:documentation>Use of Alternate Terminal</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="A.M.DeliveryRequirement">
+                <xsd:annotation>
+                    <xsd:documentation>A.m. delivery requirement</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="AnchoringAndUnanchoring">
+                <xsd:annotation>
+                    <xsd:documentation>Anchoring and unanchoring</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="AdditionalCopyOfShippingPapersForProofOfDelivery">
+                <xsd:annotation>
+                    <xsd:documentation>Additional copy of shipping papers for proof of delivery</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ApplianceServicing">
+                <xsd:annotation>
+                    <xsd:documentation>Appliance servicing</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="AirConditioningDisconnectAndConnect">
+                <xsd:annotation>
+                    <xsd:documentation>Air conditioning disconnect and connect</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="RailArmedGuardService">
+                <xsd:annotation>
+                    <xsd:documentation>Rail armed guard service</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="AirRideTractorService">
+                <xsd:annotation>
+                    <xsd:documentation>Air ride tractor service</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="AirRideTruckService">
+                <xsd:annotation>
+                    <xsd:documentation>Air ride truck service</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="AssemblyServiceRequested">
+                <xsd:annotation>
+                    <xsd:documentation>Assembly service requested</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="AuxiliaryService">
+                <xsd:annotation>
+                    <xsd:documentation>Auxiliary service</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="BypassConsolidationPoint">
+                <xsd:annotation>
+                    <xsd:documentation>Bypass consolidation point</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="BulkyArticle">
+                <xsd:annotation>
+                    <xsd:documentation>Bulky article</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="BlockingAndBracing">
+                <xsd:annotation>
+                    <xsd:documentation>Blocking and bracing</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="BlindShipment">
+                <xsd:annotation>
+                    <xsd:documentation>Blind shipment</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="BolsterLoadDoNotSwitch">
+                <xsd:annotation>
+                    <xsd:documentation>Bolster load do not switch</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="BoxingService-DryBulk">
+                <xsd:annotation>
+                    <xsd:documentation>Boxing service - dry bulk</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="BunkerSurchargeAuthorized">
+                <xsd:annotation>
+                    <xsd:documentation>Bunker surcharge authorized</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="BunkerAdjustment-20FootContainer">
+                <xsd:annotation>
+                    <xsd:documentation>Bunker adjustment - 20 foot container</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="BunkerAdjustment-40FootContainer">
+                <xsd:annotation>
+                    <xsd:documentation>Bunker adjustment - 40 foot container</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="BunkerAdjustment">
+                <xsd:annotation>
+                    <xsd:documentation>Bunker adjustment</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CurrencyAdjustment-20FootContainer">
+                <xsd:annotation>
+                    <xsd:documentation>Currency adjustment - 20 foot container</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CurrencyAdjustment-40FootContainer">
+                <xsd:annotation>
+                    <xsd:documentation>Currency adjustment - 40 foot container</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="RoeeCarOrPick-UpTruck">
+                <xsd:annotation>
+                    <xsd:documentation>ROEE car or pick-up truck</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ConvertCommercialBillOfLadingBolToGovernmentBol">
+                <xsd:annotation>
+                    <xsd:documentation>Convert commercial bill of lading BOL to government BOL</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Certification">
+                <xsd:annotation>
+                    <xsd:documentation>Certification</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CarrierCaboose">
+                <xsd:annotation>
+                    <xsd:documentation>Carrier caboose</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CorrosionAdditiveService">
+                <xsd:annotation>
+                    <xsd:documentation>Corrosion additive service</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CustomsFees-ContainerLevel">
+                <xsd:annotation>
+                    <xsd:documentation>Customs fees - container level</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CustomsFees-LiftLevel">
+                <xsd:annotation>
+                    <xsd:documentation>Customs fees - lift level</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CarrierGuardCarService">
+                <xsd:annotation>
+                    <xsd:documentation>Carrier guard car service</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ReturnCarrierGuardCarService">
+                <xsd:annotation>
+                    <xsd:documentation>Return carrier guard car service</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CargoTaxes">
+                <xsd:annotation>
+                    <xsd:documentation>Cargo taxes</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ChainAndBinders">
+                <xsd:annotation>
+                    <xsd:documentation>Chain and binders</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CommercialInvoicePreparation">
+                <xsd:annotation>
+                    <xsd:documentation>Commercial invoice preparation</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ConstantSurveillance">
+                <xsd:annotation>
+                    <xsd:documentation>Constant surveillance</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Cleaning">
+                <xsd:annotation>
+                    <xsd:documentation>Cleaning</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ClassRatesApplied">
+                <xsd:annotation>
+                    <xsd:documentation>Class rates applied</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Comb.RatesOverDetroit">
+                <xsd:annotation>
+                    <xsd:documentation>Comb. rates over Detroit</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ConsolidationAndLineHaul">
+                <xsd:annotation>
+                    <xsd:documentation>Consolidation and line haul</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Consolidation">
+                <xsd:annotation>
+                    <xsd:documentation>Consolidation</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ContractRatesApply">
+                <xsd:annotation>
+                    <xsd:documentation>Contract rates apply</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CertificationThatTheNewsprintWindingCoresBeingReturnedEmptyWereReceivedFilledByRailFreightService">
+                <xsd:annotation>
+                    <xsd:documentation>Certification that the newsprint winding cores being returned empty were received filled by rail freight service</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ConsigneeUnload">
+                <xsd:annotation>
+                    <xsd:documentation>Consignee unload</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CourierOvernight">
+                <xsd:annotation>
+                    <xsd:documentation>Courier overnight</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CopilotService">
+                <xsd:annotation>
+                    <xsd:documentation>Copilot service</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CustomsPapersMailed">
+                <xsd:annotation>
+                    <xsd:documentation>Customs papers mailed</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ContainerLease">
+                <xsd:annotation>
+                    <xsd:documentation>Container lease</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CourierSameDay">
+                <xsd:annotation>
+                    <xsd:documentation>Courier same day</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="GovernmentCaboose">
+                <xsd:annotation>
+                    <xsd:documentation>Government caboose</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ControlledAtmosphere">
+                <xsd:annotation>
+                    <xsd:documentation>Controlled atmosphere</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ContainerMounting">
+                <xsd:annotation>
+                    <xsd:documentation>Container mounting</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CircuitousRouting">
+                <xsd:annotation>
+                    <xsd:documentation>Circuitous routing</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CurrencyAdjustment-BreakBulk">
+                <xsd:annotation>
+                    <xsd:documentation>Currency adjustment - break bulk</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DoubleWideSeparateAndReassemble">
+                <xsd:annotation>
+                    <xsd:documentation>Double wide separate and reassemble</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DeliveryOfFuelFromBargeToPipeline">
+                <xsd:annotation>
+                    <xsd:documentation>Delivery of fuel from barge to pipeline</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DodConstantSurveillanceService">
+                <xsd:annotation>
+                    <xsd:documentation>Dod constant surveillance service</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DualDriverWithNationalAgencyCheck">
+                <xsd:annotation>
+                    <xsd:documentation>Dual driver with national agency check</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DualDriverProtectiveService">
+                <xsd:annotation>
+                    <xsd:documentation>Dual driver protective service</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DirectDelivery">
+                <xsd:annotation>
+                    <xsd:documentation>Direct delivery</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DrayageAtPortOfDebarkationRateZone">
+                <xsd:annotation>
+                    <xsd:documentation>Drayage at port of debarkation rate zone</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DeliveryService">
+                <xsd:annotation>
+                    <xsd:documentation>Delivery service</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DetentionOfConveyingEquipmentAndThePowerUnit">
+                <xsd:annotation>
+                    <xsd:documentation>Detention of conveying equipment and the power unit</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DetentionOfConveyingEquipmentExcludingThePowerUnit">
+                <xsd:annotation>
+                    <xsd:documentation>Detention of conveying equipment excluding the power unit</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DrayageAtPortOfEmbarkationRateZone">
+                <xsd:annotation>
+                    <xsd:documentation>Drayage at port of embarkation rate zone</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="KeepFromFreezingPercentDifferential">
+                <xsd:annotation>
+                    <xsd:documentation>Keep from freezing percent differential</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="410DromedaryWithMechanicalRestrainingDevices">
+                <xsd:annotation>
+                    <xsd:documentation>410 dromedary with mechanical restraining devices</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="410Dromedary">
+                <xsd:annotation>
+                    <xsd:documentation>410 dromedary</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DistributionServiceRequested">
+                <xsd:annotation>
+                    <xsd:documentation>Distribution service requested</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DeliveryOfFuelFromRailTankCarToPipeline">
+                <xsd:annotation>
+                    <xsd:documentation>Delivery of fuel from rail tank car to pipeline</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NotifyShipperImmediatelyIfShipmentIsDelayedEnRoute">
+                <xsd:annotation>
+                    <xsd:documentation>Notify shipper immediately if shipment is delayed en route</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DoNotCoupleToOtherDiaphragmedCars">
+                <xsd:annotation>
+                    <xsd:documentation>Do not couple to other diaphragmed cars</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DoNotFreeze">
+                <xsd:annotation>
+                    <xsd:documentation>Do not freeze</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DoNotCoupleToTankCars">
+                <xsd:annotation>
+                    <xsd:documentation>Do not couple to tank cars</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Documentation-Special">
+                <xsd:annotation>
+                    <xsd:documentation>Documentation - special</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ContainerDiversion">
+                <xsd:annotation>
+                    <xsd:documentation>Container diversion</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DeliveryOfFuelFromPipelineToBarge">
+                <xsd:annotation>
+                    <xsd:documentation>Delivery of fuel from pipeline to barge</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DrayageAtPortOfDebarkation">
+                <xsd:annotation>
+                    <xsd:documentation>Drayage at port of debarkation</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DrayageAtPortOfEmbarkation">
+                <xsd:annotation>
+                    <xsd:documentation>Drayage at port of embarkation</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DeliveryOfFuelFromPipelineToRailTankCar">
+                <xsd:annotation>
+                    <xsd:documentation>Delivery of fuel from pipeline to rail tank car</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DeliveryOfFuelFromPipelineToTankTruckOrTrailer">
+                <xsd:annotation>
+                    <xsd:documentation>Delivery of fuel from pipeline to tank truck or trailer</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DetentionWithPowerUnits30MinutePeriods">
+                <xsd:annotation>
+                    <xsd:documentation>Detention with power units 30 minute periods</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Drop-OffDelivery">
+                <xsd:annotation>
+                    <xsd:documentation>Drop-off delivery</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DrummingService">
+                <xsd:annotation>
+                    <xsd:documentation>Drumming service</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DoNotCoupleToDoubleShelfCouples">
+                <xsd:annotation>
+                    <xsd:documentation>Do not couple to double shelf couples</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DromedaryWithMechanicalRestrainingDevices">
+                <xsd:annotation>
+                    <xsd:documentation>Dromedary with mechanical restraining devices</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DromedaryServiceRequested">
+                <xsd:annotation>
+                    <xsd:documentation>Dromedary service requested</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DoorSideVanning">
+                <xsd:annotation>
+                    <xsd:documentation>Door side vanning</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="LaborAssociatedWithDetentionOfConveyingEquipment">
+                <xsd:annotation>
+                    <xsd:documentation>Labor associated with detention of conveying equipment</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DeliveryOfFuelFromTankTruckOrTrailerToPipeline">
+                <xsd:annotation>
+                    <xsd:documentation>Delivery of fuel from tank truck or trailer to pipeline</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DetentionVehicle">
+                <xsd:annotation>
+                    <xsd:documentation>Detention vehicle</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DetentionWithPowerUnits60MinutePeriods">
+                <xsd:annotation>
+                    <xsd:documentation>Detention with power units 60 minute periods</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ExtraAxles">
+                <xsd:annotation>
+                    <xsd:documentation>Extra axles</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="EscortOrCourierService">
+                <xsd:annotation>
+                    <xsd:documentation>Escort/courier service</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="EmptyRailcarOrderedButNotUsed">
+                <xsd:annotation>
+                    <xsd:documentation>Empty railcar ordered but not used</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="EquipmentHoseAtDestination">
+                <xsd:annotation>
+                    <xsd:documentation>Equipment hose at destination</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="EquipmentHoseAtOrigin">
+                <xsd:annotation>
+                    <xsd:documentation>Equipment hose at origin</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ExclusiveUse">
+                <xsd:annotation>
+                    <xsd:documentation>Exclusive use</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ExtraLights">
+                <xsd:annotation>
+                    <xsd:documentation>Extra lights</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="EmergencyService">
+                <xsd:annotation>
+                    <xsd:documentation>Emergency service</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="EmptyMovement">
+                <xsd:annotation>
+                    <xsd:documentation>Empty movement</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Endorsement">
+                <xsd:annotation>
+                    <xsd:documentation>Endorsement</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="EmptyReturn">
+                <xsd:annotation>
+                    <xsd:documentation>Empty return</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SatisfactoryServiceStandards">
+                <xsd:annotation>
+                    <xsd:documentation>Satisfactory service standards</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ExcessiveValuationAuthorized">
+                <xsd:annotation>
+                    <xsd:documentation>Excessive valuation authorized</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ExclusiveUseOfVehicle">
+                <xsd:annotation>
+                    <xsd:documentation>Exclusive use of vehicle</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ExtraDriver">
+                <xsd:annotation>
+                    <xsd:documentation>Extra driver</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ExtraLengthSurcharge">
+                <xsd:annotation>
+                    <xsd:documentation>Extra length surcharge</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ExportPreparation">
+                <xsd:annotation>
+                    <xsd:documentation>Export preparation</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ExpeditedRatesApplied">
+                <xsd:annotation>
+                    <xsd:documentation>Expedited rates applied</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ExpeditedService">
+                <xsd:annotation>
+                    <xsd:documentation>Expedited service</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ExtraLabor">
+                <xsd:annotation>
+                    <xsd:documentation>Extra labor</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ExclusiveUseOfVehicleDamaged">
+                <xsd:annotation>
+                    <xsd:documentation>Exclusive use of vehicle damaged</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ExpandRemoveAndInstall">
+                <xsd:annotation>
+                    <xsd:documentation>Expand remove and install</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="RoadwayEasyRatesApplied">
+                <xsd:annotation>
+                    <xsd:documentation>Roadway easy rates applied</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="BargeFreightAllKindsService">
+                <xsd:annotation>
+                    <xsd:documentation>Barge freight all kinds service</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Firearms">
+                <xsd:annotation>
+                    <xsd:documentation>Firearms</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="FurnishingChassis">
+                <xsd:annotation>
+                    <xsd:documentation>Furnishing chassis</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="FuelFiltersFurnishedByCarrier">
+                <xsd:annotation>
+                    <xsd:documentation>Fuel filters furnished by carrier</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="FuelFiltersFurnishedByShipper">
+                <xsd:annotation>
+                    <xsd:documentation>Fuel filters furnished by shipper</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="FlatrackSurcharge">
+                <xsd:annotation>
+                    <xsd:documentation>Flatrack surcharge</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ForProcessingInTransit">
+                <xsd:annotation>
+                    <xsd:documentation>For processing in transit</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="AcceptedByCarrierAtOwnerSRiskOfFreezing">
+                <xsd:annotation>
+                    <xsd:documentation>Accepted by carrier at owners risk of freezing</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ForStorageInTransit">
+                <xsd:annotation>
+                    <xsd:documentation>For storage in transit</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="FiltrationService">
+                <xsd:annotation>
+                    <xsd:documentation>Filtration service</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="GarmentSurcharge">
+                <xsd:annotation>
+                    <xsd:documentation>Garment surcharge</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Government-OwnedContainers">
+                <xsd:annotation>
+                    <xsd:documentation>Government-owned containers</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="GovernmentGuardCar">
+                <xsd:annotation>
+                    <xsd:documentation>Government guard car</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="GreaterSecurityService">
+                <xsd:annotation>
+                    <xsd:documentation>Greater security service</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="HoldAtLocation">
+                <xsd:annotation>
+                    <xsd:documentation>Hold at location</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Handling">
+                <xsd:annotation>
+                    <xsd:documentation>Handling</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="HandBrakesAtEachEndMustBeReleased">
+                <xsd:annotation>
+                    <xsd:documentation>Hand brakes at each end must be released</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ShipmentHoldoverForHolidays">
+                <xsd:annotation>
+                    <xsd:documentation>Shipment holdover for holidays</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ShipmentHoldoverForWeekends">
+                <xsd:annotation>
+                    <xsd:documentation>Shipment holdover for weekends</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="HeatInTransit">
+                <xsd:annotation>
+                    <xsd:documentation>Heat in Transit</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Heat-Special">
+                <xsd:annotation>
+                    <xsd:documentation>Heat - special</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="HeatWithSteam">
+                <xsd:annotation>
+                    <xsd:documentation>Heat with steam</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="AccessibleHazardousMaterial">
+                <xsd:annotation>
+                    <xsd:documentation>Accessible hazardous material</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="InaccessibleHazardousMaterial">
+                <xsd:annotation>
+                    <xsd:documentation>Inaccessible hazardous material</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SundayOrHolidayPickupOrDelivery">
+                <xsd:annotation>
+                    <xsd:documentation>Sunday or holiday pickup or delivery</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="24HourAvailability">
+                <xsd:annotation>
+                    <xsd:documentation>24 hour availability</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Hose">
+                <xsd:annotation>
+                    <xsd:documentation>Hose</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SpecialHose">
+                <xsd:annotation>
+                    <xsd:documentation>Special hose</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="HighCubeTrailerRates">
+                <xsd:annotation>
+                    <xsd:documentation>High cube trailer rates</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="HeaterOrRefrigeration">
+                <xsd:annotation>
+                    <xsd:documentation>Heater or refrigeration</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="HitchInstallation">
+                <xsd:annotation>
+                    <xsd:documentation>Hitch installation</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="HazardousMaterialsSurcharge">
+                <xsd:annotation>
+                    <xsd:documentation>Hazardous materials surcharge</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="HazardousCargoOnDeck">
+                <xsd:annotation>
+                    <xsd:documentation>Hazardous cargo on deck</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="IdlerCar">
+                <xsd:annotation>
+                    <xsd:documentation>Idler car</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="InsideDelivery">
+                <xsd:annotation>
+                    <xsd:documentation>Inside delivery</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="IcingInhibitorService">
+                <xsd:annotation>
+                    <xsd:documentation>Icing inhibitor service</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Impactographs">
+                <xsd:annotation>
+                    <xsd:documentation>Impactographs</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="IntermodalShipmentService">
+                <xsd:annotation>
+                    <xsd:documentation>Intermodal shipment service</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Intra-PlantMove">
+                <xsd:annotation>
+                    <xsd:documentation>Intra-plant move</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="InsidePickup">
+                <xsd:annotation>
+                    <xsd:documentation>Inside pickup</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="InterlineTransferService">
+                <xsd:annotation>
+                    <xsd:documentation>Interline transfer service</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Just-In-TimeJit">
+                <xsd:annotation>
+                    <xsd:documentation>Just-in-time JIT</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="JointLineException">
+                <xsd:annotation>
+                    <xsd:documentation>Joint line exception</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CertificationThatTheContainersBeingReturnedEmptyWereReceivedFilledByRailFreightService">
+                <xsd:annotation>
+                    <xsd:documentation>Certification that the containers being returned empty were received filled by rail freight service</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="KeepMaterialDry">
+                <xsd:annotation>
+                    <xsd:documentation>Keep material dry</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="LaborDisturbance">
+                <xsd:annotation>
+                    <xsd:documentation>Labor disturbance</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Layover">
+                <xsd:annotation>
+                    <xsd:documentation>Layover</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ApplyAUCCOrEANSerialShippingContainerLabelToTheShippingContainers">
+                <xsd:annotation>
+                    <xsd:documentation>Apply a uniform code council/international article numbering association UCC/EAN serial shipping container label to the Shipping Containers</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="LightBarService">
+                <xsd:annotation>
+                    <xsd:documentation>Light bar service</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="LowBoyTrailerOrFlatBed">
+                <xsd:annotation>
+                    <xsd:documentation>Low boy trailer/flat bed</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="LandCurrencyAdjustmentFactor-20FootContainer">
+                <xsd:annotation>
+                    <xsd:documentation>Land currency adjustment factor - 20 foot container</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="LandCurrencyAdjustment-40FootContainer">
+                <xsd:annotation>
+                    <xsd:documentation>Land currency adjustment - 40 foot container</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PercentDifferential-LessThanContainer">
+                <xsd:annotation>
+                    <xsd:documentation>Percent differential - less than container</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="LessThanContainer">
+                <xsd:annotation>
+                    <xsd:documentation>Less than container</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="LinehaulFromPortOfDebarkation">
+                <xsd:annotation>
+                    <xsd:documentation>Linehaul from port of debarkation</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="LinehaulService">
+                <xsd:annotation>
+                    <xsd:documentation>Linehaul service</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="LiabilityOfCarrier">
+                <xsd:annotation>
+                    <xsd:documentation>Liability of Carrier</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="LinerTermsAtPortOfDebarkation">
+                <xsd:annotation>
+                    <xsd:documentation>Liner terms at port of debarkation</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="LinerTermsAtPortOfEmbarkation">
+                <xsd:annotation>
+                    <xsd:documentation>Liner terms at port of embarkation</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="LinehaulPercentDifferential">
+                <xsd:annotation>
+                    <xsd:documentation>Linehaul percent differential</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="LinehaulToPortOfEmbarkation">
+                <xsd:annotation>
+                    <xsd:documentation>Linehaul to port of embarkation</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="LessThanTruckload">
+                <xsd:annotation>
+                    <xsd:documentation>Less than truckload</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="LayoverService">
+                <xsd:annotation>
+                    <xsd:documentation>Layover service</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ModifiedAtmosphere">
+                <xsd:annotation>
+                    <xsd:documentation>Modified atmosphere</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="EscortServiceWithOvernightSubsistence">
+                <xsd:annotation>
+                    <xsd:documentation>Escort service with overnight subsistence</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Escort">
+                <xsd:annotation>
+                    <xsd:documentation>Escort</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="EscortServicesTelephone">
+                <xsd:annotation>
+                    <xsd:documentation>Escort services telephone</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Insulated">
+                <xsd:annotation>
+                    <xsd:documentation>Insulated</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="MotorSurveillanceService">
+                <xsd:annotation>
+                    <xsd:documentation>Motor surveillance service</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Other">
+                <xsd:annotation>
+                    <xsd:documentation>Other</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Refrigerated">
+                <xsd:annotation>
+                    <xsd:documentation>Refrigerated</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="MilitaryTrafficExpeditingService">
+                <xsd:annotation>
+                    <xsd:documentation>Military traffic expediting service</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SpecialMotorSurveillance">
+                <xsd:annotation>
+                    <xsd:documentation>Special motor surveillance</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DoNotHumpOrHumpInto">
+                <xsd:annotation>
+                    <xsd:documentation>Do not hump or hump into</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DoNotUseHelperLocomotiveToPush">
+                <xsd:annotation>
+                    <xsd:documentation>Do not use helper locomotive to push</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NoPlacardsRequired">
+                <xsd:annotation>
+                    <xsd:documentation>No placards required</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NoseSideVanning">
+                <xsd:annotation>
+                    <xsd:documentation>Nose side vanning</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="StowAwayFromHeat">
+                <xsd:annotation>
+                    <xsd:documentation>Stow Away from Heat</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="BlockStowage">
+                <xsd:annotation>
+                    <xsd:documentation>Block stowage</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CargoAboard">
+                <xsd:annotation>
+                    <xsd:documentation>Cargo aboard</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CarrierLoadAndConsigneeUnload">
+                <xsd:annotation>
+                    <xsd:documentation>Carrier load and consignee unload</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="OverHeightContainer">
+                <xsd:annotation>
+                    <xsd:documentation>Over height container</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CompletingShipment">
+                <xsd:annotation>
+                    <xsd:documentation>Completing shipment</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DeliveryVerificationNotRequired">
+                <xsd:annotation>
+                    <xsd:documentation>Delivery verification not required</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="StowWithDoorsFacingInward">
+                <xsd:annotation>
+                    <xsd:documentation>Stow with doors facing inward</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ExemptCommodity">
+                <xsd:annotation>
+                    <xsd:documentation>Exempt commodity</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="InFrontOfHouseStowage">
+                <xsd:annotation>
+                    <xsd:documentation>In front of house stowage</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Fumigation">
+                <xsd:annotation>
+                    <xsd:documentation>Fumigation</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Harmless">
+                <xsd:annotation>
+                    <xsd:documentation>Harmless</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="OilFieldService">
+                <xsd:annotation>
+                    <xsd:documentation>Oil field service</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="UseNoHooks">
+                <xsd:annotation>
+                    <xsd:documentation>Use no hooks</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="NotRestrictedCargo">
+                <xsd:annotation>
+                    <xsd:documentation>Not restricted cargo</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CargoOnBoardCertificationRequired">
+                <xsd:annotation>
+                    <xsd:documentation>Cargo on board certification required</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="OnDeckStowage">
+                <xsd:annotation>
+                    <xsd:documentation>On deck stowage</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="CarrierLoadAndCarrierUnload">
+                <xsd:annotation>
+                    <xsd:documentation>Carrier load and carrier unload</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Perishable">
+                <xsd:annotation>
+                    <xsd:documentation>Perishable</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PartialShipment">
+                <xsd:annotation>
+                    <xsd:documentation>Partial shipment</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="StowBelowDeck">
+                <xsd:annotation>
+                    <xsd:documentation>Stow below deck</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="StowBetweenDecks">
+                <xsd:annotation>
+                    <xsd:documentation>Stow between decks</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="TemperatureControl">
+                <xsd:annotation>
+                    <xsd:documentation>Temperature control</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="TimeOfDeliveryAndSignatureRequired">
+                <xsd:annotation>
+                    <xsd:documentation>Time of delivery and signature required</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="OnTopIn-HatchStowage">
+                <xsd:annotation>
+                    <xsd:documentation>On top in-hatch stowage</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="OnTopOn-DeckStowage">
+                <xsd:annotation>
+                    <xsd:documentation>On top on-deck stowage</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="TotalShipment">
+                <xsd:annotation>
+                    <xsd:documentation>Total shipment</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="UnderContainerOn-DeckStowage">
+                <xsd:annotation>
+                    <xsd:documentation>Under container on-deck stowage</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="BelowWaterLineStowage">
+                <xsd:annotation>
+                    <xsd:documentation>Below water line stowage</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Overflow">
+                <xsd:annotation>
+                    <xsd:documentation>Overflow</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="OverWidthContainer">
+                <xsd:annotation>
+                    <xsd:documentation>Over width container</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="OneWayRatesApplied">
+                <xsd:annotation>
+                    <xsd:documentation>One way rates applied</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PumpingEquipment">
+                <xsd:annotation>
+                    <xsd:documentation>Pumping equipment</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PickupOfShipmentsOnSaturdaySundayAndOrHolidaysRequiringAbsoluteNextDayDelivery">
+                <xsd:annotation>
+                    <xsd:documentation>Pickup of shipments on saturday sunday and/or holidays requiring absolute next day delivery</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PickupAndDeliveryFromStorageInTransit">
+                <xsd:annotation>
+                    <xsd:documentation>Pickup and delivery from storage in transit</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PickupAndDeliveryBeyondServiceArea">
+                <xsd:annotation>
+                    <xsd:documentation>Pickup and delivery beyond service area</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SpecialPermits">
+                <xsd:annotation>
+                    <xsd:documentation>Special permits</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ProtectFromHeat">
+                <xsd:annotation>
+                    <xsd:documentation>Protect from heat</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PerHourRatesApplied">
+                <xsd:annotation>
+                    <xsd:documentation>Per hour rates applied</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PierTime">
+                <xsd:annotation>
+                    <xsd:documentation>Pier time</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PalletsOrSkidsOrPlatforms">
+                <xsd:annotation>
+                    <xsd:documentation>Pallets/skids/platforms</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="P.M.DeliveryRequirement">
+                <xsd:annotation>
+                    <xsd:documentation>P.m. delivery requirement</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PerMileRatesApply">
+                <xsd:annotation>
+                    <xsd:documentation>Per mile rates apply</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PickupOfShipmentsRequiringSameDayDeliveryService">
+                <xsd:annotation>
+                    <xsd:documentation>Pickup of shipments requiring same day delivery service</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PickupOfShipmentsRequiringSameDayDeliveryServiceAndOrDeliveryAtASpecifiedTime">
+                <xsd:annotation>
+                    <xsd:documentation>Pickup of shipments requiring same day delivery service and/or delivery at a specified time</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PianoOrOrganCarry">
+                <xsd:annotation>
+                    <xsd:documentation>Piano/organ carry</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PositioningAtOrigin">
+                <xsd:annotation>
+                    <xsd:documentation>Positioning at Origin</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PickupAndDeliveryServiceForPerishables">
+                <xsd:annotation>
+                    <xsd:documentation>Pickup and delivery service for perishables</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Prelodge">
+                <xsd:annotation>
+                    <xsd:documentation>Prelodge</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="StuffingCharge">
+                <xsd:annotation>
+                    <xsd:documentation>Stuffing charge</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ProtectiveServiceSecurityWithArmedGuards">
+                <xsd:annotation>
+                    <xsd:documentation>Protective service security with armed guards</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ProtectiveSecurityService">
+                <xsd:annotation>
+                    <xsd:documentation>Protective security service</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ProtectiveTarpForSecurityPurposes">
+                <xsd:annotation>
+                    <xsd:documentation>Protective tarp for security purposes</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Pickup">
+                <xsd:annotation>
+                    <xsd:documentation>Pickup</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PickupAndDelivery">
+                <xsd:annotation>
+                    <xsd:documentation>Pickup and Delivery</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PackAndUnpack">
+                <xsd:annotation>
+                    <xsd:documentation>Pack and Unpack</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PUPTrailerRatesApply">
+                <xsd:annotation>
+                    <xsd:documentation>Pup trailer rates apply</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="BondedPrivatelyOwnedVehicle">
+                <xsd:annotation>
+                    <xsd:documentation>Bonded privately owned vehicle</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DetentionOfPrivatelyOwnedVehicle">
+                <xsd:annotation>
+                    <xsd:documentation>Detention of privately owned vehicle</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="InoperablePrivatelyOwnedVehicle">
+                <xsd:annotation>
+                    <xsd:documentation>Inoperable privately owned vehicle</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="LoadingOrUnloadingOfPrivatelyOwnedVehicle">
+                <xsd:annotation>
+                    <xsd:documentation>Loading/unloading of privately owned vehicle</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PrivateOwnedVehicleProcessing">
+                <xsd:annotation>
+                    <xsd:documentation>Private owned vehicle processing</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Stop-OffsForPrivatelyOwnedVehicleShipment">
+                <xsd:annotation>
+                    <xsd:documentation>Stop-offs for privately owned vehicle shipment</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PrivatelyOwnedVehicleInTruckawayService">
+                <xsd:annotation>
+                    <xsd:documentation>Privately owned vehicle in truckaway service</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PriorityService">
+                <xsd:annotation>
+                    <xsd:documentation>Priority service</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Reconsignment">
+                <xsd:annotation>
+                    <xsd:documentation>Reconsignment</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Redelivery">
+                <xsd:annotation>
+                    <xsd:documentation>Redelivery</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="RailheadHandling">
+                <xsd:annotation>
+                    <xsd:documentation>Railhead handling</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="RoadrailerService">
+                <xsd:annotation>
+                    <xsd:documentation>Roadrailer service</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Respotting">
+                <xsd:annotation>
+                    <xsd:documentation>Respotting</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ResidentialDelivery">
+                <xsd:annotation>
+                    <xsd:documentation>Residential delivery</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ReeferMaintenance">
+                <xsd:annotation>
+                    <xsd:documentation>Reefer maintenance</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ReleasedValueChargeInExcessOfCarrierMaximumLiability">
+                <xsd:annotation>
+                    <xsd:documentation>Released value charge in excess of carrier maximum liability</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="RelocationOfVehicle">
+                <xsd:annotation>
+                    <xsd:documentation>Relocation of vehicle</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ReturnOfEmptyContainer">
+                <xsd:annotation>
+                    <xsd:documentation>Return of empty container</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ReturnMovementOfPallet">
+                <xsd:annotation>
+                    <xsd:documentation>Return movement of pallet</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="RailSurveillance">
+                <xsd:annotation>
+                    <xsd:documentation>Rail surveillance</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ReeferCargoPercentDifferential">
+                <xsd:annotation>
+                    <xsd:documentation>Reefer cargo percent differential</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="RoundTripService">
+                <xsd:annotation>
+                    <xsd:documentation>Round trip service</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Reshipment">
+                <xsd:annotation>
+                    <xsd:documentation>Reshipment</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="RestrictedSpeeds">
+                <xsd:annotation>
+                    <xsd:documentation>Restricted speeds</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Reservations">
+                <xsd:annotation>
+                    <xsd:documentation>Reservations</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ReweightRequested">
+                <xsd:annotation>
+                    <xsd:documentation>Reweight requested</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ShipmentHoldoverOnWeekends">
+                <xsd:annotation>
+                    <xsd:documentation>Shipment holdover on weekends</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SaturdayPickupOrDelivery">
+                <xsd:annotation>
+                    <xsd:documentation>Saturday pickup or delivery</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SpecialContainers">
+                <xsd:annotation>
+                    <xsd:documentation>Special containers</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ShipperLoadAndConsigneeUnload">
+                <xsd:annotation>
+                    <xsd:documentation>Shipper load and consignee unload</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SplitDelivery">
+                <xsd:annotation>
+                    <xsd:documentation>Split delivery</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SpecialDromedaryService">
+                <xsd:annotation>
+                    <xsd:documentation>Special dromedary service</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SpecialEquipmentCharge">
+                <xsd:annotation>
+                    <xsd:documentation>Special equipment charge</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ShipperExportDeclarationRequired">
+                <xsd:annotation>
+                    <xsd:documentation>Shipper export declaration required</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="StairsElevatorExcessCarry">
+                <xsd:annotation>
+                    <xsd:documentation>Stairs elevator excess carry</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ServiceChargeApplies">
+                <xsd:annotation>
+                    <xsd:documentation>Service charge applies</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SecurityEscortVehicleService">
+                <xsd:annotation>
+                    <xsd:documentation>Security escort vehicle service</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SingleFactorOriginationOrDestination">
+                <xsd:annotation>
+                    <xsd:documentation>Single factor origination/destination</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SingleFactorOriginationOrPortOfDebarkation">
+                <xsd:annotation>
+                    <xsd:documentation>Single factor origination/port of debarkation</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SingleFactorPortOfEmbarkationOrDestination">
+                <xsd:annotation>
+                    <xsd:documentation>Single factor port of embarkation/destination</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SpecialTrainMovement">
+                <xsd:annotation>
+                    <xsd:documentation>Special train movement</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SingleShipment">
+                <xsd:annotation>
+                    <xsd:documentation>Single shipment</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ShipmentHoldoverOnHolidays">
+                <xsd:annotation>
+                    <xsd:documentation>Shipment holdover on holidays</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ShipperLoad">
+                <xsd:annotation>
+                    <xsd:documentation>Shipper load</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ShipmentHoldoverOnWeekdays">
+                <xsd:annotation>
+                    <xsd:documentation>Shipment holdover on weekdays</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SkirtingAndUnskirting">
+                <xsd:annotation>
+                    <xsd:documentation>Skirting and unskirting</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ShipperLoadAndCount">
+                <xsd:annotation>
+                    <xsd:documentation>Shipper load and count</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SmallPackage">
+                <xsd:annotation>
+                    <xsd:documentation>Small package</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="TransmitAShipNoticeOrManifestTransactionSet">
+                <xsd:annotation>
+                    <xsd:documentation>Transmit a ship notice/manifest transaction set</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SatelliteSurveillanceService">
+                <xsd:annotation>
+                    <xsd:documentation>Satellite surveillance service</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ShipmentFromNon-TempStorage">
+                <xsd:annotation>
+                    <xsd:documentation>Shipment from non-temp storage</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Stop-Off">
+                <xsd:annotation>
+                    <xsd:documentation>Stop-off</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ShipperLoadAndCarrierUnload">
+                <xsd:annotation>
+                    <xsd:documentation>Shipper load and carrier unload</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SpecialPermit">
+                <xsd:annotation>
+                    <xsd:documentation>Special permit</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SpreaderService">
+                <xsd:annotation>
+                    <xsd:documentation>Spreader service</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SpotForStorage-NoShipment">
+                <xsd:annotation>
+                    <xsd:documentation>Spot for storage - no shipment</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SplitPickup">
+                <xsd:annotation>
+                    <xsd:documentation>Split pickup</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Storage">
+                <xsd:annotation>
+                    <xsd:documentation>Storage</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SurveyingRoutes">
+                <xsd:annotation>
+                    <xsd:documentation>Surveying routes</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="StrippingSortingAndConsolidation">
+                <xsd:annotation>
+                    <xsd:documentation>Stripping sorting and consolidation</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SubstituteServiceNotToBeUsed">
+                <xsd:annotation>
+                    <xsd:documentation>Substitute service not to be used</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="PoleLashingEquipmentPleSurcharge">
+                <xsd:annotation>
+                    <xsd:documentation>Pole lashing equipment PLE surcharge</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ConductivityOrAnti-StaticAdditive">
+                <xsd:annotation>
+                    <xsd:documentation>Conductivity/anti-static additive</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Stop-OffAtDestination">
+                <xsd:annotation>
+                    <xsd:documentation>Stop-off at destination</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Stowage">
+                <xsd:annotation>
+                    <xsd:documentation>Stowage</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Stop-OffAtOrigination">
+                <xsd:annotation>
+                    <xsd:documentation>Stop-off at origination</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SignatureAndTallyRecord">
+                <xsd:annotation>
+                    <xsd:documentation>Signature and tally record</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SpotForUnloadingFromAEnd">
+                <xsd:annotation>
+                    <xsd:documentation>Spot for unloading from a end</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SpotForUnloadingFromBBrakeEnd">
+                <xsd:annotation>
+                    <xsd:documentation>Spot for unloading from b brake end</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SupervisorRequested">
+                <xsd:annotation>
+                    <xsd:documentation>Supervisor requested</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="StorageOfVehicles">
+                <xsd:annotation>
+                    <xsd:documentation>Storage of vehicles</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Truckload-DoubleOperator-CommonCarrier">
+                <xsd:annotation>
+                    <xsd:documentation>Truckload-double operator-common carrier</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Truckload-DoubleOperator-PaddedVan">
+                <xsd:annotation>
+                    <xsd:documentation>Truckload-double operator-padded van</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="TerminalHandlingCharges">
+                <xsd:annotation>
+                    <xsd:documentation>Terminal handling charges</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="TenderedAsTruckloadTruckloadServiceRequested">
+                <xsd:annotation>
+                    <xsd:documentation>Tendered as truckload truckload service requested</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Multi-TankSurveillanceService">
+                <xsd:annotation>
+                    <xsd:documentation>Multi-tank surveillance service</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="TenderingOfMultipleVehicles">
+                <xsd:annotation>
+                    <xsd:documentation>Tendering of multiple vehicles</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="TrailerOnFlatCar">
+                <xsd:annotation>
+                    <xsd:documentation>Trailer on flat car</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ThirdPartyService">
+                <xsd:annotation>
+                    <xsd:documentation>Third party service</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="TractorOnly">
+                <xsd:annotation>
+                    <xsd:documentation>Tractor only</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="TruckRatesApplicable">
+                <xsd:annotation>
+                    <xsd:documentation>Truck rates applicable</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="TrailerPreparation-Special">
+                <xsd:annotation>
+                    <xsd:documentation>Trailer preparation - special</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Termination">
+                <xsd:annotation>
+                    <xsd:documentation>Termination</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="TransferProduct">
+                <xsd:annotation>
+                    <xsd:documentation>Transfer product</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="TireRepairAndReplace">
+                <xsd:annotation>
+                    <xsd:documentation>Tire repair and replace</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="TradeShow">
+                <xsd:annotation>
+                    <xsd:documentation>Trade show</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="TractorAndTrailer">
+                <xsd:annotation>
+                    <xsd:documentation>Tractor and trailer</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Truckload-SingleOperator-CommonCarrier">
+                <xsd:annotation>
+                    <xsd:documentation>Truckload-single operator-common carrier</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Truckload-SingleOperator-PaddedVan">
+                <xsd:annotation>
+                    <xsd:documentation>Truckload-single operator-padded van</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="TankSurveillanceService">
+                <xsd:annotation>
+                    <xsd:documentation>Tank surveillance service</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="UnderCarriageFurnishedByCarrier">
+                <xsd:annotation>
+                    <xsd:documentation>Under carriage furnished by carrier</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Unpacking">
+                <xsd:annotation>
+                    <xsd:documentation>Unpacking</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="UnloadingOrReloading">
+                <xsd:annotation>
+                    <xsd:documentation>Unloading or reloading</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="UtilitiesDisconnectAndConnect">
+                <xsd:annotation>
+                    <xsd:documentation>Utilities disconnect and connect</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="VacuumService">
+                <xsd:annotation>
+                    <xsd:documentation>Vacuum service</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="RoeeVanTypeTruck">
+                <xsd:annotation>
+                    <xsd:documentation>Roee van type truck</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="VanCleaning">
+                <xsd:annotation>
+                    <xsd:documentation>Van cleaning</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="VehiclesFurnishedButNotUsed">
+                <xsd:annotation>
+                    <xsd:documentation>Vehicles furnished but not used</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="VehiclesInoperable">
+                <xsd:annotation>
+                    <xsd:documentation>Vehicles inoperable</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Stop-OffDeliveryOfPersonalVehicles">
+                <xsd:annotation>
+                    <xsd:documentation>Stop-off delivery of personal vehicles</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="VehiclesInTruckaway">
+                <xsd:annotation>
+                    <xsd:documentation>Vehicles in truckaway</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Wharfage-Breakbulk">
+                <xsd:annotation>
+                    <xsd:documentation>Wharfage - breakbulk</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Wharfage-Container">
+                <xsd:annotation>
+                    <xsd:documentation>Wharfage - container</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="WaterfrontDelivery">
+                <xsd:annotation>
+                    <xsd:documentation>Waterfront delivery</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Wharfage">
+                <xsd:annotation>
+                    <xsd:documentation>Wharfage</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="WarRiskCrewBonus">
+                <xsd:annotation>
+                    <xsd:documentation>War risk crew bonus</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="WarRiskInsurance">
+                <xsd:annotation>
+                    <xsd:documentation>War risk insurance</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="WaitingTimeAuthorized">
+                <xsd:annotation>
+                    <xsd:documentation>Waiting time authorized</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="WeightVerification">
+                <xsd:annotation>
+                    <xsd:documentation>Weight verification</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+        </xsd:restriction>
+    </xsd:simpleType>
+</xsd:schema>

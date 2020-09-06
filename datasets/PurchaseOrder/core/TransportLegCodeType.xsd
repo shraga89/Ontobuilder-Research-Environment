@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" targetNamespace="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" elementFormDefault="qualified">
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+            XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.
+            Permission is granted to use, copy, modify and distribute the
+            DTD's, schemas and modules in the Commerce One XML Common Business
+            Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleType name="TransportLegCodeType">
+        <xsd:annotation>
+            <xsd:documentation>This code indicates the stages of the transportation. This code list is derived from EDIFACT 8051 (Transport Stage Code Qualifier) and X12 133 (Routing Sequence code)</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:NMTOKEN">
+            <xsd:enumeration value="Other">
+                <xsd:annotation>
+                    <xsd:documentation>Custom Code</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="InlandTransport">
+                <xsd:annotation>
+                    <xsd:documentation>Transport by which goods are moved from or to the frontier, or between inland points.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="AtTheStatisticalTerritoryLimit">
+                <xsd:annotation>
+                    <xsd:documentation>Point by which the means of transport are presumed to have left the statistical territory of despatch or to have entered the statistical territory of arrival.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Pre-CarriageTransport">
+                <xsd:annotation>
+                    <xsd:documentation>Transport by which the goods are moved prior to their main carriage transport.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="AtBorder">
+                <xsd:annotation>
+                    <xsd:documentation>Transport by which goods are moved to the Customs frontier.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="AtDeparture">
+                <xsd:annotation>
+                    <xsd:documentation>Transport by which goods are moved from the place of departure.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="AtDestination">
+                <xsd:annotation>
+                    <xsd:documentation>Transport by which goods are moved at the place of destination.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="MainCarriage-FourthCarrier">
+                <xsd:annotation>
+                    <xsd:documentation>The fourth carrier of the ordered transport.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="MainCarriage-FifthCarrier">
+                <xsd:annotation>
+                    <xsd:documentation>The fifth carrier of the ordered transport.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="MainCarriage-SixthCarrier">
+                <xsd:annotation>
+                    <xsd:documentation>The sixth carrier of the ordered transport.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="MainCarriage-SeventhCarrier">
+                <xsd:annotation>
+                    <xsd:documentation>The seventh carrier of the ordered transport.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="MainCarriage-EighthCarrier">
+                <xsd:annotation>
+                    <xsd:documentation>The eighth carrier of the ordered transport.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Main-CarriageTransport">
+                <xsd:annotation>
+                    <xsd:documentation>The primary stage in the movement of cargo from the point of origin to the intended destination.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="MainCarriage-FirstCarrier">
+                <xsd:annotation>
+                    <xsd:documentation>The first carrier of the ordered transport when more than one carrier is involved.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="MaiCarriage-SecondCarrier">
+                <xsd:annotation>
+                    <xsd:documentation>The second carrier of the ordered transport when more than one carrier is involved.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="MainCarriage-ThirdCarrier">
+                <xsd:annotation>
+                    <xsd:documentation>The third carrier of the ordered transport when more than one carrier is involved.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="InlandWaterwayTransport">
+                <xsd:annotation>
+                    <xsd:documentation>Transport by which goods are moved via an inland body of water.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DeliveryCarrierAllTransport">
+                <xsd:annotation>
+                    <xsd:documentation>Carrier responsible from the point of origin to the final delivery destination.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SecondPre-CarriageTransport">
+                <xsd:annotation>
+                    <xsd:documentation>Second transport by which the goods are moved prior to their main carriage transport.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="Pre-AcceptanceTransport">
+                <xsd:annotation>
+                    <xsd:documentation>The transport by which the goods are moved to the place of acceptance.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="SecondOn-CarriageTransport">
+                <xsd:annotation>
+                    <xsd:documentation>Second transport by which the goods are moved after the main carriage transport.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="MainCarriage-NinthCarrier">
+                <xsd:annotation>
+                    <xsd:documentation>The ninth carrier of the ordered transport.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="On-CarriageTransport">
+                <xsd:annotation>
+                    <xsd:documentation>Transport by which the goods are moved after the main carriage transport.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="MainCarriage-TenthCarrier">
+                <xsd:annotation>
+                    <xsd:documentation>The tenth carrier of the ordered transport.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="MainCarriage-EleventhCarrier">
+                <xsd:annotation>
+                    <xsd:documentation>The eleventh carrier of the ordered transport.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="MainCarriage-TwelfthCarrier">
+                <xsd:annotation>
+                    <xsd:documentation>The twelfth carrier of the ordered transport.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="1stCarrierAfterOriginCarrier">
+                <xsd:annotation>
+                    <xsd:documentation>1st Carrier after Origin CarrierX12 Value = 1</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="2ndCarrierAfterOriginCarrier">
+                <xsd:annotation>
+                    <xsd:documentation>2nd Carrier after Origin CarrierX12 Value = 2</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="3rdCarrierAfterOriginCarrier">
+                <xsd:annotation>
+                    <xsd:documentation>3rd Carrier after Origin CarrierX12 Value = 3</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="4thCarrierAfterOriginCarrier">
+                <xsd:annotation>
+                    <xsd:documentation>4th Carrier after Origin CarrierX12 Value = 4</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="5thCarrierAfterOriginCarrier">
+                <xsd:annotation>
+                    <xsd:documentation>5th Carrier after Origin CarrierX12 Value = 5</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="6thCarrierAfterOriginCarrier">
+                <xsd:annotation>
+                    <xsd:documentation>6th Carrier after Origin CarrierX12 Value = 6</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="7thCarrierAfterOriginCarrier">
+                <xsd:annotation>
+                    <xsd:documentation>7th Carrier after Origin CarrierX12 Value = 7</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="8thCarrierAfterOriginCarrier">
+                <xsd:annotation>
+                    <xsd:documentation>8th Carrier after Origin CarrierX12 Value = 8</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="9thCarrierAfterOriginCarrier">
+                <xsd:annotation>
+                    <xsd:documentation>9th Carrier after Origin CarrierX12 Value = 9</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="AgentsRoutingOriginCarrier">
+                <xsd:annotation>
+                    <xsd:documentation>Origin Carrier, Agent's Routing (Rail)X12 Value = A</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="OriginDeliveryCarrier">
+                <xsd:annotation>
+                    <xsd:documentation>Origin/Delivery Carrier (Any Mode)X12 Value = B</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="DELY">
+                <xsd:annotation>
+                    <xsd:documentation>DELY (Delivery Switch Carrier)X12 Value = D</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="HaulageRightsCarrierAndJunction">
+                <xsd:annotation>
+                    <xsd:documentation>Haulage Rights Carrier and JunctionX12 Value = H</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="OriginSwitchCarrier">
+                <xsd:annotation>
+                    <xsd:documentation>Origin Switch CarrierX12 Value = I</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="HaulageMovementCarrierAndJunction">
+                <xsd:annotation>
+                    <xsd:documentation>Haulage Movement Carrier and JunctionX12 Value = M</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="OriginCarrierAirMotorOrOcean">
+                <xsd:annotation>
+                    <xsd:documentation>Origin Carrier (Air, Motor, or Ocean)X12 Value = O</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="OriginCarrierRule11Shipment">
+                <xsd:annotation>
+                    <xsd:documentation>Origin Carrier, Rule 11 ShipmentX12 Value = R</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="ShippersRoutingOriginCarrier">
+                <xsd:annotation>
+                    <xsd:documentation>Origin Carrier, Shipper's Routing (Rail)X12 Value = S</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="IntermediateSwitchCarrier">
+                <xsd:annotation>
+                    <xsd:documentation>Intermediate Switch CarrierX12 Value = V</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="LastCarrierInRouteOnReturnRouteMove">
+                <xsd:annotation>
+                    <xsd:documentation>Last Carrier in Route on Return Route MoveX12 Value = X</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="JunctionSettlementCarrierFollowing">
+                <xsd:annotation>
+                    <xsd:documentation>Junction Settlement Carrier Following (Destination carrier receiving revenues resulting from junction contract)X12 Value = JD</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+            <xsd:enumeration value="JunctionSettlementCarrierPredecessor">
+                <xsd:annotation>
+                    <xsd:documentation>Junction Settlement Carrier Predecessor (Origin carrier receiving revenues resulting from junction contract)X12 Value = JO</xsd:documentation>
+                </xsd:annotation>
+            </xsd:enumeration>
+        </xsd:restriction>
+    </xsd:simpleType>
+</xsd:schema>

@@ -1,0 +1,539 @@
+<?xml version="1.0"?>
+<!-- edited with XMLSpy v2010 rel. 3 (http://www.altova.com) by NTT (norg) -->
+<xs:schema elementFormDefault="qualified" targetNamespace="http://www.w3school.com"
+	xmlns="http://www.w3school.com" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:complexType name="GDT">
+		<xs:simpleContent>
+			<xs:extension base="xs:string"/>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="CDT">
+		<xs:simpleContent>
+			<xs:extension base="xs:string"/>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="Description">
+		<xs:sequence>
+			<xs:element form="qualified" name="languageCode"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Quantity">
+		<xs:sequence>
+			<xs:element form="qualified" name="unitCode"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Amount">
+		<xs:sequence>
+			<xs:element form="qualified" name="currencyCode"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Price">
+		<xs:sequence>
+			<xs:element form="qualified" name="Amount" type="Amount"/>
+			<xs:element form="qualified" name="BaseQuantity" type="Quantity"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Note">
+		<xs:complexContent>
+			<xs:extension base="GDT"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="Date">
+		<xs:simpleContent>
+			<xs:extension base="xs:date"/>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="DateTime">
+		<xs:simpleContent>
+			<xs:extension base="xs:dateTime"/>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="Attachment">
+		<xs:sequence>
+			<xs:element form="qualified" name="ID"/>
+			<xs:element form="qualified" minOccurs="0" name="Filename"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PaymentCardID">
+		<xs:simpleContent>
+			<xs:extension base="GDT"/>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="PaymentFormCode">
+		<xs:complexContent>
+			<xs:extension base="GDT"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="PaymentCard">
+		<xs:sequence>
+			<xs:element form="qualified" name="ID" type="PaymentCardID"/>
+			<xs:element form="qualified" minOccurs="0" name="ReferenceID"/>
+			<xs:element form="qualified" minOccurs="0" name="SequenceID"/>
+			<xs:element form="qualified" minOccurs="0" name="Holder"/>
+			<xs:element form="qualified" name="ExpirationDate" type="Date"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Percent">
+		<xs:complexContent>
+			<xs:extension base="GDT"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="CashDiscount">
+		<xs:sequence>
+			<xs:element form="qualified" name="DaysValue"/>
+			<xs:element form="qualified" name="Percent" type="Percent"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Duration">
+		<xs:simpleContent>
+			<xs:extension base="xs:duration"/>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="CatalogueReference">
+		<xs:sequence>
+			<xs:element form="qualified" name="ID" type="GDT"/>
+			<xs:element form="qualified" maxOccurs="unbounded" minOccurs="0" name="ItemID"
+				type="GDT"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BusinessTransactionShipToLocation">
+		<xs:sequence>
+			<xs:element form="qualified" minOccurs="0" name="InternalID" type="GDT"/>
+			<xs:element form="qualified" minOccurs="0" name="StandardID" type="GDT"/>
+			<xs:element form="qualified" minOccurs="0" name="BuyerID" type="GDT"/>
+			<xs:element form="qualified" minOccurs="0" name="VendorID" type="GDT"/>
+			<xs:element form="qualified" minOccurs="0" name="UnloadingLocation"
+				type="BusinessTransactionDocumentLocation"/>
+			<xs:element form="qualified" minOccurs="0" name="Address" type="Address"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BusinessTransactionShipFromLocation">
+		<xs:sequence>
+			<xs:element form="qualified" minOccurs="0" name="InternalID" type="GDT"/>
+			<xs:element form="qualified" minOccurs="0" name="StandardID" type="GDT"/>
+			<xs:element form="qualified" minOccurs="0" name="BuyerID" type="GDT"/>
+			<xs:element form="qualified" minOccurs="0" name="VendorID" type="GDT"/>
+			<xs:element form="qualified" minOccurs="0" name="Note" type="Note"/>
+			<xs:element form="qualified" minOccurs="0" name="LoadingLocation"
+				type="BusinessTransactionDocumentLocation"/>
+			<xs:element form="qualified" minOccurs="0" name="Address" type="Address"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BusinessTransactionDocumentParty">
+		<xs:sequence>
+			<xs:element form="qualified" minOccurs="0" name="InternalID" type="GDT"/>
+			<xs:element form="qualified" maxOccurs="unbounded" minOccurs="0" name="StandardID"
+				type="CDT"/>
+			<xs:element form="qualified" minOccurs="0" name="BuyerID" type="CDT"/>
+			<xs:element form="qualified" minOccurs="0" name="VendorID" type="CDT"/>
+			<xs:element form="qualified" minOccurs="0" name="Address" type="Address"/>
+			<xs:element form="qualified" minOccurs="0" name="ContactPerson" type="ContactPerson"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BusinessTransactionDocumentReference">
+		<xs:sequence>
+			<xs:element form="qualified" name="ID" type="GDT"/>
+			<xs:element form="qualified" maxOccurs="unbounded" minOccurs="0" name="ItemID"
+				type="GDT"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Incoterms">
+		<xs:sequence>
+			<xs:element form="qualified" name="ClassificationCode"/>
+			<xs:element form="qualified" minOccurs="0" name="TransferLocationName"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PartialDelivery">
+		<xs:sequence>
+			<xs:element form="qualified" minOccurs="0" name="MaximalNumber"/>
+			<xs:element form="qualified" minOccurs="0" name="UnlimitedIndicator"
+				type="UnlimitedIndicator"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="UnlimitedIndicator">
+		<xs:complexContent>
+			<xs:extension base="GDT"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="QuantityTolerance">
+		<xs:sequence>
+			<xs:element form="qualified" minOccurs="0" name="OverPercent" type="Percent"/>
+			<xs:element form="qualified" minOccurs="0" name="OverPercentUnlimitedIndicator"
+				type="UnlimitedIndicator"/>
+			<xs:element form="qualified" minOccurs="0" name="UnderPercent" type="Percent"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DeliveryTerms">
+		<xs:sequence>
+			<xs:element form="qualified" minOccurs="0" name="DeliveryItemGroupID"/>
+			<xs:element form="qualified" minOccurs="0" name="DeliveryPriorityCode"/>
+			<xs:element form="qualified" minOccurs="0" name="Incoterms" type="Incoterms"/>
+			<xs:element form="qualified" minOccurs="0" name="PartialDelivery" type="PartialDelivery"/>
+			<xs:element form="qualified" minOccurs="0" name="QuantityTolerance"
+				type="QuantityTolerance"/>
+			<xs:element form="qualified" minOccurs="0" name="MaximumLeadTimeDuration"
+				type="Duration"/>
+			<xs:element form="qualified" minOccurs="0" name="Transport">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element form="qualified" minOccurs="0" name="ServiceLevelCode"
+							type="GDT"/>
+						<xs:element form="qualified" minOccurs="0" name="ModeCode" type="GDT"/>
+						<xs:element form="qualified" minOccurs="0" name="MeansDescriptionCode"
+							type="GDT"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+			<xs:element form="qualified" minOccurs="0" name="Description" type="Description"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PurchaseOrderItemScheduledLine">
+		<xs:sequence>
+			<xs:element form="qualified" minOccurs="0" name="ID" type="GDT"/>
+			<xs:element form="qualified" minOccurs="0" name="SellerID" type="GDT"/>
+			<xs:element form="qualified" name="DeliveryPeriod" type="DateTimePeriod"/>
+			<xs:element form="qualified" minOccurs="0" name="Quantity" type="Quantity"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="DateTimePeriod">
+		<xs:sequence>
+			<xs:element form="qualified" minOccurs="0" name="StartDateTime" type="DateTime"/>
+			<xs:element form="qualified" minOccurs="0" name="EndDateTime" type="DateTime"/>
+			<xs:element form="qualified" minOccurs="0" name="Duration" type="Duration"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CashDiscountTerms">
+		<xs:sequence>
+			<xs:element form="qualified" minOccurs="0" name="PaymentBaseLineDate" type="Date"/>
+			<xs:element form="qualified" minOccurs="0" name="MaximumCashDiscount"
+				type="CashDiscount"/>
+			<xs:element form="qualified" minOccurs="0" name="NormalCashDiscount" type="CashDiscount"/>
+			<xs:element form="qualified" minOccurs="0" name="FullPaymentDueDaysValue"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Address">
+		<xs:complexContent>
+			<xs:extension base="GDT"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ContactPerson">
+		<xs:sequence>
+			<xs:element form="qualified" maxOccurs="unbounded" minOccurs="0" name="InternalID"
+				type="CDT"/>
+			<xs:element form="qualified" minOccurs="0" name="BuyerID" type="CDT"/>
+			<xs:element form="qualified" minOccurs="0" name="SellerID" type="CDT"/>
+			<xs:element form="qualified" minOccurs="0" name="Address" type="Address"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BusinessDocumentMessageHeaderParty">
+		<xs:sequence>
+			<xs:element form="qualified" minOccurs="0" name="InternalID" type="CDT"/>
+			<xs:element form="qualified" maxOccurs="unbounded" minOccurs="0" name="StandardID"
+				type="CDT"/>
+			<xs:element form="qualified" minOccurs="0" name="ContactPerson" type="ContactPerson"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="ExchangeRate">
+		<xs:complexContent>
+			<xs:extension base="GDT"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ProductTax"/>
+	<xs:complexType name="BusinessTransactionDocumentProduct">
+		<xs:sequence>
+			<xs:element form="qualified" minOccurs="0" name="InternalID" type="GDT"/>
+			<xs:element form="qualified" maxOccurs="unbounded" minOccurs="0" name="StandardID"
+				type="CDT"/>
+			<xs:element form="qualified" minOccurs="0" name="BuyerID" type="CDT"/>
+			<xs:element form="qualified" minOccurs="0" name="SellerID" type="CDT"/>
+			<xs:element form="qualified" minOccurs="0" name="ManufacturerID" type="CDT"/>
+			<xs:element form="qualified" minOccurs="0" name="TypeCode" type="GDT"/>
+			<xs:element form="qualified" minOccurs="0" name="Note" type="Note"/>
+			<xs:element form="qualified" minOccurs="0" name="PackageQuantity" type="Quantity"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="BusinessTransactionDocumentProductCategory">
+		<xs:sequence>
+			<xs:element form="qualified" maxOccurs="unbounded" minOccurs="0" name="StandardID"
+				type="CDT"/>
+			<xs:element form="qualified" minOccurs="0" name="BuyerID" type="CDT"/>
+			<xs:element form="qualified" minOccurs="0" name="SellerID" type="CDT"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="PriceComponent">
+		<xs:complexContent>
+			<xs:extension base="GDT"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BusinessDocumentMessageHeader">
+		<xs:sequence>
+			<xs:element form="qualified" name="MessageID" type="GDT"/>
+			<xs:element form="qualified" minOccurs="0" name="ReferenceID" type="GDT"/>
+			<xs:element form="qualified" name="CreationDateTime" type="DateTime"/>
+			<xs:element form="qualified" minOccurs="0" name="SenderParty"
+				type="BusinessDocumentMessageHeaderParty"/>
+			<xs:element form="qualified" maxOccurs="unbounded" minOccurs="0" name="RecipientParty"
+				type="BusinessDocumentMessageHeaderParty"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="Name">
+		<xs:simpleContent>
+			<xs:extension base="xs:Name"/>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="FixedIndicator">
+		<xs:complexContent>
+			<xs:extension base="GDT"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="AdjustmentReasonCode">
+		<xs:complexContent>
+			<xs:extension base="GDT"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="BusinessTransactionDocumentLocation">
+		<xs:sequence>
+			<xs:element form="qualified" minOccurs="0" name="InternalID" type="GDT"/>
+			<xs:element form="qualified" maxOccurs="unbounded" minOccurs="0" name="StandardID"
+				type="GDT"/>
+			<xs:element form="qualified" minOccurs="0" name="BuyerID" type="GDT"/>
+			<xs:element form="qualified" minOccurs="0" name="VendorID" type="GDT"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="CountryCode">
+		<xs:complexContent>
+			<xs:extension base="GDT"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="Measure">
+		<xs:complexContent>
+			<xs:extension base="GDT"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ProjectReference">
+		<xs:complexContent>
+			<xs:extension base="GDT"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ProjectElementAssignment">
+		<xs:complexContent>
+			<xs:extension base="GDT"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="AccountingObjectSetAssignment">
+		<xs:complexContent>
+			<xs:extension base="GDT"/>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:element name="PurchaseOrderMessage">
+		<xs:annotation>
+			<xs:documentation>SAP B2B-Interface: Purchase Order Interfaces</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="MessageHeader" type="BusinessDocumentMessageHeader"/>
+				<xs:element name="PurchaseOrder">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="ID" type="GDT"/>
+							<xs:element minOccurs="0" name="SellerID" type="GDT"/>
+							<xs:element minOccurs="0" name="BuyerPostingDateTime" type="DateTime"/>
+							<xs:element minOccurs="0" name="BuyerLastChangeDateTime" type="DateTime"/>
+							<xs:element minOccurs="0" name="SellerPostingDateTime" type="DateTime"/>
+							<xs:element minOccurs="0" name="SellerLastChangeDateTime"
+								type="DateTime"/>
+							<xs:element minOccurs="0" name="AcceptanceStatusCode" type="GDT"/>
+							<xs:element minOccurs="0" name="Note" type="Note"/>
+							<xs:element minOccurs="0" name="ItemListCompleteTransmissionIndicator"
+								type="GDT"/>
+							<xs:element minOccurs="0" name="BuyerParty"
+								type="BusinessTransactionDocumentParty"/>
+							<xs:element minOccurs="0" name="SellerParty"
+								type="BusinessTransactionDocumentParty"/>
+							<xs:element minOccurs="0" name="ProductRecipientParty"
+								type="BusinessTransactionDocumentParty"/>
+							<xs:element minOccurs="0" name="VendorParty"
+								type="BusinessTransactionDocumentParty"/>
+							<xs:element minOccurs="0" name="ManufacturerParty"
+								type="BusinessTransactionDocumentParty"/>
+							<xs:element minOccurs="0" name="BillToParty"
+								type="BusinessTransactionDocumentParty"/>
+							<xs:element minOccurs="0" name="PayerParty"
+								type="BusinessTransactionDocumentParty"/>
+							<xs:element minOccurs="0" name="CarrierParty"
+								type="BusinessTransactionDocumentParty"/>
+							<xs:element minOccurs="0" name="ShipToLocation"
+								type="BusinessTransactionShipToLocation"/>
+							<xs:element minOccurs="0" name="ShipFromLocation"
+								type="BusinessTransactionShipFromLocation"/>
+							<xs:element minOccurs="0" name="DeliveryTerms" type="DeliveryTerms"/>
+							<xs:element minOccurs="0" name="CashDiscountTerms"
+								type="CashDiscountTerms"/>
+							<xs:element minOccurs="0" name="PaymentForm">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="Code" type="GDT"/>
+										<xs:element minOccurs="0" name="PaymentCard"
+											type="PaymentCard"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element maxOccurs="unbounded" minOccurs="0" name="Attachment"
+								type="Attachment"/>
+							<xs:element minOccurs="0" name="Description" type="Description"/>
+							<xs:element minOccurs="0" name="ConfirmationDescription"
+								type="Description"/>
+							<xs:element minOccurs="0" name="FollowUpPurchaseOrderConfirmation">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="RequirementCode" type="GDT"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" name="FollowUpDespatchedDeliveryNotification">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="RequirementCode" type="GDT"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" name="FollowUpServiceAcknowledgementRequest">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="RequirementCode" type="GDT"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element minOccurs="0" name="FollowUpInvoiceRequest">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="RequirementCode" type="GDT"/>
+										<xs:element minOccurs="0"
+											name="EvaluatedReceiptSettlementIndicator" type="GDT"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="Item">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element minOccurs="0" name="ID" type="GDT"/>
+										<xs:element minOccurs="0" name="SellerID" type="GDT"/>
+										<xs:element name="ActionCode" type="GDT"/>
+										<xs:element minOccurs="0" name="AcceptanceStatusCode"
+											type="GDT"/>
+										<xs:element minOccurs="0" name="UnplannedItemPermissionCode"
+											type="GDT"/>
+										<xs:element minOccurs="0" name="HierarchyRelationship">
+											<xs:complexType>
+												<xs:sequence>
+												<xs:element minOccurs="0" name="ParentItemID"
+												type="GDT"/>
+												<xs:element minOccurs="0"
+												name="ParentItemSellerID" type="GDT"/>
+												<xs:element name="TypeCode" type="GDT"/>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element name="Product"
+											type="BusinessTransactionDocumentProduct"/>
+										<xs:element minOccurs="0" name="ProductCategory"
+											type="BusinessTransactionDocumentProductCategory"/>
+										<xs:element minOccurs="0" name="Price">
+											<xs:complexType>
+												<xs:sequence>
+												<xs:element minOccurs="0" name="NetUnitPrice"
+												type="Price"/>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element minOccurs="0" name="ConfirmedPrice">
+											<xs:complexType>
+												<xs:sequence>
+												<xs:element minOccurs="0" name="NetUnitPrice"
+												type="Price"/>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element minOccurs="0" name="BuyerParty"
+											type="BusinessTransactionDocumentParty"/>
+										<xs:element minOccurs="0" name="SellerParty"
+											type="BusinessTransactionDocumentParty"/>
+										<xs:element minOccurs="0" name="ProductRecipientParty"
+											type="BusinessTransactionDocumentParty"/>
+										<xs:element minOccurs="0" name="VendorParty"
+											type="BusinessTransactionDocumentParty"/>
+										<xs:element minOccurs="0" name="ManufacturerParty"
+											type="BusinessTransactionDocumentParty"/>
+										<xs:element minOccurs="0" name="BillToParty"
+											type="BusinessTransactionDocumentParty"/>
+										<xs:element minOccurs="0" name="PayerParty"
+											type="BusinessTransactionDocumentParty"/>
+										<xs:element minOccurs="0" name="CarrierParty"
+											type="BusinessTransactionDocumentParty"/>
+										<xs:element minOccurs="0" name="ShipToLocation"
+											type="BusinessTransactionShipToLocation"/>
+										<xs:element minOccurs="0" name="ShipFromLocation"
+											type="BusinessTransactionShipFromLocation"/>
+										<xs:element minOccurs="0" name="DeliveryTerms"
+											type="DeliveryTerms"/>
+										<xs:element minOccurs="0" name="QuoteReference"
+											type="BusinessTransactionDocumentReference"/>
+										<xs:element maxOccurs="unbounded" minOccurs="0"
+											name="PurchaseContractReference"
+											type="BusinessTransactionDocumentReference"/>
+										<xs:element maxOccurs="unbounded" minOccurs="0"
+											name="SalesContractReference"
+											type="BusinessTransactionDocumentReference"/>
+										<xs:element minOccurs="0"
+											name="OriginPurchaseOrderReference"
+											type="BusinessTransactionDocumentReference"/>
+										<xs:element minOccurs="0"
+											name="BuyerProductCatalogueReference"
+											type="CatalogueReference"/>
+										<xs:element minOccurs="0"
+											name="SellerProductCatalogueReference"
+											type="CatalogueReference"/>
+										<xs:element maxOccurs="unbounded" minOccurs="0"
+											name="Attachment" type="Attachment"/>
+										<xs:element minOccurs="0" name="Description"
+											type="Description"/>
+										<xs:element minOccurs="0" name="ConfirmationDescription"
+											type="Description"/>
+										<xs:element maxOccurs="unbounded" minOccurs="0"
+											name="ScheduleLine">
+											<xs:complexType>
+												<xs:sequence>
+												<xs:element minOccurs="0" name="ID" type="GDT"/>
+												<xs:element minOccurs="0" name="SellerID"
+												type="GDT"/>
+												<xs:element name="DeliveryPeriod">
+												<xs:complexType>
+												<xs:sequence>
+												<xs:element minOccurs="0" name="StartDateTime"
+												type="DateTime"/>
+												<xs:element minOccurs="0" name="EndDateTime"
+												type="DateTime"/>
+												<xs:element minOccurs="0" name="Duration"
+												type="Duration"/>
+												</xs:sequence>
+												</xs:complexType>
+												</xs:element>
+												<xs:element name="Quantity" type="Quantity"/>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+										<xs:element maxOccurs="unbounded" minOccurs="0"
+											name="ConfirmedScheduleLine"
+											type="PurchaseOrderItemScheduledLine"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute default="PurchaseOrderMessage" name="Name" type="xs:string"/>
+			<xs:attribute default="MDT" name="Type" type="xs:string"/>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

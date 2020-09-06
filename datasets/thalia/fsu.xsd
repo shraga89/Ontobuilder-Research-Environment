@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+     <xs:element name="fsu">
+          <xs:annotation>
+	       <xs:documentation>Florida State University</xs:documentation>
+	  </xs:annotation>
+		<xs:complexType>
+		     <xs:choice minOccurs="0" maxOccurs="unbounded">
+		          <xs:element name="Course" minOccurs="0" maxOccurs="unbounded">
+			       <xs:complexType>
+				    <xs:sequence minOccurs="0" maxOccurs="unbounded">
+				     <xs:element name="Code" type="xs:string" minOccurs="0"/>
+					 <xs:element name="Section" type="xs:string" minOccurs="0"/>
+					 <xs:element name="ReferenceNo" type="xs:string" minOccurs="0"/>
+					 <xs:element name="Detail" minOccurs="0">
+						<xs:complexType>
+						<xs:sequence minOccurs="0" maxOccurs="unbounded">
+							<xs:element name="Title" type="xs:string" minOccurs="0"/>
+							<xs:element name="Instructor" type="xs:string" minOccurs="0"/>
+							<xs:element name="Seats" type="xs:string" minOccurs="0"/>
+							<xs:element name="SeatsOpen" type="xs:string" minOccurs="0"/>
+							<xs:element name="Bldg" minOccurs="0">
+							   <xs:complexType>
+							      <xs:sequence minOccurs="0" maxOccurs="unbounded">
+								 <xs:element name="BldgCode" type="xs:string" minOccurs="0"/>
+			      				         <xs:element name="Room" type="xs:string" minOccurs="0"/>
+								<xs:element name="Days" type="xs:string" minOccurs="0"/>
+								<xs:element name="TimeBegin" type="xs:string" minOccurs="0"/>
+					   	          	 <xs:element name="TimeEnd" type="xs:string" minOccurs="0"/>
+									 <xs:element name="Comments" type="xs:string" minOccurs="0"/>
+								</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						    </xs:sequence>
+						</xs:complexType>
+					   </xs:element>
+				    </xs:sequence>
+			       </xs:complexType>
+			  </xs:element>
+		     </xs:choice>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

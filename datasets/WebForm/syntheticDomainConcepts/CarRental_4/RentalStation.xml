@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE ontology SYSTEM "dtds/ontology.dtd">
+<ontology name="RentalStation" title="Station Information For the Synthetic Rental Domain" type="full">
+    <classes />
+    <terms>
+        <term id="882999335958915671" name="StationID" value="">
+            <domain type="" />
+            <attributes />
+            <axioms />
+            <relationships />
+            <subterms />
+        </term>
+        <term id="5962572554196083650" name="StationName" value="">
+            <domain name="Text" type="text" />
+            <attributes />
+            <axioms />
+            <relationships />
+            <subterms />
+        </term>
+        <term id="7205328000225625260" name="Location" value="">
+            <domain type="" />
+            <attributes />
+            <axioms />
+            <relationships>
+                <relationship name="is parent of">
+                    <source>Location</source>
+                    <targets>Country</targets>
+                </relationship>
+                <relationship name="is parent of">
+                    <source>Location</source>
+                    <targets>State_County</targets>
+                </relationship>
+                <relationship name="is parent of">
+                    <source>Location</source>
+                    <targets>City</targets>
+                </relationship>
+                <relationship name="is parent of">
+                    <source>Location</source>
+                    <targets>Address</targets>
+                </relationship>
+                <relationship name="is parent of">
+                    <source>Location</source>
+                    <targets>ZIP</targets>
+                </relationship>
+            </relationships>
+            <subterms>
+                <term id="9075212459116285445" name="Country" value="">
+                    <domain name="Text" type="text" />
+                    <attributes />
+                    <axioms />
+                    <relationships>
+                        <relationship name="is child of">
+                            <source>Country</source>
+                            <targets>Location</targets>
+                        </relationship>
+                    </relationships>
+                    <subterms />
+                </term>
+                <term id="5911563058075639963" name="State_County" value="">
+                    <domain name="Text" type="text" />
+                    <attributes />
+                    <axioms />
+                    <relationships>
+                        <relationship name="is child of">
+                            <source>State_County</source>
+                            <targets>Location</targets>
+                        </relationship>
+                    </relationships>
+                    <subterms />
+                </term>
+                <term id="6301024312460507147" name="City" value="">
+                    <domain name="Text" type="text" />
+                    <attributes />
+                    <axioms />
+                    <relationships>
+                        <relationship name="is child of">
+                            <source>City</source>
+                            <targets>Location</targets>
+                        </relationship>
+                    </relationships>
+                    <subterms />
+                </term>
+                <term id="3295068593506964473" name="Address" value="">
+                    <domain name="Text" type="text" />
+                    <attributes />
+                    <axioms />
+                    <relationships>
+                        <relationship name="is child of">
+                            <source>Address</source>
+                            <targets>Location</targets>
+                        </relationship>
+                    </relationships>
+                    <subterms />
+                </term>
+                <term id="6524166695224273985" name="ZIP" value="">
+                    <domain name="Positive Integer" type="pinteger" />
+                    <attributes />
+                    <axioms />
+                    <relationships>
+                        <relationship name="is child of">
+                            <source>ZIP</source>
+                            <targets>Location</targets>
+                        </relationship>
+                    </relationships>
+                    <subterms />
+                </term>
+            </subterms>
+        </term>
+    </terms>
+</ontology>
+

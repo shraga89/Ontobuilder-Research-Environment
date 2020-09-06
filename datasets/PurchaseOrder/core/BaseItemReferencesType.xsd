@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" targetNamespace="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" elementFormDefault="qualified">
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+            XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.
+            Permission is granted to use, copy, modify and distribute the
+            DTD's, schemas and modules in the Commerce One XML Common Business
+            Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType name="BaseItemReferencesType">
+        <xsd:annotation>
+            <xsd:documentation>contains a collection of references which pertain to line items.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element minOccurs="0" name="OffCatalogFlag" type="xsd:boolean">
+                <xsd:annotation>
+                    <xsd:documentation>is a flag to denote whether the item was ordered from a
+					catalog.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="CatalogReference" type="CatalogReferenceType">
+                <xsd:annotation>
+                    <xsd:documentation>references a catalog.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ItemContractReferences" type="ListOfContractType">
+                <xsd:annotation>
+                    <xsd:documentation>list information about any contracts that apply to the line item.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="LineItemRequisitionReference" type="LineItemRequisitionReferenceType">
+                <xsd:annotation>
+                    <xsd:documentation>identifies all cost center information, and if applicable, the split to
+                    each different cost center for the item.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="BlanketOrderReference" type="ReferenceType">
+                <xsd:annotation>
+                    <xsd:documentation>references a blanket purchase order.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="IsItemImmutable" type="xsd:boolean">
+	         <xsd:annotation>
+	            <xsd:documentation>flag to identify whether the item is immutable.</xsd:documentation>
+	        </xsd:annotation>
+	    	</xsd:element>            
+            <xsd:element minOccurs="0" name="ListOfCostCenter" type="ListOfCostCenterType">
+                <xsd:annotation>
+                    <xsd:documentation>identifies all cost center information, and if applicable, the split to
+                    each different cost center for the item.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ListOfItemReferences" type="ListOfReferenceCodedType">
+                <xsd:annotation>
+                    <xsd:documentation>lists one or more references relating to the line
+					item.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

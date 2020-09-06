@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" targetNamespace="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" elementFormDefault="qualified">
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+            XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.
+            Permission is granted to use, copy, modify and distribute the
+            DTD's, schemas and modules in the Commerce One XML Common Business
+            Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType name="LanguageType">
+        <xsd:annotation>
+            <xsd:documentation>is used to provide information about the
+        language which text is written in.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="LanguageCoded" type="LanguageCodeType">
+                <xsd:annotation>
+                    <xsd:documentation>identifies the language using ISO standards.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="LanguageCodedOther" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>is used to provide a non-standard <!--code-->LanguageCode<!--/code-->. This element is
+        mandatory if the value of <!--code-->LanguageCoded<!--/code--> is 'Other'. These codes should not
+        contain white space unless absolutely necessary.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="LocaleCoded" type="LocaleCodeType">
+                <xsd:annotation>
+                    <xsd:documentation>identifies the locale/location where the language is
+        spoken.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="LocaleCodedOther" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>is used to provide a non-standard <!--code-->LocaleCode<!--/code-->. This element
+        is mandatory if the value of <!--code-->LocaleCoded<!--/code--> is 'Other'. These codes should not
+        contain white space unless absolutely necessary.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="LanguageDependent" type="xsd:boolean" use="optional">
+            <xsd:annotation>
+                <xsd:documentation>
+            defines whether a document is language dependent or
+        not.</xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+    </xsd:complexType>
+    <xsd:complexType name="ListOfLanguageType">
+        <xsd:annotation>
+            <xsd:documentation>contains a list of languages.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element maxOccurs="unbounded" name="Language" type="LanguageType">
+                <xsd:annotation>
+                    <xsd:documentation>is used to provide information about the
+        language which text is written in.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="toronto">
+		<xs:annotation>
+			<xs:documentation>University of Toronto</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="course" minOccurs="0" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:sequence minOccurs="0" maxOccurs="unbounded">
+							<xs:element name="title" type="xs:string" minOccurs="0"/>
+							<xs:element name="instructor" minOccurs="0">
+								<xs:complexType>
+									<xs:simpleContent>
+										<xs:extension base="xs:string">
+											<xs:attribute name="Email" type="xs:string" use="optional"/>
+											<xs:attribute name="Name" type="xs:string" use="optional"/>
+										</xs:extension>
+									</xs:simpleContent>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="location" type="xs:string" minOccurs="0"/>
+							<xs:element name="coursewebsite" type="xs:string" minOccurs="0"/>
+							<xs:element name="prereq" type="xs:string" minOccurs="0"/>
+							<xs:element name="text" type="xs:string" minOccurs="0"/>
+						</xs:sequence>
+						<xs:attribute name="No" type="xs:string" use="optional"/>
+						<xs:attribute name="level" type="xs:string" use="optional"/>
+						<xs:attribute name="offeredTerm" type="xs:string" use="optional"/>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

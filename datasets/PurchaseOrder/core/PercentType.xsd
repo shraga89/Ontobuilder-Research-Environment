@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" targetNamespace="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" elementFormDefault="qualified">
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+            XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.
+            Permission is granted to use, copy, modify and distribute the
+            DTD's, schemas and modules in the Commerce One XML Common Business
+            Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType name="PercentType">
+        <xsd:annotation>
+            <xsd:documentation>defines a percnetage.  The syntax for this element is to express the
+            percentage as a whole number.  For instance, if 3/4 of a whole is to be expressed, the actual
+            value of the <!--code-->Percent<!--/code--> would be 75.00.  The unit of measure is fixed to "P1", or percent.
+            The given exampel would thus read 75%.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:simpleContent>
+            <xsd:extension base="Decimal10_4Type">
+                <xsd:attribute name="UnitOfMeasurement" type="UOMCodeType" fixed="P1"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+</xsd:schema>

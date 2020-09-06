@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
-import technion.iem.schemamatching.dbutils.DBInterface;
+import ac.technion.schemamatching.DBInterface.DBInterface;
 import ac.technion.iem.ontobuilder.core.ontology.Ontology;
 import ac.technion.iem.ontobuilder.io.imports.Importer;
 import ac.technion.schemamatching.experiments.OBExperimentRunner;

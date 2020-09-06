@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" targetNamespace="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" elementFormDefault="qualified">
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+            XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.
+            Permission is granted to use, copy, modify and distribute the
+            DTD's, schemas and modules in the Commerce One XML Common Business
+            Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType name="DiscountsType">
+        <xsd:annotation>
+            <xsd:documentation>is a container element that holds discount information as it
+        pertains to the payment term</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element minOccurs="0" name="DiscountPercent" type="PercentType">
+                <xsd:annotation>
+                    <xsd:documentation>contains the percent discounted in the terms of the payment. If a
+        discount percent is specified then <!--code-->DiscountAmount<!--/code--> should not be
+        used.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="DiscountAmount" type="MonetaryValueType">
+                <xsd:annotation>
+                    <xsd:documentation>contains the amount to be discounted from the payment value. If a
+        discount amount is specified then <!--code-->DiscountPercent<!--/code--> should not be
+        used.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="DiscountDueDate" type="xsd:dateTime">
+                <xsd:annotation>
+                    <xsd:documentation>contains the date the amount has to paid by in order to receive
+        the discount.  This is only used in the case where
+        the discount applies to a payment term.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="DiscountDayOfMonth" type="xsd:int">
+                <xsd:annotation>
+                    <xsd:documentation>contains the generic day of the month, for example, the 15th, which
+        the amount has to be paid by in order to receive the discount.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="DiscountTimeDue" type="TimeDueType">
+                <xsd:annotation>
+                    <xsd:documentation>provides a structured element that allows the discount due
+                    date to expressed in a period time from a specific occurence, such as
+                    reciept of the goods ordered.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

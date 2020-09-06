@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" targetNamespace="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" elementFormDefault="qualified">
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+            XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.
+            Permission is granted to use, copy, modify and distribute the
+            DTD's, schemas and modules in the Commerce One XML Common Business
+            Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType name="HazardousType">
+        <xsd:annotation>
+            <xsd:documentation>specifies the hazardous information required for safe handling of
+        an item or package.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element minOccurs="0" name="ListOfHazardousIdentifiers" type="ListOfHazardousIdentifiersType">
+                <xsd:annotation>
+                    <xsd:documentation>is a list of identifiers that are in reference to the hazardous
+        material being described.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="HazardClassCoded" type="HazardClassCodeType">
+                <xsd:annotation>
+                    <xsd:documentation>is a code qualifying hazardous class. Values are primary or
+        secondary.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="HazardClassCodedOther" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>is used to specify a non-standard <!--code-->HazardClassCode<!--/code-->. This element is
+        mandatory if the value of <!--code-->HazardClassCoded<!--/code--> is 'Other'. These codes should not
+        contain white space unless absolutely necessary.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="HazardousPlacardInformation" type="HazardousPlacardInformationType">
+                <xsd:annotation>
+                    <xsd:documentation>is used to specify the placard information required on the means
+        of transport or shipping information.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="HazardousReferences" type="ListOfReferenceCodedType">
+                <xsd:annotation>
+                    <xsd:documentation>is used to transmit specific hazardous material reference
+        numbers.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="HazardousContact" type="ContactType">
+                <xsd:annotation>
+                    <xsd:documentation>is the seller's contact for more information on the hazardous
+        information</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="HazardNote" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>provides additional information regarding the hazardous
+        substance. (Can be used to hold information such as the type of regulatory
+        requirements that apply to a description, e.g. N.O.S.)</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="UNDGNum" type="xsd:int">
+                <xsd:annotation>
+                    <xsd:documentation>contains a unique serial number assigned within the United
+        Nations to substances and articles contained in a list of the dangerous goods
+        most commonly carried.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="HazardousTemperatures" type="HazardousTemperaturesType">
+                <xsd:annotation>
+                    <xsd:documentation>contains the various temperatures that relate to the item or
+        package, such as flashpoint, control, and emergency.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="HazardousShipmentInformation" type="HazardousShipmentInformationType">
+                <xsd:annotation>
+                    <xsd:documentation>holds information related to the shipping and packaging of
+        hazardous goods.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="EMSNum" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>is the emergency procedures for ships carrying dangerous
+        goods.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="Mfag" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>is the medical first aid guide.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="ListOfHazardousType">
+        <xsd:annotation>
+            <xsd:documentation>contains one or more <!--code-->Hazardous<!--/code--> elements.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element maxOccurs="unbounded" name="Hazardous" type="HazardousType">
+                <xsd:annotation>
+                    <xsd:documentation>specifies the hazardous information required for safe handling of
+        an item or package.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

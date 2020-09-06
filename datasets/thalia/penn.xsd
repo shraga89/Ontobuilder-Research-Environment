@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="penn">
+		<xs:annotation>
+			<xs:documentation>Pennsylvania State University</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="Course" minOccurs="0" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:sequence minOccurs="0" maxOccurs="unbounded">
+							<xs:element name="Title" type="xs:string" minOccurs="0"/>
+							<xs:element name="Credits" type="xs:string" minOccurs="0"/>
+							<xs:element name="Classes" minOccurs="0">
+								<xs:complexType>
+									<xs:simpleContent>
+										<xs:extension base="xs:string">
+											<xs:element name="RefNo" type="xs:string" minOccurs="0"/>
+											<xs:element name="Section" type="xs:string" minOccurs="0"/>
+											<xs:element name="Limit" type="xs:string" minOccurs="0"/>
+											<xs:element name="SeatsOpen" type="xs:string" minOccurs="0"/>
+											<xs:element name="Times" type="xs:string" minOccurs="0"/>
+											<xs:element name="Place" type="xs:string" minOccurs="0"/>
+											<xs:element name="Instructor" type="xs:string" minOccurs="0"/>
+										</xs:extension>
+									</xs:simpleContent>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="Number" type="xs:string" use="optional"/>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

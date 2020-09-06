@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" targetNamespace="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" elementFormDefault="qualified">
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+            XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.
+            Permission is granted to use, copy, modify and distribute the
+            DTD's, schemas and modules in the Commerce One XML Common Business
+            Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType name="PriceType">
+        <xsd:annotation>
+            <xsd:documentation>contains a pricing scheme for an item.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element minOccurs="0" name="PricingType" type="PricingTypeType">
+                <xsd:annotation>
+                    <xsd:documentation>identifies the type of price.  Price is always assumed to be a catalog price, so this
+        should only be used if the price is not a catalog price.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="UnitPrice" type="UnitPriceType">
+                <xsd:annotation>
+                    <xsd:documentation>is a container element that holds the pricing information for a basic
+        unit of an item.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+			<xsd:choice>
+	            <xsd:element minOccurs="0" name="UnitOfMeasurement" type="UnitOfMeasurementType">
+	                <xsd:annotation>
+	                    <xsd:documentation>contains the unit of measurement that the unit price is based on.
+						This is used if the <!--code-->PriceBasisQuantity<!--/code--> is one.  For example, if the unit price is
+						$50/1 lb, then the <!--code-->UnitOfMeasurment<!--/code--> would be specified as pounds.</xsd:documentation>
+	                </xsd:annotation>
+	            </xsd:element>
+	            <xsd:element minOccurs="0" name="PriceBasisQuantity" type="QuantityType">
+	                <xsd:annotation>
+                        <xsd:documentation>contains a quantity and unit of measurement that the unit price is based on.
+        For example if a pricing scheme
+        were $50/500 lbs, then 500 lbs would be contained in this element and 50 would
+        be containd in the <!--code-->UnitPrice<!--/code-->. If this is
+        used, then <!--code-->UnitOfMeasurement<!--/code--> element in the <!--code-->UnitPrice<!--/code-->
+        element must not be used.</xsd:documentation>
+                    </xsd:annotation>
+	            </xsd:element>
+            </xsd:choice>
+            <xsd:element minOccurs="0" name="CalculatedPriceBasisQuantity" type="QuantityType">
+                <xsd:annotation>
+                    <xsd:documentation>is the price basis quantity, expressed in the unit of measure that the line
+        item is ordered in.  For example, if the price basis quantity is 100mL, and the
+        item is ordered in 1L increments, the calculated price basis quantity would be 0.1L.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ValidityDates" type="ValidityDatesType">
+                <xsd:annotation>
+                    <xsd:documentation>specifies the start and end date for the pricing if a range dates
+        applies to the pricing scheme.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="PriceQuantityRange" type="QuantityType">
+                <xsd:annotation>
+                    <xsd:documentation>contains a range of quantity over which the pricing information
+        is applicable. This is commonly used for step pricing scenarios.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="PriceMultiplier" type="PriceMultiplierType">
+                <xsd:annotation>
+                    <xsd:documentation>contains a reason and value by which the unit price is multiplied
+        by to arrive at the final price for an item. This can be used to apply a
+        discount to a basic unit price.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="ListOfPriceType">
+        <xsd:annotation>
+            <xsd:documentation>contains one or more pricing schemes.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element maxOccurs="unbounded" name="Price" type="PriceType">
+                <xsd:annotation>
+                    <xsd:documentation>contains a pricing scheme for an item.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

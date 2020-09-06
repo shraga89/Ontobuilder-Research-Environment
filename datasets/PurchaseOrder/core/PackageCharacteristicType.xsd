@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" targetNamespace="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" elementFormDefault="qualified">
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+            XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.
+            Permission is granted to use, copy, modify and distribute the
+            DTD's, schemas and modules in the Commerce One XML Common Business
+            Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType name="PackageCharacteristicType">
+        <xsd:annotation>
+            <xsd:documentation>contains the code and the description of the packaging
+        characteristics.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="PackageCharacteristicCoded" type="PackageCharacteristicCodeType">
+                <xsd:annotation>
+                    <xsd:documentation>specifies the marking, packaging, loading and related
+        characteristics being described.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="PackageCharacteristicCodedOther" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>is used to provide a non-standard <!--code-->PackageCharacteristicCode<!--/code-->.
+        This element is mandatory if the value of <!--code-->PackageCharacteristicCoded<!--/code--> is
+        'Other'. These codes should not contain white space unless absolutely
+        necessary.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="PackageCharacteristicDescription" type="IdentifierType">
+                <xsd:annotation>
+                    <xsd:documentation>holds a code from an industry code list which provides specific
+        data about the marking, packaging, or loading and unloading of a
+        product.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="ListOfPackageCharacteristicType">
+        <xsd:annotation>
+            <xsd:documentation>contains one or more <!--code-->PackageCharacteristic<!--/code--> elements.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element maxOccurs="unbounded" name="PackageCharacteristic" type="PackageCharacteristicType">
+                <xsd:annotation>
+                    <xsd:documentation>contains the code and the description of the packaging
+        characteristics.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

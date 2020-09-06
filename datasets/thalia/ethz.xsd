@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema elementFormDefault="qualified" attributeFormDefault="unqualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="ethz">
+		<xs:annotation>
+			<xs:documentation>Eidgenössische Technische Hochschule Zürich</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="UnterrichtTyp" minOccurs="0" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:choice minOccurs="0" maxOccurs="unbounded">
+							<xs:element name="Unterricht" minOccurs="0" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:sequence minOccurs="0" maxOccurs="unbounded">
+										<xs:element name="Titel" type="xs:string" minOccurs="0"/>
+										<xs:element name="Homepage" type="xs:string" minOccurs="0"/>
+										<xs:element name="Sprache" type="xs:string" minOccurs="0"/>
+										<xs:element name="Dozent" type="xs:string" minOccurs="0"/>
+										<xs:element name="Umfang" type="xs:string" minOccurs="0"/>
+									</xs:sequence>
+									<xs:attribute name="Nummer" type="xs:string" use="optional"/>
+								</xs:complexType>
+							</xs:element>
+						</xs:choice>
+						<xs:attribute name="Typ" type="xs:string" use="optional"/>
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

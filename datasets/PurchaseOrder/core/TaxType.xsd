@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" targetNamespace="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" elementFormDefault="qualified">
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+            XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.
+            Permission is granted to use, copy, modify and distribute the
+            DTD's, schemas and modules in the Commerce One XML Common Business
+            Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType name="TaxType">
+        <xsd:annotation>
+            <xsd:documentation>is used to specify tax information.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="TaxTypeCoded" type="TaxTypeCodeType">
+                <xsd:annotation>
+                    <xsd:documentation>identifies the type of the tax.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="TaxTypeCodedOther" type="IdentifierType">
+                <xsd:annotation>
+                    <xsd:documentation>is used to provide a non-standard <!--code-->TaxTypeCode<!--/code-->.
+                    This element is mandatory if the value of <!--code-->TaxTypeCoded<!--/code--> is
+                    'Other'. These codes should not contain white space unless absolutely
+                    necessary.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+
+            <xsd:element name="TaxFunctionQualifierCoded" type="TaxFunctionQualifierCodeType">
+                <xsd:annotation>
+                    <xsd:documentation>indicates the function of the Tax element, e.g. tax, customs
+                    duty.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="TaxFunctionQualifierCodedOther" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>is used to provide a non-standard <!--code-->TaxQualifierCode<!--/code-->.
+                    This element is mandatory if the value of <!--code-->TaxQualifierCoded<!--/code--> is
+                    'Other'. These codes should not contain white space unless absolutely
+                    necessary.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="TaxCategoryCoded" type="TaxCategoryCodeType">
+                <xsd:annotation>
+                    <xsd:documentation>indicates the category of the tax and, by implication, the tax
+                    rate that applies. The actual percentage is dependent on the tax
+                    jurisdiction.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="TaxCategoryCodedOther" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>is used to provide a non-standard <!--code-->TaxCategoryCode<!--/code-->.
+                    This element is mandatory if the value of <!--code-->TaxCategoryCoded<!--/code--> is
+                    'Other'. These codes should not contain white space unless absolutely
+                    necessary.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ReasonTaxExemptCoded" type="ReasonTaxExemptCodeType">
+                <xsd:annotation>
+                    <xsd:documentation>explains why a <!--code-->TaxCategory<!--/code--> is exempt.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="ReasonTaxExemptCodedOther" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>is used to provide a non-standard <!--code-->ReasonTaxExemptCode<!--/code-->.
+                    This element is mandatory if the value of <!--code-->ReasonTaxExemptCoded<!--/code--> is
+                    'Other'. These codes should not contain white space unless absolutely
+                    necessary.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="TaxPercent" type="PercentType">
+                <xsd:annotation>
+                    <xsd:documentation>holds the tax rate as a percentage.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="TaxPaymentMethodCoded" type="TaxPaymentMethodCodeType">
+                <xsd:annotation>
+                    <xsd:documentation>indicates the method by which the tax will be paid.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="TaxPaymentMethodCodedOther" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>is used to provide a non-standard <!--code-->TaxPaymentMethodCode<!--/code-->.
+                    This element is mandatory if the value of <!--code-->TaxPaymentMethodCoded<!--/code--> is
+                    'Other'. These codes should not contain white space unless absolutely
+                    necessary.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="TaxableAmount" type="Decimal21_6Type">
+                <xsd:annotation>
+                    <xsd:documentation>holds the taxable amount in the invoice currency.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="TaxableAmountInTaxAccountingCurrency" type="Decimal21_6Type">
+                <xsd:annotation>
+                    <xsd:documentation>holds the taxable amount in the tax accounting
+                    currency.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="TaxAmount" type="Decimal21_6Type">
+                <xsd:annotation>
+                    <xsd:documentation>holds the tax amount in the invoice currency.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="TaxAmountInTaxAccountingCurrency" type="Decimal21_6Type">
+                <xsd:annotation>
+                    <xsd:documentation>holds the tax amount in the tax accounting currency.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="TaxLocation" type="LocationType">
+                <xsd:annotation>
+                    <xsd:documentation>holds the location for which the tax applies.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

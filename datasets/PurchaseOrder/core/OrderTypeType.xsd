@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" targetNamespace="rrn:org.xcbl:schemas/xcbl/v4_0/core/core.xsd" elementFormDefault="qualified">
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+            XML Common Business Library 4.0
+            Copyright 2002 Commerce One, Inc.
+            Permission is granted to use, copy, modify and distribute the
+            DTD's, schemas and modules in the Commerce One XML Common Business
+            Library Version 4.0 subject to the terms and conditions specified
+            at http://www.xcbl.org/license.html
+        </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexType name="OrderTypeType">
+        <xsd:annotation>
+            <xsd:documentation> comprises the creation of a purchase order that is sent for
+        acceptance or rejection by a seller. A requisitioner, buyer, or buying
+        organization can initiate an <!--code-->Order<!--/code--> in response to a variety of factors in the
+        electronic business arena, contracts, auctions, order requests, etc. A
+        requisitioner, or buyer, can initiate a change to an already existing order. A
+        seller uses the <!--code-->OrderResponse<!--/code--> document to accept or reject an <!--code-->Order<!--/code--> or a
+        changed order.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="OrderTypeCoded" type="OrderTypeCodeType">
+                <xsd:annotation>
+                    <xsd:documentation>defines the type of order. Typically the value is Stand Alone.
+        </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element minOccurs="0" name="OrderTypeCodedOther" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>is used to provide a non-standard <!--code-->OrderTypeCode<!--/code-->.
+        This element is mandatory if the value of <!--code-->OrderTypeCoded<!--/code--> is
+        'Other'. These codes should not contain white space unless absolutely
+        necessary.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>
