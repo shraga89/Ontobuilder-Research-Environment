@@ -21,7 +21,7 @@ public class MatchListPrinter implements Statistic {
 	 * @see ac.technion.schemamatching.statistics.Statistic#getHeader()
 	 */
 	public String[] getHeader() {
-		return new String[]{"CandTermId","TargetTermID","CandTermName","TargetTermName","Confidence"};
+		return new String[]{"Instance Discription","CandTermId","TargetTermID","CandTermName","TargetTermName","Confidence"};
 	}
 
 	/* (non-Javadoc)

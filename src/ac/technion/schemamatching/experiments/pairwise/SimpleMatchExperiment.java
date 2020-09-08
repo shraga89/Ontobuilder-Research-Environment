@@ -102,6 +102,30 @@ public class SimpleMatchExperiment implements PairWiseExperiment {
 
 		return evaluations;
 	}
+	
+	public MatchInformation runPairSchemaMatching(ExperimentSchemaPair esp) {
+		// Using all 1st line matchers
+		for (FirstLineMatcher m : flM)
+		{
+			//Direct matching using the first line matcher allows to set parameters in the flm
+			//mi = m.match(esp.getCandidateOntology(), esp.getTargetOntology(), false);
+			
+			/*Preferred method is to use this method which looks up 
+			 * the similarity matrix in the database if it exists. 
+			*/
+			MatchInformation mi = esp.getSimilarityMatrix(m, false);
+			for (SecondLineMatcher s : slM)
+			{
+				//Second Line Match
+				if (properties == null || !s.init(properties)) 
+					System.err.println("Initialization of " + s.getName() + 
+							"failed, we hope the author defined default values...");
+				MatchInformation mi1 = s.match(mi);
+				return mi1;
+			}
+		}
+		return null;
+	}
 
 	/*
 	 * (non-Javadoc)

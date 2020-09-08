@@ -41,7 +41,7 @@ public class ImporterTest
 	 * @param f XSD file to import
 	 * @return ontology object for ontobuilder
 	 */
-	private Ontology getOntologyFromFile(File f) 
+	public Ontology getOntologyFromFile(File f) 
 	{
 		@SuppressWarnings("unused")
 		OntoBuilderWrapper obw = new OntoBuilderWrapper();

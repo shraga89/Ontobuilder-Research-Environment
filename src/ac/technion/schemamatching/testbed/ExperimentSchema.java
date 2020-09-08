@@ -32,6 +32,11 @@ public class ExperimentSchema {
 		load(); 
 	}
 	
+	public ExperimentSchema(Ontology o, int dsid) {
+		this.o = o;
+		dsEnum = OREDataSetEnum.getByDbid(dsid);
+	}
+	
 	protected ExperimentSchema() 
 	{
 		ID = 0;

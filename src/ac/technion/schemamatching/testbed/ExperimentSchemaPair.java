@@ -58,7 +58,7 @@ public class ExperimentSchemaPair extends ExperimentSchema {
 		Ontology o = new Ontology("A", "B");
 		Term t = new Term("c");
 		o.addTerm(t);
-		
+		basicMatrices = new HashMap<Integer, MatchInformation>();
 		this.candidate = candidate.getTargetOntology();
 		this.target = target.getTargetOntology();
 		this.dsEnum = target.dsEnum;

@@ -1213,7 +1213,7 @@ public class OBExperimentRunner {
 	 * @param arguments file name assumed to be in program root directory
 	 * @return list of schema pair IDs
 	 */
-	private static ArrayList<Long> extractSPList(String arguments) {
+	public static ArrayList<Long> extractSPList(String arguments) {
 		ArrayList<Long> res = new ArrayList<Long>();
 		File spFile = new File("./" + arguments);
 		int lineNumber = 0;
@@ -1250,7 +1250,7 @@ public class OBExperimentRunner {
 	 * @param slmCodes
 	 * @return
 	 */
-	private static ArrayList<SecondLineMatcher> parseSLMids(String slmCodes) {
+	public static ArrayList<SecondLineMatcher> parseSLMids(String slmCodes) {
 		String[] st = slmCodes.split(",");
 		ArrayList<SecondLineMatcher> slm = new ArrayList<SecondLineMatcher>();
 		HashMap<Integer, SecondLineMatcher> hash = SLMList.getIdSLMHash();
@@ -1268,7 +1268,7 @@ public class OBExperimentRunner {
 	 * @param flmCodes assumed to contain a comma separated list of first line matcher codes
 	 * @return list of FLM found to match codes given
 	 */
-	private static ArrayList<FirstLineMatcher> parseFLMids(String flmCodes) {
+	public static ArrayList<FirstLineMatcher> parseFLMids(String flmCodes) {
 		String[] st = flmCodes.split(",");
 		ArrayList<FirstLineMatcher> flm = new ArrayList<FirstLineMatcher>();
 		HashMap<Integer, FirstLineMatcher> hash = FLMList.getIdFLMHash();
@@ -1346,7 +1346,7 @@ public class OBExperimentRunner {
 	 * @param DomainCodes - a string in the following format "2,3,4,2" (without the Quotation mark)
 	 * @return HashSet<Integer>
 	 */
-	private static HashSet<Integer> parseDomainCodes(String DomainCodes) {
+	public static HashSet<Integer> parseDomainCodes(String DomainCodes) {
 		String[] st = DomainCodes.split(",");
 		HashSet<Integer> DomainCodesHash = new HashSet<Integer>();
 		for (String s : st){
@@ -1408,7 +1408,7 @@ public class OBExperimentRunner {
 	 * @param pairMode if true assumes given schema IDs and returns schema pairs 
 	 * @return ArrayList of Schema Experiments. 
 	 */
-	private ArrayList<ExperimentSchema> selectExperiments(int K, String spid, int datasetID, HashSet<Integer> domainCodes,boolean pairMode) 
+	public ArrayList<ExperimentSchema> selectExperiments(int K, String spid, int datasetID, HashSet<Integer> domainCodes,boolean pairMode) 
 	{
 		if (datasetID == 0) datasetID = 1;
 		ArrayList<ExperimentSchema> ds = new ArrayList<ExperimentSchema>();
@@ -1596,7 +1596,7 @@ public class OBExperimentRunner {
 	 * @param data
 	 * @param f
 	 */
-	private void outputAsCSV(String[] header, ArrayList<String[]> data, File f) 
+	public void outputAsCSV(String[] header, ArrayList<String[]> data, File f) 
 	{
 		DataFile write = DataFile.createWriter("8859_1", false);
 		write.setDataFormat(new CSVFormat());			
