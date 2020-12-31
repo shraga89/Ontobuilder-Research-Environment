@@ -23,8 +23,6 @@ import java.util.Map.Entry;
 import java.util.Random;
 import java.util.TreeMap;
 
-import com.hp.hpl.jena.util.FileUtils;
-
 import au.com.bytecode.opencsv.CSVReader;
 import ciir.umass.edu.eval.Evaluator;
 import ciir.umass.edu.features.FeatureManager;

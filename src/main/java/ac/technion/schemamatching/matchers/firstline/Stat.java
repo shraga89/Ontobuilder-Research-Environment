@@ -22,7 +22,8 @@ import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 //import ac.technion.schemamatching.curpos.CurposTerm;
 import ac.technion.schemamatching.matchers.MatcherType;
 import ac.technion.schemamatching.matchers.firstline.MaximalCliquesWithPivot.Vertex;
-import javafx.util.Pair;
+import org.apache.commons.lang3.tuple.MutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 
 
 /**
@@ -172,7 +173,7 @@ public class Stat implements FirstLineMatcher {
 		
 		HashMap<Pair<Ontology,Ontology>,MatchInformation> result=match(schemaSet, binary);
 		
-		Pair<Ontology, Ontology> key = new Pair<Ontology, Ontology>(target, candidate);
+		Pair<Ontology, Ontology> key = new MutablePair<Ontology, Ontology>(target, candidate);
 		System.out.println(result.get(key).getCopyOfMatches());
 		return result.get(key);
 		
@@ -249,8 +250,8 @@ public class Stat implements FirstLineMatcher {
 				{
 					continue;
 				}
-				Pair<Ontology, Ontology> key = new Pair<Ontology, Ontology>(currentOntology, otherOntology);
-				Pair<Ontology, Ontology> reverseKey = new Pair<Ontology, Ontology>(otherOntology, currentOntology );
+				Pair<Ontology, Ontology> key = new MutablePair<Ontology, Ontology>(currentOntology, otherOntology);
+				Pair<Ontology, Ontology> reverseKey = new MutablePair<Ontology, Ontology>(otherOntology, currentOntology );
 				if (res.keySet().contains(key) || res.keySet().contains(reverseKey))
 				{
 					continue;
@@ -1382,8 +1383,8 @@ private HashSet<Model> setCover(HashSet<Concept> concepts){
 			}
 		}*/
 		
-		Pair<Ontology, Ontology> key =  new Pair<Ontology, Ontology>(currentOntology, otherOntology);
-		Pair<Ontology, Ontology> reverseKey = new Pair<Ontology, Ontology>(otherOntology, currentOntology );
+		Pair<Ontology, Ontology> key =  new MutablePair<Ontology, Ontology>(currentOntology, otherOntology);
+		Pair<Ontology, Ontology> reverseKey = new MutablePair<Ontology, Ontology>(otherOntology, currentOntology );
 		
 		if (res.keySet().contains(key))
 		{

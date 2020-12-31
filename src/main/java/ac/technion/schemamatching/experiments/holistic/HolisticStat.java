@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
-import javafx.util.Pair;
+import org.apache.commons.lang3.tuple.Pair;
 import ac.technion.iem.ontobuilder.core.ontology.Ontology;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 import ac.technion.schemamatching.experiments.OBExperimentRunner;
