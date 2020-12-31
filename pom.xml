@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>ac.technion.schemamatching</groupId>
+    <artifactId>ore</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.0.0</version>
+                <configuration>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <archive>
+                        <manifest>
+                            <mainClass>ac.technion.schemamatching.experiments.OBExperimentRunner</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+    <dependencies>
+        <dependency>
+            <groupId>ac.technion.schemamatching</groupId>
+            <artifactId>ob-core</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>system</scope>
+    		<systemPath>${project.basedir}/lib/ontobuilder.core.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>ac.technion.schemamatching</groupId>
+            <artifactId>cesm</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>system</scope>
+    		<systemPath>${project.basedir}/lib/cesm.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>ac.technion.schemamatching</groupId>
+            <artifactId>ob-matching</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>system</scope>
+    		<systemPath>${project.basedir}/lib/ontobuilder.matching.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>ac.technion.schemamatching</groupId>
+            <artifactId>ob-io</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>system</scope>
+    		<systemPath>${project.basedir}/lib/ontobuilder.io.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>ac.technion.schemamatching</groupId>
+            <artifactId>SMB</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>system</scope>
+    		<systemPath>${project.basedir}/lib/SMB.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>ac.technion.schemamatching</groupId>
+            <artifactId>DBInterface</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>system</scope>
+    		<systemPath>${project.basedir}/lib/DBInterface.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.github.gyulalaszlo</groupId>
+            <artifactId>informata-datafile</artifactId>
+            <version>1.4.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sap.research</groupId>
+            <artifactId>AMC-CLI</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>system</scope>
+    		<systemPath>${project.basedir}/lib/amc_cli.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>eu.nisb</groupId>
+            <artifactId>DataManagementLayer</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>system</scope>
+    		<systemPath>${project.basedir}/lib/DataManagementLayer.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.googlecode.json-simple</groupId>
+            <artifactId>json-simple</artifactId>
+            <version>1.1.1</version>
+        </dependency>
+        <dependency>
+            <groupId>rita</groupId>
+            <artifactId>core</artifactId>
+            <version>2016</version>
+            <scope>system</scope>
+    		<systemPath>${project.basedir}/lib/rita-latest.jar</systemPath>
+        </dependency>
+<!--         <dependency> -->
+<!--             <groupId>org.jbpt</groupId> -->
+<!--             <artifactId>jbpt-core</artifactId> -->
+<!--             <version>0.2.393</version> -->
+<!--             <scope>system</scope> -->
+<!--     		<systemPath>${project.basedir}/lib/jbpt-core.jar</systemPath> -->
+<!--         </dependency> -->
+        <dependency>
+            <groupId>org.jbpt</groupId>
+            <artifactId>jbpt</artifactId>
+            <version>00.2.314</version>
+            <scope>system</scope>
+    		<systemPath>${project.basedir}/lib/jbpt-0.2.314.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.xsom</groupId>
+            <artifactId>xsom</artifactId>
+            <version>20140925</version>
+        </dependency>
+        <dependency>
+            <groupId>au.com.bytecode</groupId>
+            <artifactId>opencsv</artifactId>
+            <version>2.4</version>
+        </dependency>
+        <dependency>
+            <groupId>net.sf.jsqlparser</groupId>
+            <artifactId>jsqlparser</artifactId>
+            <version>0.8.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jdom</groupId>
+            <artifactId>jdom2</artifactId>
+            <version>2.0.6</version>
+        </dependency>
+        <dependency>
+    		<groupId>net.sourceforge.owlapi</groupId>
+   			<artifactId>owlapi-distribution</artifactId>
+    		<version>3.4.5</version>
+		</dependency>
+<!--         <dependency> -->
+<!--             <groupId>org.jbpt</groupId> -->
+<!--             <artifactId>jbpt-petri</artifactId> -->
+<!--             <version>0.2.393</version> -->
+<!--             <scope>system</scope> -->
+<!--     		<systemPath>${project.basedir}/lib/jbpt-petri.jar</systemPath> -->
+<!--         </dependency> -->
+<!--         <dependency> -->
+<!--             <groupId>org.jbpt</groupId> -->
+<!--             <artifactId>jbpt-bp</artifactId> -->
+<!--             <version>0.2.393</version> -->
+<!--             <scope>system</scope> -->
+<!--     		<systemPath>${project.basedir}/lib/jbpt-bp.jar</systemPath> -->
+<!--         </dependency> -->
+	<dependency>
+	  <groupId>com.google.guava</groupId>
+	  <artifactId>guava</artifactId>
+	  <version>[24.1.1,)</version>
+	</dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-math3</artifactId>
+            <version>3.6.1</version>
+        </dependency>
+        <dependency>
+            <groupId>nl.tue.is</groupId>
+            <artifactId>processMatchingTools</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>system</scope>
+    		<systemPath>${project.basedir}/lib/processMatchingTools.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>de.sciss</groupId>
+            <artifactId>jawjaw</artifactId>
+            <version>0.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>de.sciss</groupId>
+            <artifactId>ws4j</artifactId>
+            <version>0.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>de.wdilab</groupId>
+            <artifactId>coma-engine</artifactId>
+            <version>0.1-CE-SNAPSHOT</version>
+            <scope>system</scope>
+    		<systemPath>${project.basedir}/lib/coma.engine.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>de.wdilab</groupId>
+            <artifactId>sem-rep</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>system</scope>
+    		<systemPath>${project.basedir}/lib/semrep.jar</systemPath>
+        </dependency>
+        <dependency>
+    		<groupId>mysql</groupId>
+   		    <artifactId>mysql-connector-java</artifactId>
+    		<version>8.0.16</version>
+		</dependency>
+	<dependency>
+		<groupId>org.deckfour</groupId>
+		<artifactId>log</artifactId>
+		<version>0.1-CE-SNAPSHOT</version>
+		<scope>system</scope>
+		<systemPath>${project.basedir}/lib/Log.jar</systemPath>
+	</dependency>
+		<dependency>
+		<groupId>org.deckfour</groupId>
+		<artifactId>xes</artifactId>
+		<version>0.1-CE-SNAPSHOT</version>
+		<scope>system</scope>
+		<systemPath>${project.basedir}/lib/OpenXES.jar</systemPath>
+	</dependency>
+    </dependencies>
+
+</project>
