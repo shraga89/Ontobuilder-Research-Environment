@@ -16,20 +16,27 @@ In order to install and work the ORE you need the following components installed
 
 === Post Installation Configuration ==  
 
-# Edit the text file named "ob_interface.properties" located in the "oreConfig" folder in the the Project cloned in step 3. (yes, it should edit the file that is originally there) The file should contain rows as follows:  
-dbmstype = 1  
-host = localhost  
-dbname = schemamatching  
-username = (a)  
-pwd = (b)  
-schemaPath = (c)  
-tmpPath - ./tmp/   
+# Create a new properties file
+
+* Make a file named "ob_interface.properties" in the "oreConfig" folder in the Project cloned in step 3. Use the file ob_interface.properties.template as a basis for you file and update with your information:
+
+- dbmstype = 1  
+- host = localhost  
+- dbname = schemamatching  
+- username = (a)  
+- pwd = (b)  
+- schemaPath = (c)  
+- tmpPath - ./tmp/   
+
 ## (a)- Insert here your database user name. Mostly, the user name is "root", but some people may use a different user name.   
 Note that the important thing is to name a user that has read/write privileges to the schema matching database.  
 ## (b)- Insert here the password of your user, as you defined in MySQL.  
 ## (c)- Insert the location of the dataset folder you downloaded in step 1.   
 Note that the format for windows based systems is: [["c:\\foldername\\...\\foldername"]]. Linux based systems have a different format.  
-# Importing the code you downloaded in step 3 to "eclipse".  
+
+# Setup using maven
+
+# Setup in Eclipse  
 (File -> Import…   
 Choose: General -> Existing project into workspace -> Next.  
 Choose as root directory: the folder where the files from step 3 were installed.  
