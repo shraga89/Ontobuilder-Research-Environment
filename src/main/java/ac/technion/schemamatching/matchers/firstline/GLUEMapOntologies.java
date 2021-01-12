@@ -1,39 +1,21 @@
 package ac.technion.schemamatching.matchers.firstline;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.Vector;
+import ac.technion.iem.ontobuilder.core.ontology.Ontology;
+import ac.technion.iem.ontobuilder.core.ontology.Term;
+import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
+import ac.technion.schemamatching.matchers.MatcherType;
+import edu.cmu.lti.ws4j.util.PorterStemmer;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.soap.Node;
-
-import org.apache.lucene.search.Similarity;
-import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
-
-import com.mallardsoft.tuple.Pair;
-import ac.technion.iem.ontobuilder.core.ontology.Attribute;
-import ac.technion.iem.ontobuilder.core.ontology.Ontology;
-import ac.technion.iem.ontobuilder.core.ontology.OntologyClass;
-import ac.technion.iem.ontobuilder.core.ontology.Term;
-import ac.technion.iem.ontobuilder.matching.match.Match;
-import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
-import ac.technion.schemamatching.matchers.MatcherType;
-import edu.cmu.lti.ws4j.util.PorterStemmer;
-import edu.stanford.nlp.util.StringUtils;
-
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
 
 
 public class GLUEMapOntologies implements FirstLineMatcher {

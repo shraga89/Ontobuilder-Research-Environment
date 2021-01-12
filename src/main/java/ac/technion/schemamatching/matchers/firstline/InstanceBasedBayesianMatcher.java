@@ -498,7 +498,7 @@ class TokenCreator {
 
         try {
             while(stream.incrementToken()) {
-                result.add(stream.getAttribute(TermAttribute.class).term());
+                result.add(((TermAttribute)stream.getAttribute(TermAttribute.class)).term());
             }
         }
         catch(IOException e) {

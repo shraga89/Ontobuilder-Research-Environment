@@ -4,6 +4,7 @@
 package ac.technion.schemamatching.matchers.firstline;
 
 import java.io.File;
+import java.io.InputStream;
 
 import ac.technion.iem.ontobuilder.core.ontology.Ontology;
 import ac.technion.iem.ontobuilder.core.resources.OntoBuilderResources;
@@ -93,7 +94,8 @@ public class OBTermMatch implements FirstLineMatcher {
 	
 	public OBTermMatch() {
 		try {
-			ta = (TermAlgorithm)AlgorithmUtilities.getAlgorithmsInstance(new File(OntoBuilderResources.Config.Matching.ALGORITHMS_XML),MatchingAlgorithmsNamesEnum.TERM.getName());
+			InputStream algorithmXML = getClass().getClassLoader().getResourceAsStream(OntoBuilderResources.Config.Matching.ALGORITHMS_XML);
+			ta = (TermAlgorithm)AlgorithmUtilities.getAlgorithmsInstance(algorithmXML,MatchingAlgorithmsNamesEnum.TERM.getName());
 		} catch (AlgorithmException e) {
 			e.printStackTrace();
 			ta = new TermAlgorithm();

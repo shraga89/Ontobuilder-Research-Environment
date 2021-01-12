@@ -173,7 +173,7 @@ public class Stat implements FirstLineMatcher {
 		
 		HashMap<Pair<Ontology,Ontology>,MatchInformation> result=match(schemaSet, binary);
 		
-		Pair<Ontology, Ontology> key = new MutablePair<Ontology, Ontology>(target, candidate);
+		Pair<Ontology, Ontology> key = Pair.of(target, candidate);
 		System.out.println(result.get(key).getCopyOfMatches());
 		return result.get(key);
 		
@@ -250,8 +250,8 @@ public class Stat implements FirstLineMatcher {
 				{
 					continue;
 				}
-				Pair<Ontology, Ontology> key = new MutablePair<Ontology, Ontology>(currentOntology, otherOntology);
-				Pair<Ontology, Ontology> reverseKey = new MutablePair<Ontology, Ontology>(otherOntology, currentOntology );
+				Pair<Ontology, Ontology> key = Pair.of(currentOntology, otherOntology);
+				Pair<Ontology, Ontology> reverseKey = Pair.of(otherOntology, currentOntology );
 				if (res.keySet().contains(key) || res.keySet().contains(reverseKey))
 				{
 					continue;
@@ -707,8 +707,8 @@ public class Stat implements FirstLineMatcher {
 			}
 		}
 		
-		graph=graph+String.valueOf(vertexesSet.size())+"\n";
-		graph=graph+String.valueOf(edgesCounter)+"\n";
+		graph= graph + vertexesSet.size() + "\n";
+		graph=graph+ edgesCounter +"\n";
 		graph+=edges;
 		
 		return graph;
@@ -1383,8 +1383,8 @@ private HashSet<Model> setCover(HashSet<Concept> concepts){
 			}
 		}*/
 		
-		Pair<Ontology, Ontology> key =  new MutablePair<Ontology, Ontology>(currentOntology, otherOntology);
-		Pair<Ontology, Ontology> reverseKey = new MutablePair<Ontology, Ontology>(otherOntology, currentOntology );
+		Pair<Ontology, Ontology> key =  Pair.of(currentOntology, otherOntology);
+		Pair<Ontology, Ontology> reverseKey = Pair.of(otherOntology, currentOntology );
 		
 		if (res.keySet().contains(key))
 		{

@@ -1,11 +1,8 @@
 package ac.technion.schemamatching.statistics.predictors;
 
-import java.util.Arrays;
-
-import Jama.EigenvalueDecomposition;
-import Jama.Matrix;
-import Jama.SingularValueDecomposition;
 import flanagan.analysis.PCA;
+
+import java.util.Arrays;
 
 public class PCAHandler {
 	PCA pca;

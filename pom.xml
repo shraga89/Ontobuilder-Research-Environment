@@ -11,10 +11,10 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <repositories>
-    <repository>
-        <id>PavLab</id>
-        <url>https://maven2.pavlab.msl.ubc.ca/</url>
-    </repository>
+        <repository>
+            <id>PavLab</id>
+            <url>https://maven2.pavlab.msl.ubc.ca/</url>
+        </repository>
     </repositories>
     <build>
         <plugins>
@@ -29,7 +29,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
-                <version>3.0.0</version>
+                <version>3.3.0</version>
                 <configuration>
                     <descriptorRefs>
                         <descriptorRef>jar-with-dependencies</descriptorRef>
@@ -47,82 +47,55 @@
                             <goal>single</goal>
                         </goals>
                     </execution>
-	        </executions>
-         	</plugin>
-	            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>3.0.0</version>
-                <configuration>
-                    <mainClass>ac.technion.schemamatching.experiments.OBExperimentRunner</mainClass>
-                </configuration>
+                </executions>
             </plugin>
         </plugins>
     </build>
     <dependencies>
-	<dependency>
-	  <groupId>edu.stanford.nlp</groupId>
- 	  <artifactId>stanford-corenlp</artifactId>
-          <version>4.2.0</version>
-        </dependency>    
-	<dependency>
-	  <groupId>colt</groupId>
-	  <artifactId>colt</artifactId>
-	  <version>1.2.0</version>
-	</dependency>    
-	<dependency>
-  	  <groupId>org.apache.lucene</groupId>
-     	  <artifactId>lucene-core</artifactId>
-	  <version>3.4.0</version>
-  	</dependency>
-	<dependency>
-	  <groupId>org.jsoup</groupId>
-	  <artifactId>jsoup</artifactId>
-	  <version>1.13.1</version>
-	</dependency>
-	<dependency>
-          <groupId>com.sun.xml.ws</groupId>
-          <artifactId>jaxws-ri</artifactId>
-          <version>2.3.2</version>
-          <type>pom</type>
-        </dependency>    
-	<dependency>
-          <groupId>org.codelibs</groupId>
-          <artifactId>ranklib</artifactId>
-          <version>2.10.1</version>
-        </dependency>    
-	<dependency>
-          <groupId>org.apache.commons</groupId>
-          <artifactId>commons-lang3</artifactId>
-          <version>3.11</version>
+        <dependency>
+            <groupId>info.debatty</groupId>
+            <artifactId>java-string-similarity</artifactId>
+            <version>2.0.0</version>
         </dependency>
-	<dependency>
-           <groupId>info.debatty</groupId>
-           <artifactId>java-string-similarity</artifactId>
-           <version>2.0.0</version>
+        <dependency>
+            <groupId>org.apache.lucene</groupId>
+            <artifactId>lucene-core</artifactId>
+            <version>2.9.4</version>
         </dependency>
-	<dependency>
-           <groupId>flanagan</groupId>
-           <artifactId>flanagan</artifactId>
-           <version>1.0</version>
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>1.13.1</version>
         </dependency>
-	<dependency>
-           <groupId>gov.nist.math</groupId>
-           <artifactId>jama</artifactId>
-           <version>1.0.3</version>
+        <dependency>
+            <groupId>org.mariadb.jdbc</groupId>
+            <artifactId>mariadb-java-client</artifactId>
+            <version>2.7.1</version>
         </dependency>
-	<dependency>
-            <groupId>org.openjfx</groupId>
-            <artifactId>javafx</artifactId>
-            <version>11</version>
-            <type>pom</type>
+        <dependency>
+            <groupId>colt</groupId>
+            <artifactId>colt</artifactId>
+            <version>1.2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>gov.nist.math</groupId>
+            <artifactId>jama</artifactId>
+            <version>1.0.3</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.xml.soap</groupId>
+            <artifactId>javax.xml.soap-api</artifactId>
+            <version>1.4.0</version>
         </dependency>
         <dependency>
             <groupId>ac.technion.schemamatching</groupId>
-            <artifactId>ob-core</artifactId>
+            <artifactId>ontobuilder.core</artifactId>
             <version>1.0-SNAPSHOT</version>
-            <scope>system</scope>
-    		<systemPath>${project.basedir}/lib/ontobuilder.core.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>flanagan</groupId>
+            <artifactId>flanagan</artifactId>
+            <version>1.0</version>
         </dependency>
         <dependency>
             <groupId>ac.technion.schemamatching</groupId>
@@ -133,17 +106,13 @@
         </dependency>
         <dependency>
             <groupId>ac.technion.schemamatching</groupId>
-            <artifactId>ob-matching</artifactId>
+            <artifactId>ontobuilder.matching</artifactId>
             <version>1.0-SNAPSHOT</version>
-            <scope>system</scope>
-    		<systemPath>${project.basedir}/lib/ontobuilder.matching.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>ac.technion.schemamatching</groupId>
-            <artifactId>ob-io</artifactId>
+            <artifactId>ontobuilder.io</artifactId>
             <version>1.0-SNAPSHOT</version>
-            <scope>system</scope>
-    		<systemPath>${project.basedir}/lib/ontobuilder.io.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>ac.technion.schemamatching</groupId>
@@ -272,13 +241,6 @@
         </dependency>
         <dependency>
             <groupId>de.wdilab</groupId>
-            <artifactId>coma-engine</artifactId>
-            <version>0.1-CE-SNAPSHOT</version>
-            <scope>system</scope>
-    		<systemPath>${project.basedir}/lib/coma.engine.jar</systemPath>
-        </dependency>
-        <dependency>
-            <groupId>de.wdilab</groupId>
             <artifactId>sem-rep</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>system</scope>
@@ -289,20 +251,6 @@
    		    <artifactId>mysql-connector-java</artifactId>
     		<version>8.0.16</version>
 		</dependency>
-	<dependency>
-		<groupId>org.deckfour</groupId>
-		<artifactId>log</artifactId>
-		<version>0.1-CE-SNAPSHOT</version>
-		<scope>system</scope>
-		<systemPath>${project.basedir}/lib/Log.jar</systemPath>
-	</dependency>
-		<dependency>
-		<groupId>org.deckfour</groupId>
-		<artifactId>xes</artifactId>
-		<version>0.1-CE-SNAPSHOT</version>
-		<scope>system</scope>
-		<systemPath>${project.basedir}/lib/OpenXES.jar</systemPath>
-	</dependency>
     </dependencies>
 
 </project>

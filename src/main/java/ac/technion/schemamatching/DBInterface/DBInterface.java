@@ -212,9 +212,10 @@ public class DBInterface {
         public Connection dbConnect(int dbmstype, String host, String dbName, String db_userid, String db_password) {
             try {
                 String db_connect_string;
+
                 switch(dbmstype) {
                     case 1:
-                        Class.forName("com.mysql.jdbc.Driver");
+//                        Class.forName("import org.mariadb.jdbc.Driver");
                         db_connect_string = "jdbc:mysql://" + host + "/" + dbName;
                         break;
                     case 2:
@@ -222,7 +223,7 @@ public class DBInterface {
                         db_connect_string = "jdbc:jtds:sqlserver://" + host + "/" + dbName;
                         break;
                     case 3:
-                        Class.forName("com.mysql.jdbc.Driver");
+//                        Class.forName("import org.mariadb.jdbc.Driver");
                         String instanceName = "oceanbase-188613:europe-west4:ore-backend";
                         db_connect_string = "jdbc:mysql://google/"+dbName+"?cloudSqlInstance="+instanceName+
                                 "&socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false";
