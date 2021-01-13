@@ -5,7 +5,7 @@ In order to install and work the ORE you need the following components installed
 * MySQL Server 5.7 (for example: [[MySQL Community Server|http://dev.mysql.com/downloads/mysql/]])  
 * MySQL Managment Tool ( for example: [MySQL GUI Tools](http://dev.mysql.com/downloads/gui-tools/5.0.html)  
 * Java Development Kit (JDK) available from [Oracle](http://www.oracle.com/technetwork/java/javase/downloads/index.html)  
-* An Integrated Development Environment for Java (for example [Eclipse IDE for Java](http://www.eclipse.org/downloads/))  
+* An Integrated Development Environment for Java (for example [Eclipse IDE for Java](http://www.eclipse.org/downloads/))  or Intellij. 
 * Git (https://git-scm.com/downloads)  
 
 === Installation Steps ===  
@@ -35,6 +35,10 @@ Note that the important thing is to name a user that has read/write privileges t
 Note that the format for windows based systems is: [["c:\\foldername\\...\\foldername"]]. Linux based systems have a different format.  
 
 # Setup using maven
+
+* Create a settings file in your .m2 directory with a personal access toekn to guthub as explained [here](https://docs.github.com/en/free-pro-team@latest/packages/guides/configuring-apache-maven-for-use-with-github-packages#authenticating-to-github-packages).
+* copy the `ob_interface.properties.template` file in the ore_config folder to a new file named 'ob_interface.properties' and update the properties with the details of your database and dataset folder path. 
+* Use `mvn test` from the code root folder to check that everything works. 
 
 # Setup in Eclipse  
 (File -> Import…   
