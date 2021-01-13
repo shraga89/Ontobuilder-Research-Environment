@@ -1,4 +1,4 @@
-package ac.technion.schemamatching.test;
+package ac.technion.schemamatching.experiments.pairwise;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;

@@ -1,4 +1,4 @@
-package ac.technion.schemamatching.test;
+package ac.technion.schemamatching.experiments;
 
 import ac.technion.iem.ontobuilder.core.ontology.Ontology;
 import ac.technion.iem.ontobuilder.core.utils.files.XmlFileHandler;

@@ -1,6 +1,6 @@
 
 
-package ac.technion.schemamatching.test;
+package ac.technion.schemamatching.experiments;
 
 import java.util.ArrayList;
 

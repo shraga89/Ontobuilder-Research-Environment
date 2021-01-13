@@ -1,7 +1,4 @@
-/**
- * The schemamatchings.test package houses a variety of tests for the various components of Ontobuilder
- */
-package ac.technion.schemamatching.test;
+package ac.technion.schemamatching.experiments;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -9,7 +6,7 @@ import java.io.IOException;
 
 import ac.technion.iem.ontobuilder.core.ontology.Ontology;
 import ac.technion.iem.ontobuilder.io.imports.ImportException;
-import ac.technion.iem.ontobuilder.io.imports.XSDImporterUsingXSOM;
+import ac.technion.iem.ontobuilder.io.imports.XSDImporterUsingXerces;
 import ac.technion.iem.ontobuilder.matching.wrapper.OntoBuilderWrapper;
 
 
@@ -27,8 +24,8 @@ public class ImporterTest
 	private File outFolder;
 	/**
 	 * Class constructor
-	 * @param schemaFile rdf/xsd/wsdl/ontobuilder_dtd file of schema to be decomposed
-	 * @param conceptFiles array of rdf/xsd/wsdl/ontobuilder_dtd files of  concepts to be used for schema decomposition
+	 * @param inputFolder rdf/xsd/wsdl/ontobuilder_dtd file of schema to be decomposed
+	 * @param outputFolder array of rdf/xsd/wsdl/ontobuilder_dtd files of  concepts to be used for schema decomposition
 	 * 
 	 */
 	public ImporterTest(File inputFolder, File outputFolder)
@@ -46,7 +43,7 @@ public class ImporterTest
 		@SuppressWarnings("unused")
 		OntoBuilderWrapper obw = new OntoBuilderWrapper();
 		Ontology o = null;
-		XSDImporterUsingXSOM imp = new XSDImporterUsingXSOM();
+		XSDImporterUsingXerces imp = new XSDImporterUsingXerces();
 		try {
 			o = imp.importFile(f);
 		} catch (ImportException e) {

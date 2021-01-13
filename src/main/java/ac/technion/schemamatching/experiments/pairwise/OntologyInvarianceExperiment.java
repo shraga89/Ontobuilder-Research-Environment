@@ -1,16 +1,15 @@
 package ac.technion.schemamatching.experiments.pairwise;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
-
 import ac.technion.schemamatching.experiments.OBExperimentRunner;
 import ac.technion.schemamatching.matchers.firstline.FirstLineMatcher;
 import ac.technion.schemamatching.matchers.secondline.SecondLineMatcher;
 import ac.technion.schemamatching.statistics.DummyStatistic;
 import ac.technion.schemamatching.statistics.Statistic;
-import ac.technion.schemamatching.test.OntologyInvariance;
 import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
 
 public class OntologyInvarianceExperiment implements PairWiseExperiment{
 	
@@ -19,7 +18,7 @@ public class OntologyInvarianceExperiment implements PairWiseExperiment{
 	
 	@Override
 	public List<Statistic> runExperiment(ExperimentSchemaPair esp) {
-		ArrayList<Statistic> evaluations = new ArrayList<Statistic>();
+		ArrayList<Statistic> evaluations = new ArrayList<>();
 		OntologyInvariance oi = new OntologyInvariance(esp);
 		DummyStatistic stat1= new DummyStatistic();
 		stat1.setName("OntologyInvarianceExperimentFLM");

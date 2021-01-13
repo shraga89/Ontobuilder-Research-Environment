@@ -1,33 +1,13 @@
 package ac.technion.schemamatching.statistics.predictors;
 
-import java.util.Arrays;
-
 public class PCAPredictor implements Predictor{
 
-//	PCAHandler pca;
 	PCAHandlerSVD pca;
 	double[][] matchMatrix;
 	int rowCount;
 	int colCount;
 	int eigenValue;
 	
-//	/**
-//	 * Regular sum "informative" Eigen Values
-//	 * @param handler
-//	 */
-//	public PCAPredictor(PCAHandler handler){
-//		pca = handler;
-//		eigenValue = 0;
-//	}
-//	/**
-//	 * Specific pc
-//	 * @param handler
-//	 * @param eigenValueNum pc number
-//	 */
-//	public PCAPredictor(PCAHandler handler, int eigenValueNum){
-//		pca = handler;
-//		eigenValue = eigenValueNum;
-//	}
 	/**
 	 * Regular sum "informative" Eigen Values
 	 * @param handler

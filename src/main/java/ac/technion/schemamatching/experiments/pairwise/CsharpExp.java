@@ -1,8 +1,5 @@
 package ac.technion.schemamatching.experiments.pairwise;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Properties;
 
@@ -10,9 +7,7 @@ import ac.technion.iem.ontobuilder.matching.algorithms.line2.topk.wrapper.Schema
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 import ac.technion.schemamatching.experiments.OBExperimentRunner;
 import ac.technion.schemamatching.matchers.firstline.FirstLineMatcher;
-import ac.technion.schemamatching.matchers.secondline.OBCrossEntropy;
 import ac.technion.schemamatching.matchers.secondline.OBMaxDelta;
-import ac.technion.schemamatching.matchers.secondline.OBCrossEntropy.OBCrossEntropyResult;
 import ac.technion.schemamatching.matchers.secondline.SecondLineMatcher;
 import ac.technion.schemamatching.statistics.BinaryGolden;
 import ac.technion.schemamatching.statistics.K2Statistic;
@@ -23,11 +18,9 @@ import ac.technion.schemamatching.statistics.NBGolden;
 import ac.technion.schemamatching.statistics.NBGoldenAtDynamicK;
 import ac.technion.schemamatching.statistics.NBGoldenAtK;
 import ac.technion.schemamatching.statistics.NBGoldenAtR;
-import ac.technion.schemamatching.statistics.NumIterations;
 import ac.technion.schemamatching.statistics.Statistic;
 import ac.technion.schemamatching.statistics.VerboseBinaryGolden;
 import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
-import ac.technion.schemamatching.util.ConversionUtils;
 
 /**
  * This simple match experiment is intended as a tutorial for 
