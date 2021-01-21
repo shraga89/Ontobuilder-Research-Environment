@@ -9,6 +9,13 @@
     <version>1.0-SNAPSHOT</version>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <version.maven-install-plugin>2.5.2</version.maven-install-plugin>
+        <version.non-maven1>1.0.0</version.non-maven1>
+        <version.non-maven2>1.0.0</version.non-maven2>
+        <version.non-maven3>1.0.0</version.non-maven3>
+        <version.non-maven4>1.0.0</version.non-maven4>
+        <version.non-maven5>1.0.0</version.non-maven5>
+        <version.non-maven6>1.6.0</version.non-maven6>
     </properties>
     <repositories>
         <repository>
@@ -18,7 +25,7 @@
         <repository>
             <id>github</id>
             <name>GitHub Packages</name>
-            <url>https://maven.pkg.github.com/shraga89/ontobuilderDev</url>
+            <url>https://tomersagi:14db21ff755bb8d2cfc4aab25af621bf659cec8d@maven.pkg.github.com/shraga89/ontobuilderDev</url>
         </repository>
     </repositories>
     <distributionManagement>
@@ -30,6 +37,110 @@
     </distributionManagement>
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <version>${version.maven-install-plugin}</version>
+                <executions>
+
+                    <execution>
+                        <id>install-external-non-maven1-jar</id>
+                        <phase>clean</phase>
+                        <configuration>
+                            <repositoryLayout>default</repositoryLayout>
+                            <groupId>nl.tue.is</groupId>
+                            <artifactId>processMatchingTools</artifactId>
+                            <version>${version.non-maven1}</version>
+                            <file>${project.basedir}/lib/processMatchingTools.jar</file>
+                            <packaging>jar</packaging>
+                            <generatePom>true</generatePom>
+                        </configuration>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>install-external-non-maven2-jar</id>
+                        <phase>clean</phase>
+                        <configuration>
+                            <repositoryLayout>default</repositoryLayout>
+                            <groupId>eu.nisb</groupId>
+                            <artifactId>DataManagementLayer</artifactId>
+                            <version>${version.non-maven2}</version>
+                            <file>${project.basedir}/lib/DataManagementLayer.jar</file>
+                            <packaging>jar</packaging>
+                            <generatePom>true</generatePom>
+                        </configuration>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>install-external-non-maven3-jar</id>
+                        <phase>clean</phase>
+                        <configuration>
+                            <repositoryLayout>default</repositoryLayout>
+                            <groupId>com.sap.research</groupId>
+                            <artifactId>AMC-CLI</artifactId>
+                            <version>${version.non-maven3}</version>
+                            <file>${project.basedir}/lib/amc_cli.jar</file>
+                            <packaging>jar</packaging>
+                            <generatePom>true</generatePom>
+                        </configuration>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>install-external-non-maven4-jar</id>
+                        <phase>clean</phase>
+                        <configuration>
+                            <repositoryLayout>default</repositoryLayout>
+                            <groupId>ac.technion.schemamatching</groupId>
+                            <artifactId>SMB</artifactId>
+                            <version>${version.non-maven4}</version>
+                            <file>${project.basedir}/lib/SMB.jar</file>
+                            <packaging>jar</packaging>
+                            <generatePom>true</generatePom>
+                        </configuration>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>install-external-non-maven5-jar</id>
+                        <phase>clean</phase>
+                        <configuration>
+                            <repositoryLayout>default</repositoryLayout>
+                            <groupId>de.wdilab</groupId>
+                            <artifactId>sem-rep</artifactId>
+                            <version>${version.non-maven5}</version>
+                            <file>${project.basedir}/lib/semrep.jar</file>
+                            <packaging>jar</packaging>
+                            <generatePom>true</generatePom>
+                        </configuration>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>install-external-non-maven6-jar</id>
+                        <phase>clean</phase>
+                        <configuration>
+                            <repositoryLayout>default</repositoryLayout>
+                            <groupId>rita</groupId>
+                            <artifactId>RiTa</artifactId>
+                            <version>${version.non-maven6}</version>
+                            <file>${project.basedir}/lib/rita-latest.jar</file>
+                            <packaging>jar</packaging>
+                            <generatePom>true</generatePom>
+                        </configuration>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -118,16 +229,12 @@
         <dependency>
             <groupId>ac.technion.schemamatching</groupId>
             <artifactId>SMB</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>system</scope>
-    		<systemPath>${project.basedir}/lib/SMB.jar</systemPath>
+            <version>${version.non-maven4}</version>
         </dependency>
         <dependency>
-            <groupId>ac.technion.schemamatching</groupId>
-            <artifactId>DBInterface</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>system</scope>
-    		<systemPath>${project.basedir}/lib/DBInterface.jar</systemPath>
+            <groupId>rita</groupId>
+            <artifactId>RiTa</artifactId>
+            <version>${version.non-maven6}</version>
         </dependency>
         <dependency>
             <groupId>com.github.gyulalaszlo</groupId>
@@ -137,16 +244,12 @@
         <dependency>
             <groupId>com.sap.research</groupId>
             <artifactId>AMC-CLI</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>system</scope>
-    		<systemPath>${project.basedir}/lib/amc_cli.jar</systemPath>
+            <version>${version.non-maven3}</version>
         </dependency>
         <dependency>
             <groupId>eu.nisb</groupId>
             <artifactId>DataManagementLayer</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>system</scope>
-    		<systemPath>${project.basedir}/lib/DataManagementLayer.jar</systemPath>
+            <version>${version.non-maven2}</version>
         </dependency>
         <dependency>
             <groupId>com.googlecode.json-simple</groupId>
@@ -154,18 +257,14 @@
             <version>1.1.1</version>
         </dependency>
         <dependency>
-            <groupId>rita</groupId>
-            <artifactId>core</artifactId>
-            <version>2016</version>
-            <scope>system</scope>
-    		<systemPath>${project.basedir}/lib/rita-latest.jar</systemPath>
+            <groupId>org.jbpt</groupId>
+            <artifactId>jbpt-core</artifactId>
+            <version>0.3.1</version>
         </dependency>
         <dependency>
             <groupId>org.jbpt</groupId>
-            <artifactId>jbpt</artifactId>
-            <version>00.2.314</version>
-            <scope>system</scope>
-    		<systemPath>${project.basedir}/lib/jbpt-0.2.314.jar</systemPath>
+            <artifactId>jbpt-bp</artifactId>
+            <version>0.3.1</version>
         </dependency>
         <dependency>
             <groupId>com.sun.xsom</groupId>
@@ -205,9 +304,7 @@
         <dependency>
             <groupId>nl.tue.is</groupId>
             <artifactId>processMatchingTools</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>system</scope>
-    		<systemPath>${project.basedir}/lib/processMatchingTools.jar</systemPath>
+            <version>${version.non-maven1}</version>
         </dependency>
         <dependency>
             <groupId>de.sciss</groupId>
@@ -222,15 +319,14 @@
         <dependency>
             <groupId>de.wdilab</groupId>
             <artifactId>sem-rep</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>system</scope>
-    		<systemPath>${project.basedir}/lib/semrep.jar</systemPath>
+            <version>${version.non-maven5}</version>
         </dependency>
         <dependency>
     		<groupId>mysql</groupId>
    		    <artifactId>mysql-connector-java</artifactId>
     		<version>8.0.16</version>
 		</dependency>
+
     </dependencies>
 
 </project>
