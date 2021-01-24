@@ -1,6 +1,6 @@
-== Setting up the ORE ==
+# Setting up the ORE
 
-=== What you need ? ===
+## What you need ?
 In order to install and work the ORE you need the following components installed at your enviroment :
 * MySQL Server 5.7 (for example: [[MySQL Community Server|http://dev.mysql.com/downloads/mysql/]])  
 * MySQL Managment Tool ( for example: [MySQL GUI Tools](http://dev.mysql.com/downloads/gui-tools/5.0.html)  
@@ -8,15 +8,16 @@ In order to install and work the ORE you need the following components installed
 * An Integrated Development Environment for Java (for example [Eclipse IDE for Java](http://www.eclipse.org/downloads/))  or Intellij. 
 * Git (https://git-scm.com/downloads)  
 
-=== Installation Steps ===  
-# Download the datasets from [here](https://github.com/shraga89/Ontobuilder-Research-Environment/blob/master/downloads/dataset.zip) (remember where you saved them, you will need it).  
-# Download a database named "schemamatching" from this [mysql db dump](https://github.com/shraga89/Ontobuilder-Research-Environment/blob/master/downloads/schemamatching_11_06_20.sql).  
-# Clone the repository using git  
-# Perform post installation configuration:  
+## Installation Steps
 
-=== Post Installation Configuration ==  
+*  Download the datasets from [here](https://github.com/shraga89/Ontobuilder-Research-Environment/blob/master/downloads/dataset.zip) (remember where you saved them, you will need it).  
+* Download a database named "schemamatching" from this [mysql db dump](https://github.com/shraga89/Ontobuilder-Research-Environment/blob/master/downloads/schemamatching_11_06_20.sql).  
+* Clone the repository using git  
+* Perform post installation configuration:  
 
-# Create a new properties file
+## Post Installation Configuration
+
+### Create a new properties file
 
 * Make a file named "ob_interface.properties" in the "oreConfig" folder in the Project cloned in step 3. Use the file ob_interface.properties.template as a basis for you file and update with your information:
 
@@ -28,13 +29,13 @@ In order to install and work the ORE you need the following components installed
 - schemaPath = (c)  
 - tmpPath - ./tmp/   
 
-## (a)- Insert here your database user name. Mostly, the user name is "root", but some people may use a different user name.   
+* (a)- Insert here your database user name. Mostly, the user name is "root", but some people may use a different user name.   
 Note that the important thing is to name a user that has read/write privileges to the schema matching database.  
-## (b)- Insert here the password of your user, as you defined in MySQL.  
-## (c)- Insert the location of the dataset folder you downloaded in step 1.   
+* (b)- Insert here the password of your user, as you defined in MySQL.  
+* (c)- Insert the location of the dataset folder you downloaded in step 1.   
 Note that the format for windows based systems is: [["c:\\foldername\\...\\foldername"]]. Linux based systems have a different format.  
 
-# Setup using maven
+### Setup using maven
 
 * Create a settings file in your .m2 directory with a personal access token to guthub as explained [here](https://docs.github.com/en/free-pro-team@latest/packages/guides/configuring-apache-maven-for-use-with-github-packages#authenticating-to-github-packages).
 * The file must contain the following elements, these server ids and repository ids are crucial:
@@ -91,12 +92,12 @@ Note that the format for windows based systems is: [["c:\\foldername\\...\\folde
 * copy the `ob_interface.properties.template` file in the ore_config folder to a new file named 'ob_interface.properties' and update the properties with the details of your database and dataset folder path. 
 * Use `mvn test` from the code root folder to check that everything works. 
 
-# Setup in Eclipse  
+## Setup in Eclipse  
 (File -> Import…   
 Choose: General -> Existing project into workspace -> Next.  
 Choose as root directory: the folder where the files from step 3 were installed.  
 You then will see an existing project, choose it and press Next).  
-# Using MySQL to restore the "schemamatching" database:  
+## Using MySQL to restore the "schemamatching" database:  
 Go to your MySQL server and create a database named " schemamatching" by using the command "CREATE DATABASE schemamatching;"   (before doing it, check that the database does not exist, buy using the command "SHOW DATABASES;").  
 After creating "schemamatching" database, (if you are working with the "basic" interface, make sure you select the database to use, with "USE schemamatching;")\\ you will have to use the file downloaded at step 2 to restore it, by using the command "SOURCE file_2_url.sql;".  
 (if you failed to open the file (error2), try to remove the semi-colon in the end of execution line: instead "SOURCE file_2_url.sql;" try running "SOURCE file_2_url.sql")  
