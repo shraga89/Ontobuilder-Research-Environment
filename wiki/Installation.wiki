@@ -39,53 +39,54 @@ Note that the format for windows based systems is: [["c:\\foldername\\...\\folde
 * Create a settings file in your .m2 directory with a personal access token to guthub as explained [here](https://docs.github.com/en/free-pro-team@latest/packages/guides/configuring-apache-maven-for-use-with-github-packages#authenticating-to-github-packages).
 * The file must contain the following elements, these server ids and repository ids are crucial:
 
-	<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
-	  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	  xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
-			      http://maven.apache.org/xsd/settings-1.0.0.xsd">
+```xml
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0
+		      http://maven.apache.org/xsd/settings-1.0.0.xsd">
 
-	  <activeProfiles>
-	    <activeProfile>main</activeProfile>
-	  </activeProfiles>
+  <activeProfiles>
+    <activeProfile>main</activeProfile>
+  </activeProfiles>
 
-	  <profiles>
-	    <profile>
-	      <id>main</id>
-	      <repositories>
-		<repository>
-		  <id>central</id>
-		  <url>https://repo1.maven.org/maven2</url>
-		  <releases><enabled>true</enabled></releases>
-		  <snapshots><enabled>true</enabled></snapshots>
-		</repository>
-		<repository>
-		  <id>github</id>
-		  <name>GitHub Ontobuilder Maven Packages</name>
-		  <url>https://maven.pkg.github.com/shraga89/ontobuilderDev</url>
-		</repository>
-		<repository>
-		  <id>github_out</id>
-		  <name>GitHub ORE Packages</name>
-		  <url>https://maven.pkg.github.com/shraga89/Ontobuilder-Research-Environment</url>
-		</repository>
-	      </repositories>
-	    </profile>
-	  </profiles>
+  <profiles>
+    <profile>
+      <id>main</id>
+      <repositories>
+	<repository>
+	  <id>central</id>
+	  <url>https://repo1.maven.org/maven2</url>
+	  <releases><enabled>true</enabled></releases>
+	  <snapshots><enabled>true</enabled></snapshots>
+	</repository>
+	<repository>
+	  <id>github</id>
+	  <name>GitHub Ontobuilder Maven Packages</name>
+	  <url>https://maven.pkg.github.com/shraga89/ontobuilderDev</url>
+	</repository>
+	<repository>
+	  <id>github_out</id>
+	  <name>GitHub ORE Packages</name>
+	  <url>https://maven.pkg.github.com/shraga89/Ontobuilder-Research-Environment</url>
+	</repository>
+      </repositories>
+    </profile>
+  </profiles>
 
-	  <servers>
-	    <server>
-	      <id>github</id>
-	      <username>tomersagi</username>
-	      <password>use_your_token_here</password>
-	    </server>
-	    <server>
-	      <id>github_out</id>
-	      <username>tomersagi</username>
-	      <password>use_your_token_here</password>
-	    </server>
-	  </servers>
-	</settings>
-
+  <servers>
+    <server>
+      <id>github</id>
+      <username>tomersagi</username>
+      <password>use_your_token_here</password>
+    </server>
+    <server>
+      <id>github_out</id>
+      <username>tomersagi</username>
+      <password>use_your_token_here</password>
+    </server>
+  </servers>
+</settings>
+```
 
 * copy the `ob_interface.properties.template` file in the ore_config folder to a new file named 'ob_interface.properties' and update the properties with the details of your database and dataset folder path. 
 * Use `mvn test` from the code root folder to check that everything works. 
