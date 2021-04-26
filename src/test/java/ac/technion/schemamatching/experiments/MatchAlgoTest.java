@@ -57,4 +57,15 @@ public class MatchAlgoTest extends TestCase {
 //            System.out.println(m.toString());
 //        }
     }
+
+    public void testWordNet() throws OntoBuilderWrapperException {
+        OBExperimentRunner oer = OBExperimentRunner.getOER();
+        MatchInformation mi = oer.getOBW().matchOntologies(o1,o2,MatchingAlgorithmsNamesEnum.WordNet.getName());
+        assertNotNull(mi);
+        ArrayList<Match> pairs = mi.getCopyOfMatches();
+        assertEquals(180, pairs.size());
+//        for (Match m : pairs){
+//            System.out.println(m.toString());
+//        }
+    }
 }
