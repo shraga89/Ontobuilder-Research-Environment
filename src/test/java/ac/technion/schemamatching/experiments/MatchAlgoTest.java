@@ -63,7 +63,7 @@ public class MatchAlgoTest extends TestCase {
         MatchInformation mi = oer.getOBW().matchOntologies(o1,o2,MatchingAlgorithmsNamesEnum.WordNet.getName());
         assertNotNull(mi);
         ArrayList<Match> pairs = mi.getCopyOfMatches();
-        assertEquals(180, pairs.size());
+        assertEquals(1217, pairs.size());
 //        for (Match m : pairs){
 //            System.out.println(m.toString());
 //        }
