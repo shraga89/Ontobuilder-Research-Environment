@@ -9,26 +9,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.math.BigDecimal;
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Time;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 
 public class DBInterface {
-    private DBInterface.DB myDB = new DBInterface.DB();
+    private final DBInterface.DB myDB = new DBInterface.DB();
     private Connection myConn;
-    private int exp_no;
-
-    public int getExp_no() {
-        return this.exp_no;
-    }
 
     public DBInterface() {
         this.myConn = this.myDB.dbConnect(1, "localhost:3306", "schemamatching", "temp", "");
@@ -60,7 +47,7 @@ public class DBInterface {
     }
 
     public ArrayList<String[]> runSelectQuery(String sql, int numFields) {
-        ArrayList<String[]> res = new ArrayList<String[]>();
+        ArrayList<String[]> res = new ArrayList<>();
 
         try {
             Statement st = this.myConn.createStatement();
@@ -86,14 +73,12 @@ public class DBInterface {
     }
 
     public void insertSingleRow(HashMap<Field, Object> values, String tableName) {
-        StringBuffer fields = new StringBuffer();
-        StringBuffer valueString = new StringBuffer();
+        StringBuilder fields = new StringBuilder();
+        StringBuilder valueString = new StringBuilder();
         HashMap<String, Integer> fieldIndex = new HashMap<>();
         int lastIndex = 0;
-        Iterator<Field> iterator = values.keySet().iterator();
 
-        while(iterator.hasNext()) {
-            Field f = (Field)iterator.next();
+        for (Field f : values.keySet()) {
             if (fields.length() != 0) {
                 fields.append(",");
                 valueString.append(",");
@@ -109,61 +94,55 @@ public class DBInterface {
 
         try {
             PreparedStatement pstmt = this.myConn.prepareStatement(sql);
-            iterator = values.keySet().iterator();
 
-            while(iterator.hasNext()) {
-                Field f = (Field)iterator.next();
+            for (Field f : values.keySet()) {
                 System.out.println(f.type.ordinal());
                 System.out.println(f.type);
-                switch(f.type.ordinal()+1) {
+                switch (f.type.ordinal() + 1) {
                     case 1:
-                        pstmt.setBoolean((Integer)fieldIndex.get(f.name), (Boolean)values.get(f));
+                        pstmt.setBoolean(fieldIndex.get(f.name), (Boolean) values.get(f));
                         break;
                     case 2:
-                        pstmt.setByte((Integer)fieldIndex.get(f.name), (Byte)values.get(f));
+                        pstmt.setByte(fieldIndex.get(f.name), (Byte) values.get(f));
                         break;
                     case 3:
-                        pstmt.setShort((Integer)fieldIndex.get(f.name), (Short)values.get(f));
+                        pstmt.setShort(fieldIndex.get(f.name), (Short) values.get(f));
                         break;
                     case 4:
-                        pstmt.setInt((Integer)fieldIndex.get(f.name), (Integer)values.get(f));
+                        pstmt.setInt(fieldIndex.get(f.name), (Integer) values.get(f));
                         break;
                     case 5:
-                        pstmt.setLong((Integer)fieldIndex.get(f.name), (Long)values.get(f));
+                        pstmt.setLong(fieldIndex.get(f.name), (Long) values.get(f));
                         break;
                     case 6:
-                        pstmt.setFloat((Integer)fieldIndex.get(f.name), (Float)values.get(f));
+                        pstmt.setFloat(fieldIndex.get(f.name), (Float) values.get(f));
                         break;
                     case 7:
-                        pstmt.setDouble((Integer)fieldIndex.get(f.name), (Double)values.get(f));
+                        pstmt.setDouble(fieldIndex.get(f.name), (Double) values.get(f));
                         break;
                     case 8:
-                        pstmt.setBigDecimal((Integer)fieldIndex.get(f.name), (BigDecimal)values.get(f));
+                        pstmt.setBigDecimal(fieldIndex.get(f.name), (BigDecimal) values.get(f));
                         break;
                     case 9:
-                        pstmt.setString((Integer)fieldIndex.get(f.name), (String)values.get(f));
+                        pstmt.setString(fieldIndex.get(f.name), (String) values.get(f));
                         break;
                     case 10:
-                        pstmt.setDate((Integer)fieldIndex.get(f.name), (Date)values.get(f));
+                        pstmt.setDate(fieldIndex.get(f.name), (Date) values.get(f));
                         break;
                     case 11:
-                        pstmt.setTime((Integer)fieldIndex.get(f.name), (Time)values.get(f));
+                        pstmt.setTime(fieldIndex.get(f.name), (Time) values.get(f));
                         break;
                     case 12:
-                        File file = (File)values.get(f);
+                        File file = (File) values.get(f);
                         FileInputStream is = new FileInputStream(file);
-                        pstmt.setBinaryStream((Integer)fieldIndex.get(f.name), is, (int)file.length());
+                        pstmt.setBinaryStream(fieldIndex.get(f.name), is, (int) file.length());
                 }
             }
 
             pstmt.executeUpdate();
-        } catch (SQLException e1) {
+        } catch (SQLException | FileNotFoundException e1) {
             System.err.print(e1.getLocalizedMessage());
             e1.printStackTrace();
-            System.exit(0);
-        } catch (FileNotFoundException e2) {
-            System.err.print(e2.getLocalizedMessage());
-            e2.printStackTrace();
             System.exit(0);
         }
 
@@ -184,10 +163,8 @@ public class DBInterface {
     public static MatchInformation createMIfromArrayList(Ontology candidate, Ontology target, ArrayList<String[]> matchList) {
         MatchInformation mi = new MatchInformation(candidate, target);
         ArrayList<Match> matches = new ArrayList<>();
-        Iterator<String[]> it = matchList.iterator();
 
-        while(it.hasNext()) {
-            String[] match = (String[])it.next();
+        for (String[] match : matchList) {
             Term c = candidate.getTermByID(Long.parseLong(match[2]));
             Term t = target.getTermByID(Long.parseLong(match[4]));
 
@@ -202,6 +179,10 @@ public class DBInterface {
 
     public static void main(String[] args) {
         new DBInterface();
+    }
+
+    public boolean isConnected() {
+        return this.myConn != null;
     }
 
     class DB {
@@ -229,8 +210,7 @@ public class DBInterface {
                                 "&socketFactory=com.google.cloud.sql.mysql.SocketFactory&useSSL=false";
                         break;
                     default:
-                        IllegalArgumentException e = new IllegalArgumentException("unsupported DBMS type");
-                        throw e;
+                        throw new IllegalArgumentException("unsupported DBMS type");
                 }
                 Connection conn = DriverManager.getConnection(db_connect_string, db_userid, db_password);
                 System.out.println("connected");
@@ -243,7 +223,7 @@ public class DBInterface {
 
         public void main(String[] args) {
             DB db = new DB();
-            myConn = db.dbConnect(1, "localhost:3306/", "schemaMatching", "temp", (String)null);
+            myConn = db.dbConnect(1, "localhost:3306/", "schemaMatching", "temp", null);
         }
     }
 }

@@ -497,14 +497,18 @@ public class OBExperimentRunner {
 			e.printStackTrace();
 		}
 		System.out.println(pMap.get("dbmstype") + " " + pMap.get("host") + " " + pMap.get("dbname") + " "
-				+ pMap.get("username") + " " + pMap.get("pwd"));
+				+ pMap.get("username")); // + " " + pMap.get("pwd"));
 	    db = new DBInterface(Integer.parseInt((String)pMap.get("dbmstype")),(String)pMap.get("host"),(String)pMap.get("dbname"),(String)pMap.get("username"),(String)pMap.get("pwd"));
 		dsurl = (String)pMap.get("schemaPath");
 		File dsFolder = new File(dsurl);
 		if (!dsFolder.isDirectory()) fatalError("Supplied dataset url is invalid or unreachable");
-		obw = new OntoBuilderWrapper();
+		obw = new OntoBuilderWrapper(); //This will fail when not connected to the internet due to validation error of xml
 		xfh = new XmlFileHandler();
-		experimentDocumenter = new ExperimentDocumenter();
+		if (!db.isConnected()) {
+			System.err.println("Database not available, some of ORE features will not work");
+			experimentDocumenter = null;
+		} else
+			experimentDocumenter = new ExperimentDocumenter();
 
 	}
 	

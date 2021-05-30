@@ -32,16 +32,15 @@ public class ExperimentSchemaPair extends ExperimentSchema {
 
 	/**
 	 * Constructor by pair ID, Loads schema ontologies and exact match if exists
-	 * @param spid
-	 * @param candidateID
-	 * @param targetID
+	 * @param spid schema pair ID
+	 * @param dsid data set ID
 	 * @throws FileNotFoundException is one of the ontologies isn't found
 	 */
 	public ExperimentSchemaPair(int spid, int dsid) throws FileNotFoundException {
 		super();
 		ID = spid;
 		dsEnum = OREDataSetEnum.getByDbid(dsid);
-		basicMatrices = new HashMap<Integer, MatchInformation>();
+		basicMatrices = new HashMap<>();
 		System.err.println("loading" + spid);
 		load();
 	}
@@ -49,8 +48,8 @@ public class ExperimentSchemaPair extends ExperimentSchema {
 	/**
 	 * Constructor by two schemas, Loads exact match if exists.
 	 *
-	 * @param candidate
-	 * @param target
+	 * @param candidate schema
+	 * @param target schema
 	 * @param allowReverse if true will load an exact match even if the candidate and target are swapped.
 	 */
 	public ExperimentSchemaPair(ExperimentSchema candidate, ExperimentSchema target, boolean allowReverse) {
@@ -58,13 +57,19 @@ public class ExperimentSchemaPair extends ExperimentSchema {
 		Ontology o = new Ontology("A", "B");
 		Term t = new Term("c");
 		o.addTerm(t);
-		basicMatrices = new HashMap<Integer, MatchInformation>();
+		basicMatrices = new HashMap<>();
 		this.candidate = candidate.getTargetOntology();
 		this.target = target.getTargetOntology();
 		this.dsEnum = target.dsEnum;
+		int spid;
 		ExperimentDocumenter ed = OBExperimentRunner.getOER().getDoc();
-		int spid = ed.getPairID(candidate.getID(), target.getID(), allowReverse);
-		String exactPath = "";
+		if (ed==null) {
+			System.err.println("Database not avilable, cannot load schema pair info from DB");
+			spid = -1;
+		} else {
+			spid = ed.getPairID(candidate.getID(), target.getID(), allowReverse);
+		}
+		String exactPath;
 		if (spid != -1) {
 			exactPath = ed.getSPPathBySPID(spid);
 			this.loadExact(exactPath);
@@ -90,7 +95,7 @@ public class ExperimentSchemaPair extends ExperimentSchema {
 	/**
 	 * Loads exact match from supplied path using DSEnum defined importer
 	 *
-	 * @param exactMatchPath
+	 * @param exactMatchPath filepath to exact match
 	 */
 	private void loadExact(String exactMatchPath) {
 		try {
@@ -112,7 +117,6 @@ public class ExperimentSchemaPair extends ExperimentSchema {
 	 * Assumes exact match ends with the string "xml_EXACT.xml"
 	 *
 	 * @throws FileNotFoundException if an ontology isn't found
-	 * @override
 	 */
 	private void load() throws FileNotFoundException {
 
@@ -133,7 +137,6 @@ public class ExperimentSchemaPair extends ExperimentSchema {
 			String pairFolder = exactMatchPath.split("/")[1];
 			candPath = OBExperimentRunner.getOER().getDsurl() + exactMatchPath.split("/")[0] + File.separatorChar + pairFolder + File.separatorChar + pairFolder.split("_")[0];
 			targPath = OBExperimentRunner.getOER().getDsurl() + exactMatchPath.split("/")[0] + File.separatorChar + pairFolder + File.separatorChar + pairFolder.split("_")[1];
-			;
 		} else //Non ontobuilder webform dataset
 		{
 			//get target path from db
@@ -152,9 +155,9 @@ public class ExperimentSchemaPair extends ExperimentSchema {
 
   /**
    * Given an SQL statement, returns the path
-   * @param sql
-   * @return
-   * @throws FileNotFoundException
+   * @param sql statement
+   * @return filepath
+   * @throws FileNotFoundException if path documented in datrabase is not found
    */
 static String getSchemaPath(String sql) throws FileNotFoundException {
 	ArrayList<String[]> res = OBExperimentRunner.getOER().getDB().runSelectQuery(sql, 1);
@@ -167,17 +170,18 @@ static String getSchemaPath(String sql) throws FileNotFoundException {
 }
 
 	/**
-	 * @param schemaFilePath
-	 * @param imp
-	 * @return
+	 * @param schemaFilePath path to schema file to load
+	 * @param imp importer to use
+	 * @return ontology object
 	 */
 	private Ontology loadOntologyFromPath(String schemaFilePath, Importer imp) {
 		try {
 			File schemaFile = new File(schemaFilePath);
 			if (dsEnum.isHasInstances()) {
-				File instanceFile = new File(schemaFilePath.substring(0, schemaFilePath.length() - 4) + ".xml");
+				String substring = schemaFilePath.substring(0, schemaFilePath.length() - 4);
+				File instanceFile = new File(substring + ".xml");
 				if (!instanceFile.exists()) //try folder
-					instanceFile = new File(schemaFilePath.substring(0, schemaFilePath.length() - 4));
+					instanceFile = new File(substring);
 				if (!instanceFile.exists()) //instances not found
 				{
 					System.err.println("No instances found for " + schemaFile + " loading schema only");
@@ -196,9 +200,9 @@ static String getSchemaPath(String sql) throws FileNotFoundException {
 	/**
 	 * Return a basic similarity matrix using the supplied @link{FirstLineMatcher}
 	 * Retrieves from the db if it exists, otherwise creates it and documents it in the DB
-	 * @param flm
-	 * @param isMemory
-	 * @return
+	 * @param flm first line matcher
+	 * @param isMemory if true will use database to search for existing results before matching
+	 * @return matching information object representing the result of the FLM over the schema pair
 	 */
 	public MatchInformation getSimilarityMatrix(FirstLineMatcher flm, boolean isMemory) {
 
@@ -206,44 +210,26 @@ static String getSchemaPath(String sql) throws FileNotFoundException {
 		int smid = flm.getDBid();
 
 		if (!basicMatrices.containsKey(smid)) {
-
-			MatchInformation mi = null;
-
-			if (!this.dsEnum.isSupportsDBLookUp()) {				// check if this Enum type support look up
-
+			MatchInformation mi;
+			boolean use_db = isMemory;
+			boolean write_toDB = false;
+			if (use_db && OBExperimentRunner.getOER().getDoc() == null) {
+				System.err.println("Database not available, matching pair.");
+				use_db = false;
+			}
+			
+			if (use_db && !this.dsEnum.isSupportsDBLookUp()) {                // check if this Enum type supports look up
 				System.err.println("The " + dsEnum.name() +
 						" dataset does not support database lookup, matching ontologies instead.");
-				mi = flm.match(candidate, target, false);
-
-			} else if (!isMemory) {			// support lookup but user don't want to use lookup
-
-				System.err.println("The " + dsEnum.name() +
-						" dataset support database lookup, but user don't want to use it, matching ontologies instead.");
-				mi = flm.match(candidate, target, false);
-
-			} else if (!OBExperimentRunner.getOER().getDoc().checkIfSchemaPairWasMatched(ID, smid, isXSD)) {			// support lookup but no data in DB
-
+				use_db = false;
+			}
+				
+			if (use_db && !OBExperimentRunner.getOER().getDoc().checkIfSchemaPairWasMatched(ID, smid, isXSD)) {            // support lookup but no data in DB
 				System.out.println("no Data in DB :D");
-				System.out.println("flm name is: " + flm.getName());
-				System.out.println("candidate name is: " + candidate.getName());
-				System.out.println("target name is: " + target.getName());
-				mi = flm.match(candidate, target, false);
-				System.out.println("inserting matches to DB, please wait...");
-
-				assert (mi != null);
-				//If match information dimensions are reduced, expand them
-				if (mi.getCandidateOntology().getAllTermsCount() > mi.getMatrix().getColCount()) {
-					ConversionUtils.fillMI(mi);
-				}
-				//document similarity matrix
-				try {
-					OBExperimentRunner.getOER().getDoc().loadSMtoDB(mi, this, smid, isXSD);
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-
-			} else {									// Data already in DB
-
+				use_db = false;
+				write_toDB = true;
+			}
+			if (use_db) {
 				System.out.println("match data is in the DB, loading..");
 
 				if (!isXSD) {							// 	XML format
@@ -256,11 +242,30 @@ static String getSchemaPath(String sql) throws FileNotFoundException {
 				}
 
 				System.out.println("finished loading matches from DB :D");
-
 			}
+			else
+			{
+				System.out.println("flm name is: " + flm.getName());
+				System.out.println("candidate name is: " + candidate.getName());
+				System.out.println("target name is: " + target.getName());
+				mi = flm.match(candidate, target, false);
+				System.out.println("inserting matches to DB, please wait...");
 
-			assert (mi != null);
+				assert (mi != null);
+				//If match information dimensions are reduced, expand them
+				if (mi.getCandidateOntology().getAllTermsCount() > mi.getMatrix().getColCount()) {
+					ConversionUtils.fillMI(mi);
+				}
+			}
 			basicMatrices.put(smid, mi);
+			if (write_toDB) {
+				//document similarity matrix
+				try {
+					OBExperimentRunner.getOER().getDoc().loadSMtoDB(mi, this, smid, isXSD);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
 
 		}
 
@@ -275,25 +280,6 @@ static String getSchemaPath(String sql) throws FileNotFoundException {
 		return candidateID;
 	}
 
-	public static long PJWHash(String str)
-
-	{
-
-		long BitsInUnsignedInt = (long) (4 * 8);
-		long ThreeQuarters = (long) ((BitsInUnsignedInt * 3) / 4);
-		long OneEighth = (long) (BitsInUnsignedInt / 8);
-		long HighBits = (long) (0xFFFFFFFF) << (BitsInUnsignedInt - OneEighth);
-		long hash = 0;
-		long test = 0;
-		for (int i = 0; i < str.length(); i++) {
-			hash = (hash << OneEighth) + str.charAt(i);
-			if ((test = hash & HighBits) != 0) {
-				hash = ((hash ^ (test >> ThreeQuarters)) & (~HighBits));
-			}
-		}
-		return hash;
-	}
-
 	/**
 	 * This method receives  a name of an ontology and returns its ID from the DB (Schema Table)
 	 *
@@ -304,9 +290,9 @@ static String getSchemaPath(String sql) throws FileNotFoundException {
 	public long getOntologyDBId(String name, DBInterface db) {
 		String sql = "SELECT SchemaID From schemata WHERE SchemaName= \"" + name + "\";";
 		ArrayList<String[]> SchameID = db.runSelectQuery(sql, 1);
-		long Id = 0;
+		long Id;
 		try {
-			Id = Long.valueOf(SchameID.get(0)[0]);
+			Id = Long.parseLong(SchameID.get(0)[0]);
 		} catch (IndexOutOfBoundsException e) {
 			System.out.println("Ontology not found:");
 			return -1;
@@ -319,8 +305,8 @@ static String getSchemaPath(String sql) throws FileNotFoundException {
 	private int targetID;
 	private int candidateID;
 	private MatchInformation exactMapping;
-	private HashMap<Integer, MatchInformation> basicMatrices;
-	private OREDataSetEnum dsEnum;
+	private final HashMap<Integer, MatchInformation> basicMatrices;
+	private final OREDataSetEnum dsEnum;
 
 	/**
 	 * Return the similarity matrix of the supplied schema pair using the similarity measure supplied
@@ -328,12 +314,12 @@ static String getSchemaPath(String sql) throws FileNotFoundException {
 	 *
 	 * @param smid code of matching algorithm
 	 * @param spid Schema Pair ID to look for
-	 * @param db
+	 * @param db database to search for matrix in
 	 * @return String array {SMID,CandidateSchemaID,CandidateTermID,TargetSchemaID,TargetTermID,confidence} or null if data isn't found
 	 */
 	private ArrayList<String[]> getSimilarityMatrixFromDB(int smid, long spid, DBInterface db, boolean isXSD) {
-		String sql = "";
-		ArrayList<String[]> res = null;
+		String sql;
+		ArrayList<String[]> res;
 
 		if (isXSD) {
 			sql = "SELECT `similaritymatricesXSD`.`SMID`,`similaritymatricesXSD`." +
@@ -371,39 +357,33 @@ static String getSchemaPath(String sql) throws FileNotFoundException {
 
 	public Vector<Term> getLeafTerms(Vector<Term> termVec) {
 
-		ArrayList<Term> resList = new ArrayList<Term>();
+		ArrayList<Term> resList = new ArrayList<>();
 
 		ArrayList<Term> termArrayList;
-		termArrayList = new ArrayList<Term>(termVec);
+		termArrayList = new ArrayList<>(termVec);
 
-		Iterator i = termArrayList.iterator();
-
-		while (i.hasNext()) {
-			Term nextTerm = (Term) i.next();
+		for (Term nextTerm : termArrayList)
 			if (nextTerm.getTermsCount() == 0) {
 				resList.add(nextTerm);
 			}
-		}
-		Vector<Term> resVec = new Vector<>(resList);
 
-		return resVec;
+		return new Vector<>(resList);
 	}
 
 	public static String getPathToRoot(Term term) {
-		String resPath = "";
+		StringBuilder resPath = new StringBuilder();
 
 		while (term.getParent() != null) {
-			resPath = term.getName() + "." + resPath;
+			resPath.insert(0, term.getName() + ".");
 			term = term.getParent();
 		}
-		resPath = term.getName() + "." + resPath;
-		return resPath;
+		resPath.insert(0, term.getName() + ".");
+		return resPath.toString();
 	}
 
 	public static MatchInformation createMIfromArrayListXSD(Ontology candidate, Ontology target, ArrayList<String[]> matchList) {
 		MatchInformation mi = new MatchInformation(candidate, target);
-		ArrayList matches = new ArrayList();
-		Iterator var6 = matchList.iterator();
+		ArrayList<Match> matches = new ArrayList<>();
 
 		Vector<Term> candidateVec = candidate.getTerms(true);
 		Vector<Term> targeteVec = target.getTerms(true);
@@ -411,8 +391,7 @@ static String getSchemaPath(String sql) throws FileNotFoundException {
 		Vector<String> candidateStr = termVecToStrVec(candidateVec);
 		Vector<String> targetStr = termVecToStrVec(targeteVec);
 
-		while (var6.hasNext()) {
-			String[] match = (String[]) var6.next();
+		for (String[] match : matchList) {
 			Term c = getTermByString(candidateStr, candidateVec, match[2]);
 			Term t = getTermByString(targetStr, targeteVec, match[4]);
 
@@ -427,10 +406,8 @@ static String getSchemaPath(String sql) throws FileNotFoundException {
 
 
 	public static Term getTermByString(Vector<String> strVec, Vector<Term> termVec, String termPath) {
-		Iterator i = strVec.iterator();
 		int idx = 0;
-		while (i.hasNext()) {
-			String str = (String) i.next();
+		for (String str : strVec) {
 			if (str.equals(termPath)) {
 				return termVec.elementAt(idx);
 			}
@@ -443,7 +420,7 @@ static String getSchemaPath(String sql) throws FileNotFoundException {
 
 	public static Vector<String> termVecToStrVec(Vector<Term> termVec){
 		Vector<String> strVec = new Vector<>();
-		Iterator i = termVec.iterator();
+		Iterator<Term> i = termVec.iterator();
 		int idx = 0;
 		while (i.hasNext()) {
 			String str = getPathToRoot(termVec.elementAt(idx));
