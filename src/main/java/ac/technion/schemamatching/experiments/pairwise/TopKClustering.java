@@ -22,12 +22,12 @@ import ac.technion.schemamatching.util.ConversionUtils;
 public class TopKClustering implements PairWiseExperiment {
 
 	private List<FirstLineMatcher> flM;
-	private HashMap<String,Double> matcherWeights = new HashMap<String,Double>();
+	private final HashMap<String,Double> matcherWeights = new HashMap<>();
 	private Properties properties;
 
 	public ArrayList<Statistic> runExperiment(ExperimentSchemaPair esp) {
 		
-		ArrayList<Statistic> res = new ArrayList<Statistic>();
+		ArrayList<Statistic> res = new ArrayList<>();
 
 
 //		double[] simThresholds = new double[]{0.55,0.5,0.45,0.4,0.35,0.3,0.25};
@@ -35,66 +35,60 @@ public class TopKClustering implements PairWiseExperiment {
 		
 		double[] simThresholds = new double[]{0.7};
 		int[] ks = new int[]{20};
-		
-		for (int i = 0; i < simThresholds.length; i++) {
-			double simThreshold = simThresholds[i];
-			for (int j = 0; j < ks.length; j++) {
-				int k = ks[j];
-				
-				HashMap<String,MatchInformation> flMatches = new HashMap<String,MatchInformation>(); 
+
+		for (double simThreshold : simThresholds) {
+			for (int k : ks) {
+				HashMap<String, MatchInformation> flMatches = new HashMap<>();
 				//List all 1LMs with over 0 weight in file
-				ArrayList<FirstLineMatcher> tmp = new ArrayList<FirstLineMatcher>();
-				for (FirstLineMatcher f : flM)
-				{
+				ArrayList<FirstLineMatcher> tmp = new ArrayList<>();
+				for (FirstLineMatcher f : flM) {
 					String mName = f.getName();
-					if (matcherWeights.containsKey(mName) && matcherWeights.get(mName)>0)
+					if (matcherWeights.containsKey(mName) && matcherWeights.get(mName) > 0)
 						tmp.add(f);
 				}
-				
+
 				//Match
 				for (FirstLineMatcher f : tmp)
-					flMatches.put(f.getName(),f.match(esp.getCandidateOntology(), esp.getTargetOntology(), false));
-				
+					flMatches.put(f.getName(), f.match(esp.getCandidateOntology(), esp.getTargetOntology(), false));
+
 				//Create ensemble
 				Ensemble e = new SimpleWeightedEnsemble();
 				e.init(flMatches, matcherWeights);
 				MatchInformation weightedMI = e.getWeightedMatch();
 
 				ConversionUtils.zeroWeightsByThresholdAndRemoveMatches(weightedMI, simThreshold);
-				
+
 				//OBTopK.k = k;
-				
+
 				MatchInformation matchesBaseline = SLMList.OBMWBG.getSLM().match(weightedMI);
 				K2Statistic b = new ComplexBinaryGolden();
-				String id = esp.getID()+",baseline," + simThreshold + "," + k; 
-				b.init(id, matchesBaseline,esp.getExact());
+				String id = esp.getID() + ",baseline," + simThreshold + "," + k;
+				b.init(id, matchesBaseline, esp.getExact());
 				res.add(b);
-				
+
 				System.out.println(matchesBaseline.getCopyOfMatches());
-				
+
 				System.out.println("Baseline");
 				for (String[] s : b.getData())
-					for (int l = 0; l < s.length; l++)
-						System.out.println(s[l]);
+					for (String value : s) System.out.println(value);
 
 				SecondLineMatcher slm = SLMList.OBTopK.getSLM();
 				slm.init(properties);
 				MatchInformation matchesClustered = slm.match(weightedMI);
 				b = new ComplexBinaryGolden();
-				id = new String(esp.getID()+",clustered," + simThreshold + "," + k); 
-				b.init(id, matchesClustered,esp.getExact());
+				id = esp.getID() + ",clustered," + simThreshold + "," + k;
+				b.init(id, matchesClustered, esp.getExact());
 				res.add(b);
 
 				System.out.println(matchesClustered.getCopyOfMatches());
 
 				System.out.println("Top-K");
 				for (String[] s : b.getData())
-					for (int l = 0; l < s.length; l++)
-						System.out.println(s[l]);
+					for (String value : s) System.out.println(value);
 
 
 			}
-			
+
 		}
 		
 //		ConversionUtils.zeroWeightsByThresholdAndRemoveMatches(weightedMI, 0.4);

@@ -1,6 +1,3 @@
-/**
- * 
- */
 package ac.technion.schemamatching.experiments.pairwise;
 
 /**
@@ -18,7 +15,6 @@ public enum PairExperimentEnum
 	, EntryPredictEval(new EntryPredictorEvaluation()), AttributePredictEval(new AttributePredictorEvaluation())
 	, MatrixPredictorEnsemble(new MatrixPredictorEnsemble()),AttributePredictorEnsemble(new AttributePredictorEnsemble())
 	, ClusteringMatches(new ClusteringMatches()),Drift(new Drift2LM())
-	, EntryPredictorEnsemble(new EntryPredictorEnsemble())
 	, ROCCurve(new ROCExperiment())
 	, TopKClustering(new TopKClustering())
 	, VectorPrinting(new VectorPrinting())
@@ -45,7 +41,7 @@ public enum PairExperimentEnum
 	;
 	
 	
-	private PairExperimentEnum(PairWiseExperiment e)
+	PairExperimentEnum(PairWiseExperiment e)
 	{
 		exp = e;
 	}
