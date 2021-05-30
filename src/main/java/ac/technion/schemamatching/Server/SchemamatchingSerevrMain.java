@@ -5,7 +5,7 @@ public class SchemamatchingSerevrMain {
 	public static void main(String[] args) 
 	{
 		// TODO Auto-generated method stub
-		SchemamatchingSerevr server = new SchemamatchingSerevr(1234);
+		SchemamatchingServer server = new SchemamatchingServer(1234);
 		server.OpenConncetion();
 		Thread t = new Thread(server);
 		t.start();

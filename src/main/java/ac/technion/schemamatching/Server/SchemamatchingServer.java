@@ -4,34 +4,33 @@ import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 
-public class SchemamatchingSerevr implements Runnable
+public class SchemamatchingServer implements Runnable
 {
 	static final int InfiniteClients = -1;
-	private int _port;
-	private int _maxNumberOfClients;
+	private final int _port;
+	private final int _maxNumberOfClients;
 	private ServerSocket _server;
-	private Map<UUID, Thread> _clientsMapThread;
+	private final Map<UUID, Thread> _clientsMapThread;
 	int _numberOfClients;
 	
 	String MainFolder = "C:\\ORE\\OREOutput\\";
 	
 	int NextPortForClient = 2500;
 	
-	public SchemamatchingSerevr(int port , int maxNumberOfClients)
+	public SchemamatchingServer(int port , int maxNumberOfClients)
 	{
 		_port = port;
 		_maxNumberOfClients = maxNumberOfClients;
 		_numberOfClients = 0;
-		_clientsMapThread = new HashMap<UUID, Thread>();
+		_clientsMapThread = new HashMap<>();
 	}
 
-	public SchemamatchingSerevr(int port) 
+	public SchemamatchingServer(int port)
 	{
 		this(port,InfiniteClients);
 	}
@@ -105,7 +104,8 @@ public class SchemamatchingSerevr implements Runnable
 		{
 			return;
 		}
-		directory.mkdirs();
+		if (!directory.mkdirs())
+			System.err.println("Could not create client folder");
 	}
 	private void DeleteClientFolder(UUID clientId)
 	{
@@ -129,17 +129,17 @@ public class SchemamatchingSerevr implements Runnable
 	    	if(file.isDirectory()){
 	 
 	    		//directory is empty, then delete it
-	    		if(file.list().length==0){
-	    			
-	    		   file.delete();
-	    		   System.out.println("Directory is deleted : " + file.getAbsolutePath());
+	    		if(Objects.requireNonNull(file.list()).length==0){
+	    			if (file.delete())
+	    		   		System.out.println("Directory is deleted : " + file.getAbsolutePath());
 	    			
 	    		}else{
 	    			
 	    		   //list all the directory contents
-	        	   String files[] = file.list();
-	     
-	        	   for (String temp : files) {
+	        	   String[] files = file.list();
+
+					assert files != null;
+					for (String temp : files) {
 	        	      //construct the file structure
 	        	      File fileDelete = new File(file, temp);
 	        		 
@@ -148,8 +148,8 @@ public class SchemamatchingSerevr implements Runnable
 	        	   }
 	        		
 	        	   //check the directory again, if empty then delete it
-	        	   if(file.list().length==0){
-	           	     file.delete();
+	        	   if(Objects.requireNonNull(file.list()).length==0){
+	           	     if (file.delete())
 	        	     System.out.println("Directory is deleted : " 
 	                                                  + file.getAbsolutePath());
 	        	   }
@@ -157,7 +157,7 @@ public class SchemamatchingSerevr implements Runnable
 	    		
 	    	}else{
 	    		//if file, then delete it
-	    		file.delete();
+	    		if (file.delete())
 	    		System.out.println("File is deleted : " + file.getAbsolutePath());
 	    	}
 	}

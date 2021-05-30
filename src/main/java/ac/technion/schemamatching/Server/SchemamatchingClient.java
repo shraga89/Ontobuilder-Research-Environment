@@ -9,10 +9,9 @@ public class SchemamatchingClient implements Runnable {
 
 	private Socket _socket;//SOCKET INSTANCE VARIABLE
 	protected OreClientIcd icd;
-	private SchemamatchingSerevr _mainServer;
-	private UUID _clientId;
-	private Scanner in;
-	
+	private final SchemamatchingServer _mainServer;
+	private final UUID _clientId;
+
 	public String ClientFolder;
 	public int FileTransfrPort;
 	
@@ -25,7 +24,7 @@ public class SchemamatchingClient implements Runnable {
 		this._socket = _socket;
 	}
 	
-	public SchemamatchingClient(UUID clientId , String clientFolder , int fileTransfrPort, Socket s , SchemamatchingSerevr mainServer)
+	public SchemamatchingClient(UUID clientId , String clientFolder , int fileTransfrPort, Socket s , SchemamatchingServer mainServer)
 	{
 		setSocket(s);//INSTANTIATE THE SOCKET
 		icd = new OreClientIcd();
@@ -42,7 +41,7 @@ public class SchemamatchingClient implements Runnable {
 		try //HAVE TO HAVE THIS FOR THE in AND out VARIABLES
 		{
 			InputStream inputStream = getSocket().getInputStream();
-			in = new Scanner(inputStream);
+			Scanner in = new Scanner(inputStream);
 			PrintWriter out = new PrintWriter(getSocket().getOutputStream());//GET THE SOCKETS OUTPUT STREAM (THE STREAM YOU WILL SEND INFORMATION TO THEM FROM)
 			int readByte;
 			
@@ -56,7 +55,7 @@ public class SchemamatchingClient implements Runnable {
 				}	
 				String input;
 				input = in.nextLine();
-				input = String.valueOf((char) (readByte)) + input;
+				input = (char) (readByte) + input;
 				System.out.println("Client Said: " + input);//PRINT IT OUT TO THE SCREEN
 				String listString = icd.HandleRequest(this, input);
 				String formatted = String.format("%09d", listString.length());
@@ -69,8 +68,7 @@ public class SchemamatchingClient implements Runnable {
 		{
 			e.printStackTrace();//MOST LIKELY THERE WONT BE AN ERROR BUT ITS GOOD TO CATCH
 			_mainServer.ClientDisconnected(_clientId);
-			return;
-		}	
+		}
     }
 	
 	private void ClientDisconnected()

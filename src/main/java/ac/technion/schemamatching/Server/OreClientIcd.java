@@ -1,24 +1,13 @@
 package ac.technion.schemamatching.Server;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.OutputStream;
+import ac.technion.schemamatching.DBInterface.DBInterface;
+import ac.technion.schemamatching.experiments.OBExperimentRunner;
+import org.apache.jena.base.Sys;
+
+import java.io.*;
 import java.nio.ByteBuffer;
-import java.nio.file.DirectoryNotEmptyException;
-import java.nio.file.Files;
-import java.nio.file.NoSuchFileException;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Properties;
-
-import ac.technion.schemamatching.experiments.OBExperimentRunner;
-import ac.technion.schemamatching.DBInterface.DBInterface;
 
 public class OreClientIcd 
 {
@@ -36,12 +25,10 @@ public class OreClientIcd
 		   Properties pMap = new Properties();
 			try {
 				pMap.load(new FileInputStream("oreConfig/ob_interface.properties"));
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			System.out.println((String)pMap.get("dbmstype") + " " + (String)pMap.get("host") + " " + (String)pMap.get("dbname") + " " + (String)pMap.get("username") + " " + (String)pMap.get("pwd"));
+		   System.out.println(pMap.get("dbmstype") + " " + pMap.get("host") + " " + pMap.get("dbname") + " " + pMap.get("username") + " " + pMap.get("pwd"));
 		    db = new DBInterface(Integer.parseInt((String)pMap.get("dbmstype")),(String)pMap.get("host"),(String)pMap.get("dbname"),(String)pMap.get("username"),(String)pMap.get("pwd"));
 			
 	   }
@@ -122,45 +109,35 @@ public class OreClientIcd
     {
     	try 
     	{
-	    	String listString = "";
-	    	File myFile = new File(client.ClientFolder + "\\" + fileName);
+			File myFile = new File(client.ClientFolder + "\\" + fileName);
 	    	int length = (int) myFile.length();
 	        byte[] mybytearray = new byte[length];
 	       // BufferedOutputStream outToClient = new BufferedOutputStream(client.getSocket().getOutputStream());
 	        OutputStream outToClient = client.getSocket().getOutputStream();
-	        FileInputStream fis = null;
+	        FileInputStream fis;
 	        fis = new FileInputStream(myFile);
 	        BufferedInputStream bis = new BufferedInputStream(fis);
-	        bis.read(mybytearray, 0, length);
+	        if (bis.read(mybytearray, 0, length)==-1)
+	        	System.err.println("Failed to read file");
 	        byte[] toSend = new byte[length + 4]; 
 	        
 	        byte[] sizeArray = ByteBuffer.allocate(4).putInt(length).array();
 	        
 	        System.out.println("myFile.length(): " + length);//PRINT IT OUT TO THE SCREEN
-	        
-	        for(int i=0 ; i<4 ; i++)
-	        {
-	        	toSend[i] = sizeArray[i];
-	        }
-	        for(int i=0 ; i< length; i++)
-	        {
-	        	toSend[i+4] = mybytearray[i];
-	        }
+
+			System.arraycopy(sizeArray, 0, toSend, 0, 4);
+			if (length >= 0) System.arraycopy(mybytearray, 0, toSend, 4, length);
 	        
 	        outToClient.write(toSend, 0, length + 4);
 	        outToClient.flush();
 	        fis.close();
 	        bis.close();
-	        myFile.delete();
+	        if (!myFile.delete())
+	        	System.err.printf("Temporary directory %s was not deleted \n",myFile);
 	        return "True";
-    	} 
-    	catch (FileNotFoundException ex) 
+    	} catch (IOException ex)
         {
             return "False";
-        }
-        catch (IOException ex) 
-        {
-        	return "False";
         }
 	}
 
@@ -172,10 +149,10 @@ public class OreClientIcd
     		return Error + "There is no dataset " ;
     	}
     	
-    	String listString = "";
+    	StringBuilder listString = new StringBuilder();
 		for (String[] s : list)
 		{
-			listString += s[0] + Element_Separator + s[1] + Values_Separator;
+			listString.append(s[0]).append(Element_Separator).append(s[1]).append(Values_Separator);
 		}
 		return listString.substring(0, listString.length() - 1) ;
     }
@@ -191,21 +168,21 @@ public class OreClientIcd
     		return Error + "There is no dataset " ;
     	}
     	
-    	String cond = "";
+    	StringBuilder cond = new StringBuilder();
     	for (String[] value : list)
 		{
-    		cond += " DSID=" + value[0] + " OR";
+    		cond.append(" DSID=").append(value[0]).append(" OR");
 		}
-    	cond = cond.substring(0, cond.length() - 3) ;
+    	cond = new StringBuilder(cond.substring(0, cond.length() - 3));
     	
     	query = "SELECT * FROM datasets where " + cond;
     	System.out.println("Run query: " + query);
     	
     	list =  db.runSelectQuery("SELECT * FROM datasets where " + cond, 6);
-    	String listString = "";
+    	StringBuilder listString = new StringBuilder();
 		for (String[] s : list)
 		{
-			listString += s[0] + Element_Separator + s[1] + Values_Separator;
+			listString.append(s[0]).append(Element_Separator).append(s[1]).append(Values_Separator);
 		}
 		return listString.substring(0, listString.length() - 1) ;
     }
@@ -221,13 +198,13 @@ public class OreClientIcd
     		return Error + "There is no Schemas in dataset " + datasetId;
     	}
     	
-    	String cond = "";
+    	StringBuilder cond = new StringBuilder();
     	for (String[] value : list)
 		{
-    		cond += " SchemaID=" + value[0] + " OR";
+    		cond.append(" SchemaID=").append(value[0]).append(" OR");
     		
 		}
-    	cond = cond.substring(0, cond.length() - 3) ;
+    	cond = new StringBuilder(cond.substring(0, cond.length() - 3));
     	
     	query = "SELECT SchemaID,SchemaName,DSID "
     			+ "FROM schemata "
@@ -235,11 +212,11 @@ public class OreClientIcd
     	System.out.println("Run query: " + query);
     	list =  db.runSelectQuery(query, 3);
     	
-    	String listString = "";
+    	StringBuilder listString = new StringBuilder();
 
 		for (String[] s : list)
 		{
-			listString += s[0] + Element_Separator + s[1] + Values_Separator;
+			listString.append(s[0]).append(Element_Separator).append(s[1]).append(Values_Separator);
 		}
 		return listString.substring(0, listString.length() - 1) ;
     }
@@ -258,11 +235,11 @@ public class OreClientIcd
     		return Error + "There is no Schemas in dataset " + datasetId;
     	}
     	
-    	String listString = "";
+    	StringBuilder listString = new StringBuilder();
 
 		for (String[] s : list)
 		{
-			listString += s[0] + Element_Separator + s[1] + Values_Separator;
+			listString.append(s[0]).append(Element_Separator).append(s[1]).append(Values_Separator);
 		}
 		return listString.substring(0, listString.length() - 1) ;
     }
@@ -281,12 +258,12 @@ public class OreClientIcd
     		return Error + "There is no Schemas in dataset " + datasetId;
     	}
     	
-    	String cond = "";
+    	StringBuilder cond = new StringBuilder();
     	for (String[] secondSchemaId : SecondSchemaIdlist)
 		{
-    		cond += " SchemaID= " + secondSchemaId[0] + " OR";
+    		cond.append(" SchemaID= ").append(secondSchemaId[0]).append(" OR");
 		}
-    	cond = cond.substring(0, cond.length() - 3) ;
+    	cond = new StringBuilder(cond.substring(0, cond.length() - 3));
     	
     	query = "SELECT SchemaID,SchemaName,DSID "
     			+ "FROM schemata "
@@ -299,10 +276,10 @@ public class OreClientIcd
     		return Error + "There is no Schemas in dataset " + datasetId;
     	}
     	
-    	String listString = "";
+    	StringBuilder listString = new StringBuilder();
 		for (String[] s : list)
 		{
-		listString += s[0] + Element_Separator + s[1] + Values_Separator;
+		listString.append(s[0]).append(Element_Separator).append(s[1]).append(Values_Separator);
 		}
 		String returnValue = listString.substring(0, listString.length() - 1) ;
 		System.out.println("returnValue from GetSecondSchemasToMatch: " + returnValue);
@@ -321,11 +298,11 @@ public class OreClientIcd
     	{
     		return Error + "There is no FLM";
     	}
-    	String listString = "";
+    	StringBuilder listString = new StringBuilder();
 
 		for (String[] s : list)
 		{
-			listString += s[0] + Element_Separator + s[1] + Values_Separator;
+			listString.append(s[0]).append(Element_Separator).append(s[1]).append(Values_Separator);
 		}
 		
 		String returnValue = listString.substring(0, listString.length() - 1) ;
@@ -344,11 +321,11 @@ public class OreClientIcd
     	{
     		return Error + "There is no FLM Parameter";
     	}
-    	String listString = "";
+    	StringBuilder listString = new StringBuilder();
 
 		for (String[] s : list)
 		{
-			listString += s[1] + Element_Separator + s[2] + Values_Separator;
+			listString.append(s[1]).append(Element_Separator).append(s[2]).append(Values_Separator);
 		}
 		
 		String returnValue = listString.substring(0, listString.length() - 1) ;
@@ -367,11 +344,11 @@ public class OreClientIcd
     	{
     		return Error + "There is no predictors";
     	}
-    	String listString = "";
+    	StringBuilder listString = new StringBuilder();
 
 		for (String[] s : list)
 		{
-			listString += s[0] + Element_Separator + s[1] + Element_Separator + s[2] + Values_Separator;
+			listString.append(s[0]).append(Element_Separator).append(s[1]).append(Element_Separator).append(s[2]).append(Values_Separator);
 		}
 		
 		String returnValue = listString.substring(0, listString.length() - 1) ;
@@ -392,11 +369,11 @@ public class OreClientIcd
     	{
     		return Error + "There is no SLM";
     	}
-    	String listString = "";
+    	StringBuilder listString = new StringBuilder();
 
 		for (String[] s : list)
 		{
-			listString += s[0] + Element_Separator + s[1] + Values_Separator;
+			listString.append(s[0]).append(Element_Separator).append(s[1]).append(Values_Separator);
 		}
 		
 		String returnValue = listString.substring(0, listString.length() - 1) ;
@@ -411,7 +388,7 @@ public class OreClientIcd
     	
     	ArrayList<String[]> list =  db.runSelectQuery(query, 5);
     	
-    	String listString = "";
+    	StringBuilder listString = new StringBuilder();
     	
     	if(list.size() == 0)
     	{
@@ -420,7 +397,7 @@ public class OreClientIcd
     	
 		for (String[] s : list)
 		{
-			listString += s[1] + Element_Separator + s[2] + Values_Separator;
+			listString.append(s[1]).append(Element_Separator).append(s[2]).append(Values_Separator);
 		}
 		
 		String returnValue = listString.substring(0, listString.length() - 1) ;
@@ -435,7 +412,7 @@ public class OreClientIcd
     	
     	ArrayList<String[]> list =  db.runSelectQuery(query, 5);
     	
-    	String listString = "";
+    	StringBuilder listString = new StringBuilder();
     	
     	if(list.size() == 0)
     	{
@@ -444,7 +421,7 @@ public class OreClientIcd
     	
 		for (String[] s : list)
 		{
-			listString += s[2] + Element_Separator + s[4] + Values_Separator;
+			listString.append(s[2]).append(Element_Separator).append(s[4]).append(Values_Separator);
 		}
 		
 		String returnValue = listString.substring(0, listString.length() - 1) ;
@@ -549,9 +526,9 @@ public class OreClientIcd
     	}
     	
     
-    	String listString = "";
+    	StringBuilder listString = new StringBuilder();
     	File clientDirectory = new File(clientDir);
-    	String files[] = clientDirectory.list();
+    	String[] files = clientDirectory.list();
   	    for (String file : files) 
   	    {
   	    	if(file.contains("propertiesfile.properties"))
@@ -566,7 +543,7 @@ public class OreClientIcd
   		  myFile = new File( clientDir + "\\" + file );
   		  int size = (int) myFile.length();
   		  System.out.println("File Name : " + file + " File length " + myFile.length() + " Send len = " + size);
-  		  listString +=  file +  Element_Separator + size + Values_Separator;
+  		  listString.append(file).append(Element_Separator).append(size).append(Values_Separator);
   	    }
   	    String returnValue = listString.substring(0, listString.length() - 1) ;
   	    System.out.println("returnValue from RunExperiment : " + returnValue);
