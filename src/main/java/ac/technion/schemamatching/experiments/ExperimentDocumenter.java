@@ -1,6 +1,3 @@
-/**
- * 
- */
 package ac.technion.schemamatching.experiments;
 
 import java.io.IOException;
@@ -18,7 +15,6 @@ import ac.technion.iem.ontobuilder.core.ontology.OntologyClass;
 import ac.technion.iem.ontobuilder.core.ontology.Term;
 import ac.technion.iem.ontobuilder.matching.match.Match;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
-import ac.technion.schemamatching.experiments.OBExperimentRunner;
 import ac.technion.schemamatching.testbed.ExperimentSchema;
 import ac.technion.schemamatching.testbed.ExperimentSchemaPair;
 
@@ -34,11 +30,12 @@ public class ExperimentDocumenter
 {
 	
 	/**
-	 * @param dataset
+	 * @param dataset list of schema pairs to document
+	 *
 	 */
 	public long documentExperiment(String experimentDescription, ArrayList<? extends ExperimentSchema> dataset) {
 		long eid = this.documentExperiment(experimentDescription);
-		HashMap<Field, Object> values = new HashMap<Field, Object>();
+		HashMap<Field, Object> values = new HashMap<>();
 		Field spID = new Field("SPID",FieldType.INT);
 		values.put(new Field("EID",FieldType.LONG), eid);
 		for (ExperimentSchema es : dataset)
@@ -79,15 +76,16 @@ public class ExperimentDocumenter
 	
 	/**
 	 * Class constructor creates an experiment in the DB and stores it's eid
-	 * @param experimentDescription
+	 * @param experimentDescription textual description
 	 */
 	public long documentExperiment(String experimentDescription)
 	{
 		//set the current EID to be one past the largest EID
-		String maxIDstr = (OBExperimentRunner.getOER().getDB().runSelectQuery("SELECT Max(EID) FROM experiments;",1)).get(0)[0];
+		String maxIDstr = (OBExperimentRunner.getOER().getDB()
+				.runSelectQuery("SELECT Max(EID) FROM experiments;",1)).get(0)[0];
 		long maxID = (maxIDstr == null?0:Long.parseLong(maxIDstr));
 		long eid = maxID+1; //write a query which retrieves the maximal EID in the db
-		HashMap<Field, Object> values = new HashMap<Field, Object>();
+		HashMap<Field, Object> values = new HashMap<>();
 	    values.put(new Field("EID",FieldType.LONG),eid);
 	    values.put(new Field("ExperimentDesc",FieldType.STRING),experimentDescription);
 	    OBExperimentRunner.getOER().getDB().insertSingleRow(values, "experiments"); //enter the name of the table 
@@ -104,7 +102,7 @@ public class ExperimentDocumenter
 		String sql = "SELECT SPID FROM exactmatches WHERE SPID = " + spid + ";";
 		if (OBExperimentRunner.getOER().getDB().runSelectQuery(sql,1).isEmpty())
 		{
-		    HashMap<Field, Object> values = new HashMap<Field, Object>();
+		    HashMap<Field, Object> values = new HashMap<>();
 		    values.put(new Field("SPID",FieldType.LONG),spid);
 		    Field targTerm = new Field("TargetTermID",FieldType.LONG);
 		    Field candTerm = new Field("CandidateTermID",FieldType.LONG);
@@ -150,7 +148,7 @@ public class ExperimentDocumenter
 	 */
 	public void documentMapping(long spid,int smid,int mid, int step, MatchInformation mi,long eid)
 	{
-		HashMap<Field, Object> values = new HashMap<Field, Object>();
+		HashMap<Field, Object> values = new HashMap<>();
 	    values.put(new Field("EID",FieldType.LONG),eid);
 	    values.put(new Field("SPID",FieldType.LONG),spid);
 	    values.put(new Field("MID",FieldType.INT),mid);
@@ -169,16 +167,16 @@ public class ExperimentDocumenter
 	/**
 	 * This method gets a MatchInformation and SchemaTranslator and outputs the matched result (matched terms and their similarity value) to DB
 	 * @param SerialNumOfMatcher - according to the serial number described in the DB, under similaritymeasures;
-	 * @param MatchInformation - holds a set of matches
-	 * @param ExperimentSchemaPair - holds the 2 ontology we match (used to get their IDs)
-	 * @Remark, when storing an id we since we decide on the id of a term 
+	 * @param firstLineMI - holds a set of matches
+	 * @param schemasExp - holds the 2 ontology we match (used to get their IDs)
+	 * @implNote when storing an id since we decide on the id of a term
 	 * 	 */
 	public void loadSMtoDB(MatchInformation firstLineMI, ExperimentSchemaPair schemasExp,int SerialNumOfMatcher, boolean isXSD) throws IOException
 	{
 		ArrayList<Match> matches = firstLineMI.getCopyOfMatches();
-		HashMap<Field,Object> values = new HashMap<Field,Object>();
-		values.put(new Field ("TargetSchemaID", FieldType.LONG ), (long)schemasExp.getTargetID());
-		values.put(new Field ("CandidateSchemaID", FieldType.LONG ), (long)schemasExp.getCandidateID());
+		HashMap<Field,Object> values = new HashMap<>();
+		values.put(new Field ("TargetSchemaID", FieldType.LONG ), schemasExp.getTargetID());
+		values.put(new Field ("CandidateSchemaID", FieldType.LONG ), schemasExp.getCandidateID());
 		values.put(new Field ("SMID", FieldType.LONG ), (long)SerialNumOfMatcher);
 		Field conf = new Field ("confidence", FieldType.DOUBLE );
 
@@ -228,8 +226,8 @@ public class ExperimentDocumenter
 	/**
 	 * Adds an experiment to the experiments table and the schemapairs to the experiment schema pairs table
 	 * Otherwise 
-	 * @param myExpRunner.getDS()
-	 * @param k_Schemapairs
+	 * @param ds list of experiment schema pairs to write to the database
+	 * @param k_Schemapairs list of schema name pairs
 	 * @deprecated
 	 * @return Experiment ID from db. Returns null if writing experiment into DB fails (due to missing ontology files, etc.)
 	*/
@@ -244,7 +242,7 @@ public class ExperimentDocumenter
 		if (LastEID.get(0)[0]==null) currentEID=1;
 		else currentEID = (long)Integer.valueOf(LastEID.get(0)[0])+1;
 		
-		HashMap<Field,Object> values = new HashMap<Field,Object>();	
+		HashMap<Field,Object> values = new HashMap<>();
 		
 		Field f = new Field ("EID", FieldType.LONG );
 		values.put(f, (Object)currentEID );
@@ -263,7 +261,7 @@ public class ExperimentDocumenter
 		//k_Schemapairs holds the info from the DB (ontology's id, etc)
 		for(String[] s : k_Schemapairs)
 		{
-			values = new HashMap<Field,Object>();	
+			values = new HashMap<>();
 			
 			f = new Field ("EID", FieldType.LONG );
 			values.put(f, (Object)currentEID);
@@ -289,14 +287,14 @@ public class ExperimentDocumenter
 	
 	/**
 	 *Receives an single term and parses it to DB, if terms already exist returns without documenting it
-	 * @param Term  
+	 * @param term an ontology term
 	 * @param OntologyID - ID of the onotology the term belongs to
 	 */
 	
 	private void writeTermToDB(long OntologyID, Term term) {
 		
 			
-		HashMap<Field,Object> values = new HashMap<Field,Object>();	
+		HashMap<Field,Object> values = new HashMap<>();
 		
 		Field f = new Field ("SchemaID", FieldType.LONG );
 		values.put(f, (Object)OntologyID);
@@ -399,7 +397,7 @@ public class ExperimentDocumenter
 	public void loadClarityToDB(ArrayList<String[]> clarityRes,
 			ExperimentSchemaPair schemasExp, int sm,long eid) 
 	{
-		HashMap<Field, Object> values = new HashMap<Field, Object>(); 
+		HashMap<Field, Object> values = new HashMap<>();
 		Field schemaID = new Field("SchemaID",FieldType.LONG);
 		Field termID = new Field("TermID",FieldType.LONG);
 		Field val = new Field("ClarityScore",FieldType.DOUBLE);
@@ -438,7 +436,7 @@ public class ExperimentDocumenter
 	/**
 	 * This method gets an ontology and ontology's id and updates into the DB additional info about the schema
 	 * @param schemaID 
-	 * @param Onotology
+	 * @param ontology an ontology to be added to the db
 	 * @throws Exception
 	 */
 	@SuppressWarnings("unused")
@@ -464,7 +462,7 @@ public class ExperimentDocumenter
 	/**
 	 * This method given an ontology will calculate (by iterating recursively) all of it's terms, hidden terms, and associations
 	 * Remark: We assume that is a unique path to each term (so terms arn't being counted more than once)
-	 * @param Onotology
+	 * @param ontology an ontology to be processed
 	 * Return: ArrayList<integer> A: A(0) number of terms
 	 * 								 A(1) number of hidden terms
 	 * 								 A(2) number of association
@@ -488,7 +486,7 @@ public class ExperimentDocumenter
 				if (!t.getRelationship(j).getName().contains("is child of") && !t.getRelationship(j).getName().contains("is parent of"))	
 					Associationcount++;
 		}		
-		ArrayList<Integer> A = new ArrayList<Integer>();
+		ArrayList<Integer> A = new ArrayList<>();
 		A.add(TotalNumOfTerms);
 		A.add(counthiddens);
 		A.add(Associationcount);
@@ -500,7 +498,7 @@ public class ExperimentDocumenter
 	 * This method's returns the number of the children from a given term (not only terms)
 	 * function will run recursively until it gets to all the leafs reachable from the term
 	 * Remark: We assume that a single entity in the graph has only one parent
-	 * @param term
+	 * @param t  an ontology term
 	 * @throws Exception
 	 */
 	
@@ -520,7 +518,7 @@ public class ExperimentDocumenter
 				if (!t.getRelationship(j).getName().contains("is child of") && !t.getRelationship(j).getName().contains("is parent of"))	
 					countAssociation++;
 		}
-		ArrayList <Integer> A = new ArrayList<Integer>();
+		ArrayList <Integer> A = new ArrayList<>();
 		A.add(1+countNumberOfDecendants);
 		A.add(hidden);
 		A.add(countAssociation);
@@ -528,8 +526,8 @@ public class ExperimentDocumenter
 	}
 
 	/**
-	 * This method's returns the number of subclasses within an onotology
-	 * @param Onotology
+	 * This method's returns the number of subclasses within an ontology
+	 * @param ontology to be processed
 	 * @throws Exception
 	 */
 	
@@ -548,7 +546,7 @@ public class ExperimentDocumenter
 	/**
 	 * This method's returns the number of subclasses from an OntologyClass
 	 * iterate recursively from the given OntologyClass to its subclasses until it reaches subclasses with no subclasses 
-	 * @param OntologyClass
+	 * @param c an OntologyClass to be processed
 	 * @throws Exception
 	 */
 	private static int iterativeCountingOfClasses(OntologyClass c) 
@@ -566,7 +564,6 @@ public class ExperimentDocumenter
 	 * @param schemaPairId Schema Pair ID
 	 * @param smid Similarity Measure ID
 	 * @param isXSD True/False isXSD domain
-	 * @param db DBInterface to use to check in
 	 * @return boolean 
 	 */
 	public boolean checkIfSchemaPairWasMatched(int schemaPairId,Integer smid, boolean isXSD) {
