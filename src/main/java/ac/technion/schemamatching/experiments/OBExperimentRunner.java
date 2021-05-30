@@ -1,7 +1,7 @@
-/**
- * The schemamatching.experiments package includes experiments in schema matching
- * on the ontobuilder schema matching system and other utilities developed at the Technion schema matching research group. 
- * Experiments are run on a dataset library documented in a mysql database.  
+/*
+  The schemamatching.experiments package includes experiments in schema matching
+  on the ontobuilder schema matching system and other utilities developed at the Technion schema matching research group.
+  Experiments are run on a dataset library documented in a mysql database.
  */
 package ac.technion.schemamatching.experiments;
 
@@ -41,37 +41,33 @@ import com.infomata.data.DataFile;
 import com.infomata.data.DataRow;
 import com.infomata.data.DataFileFactory;
 
-import java.io.*;
-import java.util.*;
-
 /**
- * The class provides tools for running schema matching experiments.
+ * The singleton class provides tools for running schema matching experiments.
  * @author Tomer Sagi
- * @author Nimrod Busany 
- * @category Singleton
+ * @author Nimrod Busany
  */
 public class OBExperimentRunner {
 
 	private static OBExperimentRunner oer;
-	private HashMap<Long,ArrayList<? extends ExperimentSchema>> experimentDatasets = new HashMap<Long,ArrayList<? extends ExperimentSchema>>();
+	private final HashMap<Long,ArrayList<? extends ExperimentSchema>> experimentDatasets = new HashMap<>();
 	protected DBInterface db;
-	private ExperimentDocumenter experimentDocumenter = new ExperimentDocumenter();
+	private final ExperimentDocumenter experimentDocumenter;
 	private String dsurl;
 	protected OntoBuilderWrapper obw;
-	private XmlFileHandler xfh;
+	private final XmlFileHandler xfh;
 	
 	/**
 	 * Main method runs an experiment according to the supplied parameters
-	 * @param args[0] run as command line (cmd) or console application (console)
-	 * @param args[1] output path
-	 * @param args[2] Experiment Type compared against enum types
+	 * @param args [0] run as command line (cmd) or console application (console)
+	 * [1] output path
+	 * [2] Experiment Type compared against enum types
 	 *  PairExperimentEnum and HolisticExperimentEnum. If found in Pair,
 	 *  a dataset of schema pairs will be created, if found in Holistic 
 	 *  a dataset of schemas will be created.  
-	 * @param args[3] K - number of experiments schema pairs
-	 * @param args[4] schema pair ID Set ( e.g. 1,2,3  or 1 )  (ignored if K <> 0)
-	 * @param args[5] datasetID (for random K)
-	 * @param args[6] -d:domainCodes - (optional) string in the following format "2,3,4,2" (without the Quotation mark)
+	 * [3] K - number of experiments schema pairs
+	 * [4] schema pair ID Set ( e.g. 1,2,3  or 1 )  (ignored if K <> 0)
+	 * [5] datasetID (for random K)
+	 * [6] -d:domainCodes - (optional) string in the following format "2,3,4,2" (without the Quotation mark)
 	 * or -f:First Line Matcher Codes or -p:properties file used to configure the experiment or -s:second line matcher codes (from db or enum)
 	 * or -l:list of schema pair ids to be used in experiment (file name containing the list)
 	 * or -m:0 if user doesn't want to use lookup (default value is true)
@@ -84,13 +80,13 @@ public class OBExperimentRunner {
 		File outputPath = null;
 		PairExperimentEnum pe = null;
 		HolisticExperimentEnum he = null;
-		ArrayList<ExperimentSchema> dataset = new ArrayList<ExperimentSchema>();
+		ArrayList<ExperimentSchema> dataset = new ArrayList<>();
 		String expDesc = "None provided";
-		HashSet<Integer> dc =new HashSet<Integer>();
+		HashSet<Integer> dc = new HashSet<>();
 		ArrayList<FirstLineMatcher> flm = null;
 		ArrayList<SecondLineMatcher> slm = null; 
 		Properties pFile = null;
-		ArrayList<Long> spList = new ArrayList<Long>();
+		ArrayList<Long> spList = new ArrayList<>();
 		boolean isMemory = true;
 		boolean pairMode = true;
 
@@ -131,28 +127,25 @@ public class OBExperimentRunner {
 	    		
 	    	}
 			if (spList.size()>0){ //Use manual list of Schema Pairs from file
-				String spids = spList.get(0).toString();
+				StringBuilder spids = new StringBuilder(spList.get(0).toString());
 				for (int i=1 ; i<spList.size();i++)
-					spids = spids + "," + spList.get(i).toString();
-				dataset =oer.selectExperiments(0,spids, Integer.valueOf(args[5]), dc,pairMode );}
-			else if (Integer.valueOf(args[3])<=0){
-				dataset =oer.selectExperiments(Integer.valueOf(args[3]),args[4], Integer.valueOf(args[5]), dc ,pairMode);}  
+					spids.append(",").append(spList.get(i).toString());
+				dataset =oer.selectExperiments(0, spids.toString(), Integer.parseInt(args[5]), dc,pairMode );}
+			else if (Integer.parseInt(args[3])<=0){
+				dataset =oer.selectExperiments(Integer.parseInt(args[3]),args[4], Integer.parseInt(args[5]), dc ,pairMode);}
 			else{
-		    	Integer datasetID = Integer.valueOf(args[5]);
-		    	Integer size = Integer.valueOf(args[3]);
+		    	int datasetID = Integer.parseInt(args[5]);
+		    	int size = Integer.parseInt(args[3]);
 		    	expDesc =  "Experiment Type: " + args[2]+ " k=" + args[3] + " SPID: " + args[4] + " Dataset: " + args[5];
-		    	if (dc == null) dc = new HashSet<Integer>();
 				dataset = oer.selectExperiments(size,"0", datasetID, dc,pairMode);
 	    	}
 			if (flm == null) 
     		{
-    			flm = new ArrayList<FirstLineMatcher>();
-    			flm.addAll(FLMList.getIdFLMHash().values());
+				flm = new ArrayList<>(FLMList.getIdFLMHash().values());
     		}
 	    	if (slm == null) 
     		{
-    			slm = new ArrayList<SecondLineMatcher>();
-    			slm.addAll(SLMList.getIdSLMHash().values());
+				slm = new ArrayList<>(SLMList.getIdSLMHash().values());
     		}
 	    	
 		}
@@ -211,8 +204,13 @@ public class OBExperimentRunner {
 					for (PairExperimentEnum e : PairExperimentEnum.values()){
 						if (ExperimentID==e.ordinal()){
 							pe = e;}
-					} 
-					System.out.println("The Experiment you chose is: "+pe.name());
+					}
+					if (pe == null)  {
+						System.err.printf("Experiment type %d not found", ExperimentID);
+						System.exit(-1);
+					}
+					else {
+					System.out.println("The Experiment you chose is: "+pe.name());}
 					}
 				else{
 					System.out.println("Please select The Experiment you want to run "
@@ -226,9 +224,15 @@ public class OBExperimentRunner {
 					for (HolisticExperimentEnum e : HolisticExperimentEnum.values()){
 						if (ExperimentID==e.ordinal()){
 							he = e;}
-					} 
-					System.out.println("The Experiment you chose is: "+he.name());
-				}
+					}
+					if (he == null)  {
+						System.err.printf("Experiment type %d not found", ExperimentID);
+						System.exit(-1);
+					} else {
+						System.out.println("The Experiment you chose is: "+he.name());
+					}
+
+					}
 					System.out.println("Please select The Dataset you want to work with: (default = 1)");
 					int datasetID;
 					for (OREDataSetEnum d : OREDataSetEnum.values()){
@@ -243,7 +247,7 @@ public class OBExperimentRunner {
 					}
 					System.out.println("Please select number (default = 1) of experiments schema pairs "
 							+ "you want to work with:(for specific pairs choose 0)");
-					int K=0;
+					int K;
 					option=input.nextLine();
 					if (option.equals("")){
 						K=1;
@@ -263,7 +267,7 @@ public class OBExperimentRunner {
 					else {
 						dataset = oer.selectExperiments(K,"0", datasetID, dc,pairMode);
 					}
-					String name = null;
+					String name;
 					if (pairMode){
 						name= pe.name(); 
 					}
@@ -273,28 +277,28 @@ public class OBExperimentRunner {
 							+ "from the the following options: ");
 					System.out.println("(for example: 0,1,5 will run an experiment "
 							+ " using FLM numbers 0, 1 and 5 (default = 0))");	
-					HashMap<Integer,String> FLM1 = new HashMap<Integer,String>(); 
+					HashMap<Integer,String> FLM1 = new HashMap<>();
 					for (FLMList f : FLMList.values()){
 						FLM1.put(f.getFLM().getDBid(),f.getFLM().getDBid()+ ". "+ f.name());
 					}
-					Map<Integer, String> FLMSorted = new TreeMap<Integer, String>(FLM1);
+					Map<Integer, String> FLMSorted = new TreeMap<>(FLM1);
 					for (String f : FLMSorted.values()){
 						System.out.println(f);
 					}
-					String FlmWanted=null;
+					String FlmWanted;
 					FlmWanted = input.nextLine();
 					if (option.equals("")){
 						FlmWanted="0";
 					}
-					
+
 					flm = parseFLMids(FlmWanted);
-					
+
 					System.out.println("Please Select a comma separated set of SLM "
 							+ "from the the following options: ");
 					System.out.println("(for example: 1,2,6 will run an experiment "
 							+ " using SLM numbers 1, 2 and 7 (default = 1))");	
-					HashMap<Integer,String> SLMSorted = new HashMap<Integer,String>(); 
-					Integer MaxKey=0;
+					HashMap<Integer,String> SLMSorted = new HashMap<>();
+					int MaxKey=0;
 					for (SLMList s : SLMList.values()){
 						SLMSorted.put(s.getSLM().getDBid(),s.getSLM().getDBid()+ ". "+ s.name());
 						if (s.getSLM().getDBid()>MaxKey){ 
@@ -306,13 +310,13 @@ public class OBExperimentRunner {
 					for (String s : SLMSorted.values()){
 						System.out.println(s);
 					}
-					String SlmWanted=null;
+					String SlmWanted;
 					SlmWanted = input.nextLine();
 					if (option.equals("")){
 						SlmWanted="1";
 					}
 
-					if (SlmWanted.equals(MaxKey.toString())) {
+					if (SlmWanted.equals(Integer.toString(MaxKey))) {
 						System.out.println("Notice: No SLM were selected!");
 					}
 					else{
@@ -338,20 +342,22 @@ public class OBExperimentRunner {
 			fatalError("invalid 1st parameter supplied");
 		}
 		Long eid = myExpRunner.initExperiment(dataset, expDesc);
-		if (pairMode)
+		if (pairMode) {
+			assert pe != null;
 			myExpRunner.runPairWiseExperiment(pe,eid, outputPath,flm,slm,pFile,isMemory);
+		}
 		else //holistic mode
 			myExpRunner.runHolisticExperiment(he,eid, outputPath,flm,slm,pFile);
 	 }
 	
 	/**
 	 * Runs the supplied holistic experiment
-	 * @param he
-	 * @param eid
-	 * @param outputPath
-	 * @param flm
-	 * @param slm
-	 * @param pFile
+	 * @param he Holistic experiment type
+	 * @param eid experiment id
+	 * @param outputPath output path for statistics files
+	 * @param flm First line matchers
+	 * @param slm Second line matchers
+	 * @param pFile Properties file to configure the experiment
 	 */
 	private void runHolisticExperiment(HolisticExperimentEnum he, Long eid,
 			File outputPath, ArrayList<FirstLineMatcher> flm,
@@ -362,7 +368,7 @@ public class OBExperimentRunner {
 		e.init(this, pFile, flm, slm);
 		outputPath = getFolder(outputPath);
 		e.init(getOER(), pFile, flm, slm);
-		List<Statistic> eRes = e.runExperiment(new HashSet<ExperimentSchema>(dataset));
+		List<Statistic> eRes = e.runExperiment(new HashSet<>(dataset));
 		formatStatistics(eRes, outputPath);
 		
 	}
@@ -373,17 +379,13 @@ public class OBExperimentRunner {
 	 * @return list of schema pair IDs
 	 */
 	private static boolean isUseCache(String arguments) {
-
-		boolean res = true;
-
-		if (arguments.equals(new String("0"))){
-			res = false;
+		if (arguments.equals("0")){
 			System.out.println("User chose not to use the lookup mechanism");
-			return res;
+			return false;
 		}
 
 		System.out.println("User chose to use the lookup mechanism if one exists for this setting");
-		return res;
+		return true;
 	}
 
 
@@ -395,7 +397,7 @@ public class OBExperimentRunner {
 	 * @return list of schema pair IDs
 	 */
 	public static ArrayList<Long> extractSPList(String arguments) {
-		ArrayList<Long> res = new ArrayList<Long>();
+		ArrayList<Long> res = new ArrayList<>();
 		File spFile = new File("./" + arguments);
 		int lineNumber = 0;
 		if (!spFile.exists())
@@ -409,7 +411,7 @@ public class OBExperimentRunner {
 			{
 				br = new BufferedReader(new FileReader(spFile));
 			
-				String strLine = "";
+				String strLine;
 				while ((strLine = br.readLine()) != null && strLine.trim().length()>0) {
 					lineNumber++;
 					res.add(Long.parseLong(strLine));
@@ -428,12 +430,12 @@ public class OBExperimentRunner {
 
 	/**
 	 * 
-	 * @param slmCodes
-	 * @return
+	 * @param slmCodes list of second line matcher codes
+	 * @return list of slm codes verified against the ORE enum for SLM
 	 */
 	public static ArrayList<SecondLineMatcher> parseSLMids(String slmCodes) {
 		String[] st = slmCodes.split(",");
-		ArrayList<SecondLineMatcher> slm = new ArrayList<SecondLineMatcher>();
+		ArrayList<SecondLineMatcher> slm = new ArrayList<>();
 		HashMap<Integer, SecondLineMatcher> hash = SLMList.getIdSLMHash();
 		for (String id : st)
 		{
@@ -451,7 +453,7 @@ public class OBExperimentRunner {
 	 */
 	public static ArrayList<FirstLineMatcher> parseFLMids(String flmCodes) {
 		String[] st = flmCodes.split(",");
-		ArrayList<FirstLineMatcher> flm = new ArrayList<FirstLineMatcher>();
+		ArrayList<FirstLineMatcher> flm = new ArrayList<>();
 		HashMap<Integer, FirstLineMatcher> hash = FLMList.getIdFLMHash();
 		for (String id : st)
 		{
@@ -491,16 +493,15 @@ public class OBExperimentRunner {
 		Properties pMap = new Properties();
 		try {
 			pMap.load(new FileInputStream("oreConfig/ob_interface.properties"));
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		System.out.println((String)pMap.get("dbmstype") + " " + (String)pMap.get("host") + " " + (String)pMap.get("dbname") + " " + (String)pMap.get("username") + " " + (String)pMap.get("pwd"));
+		System.out.println(pMap.get("dbmstype") + " " + pMap.get("host") + " " + pMap.get("dbname") + " "
+				+ pMap.get("username") + " " + pMap.get("pwd"));
 	    db = new DBInterface(Integer.parseInt((String)pMap.get("dbmstype")),(String)pMap.get("host"),(String)pMap.get("dbname"),(String)pMap.get("username"),(String)pMap.get("pwd"));
 		dsurl = (String)pMap.get("schemaPath");
 		File dsFolder = new File(dsurl);
-		if (dsFolder == null || !dsFolder.isDirectory()) fatalError("Supplied dataset url is invalid or unreachable");
+		if (!dsFolder.isDirectory()) fatalError("Supplied dataset url is invalid or unreachable");
 		obw = new OntoBuilderWrapper();
 		xfh = new XmlFileHandler();
 		experimentDocumenter = new ExperimentDocumenter();
@@ -509,7 +510,7 @@ public class OBExperimentRunner {
 	
 	/**
 	 * Getter method instead of constructor - Singleton design Pattern
-	 * @return
+	 * @return OBExperimentRunner singleton object
 	 */
 	public static synchronized OBExperimentRunner getOER()
 	{
@@ -529,7 +530,7 @@ public class OBExperimentRunner {
 	 */
 	public static HashSet<Integer> parseDomainCodes(String DomainCodes) {
 		String[] st = DomainCodes.split(",");
-		HashSet<Integer> DomainCodesHash = new HashSet<Integer>();
+		HashSet<Integer> DomainCodesHash = new HashSet<>();
 		for (String s : st){
 			DomainCodesHash.add(Integer.valueOf(s));
 	    }
@@ -539,8 +540,8 @@ public class OBExperimentRunner {
 
 	private void checkInputParameters(String[] args) {
 		if (args[0]==null) {fatalError("Please enter an output folder path");}
-		if ( Integer.valueOf(args[3])==0 && args[4]==null ){fatalError("Please enter an number of experiment to sample or a spid");} 
-		if (Integer.valueOf(args[3])<0) {fatalError("Illegal number of experiments to sample");}
+		if ( Integer.parseInt(args[3])==0 && args[4]==null ){fatalError("Please enter an number of experiment to sample or a spid");}
+		if (Integer.parseInt(args[3])<0) {fatalError("Illegal number of experiments to sample");}
 		//TODO: fix this to work with schemata as well if ( Integer.valueOf(args[3])==0 && !findSPID(args[4]) ){fatalError("SPID wasn't found");}
 		try {
 				PairExperimentEnum.valueOf(args[2]);
@@ -558,8 +559,7 @@ public class OBExperimentRunner {
 	}
 
 	/**
-	 * Returns the ExperimentDocumenter object for a given experiment ID
-	 * @param eid Experiment ID
+	 * Returns the ExperimentDocumenter object
 	 * @return ExperimentDocumenter object
 	 */
 	public ExperimentDocumenter getDoc() {
@@ -568,8 +568,8 @@ public class OBExperimentRunner {
 
 	/**
 	 * Returns the dataset for a supplied experiment id
-	 * @param eid
-	 * @return
+	 * @param eid experiment id to get a dataset for
+	 * @return dataset
 	 */
 	public ArrayList<? extends ExperimentSchema> getDS(Long eid) 
 	{return experimentDatasets.get(eid);}
@@ -592,8 +592,8 @@ public class OBExperimentRunner {
 	public ArrayList<ExperimentSchema> selectExperiments(int K, String spid, int datasetID, HashSet<Integer> domainCodes,boolean pairMode) 
 	{
 		if (datasetID == 0) datasetID = 1;
-		ArrayList<ExperimentSchema> ds = new ArrayList<ExperimentSchema>();
-		String sql = "";
+		ArrayList<ExperimentSchema> ds = new ArrayList<>();
+		String sql;
 		if (pairMode)
 		{
 			sql = "FROM `schemapairs`, `schemata` WHERE (`schemapairs`.`CandidateSchema` =" + 
@@ -603,26 +603,24 @@ public class OBExperimentRunner {
 		{
 			sql = "FROM `schemata` WHERE (`schemata`.`DSID` = ";
 		}
-		sql = sql + Integer.toString(datasetID) + ")" 
-			  + (domainCodes.isEmpty()?"" : " AND ( schemata.`domainCode` IN ("
-			  + domainCodes.toString().substring(1,domainCodes.toString().length()-1) + ") )");
+		sql += datasetID + ")" + (domainCodes.isEmpty() ? "" : " AND ( schemata.`domainCode` IN ("
+				+ domainCodes.toString().substring(1, domainCodes.toString().length() - 1) + ") )");
 
 		ArrayList<String[]> numberOfItems =  
 				db.runSelectQuery("SELECT COUNT( DISTINCT " 
 				+ (pairMode?"spid":"SchemaID") + ") " + sql, 1);
 		//check the number of available experiments is larger then k
-		if ((K>Integer.valueOf(numberOfItems.get(0)[0])) || ( K==0 && spid.split(",").length> Integer.valueOf(numberOfItems.get(0)[0]))) 
+		if ((K>Integer.parseInt(numberOfItems.get(0)[0])) || ( K==0 && spid.split(",").length> Integer.parseInt(numberOfItems.get(0)[0])))
 			fatalError("No. of experiments requested is larger than the no. of schema" 
 					+ (pairMode?" pairs":"s") + " in the dataset");
 		//extracting experiments from the DB
 		if (K>0)
-		{
-			sql  = "SELECT DISTINCT " 
-				+ (pairMode?"spid,schemapairs.DSID ":" SchemaID,DSID " ) + sql +" ORDER BY RAND() LIMIT " + String.valueOf(K) + ";"; 
-		}
+			sql = "SELECT DISTINCT " +
+					(pairMode ? "spid,schemapairs.DSID " : " SchemaID,DSID ") +
+					sql + " ORDER BY RAND() LIMIT " + K + ";";
 		else
 		{
-			if (spid!="0") 
+			if (!spid.equals("0"))
 				if (pairMode)
 					sql = "SELECT spid, dsid FROM schemapairs WHERE SPID in (" + spid + ");" ;
 				else
@@ -655,7 +653,7 @@ public class OBExperimentRunner {
 
 	/**
 	 * Sends the provided error message to the err stream and exits with code 1
-	 * @param msg
+	 * @param msg error message to show
 	 */
 	public static void fatalError(String msg) 
 	{
@@ -682,14 +680,14 @@ public class OBExperimentRunner {
 	 * @param resultFolder File object in which to create the results. Folder will be created if not exists
 	 * @param flm list of first line matchers to use
 	 * @param slm list of second line matchers to use
-	 * @param properties file for configuring the experiment
+	 * @param pFile properties file for configuring the experiment
 	 */
 	public void runPairWiseExperiment(PairExperimentEnum et, Long eid,File resultFolder, ArrayList<FirstLineMatcher> flm, ArrayList<SecondLineMatcher> slm,Properties pFile, boolean isMemory)
 	{
 		@SuppressWarnings("unchecked")
 		ArrayList<ExperimentSchemaPair> dataset = (ArrayList<ExperimentSchemaPair>) getDS(eid);
 		PairWiseExperiment e = et.getExperiment();
-		ArrayList<Statistic> res = new ArrayList<Statistic>();
+		ArrayList<Statistic> res = new ArrayList<>();
 		e.init(this, pFile, flm, slm, isMemory);
 		resultFolder = getFolder(resultFolder);
 		int i = 0;
@@ -698,7 +696,7 @@ public class OBExperimentRunner {
 			System.out.println("Starting " + esp.getID());
 			List<Statistic> eRes = e.runExperiment(esp);
 			if (eRes != null) res.addAll(eRes);
-			System.out.println("finished " + esp.getID() + " : " + Integer.toString(++i) + " out of " + Integer.toString(dataset.size()));
+			System.out.println("finished " + esp.getID() + " : " + ++i + " out of " + dataset.size());
 		}
 		List<Statistic> eRes = e.summaryStatistics();
 		if (eRes != null) res.addAll(eRes);
@@ -715,8 +713,8 @@ public class OBExperimentRunner {
 	
 	/**
 	 * Checks for existence of filepath supplied and creates the folder tree if needed
-	 * @param resultFolder
-	 * @return
+	 * @param testFolder folder to test for existence
+	 * @return true if folder exists and test folder structure was successfully created
 	 */
 	private File getFolder(File testFolder) {
 		if (!testFolder.exists()) {
@@ -726,10 +724,6 @@ public class OBExperimentRunner {
 						.println("Unable to create folder");
 				return null;
 			}
-//		} else {
-//				for (File testFile : testFolder.listFiles()) {
-//					testFile.delete();
-//				}
 		}
 		return testFolder;
 	}
@@ -737,19 +731,19 @@ public class OBExperimentRunner {
 
 	/**
 	 * Collects statistics by type and outputs in CSV format to folder specified
-	 * @param res
-	 * @param resultFolder 
+	 * @param res list of Statistic objects to output to CSV
+	 * @param resultFolder output folder for statistic results
 	 */
 	private void formatStatistics(List<Statistic> res, File resultFolder) {
 		// Collect statistics by type
-		HashMap<String,List<Statistic>> collected = new HashMap<String,List<Statistic>>();
+		HashMap<String,List<Statistic>> collected = new HashMap<>();
 		for (Statistic s : res)
 		{
 			List<Statistic> tmp;
 			if (collected.containsKey(s.getName()))
 				tmp = collected.get(s.getName());
 			else
-				tmp = new ArrayList<Statistic>();
+				tmp = new ArrayList<>();
 			
 			tmp.add(s);
 			collected.put(s.getName(), tmp);
@@ -760,7 +754,7 @@ public class OBExperimentRunner {
 		{
 			File f = new File(resultFolder,System.currentTimeMillis()+ statName + ".csv");
 			String[] header = collected.get(statName).get(0).getHeader();
-			ArrayList<String[]> data = new ArrayList<String[]>();
+			ArrayList<String[]> data = new ArrayList<>();
 			for (Statistic s : collected.get(statName))
 			{
 				if (s.getData() != null)
@@ -772,9 +766,9 @@ public class OBExperimentRunner {
 	}
 	/**
 	 * Takes header and data and outputs to CSV file
-	 * @param header
-	 * @param data
-	 * @param f
+	 * @param header of file to print out
+	 * @param data to print out
+	 * @param f output file object
 	 */
 
 	public void outputAsCSV(String[] header, ArrayList<String[]> data, File f) 
@@ -785,13 +779,11 @@ public class OBExperimentRunner {
 			write.open(f);
 		
 		DataRow row = write.next();
-		for (int i=0;i<header.length;i++) row.add(header[i]);
-		for (int i=0;i<data.size();i++)
-		{
-			row = write.next();
-			String rRow[] = data.get(i);
-			for (int j=0;j<rRow.length;j++) row.add(rRow[j]);
-		}
+			for (String s : header) row.add(s);
+			for (String[] datum : data) {
+				row = write.next();
+				for (String s : datum) row.add(s);
+			}
 		write.close();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -804,10 +796,6 @@ public class OBExperimentRunner {
 
 	public String getDsurl() {
 		return dsurl;
-	}
-
-	public void setXfh(XmlFileHandler xfh) {
-		this.xfh = xfh;
 	}
 
 	public XmlFileHandler getXfh() {
