@@ -206,8 +206,8 @@ public class ExperimentDocumenter
 
 			else
 			{
-				values.put(tTermID, schemasExp.getPathToRoot(targetTerm));
-				values.put(cTermID, schemasExp.getPathToRoot(candidateTerm));
+				values.put(tTermID, ExperimentSchemaPair.getPathToRoot(targetTerm));
+				values.put(cTermID, ExperimentSchemaPair.getPathToRoot(candidateTerm));
 				values.put(conf, match.getEffectiveness());
 				OBExperimentRunner.getOER().getDB().insertSingleRow(values, "similaritymatricesXSD");
 			}
@@ -226,12 +226,11 @@ public class ExperimentDocumenter
 	/**
 	 * Adds an experiment to the experiments table and the schemapairs to the experiment schema pairs table
 	 * Otherwise 
-	 * @param ds list of experiment schema pairs to write to the database
 	 * @param k_Schemapairs list of schema name pairs
 	 * @deprecated
 	 * @return Experiment ID from db. Returns null if writing experiment into DB fails (due to missing ontology files, etc.)
 	*/
-	public long writeExperimentsToDB(ArrayList<ExperimentSchemaPair> ds, ArrayList<String[]> k_Schemapairs, String dsurl) {
+	public long writeExperimentsToDB(ArrayList<String[]> k_Schemapairs, String dsurl) {
 		
 		//document the experiment into experiment table
 		String sql  = "SELECT MAX(EID) FROM experiments";
@@ -240,20 +239,20 @@ public class ExperimentDocumenter
 		long currentEID;
 		//if the table is empty
 		if (LastEID.get(0)[0]==null) currentEID=1;
-		else currentEID = (long)Integer.valueOf(LastEID.get(0)[0])+1;
+		else currentEID = (long)Integer.parseInt(LastEID.get(0)[0])+1;
 		
 		HashMap<Field,Object> values = new HashMap<>();
 		
 		Field f = new Field ("EID", FieldType.LONG );
-		values.put(f, (Object)currentEID );
+		values.put(f, currentEID);
 		
 		f = new Field ("RunDate", FieldType.TIME );
 		Time time = new Time(1);
-		values.put(f, (Object)time);
+		values.put(f, time);
 
 		f = new Field ("ExperimentDesc", FieldType.STRING);
 		String str = ("SMB(E," + dsurl + "  " + time.toString()+ ",s)");
-		values.put(f, (Object)str);
+		values.put(f, str);
 		
 		OBExperimentRunner.getOER().getDB().insertSingleRow(values, "experiments");
 
@@ -264,20 +263,20 @@ public class ExperimentDocumenter
 			values = new HashMap<>();
 			
 			f = new Field ("EID", FieldType.LONG );
-			values.put(f, (Object)currentEID);
+			values.put(f, currentEID);
 			//Time time = new Time(1);
 		
 			f = new Field ("SPID", FieldType.LONG);
-			long SPID =  (long)Integer.valueOf(s[0]);
-			values.put(f, (Object)SPID);
+			long SPID = Integer.parseInt(s[0]);
+			values.put(f, SPID);
 		
 			f = new Field ("Training", FieldType.BOOLEAN);
 			boolean training =  false;
-			values.put(f, (Object)training);
+			values.put(f, training);
 			
 			f = new Field ("WasMatched", FieldType.BOOLEAN);
 			boolean WasMatched =  false;
-			values.put(f, (Object)WasMatched);
+			values.put(f, WasMatched);
 
 			OBExperimentRunner.getOER().getDB().insertSingleRow(values, "experimentschemapairs");
 		}
@@ -297,7 +296,7 @@ public class ExperimentDocumenter
 		HashMap<Field,Object> values = new HashMap<>();
 		
 		Field f = new Field ("SchemaID", FieldType.LONG );
-		values.put(f, (Object)OntologyID);
+		values.put(f, OntologyID);
 		
 		long id = term.getId();
 		//Only put into DB Terms with names (=> (t.getName() =! empty) string)
@@ -321,21 +320,19 @@ public class ExperimentDocumenter
 	}
 	
 	/**
-	  * @param id
-	 * @param ontologyID
-	 * @return
+	  * @param id term to check
+	 * @param ontologyID ontology that is supposed to contain the term
+	 * @return true if exists in the database
 	 */
 	public boolean checkTermExistenceAtDB(long id, long ontologyID) {
-	String sql = "SELECT SchemaID,Tid From terms WHERE Tid=" + id +  " AND SchemaID=" + ontologyID + ";";
-	ArrayList<String[]> existInDB =  OBExperimentRunner.getOER().getDB().runSelectQuery(sql, 1);
-	if (!existInDB.isEmpty())
-		return true;
-	return false;
+		String sql = "SELECT SchemaID,Tid From terms WHERE Tid=" + id +  " AND SchemaID=" + ontologyID + ";";
+		ArrayList<String[]> existInDB =  OBExperimentRunner.getOER().getDB().runSelectQuery(sql, 1);
+		return !existInDB.isEmpty();
 	}
 		
 	/**
-	 * @param domain
-	 * @return
+	 * @param domain to get a number for
+	 * @return db id of supplied domain
 	 */
 	public static int getDomainNumber(String domain) {
 		if ( domain.equalsIgnoreCase("Text")) 
@@ -347,8 +344,6 @@ public class ExperimentDocumenter
 		if (domain.equalsIgnoreCase("Integer") || domain.equalsIgnoreCase("Pinteger") || domain.equalsIgnoreCase("Ninteger") )
 			return 4;
 		if (domain.equalsIgnoreCase("Float") || domain.equalsIgnoreCase("Number") ) 
-			return 5;
-		if (domain.equalsIgnoreCase("Float") || domain.equalsIgnoreCase("Number")) 
 			return 5;
 		if (domain.equalsIgnoreCase("Boolean")) 
 			return 6;
@@ -365,7 +360,7 @@ public class ExperimentDocumenter
 	 * Get the (2nd Line) matcher ID for the supplied name and system
 	 * @param MName Matcher Name
 	 * @param sysCode Matching System
-	 * @return
+	 * @return Matcher database ID
 	 */
 	public Long getMID(String MName, int sysCode) 
 	{
@@ -378,7 +373,7 @@ public class ExperimentDocumenter
 	 * Get the similarity measure (first line matcher) ID for the supplied name and system
 	 * @param SMName similarity measure name
 	 * @param sysCode matching system
-	 * @return
+	 * @return database ID for matcher
 	 */
 	public Long getSMID(String SMName, int sysCode) 
 	{
@@ -401,7 +396,7 @@ public class ExperimentDocumenter
 		Field schemaID = new Field("SchemaID",FieldType.LONG);
 		Field termID = new Field("TermID",FieldType.LONG);
 		Field val = new Field("ClarityScore",FieldType.DOUBLE);
-		values.put(new Field("SMID",FieldType.LONG), new Long(sm));
+		values.put(new Field("SMID",FieldType.LONG), (long) sm);
 		values.put(new Field("EID",FieldType.LONG), eid);
 		values.put(new Field("SPID",FieldType.LONG), schemasExp.getID());
 		for (String[] row : clarityRes)
@@ -435,9 +430,8 @@ public class ExperimentDocumenter
 	}
 	/**
 	 * This method gets an ontology and ontology's id and updates into the DB additional info about the schema
-	 * @param schemaID 
+	 * @param schemaID to document in DB
 	 * @param ontology an ontology to be added to the db
-	 * @throws Exception
 	 */
 	@SuppressWarnings("unused")
 	private void AddInfoAboutSchemaToDB(long schemaID, Ontology ontology)
@@ -445,7 +439,7 @@ public class ExperimentDocumenter
 		String sql  = "SELECT Was_Fully_Parsed FROM schemata WHERE SchemaID=" + schemaID + ";"; 
 		String[] schemaList = OBExperimentRunner.getOER().getDB().runSelectQuery(sql, 1).get(0);
 		//check the flag of the ontology to see if it was parsed before
-		if (Double.valueOf(schemaList[0])==1)	return;
+		if (Double.parseDouble(schemaList[0])==1)	return;
 		int NumOfClasses = getNumberOfClasses (ontology);
 		ArrayList <Integer> A = calculateTermsHiddenAssociationInOntology (ontology);
 		//For webforms only recursively count terms that the ontology class is not "hidden" 
@@ -466,7 +460,6 @@ public class ExperimentDocumenter
 	 * Return: ArrayList<integer> A: A(0) number of terms
 	 * 								 A(1) number of hidden terms
 	 * 								 A(2) number of association
-	 * @throws Exception
 	 */
 	
 	private static ArrayList<Integer> calculateTermsHiddenAssociationInOntology(Ontology ontology) {
@@ -499,7 +492,6 @@ public class ExperimentDocumenter
 	 * function will run recursively until it gets to all the leafs reachable from the term
 	 * Remark: We assume that a single entity in the graph has only one parent
 	 * @param t  an ontology term
-	 * @throws Exception
 	 */
 	
 	private static ArrayList <Integer> countTermsChildren(Term t) {
@@ -528,7 +520,6 @@ public class ExperimentDocumenter
 	/**
 	 * This method's returns the number of subclasses within an ontology
 	 * @param ontology to be processed
-	 * @throws Exception
 	 */
 	
 	private static int getNumberOfClasses(Ontology ontology) {
@@ -547,7 +538,6 @@ public class ExperimentDocumenter
 	 * This method's returns the number of subclasses from an OntologyClass
 	 * iterate recursively from the given OntologyClass to its subclasses until it reaches subclasses with no subclasses 
 	 * @param c an OntologyClass to be processed
-	 * @throws Exception
 	 */
 	private static int iterativeCountingOfClasses(OntologyClass c) 
 	{
@@ -568,7 +558,7 @@ public class ExperimentDocumenter
 	 */
 	public boolean checkIfSchemaPairWasMatched(int schemaPairId,Integer smid, boolean isXSD) {
 
-		String sql = "";
+		String sql;
 
 		if(isXSD) {
 			sql  = "SELECT `similaritymatricesXSD`.`confidence` FROM `schemamatching`.`schemapairs` INNER JOIN `schemamatching`.`similaritymatricesXSD` " +
@@ -582,20 +572,14 @@ public class ExperimentDocumenter
 		}
 		
 		ArrayList<String[]> schemaList = OBExperimentRunner.getOER().getDB().runSelectQuery(sql, 1);
-		if (!schemaList.isEmpty())
-				return true;
-		return false;
+		return !schemaList.isEmpty();
 	}
 
-
-	public long documentHolisticExperiment(String desc, ArrayList<Ontology> dataset) {
-		return this.documentExperiment(desc);
-	}
 
 	/**
 	 * Retrieves schema pair ID according to candidate and target IDs
-	 * @param candidateID
-	 * @param targetID
+	 * @param candidateID to lookup
+	 * @param targetID to lookup
 	 * @param allowReverse if true will return a pair were the candidate 
 	 * 		  and target are swapped if such a pair exists and if a pair 
 	 * 		  with the original order doesn't exist.    
