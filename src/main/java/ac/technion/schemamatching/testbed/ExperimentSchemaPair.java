@@ -178,7 +178,7 @@ static String getSchemaPath(String sql) throws FileNotFoundException {
 		try {
 			File schemaFile = new File(schemaFilePath);
 			if (dsEnum.isHasInstances()) {
-				String substring = schemaFilePath.substring(0, schemaFilePath.length() - 4);
+				final String substring = schemaFilePath.substring(0, schemaFilePath.length() - 4);
 				File instanceFile = new File(substring + ".xml");
 				if (!instanceFile.exists()) //try folder
 					instanceFile = new File(substring);

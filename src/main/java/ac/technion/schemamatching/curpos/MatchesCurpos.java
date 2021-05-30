@@ -2,7 +2,6 @@ package ac.technion.schemamatching.curpos;
 
 import java.io.Serializable;
 import java.util.AbstractMap;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Hashtable;
 import java.util.LinkedList;
@@ -18,7 +17,7 @@ public class MatchesCurpos implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 6274228571673909306L;
-	private Hashtable<CurposTerm, Hashtable<CurposTerm, TermMatchInfo>> innerCurpos;
+	private final Hashtable<CurposTerm, Hashtable<CurposTerm, TermMatchInfo>> innerCurpos;
 
 	public MatchesCurpos() {
 		innerCurpos = new Hashtable<>();
@@ -51,16 +50,12 @@ public class MatchesCurpos implements Serializable {
 	private Hashtable<CurposTerm, TermMatchInfo> getOrCreateNewTermEntry(
 			CurposTerm t) {
 		if (!innerCurpos.containsKey(t)) {
-			Hashtable<CurposTerm, TermMatchInfo> termCurp = new Hashtable<CurposTerm, TermMatchInfo>();
+			Hashtable<CurposTerm, TermMatchInfo> termCurp = new Hashtable<>();
 			termCurp.put(t, new TermMatchInfo(1.0, 1));
 			innerCurpos.put(t, termCurp);
 			return termCurp;
 		}
 		return innerCurpos.get(t);
-	}
-
-	public boolean Exsits(CurposTerm term) {
-		return innerCurpos.containsKey(term);
 	}
 
 	public double getLevelOfConfidence(CurposTerm term1, CurposTerm term2) {
@@ -101,10 +96,10 @@ public class MatchesCurpos implements Serializable {
 			for (Map.Entry<CurposTerm, TermMatchInfo> pair : termTable
 					.entrySet()) {
 				if (pair.getValue().confidence > threshold)
-					inversed.add(new AbstractMap.SimpleEntry<CurposTerm, Double>(
+					inversed.add(new AbstractMap.SimpleEntry<>(
 							pair.getKey(), pair.getValue().confidence));
 			}
-			Collections.sort(inversed, new EntryMaptFitnessComparator());
+			inversed.sort(new EntryMaptFitnessComparator());
 			while (inversed.size() > count)
 				inversed.remove(0);
 
@@ -115,7 +110,7 @@ public class MatchesCurpos implements Serializable {
 	}
 
 	public CurposTerm FindSimilarTerm(CurposTerm orig,
-			CurposTermSimilarityMeausre measurementUtil) {
+			CurposTermSimilarityMeasure measurementUtil) {
 		CurposTerm mostSim = null;
 		double maxSim = 0.0;
 		for (CurposTerm t1 : innerCurpos.keySet()) {
@@ -135,8 +130,7 @@ public class MatchesCurpos implements Serializable {
 		@Override
 		public int compare(Map.Entry<CurposTerm, Double> o1,
 				Map.Entry<CurposTerm, Double> o2) {
-			return (o1.getValue() > o2.getValue() ? 1 : (o1.getValue() == o2
-					.getValue() ? 0 : -1));
+			return (o1.getValue().compareTo(o2.getValue()));
 		}
 	}
 

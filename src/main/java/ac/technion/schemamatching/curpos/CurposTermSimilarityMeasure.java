@@ -1,6 +1,6 @@
 package ac.technion.schemamatching.curpos;
 
-public interface CurposTermSimilarityMeausre {
+public interface CurposTermSimilarityMeasure {
 	
 	/*
 	 * This method should measure similarity between two CurposTerm objects

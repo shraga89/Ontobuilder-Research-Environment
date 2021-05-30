@@ -17,7 +17,7 @@ import ac.technion.iem.ontobuilder.core.utils.StringUtilities;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 import ac.technion.schemamatching.curpos.CorpusDataManager;
 import ac.technion.schemamatching.curpos.CurposTerm;
-import ac.technion.schemamatching.curpos.CurposTermSimilarityMeausre;
+import ac.technion.schemamatching.curpos.CurposTermSimilarityMeasure;
 import ac.technion.schemamatching.curpos.MatchesCurpos;
 import ac.technion.schemamatching.curpos.MatchesCurpos.EntryMaptFitnessComparator;
 import ac.technion.schemamatching.matchers.MatcherType;
@@ -41,7 +41,7 @@ public class CurposAugmentFLM implements FirstLineMatcher {
 	private double threshold;
 	private int termsPullPerTerm;
 	// At some later point this should hold a smarter similarity measure, maybe even a leaner
-	private CurposTermSimilarityMeausre mainSimilarityMeasure = new NGramCurposTermNameSimilarity();
+	private CurposTermSimilarityMeasure mainSimilarityMeasure = new NGramCurposTermNameSimilarity();
 	// same as the other one but meant to use for the language model, 
 	// thought maybe we would use a test is there a match in corpus which the other wont have
 	private LmMetaCurposTermSimilarity mainLmSimilarityMeasure = new LmMetaCurposTermSimilarity();
@@ -184,7 +184,7 @@ public class CurposAugmentFLM implements FirstLineMatcher {
 		return 22;
 	}
 	
-	static public class NGramCurposTermNameSimilarity implements CurposTermSimilarityMeausre{
+	static public class NGramCurposTermNameSimilarity implements CurposTermSimilarityMeasure {
 
 		@Override
 		public double MeausreSimilarity(CurposTerm t1, CurposTerm t2) {
@@ -194,14 +194,14 @@ public class CurposAugmentFLM implements FirstLineMatcher {
 		}
 	}
 	
-	public class LmMetaCurposTermSimilarity implements CurposTermSimilarityMeausre{
+	public class LmMetaCurposTermSimilarity implements CurposTermSimilarityMeasure {
 
 		public LmMetaCurposTermSimilarity(){
-			simMeasures = new LinkedList<CurposTermSimilarityMeausre>();
+			simMeasures = new LinkedList<CurposTermSimilarityMeasure>();
 		}
 		
 		MatchesCurpos curpos;
-		List<CurposTermSimilarityMeausre> simMeasures;
+		List<CurposTermSimilarityMeasure> simMeasures;
 		
 		@Override
 		public double MeausreSimilarity(CurposTerm t1, CurposTerm t2) {

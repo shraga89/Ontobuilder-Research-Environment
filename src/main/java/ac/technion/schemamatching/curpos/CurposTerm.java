@@ -12,9 +12,6 @@ import ac.technion.iem.ontobuilder.core.ontology.Term;
  * A class to represent the terms in any curpos
  */
 public class CurposTerm implements Serializable {
-	/**
-	 * @Generated
-	 */
 	private static final long serialVersionUID = 723831891876813304L;
 
 	public CurposTerm(Term term){
@@ -51,11 +48,8 @@ public class CurposTerm implements Serializable {
 			return false;
 		CurposTerm other = (CurposTerm) obj;
 		if (name == null) {
-			if (other.name != null)
-				return false;
-		} else if (!name.equals(other.name))
-			return false;
-		return true;
+			return other.name == null;
+		} else return name.equals(other.name);
 	}
 
 	
