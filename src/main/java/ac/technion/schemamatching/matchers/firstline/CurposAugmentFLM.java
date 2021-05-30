@@ -3,7 +3,6 @@ package ac.technion.schemamatching.matchers.firstline;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.List;
@@ -24,12 +23,6 @@ import ac.technion.schemamatching.matchers.MatcherType;
 import ac.technion.schemamatching.testbed.OREDataSetEnum;
 
 public class CurposAugmentFLM implements FirstLineMatcher {
-
-	public CurposAugmentFLM(){
-		dsType = OREDataSetEnum.getByDbid(1);
-		threshold = 0.7;
-		termsPullPerTerm = 5;
-	}
 	
 	public CurposAugmentFLM(OREDataSetEnum dsType, double threshold, int termsPullPerTerm){
 		this.dsType = dsType;
@@ -37,14 +30,14 @@ public class CurposAugmentFLM implements FirstLineMatcher {
 		this.termsPullPerTerm =termsPullPerTerm;
 	}
 	
-	private OREDataSetEnum dsType;
-	private double threshold;
-	private int termsPullPerTerm;
+	private final OREDataSetEnum dsType;
+	private final double threshold;
+	private final int termsPullPerTerm;
 	// At some later point this should hold a smarter similarity measure, maybe even a leaner
-	private CurposTermSimilarityMeasure mainSimilarityMeasure = new NGramCurposTermNameSimilarity();
+	private final CurposTermSimilarityMeasure mainSimilarityMeasure = new NGramCurposTermNameSimilarity();
 	// same as the other one but meant to use for the language model, 
 	// thought maybe we would use a test is there a match in corpus which the other wont have
-	private LmMetaCurposTermSimilarity mainLmSimilarityMeasure = new LmMetaCurposTermSimilarity();
+	private final LmMetaCurposTermSimilarity mainLmSimilarityMeasure = new LmMetaCurposTermSimilarity();
 	
 	@Override
 	public String getName() {
@@ -92,9 +85,8 @@ public class CurposAugmentFLM implements FirstLineMatcher {
 		// Calculate Average
 		for (SimilarityResults curr:simResults)
 			sum += (curr.simResult * curr.targConfidence * curr.candConfidence);
-		
-		double avg = sum/(simResults.size());
-		return avg;
+
+		return sum/(simResults.size());
 	}
 
 	private void getMaxSimResults(Hashtable<CurposTerm, Double> modelInQuery,
@@ -154,12 +146,12 @@ public class CurposAugmentFLM implements FirstLineMatcher {
 				if 	((!termMap.containsKey(augmentCandidate.getKey())) && 
 					(!additionsPossibleKeys.contains(augmentCandidate.getKey())) && 
 				 	(augmentCandidate.getValue() * entry.getValue() > threshold)){
-					additionsPossible.add(new AbstractMap.SimpleEntry<CurposTerm, Double>(augmentCandidate.getKey(), augmentCandidate.getValue() * entry.getValue()));
+					additionsPossible.add(new AbstractMap.SimpleEntry<>(augmentCandidate.getKey(), augmentCandidate.getValue() * entry.getValue()));
 					additionsPossibleKeys.add(augmentCandidate.getKey());
 				}
 			}
 		}
-		Collections.sort(additionsPossible, new EntryMaptFitnessComparator());
+		additionsPossible.sort(new EntryMaptFitnessComparator());
 		while (additionsPossible.size() > 0 && termMap.size() < termsPullPerTerm){
 			int lastI = additionsPossible.size() -1;
 			Entry<CurposTerm, Double> e = additionsPossible.remove(lastI);
@@ -170,8 +162,7 @@ public class CurposAugmentFLM implements FirstLineMatcher {
 
 	@Override
 	public String getConfig() {
-		String config = "default";
-		return config;
+		return "default";
 	}
 
 	@Override
@@ -197,7 +188,7 @@ public class CurposAugmentFLM implements FirstLineMatcher {
 	public class LmMetaCurposTermSimilarity implements CurposTermSimilarityMeasure {
 
 		public LmMetaCurposTermSimilarity(){
-			simMeasures = new LinkedList<CurposTermSimilarityMeasure>();
+			simMeasures = new LinkedList<>();
 		}
 		
 		MatchesCurpos curpos;
