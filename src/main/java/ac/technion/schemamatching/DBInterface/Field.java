@@ -14,7 +14,7 @@ public class Field {
         return "Field [name=" + this.name + ", type=" + this.type + "]";
     }
 
-    public static enum FieldType {
+    public enum FieldType {
         BOOLEAN,
         BYTE,
         SHORT,
@@ -28,7 +28,7 @@ public class Field {
         TIME,
         FILE;
 
-        private FieldType() {
+        FieldType() {
         }
     }
 }

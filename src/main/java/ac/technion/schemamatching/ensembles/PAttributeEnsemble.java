@@ -1,6 +1,3 @@
-/**
- * 
- */
 package ac.technion.schemamatching.ensembles;
 
 import java.util.ArrayList;
@@ -21,9 +18,8 @@ import ac.technion.schemamatching.util.ConversionUtils;
  */
 public class PAttributeEnsemble implements Ensemble {
 
-	private String name = "Predictor Weighted Attribute Ensemble";
-	Map<String, MatchInformation> matches = new HashMap<String, MatchInformation>();
-	Map<String, Double> predictorWeights = new HashMap<String, Double>();
+	Map<String, MatchInformation> matches = new HashMap<>();
+	Map<String, Double> predictorWeights = new HashMap<>();
 	MatchInformation res;
 	
 	/* (non-Javadoc)
@@ -48,18 +44,18 @@ public class PAttributeEnsemble implements Ensemble {
 	 * @param useWeights if true will count each vote as the corresponding matcher's weight. otherwise will count each vote as 1. 
 	 */
 	private void vote(double minVote,boolean useWeights) {
-		HashMap<Match,Double> matchVotes = new HashMap<Match,Double>();
+		HashMap<Match,Double> matchVotes = new HashMap<>();
 		for (String mName : matches.keySet())
 		{
 			MatchInformation mi = matches.get(mName);
 			for (Match m : mi.getCopyOfMatches())
 			{
-				Double vote = (matchVotes.containsKey(m)?matchVotes.get(m):0.0);
+				Double vote = (matchVotes.getOrDefault(m, 0.0));
 				vote+=(useWeights?predictorWeights.get(mName):1.0);
 				matchVotes.put(m, vote);
 			}
 		}
-		ArrayList<Match> voted = new ArrayList<Match>(); 
+		ArrayList<Match> voted = new ArrayList<>();
 		for (Match m : matchVotes.keySet())
 		{
 			if (matchVotes.get(m) >= minVote)
@@ -85,7 +81,7 @@ public class PAttributeEnsemble implements Ensemble {
 	 */
 	public MatchInformation getWeightedMatch() {
 		//Prepare match list
-		HashMap<Match,Double> matchVotes = new HashMap<Match,Double>();
+		HashMap<Match,Double> matchVotes = new HashMap<>();
 		for (String mName : matches.keySet())
 		{
 			MatchInformation mi = matches.get(mName);
@@ -98,7 +94,7 @@ public class PAttributeEnsemble implements Ensemble {
 				matchVotes.put(m, vote);
 			}
 		}
-		ArrayList<Match> voted = new ArrayList<Match>(); 
+		ArrayList<Match> voted = new ArrayList<>();
 		for (Match m : matchVotes.keySet())
 		{
 			Match v = new Match(m.getTargetTerm(),m.getCandidateTerm(),matchVotes.get(m));
@@ -126,8 +122,8 @@ public class PAttributeEnsemble implements Ensemble {
 
 	/**
 	 * Predicts the match using all predictors and predictorWeights over the corresponding matrix row and column. Averages the result
-	 * @param m
-	 * @return
+	 * @param m match to predict
+	 * @return prediction value
 	 */
 	private double predict(Match m,MatchMatrix mm) 
 	{
@@ -189,7 +185,7 @@ public class PAttributeEnsemble implements Ensemble {
 	 * @see ac.technion.schemamatching.ensembles.Ensemble#getName()
 	 */
 	public String getName() {
-		return name;
+		return "Predictor Weighted Attribute Ensemble";
 	}
 
 }
