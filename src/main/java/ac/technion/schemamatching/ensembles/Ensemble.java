@@ -3,14 +3,14 @@ package ac.technion.schemamatching.ensembles;
 import java.util.Map;
 
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
+import ac.technion.schemamatching.matchers.secondline.SecondLineMatcher;
 
 /**
  * @author Tomer Sagi
  * Interface class for schema matching ensemble methods
  *
  */
-public interface Ensemble 
-{
+public interface Ensemble{
 	/**
 	 * Assumes only consensus matches are relevant. 
 	 * Match list is intersection of matcher results. Score is 1
