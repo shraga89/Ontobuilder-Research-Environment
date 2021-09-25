@@ -18,6 +18,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.soap.Node;
 
+import opennlp.tools.stemmer.PorterStemmer;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
@@ -35,7 +36,6 @@ import ac.technion.iem.ontobuilder.core.ontology.Term;
 import ac.technion.iem.ontobuilder.matching.match.Match;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 import ac.technion.schemamatching.matchers.MatcherType;
-import edu.cmu.lti.ws4j.util.PorterStemmer;
 
 public class InstanceBasedBayesianMatcher implements FirstLineMatcher {
 
@@ -180,12 +180,12 @@ class InstanceBasedBayesMatcher{
 	public ArrayList<Match> calculateProbabilities(){
 		LearningIndexMaker learningIndex = learnTarget();
 		CandidateIndexCreator candidateIndex =createCandidateBagOfWords();
-		ArrayList<Match> matches = new ArrayList<Match>();
+		ArrayList<Match> matches = new ArrayList<>();
 		for (Term candidateTerm : candidateTerms){
 			boolean emptyFlag =false;
 			String candidateTermName = candidateTerm.getName();
 			Term  candidateParent = candidateTerm.getParent();
-			ArrayList<String> bagOfWords =new ArrayList<String>();
+			ArrayList<String> bagOfWords = new ArrayList<>();
 			if (candidateParent!=null){
 				String candidateParentTermName = candidateParent.getName();
 				bagOfWords = candidateIndex.getIndex().get(candidateParentTermName+delimiter+candidateTermName);
@@ -267,23 +267,23 @@ class InstanceBasedBayesMatcher{
  *class that is responsible on learning the target onthology
  */
 class LearningIndexMaker{
-	private HashSet<String> visitedTermSet;
-	private File instance;
-	private HashMap<String,Integer> totalNumberOfWordsPerTerm;
-	private HashMap<String,Integer> termCount;
-	private HashMap<String,HashMap<String,Integer>> index;
+	private final HashSet<String> visitedTermSet;
+	private final File instance;
+	private final HashMap<String,Integer> totalNumberOfWordsPerTerm;
+	private final HashMap<String,Integer> termCount;
+	private final HashMap<String,HashMap<String,Integer>> index;
 	private int totalTermCount ;
-	private HashSet<String> lexicon = new HashSet<String>();
-	private int factor;
-	private Vector<Term> targetTerms;
-	private String delimiter;
+	private final HashSet<String> lexicon = new HashSet<>();
+	private final int factor;
+	private final Vector<Term> targetTerms;
+	private final String delimiter;
 	public LearningIndexMaker(File file,int factor,Vector<Term> targetTerms,String delimiter){
 		instance = file;
-		totalNumberOfWordsPerTerm = new HashMap<String, Integer>();
-		termCount = new HashMap<String, Integer>();
-		index =new HashMap<String, HashMap<String,Integer>>();
+		totalNumberOfWordsPerTerm = new HashMap<>();
+		termCount = new HashMap<>();
+		index = new HashMap<>();
 		totalTermCount = 0;
-		visitedTermSet = new HashSet<String>();
+		visitedTermSet = new HashSet<>();
 		this.factor = factor;
 		this.targetTerms = targetTerms;
 		this.delimiter=delimiter;
@@ -294,7 +294,7 @@ class LearningIndexMaker{
 	 * @return
 	 */
 	private HashSet<String> getLeafs(){
-		HashSet<String> leafs = new HashSet<String>();
+		HashSet<String> leafs = new HashSet<>();
 		for (Term term:targetTerms){
 			term.getTerms();
 			if (term.getAllChildren().isEmpty()){
@@ -371,34 +371,24 @@ class LearningIndexMaker{
 		if (termValue == null||termValue.isEmpty()||termValue.equals("")){
 			return;
 		}
-		ArrayList<String> values = new ArrayList<String>();
+		ArrayList<String> values = new ArrayList<>();
 		values = (ArrayList<String>) normalizer.normalize(termValue,termId);
 		if (!values.isEmpty()){
-			if (termCount.get(termId)==null){
-				termCount.put(termId,0);
-			}
+			termCount.putIfAbsent(termId, 0);
 			termCount.put(termId, termCount.get(termId)+1);
 			totalTermCount++;
-			if (totalNumberOfWordsPerTerm.get(termId)==null){
-				totalNumberOfWordsPerTerm.put(termId, 0);
-			}
-			if (index.get(termId)==null){
-				index.put(termId,new HashMap<String,Integer>());
-			}
+			totalNumberOfWordsPerTerm.putIfAbsent(termId, 0);
+			index.computeIfAbsent(termId, k -> new HashMap<>());
 			for (String word:values){
 				word = word.toLowerCase();
-				if (index.get(termId).get(word) == null){
-					index.get(termId).put(word,0);	
-				}
+				index.get(termId).putIfAbsent(word, 0);
 				index.get(termId).put(word, index.get(termId).get(word)+1);
 				totalNumberOfWordsPerTerm.put(termId,totalNumberOfWordsPerTerm.get(termId)+1);
 				lexicon.add(word);
 			}
 			if (!isWebRetrieval&&!visitedTermSet.contains(termId)){
-				String normalizedNodeName = normalizer.getStemmer().stemWord(termId.split(delimiter)[1].toLowerCase());
-				if (index.get(termId).get(normalizedNodeName)==null){
-					index.get(termId).put(normalizedNodeName,0);
-				}
+				String normalizedNodeName = normalizer.getStemmer().stem(termId.split(delimiter)[1].toLowerCase());
+				index.get(termId).putIfAbsent(normalizedNodeName, 0);
 				int oldValue =index.get(termId).get(normalizedNodeName);
 				int newValue = (oldValue+1)*factor; 
 				int delta = newValue - oldValue;
@@ -448,7 +438,7 @@ class LearningIndexMaker{
  *it starts with tokenization then removes stop words and finally uses porter stammer for stemming 
  */
 class Normalizer{
-	private PorterStemmer stemmer;
+	private final PorterStemmer stemmer;
 	
 	
 
@@ -463,12 +453,12 @@ class Normalizer{
 	
 	public List<String>  normalize(String content,String nodeName){
 		TokenCreator tokenizer = new TokenCreator();
-		List<String> tokens = new ArrayList<String>();
-		List<String> result = new ArrayList<String>();
+		List<String> tokens = new ArrayList<>();
+		List<String> result = new ArrayList<>();
 		result = tokenizer.parseKeywords(nodeName, content);
 		for (String word:result){
 			try{
-				tokens.add(stemmer.stemWord(word));
+				tokens.add(stemmer.stem(word));
 			}catch (Throwable e){
 				tokens.add(word);
 			}
@@ -486,14 +476,14 @@ class Normalizer{
  */
 class TokenCreator {
 	
-	private  Analyzer analyzer;
+	private final Analyzer analyzer;
 	
 	public TokenCreator(){
 		 analyzer = new StandardAnalyzer(Version.LUCENE_20);
 	}
 
     public  List<String> parseKeywords( String field, String keywords) {
-        List<String> result = new ArrayList<String>();
+        List<String> result = new ArrayList<>();
         TokenStream stream  = analyzer.tokenStream(field, new StringReader(keywords));
 
         try {
@@ -513,17 +503,17 @@ class TokenCreator {
  *this class creates a lexicon for each term in the candidate onthology
  */
 class CandidateIndexCreator{
-	private HashSet<String> visitedTermSet;
-	private File instance;
-	private HashMap<String,ArrayList<String>> index;
-	private Vector<Term> candidateTerms;
-	private String delimiter;
+	private final HashSet<String> visitedTermSet;
+	private final File instance;
+	private final HashMap<String,ArrayList<String>> index;
+	private final Vector<Term> candidateTerms;
+	private final String delimiter;
 	public CandidateIndexCreator(File file,Vector<Term> candidateTerms, String delimiter){
-		this.index = new HashMap<String, ArrayList<String>>();
+		this.index = new HashMap<>();
 		this.instance = file; 
 		this.candidateTerms = candidateTerms;
 		this.delimiter = delimiter;
-		this.visitedTermSet = new HashSet<String>();
+		this.visitedTermSet = new HashSet<>();
 	}
 	
 	/**
@@ -531,7 +521,7 @@ class CandidateIndexCreator{
 	 * @return
 	 */
 	private HashSet<String> getLeafs(){
-		HashSet<String> leafs = new HashSet<String>();
+		HashSet<String> leafs = new HashSet<>();
 		for (Term term:candidateTerms){
 			if (term.getAllChildren().isEmpty()){
 				Term parentTerm = term.getParent();
@@ -575,7 +565,6 @@ class CandidateIndexCreator{
 				}
 				if(nodeList.item(i).getFirstChild()==null || 
 						nodeList.item(i).getFirstChild().getNodeType() != Node.TEXT_NODE||!candidateLeafs.contains(termId)){
-					continue;
 				}
 				else{
 					String termValue = nodeList.item(i).getFirstChild().getNodeValue();
@@ -584,28 +573,24 @@ class CandidateIndexCreator{
 						for (URL link:links){
 							System.out.println("working on candidate link "+link);
 							String textValueOfHTML = webTextRetriever.getTextOfHTML(link);
-							ArrayList<String> tokens = new ArrayList<String>(normalizer.normalize(textValueOfHTML, termId));
-							if (index.get(termId)==null){
-								index.put(termId, new ArrayList<String>());
-							}
+							ArrayList<String> tokens = new ArrayList<>(normalizer.normalize(textValueOfHTML, termId));
+							index.computeIfAbsent(termId, k -> new ArrayList<>());
 							for (String word:tokens){
 								word = word.toLowerCase();
 								index.get(termId).add(word);
 							}
-							termValue.replaceAll(link.toString(),"");
+							termValue = termValue.replaceAll(link.toString(),"");
 						}
 					}
 					if (termId!=null && termValue!=null && !termValue.equals("")){
 						ArrayList<String> values = (ArrayList<String>) normalizer.normalize(termValue,termId);
-						if (index.get(termId)==null){
-							index.put(termId, new ArrayList<String>());
-						}
+						index.computeIfAbsent(termId, k -> new ArrayList<>());
 						for (String word : values){
 							word = word.toLowerCase();
 							index.get(termId).add(word);
 						}
 						if (!index.get(termId).isEmpty()&&!visitedTermSet.contains(termId)){
-							index.get(termId).add(normalizer.getStemmer().stemWord(termId.split(delimiter)[1].toLowerCase()));
+							index.get(termId).add(normalizer.getStemmer().stem(termId.split(delimiter)[1].toLowerCase()));
 							visitedTermSet.add(termId);
 						}
 					}
@@ -635,7 +620,7 @@ class WebTextRetriever{
 	 * @return
 	 */
 	public ArrayList<URL> getLinks(String content){
-		ArrayList<URL> links = new ArrayList<URL>();
+		ArrayList<URL> links = new ArrayList<>();
 		String regex = "\\(?\\b(http://|www[.])[-A-Za-z0-9+&amp;@#/%?=~_()|!:,.;]*[-A-Za-z0-9+&amp;@#/%=~_()|]";
 		Pattern p = Pattern.compile(regex);
 		Matcher m = p.matcher(content);
@@ -675,14 +660,13 @@ class WebTextRetriever{
 	/**
 	 * getTextOfHTML creates an HTTP GET request for a specific URL and return its text content as string
 	 * uses jsoup api for this mission
-	 * @param url
-	 * @return
+	 * @param url to convert to text
+	 * @return text representation of url
 	 */
 	public String getTextOfHTML(URL url){
 		try {
 			org.jsoup.nodes.Document doc = Jsoup.connect(url.toString()).get();
-			String text = doc.body().text();
-			return text;
+			return doc.body().text();
 			
 		}catch (Throwable e){
 			System.out.println("problem with parsing URL "+url);

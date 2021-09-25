@@ -1,6 +1,3 @@
-/**
- * 
- */
 package ac.technion.schemamatching.matchers.firstline;
 
 import java.util.HashMap;
@@ -29,7 +26,7 @@ public class OBTermValueMatch implements FirstLineMatcher {
 	/**
 	 * Parameterized constructor, edits algorithm.xml file and sets the relevant parameters
 	 * Value weight = 1 - Term Weight
-	 * @param nGramWeight
+	 * @param termWeight
 	 */
 	public OBTermValueMatch(double termWeight)
 	{

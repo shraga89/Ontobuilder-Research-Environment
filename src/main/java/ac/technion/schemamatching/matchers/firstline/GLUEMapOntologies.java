@@ -4,7 +4,7 @@ import ac.technion.iem.ontobuilder.core.ontology.Ontology;
 import ac.technion.iem.ontobuilder.core.ontology.Term;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 import ac.technion.schemamatching.matchers.MatcherType;
-import edu.cmu.lti.ws4j.util.PorterStemmer;
+import opennlp.tools.stemmer.PorterStemmer;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
@@ -57,10 +57,10 @@ public class GLUEMapOntologies implements FirstLineMatcher {
 		    similarity = matcher.GLUEAlgorithm();
 		}
 		for (Term A: candidateTerms){
-			Double maxEff = (double) 0;
+			double maxEff = 0;
 			String maxB = "";
 			for (Term B: targetTerms){
-				HashMap <Term,Term> pairTerm= new HashMap<Term, Term>();
+				HashMap <Term,Term> pairTerm= new HashMap<>();
 				pairTerm.put(A, B);
 				Double eff = similarity.get(pairTerm);
 				if (eff == null){
@@ -76,7 +76,7 @@ public class GLUEMapOntologies implements FirstLineMatcher {
 				}
 
 			}
-			System.out.println("A = " + A.getName() + " B = "+ maxB + " sim = " + maxEff.toString());
+			System.out.println("A = " + A.getName() + " B = "+ maxB + " sim = " + Double.toString(maxEff));
 //			System.out.println(result.getCopyOfMatches());
 			maxEff = (double)0;
 			maxB = "";
@@ -110,10 +110,10 @@ public class GLUEMapOntologies implements FirstLineMatcher {
 	 * @return similarity matrix for each pair of terms 
 	 */
 	public HashMap<HashMap<Term, Term>, Double> metaLearner(HashMap<HashMap<Term, Term>, Double> similarityName, HashMap<HashMap<Term, Term>, Double> similarityContent, Vector<Term> candidateTerms, Vector<Term> targetTerms){
-		HashMap<HashMap<Term, Term>, Double> result = new HashMap<HashMap<Term, Term>, Double>(); 
+		HashMap<HashMap<Term, Term>, Double> result = new HashMap<>();
 		for (Term A: candidateTerms){
 			for (Term B: targetTerms){
-				HashMap <Term,Term> pairTerm= new HashMap<Term,Term>();
+				HashMap <Term,Term> pairTerm= new HashMap<>();
 				pairTerm.put(A, B);
 				Double effName = similarityName.get(pairTerm);
 				Double effContent = similarityContent.get(pairTerm);
@@ -151,7 +151,7 @@ class GLUEMatcher{
 		this.candidateFile = candidateFile;
 		this.candidateTerms = cTerms;
 		this.targetTerms= tTerms;
-		this.countInstancesPerTerm = new HashMap<String, Double>();
+		this.countInstancesPerTerm = new HashMap<>();
 		this.learnerFlag = learnerFlag;
 		this.o1=o1;
 		this.o2=o2;
@@ -191,14 +191,14 @@ class GLUEMatcher{
 	 */
 	public  HashMap<HashMap<Term, Term>, Double> GLUEAlgorithm(){	
 		createMatchers();
-		HashMap<String,ArrayList<ArrayList<String>>> bagFullO1 = new HashMap<String,ArrayList<ArrayList<String>>> ();
-		HashMap<String,ArrayList<ArrayList<String>>> bagFullO2 = new HashMap<String,ArrayList<ArrayList<String>>> ();
+		HashMap<String,ArrayList<ArrayList<String>>> bagFullO1 = new HashMap<>();
+		HashMap<String,ArrayList<ArrayList<String>>> bagFullO2 = new HashMap<>();
 		BayesLearner learnerO1O2;
 		BayesLearner learnerO2O1;
-		HashMap<String,Double> counterO1 = new HashMap<String,Double>();
-		HashMap<String,Double> counterO2 = new HashMap<String,Double>();
-		HashMap<String,ArrayList<String>> bagWordsO1 = new HashMap<String,ArrayList<String>>();
-		HashMap<String,ArrayList<String>> bagWordsO2 = new HashMap<String,ArrayList<String>>();
+		HashMap<String,Double> counterO1 = new HashMap<>();
+		HashMap<String,Double> counterO2 = new HashMap<>();
+		HashMap<String,ArrayList<String>> bagWordsO1 = new HashMap<>();
+		HashMap<String,ArrayList<String>> bagWordsO2 = new HashMap<>();
 		Double sumO1;
 		Double sumO2;
 		if (learnerFlag == 0){
@@ -228,10 +228,10 @@ class GLUEMatcher{
 
 		}
 		Integer sizeO1O2 = GetO1O2BagWordsSize(bagWordsO1, bagWordsO2);
-		HashMap<String, Double> ProbAB= new HashMap<String, Double>();
-		HashMap<String, Double> ProbAnotB=new HashMap<String, Double>();
-		HashMap<String, Double> ProbNotAB=new HashMap<String, Double>();
-		HashMap<String, Double> ProbNotAnotB=new HashMap<String, Double>();
+		HashMap<String, Double> ProbAB= new HashMap<>();
+		HashMap<String, Double> ProbAnotB= new HashMap<>();
+		HashMap<String, Double> ProbNotAB= new HashMap<>();
+		HashMap<String, Double> ProbNotAnotB= new HashMap<>();
 		for (String A :bagFullO1.keySet()){
 			for (String B : bagFullO2.keySet()){
 				Double counterABFromO2=(double) 0;
@@ -291,7 +291,7 @@ class GLUEMatcher{
 				ProbNotAnotB.put(A.concat(B), calculateProb(counterNotAnotBFromO1,counterNotAnotBFromO2, countNumInstances(counterO1)-counterO1.get(A),countNumInstances(counterO2)-counterO2.get(B)));
 			}
 		}
-		HashMap<HashMap<Term, Term>, Double> sim = new HashMap<HashMap<Term, Term>, Double>();
+		HashMap<HashMap<Term, Term>, Double> sim = new HashMap<>();
 		Term tA;
 		Term tB;
 		for (String A :bagFullO1.keySet()){
@@ -302,7 +302,7 @@ class GLUEMatcher{
 				String[] arrayB = B.split("[@]");
 				String Bname = arrayB[arrayB.length-1];
 				tB = o2.findTerm(Bname);
-				HashMap <Term, Term> pairTerm = new HashMap<Term, Term>();
+				HashMap <Term, Term> pairTerm = new HashMap<>();
 				pairTerm.put(tA, tB);
 				double res = calculateSimilarity(ProbAB,ProbNotAB,ProbAnotB,ProbNotAnotB, A, B);
 				sim.put(pairTerm, res);
@@ -357,15 +357,13 @@ class GLUEMatcher{
 	 * @return list of instances that don't belong to B
 	 */	
 	private ArrayList<ArrayList<String>> separateBnotB(HashMap<String,ArrayList<ArrayList<String>>> bagFull,String B ){
-		ArrayList<ArrayList<String>> allItemsNotB = new ArrayList<ArrayList<String>>();
+		ArrayList<ArrayList<String>> allItemsNotB = new ArrayList<>();
 		for (String term: bagFull.keySet()){
 			if (term.equals(B)){
 				continue;
 			}
 			else {
-				for (ArrayList<String> instance: bagFull.get(term)){
-					allItemsNotB.add(instance);
-				}
+				allItemsNotB.addAll(bagFull.get(term));
 			}
 		}
 		return allItemsNotB;
@@ -378,18 +376,14 @@ class GLUEMatcher{
 	 * @return the total number of words
 	 */	
 	private Integer GetO1O2BagWordsSize(HashMap<String,ArrayList<String>> bagO1, HashMap<String,ArrayList<String>> bagO2){
-		Set<String> bagO1O2 = new HashSet<String>();
+		Set<String> bagO1O2 = new HashSet<>();
 		for (String key: bagO1.keySet()){
 			ArrayList<String> value= bagO1.get(key);
-			for (String word : value){
-				bagO1O2.add(word);
-			}		
+			bagO1O2.addAll(value);
 		}
 		for (String key: bagO2.keySet()){
 			ArrayList<String> value= bagO2.get(key);
-			for (String word : value){
-				bagO1O2.add(word);
-			}
+			bagO1O2.addAll(value);
 		}
 		return bagO1O2.size();
 	}
@@ -398,12 +392,12 @@ class GLUEMatcher{
 	 * the class in charge of the name algorithm 
 	 */		
 class NameTermMatcher{
-	private Vector<Term> terms;
-	private String delimiter;
-	private File instance;
-	private HashMap<String,ArrayList<String>> termNameBag=new HashMap<String,ArrayList<String>>();
-	private HashMap<String,Double> termNameCounter = new HashMap<String,Double>();
-	private HashMap<String,ArrayList<ArrayList<String>>> termFullName = new HashMap<String,ArrayList<ArrayList<String>>>();
+	private final Vector<Term> terms;
+	private final String delimiter;
+	private final File instance;
+	private final HashMap<String,ArrayList<String>> termNameBag= new HashMap<>();
+	private final HashMap<String,Double> termNameCounter = new HashMap<>();
+	private final HashMap<String,ArrayList<ArrayList<String>>> termFullName = new HashMap<>();
 	public NameTermMatcher(File file, Vector<Term> terms, String delimiter){
 		this.terms=terms;
 		this.delimiter=delimiter;
@@ -425,7 +419,7 @@ class NameTermMatcher{
 	 * returns two upper levels from the leaves
 	 */	
 	private HashSet<String> getLeafsGrandParent(){
-		HashSet<String> leafs = new HashSet<String>();
+		HashSet<String> leafs = new HashSet<>();
 		for (Term term:terms){
 			if (term.getAllChildren().isEmpty()){
 				Term parentTerm = term.getParent();
@@ -456,12 +450,12 @@ class NameTermMatcher{
 		HashSet<String> leafs = getLeafsGrandParent();
 		for (String leaf: leafs){
 			String[] bagLeafFull=leaf.split("[@, ,_,-]");
-			ArrayList<String> bagLeafFullArrayList = new ArrayList<String>(Arrays.asList(bagLeafFull));
-			ArrayList<ArrayList<String>> bagLeafFullArrayArrayList= new ArrayList<ArrayList<String>>();
+			ArrayList<String> bagLeafFullArrayList = new ArrayList<>(Arrays.asList(bagLeafFull));
+			ArrayList<ArrayList<String>> bagLeafFullArrayArrayList= new ArrayList<>();
 			bagLeafFullArrayArrayList.add(bagLeafFullArrayList);
 			termFullName.put(leaf, bagLeafFullArrayArrayList);
 			String[] bagLeaf= leaf.split("[@, ,_,-]");
-			ArrayList<String> bagLeafArrayList = new ArrayList<String>(Arrays.asList(bagLeaf));
+			ArrayList<String> bagLeafArrayList = new ArrayList<>(Arrays.asList(bagLeaf));
 			termNameBag.put(leaf, bagLeafArrayList);
 			termNameCounter.put(leaf, (double) 3);
 		} 
@@ -471,21 +465,21 @@ class NameTermMatcher{
  * the class in charge of the content algorithm 
  */	
 class ContentTermMatcher{
-	private HashSet<String> visitedTermSet;
-	private File instance;
-	private HashMap<String,ArrayList<String>> termInstanceBag;
-	private Vector<Term> terms;
-	private String delimiter;
-	private HashMap<String,Double> termInstanceCounter;
-	private HashMap<String,ArrayList<ArrayList<String>>> termFullInstance;
+	private final HashSet<String> visitedTermSet;
+	private final File instance;
+	private final HashMap<String,ArrayList<String>> termInstanceBag;
+	private final Vector<Term> terms;
+	private final String delimiter;
+	private final HashMap<String,Double> termInstanceCounter;
+	private final HashMap<String,ArrayList<ArrayList<String>>> termFullInstance;
 	public ContentTermMatcher(File file,Vector<Term> terms, String delimiter){
-		this.termInstanceBag = new HashMap<String, ArrayList<String>>();
+		this.termInstanceBag = new HashMap<>();
 		this.instance = file; 
 		this.terms = terms;
 		this.delimiter = delimiter;
-		this.visitedTermSet = new HashSet<String>();
-	    this.termInstanceCounter = new HashMap<String,Double>();
-	    this.termFullInstance= new HashMap<String,ArrayList<ArrayList<String>>>();
+		this.visitedTermSet = new HashSet<>();
+	    this.termInstanceCounter = new HashMap<>();
+	    this.termFullInstance= new HashMap<>();
 	}
 	
 	public HashMap<String, ArrayList<String>> GetTermInstanceBag(){
@@ -503,7 +497,7 @@ class ContentTermMatcher{
 	 * returns one upper level from the leaf
 	 */	
 	private HashSet<String> getLeafsParent(){
-		HashSet<String> leafs = new HashSet<String>();
+		HashSet<String> leafs = new HashSet<>();
 		for (Term term:terms){
 			if (term.getAllChildren().isEmpty()){
 				Term parentTerm = term.getParent();
@@ -567,7 +561,7 @@ class ContentTermMatcher{
 						ArrayList<String> values = (ArrayList<String>) tokenCreator.createTokens(termValue,termId);
 						Double oldCount =  termInstanceCounter.get(termId);
 						termInstanceCounter.put(termId, oldCount+1);
-						ArrayList<ArrayList<String>> oldValue = new ArrayList<ArrayList<String>>();
+						ArrayList<ArrayList<String>> oldValue = new ArrayList<>();
 						if (termFullInstance.get(termId)!=null){
 							oldValue = termFullInstance.get(termId);
 							oldValue.add(values);
@@ -577,16 +571,14 @@ class ContentTermMatcher{
 							oldValue.add(values);
 							termFullInstance.put(termId, oldValue);
 						}
-						
-						if (termInstanceBag.get(termId)==null){
-							termInstanceBag.put(termId, new ArrayList<String>());
-						}
+
+						termInstanceBag.computeIfAbsent(termId, k -> new ArrayList<>());
 						for (String word : values){
 							word = word.toLowerCase();
 							termInstanceBag.get(termId).add(word);
 						}
 						if (!termInstanceBag.get(termId).isEmpty()&&!visitedTermSet.contains(termId)){
-							termInstanceBag.get(termId).add(tokenCreator.getStemmer().stemWord(termId.split(delimiter)[1].toLowerCase()));
+							termInstanceBag.get(termId).add(tokenCreator.getStemmer().stem(termId.split(delimiter)[1].toLowerCase()));
 							visitedTermSet.add(termId);
 						}
 					}
@@ -615,10 +607,10 @@ private HashMap<String,ArrayList<String>> copyMyMap(HashMap<String,ArrayList<Str
  */
 private HashMap<String, HashMap<String, Double>> createHistogramForEachA(HashMap<String,ArrayList<String>> o1)
 {
-	HashMap<String, HashMap<String, Double>> histogramForEachA = new HashMap<String, HashMap<String, Double>> ();
+	HashMap<String, HashMap<String, Double>> histogramForEachA = new HashMap<>();
 	for(String A: o1.keySet())
 	{
-		HashMap<String, Double> Ahistogram = new HashMap<String, Double>();
+		HashMap<String, Double> Ahistogram = new HashMap<>();
 		for(String wordInA:o1.get(A))
 		{
 			Double wordInACounter = Ahistogram.get(wordInA);
@@ -641,11 +633,11 @@ private HashMap<String, HashMap<String, Double>> createHistogramForEachA(HashMap
  * the class which implements the bayes learner for all the algorithms
  */	
 class BayesLearner {
-	private HashMap<String,ArrayList<String>> o1;
-	private HashMap<String,Double> termInstanceCounter;
+	private final HashMap<String,ArrayList<String>> o1;
+	private final HashMap<String,Double> termInstanceCounter;
 	private Double sum;
-	private Integer learnerFlag;
-	private HashMap<String, HashMap<String, Double>> histogramForEachA;
+	private final Integer learnerFlag;
+	private final HashMap<String, HashMap<String, Double>> histogramForEachA;
 	public BayesLearner(HashMap<String,ArrayList<String>> o1, HashMap<String,Double> counter, Double sum,Integer flag){
 		
 		this.o1=copyMyMap(o1);
@@ -695,7 +687,7 @@ class BayesLearner {
 		}
 		double min =  (1)/(termInstanceCounter.get(A)+sizeO1O2);
 		double PAd =Pa*PdA; //P(A|d)=P(A)*P(d|A). ignore P(d) -constant
-		Integer power;
+		int power;
 		double res =0;
 		if(learnerFlag == 0)
 		{
@@ -744,7 +736,7 @@ class BayesLearner {
  * Auxiliary class for creating the content matcher 
  */	
 class TokensCreator{
-	private PorterStemmer stemmer;
+	private final PorterStemmer stemmer;
 	
 	public TokensCreator(){
 		stemmer = new PorterStemmer();
@@ -755,12 +747,12 @@ class TokensCreator{
 	}
 	public List<String>  createTokens(String content,String nodeName){
 		TokenCreator tokenizer = new TokenCreator();
-		List<String> tokens = new ArrayList<String>();
-		List<String> result = new ArrayList<String>();
+		List<String> tokens = new ArrayList<>();
+		List<String> result = new ArrayList<>();
 		result = tokenizer.parseKeywords(nodeName, content);
 		for (String word:result){
 			try{
-				tokens.add(stemmer.stemWord(word));
+				tokens.add(stemmer.stem(word));
 			}catch (Throwable e){
 				tokens.add(word);
 			}

@@ -1,6 +1,3 @@
-/**
- * This package contains classes to manage datasets for schema matching experiments
- */
 package ac.technion.schemamatching.testbed;
 
 import ac.technion.iem.ontobuilder.io.imports.Importer;
@@ -8,7 +5,6 @@ import ac.technion.iem.ontobuilder.io.imports.NativeImporter;
 import ac.technion.iem.ontobuilder.io.imports.OWLImporter;
 import ac.technion.iem.ontobuilder.io.imports.PNMLImporter;
 import ac.technion.iem.ontobuilder.io.imports.SQLImporter;
-import ac.technion.iem.ontobuilder.io.imports.WSDLImporterEasyWSDL;
 import ac.technion.iem.ontobuilder.io.imports.XSDImporterUsingXerces;
 import ac.technion.iem.ontobuilder.io.matchimport.CRFMatchImporter;
 import ac.technion.iem.ontobuilder.io.matchimport.CSVMatchImporter;
@@ -28,7 +24,6 @@ public enum OREDataSetEnum
 {
 	OBWebForms(1, "Ontobuilder Web Forms", new NativeImporter(), new NativeMatchImporter(), true, true, false),									// XML lookup
 	Tel8(2, "Tel-8", null, null, false, false, false),
-	NisBESW(3, "WSDL supplied by SAP", new WSDLImporterEasyWSDL(), null, false, false, false),
 	NisBSAPTest(4, "SAP simple test schemas in NisbRDF format", null, null, true, false, false),
 	OBSynthetic(5, "Synthetic concepts designed by Nimrod Busany", null, null, true, true, false),												// XML lookup
 	SAPSchemasRDF(6, "SAP software schemas in NisB rdf format", null, null, true, false, false),
@@ -55,7 +50,7 @@ public enum OREDataSetEnum
 	;//Lod(25, "Linked open data - rdf", new RDFImporter(),new MappingMatchImporter(),true, false, false);
 	/**
 	 * Get a OREDataSetEnum by it's dataset id in O(n)
-	 * @param dsid
+	 * @param dsid id of dataset
 	 * @return matching datasetEnum or null if no such exists
 	 */
 	public static OREDataSetEnum getByDbid(int dsid)
@@ -75,7 +70,7 @@ public enum OREDataSetEnum
 	public Importer getImporter() {
 		return _importer;
 	}
-	private OREDataSetEnum(int dsid,String dsDesc,Importer imp, 
+	OREDataSetEnum(int dsid,String dsDesc,Importer imp,
 			MatchImporter matchImporter, boolean hasExactMatch, 
 			boolean supportsDBLook, boolean hasInstances)
 	{
@@ -106,19 +101,18 @@ public enum OREDataSetEnum
 	{
 		return _supportsDBLookup;
 	}
-	private int _datasetDBid;
-	private String _datasetDescription;
-	private Importer _importer;
-	private MatchImporter _matchImp;
-	private boolean _hasExact;
-	private boolean _supportsDBLookup; 
-	private boolean _hasInstances;
+	private final int _datasetDBid;
+	private final String _datasetDescription;
+	private final Importer _importer;
+	private final MatchImporter _matchImp;
+	private final boolean _hasExact;
+	private final boolean _supportsDBLookup;
+	private final boolean _hasInstances;
 	
 	public boolean isXSD() {
 		int[] XSDdomainsArray = {8, 11, 17, 18, 20};
-		int arrLength = XSDdomainsArray.length;
-		for (int i = 0; i < arrLength; i++) {
-			if (XSDdomainsArray[i] == _datasetDBid)
+		for (int j : XSDdomainsArray) {
+			if (j == _datasetDBid)
 				return true;
 		}
 		return false;

@@ -3,7 +3,6 @@ package ac.technion.schemamatching.matchers.firstline;
 import java.util.ArrayList;
 import java.util.Vector;
 
-import edu.cmu.lti.jawjaw.pobj.Synset;
 import rita.RiWordNet;
 import ac.technion.iem.ontobuilder.core.ontology.Ontology;
 import ac.technion.iem.ontobuilder.core.ontology.Term;

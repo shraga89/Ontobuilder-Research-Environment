@@ -1,10 +1,4 @@
-/**
- * 
- */
 package ac.technion.schemamatching.matchers.firstline;
-
-import java.io.File;
-import java.io.InputStream;
 
 import ac.technion.iem.ontobuilder.core.ontology.Ontology;
 import ac.technion.iem.ontobuilder.core.resources.OntoBuilderResources;
@@ -14,6 +8,8 @@ import ac.technion.iem.ontobuilder.matching.algorithms.line1.misc.AlgorithmUtili
 import ac.technion.iem.ontobuilder.matching.algorithms.line1.term.TermAlgorithm;
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 import ac.technion.schemamatching.matchers.MatcherType;
+
+import java.io.InputStream;
 
 /**
  * Wrapper for default configurated Ontobuilder Term Match
@@ -124,7 +120,7 @@ public class OBTermMatch implements FirstLineMatcher {
 	 * @see ac.technion.schemamatching.matchers.FirstLineMatcher#match(com.modica.ontology.Ontology, com.modica.ontology.Ontology, boolean)
 	 */
 	public MatchInformation match(Ontology candidate, Ontology target, boolean binary) {
-		MatchInformation res = null;
+		MatchInformation res;
 		
 //					res = obw.matchOntologies(candidate, target, MatchingAlgorithmsNamesEnum.TERM.getName());
 		res = ta.match(target, candidate);
@@ -134,17 +130,16 @@ public class OBTermMatch implements FirstLineMatcher {
 	/* (non-Javadoc)
 	 * @see ac.technion.schemamatching.matchers.FirstLineMatcher#getConfig()
 	 */
-	public String getConfig() { 
-		String config = "NGramW=" + Double.toString(weightNGram)
-						+ ";MaxSubStr=" + Double.toString(weightMaxSubString)
-						+ ";weightJaroWinkler=" + Double.toString(weightJaroWinkler)
-						+ ";wordLabelWeight=" + Double.toString(wordLabelWeight)
-						+ ";stringLabelWeight=" + Double.toString(stringLabelWeight)
-						+ ";wordNameWeight=" + Double.toString(wordNameWeight)
-						+ ";stringNameWeight=" + Double.toString(stringNameWeight)
-						+ ";weightJaroWinkler=" + Double.toString(weightJaroWinkler);
-		
-		return config;
+	public String getConfig() {
+
+		return "NGramW=" + weightNGram
+						+ ";MaxSubStr=" + weightMaxSubString
+						+ ";weightJaroWinkler=" + weightJaroWinkler
+						+ ";wordLabelWeight=" + wordLabelWeight
+						+ ";stringLabelWeight=" + stringLabelWeight
+						+ ";wordNameWeight=" + wordNameWeight
+						+ ";stringNameWeight=" + stringNameWeight
+						+ ";weightJaroWinkler=" + weightJaroWinkler;
 	}
 
 	/* (non-Javadoc)
