@@ -1,6 +1,3 @@
-/**
- * 
- */
 package ac.technion.schemamatching.matchers.firstline;
 
 import ac.technion.iem.ontobuilder.core.ontology.Ontology;
@@ -8,8 +5,8 @@ import ac.technion.iem.ontobuilder.matching.algorithms.line1.common.MatchingAlgo
 import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 import ac.technion.iem.ontobuilder.matching.wrapper.OntoBuilderWrapper;
 import ac.technion.iem.ontobuilder.matching.wrapper.OntoBuilderWrapperException;
-import ac.technion.schemamatching.experiments.OBExperimentRunner;
 import ac.technion.schemamatching.matchers.MatcherType;
+import ac.technion.schemamatching.matching.OREMatchHandler;
 
 /**
  * @author Itzik Ben Ezra and Eilon Shitrit.
@@ -36,7 +33,7 @@ public class DomainMatch implements FirstLineMatcher {
 	 */
 	public MatchInformation match(Ontology candidate, Ontology target,boolean binary) {
 		System.out.println("Domain Wrapper - match()");
-		OntoBuilderWrapper obw = OBExperimentRunner.getOER().getOBW();
+		OntoBuilderWrapper obw = OREMatchHandler.getMatchHandler().getObw();
 		MatchInformation res = null;
 		try {
 //			res = obw.matchOntologies(candidate, target, MatchingAlgorithmsNamesEnum.VALUE.getName());
@@ -51,8 +48,7 @@ public class DomainMatch implements FirstLineMatcher {
 	 * @see ac.technion.schemamatching.matchers.firstline.FirstLineMatcher#getConfig()
 	 */
 	public String getConfig() {
-		String config = "default";
-		return config;
+		return "default";
 	}
 
 	/* (non-Javadoc)

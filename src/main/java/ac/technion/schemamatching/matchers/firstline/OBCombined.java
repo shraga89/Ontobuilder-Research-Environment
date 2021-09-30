@@ -1,6 +1,3 @@
-/**
- * 
- */
 package ac.technion.schemamatching.matchers.firstline;
 
 import java.util.HashMap;
@@ -11,8 +8,8 @@ import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 import ac.technion.iem.ontobuilder.matching.utils.AlgorithmXMLEditor;
 import ac.technion.iem.ontobuilder.matching.wrapper.OntoBuilderWrapper;
 import ac.technion.iem.ontobuilder.matching.wrapper.OntoBuilderWrapperException;
-import ac.technion.schemamatching.experiments.OBExperimentRunner;
 import ac.technion.schemamatching.matchers.MatcherType;
+import ac.technion.schemamatching.matching.OREMatchHandler;
 
 /**
  * Wrapper for default configurated Ontobuilder Term-Value Matcher
@@ -70,7 +67,7 @@ public class OBCombined implements FirstLineMatcher {
 	 * @see ac.technion.schemamatching.matchers.FirstLineMatcher#match(com.modica.ontology.Ontology, com.modica.ontology.Ontology, boolean)
 	 */
 	public MatchInformation match(Ontology candidate, Ontology target, boolean binary) {
-		OntoBuilderWrapper obw = OBExperimentRunner.getOER().getOBW();
+		OntoBuilderWrapper obw = OREMatchHandler.getMatchHandler().getObw();
 		MatchInformation res = null;
 		try {
 			res = obw.matchOntologies(candidate, target, MatchingAlgorithmsNamesEnum.TERM_VALUE_PRECEDENCE_COMPOSITION_COMBINED.getName());
@@ -83,12 +80,11 @@ public class OBCombined implements FirstLineMatcher {
 	/* (non-Javadoc)
 	 * @see ac.technion.schemamatching.matchers.FirstLineMatcher#getConfig()
 	 */
-	public String getConfig() { 
-		String config = "TermWeight=" + Double.toString(termWeight)
-						+ ";ValueWeight=" + Double.toString(valueWeight)
-						+ ";GraphWeight=" + Double.toString(graphWeight)
-						+ ";precedenceWeight=" + Double.toString(precedenceWeight);
-		return config;
+	public String getConfig() {
+		return "TermWeight=" + termWeight
+						+ ";ValueWeight=" + valueWeight
+						+ ";GraphWeight=" + graphWeight
+						+ ";precedenceWeight=" + precedenceWeight;
 	}
 
 	/* (non-Javadoc)

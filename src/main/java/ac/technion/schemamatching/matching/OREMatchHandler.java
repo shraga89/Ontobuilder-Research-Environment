@@ -41,6 +41,10 @@ public class OREMatchHandler {
         return ore;
     }
 
+    public OntoBuilderWrapper getObw(){
+        return obw;
+    }
+
 
     /**
      *

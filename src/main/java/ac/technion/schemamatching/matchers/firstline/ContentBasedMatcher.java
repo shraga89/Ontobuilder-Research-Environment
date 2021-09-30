@@ -8,8 +8,8 @@ import ac.technion.iem.ontobuilder.matching.match.MatchInformation;
 import ac.technion.iem.ontobuilder.matching.utils.AlgorithmXMLEditor;
 import ac.technion.iem.ontobuilder.matching.wrapper.OntoBuilderWrapper;
 import ac.technion.iem.ontobuilder.matching.wrapper.OntoBuilderWrapperException;
-import ac.technion.schemamatching.experiments.OBExperimentRunner;
 import ac.technion.schemamatching.matchers.MatcherType;
+import ac.technion.schemamatching.matching.OREMatchHandler;
 
 public class ContentBasedMatcher implements FirstLineMatcher{
 	
@@ -65,7 +65,7 @@ public class ContentBasedMatcher implements FirstLineMatcher{
 		 */
 		public MatchInformation match(Ontology candidate, Ontology target,boolean binary) {
 			System.out.println("Content-Based Wrapper - match()");
-			OntoBuilderWrapper obw = OBExperimentRunner.getOER().getOBW();
+			OntoBuilderWrapper obw = OREMatchHandler.getMatchHandler().getObw();
 			MatchInformation res = null;
 			try {
 				res = obw.matchOntologies(candidate, target, MatchingAlgorithmsNamesEnum.CONTEND_BASED.getName());
@@ -79,15 +79,14 @@ public class ContentBasedMatcher implements FirstLineMatcher{
 		 * @see ac.technion.schemamatching.matchers.firstline.FirstLineMatcher#getConfig()
 		 */
 		public String getConfig() {
-			String config = "NGram=" + Double.toString(weightNGram)
-					+ ";MaxSubStr=" + Double.toString(weightMaxSubString)
-					+ ";weightJaroWinkler=" + Double.toString(weightJaroWinkler)
-					+ ";wordLabelWeight=" + Double.toString(wordLabelWeight)
-					+ ";stringLabelWeight=" + Double.toString(stringLabelWeight)
-					+ ";wordNameWeight=" + Double.toString(wordNameWeight)
-					+ ";stringNameWeight=" + Double.toString(stringNameWeight)
-					+ ";weightJaroWinkler=" + Double.toString(weightJaroWinkler);
-	return config;
+			return "NGram=" + weightNGram
+					+ ";MaxSubStr=" + weightMaxSubString
+					+ ";weightJaroWinkler=" + weightJaroWinkler
+					+ ";wordLabelWeight=" + wordLabelWeight
+					+ ";stringLabelWeight=" + stringLabelWeight
+					+ ";wordNameWeight=" + wordNameWeight
+					+ ";stringNameWeight=" + stringNameWeight
+					+ ";weightJaroWinkler=" + weightJaroWinkler;
 //			String config = "default";
 //			return config;
 		}
