@@ -71,6 +71,104 @@ public class MatchHandlerTest extends TestCase {
 //        }
     }
 
+    public void testFlmTerm()
+    {
+        ArrayList<FirstLineMatcher> flmList = new ArrayList<>();
+        ArrayList<SecondLineMatcher> slmList = new ArrayList<>();
+        ArrayList<Match> pairs;
+        MatchInformation mi;
+
+        flmList.add(FLMList.OBTerm.getFLM());
+        mi = ore.match(o1, o2, flmList, slmList, new SimpleWeightedEnsemble());
+        assertNotNull(mi);
+        pairs = mi.getCopyOfMatches();
+        assertTrue(pairs.size() > 0);
+    }
+
+    public void testFlmValue()
+    {
+        ArrayList<FirstLineMatcher> flmList = new ArrayList<>();
+        ArrayList<SecondLineMatcher> slmList = new ArrayList<>();
+        ArrayList<Match> pairs;
+        MatchInformation mi;
+
+        flmList.add(FLMList.OBValue.getFLM());
+        mi = ore.match(o1, o2, flmList, slmList, new SimpleWeightedEnsemble());
+        assertNotNull(mi);
+        pairs = mi.getCopyOfMatches();
+        assertTrue(pairs.size() > 0);
+    }
+
+    public void testFlmGraphMatch()
+    {
+        ArrayList<FirstLineMatcher> flmList = new ArrayList<>();
+        ArrayList<SecondLineMatcher> slmList = new ArrayList<>();
+        ArrayList<Match> pairs;
+        MatchInformation mi;
+
+        flmList.add(FLMList.OBGraphMatch.getFLM());
+        mi = ore.match(o1, o2, flmList, slmList, new SimpleWeightedEnsemble());
+        assertNotNull(mi);
+        pairs = mi.getCopyOfMatches();
+        assertTrue(pairs.size() > 0);
+    }
+
+    public void testFlmPrecedence()
+    {
+        ArrayList<FirstLineMatcher> flmList = new ArrayList<>();
+        ArrayList<SecondLineMatcher> slmList = new ArrayList<>();
+        ArrayList<Match> pairs;
+        MatchInformation mi;
+
+        flmList.add(FLMList.OBPrecedence.getFLM());
+        mi = ore.match(o1, o2, flmList, slmList, new SimpleWeightedEnsemble());
+        assertNotNull(mi);
+        pairs = mi.getCopyOfMatches();
+        assertTrue(pairs.size() > 0);
+    }
+
+    public void testFlmSimilarityFlooding()
+    {
+        ArrayList<FirstLineMatcher> flmList = new ArrayList<>();
+        ArrayList<SecondLineMatcher> slmList = new ArrayList<>();
+        ArrayList<Match> pairs;
+        MatchInformation mi;
+
+        flmList.add(FLMList.OBSimilarityFlooding.getFLM());
+        mi = ore.match(o1, o2, flmList, slmList, new SimpleWeightedEnsemble());
+        assertNotNull(mi);
+        pairs = mi.getCopyOfMatches();
+        assertTrue(pairs.size() > 0);
+    }
+
+    public void testFlmDomain()
+    {
+        ArrayList<FirstLineMatcher> flmList = new ArrayList<>();
+        ArrayList<SecondLineMatcher> slmList = new ArrayList<>();
+        ArrayList<Match> pairs;
+        MatchInformation mi;
+
+        flmList.add(FLMList.OBDomain.getFLM());
+        mi = ore.match(o1, o2, flmList, slmList, new SimpleWeightedEnsemble());
+        assertNotNull(mi);
+        pairs = mi.getCopyOfMatches();
+        assertTrue(pairs.size() > 0);
+    }
+
+    public void testFlmTED()
+    {
+        ArrayList<FirstLineMatcher> flmList = new ArrayList<>();
+        ArrayList<SecondLineMatcher> slmList = new ArrayList<>();
+        ArrayList<Match> pairs;
+        MatchInformation mi;
+
+        flmList.add(FLMList.OBTED.getFLM());
+        mi = ore.match(o1, o2, flmList, slmList, new SimpleWeightedEnsemble());
+        assertNotNull(mi);
+        pairs = mi.getCopyOfMatches();
+        assertTrue(pairs.size() > 0);
+    }
+
     public void testMultiple() {
         ArrayList<FirstLineMatcher> flmList = new ArrayList<>();
         ArrayList<SecondLineMatcher> slmList = new ArrayList<>();
